@@ -191,43 +191,346 @@ Data transfers are priced at $0.09 per 10TB.
 
 This means the AWS AutoDiscovery should either be free or cheaper than $1/month even for larger or busier setups.
 
-## Values
+<table>
+    <thead>
+        <th>Key</th>
+        <th>Type</th>
+        <th class="default-column">Default</th>
+        <th>Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>awsAuthentication</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| awsAuthentication | object | `{"accessKeyIdKey":"aws-access-key-id","secretAccessKeyKey":"aws-secret-access-key","sessionTokenKey":"aws-session-token","userSecret":"aws-credentials"}` | Authentication information for AWS, use this to configure the secret which contains the access key. Creating this secret is optional, when running on AWS itself the auto discovery will automatically use the IAM role to authenticate. |
-| awsAuthentication.accessKeyIdKey | string | `"aws-access-key-id"` | Name of the key that contains the AWS_ACCESS_KEY_ID |
-| awsAuthentication.secretAccessKeyKey | string | `"aws-secret-access-key"` | Name of the key that contains the AWS_SECRET_ACCESS_KEY |
-| awsAuthentication.sessionTokenKey | string | `"aws-session-token"` | Name of the key that contains the AWS_SESSION_TOKEN |
-| awsAuthentication.userSecret | string | `"aws-credentials"` | name of the kubernetes secret that contains the access key |
-| config.aws | object | `{"queueUrl":"","region":""}` | settings to connect to AWS and receive the updates |
-| config.aws.queueUrl | string | `""` | url of the SQS queue which receives the state changes. Can be overridden by setting the SQS_QUEUE_URL environment variable. |
-| config.aws.region | string | `""` | aws region to connect to. Can be overridden by setting the AWS_REGION environment variable. |
-| config.kubernetes | object | `{"scanConfigs":[{"annotations":{},"hookSelector":{},"labels":{},"name":"trivy","parameters":["{{ .ImageID }}"],"repeatInterval":"168h","scanType":"trivy-image"},{"annotations":{"dependencytrack.securecodebox.io/project-name":"{{ .Image.ShortName }}","dependencytrack.securecodebox.io/project-version":"{{ .Image.Version }}"},"hookSelector":{},"labels":{},"name":"trivy-sbom","parameters":["{{ .ImageID }}"],"repeatInterval":"168h","scanType":"trivy-sbom-image"}]}` | settings to configure how scans get created in kubernetes |
-| config.kubernetes.scanConfigs[0].annotations | object | `{}` | annotations to be added to the scans started by the auto-discovery, all annotation values support templating |
-| config.kubernetes.scanConfigs[0].hookSelector | object | `{}` | hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list. |
-| config.kubernetes.scanConfigs[0].labels | object | `{}` | labels to be added to the scans started by the auto-discovery, all label values support templating |
-| config.kubernetes.scanConfigs[0].name | string | `"trivy"` | unique name to distinguish scans |
-| config.kubernetes.scanConfigs[0].parameters | list | `["{{ .ImageID }}"]` | parameters used for the scans created by the containerAutoDiscovery, all parameters support templating |
-| config.kubernetes.scanConfigs[0].repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
-| config.kubernetes.scanConfigs[1].annotations | object | `{"dependencytrack.securecodebox.io/project-name":"{{ .Image.ShortName }}","dependencytrack.securecodebox.io/project-version":"{{ .Image.Version }}"}` | annotations to be added to the scans started by the auto-discovery, all annotation values support templating |
-| config.kubernetes.scanConfigs[1].hookSelector | object | `{}` | hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list. |
-| config.kubernetes.scanConfigs[1].labels | object | `{}` | labels to be added to the scans started by the auto-discovery, all label values support templating |
-| config.kubernetes.scanConfigs[1].name | string | `"trivy-sbom"` | unique name to distinguish scans |
-| config.kubernetes.scanConfigs[1].parameters | list | `["{{ .ImageID }}"]` | parameters used for the scans created by the containerAutoDiscovery, all parameters support templating |
-| config.kubernetes.scanConfigs[1].repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
-| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| image.repository | string | `"securecodebox/auto-discovery-cloud-aws"` |  |
-| image.tag | string | `nil` |  |
-| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
-| podSecurityContext | object | `{}` | Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container |
-| resources | object | `{"limits":{"cpu":"100m","memory":"100Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
-| securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
-| securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the operator container. They are not required |
-| securityContext.privileged | bool | `false` | Ensures that the operator container is not run in privileged mode |
-| securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
-| securityContext.runAsNonRoot | bool | `true` | Enforces that the Operator image is run as a non root user |
+    `{"accessKeyIdKey":"aws-access-key-id","secretAccessKeyKey":"aws-secret-access-key","sessionTokenKey":"aws-session-token","userSecret":"aws-credentials"}`
+</pre></td>
+            <td>Authentication information for AWS, use this to configure the secret which contains the access key. Creating this secret is optional, when running on AWS itself the auto discovery will automatically use the IAM role to authenticate.</td>
+        </tr>
+        <tr>
+            <td>awsAuthentication.accessKeyIdKey</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"aws-access-key-id"`
+</pre></td>
+            <td>Name of the key that contains the AWS_ACCESS_KEY_ID</td>
+        </tr>
+        <tr>
+            <td>awsAuthentication.secretAccessKeyKey</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"aws-secret-access-key"`
+</pre></td>
+            <td>Name of the key that contains the AWS_SECRET_ACCESS_KEY</td>
+        </tr>
+        <tr>
+            <td>awsAuthentication.sessionTokenKey</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"aws-session-token"`
+</pre></td>
+            <td>Name of the key that contains the AWS_SESSION_TOKEN</td>
+        </tr>
+        <tr>
+            <td>awsAuthentication.userSecret</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"aws-credentials"`
+</pre></td>
+            <td>name of the kubernetes secret that contains the access key</td>
+        </tr>
+        <tr>
+            <td>config.aws</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"queueUrl":"","region":""}`
+</pre></td>
+            <td>settings to connect to AWS and receive the updates</td>
+        </tr>
+        <tr>
+            <td>config.aws.queueUrl</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `""`
+</pre></td>
+            <td>url of the SQS queue which receives the state changes. Can be overridden by setting the SQS_QUEUE_URL environment variable.</td>
+        </tr>
+        <tr>
+            <td>config.aws.region</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `""`
+</pre></td>
+            <td>aws region to connect to. Can be overridden by setting the AWS_REGION environment variable.</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"scanConfigs":[{"annotations":{},"hookSelector":{},"labels":{},"name":"trivy","parameters":["{{ .ImageID }}"],"repeatInterval":"168h","scanType":"trivy-image"},{"annotations":{"dependencytrack.securecodebox.io/project-name":"{{ .Image.ShortName }}","dependencytrack.securecodebox.io/project-version":"{{ .Image.Version }}"},"hookSelector":{},"labels":{},"name":"trivy-sbom","parameters":["{{ .ImageID }}"],"repeatInterval":"168h","scanType":"trivy-sbom-image"}]}`
+</pre></td>
+            <td>settings to configure how scans get created in kubernetes</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[0].annotations</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>annotations to be added to the scans started by the auto-discovery, all annotation values support templating</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[0].hookSelector</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[0].labels</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>labels to be added to the scans started by the auto-discovery, all label values support templating</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[0].name</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"trivy"`
+</pre></td>
+            <td>unique name to distinguish scans</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[0].parameters</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `["{{ .ImageID }}"]`
+</pre></td>
+            <td>parameters used for the scans created by the containerAutoDiscovery, all parameters support templating</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[0].repeatInterval</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"168h"`
+</pre></td>
+            <td>interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[1].annotations</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"dependencytrack.securecodebox.io/project-name":"{{ .Image.ShortName }}","dependencytrack.securecodebox.io/project-version":"{{ .Image.Version }}"}`
+</pre></td>
+            <td>annotations to be added to the scans started by the auto-discovery, all annotation values support templating</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[1].hookSelector</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[1].labels</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>labels to be added to the scans started by the auto-discovery, all label values support templating</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[1].name</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"trivy-sbom"`
+</pre></td>
+            <td>unique name to distinguish scans</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[1].parameters</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `["{{ .ImageID }}"]`
+</pre></td>
+            <td>parameters used for the scans created by the containerAutoDiscovery, all parameters support templating</td>
+        </tr>
+        <tr>
+            <td>config.kubernetes.scanConfigs[1].repeatInterval</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"168h"`
+</pre></td>
+            <td>interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.</td>
+        </tr>
+        <tr>
+            <td>image.pullPolicy</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"IfNotPresent"`
+</pre></td>
+            <td>Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images</td>
+        </tr>
+        <tr>
+            <td>image.repository</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"securecodebox/auto-discovery-cloud-aws"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>image.tag</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `nil`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>imagePullSecrets</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)</td>
+        </tr>
+        <tr>
+            <td>podSecurityContext</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container</td>
+        </tr>
+        <tr>
+            <td>resources</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"limits":{"cpu":"100m","memory":"100Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}`
+</pre></td>
+            <td>CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)</td>
+        </tr>
+        <tr>
+            <td>securityContext</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}`
+</pre></td>
+            <td>Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</td>
+        </tr>
+        <tr>
+            <td>securityContext.allowPrivilegeEscalation</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `false`
+</pre></td>
+            <td>Ensure that users privileges cannot be escalated</td>
+        </tr>
+        <tr>
+            <td>securityContext.capabilities.drop[0]</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"all"`
+</pre></td>
+            <td>This drops all linux privileges from the operator container. They are not required</td>
+        </tr>
+        <tr>
+            <td>securityContext.privileged</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `false`
+</pre></td>
+            <td>Ensures that the operator container is not run in privileged mode</td>
+        </tr>
+        <tr>
+            <td>securityContext.readOnlyRootFilesystem</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `true`
+</pre></td>
+            <td>Prevents write access to the containers file system</td>
+        </tr>
+        <tr>
+            <td>securityContext.runAsNonRoot</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `true`
+</pre></td>
+            <td>Enforces that the Operator image is run as a non root user</td>
+        </tr>
+    </tbody>
+</table>
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

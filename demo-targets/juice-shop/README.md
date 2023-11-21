@@ -52,36 +52,276 @@ The juice-shop chart can be deployed via helm:
 helm upgrade --install juice-shop secureCodeBox/juice-shop
 ```
 
-## Values
+<table>
+    <thead>
+        <th>Key</th>
+        <th>Type</th>
+        <th class="default-column">Default</th>
+        <th>Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>affinity</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| affinity | object | `{}` |  |
-| annotations | object | `{}` | add annotations to the deployment, service and pods |
-| containerEnv | list | `[]` | add custom environment variables to the juice-shop container ref: https://pwning.owasp-juice.shop/part1/customization.html |
-| customConfig | string | `nil` | When set, passes in the custom configuration specified below and sets NODE_ENV accordingly ref: https://pwning.owasp-juice.shop/part1/customization.html |
-| fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| image.repository | string | `"docker.io/bkimminich/juice-shop"` | Container Image containing the juice-shop |
-| image.tag | string | defaults to the appVersion | The image tag |
-| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
-| ingress.annotations | object | `{}` |  |
-| ingress.className | string | `"nginx"` |  |
-| ingress.enabled | bool | `false` |  |
-| ingress.hosts[0].host | string | `"chart-example.local"` |  |
-| ingress.hosts[0].paths[0].path | string | `"/"` |  |
-| ingress.pathType | string | `"ImplementationSpecific"` |  |
-| ingress.tls | list | `[]` |  |
-| labels | object | `{}` | add labels to the deployment, service and pods |
-| nameOverride | string | `""` |  |
-| nodeSelector | object | `{}` |  |
-| podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` |  |
-| resources | object | `{}` |  |
-| securityContext | object | `{}` |  |
-| service.port | int | `3000` |  |
-| service.type | string | `"ClusterIP"` |  |
-| tolerations | list | `[]` |  |
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>annotations</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>add annotations to the deployment, service and pods</td>
+        </tr>
+        <tr>
+            <td>containerEnv</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>add custom environment variables to the juice-shop container ref: https://pwning.owasp-juice.shop/part1/customization.html</td>
+        </tr>
+        <tr>
+            <td>customConfig</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `nil`
+</pre></td>
+            <td>When set, passes in the custom configuration specified below and sets NODE_ENV accordingly ref: https://pwning.owasp-juice.shop/part1/customization.html</td>
+        </tr>
+        <tr>
+            <td>fullnameOverride</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `""`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>image.pullPolicy</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"IfNotPresent"`
+</pre></td>
+            <td>Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images</td>
+        </tr>
+        <tr>
+            <td>image.repository</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"docker.io/bkimminich/juice-shop"`
+</pre></td>
+            <td>Container Image containing the juice-shop</td>
+        </tr>
+        <tr>
+            <td>image.tag</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    defaults to the appVersion
+</pre></td>
+            <td>The image tag</td>
+        </tr>
+        <tr>
+            <td>imagePullSecrets</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)</td>
+        </tr>
+        <tr>
+            <td>ingress.annotations</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ingress.className</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"nginx"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ingress.enabled</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `false`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ingress.hosts[0].host</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"chart-example.local"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ingress.hosts[0].paths[0].path</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"/"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ingress.pathType</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"ImplementationSpecific"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ingress.tls</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>labels</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>add labels to the deployment, service and pods</td>
+        </tr>
+        <tr>
+            <td>nameOverride</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `""`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>nodeSelector</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>podSecurityContext</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>replicaCount</td>
+            <td>int</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `1`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>resources</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>securityContext</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>service.port</td>
+            <td>int</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `3000`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>service.type</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"ClusterIP"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>tolerations</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

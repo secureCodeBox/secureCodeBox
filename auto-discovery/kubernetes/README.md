@@ -128,55 +128,466 @@ This mode will start scans for **every** resources in the cluster **unless** it 
 kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.io/ignore=true
 ```
 
-## Values
+<table>
+    <thead>
+        <th>Key</th>
+        <th>Type</th>
+        <th class="default-column">Default</th>
+        <th>Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>config.apiVersion</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| config.apiVersion | string | `"config.securecodebox.io/v1"` |  |
-| config.cluster.name | string | `"docker-desktop"` |  |
-| config.containerAutoDiscovery.enabled | bool | `false` |  |
-| config.containerAutoDiscovery.passiveReconcileInterval | string | `"1m"` | interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod |
-| config.containerAutoDiscovery.scanConfigs[0].annotations | object | `{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"}` | annotations to be added to the scans started by the auto-discovery, all annotation values support templating |
-| config.containerAutoDiscovery.scanConfigs[0].hookSelector | object | `{}` | hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list. |
-| config.containerAutoDiscovery.scanConfigs[0].labels | object | `{}` | labels to be added to the scans started by the auto-discovery, all label values support templating |
-| config.containerAutoDiscovery.scanConfigs[0].name | string | `"trivy"` | unique name to distinguish scans |
-| config.containerAutoDiscovery.scanConfigs[0].parameters | list | `["{{ .ImageID }}"]` | parameters used for the scans created by the containerAutoDiscovery, all parameters support templating |
-| config.containerAutoDiscovery.scanConfigs[0].repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
-| config.containerAutoDiscovery.scanConfigs[0].scanType | string | `"trivy-image-autodiscovery"` |  |
-| config.containerAutoDiscovery.scanConfigs[0].volumeMounts | list | `[]` | volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1 the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating |
-| config.containerAutoDiscovery.scanConfigs[0].volumes | list | `[]` | volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating |
-| config.health.healthProbeBindAddress | string | `":8081"` |  |
-| config.imagePullSecretConfig.mapImagePullSecretsToEnvironmentVariables | bool | `true` |  |
-| config.imagePullSecretConfig.passwordEnvironmentVariableName | string | `"TRIVY_PASSWORD"` |  |
-| config.imagePullSecretConfig.usernameEnvironmentVariableName | string | `"TRIVY_USERNAME"` |  |
-| config.kind | string | `"AutoDiscoveryConfig"` |  |
-| config.leaderElection.leaderElect | bool | `true` |  |
-| config.leaderElection.resourceName | string | `"0e41a1f4.securecodebox.io"` |  |
-| config.metrics.bindAddress | string | `"127.0.0.1:8080"` |  |
-| config.resourceInclusion.mode | string | `"enabled-per-namespace"` |  |
-| config.serviceAutoDiscovery.enabled | bool | `true` |  |
-| config.serviceAutoDiscovery.passiveReconcileInterval | string | `"1m"` | interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately |
-| config.serviceAutoDiscovery.scanConfigs[0] | object | `{"annotations":{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"},"hookSelector":{},"labels":{},"name":"zap","parameters":["-t","{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"],"repeatInterval":"168h","scanType":"zap-advanced-scan","volumeMounts":[],"volumes":[]}` | scanType used for the scans created by the serviceAutoDiscovery |
-| config.serviceAutoDiscovery.scanConfigs[0].annotations | object | `{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"}` | annotations to be added to the scans started by the auto-discovery, all annotation values support templating |
-| config.serviceAutoDiscovery.scanConfigs[0].hookSelector | object | `{}` | HookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list. |
-| config.serviceAutoDiscovery.scanConfigs[0].labels | object | `{}` | labels to be added to the scans started by the auto-discovery, all label values support templating |
-| config.serviceAutoDiscovery.scanConfigs[0].name | string | `"zap"` | unique name to distinguish scans |
-| config.serviceAutoDiscovery.scanConfigs[0].parameters | list | `["-t","{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"]` | parameters used for the scans created by the serviceAutoDiscovery, all parameters support templating |
-| config.serviceAutoDiscovery.scanConfigs[0].repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
-| config.serviceAutoDiscovery.scanConfigs[0].volumeMounts | list | `[]` | volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1 the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating |
-| config.serviceAutoDiscovery.scanConfigs[0].volumes | list | `[]` | volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating |
-| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| image.repository | string | `"securecodebox/auto-discovery-kubernetes"` |  |
-| image.tag | string | `nil` |  |
-| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
-| podSecurityContext | object | `{}` | Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container |
-| resources | object | `{"limits":{"cpu":"100m","memory":"100Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
-| securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
-| securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the operator container. They are not required |
-| securityContext.privileged | bool | `false` | Ensures that the operator container is not run in privileged mode |
-| securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
-| securityContext.runAsNonRoot | bool | `true` | Enforces that the Operator image is run as a non root user |
+    `"config.securecodebox.io/v1"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.cluster.name</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"docker-desktop"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.enabled</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `false`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.passiveReconcileInterval</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"1m"`
+</pre></td>
+            <td>interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod</td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].annotations</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"}`
+</pre></td>
+            <td>annotations to be added to the scans started by the auto-discovery, all annotation values support templating</td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].hookSelector</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.</td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].labels</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>labels to be added to the scans started by the auto-discovery, all label values support templating</td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].name</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"trivy"`
+</pre></td>
+            <td>unique name to distinguish scans</td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].parameters</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `["{{ .ImageID }}"]`
+</pre></td>
+            <td>parameters used for the scans created by the containerAutoDiscovery, all parameters support templating</td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].repeatInterval</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"168h"`
+</pre></td>
+            <td>interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.</td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].scanType</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"trivy-image-autodiscovery"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].volumeMounts</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1 the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating</td>
+        </tr>
+        <tr>
+            <td>config.containerAutoDiscovery.scanConfigs[0].volumes</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating</td>
+        </tr>
+        <tr>
+            <td>config.health.healthProbeBindAddress</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `":8081"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.imagePullSecretConfig.mapImagePullSecretsToEnvironmentVariables</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `true`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.imagePullSecretConfig.passwordEnvironmentVariableName</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"TRIVY_PASSWORD"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.imagePullSecretConfig.usernameEnvironmentVariableName</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"TRIVY_USERNAME"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.kind</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"AutoDiscoveryConfig"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.leaderElection.leaderElect</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `true`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.leaderElection.resourceName</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"0e41a1f4.securecodebox.io"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.metrics.bindAddress</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"127.0.0.1:8080"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.resourceInclusion.mode</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"enabled-per-namespace"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.enabled</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `true`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.passiveReconcileInterval</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"1m"`
+</pre></td>
+            <td>interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0]</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"annotations":{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"},"hookSelector":{},"labels":{},"name":"zap","parameters":["-t","{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"],"repeatInterval":"168h","scanType":"zap-advanced-scan","volumeMounts":[],"volumes":[]}`
+</pre></td>
+            <td>scanType used for the scans created by the serviceAutoDiscovery</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0].annotations</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"}`
+</pre></td>
+            <td>annotations to be added to the scans started by the auto-discovery, all annotation values support templating</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0].hookSelector</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>HookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0].labels</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>labels to be added to the scans started by the auto-discovery, all label values support templating</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0].name</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"zap"`
+</pre></td>
+            <td>unique name to distinguish scans</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0].parameters</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `["-t","{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"]`
+</pre></td>
+            <td>parameters used for the scans created by the serviceAutoDiscovery, all parameters support templating</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0].repeatInterval</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"168h"`
+</pre></td>
+            <td>interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0].volumeMounts</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1 the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating</td>
+        </tr>
+        <tr>
+            <td>config.serviceAutoDiscovery.scanConfigs[0].volumes</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating</td>
+        </tr>
+        <tr>
+            <td>image.pullPolicy</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"IfNotPresent"`
+</pre></td>
+            <td>Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images</td>
+        </tr>
+        <tr>
+            <td>image.repository</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"securecodebox/auto-discovery-kubernetes"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>image.tag</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `nil`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>imagePullSecrets</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)</td>
+        </tr>
+        <tr>
+            <td>podSecurityContext</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container</td>
+        </tr>
+        <tr>
+            <td>resources</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"limits":{"cpu":"100m","memory":"100Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}`
+</pre></td>
+            <td>CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)</td>
+        </tr>
+        <tr>
+            <td>securityContext</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}`
+</pre></td>
+            <td>Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</td>
+        </tr>
+        <tr>
+            <td>securityContext.allowPrivilegeEscalation</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `false`
+</pre></td>
+            <td>Ensure that users privileges cannot be escalated</td>
+        </tr>
+        <tr>
+            <td>securityContext.capabilities.drop[0]</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"all"`
+</pre></td>
+            <td>This drops all linux privileges from the operator container. They are not required</td>
+        </tr>
+        <tr>
+            <td>securityContext.privileged</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `false`
+</pre></td>
+            <td>Ensures that the operator container is not run in privileged mode</td>
+        </tr>
+        <tr>
+            <td>securityContext.readOnlyRootFilesystem</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `true`
+</pre></td>
+            <td>Prevents write access to the containers file system</td>
+        </tr>
+        <tr>
+            <td>securityContext.runAsNonRoot</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `true`
+</pre></td>
+            <td>Enforces that the Operator image is run as a non root user</td>
+        </tr>
+    </tbody>
+</table>
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

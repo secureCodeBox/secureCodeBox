@@ -156,22 +156,136 @@ ssh-scan         ssh-scan            non-invasive   light
 zap-http         zap-baseline-scan   non-invasive   medium
 ```
 
-## Values
+<table>
+    <thead>
+        <th>Key</th>
+        <th>Type</th>
+        <th class="default-column">Default</th>
+        <th>Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>hook.affinity</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
-| hook.env | list | `[]` | Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| hook.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| hook.extraVolumes | list | `[]` | Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| hook.image.repository | string | `"docker.io/securecodebox/hook-cascading-scans"` | Hook image repository |
-| hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
-| hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
-| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
-| hook.resources | object | { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } } | Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
-| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
-| hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+    `{}`
+</pre></td>
+            <td>Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)</td>
+        </tr>
+        <tr>
+            <td>hook.env</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)</td>
+        </tr>
+        <tr>
+            <td>hook.extraVolumeMounts</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)</td>
+        </tr>
+        <tr>
+            <td>hook.extraVolumes</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)</td>
+        </tr>
+        <tr>
+            <td>hook.image.repository</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"docker.io/securecodebox/hook-cascading-scans"`
+</pre></td>
+            <td>Hook image repository</td>
+        </tr>
+        <tr>
+            <td>hook.image.tag</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    defaults to the charts version
+</pre></td>
+            <td>The image Tag defaults to the charts version if not defined.</td>
+        </tr>
+        <tr>
+            <td>hook.labels</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>Add Kubernetes Labels to the hook definition</td>
+        </tr>
+        <tr>
+            <td>hook.priority</td>
+            <td>int</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `0`
+</pre></td>
+            <td>Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks.</td>
+        </tr>
+        <tr>
+            <td>hook.resources</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+   
+</pre></td>
+            <td>Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/</td>
+        </tr>
+        <tr>
+            <td>hook.tolerations</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)</td>
+        </tr>
+        <tr>
+            <td>hook.ttlSecondsAfterFinished</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `nil`
+</pre></td>
+            <td>Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/</td>
+        </tr>
+        <tr>
+            <td>imagePullSecrets</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)</td>
+        </tr>
+    </tbody>
+</table>
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

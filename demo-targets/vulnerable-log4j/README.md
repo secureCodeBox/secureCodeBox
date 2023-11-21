@@ -49,27 +49,186 @@ The vulnerable-log4j chart can be deployed via helm:
 helm upgrade --install vulnerable-log4j secureCodeBox/vulnerable-log4j
 ```
 
-## Values
+<table>
+    <thead>
+        <th>Key</th>
+        <th>Type</th>
+        <th class="default-column">Default</th>
+        <th>Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>affinity</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| affinity | object | `{}` |  |
-| annotations | object | `{}` | add annotations to the deployment, service and pods |
-| fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| image.repository | string | `"ghcr.io/christophetd/log4shell-vulnerable-app"` | Container Image |
-| image.tag | string | defaults to the appVersion | The image tag |
-| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
-| labels | object | `{}` | add labels to the deployment, service and pods |
-| nameOverride | string | `""` |  |
-| nodeSelector | object | `{}` |  |
-| podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` |  |
-| resources | object | `{}` |  |
-| securityContext | object | `{}` |  |
-| service.port | int | `8080` |  |
-| service.type | string | `"ClusterIP"` |  |
-| tolerations | list | `[]` |  |
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>annotations</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>add annotations to the deployment, service and pods</td>
+        </tr>
+        <tr>
+            <td>fullnameOverride</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `""`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>image.pullPolicy</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"IfNotPresent"`
+</pre></td>
+            <td>Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images</td>
+        </tr>
+        <tr>
+            <td>image.repository</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"ghcr.io/christophetd/log4shell-vulnerable-app"`
+</pre></td>
+            <td>Container Image</td>
+        </tr>
+        <tr>
+            <td>image.tag</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    defaults to the appVersion
+</pre></td>
+            <td>The image tag</td>
+        </tr>
+        <tr>
+            <td>imagePullSecrets</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)</td>
+        </tr>
+        <tr>
+            <td>labels</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>add labels to the deployment, service and pods</td>
+        </tr>
+        <tr>
+            <td>nameOverride</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `""`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>nodeSelector</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>podSecurityContext</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>replicaCount</td>
+            <td>int</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `1`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>resources</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>securityContext</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>service.port</td>
+            <td>int</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `8080`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>service.type</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"ClusterIP"`
+</pre></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>tolerations</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
