@@ -40,7 +40,7 @@ Listed below are the arguments supported by the `zap-advanced-scan` script.
 The command line interface can be used to easily run server scans: `-t www.example.com`
 
 ```bash
-usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}]
+usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD]
 
 OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
 
@@ -56,7 +56,7 @@ optional arguments:
                         The target to scan with OWASP ZAP.
   -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
                         The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
-  -r {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}, --report-type {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}
+  -r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD, --report-type XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD
                         The OWASP ZAP Report Type.
 ```
 {{- end }}
