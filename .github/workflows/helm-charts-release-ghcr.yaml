@@ -28,7 +28,8 @@ jobs:
             RELEASE_VERSION="${GITHUB_REF#refs/*/}"
             # Remove leading 'v' from git tag to create valid semver
             RELEASE_VERSION="${RELEASE_VERSION//v}"
-            echo "version=$RELEASE_VERSION" >> "$GITHUB_ENV"
+            #echo "version=$RELEASE_VERSION" >> "$GITHUB_ENV"
+            echo "version=v3.1.0-alpha1"  >> "$GITHUB_ENV" # TODO Remove after testing
   
         - name: Install Helm
           run: |
