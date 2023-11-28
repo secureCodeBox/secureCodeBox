@@ -1,0 +1,57 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# The CI runs on ubuntu-22.04; More info about the installed software is found here:
+# https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+
+on:
+  release:
+    types: [published]
+  push: # TODO Remove after testing
+      
+name: "WIP"
+env:
+    CONTAINER_REGISTRY: ghcr.io/securecodebox
+    HELM_VERSION: "v3.12.2"
+jobs:
+    GHCR-Helm-Release:
+      name: "Publish Helm Charts to GHCR"
+      runs-on: ubuntu-22.04
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            token: ${{ secrets.SCB_BOT_USER_TOKEN }}
+        
+        - name: Parse Release Version
+          run: |
+            RELEASE_VERSION="${GITHUB_REF#refs/*/}"
+            # Remove leading 'v' from git tag to create valid semver
+            RELEASE_VERSION="${RELEASE_VERSION//v}"
+            echo "version=$RELEASE_VERSION" >> "$GITHUB_ENV"
+  
+        - name: Install Helm
+          run: |
+            curl -Lo ./helm.tar.gz https://get.helm.sh/helm-${{ env.HELM_VERSION }}-linux-amd64.tar.gz
+            tar -xzf ./helm.tar.gz
+            chmod +x ./linux-amd64/helm
+            sudo mv ./linux-amd64/helm /usr/local/bin/helm
+            helm version
+
+        - name: "Login to Package Registry"
+          run: 'echo "${{ secrets.SCB_BOT_USER_TOKEN }}" | helm registry login --username ${{ github.actor }} --password-stdin ${{ env.CONTAINER_REGISTRY }}'
+  
+        - name: "Package and Push Helm Charts to GHCR"
+          run: |
+            find . -type f -name Chart.yaml -not -path "./.templates/*" -print0 | while IFS= read -r -d '' chart; do
+            (
+              dir="$(dirname "${chart}")"
+              cd "${dir}" || exit
+              echo "Processing Helm Chart in $dir"
+              NAME=$(yq eval '.name' - < Chart.yaml)
+              
+              helm package --version "${{ env.version }}" .
+  
+              helm push "${NAME}-${{ env.version }}.tgz" oci://$CONTAINER_REGISTRY/${NAME}/helm
+            )
+            done
