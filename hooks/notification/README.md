@@ -465,276 +465,36 @@ To fill your template with data we provide the following objects.
 | scan     | An Object containing information about the scan that triggered the notification (See [Scan secureCodeBox API Specification](https://www.securecodebox.io/docs/api/crds/scan)     |
 | args     | contains `process.env` (See: [process.env nodejs](https://nodejs.org/api/process.html#process_process_env)) you can use this to access data defined in `env` of the `values.yaml` |
 
-<table>
-    <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th class="default-column">Default</th>
-        <th>Description</th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>customTemplateMap.exists</td>
-            <td>bool</td>
-            <td class="default-column">
-<pre lang="yaml">
+## Values
 
-    `false`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>customTemplateMap.name</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"config-map-name"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>env[0].name</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"SOME_ENV_KEY"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>env[0].valueFrom.secretKeyRef.key</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"some-key"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>env[0].valueFrom.secretKeyRef.name</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"some-secret"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>env[1].name</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"SMTP_CONFIG"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>env[1].valueFrom.secretKeyRef.key</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"smtp-config-key"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>env[1].valueFrom.secretKeyRef.name</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"some-secret"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>hook.affinity</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `{}`
-</pre></td>
-            <td>Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)</td>
-        </tr>
-        <tr>
-            <td>hook.env</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)</td>
-        </tr>
-        <tr>
-            <td>hook.extraVolumeMounts</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)</td>
-        </tr>
-        <tr>
-            <td>hook.extraVolumes</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)</td>
-        </tr>
-        <tr>
-            <td>hook.image.pullPolicy</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"IfNotPresent"`
-</pre></td>
-            <td>Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images</td>
-        </tr>
-        <tr>
-            <td>hook.image.repository</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"docker.io/securecodebox/hook-notification"`
-</pre></td>
-            <td>Hook image repository</td>
-        </tr>
-        <tr>
-            <td>hook.image.tag</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    defaults to the charts version
-</pre></td>
-            <td>Image tag</td>
-        </tr>
-        <tr>
-            <td>hook.labels</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `{}`
-</pre></td>
-            <td>Add Kubernetes Labels to the hook definition</td>
-        </tr>
-        <tr>
-            <td>hook.priority</td>
-            <td>int</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `0`
-</pre></td>
-            <td>Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks.</td>
-        </tr>
-        <tr>
-            <td>hook.resources</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-   
-</pre></td>
-            <td>Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/</td>
-        </tr>
-        <tr>
-            <td>hook.tolerations</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)</td>
-        </tr>
-        <tr>
-            <td>hook.ttlSecondsAfterFinished</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `nil`
-</pre></td>
-            <td>seconds after which the Kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/</td>
-        </tr>
-        <tr>
-            <td>imagePullSecrets</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)</td>
-        </tr>
-        <tr>
-            <td>notificationChannels[0].endPoint</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"SOME_ENV_KEY"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>notificationChannels[0].name</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"slack"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>notificationChannels[0].rules[0].matches.anyOf[0].category</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"Open Port"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>notificationChannels[0].template</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"slack-messageCard"`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>notificationChannels[0].type</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"slack"`
-</pre></td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| customTemplateMap.exists | bool | `false` |  |
+| customTemplateMap.name | string | `"config-map-name"` |  |
+| env[0].name | string | `"SOME_ENV_KEY"` |  |
+| env[0].valueFrom.secretKeyRef.key | string | `"some-key"` |  |
+| env[0].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
+| env[1].name | string | `"SMTP_CONFIG"` |  |
+| env[1].valueFrom.secretKeyRef.key | string | `"smtp-config-key"` |  |
+| env[1].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
+| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
+| hook.env | list | `[]` | Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| hook.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| hook.extraVolumes | list | `[]` | Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
+| hook.image.repository | string | `"docker.io/securecodebox/hook-notification"` | Hook image repository |
+| hook.image.tag | string | defaults to the charts version | Image tag |
+| hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
+| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
+| hook.resources | object | { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } } | Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
+| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
+| hook.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| notificationChannels[0].endPoint | string | `"SOME_ENV_KEY"` |  |
+| notificationChannels[0].name | string | `"slack"` |  |
+| notificationChannels[0].rules[0].matches.anyOf[0].category | string | `"Open Port"` |  |
+| notificationChannels[0].template | string | `"slack-messageCard"` |  |
+| notificationChannels[0].type | string | `"slack"` |  |
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

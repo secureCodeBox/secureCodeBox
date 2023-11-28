@@ -61,7 +61,7 @@ Listed below are the arguments supported by the `zap-advanced-scan` script.
 The command line interface can be used to easily run server scans: `-t www.example.com`
 
 ```bash
-usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD]
+usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}]
 
 OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
 
@@ -77,7 +77,7 @@ optional arguments:
                         The target to scan with OWASP ZAP.
   -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
                         The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
-  -r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD, --report-type XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD
+  -r {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}, --report-type {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}
                         The OWASP ZAP Report Type.
 ```
 
@@ -508,7 +508,7 @@ zapConfiguration:
 | scanner.image.tag | string | `nil` | defaults to the charts version |
 | scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
 | scanner.podSecurityContext | object | `{}` | Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scanner.reportType | string | "XML" | Optional to configure the reportType of the scan ZAP Scan. Must be one of the supported formats: XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD |
+| scanner.reportType | string | "XML" | Optional to configure the reportType of the scan ZAP Scan. Must be one of the supported formats: {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD} |
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scanner.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":false,"runAsNonRoot":false}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |

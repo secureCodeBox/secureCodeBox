@@ -168,286 +168,37 @@ Use this configuration as a baseline for your own rules.
 
 Kubernetes: `>=v1.11.0-0`
 
-<table>
-    <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th class="default-column">Default</th>
-        <th>Description</th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>cascadingRules.enabled</td>
-            <td>bool</td>
-            <td class="default-column">
-<pre lang="yaml">
+## Values
 
-    `false`
-</pre></td>
-            <td>Enables or disables the installation of the default cascading rules for this scanner</td>
-        </tr>
-        <tr>
-            <td>imagePullSecrets</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)</td>
-        </tr>
-        <tr>
-            <td>parser.affinity</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `{}`
-</pre></td>
-            <td>Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)</td>
-        </tr>
-        <tr>
-            <td>parser.backoffLimit</td>
-            <td>int</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `3`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>parser.env</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>parser.image.pullPolicy</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"IfNotPresent"`
-</pre></td>
-            <td>Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images</td>
-        </tr>
-        <tr>
-            <td>parser.image.repository</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"securecodebox/parser-semgrep"`
-</pre></td>
-            <td>Parser image repository</td>
-        </tr>
-        <tr>
-            <td>parser.image.tag</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    defaults to the charts version
-</pre></td>
-            <td>Parser image tag</td>
-        </tr>
-        <tr>
-            <td>parser.resources</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-   
-</pre></td>
-            <td>Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/</td>
-        </tr>
-        <tr>
-            <td>parser.scopeLimiterAliases</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `{}`
-</pre></td>
-            <td>Optional finding aliases to be used in the scopeLimiter.</td>
-        </tr>
-        <tr>
-            <td>parser.tolerations</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)</td>
-        </tr>
-        <tr>
-            <td>scanner.activeDeadlineSeconds</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `nil`
-</pre></td>
-            <td>There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup)</td>
-        </tr>
-        <tr>
-            <td>scanner.affinity</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `{}`
-</pre></td>
-            <td>Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)</td>
-        </tr>
-        <tr>
-            <td>scanner.backoffLimit</td>
-            <td>int</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-   
-</pre></td>
-            <td>There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)</td>
-        </tr>
-        <tr>
-            <td>scanner.env</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)</td>
-        </tr>
-        <tr>
-            <td>scanner.extraContainers</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)</td>
-        </tr>
-        <tr>
-            <td>scanner.extraVolumeMounts</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)</td>
-        </tr>
-        <tr>
-            <td>scanner.extraVolumes</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)</td>
-        </tr>
-        <tr>
-            <td>scanner.image.pullPolicy</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"IfNotPresent"`
-</pre></td>
-            <td>Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images</td>
-        </tr>
-        <tr>
-            <td>scanner.image.repository</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `"docker.io/returntocorp/semgrep"`
-</pre></td>
-            <td>Container Image to run the scan</td>
-        </tr>
-        <tr>
-            <td>scanner.image.tag</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `nil`
-</pre></td>
-            <td>defaults to the charts appVersion</td>
-        </tr>
-        <tr>
-            <td>scanner.podSecurityContext</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `{}`
-</pre></td>
-            <td>Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)</td>
-        </tr>
-        <tr>
-            <td>scanner.resources</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `{}`
-</pre></td>
-            <td>CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)</td>
-        </tr>
-        <tr>
-            <td>scanner.securityContext</td>
-            <td>object</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":false,"runAsNonRoot":false}`
-</pre></td>
-            <td>Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)</td>
-        </tr>
-        <tr>
-            <td>scanner.suspend</td>
-            <td>bool</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `false`
-</pre></td>
-            <td>if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue</td>
-        </tr>
-        <tr>
-            <td>scanner.tolerations</td>
-            <td>list</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `[]`
-</pre></td>
-            <td>Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)</td>
-        </tr>
-        <tr>
-            <td>scanner.ttlSecondsAfterFinished</td>
-            <td>string</td>
-            <td class="default-column">
-<pre lang="yaml">
-
-    `nil`
-</pre></td>
-            <td>seconds after which the Kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/</td>
-        </tr>
-    </tbody>
-</table>
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| cascadingRules.enabled | bool | `false` | Enables or disables the installation of the default cascading rules for this scanner |
+| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
+| parser.backoffLimit | int | `3` |  |
+| parser.env | list | `[]` |  |
+| parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
+| parser.image.repository | string | `"securecodebox/parser-semgrep"` | Parser image repository |
+| parser.image.tag | string | defaults to the charts version | Parser image tag |
+| parser.resources | object | { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } } | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
+| parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
+| parser.tolerations | list | `[]` | Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
+| scanner.activeDeadlineSeconds | string | `nil` | There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup) |
+| scanner.affinity | object | `{}` | Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
+| scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
+| scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scanner.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
+| scanner.image.repository | string | `"docker.io/returntocorp/semgrep"` | Container Image to run the scan |
+| scanner.image.tag | string | `nil` | defaults to the charts appVersion |
+| scanner.podSecurityContext | object | `{}` | Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scanner.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":false,"runAsNonRoot":false}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.suspend | bool | `false` | if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue |
+| scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
+| scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
