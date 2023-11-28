@@ -18,6 +18,9 @@ jobs:
     GHCR-Helm-Release:
       name: "Publish Helm Charts to GHCR"
       runs-on: ubuntu-22.04
+      permissions:
+        contents: read
+        packages: write
       steps:
         - uses: actions/checkout@v3
           with:
