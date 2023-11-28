@@ -23,8 +23,6 @@ jobs:
         packages: write
       steps:
         - uses: actions/checkout@v3
-          with:
-            token: ${{ secrets.SCB_BOT_USER_TOKEN }}
         
         - name: Parse Release Version
           run: |
@@ -43,7 +41,7 @@ jobs:
             helm version
 
         - name: "Login to Package Registry"
-          run: 'echo "${{ secrets.SCB_BOT_USER_TOKEN }}" | helm registry login --username secureCodeBoxBot --password-stdin ${{ env.CONTAINER_REGISTRY }}'
+          run: 'echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login --username ${{ github.actor }} --password-stdin ${{ env.CONTAINER_REGISTRY }}'
   
         - name: "Package and Push Helm Charts to GHCR"
           run: |
