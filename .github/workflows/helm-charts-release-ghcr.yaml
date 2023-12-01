@@ -8,7 +8,7 @@ on:
 
 name: "Publish Helm Charts to GHCR"
 env:
-  CONTAINER_REGISTRY: ghcr.io/secureCodeBox
+  CONTAINER_REGISTRY: ghcr.io/securecodebox
   HELM_VERSION: "v3.12.2"
 jobs:
   GHCR-Helm-Release:
