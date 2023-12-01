@@ -32,7 +32,7 @@ Please note that scanning random hosts may be illegal. Please scan only hosts yo
 
 :::
 
-If you miss something in our documentation or you think it is unclear or wrong described. Please feel free to file an [issue](https://github.com/secureCodeBox/documentation/issues). If you need any help with your brand new _secureCodeBox_ don't hesitate to contact us via [Twitter](https://www.twitter.com/secureCodeBox), [Slack](https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU), E-Mail (securecodebox [at] iteratec [dot] com) or just file an [issue](https://github.com/secureCodeBox/secureCodeBox) at GitHub.
+If you miss something in our documentation or you think it is unclear or wrong described. Please feel free to file an [issue](https://github.com/secureCodeBox/documentation/issues). If you need any help with your brand new _secureCodeBox_ don't hesitate to contact us via [Twitter](https://www.twitter.com/secureCodeBox), [OWASP Slack](https://owasp.org/slack/invite) (Channel `#project-securecodebox`), E-Mail (securecodebox [at] iteratec [dot] com) or just file an [issue](https://github.com/secureCodeBox/secureCodeBox) at GitHub.
 
 ## What's New in secureCodeBox v2
 

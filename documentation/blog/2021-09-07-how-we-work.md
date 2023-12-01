@@ -78,7 +78,7 @@ If you are a regular user of the *secureCodeBox* and/or want to contribute more 
 Of course, you can stay "anonymous", create your own pull requests and issues in our repository or chat with our
 developers about new features. If you, however, want to take one step further, we are very happy if you get in touch,
 for example by writing us an [e-mail](mailto:securecodebox@iteratec.com) 
-or joining our [Slack channel](https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU%22).
+or joining our `#project-securecodebox` channel in the [OWASP Slack](https://owasp.org/slack/invite).
 
 Of course, we will face some new challenges when we integrate new stakeholders and developers into our meetings.
 The time span of our meeting is already quite tight for all that we have to discuss, and we would probably also have

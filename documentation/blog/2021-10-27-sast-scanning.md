@@ -351,7 +351,7 @@ For more details, see the [DefectDojo Hook Documentation][defectdojo-scb-permiss
 We hope this example shows how SAST scans can be a valuable addition to your secureCodeBox toolbelt, even if you are already using such scanners as part of the CI pipeline.
 Of course, nothing stops you from using [scheduled scans][scheduledscans] to keep re-running these scans on a regular basis to check for additional issues like [leaked secrets][semgrep-secrets] (which is also possible with [gitleaks][gitleaks]) or [high-confidence security issues][semgrep-ci] in your repositories, just to make sure the existing processes did not miss anything.
 As always, our goal is to provide a platform that works with your workflows instead of prescribing our own.
-We are looking forward to hearing your own stories and ideas for using secureCodeBox - [find us on Slack][scb-slack] or [GitHub][scb-repo] to get in touch.
+We are looking forward to hearing your own stories and ideas for using secureCodeBox - [OWASP Slack](https://owasp.org/slack/invite) (Channel `#project-securecodebox`) or [GitHub][scb-repo] to get in touch.
 
 
 [uaparser]: https://www.bleepingcomputer.com/news/security/popular-npm-library-hijacked-to-install-password-stealers-miners/
@@ -373,5 +373,4 @@ We are looking forward to hearing your own stories and ideas for using secureCod
 [cascadingscans]: /docs/hooks/cascading-scans
 [scheduledscans]: /docs/how-tos/automatically-repeating-scans
 [gitleaks]: /docs/scanners/gitleaks
-[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU%22
 [scb-repo]: https://github.com/secureCodeBox/secureCodeBox/
