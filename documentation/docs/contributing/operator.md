@@ -49,7 +49,7 @@ docker container run \
   --console-address ":9001"
 ```
 
-In the Minio management GUI you will need to add a new bucket for the operator. The default credentials for your minio instance are `minioadmin:minioadmin`. You might change those. Go to the management UI at <http://localhost:9001/> and add a new bucket. After creating your bucket you will need to specify some environment variables to enable the operator to use the bucket. For that export these variables:
+In the Minio management GUI you will need to add a new bucket for the operator. The default credentials for your minio instance are `minioadmin:minioadmin`. You might change those. Go to the management UI at [http://localhost:9001/](http://localhost:9001/) and add a new bucket. After creating your bucket you will need to specify some environment variables to enable the operator to use the bucket. For that export these variables:
 
 ```bash
 export MINIO_ACCESS_KEY="your-minio-access-key"
@@ -70,7 +70,7 @@ cd operator
 make
 ```
 
-This will produce the operator as `bin/manager`. If you wonder why the operator is named _manager_ (the resulting binary). The reason for that is in Kubernetes a combination of more than one _controller_ is called _controller-manager_ or short _manager_. In contrast, _operator_ is created by the community to name a _controller-manager_ which controls _custom resources_ and hence we use _custom resources_. (see <https://book.kubebuilder.io/> for further information)
+This will produce the operator as `bin/manager`. If you wonder why the operator is named _manager_ (the resulting binary). The reason for that is in Kubernetes a combination of more than one _controller_ is called _controller-manager_ or short _manager_. In contrast, _operator_ is created by the community to name a _controller-manager_ which controls _custom resources_ and hence we use _custom resources_. (see [https://book.kubebuilder.io/](https://book.kubebuilder.io/) for further information)
 
 To run the operator locally you can simply execute `make run` in the `operator` directory of this repository:
 

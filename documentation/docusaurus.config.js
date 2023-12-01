@@ -125,8 +125,8 @@ module.exports = {
         copyright: `Copyright the secureCodeBox authors. Built with Docusaurus.`,
       },
       prism: {
-        theme: require("prism-react-renderer/themes/dracula"),
-        additionalLanguages: ["python", "java", "rust", "yaml", "go"],
+        theme: require('prism-react-renderer').dracula,
+        additionalLanguages: ["python", "java", "rust", "yaml", "go", "bash", "diff", "json", "javascript", "makefile"],
       },
     }),
   presets: [

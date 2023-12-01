@@ -82,7 +82,7 @@ helm upgrade --install \
 
 <details>
 <summary>Using kind:</summary>
-<code>
+```shell
 git clone https://github.com/DefectDojo/django-DefectDojo
 cd django-DefectDojo
 
@@ -104,7 +104,7 @@ helm upgrade --install \
   --set createPostgresqlSecret=true \
   --set host="defectdojo.default.kind.local" \
   --set "alternativeHosts={localhost,defectdojo.default.kind.local:8080,defectdojo-django.default.svc}"
-</code>
+```
 </details>
 
 After a while, you should see that all pods are running:
@@ -338,55 +338,41 @@ set DefectDojo to [read-only mode](https://www.securecodebox.io/docs/hooks/defec
 
 <details>
 <summary>Troubleshooting</summary>
-Connecting the SCB to a persistence provider, especially DefectDojo, can sometimes be a bit tricky. 
-The following tips might help in case that something went wrong:
-<br /><br />
-<ul>
-<li> <b>Waiting:</b> It takes some time for the DefectDojo or Kibana instance to come up. You might also have to refresh 
-several times in order to connect to localhost after the port-forward.
-</li>
-<li> <b>Verbose logging:</b> You can view verbose output for everything in your cluster, 
-for example via <a href="https://github.com/wercker/stern">stern</a>. 
-For the following steps, 
-you have to have <a href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/#bash">krew</a> installed:
-<br />
-<code>
-kubectl krew install stern <br />
-# View all logs in default namespace: <br />
-kubectl stern .* <br />
-# View for a specific namespace <br />
-kubectl stern .* --namespace scanning
-</code>
-</li>
-<li> <b>Re-Installation of DefectDojo:</b> Node that if anything went wrong, and you have to re-install 
-DefectDojo in the cluster, the <i>createSecret</i> flags in the values.yaml file of DefectDojo must not be set. 
-You can find more 
-details <a href="https://github.com/DefectDojo/django-DefectDojo/blob/dev/readme-docs/KUBERNETES.md#re-install-the-chart">here</a>.
-</li>
-<li> <b>Server error in DefectDojo</b>: Make sure that all pods are running. If you are continuing to experience errors
-after a re-installation, consider to use a different cluster manager (e.g. kind instead of minikube).
-</li>
-<li> <b>Using a local instance of DefectDojo rather than Kubernetes</b>: If nothing helps, you still have the option
-to run DefectDojo outside 
-your cluster (instructions <a href="https://github.com/DefectDojo/django-DefectDojo#quick-start">here</a>). After that,
-you can connect the DefectDojo hook treating it like a <i>remote</i> instance of DefectDojo. The helm install command
-for the hook would look like this: <br />
-<code>
-# $YOURLOCALIP should look something like http://192.168.2.242:8080 <br />
-helm upgrade --install persistence-defectdojo secureCodeBox/persistence-defectdojo \ <br />
-    --set="defectdojo.url=$YOURLOCALIP"
-</code>
-</li>
-<li> <b>Increasing cluster resources</b>: Running a lot of pods at the same time can be resource-intensive. If you
-find that your persistence providers are not reacting in appropriate time, you might want to increase the number of
-cpus and memory usage for your minikube cluster: <br />
-<code>
-# If you already created a cluster, you most likely have to delete it at first <br />
-minikube stop <br />
-minikube delete <br />
-# Create a new cluster with more resources <br />
-minikube start --memory 8192 --cpus 4
-</code>
-</li>
-</ul>
+
+Connecting the SCB to a persistence provider, especially DefectDojo, can sometimes be a bit tricky. The following tips might help in case that something went wrong:
+
+- **Waiting:** It takes some time for the DefectDojo or Kibana instance to come up. You might also have to refresh several times in order to connect to localhost after the port-forward.
+
+- **Verbose logging:** You can view verbose output for everything in your cluster, for example via [stern](https://github.com/wercker/stern). For the following steps, you have to have [krew](https://krew.sigs.k8s.io/docs/user-guide/setup/install/#bash) installed:
+
+  ```shell
+  kubectl krew install stern
+  # View all logs in default namespace:
+  kubectl stern .*
+  # View for a specific namespace
+  kubectl stern .* --namespace scanning
+  ```
+
+- **Re-Installation of DefectDojo:** Note that if anything went wrong, and you have to re-install DefectDojo in the cluster, the _createSecret_ flags in the values.yaml file of DefectDojo must not be set. You can find more details [here](https://github.com/DefectDojo/django-DefectDojo/blob/dev/readme-docs/KUBERNETES.md#re-install-the-chart).
+
+- **Server error in DefectDojo:** Make sure that all pods are running. If you are continuing to experience errors after a re-installation, consider using a different cluster manager (e.g., kind instead of minikube).
+
+- **Using a local instance of DefectDojo rather than Kubernetes:** If nothing helps, you still have the option to run DefectDojo outside your cluster (instructions [here](https://github.com/DefectDojo/django-DefectDojo#quick-start)). After that, you can connect the DefectDojo hook treating it like a _remote_ instance of DefectDojo. The helm install command for the hook would look like this:
+
+  ```shell
+  # $YOURLOCALIP should look something like http://192.168.2.242:8080
+  helm upgrade --install persistence-defectdojo secureCodeBox/persistence-defectdojo \
+      --set="defectdojo.url=$YOURLOCALIP"
+  ```
+
+- **Increasing cluster resources:** Running a lot of pods at the same time can be resource-intensive. If you find that your persistence providers are not reacting in appropriate time, you might want to increase the number of CPUs and memory usage for your minikube cluster:
+
+  ```shell
+  # If you already created a cluster, you most likely have to delete it at first
+  minikube stop
+  minikube delete
+  # Create a new cluster with more resources
+  minikube start --memory 8192 --cpus 4
+  ```
+
 </details>

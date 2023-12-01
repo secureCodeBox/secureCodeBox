@@ -56,7 +56,7 @@ Listed below are the arguments supported by the `zap-advanced-scan` script.
 The command line interface can be used to easily run server scans: `-t www.example.com`
 
 ```bash
-usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}]
+usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD]
 
 OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
 
@@ -72,7 +72,7 @@ optional arguments:
                         The target to scan with OWASP ZAP.
   -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
                         The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
-  -r {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}, --report-type {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}
+  -r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD, --report-type XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD
                         The OWASP ZAP Report Type.
 ```
 
@@ -486,7 +486,7 @@ zapConfiguration:
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | parser.image.repository | string | `"docker.io/securecodebox/parser-zap"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
-| parser.resources | object | { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } } | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
+| parser.resources | object | `{ requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }` | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
 | parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
 | parser.tolerations | list | `[]` | Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
@@ -503,7 +503,7 @@ zapConfiguration:
 | scanner.image.tag | string | `nil` | defaults to the charts version |
 | scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
 | scanner.podSecurityContext | object | `{}` | Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scanner.reportType | string | "XML" | Optional to configure the reportType of the scan ZAP Scan. Must be one of the supported formats: {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD} |
+| scanner.reportType | string | "XML" | Optional to configure the reportType of the scan ZAP Scan. Must be one of the supported formats: XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD |
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scanner.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":false,"runAsNonRoot":false}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |

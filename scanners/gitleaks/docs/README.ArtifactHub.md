@@ -46,7 +46,7 @@ These secrets could be passwords, API keys, tokens, private keys or suspicious f
 file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore, gitleaks can scan your whole repository's history
 with all commits up to the initial one.
 
-To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>.
+To learn more about gitleaks visit [https://github.com/zricethezav/gitleaks](https://github.com/zricethezav/gitleaks)
 
 ## Deployment
 The gitleaks chart can be deployed via helm:
@@ -117,7 +117,7 @@ Kubernetes: `>=v1.11.0-0`
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | parser.image.repository | string | `"docker.io/securecodebox/parser-gitleaks"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
-| parser.resources | object | { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } } | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
+| parser.resources | object | `{ requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }` | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
 | parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
 | parser.tolerations | list | `[]` | Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

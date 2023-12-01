@@ -37,7 +37,7 @@ in our main repository. Feel free to use it as a starting point.
 
 ## General architecture of the solution
 
-Docker <- Ubuntu <- VirtualBox <- Windows VM <- PingCastle
+Docker \<- Ubuntu \<- VirtualBox \<- Windows VM \<- PingCastle
 
 That means that we run PingCastle in our Windows VM that runs in a virtualbox inside an ubuntu container.
 
