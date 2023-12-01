@@ -92,8 +92,8 @@ module.exports = {
                 href: "https://github.com/secureCodeBox",
               },
               {
-                label: "Slack",
-                href: 'https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU"',
+                label: "OWASP Slack (Channel #project-securecodebox)",
+                href: 'https://owasp.org/slack/invite',
               },
               {
                 label: "Twitter",

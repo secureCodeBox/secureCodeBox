@@ -61,7 +61,7 @@ The secureCodeBox operator is running on Kubernetes and is the core component of
 You are welcome, please join us on... 👋
 
 - [GitHub][scb-github]
-- [Slack][scb-slack]
+- [OWASP Slack (Channel #project-securecodebox)][scb-slack]
 - [Twitter][scb-twitter]
 
 secureCodeBox is an official [OWASP][scb-owasp] project.
@@ -80,5 +80,5 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox
-[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-slack]: https://owasp.org/slack/invite
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE

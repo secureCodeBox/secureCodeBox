@@ -9,9 +9,7 @@ path: "docs/getting-started/troubleshooting"
 ---
 
 If you experience any problems using the _secureCodeBox_, you may find an answer here.
-Should your problem not be covered here, however, you can also join our 
-[Slack Channel](https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU%22)
-to get more specific help.
+Should your problem not be covered here, however, you can also join the [OWASP Slack](https://owasp.org/slack/invite) (Channel `#project-securecodebox`) to get more specific help.
 If you think that you encountered a general problem that should be fixed, we are very grateful if you take the time
 to create an issue in our [GitHub Repository](https://github.com/secureCodeBox/secureCodeBox/issues). 
 
