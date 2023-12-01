@@ -8,50 +8,50 @@
 on:
   release:
     types: [published]
-      
+
 name: "Publish Helm Charts to GHCR"
 env:
-    CONTAINER_REGISTRY: ghcr.io/secureCodeBox
-    HELM_VERSION: "v3.12.2"
+  CONTAINER_REGISTRY: ghcr.io/secureCodeBox
+  HELM_VERSION: "v3.12.2"
 jobs:
-    GHCR-Helm-Release:
-      name: "Publish Helm Charts to GHCR"
-      runs-on: ubuntu-22.04
-      permissions:
-        contents: read
-        packages: write
-      steps:
-        - uses: actions/checkout@v3
-        
-        - name: Parse Release Version
-          run: |
-            RELEASE_VERSION="${GITHUB_REF#refs/*/}"
-            # Remove leading 'v' from git tag to create valid semver
-            RELEASE_VERSION="${RELEASE_VERSION//v}"
-            echo "version=$RELEASE_VERSION" >> "$GITHUB_ENV"
-  
-        - name: Install Helm
-          run: |
-            curl -Lo ./helm.tar.gz https://get.helm.sh/helm-${{ env.HELM_VERSION }}-linux-amd64.tar.gz
-            tar -xzf ./helm.tar.gz
-            chmod +x ./linux-amd64/helm
-            sudo mv ./linux-amd64/helm /usr/local/bin/helm
-            helm version
+  GHCR-Helm-Release:
+    name: "Publish Helm Charts to GHCR"
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: "Login to Package Registry"
-          run: 'echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login --username ${{ github.actor }} --password-stdin ${{ env.CONTAINER_REGISTRY }}'
-  
-        - name: "Package and Push Helm Charts to GHCR"
-          run: |
-            find . -type f -name Chart.yaml -not -path "./.templates/*" -print0 | while IFS= read -r -d '' chart; do
-            (
-              dir="$(dirname "${chart}")"
-              cd "${dir}" || exit
-              echo "Processing Helm Chart in $dir"
-              NAME=$(yq eval '.name' - < Chart.yaml)
-              
-              helm package --version "${{ env.version }}" .
-  
-              helm push "${NAME}-${{ env.version }}.tgz" oci://$CONTAINER_REGISTRY/helm/
-            )
-            done
+      - name: Parse Release Version
+        run: |
+          RELEASE_VERSION="${GITHUB_REF#refs/*/}"
+          # Remove leading 'v' from git tag to create valid semver
+          RELEASE_VERSION="${RELEASE_VERSION//v}"
+          echo "version=$RELEASE_VERSION" >> "$GITHUB_ENV"
+
+      - name: Install Helm
+        run: |
+          curl -Lo ./helm.tar.gz https://get.helm.sh/helm-${{ env.HELM_VERSION }}-linux-amd64.tar.gz
+          tar -xzf ./helm.tar.gz
+          chmod +x ./linux-amd64/helm
+          sudo mv ./linux-amd64/helm /usr/local/bin/helm
+          helm version
+
+      - name: "Login to Package Registry"
+        run: 'echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login --username ${{ github.actor }} --password-stdin ${{ env.CONTAINER_REGISTRY }}'
+
+      - name: "Package and Push Helm Charts to GHCR"
+        run: |
+          find . -type f -name Chart.yaml -not -path "./.templates/*" -print0 | while IFS= read -r -d '' chart; do
+          (
+            dir="$(dirname "${chart}")"
+            cd "${dir}" || exit
+            echo "Processing Helm Chart in $dir"
+            NAME=$(yq eval '.name' - < Chart.yaml)
+            
+            helm package --version "${{ env.version }}" .
+
+            helm push "${NAME}-${{ env.version }}.tgz" oci://$CONTAINER_REGISTRY/helm/
+          )
+          done
