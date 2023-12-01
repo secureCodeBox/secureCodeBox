@@ -52,6 +52,6 @@ jobs:
               
               helm package --version "${{ env.version }}" .
   
-              helm push "${NAME}-${{ env.version }}.tgz" oci://$CONTAINER_REGISTRY/
+              helm push "${NAME}-${{ env.version }}.tgz" oci://$CONTAINER_REGISTRY/helm/
             )
             done
