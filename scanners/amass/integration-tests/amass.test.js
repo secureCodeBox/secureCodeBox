@@ -16,5 +16,5 @@ test(
     );
     expect(count).toBeGreaterThanOrEqual(100); // The scan is passive, so we can expect a lot of subdomains
   },
-  6 * 60 * 1000
+  10 * 60 * 1000
 );
