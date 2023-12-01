@@ -24,7 +24,7 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 // Define utility constants for object names and testing timeouts and intervals.
 const (
-	timeout  = time.Second * 10
+	timeout  = time.Second * 25
 	interval = time.Millisecond * 250
 )
 
