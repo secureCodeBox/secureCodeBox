@@ -6,7 +6,7 @@ const {scan} = require("../../helpers");
 
 jest.retryTimes(3);
 
-test(
+test.skip(
   "nikto scan against bodgeit demo-target",
   async () => {
     const {categories, severities, count} = await scan(

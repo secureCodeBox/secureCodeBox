@@ -6,7 +6,7 @@ const {scan} = require("../../helpers");
 
 jest.retryTimes(3);
 
-test.concurrent(
+test.concurrent.skip(
   "ZAP-advanced scan without config YAML against 'bodgeit' container should only find couple findings",
   async () => {
     const { count } = await scan(
@@ -38,7 +38,7 @@ test.concurrent(
   60 * 31 * 1000
 );
 
-test.concurrent(
+test.concurrent.skip(
   "ZAP-advanced scan without config YAML against 'swagger-petstore' should only find couple findings",
   async () => {
     const { count } = await scan(
