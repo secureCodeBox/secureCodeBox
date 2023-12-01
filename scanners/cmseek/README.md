@@ -114,6 +114,6 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox
-[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-slack]: https://owasp.org/slack/invite
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
 
