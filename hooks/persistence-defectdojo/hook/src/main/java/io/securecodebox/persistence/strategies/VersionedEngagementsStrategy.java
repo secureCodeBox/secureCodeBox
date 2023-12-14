@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * VersionedEngagementsStrategy creates a new Engagement for every new version of the software.
@@ -113,6 +114,12 @@ public class VersionedEngagementsStrategy implements Strategy {
     );
 
     LOG.info("Uploaded Scan Report as testID {} to DefectDojo", testId);
+
+    var refetchWaitSeconds = config.getRefetchWaitSeconds();
+    if (!(refetchWaitSeconds == 0)) {
+      LOG.info("Waiting for {} seconds before continuing...", refetchWaitSeconds);
+      TimeUnit.SECONDS.sleep(refetchWaitSeconds);
+    }
 
     return findingService.search(Map.of("test", String.valueOf(testId)));
   }
