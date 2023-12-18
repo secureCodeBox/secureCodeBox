@@ -54,7 +54,7 @@
     "@docusaurus/tsconfig": "^3.0.1",
     "@docusaurus/types": "^3.0.1",
     "@types/node": "^20.8.7",
-    "@types/react": "^18.2.29",
+    "@types/react": "^18.2.45",
     "@types/react-helmet": "^6.1.8",
     "@types/react-router-dom": "^5.1.8",
     "eslint": "^8.52.0",
