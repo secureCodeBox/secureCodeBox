@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {scan} = require("../../helpers");
+const { scan } = require("../../helpers");
 
 jest.retryTimes(1);
 
 test(
   "ssh-audit should find a couple of findings for a dummy ssh service",
   async () => {
-    const {categories, severities, count} = await scan(
+    const { categories, severities, count } = await scan(
       "ssh-audit-dummy-ssh",
       "ssh-audit",
       ["dummy-ssh.demo-targets.svc"],
@@ -30,24 +30,23 @@ test(
       "medium": 6,
     }
     `);
-    },
-    3 * 60 * 1000
+  },
+  3 * 60 * 1000
 );
 
 test(
-    "ssh-audit should gracefully handle a non-existing target",
-    async () => {
-      await expect(
-        scan(
-          "ssh-audit-non-existing",
-          "ssh-audit",
-          ["this-target-doesnt-exist.demo-targets.svc"],
-          180
-        )
-      ).rejects.toThrow(
-        'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"'
-      );
-    },
-    3 * 60 * 1000
-  );
-  
+  "ssh-audit should gracefully handle a non-existing target",
+  async () => {
+    await expect(
+      scan(
+        "ssh-audit-non-existing",
+        "ssh-audit",
+        ["this-target-doesnt-exist.demo-targets.svc"],
+        180
+      )
+    ).rejects.toThrow(
+      'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"'
+    );
+  },
+  3 * 60 * 1000
+);
