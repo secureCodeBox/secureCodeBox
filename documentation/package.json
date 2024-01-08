@@ -30,7 +30,7 @@
     "gray-matter": "^4.0.3",
     "mustache": "^4.2.0",
     "node-fetch": "^3.1.1",
-    "prism-react-renderer": "^2.1.0",
+    "prism-react-renderer": "^2.3.1",
     "react": "^18.2.0",
     "react-accessible-accordion": "^5.0.0",
     "react-dom": "^18.2.0",
