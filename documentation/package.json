@@ -21,8 +21,8 @@
   "dependencies": {
     "@cmfcmf/docusaurus-search-local": "^1.1.0",
     "@docusaurus/core": "^3.0.1",
-    "@docusaurus/preset-classic": "^3.0.1",
-    "@docusaurus/theme-live-codeblock": "^3.0.1",
+    "@docusaurus/preset-classic": "^3.1.0",
+    "@docusaurus/theme-live-codeblock": "^3.1.0",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "colors": "^1.4.0",
@@ -30,12 +30,12 @@
     "gray-matter": "^4.0.3",
     "mustache": "^4.2.0",
     "node-fetch": "^3.1.1",
-    "prism-react-renderer": "^2.1.0",
+    "prism-react-renderer": "^2.3.1",
     "react": "^18.2.0",
     "react-accessible-accordion": "^5.0.0",
     "react-dom": "^18.2.0",
     "rimraf": "^5.0.5",
-    "sass": "^1.69.4"
+    "sass": "^1.69.7"
   },
   "browserslist": {
     "production": [
@@ -53,7 +53,7 @@
     "@docusaurus/module-type-aliases": "^3.0.1",
     "@docusaurus/tsconfig": "^3.0.1",
     "@docusaurus/types": "^3.0.1",
-    "@types/node": "^20.10.6",
+    "@types/node": "^20.10.7",
     "@types/react": "^18.2.46",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.1.8",
