@@ -13,6 +13,7 @@ import io.securecodebox.persistence.defectdojo.model.*;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.Scan;
+import io.securecodebox.persistence.service.DeduplicationAwaitingService;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
 import org.apache.commons.collections4.map.LinkedMap;
@@ -25,7 +26,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * VersionedEngagementsStrategy creates a new Engagement for every new version of the software.
@@ -47,6 +47,7 @@ public class VersionedEngagementsStrategy implements Strategy {
   TestTypeService testTypeService;
   ImportScanService importScanService;
   FindingService findingService;
+  DeduplicationAwaitingService deduplicationAwaitingService;
 
   Config config;
   PersistenceProviderConfig persistenceProviderConfig;
@@ -66,6 +67,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     this.testTypeService = new TestTypeService(defectDojoConfig);
     this.importScanService = ImportScanService.createDefault(defectDojoConfig);
     this.findingService = new FindingService(defectDojoConfig);
+    this.deduplicationAwaitingService = new DeduplicationAwaitingService();
 
     this.config = defectDojoConfig;
     this.persistenceProviderConfig = persistenceProviderConfig;
@@ -115,12 +117,8 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     LOG.info("Uploaded Scan Report as testID {} to DefectDojo", testId);
 
-    var refetchWaitSeconds = config.getRefetchWaitSeconds();
-    if (!(refetchWaitSeconds == 0)) {
-      LOG.info("Waiting for {} seconds before continuing...", refetchWaitSeconds);
-      TimeUnit.SECONDS.sleep(refetchWaitSeconds);
-    }
-
+    deduplicationAwaitingService.refetchWait();
+    
     return findingService.search(Map.of("test", String.valueOf(testId)));
   }
 
