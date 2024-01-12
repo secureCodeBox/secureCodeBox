@@ -10,7 +10,8 @@
   "main": "index.js",
   "scripts": {
     "test:unit": "jest --verbose --testPathIgnorePatterns /integration-tests/ --ci --colors --coverage --passWithNoTests",
-    "test:integration": "jest --verbose --ci --colors --coverage --passWithNoTests"
+    "test:integration": "jest --verbose --ci --colors --coverage --passWithNoTests",
+    "test:helpers": "jest helpers.test.js --verbose --ci --colors --coverage --passWithNoTests"  
   },
   "keywords": [
     "secureCodeBox",
