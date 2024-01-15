@@ -40,8 +40,12 @@ You can access the MinIO instance included in the default installation like the 
 
 Port Forward MinIO UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9001`
 
-- AccessKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-user}' | base64 --decode; echo`
-- SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-password}' | base64 --decode; echo`
+- AccessKey (Username): `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-user}' | base64 --decode; echo`
+- SecretKey (Password): `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-password}' | base64 --decode; echo`
+
+:::note
+If you are using Windows, do not include the `| base64 --decode; echo` part in the Command Prompt. Instead, after running the command, manually decode the resulting base64 output using PowerShell.
+:::
 
 Then open your browser on [http://localhost:9000](http://localhost:9000) and login in with the credentials returned by the command listed above.
 

@@ -10,10 +10,10 @@ sidebar_position: 5
 
 ## Introduction 
 
-Let's say you have to manage a cluster of potential security risks, like for example a large number of websites or
+Let's say you need to manage a cluster of potential security risks, such as a large number of websites or
 your company's internal network. Your needs will exceed the limitations of manual findings handling or our build-in
-*minio* instance quite soon. The solution comes with a so-called *persistence provider*, which not only allows you
-to store your findings over a long period of time (as the name suggests), but also to classify, prioritize and analyze 
+*minio* instance quite soon. The solution comes with a so-called *persistence provider*, which allows you to not only
+store your findings over a long period of time (as the name suggests), but also classify, prioritize and analyze 
 them. This tutorial discusses two persistence providers, [DefectDojo](#defectdojo) and [ElasticSearch](#elasticsearch), 
 which can both be combined with the *secureCodeBox*.
 
@@ -35,7 +35,7 @@ Make sure you have the following tools available on your system before starting:
 [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) is a widespread platform for vulnerability management
 and security orchestration. The *secureCodeBox* provides a hook that allows to directly connect the *SCB* to a local
 or remote DefectDojo instance. In this tutorial, we will at first guide you through a step-by-step setup manual.
-After that, you will learn about some features of DefectDojo and how you can use them in conjunction with the
+Afterward, you will learn about some features of DefectDojo and how to use them in conjunction with the
 *secureCodeBox*.
 
 We will now at first set up an instance of DefectDojo in a local minikube cluster. After we have that running,
@@ -173,7 +173,7 @@ helm upgrade --namespace scanning --install dd secureCodeBox/persistence-defectd
 
 To verify that everything works, we now start an nmap scan and check that its results are uploaded to our DefectDojo
 instance. Create the following file:
-```yaml
+```yaml title="scan.yaml"
 # scan.yaml
 # SPDX-FileCopyrightText: the secureCodeBox authors
 #
@@ -195,11 +195,11 @@ kubectl apply -n scanning -f scan.yaml
 ```
 
 If everything was set up correctly, you should see an *nmap-scanme.nmap.org* engagement in the DefectDojo engagements
-dashboard after a while. Should you have experienced any problems, you might find advice in the 
+dashboard after a while. If you experience any problems, you may find advice in the 
 [troubleshooting](#troubleshooting) section at the end.
 
 ### Managing findings via the secureCodeBox and DefectDojo
-To give you an idea of how a workflow with the *secureCodeBox* and DefectDojo can look like, we will take a glance at
+To give you an idea of what a workflow with the *secureCodeBox* and DefectDojo might look like, we will take a glance at
 DefectDojo's findings de-duplication ability. When scanning the same target multiple times, e.g. with a 
 [scheduled scan](https://www.securecodebox.io/docs/how-tos/automatically-repeating-scans), we do not want to get 
 notified about findings that are duplicates of already existing ones. DefectDojo handles this for us, 
@@ -238,7 +238,7 @@ names and to keep track of their origin. For the Autodiscovery, there are alread
 
 To get you started with a simple example, we will now create an annotation in a manually executed scan. 
 Create the following file:
-```yaml
+```yaml title="scanAnnotation.yaml"
 # scanAnnotation.yaml
 # SPDX-FileCopyrightText: the secureCodeBox authors
 #
@@ -290,7 +290,7 @@ helm --namespace elastic upgrade --install persistence-elastic secureCodeBox/per
 ```
 
 That's it! Let us run an example scan (same as above for DefectDojo):
-```yaml
+```yaml title="scan.yaml"
 # scan.yaml
 # SPDX-FileCopyrightText: the secureCodeBox authors
 #
@@ -322,7 +322,7 @@ You can now go to [localhost:5601](http://localhost:5601) and access your data i
 
 Note that unlike DefectDojo, ElasticSearch does not automatically handle duplicated findings. However, you can find 
 pre-defined dashboards for some scanners implemented in the *secureCodeBox*, which makes visualizing their results
-straight-forward. You can find a list of all available dashboards under 
+straightforward. You can find a list of all available dashboards under 
 [/app/dashboards#/list](http://localhost:5601/app/dashboards#/list) in your local Kibana instance.
 
 ### Using DefectDojo and ElasticSearch simultaneously

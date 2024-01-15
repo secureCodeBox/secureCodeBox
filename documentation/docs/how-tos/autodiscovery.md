@@ -12,7 +12,7 @@ sidebar_position: 6
 
 The secureCodeBox allows you to set up regular scans of your infrastructure using _scheduled scans_. As the name suggests, these _scheduled scans_ run based on a predefined time interval. However, it can be cumbersome to set this up for your entire infrastructure. If you are operating your infrastructure inside a Kubernetes cluster, there is an easier way to do this: The SCB AutoDiscovery automates the process of setting up _scheduled scans_ by creating _scheduled scans_ for Kubernetes resources inside a cluster.
 
-The AutoDiscovery will observe the scanned Kubernetes resources over their whole lifecycle. It will automatically create, update and delete scans when necessary. Currently the secureCodeBox AutoDiscovery supports two modes that can be enabled independently: A _Service_ and a _Container_ AutoDiscovery. This tutorial will explain both modes and will give a practical step by step example you can follow to get started with them.
+The AutoDiscovery will observe the scanned Kubernetes resources over their whole lifecycle. It will automatically create, update and delete scans when necessary. Currently, the secureCodeBox AutoDiscovery supports two modes that can be enabled independently: A _Service_ and a _Container_ AutoDiscovery. This tutorial will explain both modes and will give a practical step-by-step example you can follow to get started with them.
 
 ### Container AutoDiscovery
 

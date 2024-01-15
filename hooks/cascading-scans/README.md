@@ -36,7 +36,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 The Cascading Scans Hook can be used to orchestrate security scanners based on defined rule sets.
 The so called `CascadingRules` consist of a `matches` section which contains one or multiple rules which are compared against `findings`. When a `finding` matches a `rule` the `scanSpec` section will then be used to create a new scan. To customize the scan to match the finding, the [mustache](https://github.com/janl/mustache.js) templating language can be used to reference fields of the finding.
 
-This Hook is based on the ADR https://www.securecodebox.io/docs/architecture/adr/adr_0003
+This Hook is based on the ADR https://www.securecodebox.io/docs/architecture/architecture_decisions/adr_0003/
 
 More information about how to use cascading scans can be found here:
 * Custom Resource Definition: https://www.securecodebox.io/docs/api/crds/cascading-rule/
