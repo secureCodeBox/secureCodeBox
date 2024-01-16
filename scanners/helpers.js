@@ -7,16 +7,27 @@ const k8s = require("@kubernetes/client-node");
 const kc = new k8s.KubeConfig();
 kc.loadFromDefault();
 
-const k8sCRDApi = kc.makeApiClient(k8s.CustomObjectsApi);
-const k8sBatchApi = kc.makeApiClient(k8s.BatchV1Api);
-const k8sPodsApi = kc.makeApiClient(k8s.CoreV1Api);
+let k8sCRDApi, k8sBatchApi, k8sPodsApi;
 
+function getKubernetesAPIs() {
+  if (!k8sCRDApi) {
+    k8sCRDApi = kc.makeApiClient(k8s.CustomObjectsApi);
+  }
+  if (!k8sBatchApi) {
+    k8sBatchApi = kc.makeApiClient(k8s.BatchV1Api);
+  }
+  if (!k8sPodsApi) {
+    k8sPodsApi = kc.makeApiClient(k8s.CoreV1Api);
+  }
+
+  return { k8sCRDApi, k8sBatchApi, k8sPodsApi };
+}
 let namespace = "integration-tests";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms * 1000));
 
-async function deleteScan(name) {
-  await k8sCRDApi.deleteNamespacedCustomObject(
+async function deleteScan(name, CRDApi = getKubernetesAPIs().k8sCRDApi) {
+  await CRDApi.deleteNamespacedCustomObject(
     "execution.securecodebox.io",
     "v1",
     namespace,
@@ -26,8 +37,8 @@ async function deleteScan(name) {
   );
 }
 
-async function getScan(name) {
-  const { body: scan } = await k8sCRDApi.getNamespacedCustomObjectStatus(
+async function getScan(name, CRDApi = getKubernetesAPIs().k8sCRDApi) {
+  const { body: scan } = await CRDApi.getNamespacedCustomObjectStatus(
     "execution.securecodebox.io",
     "v1",
     namespace,
@@ -37,11 +48,11 @@ async function getScan(name) {
   return scan;
 }
 
-async function displayAllLogsForJob(jobName) {
+async function displayAllLogsForJob(jobName, PodsApi = getKubernetesAPIs().k8sPodsApi) {
   console.log(`Listing logs for Job '${jobName}':`);
   const {
     body: { items: pods },
-  } = await k8sPodsApi.listNamespacedPod(
+  } = await PodsApi.listNamespacedPod(
     namespace,
     true,
     undefined,
@@ -61,7 +72,7 @@ async function displayAllLogsForJob(jobName) {
 
     for (const container of pod.spec.containers) {
       try {
-        const response = await k8sPodsApi.readNamespacedPodLog(
+        const response = await PodsApi.readNamespacedPodLog(
           pod.metadata.name,
           namespace,
           container.name
@@ -77,9 +88,9 @@ async function displayAllLogsForJob(jobName) {
   }
 }
 
-async function logJobs() {
+async function logJobs(BatchApi = getKubernetesAPIs().k8sBatchApi) {
   try {
-    const { body: jobs } = await k8sBatchApi.listNamespacedJob(namespace);
+    const { body: jobs } = await BatchApi.listNamespacedJob(namespace);
 
     console.log("Logging spec & status of jobs in namespace");
 
@@ -97,8 +108,8 @@ async function logJobs() {
   }
 }
 
-async function disasterRecovery(scanName) {
-  const scan = await getScan(scanName);
+async function disasterRecovery(scanName, CRDApi = getKubernetesAPIs().k8sCRDApi) {
+  const scan = await getScan(scanName, CRDApi);
   console.error("Last Scan State:");
   console.dir(scan);
   await logJobs();
@@ -113,10 +124,11 @@ async function disasterRecovery(scanName) {
  * @param {object[]} volumes definitions for kubernetes volumes that should be used. Optional, useful for initContainers (see below)
  * @param {object[]} volumeMounts definitions for kubernetes volume mounts that should be used. Optional, useful for initContainers (see below)
  * @param {object[]} initContainers definitions for initContainers that should be added to the scan job to provision files for the scanner. Optional.
+ * @param {CRDApi} CRDApi kubernetes api client for CRDs. Optional, will be created if not provided.
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
-async function scan(name, scanType, parameters = [], timeout = 180, volumes = [], volumeMounts = [], initContainers = []) {
-  namespace ="integration-tests"
+async function scan(name, scanType, parameters = [], timeout = 180, volumes = [], volumeMounts = [], initContainers = [], CRDApi = getKubernetesAPIs().k8sCRDApi) {
+  namespace = "integration-tests"
   const scanDefinition = {
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
@@ -132,8 +144,7 @@ async function scan(name, scanType, parameters = [], timeout = 180, volumes = []
       initContainers,
     },
   };
-
-  const { body } = await k8sCRDApi.createNamespacedCustomObject(
+  const { body } = await CRDApi.createNamespacedCustomObject(
     "execution.securecodebox.io",
     "v1",
     namespace,
@@ -145,13 +156,13 @@ async function scan(name, scanType, parameters = [], timeout = 180, volumes = []
 
   for (let i = 0; i < timeout; i++) {
     await sleep(1);
-    const { status } = await getScan(actualName);
+    const { status } = await getScan(actualName, CRDApi);
 
     if (status && status.state === "Done") {
       // Wait a couple seconds to give kubernetes more time to update the fields
       await sleep(2);
-      const { status } = await getScan(actualName);
-      await deleteScan(actualName);
+      const { status } = await getScan(actualName, CRDApi);
+      await deleteScan(actualName, CRDApi);
       return status.findings;
     } else if (status && status.state === "Errored") {
       console.error("Scan Errored");
@@ -178,7 +189,7 @@ async function scan(name, scanType, parameters = [], timeout = 180, volumes = []
  * @param {number} timeout in seconds
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
-async function cascadingScan(name, scanType, parameters = [], { nameCascade, matchLabels }, timeout = 180) {
+async function cascadingScan(name, scanType, parameters = [], { nameCascade, matchLabels }, timeout = 180, CRDApi = getKubernetesAPIs().k8sCRDApi) {
   const scanDefinition = {
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
@@ -195,7 +206,7 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
     },
   };
 
-  const { body } = await k8sCRDApi.createNamespacedCustomObject(
+  const { body } = await CRDApi.createNamespacedCustomObject(
     "execution.securecodebox.io",
     "v1",
     namespace,
@@ -207,7 +218,7 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
 
   for (let i = 0; i < timeout; i++) {
     await sleep(1);
-    const { status } = await getScan(actualName);
+    const { status } = await getScan(actualName, CRDApi);
 
     if (status && status.state === "Done") {
       // Wait a couple seconds to give kubernetes more time to update the fields
@@ -231,7 +242,7 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
     }
   }
 
-  const { body: scans } = await k8sCRDApi.listNamespacedCustomObject(
+  const { body: scans } = await CRDApi.listNamespacedCustomObject(
     "execution.securecodebox.io",
     "v1",
     namespace,
@@ -255,14 +266,14 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
 
   for (let j = 0; j < timeout; j++) {
     await sleep(1)
-    const { status: statusCascade } = await getScan(actualNameCascade);
+    const { status: statusCascade } = await getScan(actualNameCascade, CRDApi);
 
     if (statusCascade && statusCascade.state === "Done") {
       await sleep(2);
-      const { status: statusCascade } = await getScan(actualNameCascade);
+      const { status: statusCascade } = await getScan(actualNameCascade, CRDApi);
 
-      await deleteScan(actualName);
-      await deleteScan(actualNameCascade);
+      await deleteScan(actualName, CRDApi);
+      await deleteScan(actualNameCascade, CRDApi);
       return statusCascade.findings;
     } else if (statusCascade && statusCascade.state === "Errored") {
       console.error("Scan Errored");
