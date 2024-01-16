@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 const { scan } = require('./helpers');
 
 jest.mock('@kubernetes/client-node', () => {
