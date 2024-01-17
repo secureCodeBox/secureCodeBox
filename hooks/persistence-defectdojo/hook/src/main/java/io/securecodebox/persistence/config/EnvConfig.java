@@ -64,6 +64,17 @@ public final class EnvConfig {
     return retrieveEnvVar(EnvVarNames.NAMESPACE);
   }
 
+  /**
+   * Whether low privilege mode is enabled
+   * <p>
+   * Since DefectDojo > 2.0.0 access token with lower access rights may be used.
+   * See <a href="https://www.securecodebox.io/docs/hooks/defectdojo/#low-privileged-mode">documentation</a> for more
+   * information.
+   * </p>
+   *
+   * @return {@code false} is default
+   * @see EnvVarNames#LOW_PRIVILEGED_MODE
+   */
   public boolean lowPrivilegedMode() {
     return Boolean.parseBoolean(retrieveEnvVar(EnvVarNames.LOW_PRIVILEGED_MODE));
   }
@@ -128,6 +139,9 @@ public final class EnvConfig {
      * secureCodeBox wide environment variable populated with the Kubernetes namespace the scan is running in
      */
     NAMESPACE("NAMESPACE"),
+    /**
+     * Whether low privilege mode is enabled
+     */
     LOW_PRIVILEGED_MODE("DEFECTDOJO_LOW_PRIVILEGED_MODE"),
     /**
      * Seconds to wait until re-fetching findings from DefectDojo
