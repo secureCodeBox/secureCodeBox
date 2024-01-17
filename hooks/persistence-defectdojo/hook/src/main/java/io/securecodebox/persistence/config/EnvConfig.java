@@ -38,10 +38,28 @@ public final class EnvConfig {
     return Boolean.parseBoolean(retrieveEnvVar(EnvVarNames.IS_DEV));
   }
 
+  /**
+   * The Kubernetes name of the scan custom resource in the namespace
+   * <p>
+   * This is automatically set for every hook job.
+   * </p>
+   *
+   * @see EnvVarNames#SCAN_NAME
+   * @return never {@code null}
+   */
   public String scanName() {
     return retrieveEnvVar(EnvVarNames.SCAN_NAME);
   }
 
+  /**
+   * The Kubernetes namespace the scan is running in
+   * <p>
+   * This is automatically set for every hook job.
+   * </p>
+   *
+   * @see EnvVarNames#NAMESPACE
+   * @return never {@code null}
+   */
   public String namespace() {
     return retrieveEnvVar(EnvVarNames.NAMESPACE);
   }
@@ -59,6 +77,7 @@ public final class EnvConfig {
    * </p>
    *
    * @return not negative
+   * @see EnvVarNames#REFETCH_WAIT_SECONDS
    * @deprecated Will be removed without supplement, when DefectDojo API is available
    */
   @Deprecated
@@ -76,7 +95,6 @@ public final class EnvConfig {
   private boolean existsEnvVar(EnvVarNames name) {
     return System.getenv(name.literal) != null;
   }
-
 
   private String retrieveEnvVar(EnvVarNames name) {
     if (existsEnvVar(name)) {
@@ -102,11 +120,21 @@ public final class EnvConfig {
      * Enable development mode.
      */
     IS_DEV("DEFECTDOJO_IS_DEV"),
-    // TODO: Consider prefixing this name with DEFECTDOJO_.
+    /**
+     * secureCodeBox wide environment variable populated with name of the scan custom resource
+     */
     SCAN_NAME("SCAN_NAME"),
-    // TODO: Consider prefixing this name with DEFECTDOJO_.
+    /**
+     * secureCodeBox wide environment variable populated with the Kubernetes namespace the scan is running in
+     */
     NAMESPACE("NAMESPACE"),
     LOW_PRIVILEGED_MODE("DEFECTDOJO_LOW_PRIVILEGED_MODE"),
+    /**
+     * Seconds to wait until re-fetching findings from DefectDojo
+     *
+     * @deprecated see {@link EnvConfig#refetchWaitSeconds()}
+     */
+    @Deprecated
     REFETCH_WAIT_SECONDS("DEFECTDOJO_REFETCH_WAIT_SECONDS");
 
     private final String literal;
