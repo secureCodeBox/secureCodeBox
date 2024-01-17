@@ -29,8 +29,8 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     .withObjectIndenter(new DefaultIndenter().withLinefeed("\n")));
   private PersistenceProviderConfig ppConfig;
 
-  public SecureCodeBoxFindingsToDefectDojoMapper(PersistenceProviderConfig ppConfig){
-    this.ppConfig= ppConfig;
+  public SecureCodeBoxFindingsToDefectDojoMapper(PersistenceProviderConfig ppConfig) {
+    this.ppConfig = ppConfig;
   }
 
   protected String convertToDefectDojoSeverity(SecureCodeBoxFinding.Severities severity) {
@@ -57,7 +57,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
    * @param secureCodeBoxFinding Finding in SecureCodeBox format.
    * @return Finding in DefectDojo Format, compatible with the DefectDojo Generic JSON Parser
    */
-  public DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding){
+  public DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding) {
     //set basic Finding info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
     result.setTitle(secureCodeBoxFinding.getName());
@@ -70,7 +70,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
         var attributesJson = attributeJsonPrinter.writeValueAsString(secureCodeBoxFinding.getAttributes());
         description = description + "\n " + attributesJson;
       } catch (JsonProcessingException e) {
-        LOG.warn("Could not write the secureCodeBox Finding Attributes as JSON: ",e);
+        LOG.warn("Could not write the secureCodeBox Finding Attributes as JSON: ", e);
       }
     }
     result.setDescription(description);
@@ -94,10 +94,9 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     Instant instant;
     if (secureCodeBoxFinding.getIdentifiedAt() != null && !secureCodeBoxFinding.getIdentifiedAt().isEmpty()) {
       instant = Instant.parse(secureCodeBoxFinding.getIdentifiedAt());
-    } else if (secureCodeBoxFinding.getParsedAt() != null && !secureCodeBoxFinding.getParsedAt().isEmpty()){
+    } else if (secureCodeBoxFinding.getParsedAt() != null && !secureCodeBoxFinding.getParsedAt().isEmpty()) {
       instant = Instant.parse(secureCodeBoxFinding.getParsedAt());
-    }
-    else {
+    } else {
       instant = Instant.now();
     }
     LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ppConfig.getDefectDojoTimezoneId());

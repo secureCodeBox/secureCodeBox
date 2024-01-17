@@ -50,7 +50,8 @@ public class VersionedEngagementsStrategy implements Strategy {
   Config config;
   PersistenceProviderConfig persistenceProviderConfig;
 
-  public VersionedEngagementsStrategy() {}
+  public VersionedEngagementsStrategy() {
+  }
 
   @Override
   public void init(Config defectDojoConfig, PersistenceProviderConfig persistenceProviderConfig) {
@@ -77,9 +78,9 @@ public class VersionedEngagementsStrategy implements Strategy {
     Long userId = null;
     List<UserProfile> userProfiles = userProfileService.search();
     if (userProfiles.isEmpty()) {
-        throw new DefectDojoPersistenceException("UserProfileService did return empty list. Expected current user to be in list");
+      throw new DefectDojoPersistenceException("UserProfileService did return empty list. Expected current user to be in list");
     } else {
-        userId = userProfiles.get(0).getUser().getId();
+      userId = userProfiles.get(0).getUser().getId();
     }
 
     LOG.info("Running with DefectDojo User Id: {}", userId);
@@ -142,7 +143,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       .deduplicationOnEngagement(scan.getDeDuplicateOnEngagement().orElse(false))
       .status(Engagement.Status.IN_PROGRESS);
 
-    if(!this.persistenceProviderConfig.isInLowPrivilegedMode()) {
+    if (!this.persistenceProviderConfig.isInLowPrivilegedMode()) {
       final String SECURITY_TEST_SERVER_NAME = "secureCodeBox";
       final String SECURITY_TEST_SERVER_DESCRIPTION = "secureCodeBox is a kubernetes based, modularized toolchain for continuous security scans of your software project.";
 
@@ -214,7 +215,8 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   /**
    * Creates a new product in DefectDojo if none exists already related to the given scan and productType.
-   * @param scan The scan to ensure the DefectDojo product for.
+   *
+   * @param scan          The scan to ensure the DefectDojo product for.
    * @param productTypeId The id of the productType.
    * @return The existing or newly created product releated to the given scan.
    * @throws URISyntaxException
@@ -240,9 +242,9 @@ public class VersionedEngagementsStrategy implements Strategy {
   /**
    * Creates a new test in DefectDojo related to the given scan and engagement.
    *
-   * @param scan The scan to create a new test in defectDojo for (related to the given engagement).
+   * @param scan         The scan to create a new test in defectDojo for (related to the given engagement).
    * @param engagementId The engagement (referenced by id) to relate the new test to.
-   * @param userId The user id corresponding to create the test on behalf to.
+   * @param userId       The user id corresponding to create the test on behalf to.
    * @return The newly created test id.
    * @throws URISyntaxException
    * @throws JsonProcessingException
@@ -287,12 +289,10 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     if (scan.getProductName().isPresent()) {
       result = scan.getProductName().get();
-    }
-    else if (scan.getMetadata().getOwnerReferences() != null) {
+    } else if (scan.getMetadata().getOwnerReferences() != null) {
       // try to use the scheduledScan name if no productName is defined
       result = getProductNameForParentScan(scan.getMetadata().getOwnerReferences());
-    }
-    else {
+    } else {
       result = scan.getMetadata().getName();
     }
 
@@ -320,6 +320,7 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   /**
    * Returns the DefectDojo Engagement Name related to the given scan.
+   *
    * @param scan The scan the Engagement Name relates to.
    * @return the DefectDojo Engagement Name related to the given scan.
    */

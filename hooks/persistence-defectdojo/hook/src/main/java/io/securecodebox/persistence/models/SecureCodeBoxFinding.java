@@ -47,7 +47,6 @@ public class SecureCodeBoxFinding {
     HIGH,
     MEDIUM,
     LOW,
-    INFORMATIONAL
-    ;
+    INFORMATIONAL;
   }
 }

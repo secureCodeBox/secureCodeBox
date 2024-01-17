@@ -37,6 +37,7 @@ public class GenericParserScanResultService extends ScanResultService {
    * Fetches the secureCodeBox Findings.json file and converts it to a json file that is compatible with
    * the DefectDojo Generic JSON Parser. This result as a string is then returned together with a filename
    * in a ScanFile object. The ending of the filename is essential as it is evaluated by DefectDojo
+   *
    * @param ppConfig config where the location of the scan result is specified
    * @return
    * @throws IOException
@@ -51,7 +52,7 @@ public class GenericParserScanResultService extends ScanResultService {
     List<SecureCodeBoxFinding> secureCodeBoxFindings = Arrays.asList(jsonObjectMapper.readValue(findingsJSON, SecureCodeBoxFinding[].class));
     List<DefectDojoImportFinding> defectDojoImportFindings = secureCodeBoxFindings.stream().map(scbToDdMapper::fromSecureCodeBoxFinding).collect(Collectors.toList());
     // for the generic defectDojo Parser the findings need to be wrapper in a json object called "findings"
-    var defectDojoFindingJson = Collections.singletonMap("findings",defectDojoImportFindings);
+    var defectDojoFindingJson = Collections.singletonMap("findings", defectDojoImportFindings);
     var scanResult = jsonObjectMapper.writeValueAsString(defectDojoFindingJson);
     return new ScanFile(scanResult, FilenameUtils.getName(new URL(downloadUrl).getPath()));
   }

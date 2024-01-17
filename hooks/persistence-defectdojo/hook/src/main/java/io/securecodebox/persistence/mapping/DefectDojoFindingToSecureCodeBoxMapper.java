@@ -23,7 +23,7 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
   EndpointService endpointService;
   FindingService findingService;
 
-  public DefectDojoFindingToSecureCodeBoxMapper(Config config, EndpointService endpointService, FindingService findingService){
+  public DefectDojoFindingToSecureCodeBoxMapper(Config config, EndpointService endpointService, FindingService findingService) {
     this.config = config;
     this.endpointService = endpointService;
     this.findingService = findingService;
@@ -54,7 +54,7 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     attributes.put("riskAccepted", defectDojoFinding.getRiskAccepted());
     attributes.put("outOfScope", defectDojoFinding.getOutOfScope());
 
-    if(defectDojoFinding.getDuplicate() && defectDojoFinding.getDuplicateFinding() != null) {
+    if (defectDojoFinding.getDuplicate() && defectDojoFinding.getDuplicateFinding() != null) {
       if (!recurse) {
         throw new RuntimeException("Duplicate finding does not point to the actual original finding, as the original finding (id: " + defectDojoFinding.getId().toString() + ") is also a duplicate. This should never happen.");
       }
@@ -86,7 +86,7 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
         break;
     }
 
-    if (defectDojoFinding.getEndpoints() == null || defectDojoFinding.getEndpoints().isEmpty()){
+    if (defectDojoFinding.getEndpoints() == null || defectDojoFinding.getEndpoints().isEmpty()) {
       finding.setLocation("unknown");
     } else {
       var endpoint = endpointService.get(defectDojoFinding.getEndpoints().get(0));
@@ -99,19 +99,19 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
   static String stringifyEndpoint(Endpoint endpoint) {
     var uriBuilder = UriComponentsBuilder.newInstance();
 
-    if(endpoint.getProtocol() != null) {
+    if (endpoint.getProtocol() != null) {
       uriBuilder.scheme(endpoint.getProtocol());
     }
-    if(endpoint.getHost() != null) {
+    if (endpoint.getHost() != null) {
       uriBuilder.host(endpoint.getHost());
     }
-    if(endpoint.getPort() != null) {
+    if (endpoint.getPort() != null) {
       uriBuilder.port(endpoint.getPort().intValue());
     }
-    if(endpoint.getPath() != null) {
+    if (endpoint.getPath() != null) {
       uriBuilder.path(endpoint.getPath());
     }
-    if(endpoint.getQuery() != null) {
+    if (endpoint.getQuery() != null) {
       uriBuilder.query(endpoint.getQuery());
     }
 

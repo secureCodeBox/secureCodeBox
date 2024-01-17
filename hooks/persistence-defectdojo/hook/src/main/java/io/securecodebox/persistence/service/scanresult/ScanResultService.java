@@ -22,11 +22,12 @@ import java.io.IOException;
 public abstract class ScanResultService {
   protected static final Logger LOG = LoggerFactory.getLogger(ScanResultService.class);
   protected S3Service s3Service;
+
   protected ScanResultService(S3Service s3Service) {
     this.s3Service = s3Service;
   }
 
-  public static ScanResultService build(Scan scan, S3Service s3Service){
+  public static ScanResultService build(Scan scan, S3Service s3Service) {
     ScanNameMapping scanNameMapping = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType());
     if (scanNameMapping.equals(ScanNameMapping.GENERIC))
       return new GenericParserScanResultService(s3Service);

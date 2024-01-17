@@ -40,14 +40,15 @@ public class PersistenceProviderConfig {
   final String rawResultUploadUrl;
   final String findingUploadUrl;
 
-  public String getRawResultUploadUrl(){
-    if(isReadOnly()) {
+  public String getRawResultUploadUrl() {
+    if (isReadOnly()) {
       throw new RuntimeException("Cannot Access RawResult Upload URL as the hook is run is ReadOnly mode.");
     }
     return rawResultUploadUrl;
   }
-  public String getFindingUploadUrl(){
-    if(isReadOnly()) {
+
+  public String getFindingUploadUrl() {
+    if (isReadOnly()) {
       throw new RuntimeException("Cannot Access Finding Upload URL as the hook is run is ReadOnly mode.");
     }
     return findingUploadUrl;
