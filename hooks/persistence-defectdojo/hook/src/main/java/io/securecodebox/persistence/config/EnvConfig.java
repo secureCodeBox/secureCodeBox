@@ -13,7 +13,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class EnvConfig {
 
+  /**
+   * Enables development mode
+   * <p>
+   * DO NOT SET {@code true} IN PRODUCTION!
+   * </p>
+   * <p>
+   * This does special things for local development, such as
+   * </p>
+   * <ul>
+   *   <li>Loading custom k8s config from {@literal ~/.kube/config}</li>
+   * </ul>
+   *
+   * @return {@code false} is default
+   * @see EnvVarNames#IS_DEV
+   */
   public boolean isDev() {
+    if (existsEnvVar(EnvVarNames.IS_DEV_LEGACY)) {
+      log.warn("DEPRECATED usage of environment variable '{}'! Please use '{}' instead.",
+        EnvVarNames.IS_DEV_LEGACY.getLiteral(), EnvVarNames.IS_DEV.getLiteral());
+      return Boolean.parseBoolean(retrieveEnvVar(EnvVarNames.IS_DEV_LEGACY));
+    }
+
     return Boolean.parseBoolean(retrieveEnvVar(EnvVarNames.IS_DEV));
   }
 
@@ -52,21 +73,35 @@ public final class EnvConfig {
     }
   }
 
-  private String retrieveEnvVar(EnvVarNames name) {
-    final var envVar = System.getenv(name.literal);
-
-    if (envVar == null) {
-      return "";
-    }
-
-    return envVar.trim();
+  private boolean existsEnvVar(EnvVarNames name) {
+    return System.getenv(name.literal) != null;
   }
 
 
+  private String retrieveEnvVar(EnvVarNames name) {
+    if (existsEnvVar(name)) {
+      return System.getenv(name.literal).trim();
+    }
+
+    return "";
+  }
+
+  /**
+   * Enumerates all environment variable names used in this hook
+   */
   @Getter
   enum EnvVarNames {
-    // TODO: Consider prefixing this name with DEFECTDOJO_.
-    IS_DEV("IS_DEV"),
+    /**
+     * Enable development mode.
+     *
+     * @deprecated use {@link #IS_DEV} instead
+     */
+    @Deprecated
+    IS_DEV_LEGACY("IS_DEV"),
+    /**
+     * Enable development mode.
+     */
+    IS_DEV("DEFECTDOJO_IS_DEV"),
     // TODO: Consider prefixing this name with DEFECTDOJO_.
     SCAN_NAME("SCAN_NAME"),
     // TODO: Consider prefixing this name with DEFECTDOJO_.

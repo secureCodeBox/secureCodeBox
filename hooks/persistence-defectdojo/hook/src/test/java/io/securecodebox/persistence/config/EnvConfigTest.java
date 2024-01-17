@@ -26,6 +26,48 @@ class EnvConfigTest {
   }
 
   @Test
+  void isDev_legacy_nullVarWillReturnFalse() {
+    assertThat(sut.isDev(), is(false));
+  }
+
+  @Test
+  void isDev_legacy_emptyVarWillReturnFalse() {
+    setEnvVar(EnvConfig.EnvVarNames.IS_DEV_LEGACY, "");
+
+    assertThat(sut.isDev(), is(false));
+  }
+
+  @Test
+  void isDev_legacy_blankVarWillReturnFalse() {
+    setEnvVar(EnvConfig.EnvVarNames.IS_DEV_LEGACY, "   ");
+
+    assertThat(sut.isDev(), is(false));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"true", "True", "TRUE", "TrUe"})
+  void isDev_legacy_trueVarWillReturnTrue(String var) {
+    setEnvVar(EnvConfig.EnvVarNames.IS_DEV_LEGACY, var);
+
+    assertThat(sut.isDev(), is(true));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"false", "False", "FALSE", "FaLsE"})
+  void isDev_legacy_falseVarWillReturnFalse(String var) {
+    setEnvVar(EnvConfig.EnvVarNames.IS_DEV_LEGACY, var);
+
+    assertThat(sut.isDev(), is(false));
+  }
+
+  @Test
+  void isDev_legacy_nonBooleanVarWillReturnFalse() {
+    setEnvVar(EnvConfig.EnvVarNames.IS_DEV_LEGACY, "snafu");
+
+    assertThat(sut.isDev(), is(false));
+  }
+
+  @Test
   void isDev_nullVarWillReturnFalse() {
     assertThat(sut.isDev(), is(false));
   }
