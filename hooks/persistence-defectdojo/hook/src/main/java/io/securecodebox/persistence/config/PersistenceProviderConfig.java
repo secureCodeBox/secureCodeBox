@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class PersistenceProviderConfig {
   private static final Logger LOG = LoggerFactory.getLogger(PersistenceProviderConfig.class);
+  private final EnvConfig env = new EnvConfig();
 
   final int RAW_RESULT_DOWNLOAD_ARG_POSITION = 0;
   final int FINDING_DOWNLOAD_ARG_POSITION = 1;
@@ -65,11 +66,7 @@ public class PersistenceProviderConfig {
   }
 
   public boolean isInLowPrivilegedMode() {
-    String LOW_PRIVILEGED_MODE = "DEFECTDOJO_LOW_PRIVILEGED_MODE";
-    if (System.getenv(LOW_PRIVILEGED_MODE) != null) {
-      return "true".equals(System.getenv(LOW_PRIVILEGED_MODE));
-    }
-    return false;
+    return env.lowPrivilegedMode();
   }
 
   public PersistenceProviderConfig(String[] args) {

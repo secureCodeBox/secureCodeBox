@@ -12,6 +12,7 @@ import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanList;
 import io.securecodebox.models.V1ScanStatusFindings;
 import io.securecodebox.models.V1ScanStatusFindingsSeverities;
+import io.securecodebox.persistence.config.EnvConfig;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import okhttp3.Protocol;
@@ -26,6 +27,7 @@ import java.util.Objects;
 
 public class KubernetesService {
   private static final Logger LOG = LoggerFactory.getLogger(KubernetesService.class);
+  private final EnvConfig env = new EnvConfig();
 
   ApiClient client;
   String scanName;
@@ -34,7 +36,7 @@ public class KubernetesService {
   GenericKubernetesApi<V1Scan, V1ScanList> scanApi;
 
   public void init() throws IOException {
-    if ("true".equals(System.getenv("IS_DEV"))) {
+    if (env.isDev()) {
       // loading the out-of-cluster config, a kubeconfig from file-system
       // FIXME: Usage of reading system properties should be encapsulated in own class.
       String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
@@ -49,12 +51,15 @@ public class KubernetesService {
         .build();
     }
 
-    this.scanName = System.getenv("SCAN_NAME");
-    if (this.scanName == null) {
+    this.scanName = env.scanName();
+
+    if (this.scanName.isEmpty()) {
       this.scanName = "nmap-scanme.nmap.org";
     }
-    this.namespace = System.getenv("NAMESPACE");
-    if (this.namespace == null) {
+
+    this.namespace = env.namespace();
+
+    if (this.namespace.isEmpty()) {
       this.namespace = "default";
     }
 
