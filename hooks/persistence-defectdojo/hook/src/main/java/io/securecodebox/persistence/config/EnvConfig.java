@@ -44,8 +44,8 @@ public final class EnvConfig {
    * This is automatically set for every hook job.
    * </p>
    *
-   * @see EnvVarNames#SCAN_NAME
    * @return never {@code null}
+   * @see EnvVarNames#SCAN_NAME
    */
   public String scanName() {
     return retrieveEnvVar(EnvVarNames.SCAN_NAME);
@@ -57,8 +57,8 @@ public final class EnvConfig {
    * This is automatically set for every hook job.
    * </p>
    *
-   * @see EnvVarNames#NAMESPACE
    * @return never {@code null}
+   * @see EnvVarNames#NAMESPACE
    */
   public String namespace() {
     return retrieveEnvVar(EnvVarNames.NAMESPACE);
