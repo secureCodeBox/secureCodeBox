@@ -38,20 +38,21 @@ public class KubernetesService {
   GenericKubernetesApi<V1Scan, V1ScanList> scanApi;
 
   public void init() throws IOException {
+    final ClientBuilder clientBuilder;
+
     if (env.isDev()) {
       // loading the out-of-cluster config, a kubeconfig from file-system
       // FIXME: Usage of reading system properties should be encapsulated in own class.
       String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
-      this.client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath)))
-        // the default of Http 2 seems to have some problem in which the client doesn't terminate correctly. (k8s client-java 12.0.0)
-        .setProtocols(List.of(Protocol.HTTP_1_1))
-        .build();
+      clientBuilder = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath)));
     } else {
-      this.client = ClientBuilder.cluster()
-        // the default of Http 2 seems to have some problem in which the client doesn't terminate correctly. (k8s client-java 12.0.0)
-        .setProtocols(List.of(Protocol.HTTP_1_1))
-        .build();
+      clientBuilder = ClientBuilder.cluster();
     }
+
+    this.client = clientBuilder
+      // the default of Http 2 seems to have some problem in which the client doesn't terminate correctly. (k8s client-java 12.0.0)
+      .setProtocols(List.of(Protocol.HTTP_1_1))
+      .build();
 
     this.scanName = env.scanName();
 
