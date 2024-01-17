@@ -15,6 +15,7 @@ import io.securecodebox.models.V1ScanStatusFindingsSeverities;
 import io.securecodebox.persistence.config.EnvConfig;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+
+@Slf4j
 public class KubernetesService {
-  private static final Logger LOG = LoggerFactory.getLogger(KubernetesService.class);
   private final EnvConfig env = new EnvConfig();
 
   ApiClient client;
@@ -79,21 +81,21 @@ public class KubernetesService {
     if (!response.isSuccess()) {
       throw new DefectDojoPersistenceException("Failed to fetch Scan '" + scanName + "' in Namespace '" + namespace + "' from Kubernetes API");
     }
-    LOG.debug("Fetched Scan from Kubernetes API");
+    log.debug("Fetched Scan from Kubernetes API");
 
     return response.getObject();
   }
 
   public void updateScanInKubernetes(List<SecureCodeBoxFinding> secureCodeBoxFindings) throws IOException {
-    LOG.debug("Refetching the scan to minimize possibility to write conflicts");
+    log.debug("Refetching the scan to minimize possibility to write conflicts");
     var scan = this.getScanFromKubernetes();
 
     Objects.requireNonNull(scan.getStatus(), "Scan status field is not set, this should have been previously set by the Operator and Parser.")
       .setFindings(recalculateFindingStats(secureCodeBoxFindings));
 
-    LOG.info("Updating Scan metadata");
+    log.info("Updating Scan metadata");
     scanApi.updateStatus(scan, V1Scan::getStatus);
-    LOG.debug("Updated Scan metadata");
+    log.debug("Updated Scan metadata");
   }
 
   static V1ScanStatusFindings recalculateFindingStats(List<SecureCodeBoxFinding> secureCodeBoxFindings) {

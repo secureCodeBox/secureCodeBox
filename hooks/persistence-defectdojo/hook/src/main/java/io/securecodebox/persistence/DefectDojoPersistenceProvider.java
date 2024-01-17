@@ -13,16 +13,16 @@ import io.securecodebox.persistence.service.scanresult.ScanResultService;
 import io.securecodebox.persistence.service.KubernetesService;
 import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.stream.Collectors;
 
+@Slf4j
 public class DefectDojoPersistenceProvider {
-  private static final Logger LOG = LoggerFactory.getLogger(DefectDojoPersistenceProvider.class);
-
   public static void main(String[] args) throws Exception {
-    LOG.info("Starting DefectDojo persistence provider");
+    log.info("Starting DefectDojo persistence provider");
 
     var persistenceProviderConfig = new PersistenceProviderConfig(args);
 
@@ -33,33 +33,33 @@ public class DefectDojoPersistenceProvider {
     var scan = new Scan(kubernetesService.getScanFromKubernetes());
     scan.validate();
 
-    LOG.info("Downloading Scan Result");
+    log.info("Downloading Scan Result");
     var scanResultFile = ScanResultService.build(scan, s3Service).getScanResult(persistenceProviderConfig);
 
     var config = Config.fromEnv();
-    LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());
+    log.info("Uploading Findings to DefectDojo at: {}", config.getUrl());
     var defectdojoImportStrategy = new VersionedEngagementsStrategy();
     defectdojoImportStrategy.init(config, persistenceProviderConfig);
     var defectDojoFindings = defectdojoImportStrategy.run(scan, scanResultFile);
-    LOG.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
+    log.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
 
     if (persistenceProviderConfig.isReadAndWrite()) {
       var endpointService = new EndpointService(config);
       var findingService = new FindingService(config);
       var mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService, findingService);
 
-      LOG.info("Overwriting secureCodeBox findings with the findings from DefectDojo.");
+      log.info("Overwriting secureCodeBox findings with the findings from DefectDojo.");
 
       var findings = defectDojoFindings.stream()
         .map(mapper::fromDefectDojoFinding)
         .collect(Collectors.toList());
 
-      LOG.debug("Mapped Findings: {}", findings);
+      log.debug("Mapped Findings: {}", findings);
 
       s3Service.overwriteFindings(persistenceProviderConfig.getFindingUploadUrl(), findings);
       kubernetesService.updateScanInKubernetes(findings);
     }
 
-    LOG.info("DefectDojo Persistence Completed");
+    log.info("DefectDojo Persistence Completed");
   }
 }

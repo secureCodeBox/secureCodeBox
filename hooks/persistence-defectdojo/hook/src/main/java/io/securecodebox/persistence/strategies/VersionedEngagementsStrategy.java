@@ -15,6 +15,7 @@ import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.map.LinkedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +31,8 @@ import java.util.Objects;
  * VersionedEngagementsStrategy creates a new Engagement for every new version of the software.
  * If a engagement already exists for this version it'll reuse the engagement and append new tests for every scan until the version gets bumped.
  */
+@Slf4j
 public class VersionedEngagementsStrategy implements Strategy {
-  private static final Logger LOG = LoggerFactory.getLogger(VersionedEngagementsStrategy.class);
-
   private final DescriptionGenerator descriptionGenerator = new DescriptionGenerator();
 
   ProductService productService;
@@ -74,7 +74,7 @@ public class VersionedEngagementsStrategy implements Strategy {
   @Override
   public List<Finding> run(Scan scan, ScanFile scanResultFile) throws Exception {
 
-    LOG.debug("Getting DefectDojo User Id via user profile API");
+    log.debug("Getting DefectDojo User Id via user profile API");
     Long userId = null;
     List<UserProfile> userProfiles = userProfileService.search();
     if (userProfiles.isEmpty()) {
@@ -83,17 +83,17 @@ public class VersionedEngagementsStrategy implements Strategy {
       userId = userProfiles.get(0).getUser().getId();
     }
 
-    LOG.info("Running with DefectDojo User Id: {}", userId);
+    log.info("Running with DefectDojo User Id: {}", userId);
     long productTypeId = this.ensureProductTypeExistsForScan(scan);
     long productId = this.ensureProductExistsForScan(scan, productTypeId).getId();
 
-    LOG.debug("Looking for existing or creating new DefectDojo Engagement");
+    log.debug("Looking for existing or creating new DefectDojo Engagement");
     long engagementId = this.createEngagement(scan, productId, userId).getId();
-    LOG.debug("Using Engagement with Id: {}", engagementId);
+    log.debug("Using Engagement with Id: {}", engagementId);
 
     var testId = this.createTest(scan, engagementId, userId);
 
-    LOG.debug("Uploading Scan Report to DefectDojo");
+    log.debug("Uploading Scan Report to DefectDojo");
 
     ScanType scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
@@ -113,7 +113,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       additionalValues
     );
 
-    LOG.info("Uploaded Scan Report as testID {} to DefectDojo", testId);
+    log.info("Uploaded Scan Report as testID {} to DefectDojo", testId);
 
     return findingService.search(Map.of("test", String.valueOf(testId)));
   }
@@ -159,7 +159,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       var toolConfig = toolConfigService.searchUnique(
         ToolConfig.builder().name(SECURITY_TEST_SERVER_NAME).url("https://github.com/secureCodeBox").build()
       ).orElseGet(() -> {
-        LOG.info("Creating secureCodeBox Tool Config");
+        log.info("Creating secureCodeBox Tool Config");
         return toolConfigService.create(
           ToolConfig.builder()
             .toolType(securityTestOrchestrationEngine.getId())
@@ -177,7 +177,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     var engagement = engagementBuilder.build();
 
     return engagementService.searchUnique(Engagement.builder().product(productId).name(engagementName).version(version).build()).orElseGet(() -> {
-      LOG.info("Creating new Engagement as no matching Engagements could be found.");
+      log.info("Creating new Engagement as no matching Engagements could be found.");
       return engagementService.create(engagement);
     });
   }
@@ -195,20 +195,20 @@ public class VersionedEngagementsStrategy implements Strategy {
     var productTypeNameOptional = scan.getProductType();
 
     if (productTypeNameOptional.isEmpty()) {
-      LOG.info("Using default ProductType as no '{}' annotation was found on the scan", Scan.SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
+      log.info("Using default ProductType as no '{}' annotation was found on the scan", Scan.SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
       return 1;
     }
 
     var productTypeName = productTypeNameOptional.get();
 
-    LOG.info("Looking for ID of ProductType '{}'", productTypeName);
+    log.info("Looking for ID of ProductType '{}'", productTypeName);
 
     var productType = productTypeService.searchUnique(ProductType.builder().name(productTypeName).build()).orElseGet(() -> {
-      LOG.info("ProductType '{}' didn't already exists creating now", productTypeName);
+      log.info("ProductType '{}' didn't already exists creating now", productTypeName);
       return productTypeService.create(ProductType.builder().name(productTypeName).build());
     });
 
-    LOG.info("Using ProductType Id: {}", productType.getId());
+    log.info("Using ProductType Id: {}", productType.getId());
 
     return productType.getId();
   }
@@ -228,7 +228,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     List<String> tags = scan.getProductTags().orElseGet(List::of);
 
     return productService.searchUnique(Product.builder().name(productName).productType(productTypeId).build()).orElseGet(() -> {
-      LOG.info("Creating Product: '{}'", productName);
+      log.info("Creating Product: '{}'", productName);
       return productService.create(Product.builder()
         .name(productName)
         .description(productDescription)

@@ -9,6 +9,7 @@ import io.securecodebox.persistence.defectdojo.model.ScanFile;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.util.ScanNameMapping;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +20,8 @@ import java.io.IOException;
  * (e.g. download link) specified in the PersistenceProviderConfig.
  * It also builds the correct subclass to use, depending on the Scan (especially it's type)
  */
+@Slf4j
 public abstract class ScanResultService {
-  protected static final Logger LOG = LoggerFactory.getLogger(ScanResultService.class);
   protected S3Service s3Service;
 
   protected ScanResultService(S3Service s3Service) {
