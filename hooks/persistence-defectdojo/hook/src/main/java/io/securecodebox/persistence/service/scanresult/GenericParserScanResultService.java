@@ -12,6 +12,7 @@ import io.securecodebox.persistence.mapping.SecureCodeBoxFindingsToDefectDojoMap
 import io.securecodebox.persistence.models.DefectDojoImportFinding;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import io.securecodebox.persistence.service.S3Service;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 /**
  * Responsible for returning scan results that are compatible with the DefectDojo Generic JSON Parser
  */
+@Slf4j
 public class GenericParserScanResultService extends ScanResultService {
 
   private static final ObjectMapper jsonObjectMapper = new ObjectMapper()
@@ -39,13 +41,10 @@ public class GenericParserScanResultService extends ScanResultService {
    * in a ScanFile object. The ending of the filename is essential as it is evaluated by DefectDojo
    *
    * @param ppConfig config where the location of the scan result is specified
-   * @return
-   * @throws IOException
-   * @throws InterruptedException
    */
   @Override
   public ScanFile getScanResult(PersistenceProviderConfig ppConfig) throws IOException, InterruptedException {
-    LOG.debug("No explicit Parser specified. Using Findings JSON Scan Result");
+    log.debug("No explicit Parser specified. Using Findings JSON Scan Result");
     var scbToDdMapper = new SecureCodeBoxFindingsToDefectDojoMapper(ppConfig);
     var downloadUrl = ppConfig.getFindingDownloadUrl();
     var findingsJSON = s3Service.downloadFile(downloadUrl);

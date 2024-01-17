@@ -7,6 +7,7 @@ package io.securecodebox.persistence.service.scanresult;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.model.ScanFile;
 import io.securecodebox.persistence.service.S3Service;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.net.URL;
 /**
  * Responsible for returning the raw scan results produced by the secureCodeBox
  */
+@Slf4j
 public class SpecificParserScanResultService extends ScanResultService {
 
   public SpecificParserScanResultService(S3Service s3Service) {
@@ -33,7 +35,7 @@ public class SpecificParserScanResultService extends ScanResultService {
    */
   @Override
   public ScanFile getScanResult(PersistenceProviderConfig ppConfig) throws IOException, InterruptedException {
-    LOG.debug("Explicit Parser is specified. Using Raw Scan Result");
+    log.debug("Explicit Parser is specified. Using Raw Scan Result");
     var downloadUrl = ppConfig.getRawResultDownloadUrl();
     var scanResult = s3Service.downloadFile(downloadUrl);
     return new ScanFile(scanResult, FilenameUtils.getName(new URL(downloadUrl).getPath()));

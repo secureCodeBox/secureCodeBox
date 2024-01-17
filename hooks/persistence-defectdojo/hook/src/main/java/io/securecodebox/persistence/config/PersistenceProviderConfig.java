@@ -5,6 +5,7 @@
 package io.securecodebox.persistence.config;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +16,8 @@ import java.util.List;
  * Reads the configured Up / Download Urls for RawResults and Findings from the command line args and determines if
  * the Hook is run in ReadOnly or ReadAndWrite mode based on the number of args.
  */
+@Slf4j
 public class PersistenceProviderConfig {
-  private static final Logger LOG = LoggerFactory.getLogger(PersistenceProviderConfig.class);
   private final EnvConfig env = new EnvConfig();
 
   final int RAW_RESULT_DOWNLOAD_ARG_POSITION = 0;
@@ -89,7 +90,7 @@ public class PersistenceProviderConfig {
       this.rawResultUploadUrl = args[RAW_RESULT_UPLOAD_ARG_POSITION];
       this.findingUploadUrl = args[FINDING_UPLOAD_ARG_POSITION];
     } else {
-      LOG.error("Received unexpected command line arguments: {}", List.of(args));
+      log.error("Received unexpected command line arguments: {}", List.of(args));
       throw new RuntimeException("DefectDojo Hook received a unexpected number of command line flags. Expected exactly two (for ReadOnly Mode) or four (for ReadAndWrite mode)");
     }
   }
