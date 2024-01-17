@@ -36,6 +36,7 @@ public class KubernetesService {
   public void init() throws IOException {
     if ("true".equals(System.getenv("IS_DEV"))) {
       // loading the out-of-cluster config, a kubeconfig from file-system
+      // FIXME: Usage of reading system properties should be encapsulated in own class.
       String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
       this.client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath)))
         // the default of Http 2 seems to have some problem in which the client doesn't terminate correctly. (k8s client-java 12.0.0)
