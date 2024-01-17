@@ -107,7 +107,7 @@ public class KubernetesService {
     severities.setLow(0L);
     severities.setMedium(0L);
     severities.setHigh(0L);
-    for (var finding: secureCodeBoxFindings) {
+    for (var finding : secureCodeBoxFindings) {
       switch (finding.getSeverity()) {
         case HIGH:
           severities.setHigh(severities.getHigh() + 1L);
@@ -128,7 +128,7 @@ public class KubernetesService {
 
   private static HashMap<String, Long> recalculateFindingCategoryStats(List<SecureCodeBoxFinding> secureCodeBoxFindings) {
     var categories = new HashMap<String, Long>();
-    for (var finding: secureCodeBoxFindings) {
+    for (var finding : secureCodeBoxFindings) {
       if (categories.containsKey(finding.getCategory())) {
         categories.put(finding.getCategory(), categories.get(finding.getCategory()) + 1);
       } else {

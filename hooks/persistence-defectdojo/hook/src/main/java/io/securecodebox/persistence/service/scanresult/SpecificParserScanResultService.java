@@ -25,6 +25,7 @@ public class SpecificParserScanResultService extends ScanResultService {
    * Fetches the secureCodeBox raw scan results and returns it together with the filename
    * in a ScanFile object. The ending of the filename is essential as it is evaluated by DefectDojo.
    * This is usually used when DefectDojo natively supports the scanner that produced the raw result.
+   *
    * @param ppConfig config where the location of the scan result is specified
    * @return
    * @throws IOException

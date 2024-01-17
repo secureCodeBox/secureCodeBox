@@ -12,7 +12,7 @@ import io.securecodebox.persistence.models.Scan;
 import java.util.List;
 
 /**
- *  Defines a general strategy pattern interface used to implement different strategies for importing results into OWASP DefectDojo.
+ * Defines a general strategy pattern interface used to implement different strategies for importing results into OWASP DefectDojo.
  */
 public interface Strategy {
   void init(Config defectDojoConfig, PersistenceProviderConfig persistenceProviderConfig);
