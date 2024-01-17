@@ -12,9 +12,11 @@ import java.util.stream.Collectors;
 
 public class Scan extends V1Scan {
   public Scan() {
+    super();
   }
 
   public Scan(V1Scan other) {
+    this();
     this.setApiVersion(other.getApiVersion());
     this.setKind(other.getKind());
     this.setMetadata(other.getMetadata());
