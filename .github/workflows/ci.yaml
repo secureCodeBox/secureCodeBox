@@ -48,7 +48,7 @@ jobs:
           tar czf nvm-node.tar.gz -C $HOME .nvm
 
       - name: Upload nvm and Node.js
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: nvm-node
           path: ./nvm-node.tar.gz
@@ -77,19 +77,19 @@ jobs:
           chmod +x ./linux-amd64/helm
 
       - name: Archive Kind
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: kind
           path: ./kind
 
       - name: Archive Kubectl
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Archive Helm
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm
           path: ./linux-amd64/helm
@@ -199,7 +199,7 @@ jobs:
         run: make docker-export-${{ matrix.component }}
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.component }}-image
           path: ./operator/${{ matrix.component }}.tar
@@ -238,7 +238,7 @@ jobs:
         run: make docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: auto-discovery-image
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
@@ -316,7 +316,7 @@ jobs:
         run: make docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: auto-discovery-pull-secret-extractor
           path: ./auto-discovery/kubernetes/pull-secret-extractor/auto-discovery-secret-extractor.tar
@@ -369,7 +369,7 @@ jobs:
         run: make docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: auto-discovery-cloud-aws-image
           path: ./auto-discovery/cloud-aws/auto-discovery-cloud-aws.tar
@@ -398,7 +398,7 @@ jobs:
         run: make docker-export-sdk
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.sdk }}-image
           path: ./${{ matrix.sdk }}/nodejs/${{ matrix.sdk }}.tar
