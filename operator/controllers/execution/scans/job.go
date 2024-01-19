@@ -29,7 +29,7 @@ func checkIfAllJobsCompleted(jobs *batch.JobList) jobCompletionType {
 	hasCompleted := true
 
 	for _, job := range jobs.Items {
-		if job.Status.Failed > 0 {
+		if job.Status.Failed > *job.Spec.BackoffLimit {
 			return failed
 		} else if job.Status.Succeeded == 0 {
 			hasCompleted = false
