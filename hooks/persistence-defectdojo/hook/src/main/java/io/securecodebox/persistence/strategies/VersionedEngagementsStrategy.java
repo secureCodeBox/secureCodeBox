@@ -6,6 +6,7 @@ package io.securecodebox.persistence.strategies;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.kubernetes.client.openapi.models.V1OwnerReference;
+import io.securecodebox.persistence.config.EnvConfig;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.ScanType;
 import io.securecodebox.persistence.defectdojo.config.Config;
@@ -17,8 +18,6 @@ import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.map.LinkedMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
@@ -117,6 +116,8 @@ public class VersionedEngagementsStrategy implements Strategy {
     );
 
     log.info("Uploaded Scan Report as testID {} to DefectDojo", testId);
+
+    waitUntilDeduplicationIsDone();
 
     return findingService.search(Map.of("test", String.valueOf(testId)));
   }
@@ -329,5 +330,18 @@ public class VersionedEngagementsStrategy implements Strategy {
    */
   protected String getEngagementsName(Scan scan) {
     return scan.getEngagementName().orElseGet(() -> scan.getMetadata().getName());
+  }
+
+  /**
+   * As a workaround we wait a configurable amount of time and block the execution
+   * <p>
+   * We hope that Defectdojo will provide an API in the future to check if the deduplication is done.
+   * </p>
+   */
+  private static void waitUntilDeduplicationIsDone() {
+    final var config = new EnvConfig();
+    final var awaiter = new Awaiter(config.refetchWaitSeconds());
+    log.info("Waiting for {} seconds for deduplication to finish before continuing", config.refetchWaitSeconds());
+    awaiter.await();
   }
 }
