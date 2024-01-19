@@ -19,14 +19,14 @@ For the sake of the tutorial, we assume that you have your Kubernetes cluster al
 We'll start by installing the nmap scanner:
 
 ```bash
-$ helm upgrade --install nmap secureCodeBox/nmap
+helm upgrade --install nmap secureCodeBox/nmap
 ```
 
 Next, we'll install two `update-field` hooks:
 
 ```bash
-$ helm upgrade --install ufh1 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="first-hook"
-$ helm upgrade --install ufh2 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="second-hook"
+helm upgrade --install ufh1 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="first-hook"
+helm upgrade --install ufh2 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
 The first hook will update all _secureCodeBox_ findings such that the field `category` is set to the value `first-hook`.
@@ -55,10 +55,15 @@ spec:
 
 For starting scans in Kubernetes, see [First Scans](/docs/getting-started/first-scans).
 
-Once the scan has finished, you will see that two hooks have run on your scan results.
+Once the scan has finished, you will see that two hooks have run on your scan results with following command:
 
 ```bash
-$ kubectl get pods
+kubectl get pods
+```
+
+which will show something similar to this:
+
+```bash
 NAME                                                 READY   STATUS      RESTARTS   AGE
 parse-nmap-example-5p964--1-ctgrv                    0/1     Completed   0          18s
 scan-nmap-example-gg9kd--1-pjltd                     0/2     Completed   0          26s
@@ -100,11 +105,14 @@ By default, all hooks have a priority of `0`.
 If we set `ufh2` hook's priority to `1`, we'll observe that it will execute before `ufh1`.
 
 ```bash
-$ helm upgrade --install ufh2 secureCodeBox/update-field-hook --set hook.priority="1" --set attribute.name="category" --set attribute.value="second-hook"
+helm upgrade --install ufh2 secureCodeBox/update-field-hook --set hook.priority="1" --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
 ```bash
-$ kubectl get scancompletionhooks.execution.securecodebox.io
+kubectl get scancompletionhooks.execution.securecodebox.io
+```
+
+```bash
 NAME                     TYPE           PRIORITY   IMAGE
 ufh1-update-field-hook   ReadAndWrite   0          docker.io/securecodebox/hook-update-field:3.3.1
 ufh2-update-field-hook   ReadAndWrite   1          docker.io/securecodebox/hook-update-field:3.3.1
@@ -113,7 +121,10 @@ ufh2-update-field-hook   ReadAndWrite   1          docker.io/securecodebox/hook-
 Start, the scan and observe orders:
 
 ```bash
-$ kubectl get pods                                                                                                kube minikube
+kubectl get pods                                                                                                kube minikube
+```
+
+```bash
 NAME                                                 READY   STATUS      RESTARTS   AGE
 parse-nmap-example-lrtcl--1-57n9t                    0/1     Completed   0          36s
 scan-nmap-example-7s2t8--1-gbr6b                     0/2     Completed   0          39s
@@ -174,7 +185,10 @@ spec:
 You can find that only `ufh2` was executed.
 
 ```bash
-$ kubectl get pods                                                                                                                                                           kube minikube
+kubectl get pods
+```
+                                                                                                                                                           
+```bash
 NAME                                                 READY   STATUS      RESTARTS   AGE
 parse-nmap-example-shkrr--1-2hdt9                    0/1     Completed   0          10s
 scan-nmap-example-7bllp--1-zx287                     0/2     Completed   0          13s
@@ -190,7 +204,7 @@ The following labels are available by default:
 You can also deploy _secureCodeBox_ hooks with your own labels like so:
 
 ```bash
-$ helm upgrade --install ufh2 secureCodeBox/update-field-hook --set hook.labels.securecodebox="rocks" --set attribute.name="category" --set attribute.value="second-hook"
+helm upgrade --install ufh2 secureCodeBox/update-field-hook --set hook.labels.securecodebox="rocks" --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
 This will add your custom label to the _secureCodeBox_ hook so that you can select is with `hookSelector`.
