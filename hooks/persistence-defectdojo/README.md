@@ -87,11 +87,13 @@ For development purposes, it can be useful to run this hook locally. You can do 
 2. [Run a Scan](https://www.securecodebox.io/docs/getting-started/first-scans) of your choice.
 3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance) and upload them to a GitHub Gist.
 4. Set the following environment variables:
-   - `DEFECTDOJO_URL` (e.g http://192.168.0.1:8080);
-   - `DEFECTDOJO_USERNAME` (e.g admin)
-   - `DEFECTDOJO_APIKEY` (Can be fetched from the _DefectDojo_ API information page)
-   - `DEFECTDOJO_IS_DEV=true` (to enable dev mode, which loads a k8s configfrom `~/.kube/config`.)
-   - `SCAN_NAME` (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
+   - `DEFECTDOJO_URL` e.g http://192.168.0.1:8080
+   - `DEFECTDOJO_USERNAME` e.g admin
+   - `DEFECTDOJO_APIKEY` Can be fetched from the _DefectDojo_ API information page.
+   - `DEFECTDOJO_IS_DEV=true` to enable dev mode, which loads a k8s config from `~/.kube/config`.
+   - `DEFECTDOJO_LOW_PRIVILEGED_MODE` to enable [low privilege mode](https://www.securecodebox.io/docs/hooks/defectdojo/#low-privileged-mode)
+   - `DEFECTDOJO_REFETCH_WAIT_SECONDS` :Seconds to wait until re-fetching findings from DefectDojo
+   - `SCAN_NAME` e.g "nmap-scanme.nmap.org", must be set exactly to the name of the scan used in step 2.
 5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar for other versions than the '1.0.0-SNAPSHOT'. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
 
 ```bash
