@@ -10,8 +10,7 @@ sidebar_position: 4
 
 ## Introduction
 
-In this step-by-step tutorial, we will go through all the required stages to set up Hooks with the secureCodeBox.
-Hooks can be used to perform post-processing on findings, for which we'll give a few examples.
+In this step-by-step tutorial, we will go through all the required stages to set up _Hooks_ with the _secureCodeBox_. Hooks can be used to perform post-processing on findings, for which we'll give a few examples.
 
 ## Setup
 
@@ -30,9 +29,9 @@ $ helm upgrade --install ufh1 secureCodeBox/update-field-hook --set attribute.na
 $ helm upgrade --install ufh2 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
-The first hook will update all secureCodeBox findings such that the field `category` is set to the value `first-hook`.
+The first hook will update all _secureCodeBox_ findings such that the field `category` is set to the value `first-hook`.
 The second hook will set the same field to `second-hook`.
-For a list of all available secureCodeBox hooks, see [hooks](/docs/hooks/).
+For a list of all available _secureCodeBox_ hooks, see [hooks](/docs/hooks/).
 There's no limit to the amount of hooks you can install.
 
 ## Creating a scan
@@ -94,7 +93,7 @@ This happens because the `ufh2` hook was executed after `ufh1`, discarding the v
 
 By default, hook order is specified according [this definition](/docs/api/crds/scan-completion-hook#priority-optional).
 
-With the `hook.priority` field, you can further customize the order of secureCodeBox hooks.
+With the `hook.priority` field, you can further customize the order of _secureCodeBox_ hooks.
 The higher the priority of a hook, the earlier it will execute.
 By default, all hooks have a priority of `0`.
 
@@ -188,13 +187,13 @@ The following labels are available by default:
 - `app.kubernetes.io/name`: the Helm chart name (e.g. `update-field-hook`)
 - `securecodebox.io/internal`: boolean field for whether this hook has internal usages in secureCodeBox (e.g. Cascading Scans hook)
 
-You can also deploy secureCodeBox hooks with your own labels like so:
+You can also deploy _secureCodeBox_ hooks with your own labels like so:
 
 ```bash
 $ helm upgrade --install ufh2 secureCodeBox/update-field-hook --set hook.labels.securecodebox="rocks" --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
-This will add your custom label to the secureCodeBox hook so that you can select is with `hookSelector`.
+This will add your custom label to the _secureCodeBox_ hook so that you can select is with `hookSelector`.
 
 ```yaml
 apiVersion: execution.securecodebox.io/v1
@@ -224,7 +223,7 @@ spec:
 
 The `HookSelector` field is also available in Cascading Rules.
 This means that you can selectively disable hooks for certain rules.
-Let's say that you're running secureCodeBox with nmap, ncrack, and a [DefectDojo persistence provider](/docs/hooks/defectdojo).
+Let's say that you're running _secureCodeBox_ with nmap, ncrack, and a [DefectDojo persistence provider](/docs/hooks/defectdojo).
 We can imagine that you'd prefer your ncrack passwords to not go directly to DefectDojo, so you could set up the cascading rule such that it filters the DefectDojo hook.
 
 ```yaml
