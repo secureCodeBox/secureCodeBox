@@ -10,7 +10,7 @@ sidebar_position: 4
 
 ## Introduction
 
-In this step-by-step tutorial, we will go through all the required stages to set up _Hooks_ with the _secureCodeBox_. Hooks can be used to perform post-processing on findings, for which we'll give a few examples.
+In this step-by-step tutorial, we will go through all the required stages to set up _hooks_ with the _secureCodeBox_. _Hooks_ can be used to perform post-processing on findings, for which we'll give a few examples.
 
 ## Setup
 
@@ -22,7 +22,7 @@ We'll start by installing the nmap scanner:
 helm upgrade --install nmap secureCodeBox/nmap
 ```
 
-Next, we'll install two `update-field` hooks:
+Next, we'll install two `update-field` _hooks_:
 
 ```bash
 helm upgrade --install ufh1 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="first-hook"
@@ -30,11 +30,11 @@ helm upgrade --install ufh2 secureCodeBox/update-field-hook --set attribute.name
 ```
 
 The first hook will update all _secureCodeBox_ findings such that the field `category` is set to the value `first-hook`. The second hook will set the same field to `second-hook`.
-For a list of all available _secureCodeBox_ hooks, see [hooks](/docs/hooks/). There's no limit to the amount of hooks you can install.
+For a list of all available _secureCodeBox_ _hooks_, see [hooks](/docs/hooks/). There's no limit to the amount of _hooks_ you can install.
 
 ## Creating a scan
 
-In practice, you are not required to specify anything to run your hooks.
+In practice, you are not required to specify anything to run your _hooks_.
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
@@ -53,7 +53,7 @@ spec:
 
 For starting scans in Kubernetes, see [First Scans](/docs/getting-started/first-scans).
 
-Once the scan has finished, you will see that two hooks have run on your scan results with following command:
+Once the scan has finished, you will see that two _hooks_ have run on your scan results with following command:
 
 ```bash
 kubectl get pods
@@ -95,8 +95,8 @@ Looking at the findings, you will notice that the `category` field has been set 
 
 By default, hook order is specified according [this definition](/docs/api/crds/scan-completion-hook#priority-optional).
 
-With the `hook.priority` field, you can further customize the order of _secureCodeBox_ hooks. The higher the priority of a hook, the earlier it will execute.
-By default, all hooks have a priority of `0`.
+With the `hook.priority` field, you can further customize the order of _secureCodeBox_ _hooks_. The higher the priority of a hook, the earlier it will execute.
+By default, all _hooks_ have a priority of `0`.
 
 If we set `ufh2` hook's priority to `1`, we'll observe that it will execute before `ufh1`.
 
@@ -150,9 +150,9 @@ Kubernetes sorts the list alphabetically, but notice the age of the jobs. Lookin
 
 ## Hook selector
 
-An alternative for more runtime hook control is the scan's [HookSelector](/docs/api/crds/scan#hookselector-optional). This field allows you to define which hooks to run for a scan.
+An alternative for more runtime _hook_ control is the scan's [HookSelector](/docs/api/crds/scan#hookselector-optional). This field allows you to define which _hooks_ to run for a scan.
 
-In this case, we select all hooks, except hooks with the label `ufh1`.
+In this case, we select all _hooks_, except _hooks_ with the label `ufh1`.
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
@@ -195,7 +195,7 @@ The following labels are available by default:
 - `app.kubernetes.io/name`: the Helm chart name (e.g. `update-field-hook`)
 - `securecodebox.io/internal`: boolean field for whether this hook has internal usages in secureCodeBox (e.g. Cascading Scans hook)
 
-You can also deploy _secureCodeBox_ hooks with your own labels like so:
+You can also deploy _secureCodeBox_ _hooks_ with your own labels like so:
 
 ```bash
 helm upgrade --install ufh2 secureCodeBox/update-field-hook --set hook.labels.securecodebox="rocks" --set attribute.name="category" --set attribute.value="second-hook"
@@ -229,7 +229,7 @@ spec:
 
 ### Cascading scans
 
-The `HookSelector` field is also available in Cascading Rules. This means that you can selectively disable hooks for certain rules. Let's say that you're running _secureCodeBox_ with nmap, ncrack, and a [DefectDojo persistence provider](/docs/hooks/defectdojo). We can imagine that you'd prefer your ncrack passwords to not go directly to DefectDojo, so you could set up the cascading rule such that it filters the DefectDojo hook.
+The `HookSelector` field is also available in Cascading Rules. This means that you can selectively disable _hooks_ for certain rules. Let's say that you're running _secureCodeBox_ with nmap, ncrack, and a [DefectDojo persistence provider](/docs/hooks/defectdojo). We can imagine that you'd prefer your ncrack passwords to not go directly to DefectDojo, so you could set up the cascading rule such that it filters the DefectDojo hook.
 
 ```yaml
 apiVersion: "cascading.securecodebox.io/v1"
