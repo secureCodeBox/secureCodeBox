@@ -20,8 +20,7 @@ public enum ScanNameMapping {
   NUCLEI("nuclei", ScanType.NUCLEI_SCAN),
   WPSCAN("wpscan", ScanType.WPSCAN),
   SEMGREP("semgrep", ScanType.SEMGREP_JSON_REPORT),
-  GENERIC(null, ScanType.GENERIC_FINDINGS_IMPORT)
-  ;
+  GENERIC(null, ScanType.GENERIC_FINDINGS_IMPORT);
 
   /**
    * DefectDojo Scan Type

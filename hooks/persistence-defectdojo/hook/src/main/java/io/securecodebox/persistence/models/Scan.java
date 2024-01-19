@@ -11,9 +11,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Scan extends V1Scan {
-  public Scan(){}
+  public Scan() {
+    super();
+  }
 
   public Scan(V1Scan other) {
+    this();
     this.setApiVersion(other.getApiVersion());
     this.setKind(other.getKind());
     this.setMetadata(other.getMetadata());
@@ -79,7 +82,7 @@ public class Scan extends V1Scan {
     return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION);
   }
 
-  public Optional<Boolean>getDeDuplicateOnEngagement(){
+  public Optional<Boolean> getDeDuplicateOnEngagement() {
     return this.getKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_DEDUPLICATE_ON_ENGAGEMENT).map("true"::equals);
   }
 
@@ -103,8 +106,7 @@ public class Scan extends V1Scan {
     ENGAGEMENT_DEDUPLICATE_ON_ENGAGEMENT("defectdojo.securecodebox.io/engagement-deduplicate-on-engagement"),
     ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
     TEST_TITLE("defectdojo.securecodebox.io/test-title"),
-    MINIMUM_SEVERITY("defectdojo.securecodebox.io/minimum-severity")
-    ;
+    MINIMUM_SEVERITY("defectdojo.securecodebox.io/minimum-severity");
 
     @Getter
     private final String label;

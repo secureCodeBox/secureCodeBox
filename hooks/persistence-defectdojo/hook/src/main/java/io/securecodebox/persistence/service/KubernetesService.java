@@ -12,8 +12,10 @@ import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanList;
 import io.securecodebox.models.V1ScanStatusFindings;
 import io.securecodebox.models.V1ScanStatusFindingsSeverities;
+import io.securecodebox.persistence.config.EnvConfig;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+
+@Slf4j
 public class KubernetesService {
-  private static final Logger LOG = LoggerFactory.getLogger(KubernetesService.class);
+  private final EnvConfig env = new EnvConfig();
 
   ApiClient client;
   String scanName;
@@ -34,26 +38,31 @@ public class KubernetesService {
   GenericKubernetesApi<V1Scan, V1ScanList> scanApi;
 
   public void init() throws IOException {
-    if ("true".equals(System.getenv("IS_DEV"))) {
+    final ClientBuilder clientBuilder;
+
+    if (env.isDev()) {
       // loading the out-of-cluster config, a kubeconfig from file-system
+      // FIXME: Usage of reading system properties should be encapsulated in own class.
       String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
-      this.client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath)))
-        // the default of Http 2 seems to have some problem in which the client doesn't terminate correctly. (k8s client-java 12.0.0)
-        .setProtocols(List.of(Protocol.HTTP_1_1))
-        .build();
+      clientBuilder = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath)));
     } else {
-      this.client = ClientBuilder.cluster()
-        // the default of Http 2 seems to have some problem in which the client doesn't terminate correctly. (k8s client-java 12.0.0)
-        .setProtocols(List.of(Protocol.HTTP_1_1))
-        .build();
+      clientBuilder = ClientBuilder.cluster();
     }
 
-    this.scanName = System.getenv("SCAN_NAME");
-    if (this.scanName == null) {
+    this.client = clientBuilder
+      // the default of Http 2 seems to have some problem in which the client doesn't terminate correctly. (k8s client-java 12.0.0)
+      .setProtocols(List.of(Protocol.HTTP_1_1))
+      .build();
+
+    this.scanName = env.scanName();
+
+    if (this.scanName.isEmpty()) {
       this.scanName = "nmap-scanme.nmap.org";
     }
-    this.namespace = System.getenv("NAMESPACE");
-    if (this.namespace == null) {
+
+    this.namespace = env.namespace();
+
+    if (this.namespace.isEmpty()) {
       this.namespace = "default";
     }
 
@@ -73,21 +82,21 @@ public class KubernetesService {
     if (!response.isSuccess()) {
       throw new DefectDojoPersistenceException("Failed to fetch Scan '" + scanName + "' in Namespace '" + namespace + "' from Kubernetes API");
     }
-    LOG.debug("Fetched Scan from Kubernetes API");
+    log.debug("Fetched Scan from Kubernetes API");
 
     return response.getObject();
   }
 
   public void updateScanInKubernetes(List<SecureCodeBoxFinding> secureCodeBoxFindings) throws IOException {
-    LOG.debug("Refetching the scan to minimize possibility to write conflicts");
+    log.debug("Refetching the scan to minimize possibility to write conflicts");
     var scan = this.getScanFromKubernetes();
 
     Objects.requireNonNull(scan.getStatus(), "Scan status field is not set, this should have been previously set by the Operator and Parser.")
       .setFindings(recalculateFindingStats(secureCodeBoxFindings));
 
-    LOG.info("Updating Scan metadata");
+    log.info("Updating Scan metadata");
     scanApi.updateStatus(scan, V1Scan::getStatus);
-    LOG.debug("Updated Scan metadata");
+    log.debug("Updated Scan metadata");
   }
 
   static V1ScanStatusFindings recalculateFindingStats(List<SecureCodeBoxFinding> secureCodeBoxFindings) {
@@ -106,7 +115,7 @@ public class KubernetesService {
     severities.setLow(0L);
     severities.setMedium(0L);
     severities.setHigh(0L);
-    for (var finding: secureCodeBoxFindings) {
+    for (var finding : secureCodeBoxFindings) {
       switch (finding.getSeverity()) {
         case HIGH:
           severities.setHigh(severities.getHigh() + 1L);
@@ -127,7 +136,7 @@ public class KubernetesService {
 
   private static HashMap<String, Long> recalculateFindingCategoryStats(List<SecureCodeBoxFinding> secureCodeBoxFindings) {
     var categories = new HashMap<String, Long>();
-    for (var finding: secureCodeBoxFindings) {
+    for (var finding : secureCodeBoxFindings) {
       if (categories.containsKey(finding.getCategory())) {
         categories.put(finding.getCategory(), categories.get(finding.getCategory()) + 1);
       } else {
