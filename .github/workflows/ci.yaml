@@ -54,6 +54,34 @@ jobs:
           path: ./nvm-node.tar.gz
           retention-days: 1
 
+
+  test-nodejs-helpers:
+    name: "Unit Test | Node.js Helpers"
+    needs:
+      - nvm-setup
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download nvm and Node.js
+        uses: actions/download-artifact@v3
+        with:
+          name: nvm-node
+          path: nvm-node
+
+      - name: Extract nvm and Node.js
+        run: |
+          tar xzf nvm-node/nvm-node.tar.gz -C $HOME
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm use
+
+      - name: Install and test Node.js helpers
+        working-directory: ./scanners
+        run: |
+          npm ci
+          npm run test:helpers
+
   k8s-setup:
     name: "Setup Kind & Kubectl & Helm"
     runs-on: ubuntu-22.04
