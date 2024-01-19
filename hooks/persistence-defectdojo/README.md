@@ -90,7 +90,7 @@ For development purposes, it can be useful to run this hook locally. You can do 
    - `DEFECTDOJO_URL` (e.g http://192.168.0.1:8080);
    - `DEFECTDOJO_USERNAME` (e.g admin)
    - `DEFECTDOJO_APIKEY` (Can be fetched from the _DefectDojo_ API information page)
-   - IS_DEV=true
+   - `DEFECTDOJO_IS_DEV=true` (to enable dev mode, which loads a k8s configfrom `~/.kube/config`.)
    - `SCAN_NAME` (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
 5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar for other versions than the '1.0.0-SNAPSHOT'. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
 
