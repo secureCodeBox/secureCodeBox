@@ -51,7 +51,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./${{ matrix.component }}
           file: ./${{ matrix.component }}/Dockerfile
@@ -98,7 +98,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./auto-discovery/kubernetes/
           file: ./auto-discovery/kubernetes/Dockerfile
@@ -145,7 +145,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./auto-discovery/kubernetes/pull-secret-extractor
           file: ./auto-discovery/kubernetes/pull-secret-extractor/Dockerfile
@@ -198,7 +198,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./${{ matrix.sdk }}/nodejs
           file: ./${{ matrix.sdk }}/nodejs/Dockerfile
@@ -255,7 +255,7 @@ jobs:
           echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./hooks/${{ matrix.hook }}/hook
           file: ./hooks/${{ matrix.hook }}/hook/Dockerfile
@@ -303,7 +303,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./hooks/persistence-elastic/dashboard-importer/
           file: ./hooks/persistence-elastic/dashboard-importer/Dockerfile
@@ -376,7 +376,7 @@ jobs:
           echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./scanners/${{ matrix.parser }}/parser
           file: ./scanners/${{ matrix.parser }}/parser/Dockerfile
@@ -462,7 +462,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./scanners/${{ matrix.scanner }}/scanner
           file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
@@ -524,7 +524,7 @@ jobs:
           echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./scanners/${{ matrix.scanner }}/scanner
           file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
@@ -588,7 +588,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./demo-targets/${{ matrix.target }}/container
           file: ./demo-targets/${{ matrix.target }}/container/Dockerfile
