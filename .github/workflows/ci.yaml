@@ -106,7 +106,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download Helm
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: helm
           path: ./helm
@@ -261,7 +261,7 @@ jobs:
           python-version: "${{ env.PYTHON_VERSION }}"
 
       - name: Download nvm and Node.js
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: nvm-node
           path: nvm-node
@@ -274,19 +274,19 @@ jobs:
           nvm use
 
       - name: Download Kind
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: helm
           path: ./helm
@@ -447,7 +447,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download nvm and Node.js
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: nvm-node
           path: nvm-node
@@ -460,19 +460,19 @@ jobs:
           nvm use
 
       - name: Download Kind
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: helm
           path: ./helm
@@ -498,7 +498,7 @@ jobs:
         run: make unit-tests
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: parser-sdk-image
           path: /tmp
@@ -527,13 +527,13 @@ jobs:
           kubectl get node
 
       - name: Download Operator Image
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: operator-image
           path: ./operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: lurker-image
           path: ./operator
@@ -626,13 +626,13 @@ jobs:
       # ---- Install Operator & Create Namespaces ----
 
       - name: Download Operator Image
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: operator-image
           path: ./operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: lurker-image
           path: ./operator
@@ -662,7 +662,7 @@ jobs:
       # ---- Import Parser SDK Artifact
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: parser-sdk-image
           path: /tmp
@@ -675,7 +675,7 @@ jobs:
       # ---- Import Hook SDK Artifact
 
       - name: Download Hook SDK Image
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: hook-sdk-image
           path: /tmp
@@ -689,19 +689,19 @@ jobs:
       # ---- K8s Cluster Setup ---- #
 
       - name: Download Kind
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: helm
           path: ./helm
@@ -751,7 +751,7 @@ jobs:
         run: make kind-import
 
       - name: Download nvm and Node.js
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: nvm-node
           path: ./nvm-node
