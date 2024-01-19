@@ -32,7 +32,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
           tags: |
@@ -79,7 +79,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
           tags: |
@@ -126,7 +126,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-pull-secret-extractor
           tags: |
@@ -179,7 +179,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
           tags: |
@@ -232,7 +232,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
           tags: |
@@ -286,7 +286,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/persistence-elastic-dashboard-importer
           tags: |
@@ -353,7 +353,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
           tags: |
@@ -445,7 +445,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           tags: |
@@ -503,7 +503,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           tags: |
@@ -570,7 +570,7 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/demo-target-${{ matrix.target }}
           tags: |
