@@ -32,7 +32,7 @@ helm upgrade --install ufh2 secureCodeBox/update-field-hook --set attribute.name
 The first hook will update all _secureCodeBox_ findings such that the field `category` is set to the value `first-hook`. The second hook will set the same field to `second-hook`.
 For a list of all available _secureCodeBox_ _hooks_, see [hooks](/docs/hooks/). There's no limit to the amount of _hooks_ you can install.
 
-## Creating a scan
+## Creating a Scan
 
 In practice, you are not required to specify anything to run your _hooks_.
 
@@ -69,7 +69,7 @@ ufh1-update-field-hook-nmap-example-p8pcb--1-vx25q   0/1     Completed   0      
 ufh2-update-field-hook-nmap-example-drjmq--1-vzds2   0/1     Completed   0          3s
 ```
 
-## Inspecting the findings
+## Inspecting the Findings
 
 Looking at the findings, you will notice that the `category` field has been set to `second-hook`. This happens because the `ufh2` hook was executed after `ufh1`, discarding the value `first-hook` completely.
 
@@ -91,7 +91,7 @@ Looking at the findings, you will notice that the `category` field has been set 
 ]
 ```
 
-## Hook order
+## Execution Order of Hooks
 
 By default, hook order is specified according [this definition](/docs/api/crds/scan-completion-hook#priority-optional).
 
@@ -148,7 +148,7 @@ Kubernetes sorts the list alphabetically, but notice the age of the jobs. Lookin
 ]
 ```
 
-## Hook selector
+## Hook Selector
 
 An alternative for more runtime _hook_ control is the scan's [HookSelector](/docs/api/crds/scan#hookselector-optional). This field allows you to define which _hooks_ to run for a scan.
 
@@ -227,7 +227,7 @@ spec:
   type: ReadAndWrite
 ```
 
-### Cascading scans
+### Cascading Scans
 
 The `HookSelector` field is also available in Cascading Rules. This means that you can selectively disable _hooks_ for certain rules. Let's say that you're running _secureCodeBox_ with nmap, ncrack, and a [DefectDojo persistence provider](/docs/hooks/defectdojo). We can imagine that you'd prefer your ncrack passwords to not go directly to DefectDojo, so you could set up the cascading rule such that it filters the DefectDojo hook.
 
