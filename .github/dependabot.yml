@@ -9,7 +9,19 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/documentation" # Location of package manifests
+  - package-ecosystem: "npm"
+    directory: "/documentation"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/hooks/persistence-defectdojo/hook"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
     schedule:
       interval: "weekly"

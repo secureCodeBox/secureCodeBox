@@ -3,16 +3,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 plugins {
-  id 'java'
-  id "io.freefair.lombok" version "8.1.0"
+  id "java"
+  id "io.freefair.lombok" version "8.4"
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
-  id "com.github.ben-manes.versions" version "0.47.0"
+  id "com.github.ben-manes.versions" version "0.50.0"
 }
 
-group = 'io.securecodebox'
-version = '1.0.0-SNAPSHOT'
-sourceCompatibility = '17'
+group = "io.securecodebox"
+version = "1.0.0-SNAPSHOT"
+sourceCompatibility = "17"
 
 repositories {
   mavenCentral()
@@ -22,22 +22,22 @@ repositories {
 }
 
 dependencies {
-  implementation group: 'io.kubernetes', name: 'client-java', version: '18.0.1'
-  implementation group: 'io.securecodebox', name: 'defectdojo-client', version: '1.0.1'
-  implementation group: 'org.springframework', name: 'spring-web', version: '5.3.28'
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.2'
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.15.2'
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.2'
-  implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.2'
-  implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.7'
-  implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '2.0.7'
+  implementation group: "io.securecodebox", name: "defectdojo-client", version: "2.0.0"
+  implementation group: "io.kubernetes", name: "client-java", version: "19.0.0"
+  implementation group: "org.springframework", name: "spring-web", version: "5.3.28"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.16.1"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.16.1"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.16.1  "
+  implementation group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-jsr310", version: "2.15.2"
+  implementation group: "org.slf4j", name: "slf4j-api", version: "2.0.11"
+  implementation group: "org.slf4j", name: "slf4j-log4j12", version: "2.0.11"
   // If I try to notate this like the others (with separate strings) I got errors. No idea why sh... Gradle
   // want it like this. It is the official documented example:
   // https://github.com/junit-team/junit5-samples/blob/r5.10.0/junit5-jupiter-starter-gradle/build.gradle
-  testImplementation(platform('org.junit:junit-bom:5.10.0'))
-  testImplementation('org.junit.jupiter:junit-jupiter')
-  testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.4.0'
-  testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.4.0'
+  testImplementation(platform("org.junit:junit-bom:5.10.1"))
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testImplementation group: "org.mockito", name: "mockito-core", version: "5.9.0"
+  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.9.0"
 }
 
 test {
@@ -63,5 +63,5 @@ jar {
   }
 
   // Exclude signatures from dependency jars, as these would not match the fat jars content.
-  exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+  exclude "META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA"
 }

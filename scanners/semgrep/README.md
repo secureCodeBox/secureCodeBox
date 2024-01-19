@@ -3,7 +3,7 @@ title: "Semgrep"
 category: "scanner"
 type: "Repository"
 state: "released"
-appVersion: "1.55.1"
+appVersion: "1.57.0"
 usecase: "Static Code Analysis"
 ---
 
@@ -103,8 +103,8 @@ Due to the large variety of options, we do not provide documentation for all of 
 Refer to the linked documentation for details on the different methods, and remember to use [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to manage keys and tokens.
 
 ## Cascading Rules
-By default, the semgrep scanner does not install any [cascading rules](docs/hooks/cascading-scans), as some aspects of the semgrep scan (like the used ruleset) should be customized.
-However, you can easily create your own cascading rule, for example to run semgrep on the output of [git-repo-scanner](docs/scanners/git-repo-scanner).
+By default, the semgrep scanner does not install any [cascading rules](/docs/hooks/cascading-scans), as some aspects of the semgrep scan (like the used ruleset) should be customized.
+However, you can easily create your own cascading rule, for example to run semgrep on the output of [git-repo-scanner](/docs/scanners/git-repo-scanner).
 As a starting point, consider the following cascading rule to scan all public GitHub repositories found by git-repo-scanner using the p/ci ruleset of semgrep:
 
 ```yaml
