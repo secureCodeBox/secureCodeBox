@@ -29,10 +29,8 @@ helm upgrade --install ufh1 secureCodeBox/update-field-hook --set attribute.name
 helm upgrade --install ufh2 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
-The first hook will update all _secureCodeBox_ findings such that the field `category` is set to the value `first-hook`.
-The second hook will set the same field to `second-hook`.
-For a list of all available _secureCodeBox_ hooks, see [hooks](/docs/hooks/).
-There's no limit to the amount of hooks you can install.
+The first hook will update all _secureCodeBox_ findings such that the field `category` is set to the value `first-hook`. The second hook will set the same field to `second-hook`.
+For a list of all available _secureCodeBox_ hooks, see [hooks](/docs/hooks/). There's no limit to the amount of hooks you can install.
 
 ## Creating a scan
 
@@ -73,8 +71,7 @@ ufh2-update-field-hook-nmap-example-drjmq--1-vzds2   0/1     Completed   0      
 
 ## Inspecting the findings
 
-Looking at the findings, you will notice that the `category` field has been set to `second-hook`.
-This happens because the `ufh2` hook was executed after `ufh1`, discarding the value `first-hook` completely.
+Looking at the findings, you will notice that the `category` field has been set to `second-hook`. This happens because the `ufh2` hook was executed after `ufh1`, discarding the value `first-hook` completely.
 
 ```json
 [
@@ -98,8 +95,7 @@ This happens because the `ufh2` hook was executed after `ufh1`, discarding the v
 
 By default, hook order is specified according [this definition](/docs/api/crds/scan-completion-hook#priority-optional).
 
-With the `hook.priority` field, you can further customize the order of _secureCodeBox_ hooks.
-The higher the priority of a hook, the earlier it will execute.
+With the `hook.priority` field, you can further customize the order of _secureCodeBox_ hooks. The higher the priority of a hook, the earlier it will execute.
 By default, all hooks have a priority of `0`.
 
 If we set `ufh2` hook's priority to `1`, we'll observe that it will execute before `ufh1`.
@@ -132,8 +128,7 @@ ufh1-update-field-hook-nmap-example-cvzw2--1-x4rcz   0/1     Completed   0      
 ufh2-update-field-hook-nmap-example-mv57q--1-cvd4k   0/1     Completed   0          33s
 ```
 
-Kubernetes sorts the list alphabetically, but notice the age of the jobs.
-Looking at the resulting finding, we can see the category is set to `first-hook`.
+Kubernetes sorts the list alphabetically, but notice the age of the jobs. Looking at the resulting finding, we can see the category is set to `first-hook`.
 
 ```json
 [
@@ -155,8 +150,7 @@ Looking at the resulting finding, we can see the category is set to `first-hook`
 
 ## Hook selector
 
-An alternative for more runtime hook control is the scan's [HookSelector](/docs/api/crds/scan#hookselector-optional).
-This field allows you to define which hooks to run for a scan.
+An alternative for more runtime hook control is the scan's [HookSelector](/docs/api/crds/scan#hookselector-optional). This field allows you to define which hooks to run for a scan.
 
 In this case, we select all hooks, except hooks with the label `ufh1`.
 
@@ -235,10 +229,7 @@ spec:
 
 ### Cascading scans
 
-The `HookSelector` field is also available in Cascading Rules.
-This means that you can selectively disable hooks for certain rules.
-Let's say that you're running _secureCodeBox_ with nmap, ncrack, and a [DefectDojo persistence provider](/docs/hooks/defectdojo).
-We can imagine that you'd prefer your ncrack passwords to not go directly to DefectDojo, so you could set up the cascading rule such that it filters the DefectDojo hook.
+The `HookSelector` field is also available in Cascading Rules. This means that you can selectively disable hooks for certain rules. Let's say that you're running _secureCodeBox_ with nmap, ncrack, and a [DefectDojo persistence provider](/docs/hooks/defectdojo). We can imagine that you'd prefer your ncrack passwords to not go directly to DefectDojo, so you could set up the cascading rule such that it filters the DefectDojo hook.
 
 ```yaml
 apiVersion: "cascading.securecodebox.io/v1"
@@ -280,8 +271,7 @@ spec:
 Note that we use `app.kubernetes.io/name` here to filter all releases of the DefectDojo persistence provider.
 
 :::caution
-You can use [`scan.spec.cascading.inheritHookSelector`](/docs/api/crds/scan#cascades-optional) on your initial scan definition to pass `hookSelector` entries on to cascaded scans.
-Selectors defined in cascading rules will only apply to the scan triggered by the rule - if the results of that scan then trigger further cascading scans, the selectors defined in the cascading rule will be dropped and only those from the original scan are kept.
-Defining identical entries in both the Scan AND the Cascading Rule resource will lead to undefined behaviour.
+You can use [`scan.spec.cascading.inheritHookSelector`](/docs/api/crds/scan#cascades-optional) on your initial scan definition to pass `hookSelector` entries on to cascaded scans. Selectors defined in cascading rules will only apply to the scan triggered by the rule - if the results of that scan then trigger further cascading scans, the selectors defined in the cascading rule will be dropped and only those from the original scan are kept. Defining identical entries in both the Scan AND the Cascading Rule resource will lead to undefined behaviour.
+
 See [#789](https://github.com/secureCodeBox/secureCodeBox/issues/789) for more details.
 :::
