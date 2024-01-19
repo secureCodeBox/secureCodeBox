@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
 ---
 title: "DefectDojo"
 category: "hook"
@@ -5,12 +10,6 @@ type: "persistenceProvider"
 state: "released"
 usecase: "Publishes all Scan Reports to OWASP DefectDojo."
 ---
-
-<!--
-SPDX-FileCopyrightText: the secureCodeBox authors
-
-SPDX-License-Identifier: Apache-2.0
--->
 <!--
 .: IMPORTANT! :.
 --------------------------
