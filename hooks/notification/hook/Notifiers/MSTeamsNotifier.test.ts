@@ -19,7 +19,7 @@ const channel: NotificationChannel = {
   type: NotifierType.MS_TEAMS,
   template: "msteams-messageCard",
   rules: [],
-  endPoint: "https://iteratec.webhook.office.com/webhookb2/f2a7b22a-6558-4db5-8d4b-860f8d4c6848@e96afb08-eeaf-49be-90d6-526571a42d8a/IncomingWebhook/cd8d3c70bb504eb8b44385a8e0ebe6f5/812e82db-e6d9-4651-b0c8-3becfca82658"
+  endPoint: "https://teams.example.com/webhookb2/<uuid>@<uuid>>/IncomingWebhook/<something>/<uuid>"
 };
 
 test("Should Send Message With Findings And Severities", async () => {
