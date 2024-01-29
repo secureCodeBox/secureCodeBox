@@ -125,7 +125,7 @@ This means that you can define key-value pairs as well as providing envs via sec
 #### Rule Configuration
 
 The rules can be defined in the values of the Chart.
-The syntax and semantic for these rules are quite similar to CascadingRules (See: [secureCodeBox | CascadingRules](/docs/api/crds/cascading-rule))
+The syntax and semantic for these rules are quite similar to CascadingRules (See: [secureCodeBox | CascadingRules](https://www.securecodebox.io/docs/api/crds/cascading-rule))
 To define Rules you will have to provide the `rules` field with one or more `matches` elements.
 Each `matches` defines one Rule.
 For example:
