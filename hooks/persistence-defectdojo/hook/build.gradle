@@ -7,7 +7,7 @@ plugins {
   id "io.freefair.lombok" version "8.4"
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
-  id "com.github.ben-manes.versions" version "0.50.0"
+  id "com.github.ben-manes.versions" version "0.51.0"
 }
 
 group = "io.securecodebox"
