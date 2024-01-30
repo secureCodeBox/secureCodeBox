@@ -10,7 +10,7 @@ title: "Security Policy"
 # Security Policy
 
 ## Supported Versions
-Our _release cycle_ for new features (minior [semver](https://semver.org/) update)
+Our _release cycle_ for new features (minor [semver](https://semver.org/) update)
 is roughly every two weeks (we will usually make a new release after each review). 
 
 | Version | Security Fixes* | Supported** |
