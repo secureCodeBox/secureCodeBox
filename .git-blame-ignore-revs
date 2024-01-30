@@ -1,0 +1,10 @@
+# Ignore mass formatting in Git blame
+#
+# Just add the commit hash to ignore with a comment.
+# To apply this configure the file with:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# See: https://akrabat.com/ignoring-revisions-with-git-blame/
+
+# Applied megalinter automatic fixes
+992174c1fb24a0808ee2894dfff22e568af2b589
