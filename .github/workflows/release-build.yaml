@@ -28,7 +28,7 @@ jobs:
         component: ["operator", "lurker"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Meta
         id: docker_meta
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Meta
         id: docker_meta
@@ -122,7 +122,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Meta
         id: docker_meta
@@ -175,7 +175,7 @@ jobs:
           - hook-sdk
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Meta
         id: docker_meta
@@ -228,7 +228,7 @@ jobs:
           - update-field-hook
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Meta
         id: docker_meta
@@ -282,7 +282,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Meta
         id: docker_meta
@@ -349,7 +349,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Meta
         id: docker_meta
@@ -428,7 +428,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set ENV Var with Scanner Version
         uses: mikefarah/yq@v4.4.1
@@ -499,7 +499,7 @@ jobs:
           - zap-advanced
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Meta
         id: docker_meta
@@ -559,7 +559,7 @@ jobs:
           - old-wordpress
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set ENV Var with Demo-Target Version
         uses: mikefarah/yq@v4.4.1

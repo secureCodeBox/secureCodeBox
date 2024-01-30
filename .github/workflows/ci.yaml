@@ -34,7 +34,7 @@ jobs:
     name: "Configuration"
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install nvm and Node.js
         run: |
@@ -58,7 +58,7 @@ jobs:
     name: "Setup Kind & Kubectl & Helm"
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Kind
         run: |
@@ -104,7 +104,7 @@ jobs:
     needs:
       - k8s-setup
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download Helm
         uses: actions/download-artifact@v4
         with:
@@ -154,7 +154,7 @@ jobs:
       matrix:
         unit: ["persistence-defectdojo"]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: "temurin" # required Java distribution
@@ -177,7 +177,7 @@ jobs:
         component: ["operator", "lurker"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Go Setup
         uses: actions/setup-go@v5
@@ -212,7 +212,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Go Setup
         uses: actions/setup-go@v5
@@ -253,7 +253,7 @@ jobs:
       - k8s-setup
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python Version
         uses: actions/setup-python@v5
@@ -343,7 +343,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Go Setup
         uses: actions/setup-go@v5
@@ -387,7 +387,7 @@ jobs:
           - hook-sdk
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Image
         working-directory: ./${{ matrix.sdk }}/nodejs
@@ -444,7 +444,7 @@ jobs:
           - zap-advanced
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download nvm and Node.js
         uses: actions/download-artifact@v4
