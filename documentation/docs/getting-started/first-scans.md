@@ -8,7 +8,7 @@ path: "docs/getting-started/first-scans"
 sidebar_position: 2
 ---
 
-Now that you have installed the secureCodeBox, you can start you are close to being able to run your first scans.
+Now that you have installed the secureCodeBox, you are close to being able to run your first scans.
 
 Before we can start scans, we need to install their `ScanTypes`, these tell the secureCodeBox Operator how to run the scans and how their results can be parsed to create a uniform and consistent finding data model. ScanTypes are namespaced [Custom Resource Definitions](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/) in Kubernetes, this lets different teams operating in different namespaces use different types of scanners and enables them to define their own custom ScanTypes.
 
@@ -55,7 +55,7 @@ spec:
     - scanme.nmap.org
 ```
 
-To run this example save the YAML above to a local file named `nmap-scan.yaml` and then start the scan via kubectl:
+To run this example save the YAML code above to a local file named `nmap-scan.yaml` and then start the scan via kubectl:
 
 ```bash
 kubectl apply -f nmap-scan.yaml

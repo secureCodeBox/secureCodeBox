@@ -35,7 +35,9 @@ printf "root\nadmin\n" > users.txt
 printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
 ```
 
-**Make sure to use an extra free line at the end of your files, as there could be issues with cut-off final letters!**
+:::caution
+Make sure to use an extra free line at the end of your files, as there could be issues with cut-off final letters!
+:::
 
 Now we can create a **kubernetes secret**:
 
@@ -45,7 +47,9 @@ kubectl create secret generic --from-file users.txt --from-file passwords.txt nc
 
 Lastly, we now **install Ncrack** and configure the scanType to mount our secret, so that we get access to the username and password files via the mount path `/ncrack/`.
 
-And starting from secureCodeBox v4.0, it is also necessary to set `cascadingRules.enabled` to `true`.
+:::note
+Starting from secureCodeBox v4.0, it is also necessary to set `cascadingRules.enabled` to `true`.
+:::
 
 ```bash
 cat <<EOF | helm upgrade --install ncrack secureCodeBox/ncrack --values -
@@ -202,7 +206,7 @@ nmap-ssh-howto                      nmap     Done    8
 ```
 
 Nice, our scan was triggered as expected!
-Your network likely looks different. Depending on how many ssh hosts nmap was able to find you will see more ncrack scans started.
+Your network likely looks different. Depending on how many ssh hosts nmap was able to find, you will see more ncrack scans started.
 
 Final hint: As already shown above, you can **create a cascading rule yourself** like any resource in Kubernetes via:
 

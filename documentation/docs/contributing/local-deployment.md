@@ -8,7 +8,10 @@ sidebar_position: 3
 ---
 
 If you are integrating a new scanner or hook and want to test from a local build, this document will guide you through it.
-This guide assumes that you have your Kubernetes cluster already up and running and that we can work in your default namespace. If not, check out the [installation](/docs/getting-started/installation/) for more information.
+:::note
+Currently, we only offer the option of local deployment using a [kind](https://kind.sigs.k8s.io/) cluster.
+:::
+This guide assumes that you have your Kubernetes cluster, installed via [kind](https://kind.sigs.k8s.io/), already up and running, and that we can work in your default namespace. If not, check out the [installation](/docs/getting-started/installation/) for more information.
 We also assume that you are or have followed the steps in either the [Integrating A Scanner](/docs/contributing/integrating-a-scanner) or [Integrating A Hook](/docs/contributing/integrating-a-hook) guide.
 
 ## Makefile-based build & deploy (recommended)
@@ -20,7 +23,8 @@ To make local testing easier, the secureCodeBox team has provided a Makefile bas
 
 This document explains how to use these targets to deploy your scanner locally.
 
-1. **Scanner only**: Inspect your scanner's Makefile.
+**Scanner only:**
+1. Inspect your scanner's Makefile.
    If your scanner uses a remote Docker image (such as one hosted on Dockerhub), you can comment out or remove the `custom_scanner` line.
    If you have defined your own Dockerfile in the `scanner/` directory, you should leave the line as-is.
 
@@ -28,23 +32,47 @@ This document explains how to use these targets to deploy your scanner locally.
    This ensures that you have the latest version of the SDK available locally.
    You need this in order to build secureCodeBox parsers and hooks. To build the image:
 
-   1. **Minikube**: run `eval $(minikube docker-env) && make docker-build`.
-   2. **Kind**: run `make docker-build`.
+   **Kind**: run `make docker-build`.
 
 3. In your scanner or hook directory, build the Dockerfiles:
 
-   1. **Minikube**: run `eval $(minikube docker-env) && make docker-build`.
-   2. **Kind**: run `make docker-build docker-export kind-import`.
+   **Kind**: run `make docker-build docker-export kind-import`.
 
-4. Run `make deploy` to install your Helm chart in your active Kubernetes cluster into the `integration-tests` namespace.
+4. Run `kubectl create namespace integration-tests` to create a new namespace for local tests.
+
+5. Run `make deploy` to install your Helm chart in your active Kubernetes cluster into the `integration-tests` namespace.
    The make target ensures that the image name and tag matches that built in the previous step.
 
-5. Now run an example scan and inspect whether the images are correctly used.
+6. Now run an example scan and inspect whether the images are correctly used.
 
 ### Example shell
 
 ```shell
-securecodebox$ eval $(minikube docker-env)
+securecodebox$ kind create cluster
+Creating cluster "kind" ...
+ ✓ Ensuring node image (kindest/node:v1.27.3) 🖼
+ ✓ Preparing nodes 📦  
+ ✓ Writing configuration 📜 
+ ✓ Starting control-plane 🕹️ 
+ ✓ Installing CNI 🔌 
+ ✓ Installing StorageClass 💾 
+Set kubectl context to "kind-kind"
+[...]
+securecodebox$ helm repo add secureCodeBox https://charts.securecodebox.io
+[...]
+securecodebox$ kubectl create namespace securecodebox-system
+namespace/securecodebox-system created
+securecodebox$ helm --namespace securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator
+Release "securecodebox-operator" does not exist. Installing it now.
+NAME: securecodebox-operator
+LAST DEPLOYED: Fri Jan 26 14:34:50 2024
+NAMESPACE: securecodebox-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+secureCodeBox Operator Deployed 🚀
+[...]
 securecodebox$ cd parser-sdk/nodejs/
 securecodebox/parser-sdk/nodejs$ make docker-build
 .: ⚙️ Build 'parser-sdk'.
@@ -53,7 +81,7 @@ docker build -t securecodebox/parser-sdk-nodejs:"sha-$(git rev-parse --short HEA
 Successfully built af5faaf0be6e
 Successfully tagged securecodebox/parser-sdk-nodejs:sha-a4490167
 securecodebox/parser-sdk/nodejs$ cd ../../scanners/nmap/
-securecodebox/scanners/nmap$ make docker-build
+securecodebox/scanners/nmap$ make docker-build docker-export kind-import
 .: ⚙️ Build 'nmap' parser with BASE_IMG_TAG: 'sha-a4490167'.
 [...]
 [Warning] One or more build-args [scannerVersion] were not consumed
@@ -64,12 +92,18 @@ Successfully tagged securecodebox/parser-nmap:sha-a4490167
 [Warning] One or more build-args [baseImageTag namespace] were not consumed
 Successfully built 721c154357eb
 Successfully tagged securecodebox/scanner-nmap:sha-a4490167
+.: ⚙️ Saving new docker image archive to 'parser-nmap.tar'.
+.: ⚙️ Saving new docker image archive to 'scanner-nmap.tar'.
+.: 💾 Importing the image archive 'parser-nmap.tar' to local kind cluster.
+.: 💾 Importing the image archive 'scanner-nmap.tar' to local kind cluster.
+securecodebox/scanners/nmap$ kubectl create namespace integration-tests
+namespace/integration-tests created
 securecodebox/scanners/nmap$ make deploy
 .: 💾 Deploying 'nmap' scanner HelmChart with the docker tag 'sha-a4490167' into kind namespace 'integration-tests'.
 [...]
 Release "nmap" does not exist. Installing it now.
 NAME: nmap
-LAST DEPLOYED: Thu Nov 18 15:00:14 2021
+LAST DEPLOYED: Fri Jan 26 14:35:27 2024
 NAMESPACE: integration-tests
 STATUS: deployed
 REVISION: 1
@@ -87,12 +121,6 @@ Notice that the Make target automatically feeds the chart's `AppVersion` into th
 :::
 
 ## Manual build & deploy
-
-0. **Minikube only**:
-
-```shell
-$ eval $(minikube docker-env).
-```
 
 ### Scanner & Parser
 
@@ -199,12 +227,10 @@ Check with `kubectl describe pod [name of pod]` which image your scanner wants t
 Check your Docker build logs to verify that the image has been correctly tagged.
 You can also check if the image is actually available:
 
-- **Minikube**: `minikube ssh docker images`
 - **Kind**: `docker exec kind-control-plane crictl images`
 
-Don't forget that all images you want to use in your Minikube Kubernetes cluster must be either remotely available or made available in your Kubernetes cluster.
+Don't forget that all images used in your Kubernetes cluster must be either remotely accessible or locally available within the cluster.
 
-- **Minikube**: built using `eval $(minikube docker-env)`.
 - **Kind**: imported after building
   - Using Makefile: `make docker-export kind-import`.
   - Manually: `kind load docker-image parser-nmap:[tag]`.
