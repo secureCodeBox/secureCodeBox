@@ -8,11 +8,15 @@ sidebar_position: 3
 ---
 
 If you are integrating a new scanner or hook and want to test from a local build, this document will guide you through it.
-:::note
-Currently, we only offer the option of local deployment using a [kind](https://kind.sigs.k8s.io/) cluster.
-:::
-This guide assumes that you have your Kubernetes cluster, installed via [kind](https://kind.sigs.k8s.io/), already up and running, and that we can work in your default namespace. If not, check out the [installation](/docs/getting-started/installation/) for more information.
+For simplicity's sake, this guide is written only for local cluster setups using [kind](https://kind.sigs.k8s.io/).
+Other setups (e.g., minikube, Docker Desktop's integrated Kubernetes) are possible but might require extra setup and tweaking efforts to run with our make files.
 We also assume that you are or have followed the steps in either the [Integrating A Scanner](/docs/contributing/integrating-a-scanner) or [Integrating A Hook](/docs/contributing/integrating-a-hook) guide.
+
+## Kind Cluster Setup
+
+1. Firstly, create the kind cluster: `kind create cluster`
+2. Install the secureCodeBox operator. See [installation](/docs/getting-started/installation/)
+3. Create the `integration-tests` namespace: `kubectl create namespace integration-tests`
 
 ## Makefile-based build & deploy (recommended)
 
@@ -38,12 +42,10 @@ This document explains how to use these targets to deploy your scanner locally.
 
    **Kind**: run `make docker-build docker-export kind-import`.
 
-4. Run `kubectl create namespace integration-tests` to create a new namespace for local tests.
-
-5. Run `make deploy` to install your Helm chart in your active Kubernetes cluster into the `integration-tests` namespace.
+4. Run `make deploy` to install your Helm chart in your active Kubernetes cluster into the `integration-tests` namespace.
    The make target ensures that the image name and tag matches that built in the previous step.
 
-6. Now run an example scan and inspect whether the images are correctly used.
+5. Now run an example scan and inspect whether the images are correctly used.
 
 ### Example shell
 
@@ -73,6 +75,8 @@ TEST SUITE: None
 NOTES:
 secureCodeBox Operator Deployed 🚀
 [...]
+securecodebox$ kubectl create namespace integration-tests
+namespace/integration-tests created
 securecodebox$ cd parser-sdk/nodejs/
 securecodebox/parser-sdk/nodejs$ make docker-build
 .: ⚙️ Build 'parser-sdk'.
@@ -96,8 +100,6 @@ Successfully tagged securecodebox/scanner-nmap:sha-a4490167
 .: ⚙️ Saving new docker image archive to 'scanner-nmap.tar'.
 .: 💾 Importing the image archive 'parser-nmap.tar' to local kind cluster.
 .: 💾 Importing the image archive 'scanner-nmap.tar' to local kind cluster.
-securecodebox/scanners/nmap$ kubectl create namespace integration-tests
-namespace/integration-tests created
 securecodebox/scanners/nmap$ make deploy
 .: 💾 Deploying 'nmap' scanner HelmChart with the docker tag 'sha-a4490167' into kind namespace 'integration-tests'.
 [...]
