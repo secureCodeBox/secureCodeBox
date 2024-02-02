@@ -208,8 +208,8 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_PERSISTANCE_DD_HOOK }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: cd hooks/${{ matrix.unit }}/hook &&./gradlew build sonar --info
 
   # ---- Build Stage ----
