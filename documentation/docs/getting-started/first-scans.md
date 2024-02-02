@@ -212,7 +212,7 @@ When using the default MinIO installation, you'll need to port-forward the to be
 ### Configure more Involved Nmap Scans
 
 Nmap is an extremely powerful tool, which can be used for much more than just scanning for ports.
-You can find more examples of Nmap scans, including example findings for these scans on the documentation page of the [Nmap ScanType](/docs/scanners/Nmap).
+You can find more examples of Nmap scans, including example findings for these scans on the documentation page of the [Nmap ScanType](/docs/scanners/nmap).
 
 ### Other ScanTypes
 
@@ -222,4 +222,4 @@ To get started you can also take a look at our more [detailed guides](/docs/how-
 
 ### Pushing Findings into External Systems
 
-You can also integrate the secureCodeBox to automatically push the scan results into an external system like [Elasticsearch](/docs/hooks/Elasticsearch) or [DefectDojo](/docs/hooks/DefectDojo) to better analyse your findings.
+You can also integrate the secureCodeBox to automatically push the scan results into an external system like [Elasticsearch](/docs/hooks/elasticsearch) or [DefectDojo](/docs/hooks/defectdojo) to better analyse your findings.
