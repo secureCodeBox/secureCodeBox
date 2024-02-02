@@ -65,7 +65,7 @@ public class Scan extends V1Scan {
       (tags) -> new LinkedList<>(Arrays.asList(tags.split(",")))
         .stream()
         .map(String::trim)
-        .collect(Collectors.toList())
+        .toList()
     );
   }
 
@@ -74,7 +74,7 @@ public class Scan extends V1Scan {
       (tags) -> new LinkedList<>(Arrays.asList(tags.split(",")))
         .stream()
         .map(String::trim)
-        .collect(Collectors.toList())
+        .toList()
     );
   }
 
