@@ -76,8 +76,7 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
 
     // Map DefectDojo Severities to secureCodeBox Severities
     switch (defectDojoFinding.getSeverity()) {
-      case Critical:
-      case High:
+      case Critical, High:
         finding.setSeverity(SecureCodeBoxFinding.Severities.HIGH);
         break;
       case Medium:
