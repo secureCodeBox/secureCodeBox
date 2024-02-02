@@ -4,6 +4,7 @@
 
 package io.securecodebox.persistence.config;
 
+import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -44,14 +45,14 @@ public class PersistenceProviderConfig {
 
   public String getRawResultUploadUrl() {
     if (isReadOnly()) {
-      throw new RuntimeException("Cannot Access RawResult Upload URL as the hook is run is ReadOnly mode.");
+      throw new DefectDojoPersistenceException("Cannot Access RawResult Upload URL as the hook is run is ReadOnly mode.");
     }
     return rawResultUploadUrl;
   }
 
   public String getFindingUploadUrl() {
     if (isReadOnly()) {
-      throw new RuntimeException("Cannot Access Finding Upload URL as the hook is run is ReadOnly mode.");
+      throw new DefectDojoPersistenceException("Cannot Access Finding Upload URL as the hook is run is ReadOnly mode.");
     }
     return findingUploadUrl;
   }
@@ -73,7 +74,7 @@ public class PersistenceProviderConfig {
   public PersistenceProviderConfig(String[] args) {
     // Parse Hook Args passed via command line flags
     if (args == null) {
-      throw new RuntimeException("Received `null` as command line flags. Expected exactly four (RawResult & Finding Up/Download Urls)");
+      throw new DefectDojoPersistenceException("Received `null` as command line flags. Expected exactly four (RawResult & Finding Up/Download Urls)");
     } else if (args.length == 2) {
       this.readOnly = true;
 
@@ -91,7 +92,7 @@ public class PersistenceProviderConfig {
       this.findingUploadUrl = args[FINDING_UPLOAD_ARG_POSITION];
     } else {
       log.error("Received unexpected command line arguments: {}", List.of(args));
-      throw new RuntimeException("DefectDojo Hook received a unexpected number of command line flags. Expected exactly two (for ReadOnly Mode) or four (for ReadAndWrite mode)");
+      throw new DefectDojoPersistenceException("DefectDojo Hook received a unexpected number of command line flags. Expected exactly two (for ReadOnly Mode) or four (for ReadAndWrite mode)");
     }
   }
 }
