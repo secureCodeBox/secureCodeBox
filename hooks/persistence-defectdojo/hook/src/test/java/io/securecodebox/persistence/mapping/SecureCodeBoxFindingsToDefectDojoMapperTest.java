@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 // Create one instance for the whole class instead for each method to reuse the genericTestFinding in all methods
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-public class SecureCodeBoxFindingsToDefectDojoMapperTest {
+class SecureCodeBoxFindingsToDefectDojoMapperTest {
 
   // test class
   private SecureCodeBoxFindingsToDefectDojoMapper scbToDdMapper;
@@ -57,7 +57,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   }
 
   @Test
-  public void correctlyParsesBasicFindingProperties() {
+  void correctlyParsesBasicFindingProperties() {
     var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
     assertEquals(ddFinding.getTitle(), genericTestFinding.getName());
     assertEquals(ddFinding.getUniqueIdFromTool(), genericTestFinding.getId());
@@ -65,7 +65,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   }
 
   @Test
-  public void correctlyParsesSeverities() {
+  void correctlyParsesSeverities() {
     var nullSeverityFinding = SecureCodeBoxFinding.builder().build();
     var infoSeverityFinding = SecureCodeBoxFinding.builder().severity(SecureCodeBoxFinding.Severities.INFORMATIONAL).build();
     var lowSeverityFinding = SecureCodeBoxFinding.builder().severity(SecureCodeBoxFinding.Severities.LOW).build();
@@ -79,7 +79,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   }
 
   @Test
-  public void correctlyParsesDate() {
+  void correctlyParsesDate() {
     var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
     assertEquals(ddFinding.getDate(), "2020-04-15");
     var dateTestFinding = SecureCodeBoxFinding.builder().parsedAt("2030-12-01T14:22:28Z").build();
@@ -88,7 +88,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   }
 
   @Test
-  public void correctlyParsesDescription() throws JsonProcessingException {
+  void correctlyParsesDescription() throws JsonProcessingException {
     var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
     assertTrue(ddFinding.getDescription().startsWith(genericTestFinding.getDescription()));
     //Description should consist of the secureCodeBox description and attributes as JSON
@@ -106,7 +106,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   }
 
   @Test
-  public void doesNotThrowUnexpectedExceptionOnEmptyFinding() {
+  void doesNotThrowUnexpectedExceptionOnEmptyFinding() {
     var emptyScbFinding = SecureCodeBoxFinding.builder().build();
     assertDoesNotThrow(() -> scbToDdMapper.fromSecureCodeBoxFinding(emptyScbFinding));
   }

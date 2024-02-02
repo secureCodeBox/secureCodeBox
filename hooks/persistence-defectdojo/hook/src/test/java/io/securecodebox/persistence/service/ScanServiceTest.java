@@ -50,7 +50,7 @@ public class ScanServiceTest {
    * @throws InterruptedException
    */
   @Test
-  public void correctlyParsesGenericResults() throws IOException, InterruptedException, URISyntaxException {
+  void correctlyParsesGenericResults() throws IOException, InterruptedException, URISyntaxException {
     // read data
     String expectedDdFindingsString = readResourceAsString("kubehunter-dd-findings.json");
     String givenScbFindingsString = readResourceAsString("kubehunter-scb-findings.json");
@@ -84,7 +84,7 @@ public class ScanServiceTest {
    * @throws InterruptedException
    */
   @Test
-  public void correctlyReturnsScannerSpecificResults() throws IOException, InterruptedException, URISyntaxException {
+  void correctlyReturnsScannerSpecificResults() throws IOException, InterruptedException, URISyntaxException {
     var rawNiktoScanString = readResourceAsString("nikto-raw-result.json");
     String rawResultDownloadUrl = "https://foo.com/nikto-raw-results.json";
     V1ScanSpec scanSpec = new V1ScanSpec();
