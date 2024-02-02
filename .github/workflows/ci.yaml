@@ -61,10 +61,10 @@ jobs:
       - nvm-setup
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download nvm and Node.js
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: nvm-node
           path: nvm-node
