@@ -25,7 +25,7 @@ helm-unit-tests:
 	for directory in ./*; do \
 			if [ -d "$$directory" ]; then \
 					dir_name=$$(basename "$$directory"); \
-					if [ "$$dir_name" != "coverage" ] && [ "$$dir_name" != "node_modules" ]; then \
+					if [ "$$dir_name" != "coverage" ] && [ "$$dir_name" != "node_modules" ] && [ "$$dir_name" != "__snapshots__" ] && [ "$$dir_name" != "__testFiles__" ]; then \
 							helm unittest "$$directory"; \
 					fi; \
 			fi; \
