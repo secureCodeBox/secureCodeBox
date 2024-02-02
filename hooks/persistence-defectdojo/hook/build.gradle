@@ -8,6 +8,7 @@ plugins {
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.51.0"
+  id "org.sonarqube" version "4.4.1.3373"
 }
 
 group = "io.securecodebox"
@@ -66,4 +67,12 @@ jar {
 
   // Exclude signatures from dependency jars, as these would not match the fat jars content.
   exclude "META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA"
+}
+
+sonar {
+  properties {
+    property "sonar.projectKey", "isecureCodeBox_defectdojo-persistence-provider"
+    property "sonar.organization", "iosecurecodebox"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
 }
