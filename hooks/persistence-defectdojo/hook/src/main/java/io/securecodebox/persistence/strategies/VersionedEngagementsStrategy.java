@@ -4,11 +4,9 @@
 package io.securecodebox.persistence.strategies;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import io.kubernetes.client.openapi.models.V1OwnerReference;
 import io.securecodebox.persistence.config.EnvConfig;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
-import io.securecodebox.persistence.defectdojo.ScanType;
 import io.securecodebox.persistence.defectdojo.config.Config;
 import io.securecodebox.persistence.defectdojo.model.*;
 import io.securecodebox.persistence.defectdojo.service.*;
@@ -74,11 +72,18 @@ public class VersionedEngagementsStrategy implements Strategy {
   }
 
   @Override
-  public List<Finding> run(Scan scan, ScanFile scanResultFile) throws Exception {
-
+  public List<Finding> run(Scan scan, ScanFile scanResultFile) throws DefectDojoPersistenceException {
     log.debug("Getting DefectDojo User Id via user profile API");
-    Long userId = null;
-    List<UserProfile> userProfiles = userProfileService.search();
+    final List<UserProfile> userProfiles;
+
+    try {
+      userProfiles = userProfileService.search();
+    } catch (URISyntaxException | JsonProcessingException e) {
+      throw new DefectDojoPersistenceException(e.getMessage(), e);
+    }
+
+    final long userId;
+
     if (userProfiles.isEmpty()) {
       throw new DefectDojoPersistenceException("UserProfileService did return empty list. Expected current user to be in list");
     } else {
@@ -86,21 +91,50 @@ public class VersionedEngagementsStrategy implements Strategy {
     }
 
     log.info("Running with DefectDojo User Id: {}", userId);
-    long productTypeId = this.ensureProductTypeExistsForScan(scan);
-    long productId = this.ensureProductExistsForScan(scan, productTypeId).getId();
+    final long productTypeId;
+    final long productId;
+
+    try {
+      productTypeId = this.ensureProductTypeExistsForScan(scan);
+      productId = this.ensureProductExistsForScan(scan, productTypeId).getId();
+    } catch (URISyntaxException | JsonProcessingException e) {
+      throw new DefectDojoPersistenceException(e.getMessage(), e);
+    }
 
     log.debug("Looking for existing or creating new DefectDojo Engagement");
-    long engagementId = this.createEngagement(scan, productId, userId).getId();
+    final long engagementId;
+    try {
+      engagementId = this.createEngagement(scan, productId, userId).getId();
+    } catch (URISyntaxException | JsonProcessingException e) {
+      throw new DefectDojoPersistenceException(e.getMessage(), e);
+    }
     log.debug("Using Engagement with Id: {}", engagementId);
 
-    var testId = this.createTest(scan, engagementId, userId);
+    long testId;
+    try {
+      testId = this.createTest(scan, engagementId, userId);
+    } catch (URISyntaxException | JsonProcessingException e) {
+      throw new DefectDojoPersistenceException(e.getMessage(), e);
+    }
 
     log.debug("Uploading Scan Report to DefectDojo");
 
-    ScanType scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
-    TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
+    final var scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
+    final var searchObject = TestType.builder().name(scanType.getTestType()).build();
+    final TestType testType;
+    try {
+      testType = testTypeService.searchUnique(searchObject)
+        .orElseThrow(() -> {
+          final var message = String.format(
+            "Could not find test type '%s' in DefectDojo API. DefectDojo might be running in an unsupported version.",
+            scanType.getTestType());
+          return new DefectDojoPersistenceException(message);
+        });
+    } catch (URISyntaxException | JsonProcessingException e) {
+      throw new DefectDojoPersistenceException(e.getMessage(), e);
+    }
 
-    var additionalValues = new LinkedMap<String, String>();
+    final var additionalValues = new LinkedMap<String, String>();
     if (scan.getMinimumSeverity().isPresent()) {
       additionalValues.put("minimum-severity", scan.getMinimumSeverity().get());
     }
@@ -119,7 +153,11 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     waitUntilDeduplicationIsDone();
 
-    return findingService.search(Map.of("test", String.valueOf(testId)));
+      try {
+          return findingService.search(Map.of("test", String.valueOf(testId)));
+      } catch (URISyntaxException | JsonProcessingException e) {
+        throw new DefectDojoPersistenceException(e.getMessage(), e);
+      }
   }
 
   /**
