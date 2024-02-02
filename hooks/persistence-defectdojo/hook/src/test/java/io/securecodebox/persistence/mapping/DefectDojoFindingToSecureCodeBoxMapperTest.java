@@ -61,7 +61,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   }
 
   @Test
-  public void shouldMapBasicFindings() {
+  void shouldMapBasicFindings() {
     // Typical ZAP Finding in DefectDojo
     var ddFinding = exampleFinding;
 
@@ -96,7 +96,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   }
 
   @Test
-  public void shouldIncludeOriginalDuplicateFindingInAttributes() {
+  void shouldIncludeOriginalDuplicateFindingInAttributes() {
     // Typical ZAP Finding in DefectDojo
     var ddFinding = exampleFinding;
 
@@ -136,7 +136,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   }
 
   @Test
-  public void shouldNotBeStuckInARecursiveLoop() {
+  void shouldNotBeStuckInARecursiveLoop() {
     // Typical ZAP Finding in DefectDojo
     var ddFinding = exampleFinding;
 
@@ -170,7 +170,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   }
 
   @Test
-  public void shouldProperlyParseEndpoints() {
+  void shouldProperlyParseEndpoints() {
     assertEquals(
       "tcp://45.33.32.156",
       DefectDojoFindingToSecureCodeBoxMapper.stringifyEndpoint(

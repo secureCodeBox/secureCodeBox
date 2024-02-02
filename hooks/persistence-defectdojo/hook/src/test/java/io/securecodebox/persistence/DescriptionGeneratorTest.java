@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DescriptionGeneratorTest {
+class DescriptionGeneratorTest {
   DescriptionGenerator descriptionGenerator;
   V1Scan scan;
 
@@ -36,7 +36,7 @@ public class DescriptionGeneratorTest {
   }
 
   @Test
-  public void generate() {
+  void generate() {
     assert scan.getMetadata() != null;
 
     scan.getMetadata().setName("nmap");
@@ -57,7 +57,7 @@ public class DescriptionGeneratorTest {
   }
 
   @Test
-  public void nullGenerate() {
+  void nullGenerate() {
 
     assertEquals(String.join(
       System.getProperty("line.separator"),
@@ -70,7 +70,7 @@ public class DescriptionGeneratorTest {
   }
 
   @Test
-  public void shouldUseCurrentTimeIfEndedAtIsntSet() {
+  void shouldUseCurrentTimeIfEndedAtIsntSet() {
     scan.getStatus().setFinishedAt(null);
 
     assertEquals(String.join(
