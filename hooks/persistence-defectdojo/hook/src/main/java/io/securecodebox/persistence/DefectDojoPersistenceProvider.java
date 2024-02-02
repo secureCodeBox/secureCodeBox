@@ -52,7 +52,7 @@ public class DefectDojoPersistenceProvider {
 
       var findings = defectDojoFindings.stream()
         .map(mapper::fromDefectDojoFinding)
-        .collect(Collectors.toList());
+        .toList();
 
       log.debug("Mapped Findings: {}", findings);
 
