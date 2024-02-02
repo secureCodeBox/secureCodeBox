@@ -62,7 +62,7 @@ public class Scan extends V1Scan {
 
   public Optional<List<String>> getEngagementTags() {
     return this.getKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS).map(
-      (tags) -> new LinkedList<>(Arrays.asList(tags.split(",")))
+      tags -> new LinkedList<>(Arrays.asList(tags.split(",")))
         .stream()
         .map(String::trim)
         .toList()
@@ -71,7 +71,7 @@ public class Scan extends V1Scan {
 
   public Optional<List<String>> getProductTags() {
     return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_TAGS).map(
-      (tags) -> new LinkedList<>(Arrays.asList(tags.split(",")))
+      tags -> new LinkedList<>(Arrays.asList(tags.split(",")))
         .stream()
         .map(String::trim)
         .toList()
