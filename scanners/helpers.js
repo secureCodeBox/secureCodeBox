@@ -130,7 +130,7 @@ async function disasterRecovery(scanName, CRDApi = getKubernetesAPIs().k8sCRDApi
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
 async function scan(name, scanType, parameters = [], timeout = 180, volumes = [], volumeMounts = [],
-               initContainers = [], CRDApi = getKubernetesAPIs().k8sCRDApi, BatchApi = getKubernetesAPIs().k8sBatchApi, PodsApi = getKubernetesAPIs().k8sPodsApi) {
+  initContainers = [], CRDApi = getKubernetesAPIs().k8sCRDApi, BatchApi = getKubernetesAPIs().k8sBatchApi, PodsApi = getKubernetesAPIs().k8sPodsApi) {
   namespace = "integration-tests"
   const scanDefinition = {
     apiVersion: "execution.securecodebox.io/v1",
@@ -197,7 +197,7 @@ async function scan(name, scanType, parameters = [], timeout = 180, volumes = []
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
 async function cascadingScan(name, scanType, parameters = [], { nameCascade, matchLabels }, timeout = 180,
-   CRDApi = getKubernetesAPIs().k8sCRDApi, BatchApi = getKubernetesAPIs().k8sBatchApi, PodsApi = getKubernetesAPIs().k8sPodsApi) {
+  CRDApi = getKubernetesAPIs().k8sCRDApi, BatchApi = getKubernetesAPIs().k8sBatchApi, PodsApi = getKubernetesAPIs().k8sPodsApi) {
   const scanDefinition = {
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
