@@ -33,6 +33,7 @@ import java.util.Objects;
  */
 @Slf4j
 public class VersionedEngagementsStrategy implements Strategy {
+  private static final String SCB_GITHUB_REPO_URL = "https://github.com/secureCodeBox";
   private final DescriptionGenerator descriptionGenerator = new DescriptionGenerator();
 
   ProductService productService;
@@ -200,7 +201,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       );
 
       var toolConfig = toolConfigService.searchUnique(
-        ToolConfig.builder().name(SECURITY_TEST_SERVER_NAME).url("https://github.com/secureCodeBox").build()
+        ToolConfig.builder().name(SECURITY_TEST_SERVER_NAME).url(SCB_GITHUB_REPO_URL).build()
       ).orElseGet(() -> {
         log.info("Creating secureCodeBox Tool Config");
         return toolConfigService.create(
@@ -208,8 +209,8 @@ public class VersionedEngagementsStrategy implements Strategy {
             .toolType(securityTestOrchestrationEngine.getId())
             .name(SECURITY_TEST_SERVER_NAME)
             .description(SECURITY_TEST_SERVER_DESCRIPTION)
-            .url("https://github.com/secureCodeBox")
-            .configUrl("https://github.com/secureCodeBox")
+            .url(SCB_GITHUB_REPO_URL)
+            .configUrl(SCB_GITHUB_REPO_URL)
             .build()
         );
       });
