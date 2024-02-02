@@ -1,0 +1,13 @@
+{
+    "body": {
+        "apiVersion": "batch/v1",
+        "items": [],
+        "kind": "JobList",
+        "metadata": {
+            "_continue": "undefined",
+            "remainingItemCount": "undefined",
+            "resourceVersion": "6097",
+            "selfLink": "undefined"
+        }
+    }
+}
