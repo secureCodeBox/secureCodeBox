@@ -81,9 +81,9 @@ For development purposes, it can be useful to run this hook locally. You can do 
 included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
 and upload them to a GitHub Gist.
 4. Set the following environment variables:
-  - `DEFECTDOJO_URL`: URL to your DefectDojo server, e.g `DEFECTDOJO_URL="http://192.168.0.1:8080"`.
-  - `DEFECTDOJO_USERNAME`: User you want to use to import findings, e.g `DEFECTDOJO_USERNAME="admin"`.
-  - `DEFECTDOJO_APIKEY`: API key, e.g. `DEFECTDOJO_APIKEY="..."` (Can be fetched from the _DefectDojo_ API information page).
+  - `DEFECTDOJO_URL`: URL to your DefectDojo server, e.g `DEFECTDOJO_URL="http://192.168.0.1:8080"`. (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_USERNAME`: User you want to use to import findings, e.g `DEFECTDOJO_USERNAME="admin"`. (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_APIKEY`: API key, e.g. `DEFECTDOJO_APIKEY="..."` (Can be fetched from the _DefectDojo_ API information page). (Required by _defectdojo-client-java_ lib.)
   - `DEFECTDOJO_IS_DEV`: To enable dev mode, which loads a k8s config from `~/.kube/config`, e.g. `DEFECTDOJO_IS_DEV="true"`.
   - `SCAN_NAME` (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
 5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
