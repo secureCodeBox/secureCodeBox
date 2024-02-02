@@ -32,7 +32,7 @@ helm upgrade --install juice-shop secureCodeBox/juice-shop
 
 We can first start with a basic `zap-advanced` scan. We use here our CRD (Custom Resource definition) [Scan](/docs/api/crds/scan) and a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) to configure our scan.
 
-```yaml
+```yaml title="scan.yaml"
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -79,7 +79,7 @@ kubectl apply -f scan.yaml
 ```
 
 The ConfigMap right now is minimal. So we can start modifying and adding to it to fit our needs.  
-For example let's start by setting the scope that we want for our scan. This is done by adding and excluding the paths that the scanner will use. This usually makes the scans faster.  
+For example, let's start by setting the scope that we want for our scan. This is done by adding and excluding the paths that the scanner will use. This usually makes the scans faster.  
 Our ConfigMap will then look like this.
 
 ```yaml
@@ -111,7 +111,7 @@ data:
           - ".*\\.ico"
 ```
 
-ZAP uses a [Spider-Tool](https://www.zaproxy.org/docs/desktop/start/features/spider/) that is used to automatically discover new resources (URLs) on a particular Site. We can configure it's mode of operation through the parameter `spiders`. A possible configuration can look like this :
+ZAP uses a [Spider-Tool](https://www.zaproxy.org/docs/desktop/start/features/spider/) to automatically discover new resources (URLs) on a particular site. We can configure its mode of operation through the parameter `spiders`. A possible configuration can look like this:
 
 ```yaml
 apiVersion: v1
@@ -192,8 +192,10 @@ scanners:
     scanHeadersAllRequests: false
 ```
 
-Some URLs may not be reachable without a privileged user. In this case, it makes sense to provide authentications credentials. This is done through the authentication, users and session parameters in our ConfigMap context. In our case here, we use custom zap scripts to authenticate into juice-shop. The scripts used can be found [here](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/zap-advanced/scanner/scripts/).  
-It can be required to configure your own scripts to fit your scan target: more information on how these scripts integrate into ZAP can be found [here](https://www.zaproxy.org/docs/desktop/start/features/scripts/).  
+Some URLs may not be reachable without privileged user rights. In this case, it makes sense to provide authentications credentials. This is done through the `authentication`, `users` and `session` parameters in our ConfigMap context. In our case here, we use custom zap scripts to authenticate into juice-shop. The scripts used can be found [here](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/zap-advanced/scanner/scripts/).  
+:::note
+It can be required to configure your own scripts to fit your scan target: more information on how these scripts integrate into ZAP can be found [here](https://www.zaproxy.org/docs/desktop/start/features/scripts/).
+:::
 Our `contexts` parameter in our scan would then look something like this:
 
 ```yaml
@@ -260,11 +262,13 @@ data:
             description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
 ```
 
-For more information on Authentication/Session parameters check out ZAP's documentation on the matter [here](https://www.zaproxy.org/docs/desktop/start/features/authentication/)
+:::note
+For more information on Authentication/Session parameters check out ZAP's documentation on the matter [here](https://www.zaproxy.org/docs/desktop/start/features/authentication/).
+:::
 
 Our complete ZAP Scan file is then the following :
 
-```yaml
+```yaml title="scan.yaml"
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -415,4 +419,4 @@ zap-authenticated-full-scan-juiceshop     zap-advanced-scan   Done    14
 ```
 
 If the scan's `STATE` is set to done, We can see our findings via the S3 bucket. If you've used the default installation method you can follow the [guide](/docs/getting-started/installation#accessing-the-included-minio-instance) to access the integrated Minio S3 Bucket to view the findings.
-And we're done ! Have Fun Scanning :)
+And we're done! Have Fun Scanning :)
