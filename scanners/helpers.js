@@ -88,7 +88,7 @@ async function displayAllLogsForJob(jobName, PodsApi = getKubernetesAPIs().k8sPo
   }
 }
 
-async function logJobs(BatchApi = getKubernetesAPIs().k8sBatchApi) {
+async function logJobs(BatchApi = getKubernetesAPIs().k8sBatchApi, PodsApi = getKubernetesAPIs().PodsApi) {
   try {
     const { body: jobs } = await BatchApi.listNamespacedJob(namespace);
 
@@ -100,7 +100,7 @@ async function logJobs(BatchApi = getKubernetesAPIs().k8sBatchApi) {
       console.log(`Job: '${job.metadata.name}' Status:`);
       console.log(JSON.stringify(job.status, null, 2));
 
-      await displayAllLogsForJob(job.metadata.name);
+      await displayAllLogsForJob(job.metadata.name, PodsApi);
     }
   } catch (error) {
     console.error("Failed to list Jobs");
@@ -108,11 +108,11 @@ async function logJobs(BatchApi = getKubernetesAPIs().k8sBatchApi) {
   }
 }
 
-async function disasterRecovery(scanName, CRDApi = getKubernetesAPIs().k8sCRDApi) {
+async function disasterRecovery(scanName, CRDApi = getKubernetesAPIs().k8sCRDApi, BatchApi = getKubernetesAPIs().k8sBatchApi, PodsApi = getKubernetesAPIs().k8sPodsApi) {
   const scan = await getScan(scanName, CRDApi);
   console.error("Last Scan State:");
   console.dir(scan);
-  await logJobs();
+  await logJobs(BatchApi, PodsApi);
 }
 
 /**
@@ -125,9 +125,12 @@ async function disasterRecovery(scanName, CRDApi = getKubernetesAPIs().k8sCRDApi
  * @param {object[]} volumeMounts definitions for kubernetes volume mounts that should be used. Optional, useful for initContainers (see below)
  * @param {object[]} initContainers definitions for initContainers that should be added to the scan job to provision files for the scanner. Optional.
  * @param {CRDApi} CRDApi kubernetes api client for CRDs. Optional, will be created if not provided.
+ * @param {BatchApi} BatchApi kubernetes api client for BatchV1Api. Optional, will be created if not provided.
+ * @param {PodsApi} PodsApi kubernetes api client for CoreV1Api. Optional, will be created if not provided.
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
-async function scan(name, scanType, parameters = [], timeout = 180, volumes = [], volumeMounts = [], initContainers = [], CRDApi = getKubernetesAPIs().k8sCRDApi) {
+async function scan(name, scanType, parameters = [], timeout = 180, volumes = [], volumeMounts = [],
+               initContainers = [], CRDApi = getKubernetesAPIs().k8sCRDApi, BatchApi = getKubernetesAPIs().k8sBatchApi, PodsApi = getKubernetesAPIs().k8sPodsApi) {
   namespace = "integration-tests"
   const scanDefinition = {
     apiVersion: "execution.securecodebox.io/v1",
@@ -166,7 +169,7 @@ async function scan(name, scanType, parameters = [], timeout = 180, volumes = []
       return status.findings;
     } else if (status && status.state === "Errored") {
       console.error("Scan Errored");
-      await disasterRecovery(actualName);
+      await disasterRecovery(actualName, CRDApi, BatchApi, PodsApi);
 
       throw new Error(
         `Scan failed with description "${status.errorDescription}"`
@@ -174,7 +177,7 @@ async function scan(name, scanType, parameters = [], timeout = 180, volumes = []
     }
   }
   console.error("Scan Timed out!");
-  await disasterRecovery(actualName);
+  await disasterRecovery(actualName, CRDApi, BatchApi, PodsApi);
 
   throw new Error("timed out while waiting for scan results");
 }
@@ -187,9 +190,14 @@ async function scan(name, scanType, parameters = [], timeout = 180, volumes = []
  * @param {string} nameCascade name of cascading scan
  * @param {object} matchLabels set invasive and intensive of cascading scan
  * @param {number} timeout in seconds
+ * @param {CRDApi} CRDApi kubernetes api client for CRDs. Optional, will be created if not provided.
+ * @param {BatchApi} BatchApi kubernetes api client for BatchV1Api. Optional, will be created if not provided.
+ * @param {PodsApi} PodsApi kubernetes api client for CoreV1Api. Optional, will be created if not provided.
+ * 
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
-async function cascadingScan(name, scanType, parameters = [], { nameCascade, matchLabels }, timeout = 180, CRDApi = getKubernetesAPIs().k8sCRDApi) {
+async function cascadingScan(name, scanType, parameters = [], { nameCascade, matchLabels }, timeout = 180,
+   CRDApi = getKubernetesAPIs().k8sCRDApi, BatchApi = getKubernetesAPIs().k8sBatchApi, PodsApi = getKubernetesAPIs().k8sPodsApi) {
   const scanDefinition = {
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
@@ -229,7 +237,7 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
       break;
     } else if (status && status.state === "Errored") {
       console.error("Scan Errored");
-      await disasterRecovery(actualName);
+      await disasterRecovery(actualName, CRDApi, BatchApi, PodsApi);
       throw new Error(
         `Initial Scan failed with description "${status.errorDescription}"`
       );
@@ -277,16 +285,16 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
       return statusCascade.findings;
     } else if (statusCascade && statusCascade.state === "Errored") {
       console.error("Scan Errored");
-      await disasterRecovery(actualName);
-      await disasterRecovery(actualNameCascade);
+      await disasterRecovery(actualName, CRDApi, BatchApi, PodsApi);
+      await disasterRecovery(actualNameCascade, CRDApi, BatchApi, PodsApi);
       throw new Error(
         `Cascade Scan failed with description "${statusCascade.errorDescription}"`
       );
     }
   }
   console.error("Cascade Scan Timed out!");
-  await disasterRecovery(actualName);
-  await disasterRecovery(actualNameCascade);
+  await disasterRecovery(actualName, CRDApi, BatchApi, PodsApi);
+  await disasterRecovery(actualNameCascade, CRDApi, BatchApi, PodsApi);
 
   throw new Error("timed out while waiting for scan results");
 }
