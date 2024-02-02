@@ -13,6 +13,7 @@ import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.models.DefectDojoImportFinding;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import io.securecodebox.persistence.service.KubernetesService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +23,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
+@Slf4j
 public class SecureCodeBoxFindingsToDefectDojoMapper {
-  private static final Logger LOG = LoggerFactory.getLogger(KubernetesService.class);
   private final DateTimeFormatter ddDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private final ObjectWriter attributeJsonPrinter = new ObjectMapper().writer(new DefaultPrettyPrinter()
     .withObjectIndenter(new DefaultIndenter().withLinefeed("\n")));
@@ -70,7 +71,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
         var attributesJson = attributeJsonPrinter.writeValueAsString(secureCodeBoxFinding.getAttributes());
         description = description + "\n " + attributesJson;
       } catch (JsonProcessingException e) {
-        LOG.warn("Could not write the secureCodeBox Finding Attributes as JSON: ", e);
+        log.warn("Could not write the secureCodeBox Finding Attributes as JSON: ", e);
       }
     }
     result.setDescription(description);
@@ -85,7 +86,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
         URI.create(secureCodeBoxFinding.getLocation());
         result.setEndpoints(Collections.singletonList(secureCodeBoxFinding.getLocation()));
       } catch (IllegalArgumentException e) {
-        LOG.warn("Couldn't parse the secureCodeBox location, because it: {} is not a vailid uri: {}", e, secureCodeBoxFinding.getLocation());
+        log.warn("Couldn't parse the secureCodeBox location, because it: {} is not a vailid uri: {}", e, secureCodeBoxFinding.getLocation());
       }
     }
   }
