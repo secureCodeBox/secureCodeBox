@@ -21,11 +21,11 @@ import java.util.List;
 public class PersistenceProviderConfig {
   private final EnvConfig env = new EnvConfig();
 
-  final int RAW_RESULT_DOWNLOAD_ARG_POSITION = 0;
-  final int FINDING_DOWNLOAD_ARG_POSITION = 1;
+  private static final int RAW_RESULT_DOWNLOAD_ARG_POSITION = 0;
+  private static final int FINDING_DOWNLOAD_ARG_POSITION = 1;
 
-  final int RAW_RESULT_UPLOAD_ARG_POSITION = 2;
-  final int FINDING_UPLOAD_ARG_POSITION = 3;
+  private static final int RAW_RESULT_UPLOAD_ARG_POSITION = 2;
+  private static final int FINDING_UPLOAD_ARG_POSITION = 3;
 
   // DefectDojo does in contrast to secureCodeBox not pay attention to time zones
   // to guarantee consistent results when converting back and forth  a time zone
