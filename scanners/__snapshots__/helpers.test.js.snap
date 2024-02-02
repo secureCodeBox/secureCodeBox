@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Kubernetes interaction tests cascading scan function should create a cascading scan and return findings on successful completion 1`] = `
+{
+  "categories": {
+    "Discovered Credentials": 1,
+  },
+  "count": 1,
+  "severities": {
+    "high": 1,
+  },
+}
+`;
+
+exports[`Kubernetes interaction tests scan function should create a scan and return findings on successful completion 1`] = `
+{
+  "categories": {
+    "Vulnerability": 24,
+  },
+  "count": 24,
+  "severities": {
+    "high": 24,
+  },
+}
+`;
+
+exports[`Kubernetes interaction tests scan function should create a scan and return findings on successful completion 2`] = `
+[MockFunction] {
+  "calls": [
+    [
+      "execution.securecodebox.io",
+      "v1",
+      "integration-tests",
+      "scans",
+      {
+        "apiVersion": "execution.securecodebox.io/v1",
+        "kind": "Scan",
+        "metadata": {
+          "generateName": "typo3scan-old-typo3-",
+        },
+        "spec": {
+          "initContainers": [],
+          "parameters": [],
+          "scanType": "typo3scan",
+          "volumeMounts": [],
+          "volumes": [],
+        },
+      },
+    ],
+  ],
+  "results": [
+    {
+      "type": "return",
+      "value": Promise {},
+    },
+  ],
+}
+`;
+
+exports[`Kubernetes interaction tests scan function should create a scan and return findings on successful completion 3`] = `
+[MockFunction] {
+  "calls": [
+    [
+      "execution.securecodebox.io",
+      "v1",
+      "integration-tests",
+      "scans",
+      "typo3scan-old-typo3-pw8vt",
+    ],
+    [
+      "execution.securecodebox.io",
+      "v1",
+      "integration-tests",
+      "scans",
+      "typo3scan-old-typo3-pw8vt",
+    ],
+  ],
+  "results": [
+    {
+      "type": "return",
+      "value": Promise {},
+    },
+    {
+      "type": "return",
+      "value": Promise {},
+    },
+  ],
+}
+`;
