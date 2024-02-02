@@ -9,6 +9,7 @@ import io.securecodebox.persistence.defectdojo.model.Endpoint;
 import io.securecodebox.persistence.defectdojo.model.Finding;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.defectdojo.service.FindingService;
+import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -56,8 +57,12 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
 
     if (defectDojoFinding.getDuplicate() && defectDojoFinding.getDuplicateFinding() != null) {
       if (!recurse) {
-        throw new RuntimeException("Duplicate finding does not point to the actual original finding, as the original finding (id: " + defectDojoFinding.getId().toString() + ") is also a duplicate. This should never happen.");
+        final var message = String.format(
+          "Duplicate finding does not point to the actual original finding, as the original finding (id: %s) is also a duplicate. This should never happen.",
+          defectDojoFinding.getId());
+        throw new DefectDojoPersistenceException(message);
       }
+
       var originalFinding = findingService.get(defectDojoFinding.getDuplicateFinding());
 
       attributes.put("defectdojo.org/original-finding-id", defectDojoFinding.getDuplicateFinding());
