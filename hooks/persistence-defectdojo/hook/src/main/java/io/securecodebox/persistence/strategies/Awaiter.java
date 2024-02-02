@@ -46,6 +46,7 @@ final class Awaiter {
         TimeUnit.SECONDS.sleep(secondsToWait);
       } catch (InterruptedException e) {
         log.warn("Waiting failed!", e);
+        Thread.currentThread().interrupt();
       }
     }
   }
