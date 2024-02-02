@@ -92,13 +92,13 @@ For more information see [Chris Beams article](https://chris.beams.io/posts/git-
 TL;DR
 
 1. Separate subject from body with a blank line.
-2. Add the issue number at beginning of to the subject line (e.g. "#42 Adds the Answer to the Live, Universe, and the Rest")
-2. Limit the subject line to 50 characters.
-3. Capitalize the subject line.
-4. Do not end the subject line with a period.
-5. Use the imperative mood in the subject line.
-6. Wrap the body at 72 characters.
-7. Use the body to explain what and why (not how because this is obvious from the diff).
+2. Add the issue number at beginning of to the subject line (e.g. "#42 Add the Answer to the Live, Universe, and the Rest")
+3. Limit the subject line to 50 characters.
+4. Capitalize the subject line.
+5. Do not end the subject line with a period.
+6. Use the imperative mood in the subject line.
+7. Wrap the body at 72 characters.
+8. Use the body to explain what and why (not how because this is obvious from the diff).
 
 **NOTE**: Make sure you don't include `@mentions` or `fixes` keywords in your git commit messages. These should be included in the PR body instead.
 
