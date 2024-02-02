@@ -51,6 +51,7 @@ public class VersionedEngagementsStrategy implements Strategy {
   PersistenceProviderConfig persistenceProviderConfig;
 
   public VersionedEngagementsStrategy() {
+    super();
   }
 
   @Override
