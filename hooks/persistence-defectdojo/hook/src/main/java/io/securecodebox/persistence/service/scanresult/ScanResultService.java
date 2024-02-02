@@ -10,8 +10,6 @@ import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.util.ScanNameMapping;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
