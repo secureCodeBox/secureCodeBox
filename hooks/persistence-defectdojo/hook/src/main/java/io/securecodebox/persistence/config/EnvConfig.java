@@ -91,7 +91,7 @@ public final class EnvConfig {
    * @see EnvVarNames#REFETCH_WAIT_SECONDS
    * @deprecated Will be removed without supplement, when DefectDojo API is available
    */
-  @Deprecated
+  @Deprecated(forRemoval = true)
   public int refetchWaitSeconds() {
     final var raw = retrieveEnvVar(EnvVarNames.REFETCH_WAIT_SECONDS);
 
