@@ -1,0 +1,50 @@
+{
+  "body": {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "creationTimestamp": "2024-01-16T14:40:59Z",
+      "generateName": "typo3scan-old-typo3-",
+      "generation": 1,
+      "managedFields": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "fieldsType": "FieldsV1",
+          "fieldsV1": {
+            "f:metadata": {
+              "f:generateName": {}
+            },
+            "f:spec": {
+              ".": {},
+              "f:initContainers": {},
+              "f:parameters": {},
+              "f:resourceMode": {},
+              "f:scanType": {},
+              "f:volumeMounts": {},
+              "f:volumes": {}
+            }
+          },
+          "manager": "unknown",
+          "operation": "Update",
+          "time": "2024-01-16T14:40:59Z"
+        }
+      ],
+      "name": "typo3scan-old-typo3-pw8vt",
+      "namespace": "integration-tests",
+      "resourceVersion": "1867",
+      "uid": "4ebccf10-ac84-4e85-91bc-1e4d60b45697"
+    },
+    "spec": {
+      "initContainers": [],
+      "parameters": [
+        "-d",
+        "http://old-typo3.demo-targets.svc",
+        "--vuln"
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "typo3scan",
+      "volumeMounts": [],
+      "volumes": []
+    }
+  }
+}

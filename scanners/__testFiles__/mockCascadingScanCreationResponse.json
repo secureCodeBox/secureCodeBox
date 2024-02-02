@@ -1,0 +1,74 @@
+{
+    "body": {
+        "apiVersion": "execution.securecodebox.io/v1",
+        "kind": "Scan",
+        "metadata": {
+            "creationTimestamp": "2024-01-30T13:24:55Z",
+            "generateName": "nmap-dummy-ssh-",
+            "generation": 1,
+            "managedFields": [
+                {
+                    "apiVersion": "execution.securecodebox.io/v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:metadata": {
+                            "f:generateName": {}
+                        },
+                        "f:spec": {
+                            ".": {},
+                            "f:cascades": {
+                                ".": {},
+                                "f:inheritAffinity": {},
+                                "f:inheritAnnotations": {},
+                                "f:inheritEnv": {},
+                                "f:inheritHookSelector": {},
+                                "f:inheritInitContainers": {},
+                                "f:inheritLabels": {},
+                                "f:inheritTolerations": {},
+                                "f:inheritVolumes": {},
+                                "f:matchLabels": {
+                                    ".": {},
+                                    "f:securecodebox.io/intensive": {},
+                                    "f:securecodebox.io/invasive": {}
+                                }
+                            },
+                            "f:parameters": {},
+                            "f:resourceMode": {},
+                            "f:scanType": {}
+                        }
+                    },
+                    "manager": "unknown",
+                    "operation": "Update",
+                    "time": "2024-01-30T13:24:55Z"
+                }
+            ],
+            "name": "nmap-dummy-ssh-d47zk",
+            "namespace": "integration-tests",
+            "resourceVersion": "20493",
+            "uid": "09f2fd3f-2fb3-4ae4-8347-9cbe23af97b3"
+        },
+        "spec": {
+            "cascades": {
+                "inheritAffinity": true,
+                "inheritAnnotations": true,
+                "inheritEnv": false,
+                "inheritHookSelector": false,
+                "inheritInitContainers": false,
+                "inheritLabels": true,
+                "inheritTolerations": true,
+                "inheritVolumes": false,
+                "matchLabels": {
+                    "securecodebox.io/intensive": "high",
+                    "securecodebox.io/invasive": "invasive"
+                }
+            },
+            "parameters": [
+                "-Pn",
+                "-sV",
+                "dummy-ssh.demo-targets.svc"
+            ],
+            "resourceMode": "namespaceLocal",
+            "scanType": "nmap"
+        }
+    }
+}

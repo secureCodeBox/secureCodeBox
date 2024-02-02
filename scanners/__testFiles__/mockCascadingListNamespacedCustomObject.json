@@ -1,0 +1,399 @@
+{
+    "body": {
+        "apiVersion": "execution.securecodebox.io/v1",
+        "items": [
+            {
+                "apiVersion": "execution.securecodebox.io/v1",
+                "kind": "Scan",
+                "metadata": {
+                    "annotations": {
+                        "cascading.securecodebox.io/chain": "ncrack-ssh",
+                        "cascading.securecodebox.io/matched-finding": "6c32098e-36e0-491a-b40b-1741081bf7c7",
+                        "cascading.securecodebox.io/parent-scan": "nmap-dummy-ssh-7jz42",
+                        "securecodebox.io/hook": "cascading-scans"
+                    },
+                    "creationTimestamp": "2024-02-02T16:45:30Z",
+                    "finalizers": [
+                        "s3.storage.securecodebox.io"
+                    ],
+                    "generateName": "ncrack-dummy-ssh-7jz42-ncrack-ssh-",
+                    "generation": 2,
+                    "managedFields": [
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "fieldsType": "FieldsV1",
+                            "fieldsV1": {
+                                "f:metadata": {
+                                    "f:finalizers": {
+                                        ".": {},
+                                        "v:\"s3.storage.securecodebox.io\"": {}
+                                    }
+                                },
+                                "f:spec": {
+                                    "f:resources": {}
+                                }
+                            },
+                            "manager": "manager",
+                            "operation": "Update",
+                            "time": "2024-02-02T16:45:30Z"
+                        },
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "fieldsType": "FieldsV1",
+                            "fieldsV1": {
+                                "f:metadata": {
+                                    "f:annotations": {
+                                        ".": {},
+                                        "f:cascading.securecodebox.io/chain": {},
+                                        "f:cascading.securecodebox.io/matched-finding": {},
+                                        "f:cascading.securecodebox.io/parent-scan": {},
+                                        "f:securecodebox.io/hook": {}
+                                    },
+                                    "f:generateName": {},
+                                    "f:ownerReferences": {
+                                        ".": {},
+                                        "k:{\"uid\":\"c887fffa-ddc9-4a7a-9415-7c46cfaa3649\"}": {}
+                                    }
+                                },
+                                "f:spec": {
+                                    ".": {},
+                                    "f:cascades": {
+                                        ".": {},
+                                        "f:inheritAffinity": {},
+                                        "f:inheritAnnotations": {},
+                                        "f:inheritEnv": {},
+                                        "f:inheritHookSelector": {},
+                                        "f:inheritInitContainers": {},
+                                        "f:inheritLabels": {},
+                                        "f:inheritTolerations": {},
+                                        "f:inheritVolumes": {},
+                                        "f:matchLabels": {
+                                            ".": {},
+                                            "f:securecodebox.io/intensive": {},
+                                            "f:securecodebox.io/invasive": {}
+                                        },
+                                        "f:scopeLimiter": {
+                                            ".": {},
+                                            "f:validOnMissingRender": {}
+                                        }
+                                    },
+                                    "f:hookSelector": {},
+                                    "f:parameters": {},
+                                    "f:resourceMode": {},
+                                    "f:scanType": {}
+                                }
+                            },
+                            "manager": "unknown",
+                            "operation": "Update",
+                            "time": "2024-02-02T16:45:30Z"
+                        },
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "fieldsType": "FieldsV1",
+                            "fieldsV1": {
+                                "f:status": {
+                                    ".": {},
+                                    "f:findingDownloadLink": {},
+                                    "f:findingHeadLink": {},
+                                    "f:findings": {
+                                        ".": {},
+                                        "f:severities": {}
+                                    },
+                                    "f:rawResultDownloadLink": {},
+                                    "f:rawResultFile": {},
+                                    "f:rawResultHeadLink": {},
+                                    "f:rawResultType": {},
+                                    "f:state": {}
+                                }
+                            },
+                            "manager": "manager",
+                            "operation": "Update",
+                            "subresource": "status",
+                            "time": "2024-02-02T16:45:38Z"
+                        },
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "fieldsType": "FieldsV1",
+                            "fieldsV1": {
+                                "f:status": {
+                                    "f:findings": {
+                                        "f:categories": {
+                                            ".": {},
+                                            "f:Discovered Credentials": {}
+                                        },
+                                        "f:count": {},
+                                        "f:severities": {
+                                            "f:high": {},
+                                            "f:informational": {},
+                                            "f:low": {},
+                                            "f:medium": {}
+                                        }
+                                    }
+                                }
+                            },
+                            "manager": "unknown",
+                            "operation": "Update",
+                            "subresource": "status",
+                            "time": "2024-02-02T16:45:44Z"
+                        }
+                    ],
+                    "name": "ncrack-dummy-ssh-7jz42-ncrack-ssh-h9fdz",
+                    "namespace": "integration-tests",
+                    "ownerReferences": [
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "blockOwnerDeletion": true,
+                            "controller": true,
+                            "kind": "Scan",
+                            "name": "nmap-dummy-ssh-7jz42",
+                            "uid": "c887fffa-ddc9-4a7a-9415-7c46cfaa3649"
+                        }
+                    ],
+                    "resourceVersion": "10500",
+                    "uid": "f0816a28-9b61-4e3e-a586-dd8539390264"
+                },
+                "spec": {
+                    "cascades": {
+                        "inheritAffinity": true,
+                        "inheritAnnotations": true,
+                        "inheritEnv": false,
+                        "inheritHookSelector": false,
+                        "inheritInitContainers": false,
+                        "inheritLabels": true,
+                        "inheritTolerations": true,
+                        "inheritVolumes": false,
+                        "matchLabels": {
+                            "securecodebox.io/intensive": "high",
+                            "securecodebox.io/invasive": "invasive"
+                        },
+                        "scopeLimiter": {
+                            "validOnMissingRender": false
+                        }
+                    },
+                    "hookSelector": {},
+                    "parameters": [
+                        "-v",
+                        "-d10",
+                        "-U",
+                        "/ncrack/users.txt",
+                        "-P",
+                        "/ncrack/passwords.txt",
+                        "-p",
+                        "ssh:22",
+                        "dummy-ssh.demo-targets.svc"
+                    ],
+                    "resourceMode": "namespaceLocal",
+                    "resources": {},
+                    "scanType": "ncrack"
+                },
+                "status": {
+                    "findingDownloadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-f0816a28-9b61-4e3e-a586-dd8539390264/findings.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20240202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240202T164530Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=dcde57274c3827a3c0836917f1b2b1ae7e4e50d652284f43fb9ec9bc49a7dea5",
+                    "findingHeadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-f0816a28-9b61-4e3e-a586-dd8539390264/findings.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20240202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240202T164530Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=635b4b9eed12861b93ee0347845d79e8d1857659a53a9da025f838c9fb000345",
+                    "findings": {
+                        "categories": {
+                            "Discovered Credentials": 1
+                        },
+                        "count": 1,
+                        "severities": {
+                            "high": 1,
+                            "informational": 0,
+                            "low": 0,
+                            "medium": 0
+                        }
+                    },
+                    "rawResultDownloadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-f0816a28-9b61-4e3e-a586-dd8539390264/ncrack-results.xml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20240202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240202T164530Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=7bff833cd4fbda4e827159842ea4b6fa6f5a16fb0fd767fd669ee210a072e758",
+                    "rawResultFile": "ncrack-results.xml",
+                    "rawResultHeadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-f0816a28-9b61-4e3e-a586-dd8539390264/ncrack-results.xml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20240202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240202T164530Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=da487d933df9c7c6c3b0edcbfe546f521a31bd9f1bd772a61a8bcdeb78b61677",
+                    "rawResultType": "ncrack-xml",
+                    "state": "Parsing"
+                }
+            },
+            {
+                "apiVersion": "execution.securecodebox.io/v1",
+                "kind": "Scan",
+                "metadata": {
+                    "creationTimestamp": "2024-02-02T16:44:55Z",
+                    "finalizers": [
+                        "s3.storage.securecodebox.io"
+                    ],
+                    "generateName": "nmap-dummy-ssh-",
+                    "generation": 2,
+                    "managedFields": [
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "fieldsType": "FieldsV1",
+                            "fieldsV1": {
+                                "f:metadata": {
+                                    "f:generateName": {}
+                                },
+                                "f:spec": {
+                                    ".": {},
+                                    "f:cascades": {
+                                        ".": {},
+                                        "f:inheritAffinity": {},
+                                        "f:inheritAnnotations": {},
+                                        "f:inheritEnv": {},
+                                        "f:inheritHookSelector": {},
+                                        "f:inheritInitContainers": {},
+                                        "f:inheritLabels": {},
+                                        "f:inheritTolerations": {},
+                                        "f:inheritVolumes": {},
+                                        "f:matchLabels": {
+                                            ".": {},
+                                            "f:securecodebox.io/intensive": {},
+                                            "f:securecodebox.io/invasive": {}
+                                        }
+                                    },
+                                    "f:parameters": {},
+                                    "f:resourceMode": {},
+                                    "f:scanType": {}
+                                }
+                            },
+                            "manager": "unknown",
+                            "operation": "Update",
+                            "time": "2024-02-02T16:44:55Z"
+                        },
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "fieldsType": "FieldsV1",
+                            "fieldsV1": {
+                                "f:metadata": {
+                                    "f:finalizers": {
+                                        ".": {},
+                                        "v:\"s3.storage.securecodebox.io\"": {}
+                                    }
+                                },
+                                "f:spec": {
+                                    "f:cascades": {
+                                        "f:scopeLimiter": {
+                                            ".": {},
+                                            "f:validOnMissingRender": {}
+                                        }
+                                    },
+                                    "f:resources": {}
+                                }
+                            },
+                            "manager": "manager",
+                            "operation": "Update",
+                            "time": "2024-02-02T16:44:56Z"
+                        },
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "fieldsType": "FieldsV1",
+                            "fieldsV1": {
+                                "f:status": {
+                                    "f:findings": {
+                                        "f:categories": {
+                                            ".": {},
+                                            "f:Host": {},
+                                            "f:Open Port": {}
+                                        },
+                                        "f:count": {},
+                                        "f:severities": {
+                                            "f:informational": {}
+                                        }
+                                    }
+                                }
+                            },
+                            "manager": "unknown",
+                            "operation": "Update",
+                            "subresource": "status",
+                            "time": "2024-02-02T16:45:16Z"
+                        },
+                        {
+                            "apiVersion": "execution.securecodebox.io/v1",
+                            "fieldsType": "FieldsV1",
+                            "fieldsV1": {
+                                "f:status": {
+                                    ".": {},
+                                    "f:findingDownloadLink": {},
+                                    "f:findingHeadLink": {},
+                                    "f:findings": {
+                                        ".": {},
+                                        "f:severities": {}
+                                    },
+                                    "f:orderedHookStatuses": {},
+                                    "f:rawResultDownloadLink": {},
+                                    "f:rawResultFile": {},
+                                    "f:rawResultHeadLink": {},
+                                    "f:rawResultType": {},
+                                    "f:state": {}
+                                }
+                            },
+                            "manager": "manager",
+                            "operation": "Update",
+                            "subresource": "status",
+                            "time": "2024-02-02T16:45:33Z"
+                        }
+                    ],
+                    "name": "nmap-dummy-ssh-7jz42",
+                    "namespace": "integration-tests",
+                    "resourceVersion": "10454",
+                    "uid": "c887fffa-ddc9-4a7a-9415-7c46cfaa3649"
+                },
+                "spec": {
+                    "cascades": {
+                        "inheritAffinity": true,
+                        "inheritAnnotations": true,
+                        "inheritEnv": false,
+                        "inheritHookSelector": false,
+                        "inheritInitContainers": false,
+                        "inheritLabels": true,
+                        "inheritTolerations": true,
+                        "inheritVolumes": false,
+                        "matchLabels": {
+                            "securecodebox.io/intensive": "high",
+                            "securecodebox.io/invasive": "invasive"
+                        },
+                        "scopeLimiter": {
+                            "validOnMissingRender": false
+                        }
+                    },
+                    "parameters": [
+                        "-Pn",
+                        "-sV",
+                        "dummy-ssh.demo-targets.svc"
+                    ],
+                    "resourceMode": "namespaceLocal",
+                    "resources": {},
+                    "scanType": "nmap"
+                },
+                "status": {
+                    "findingDownloadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-c887fffa-ddc9-4a7a-9415-7c46cfaa3649/findings.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20240202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240202T164456Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a17a3830b745b2f715641ed4e4ee5c561106a79eed6798d294fe693792e4315a",
+                    "findingHeadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-c887fffa-ddc9-4a7a-9415-7c46cfaa3649/findings.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20240202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240202T164456Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=28127d19e36438aa686249a3e53e8ffb2ac38c02f9a5679127e0fc466b4fedfc",
+                    "findings": {
+                        "categories": {
+                            "Host": 1,
+                            "Open Port": 1
+                        },
+                        "count": 2,
+                        "severities": {
+                            "informational": 2
+                        }
+                    },
+                    "orderedHookStatuses": [
+                        [
+                            {
+                                "hookName": "dssh-cascading-scans",
+                                "jobName": "dssh-cascading-scans-nmap-dummy-ssh-7jz42-8gq5m",
+                                "priority": 0,
+                                "state": "Completed",
+                                "type": "ReadOnly"
+                            }
+                        ]
+                    ],
+                    "rawResultDownloadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-c887fffa-ddc9-4a7a-9415-7c46cfaa3649/nmap-results.xml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20240202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240202T164456Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=13930cec08c3e576709d6620dcd16a0d51c230003c5346c653de643e0096e9a6",
+                    "rawResultFile": "nmap-results.xml",
+                    "rawResultHeadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-c887fffa-ddc9-4a7a-9415-7c46cfaa3649/nmap-results.xml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20240202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240202T164456Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=9cc5a0324f40c250f8402587036e18386f6fbf47a81b431bed8c7af9cddc4c76",
+                    "rawResultType": "nmap-xml",
+                    "state": "Done"
+                }
+            }
+        ],
+        "kind": "ScanList",
+        "metadata": {
+            "continue": "",
+            "resourceVersion": "10507"
+        }
+    }
+}
