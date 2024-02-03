@@ -22,6 +22,9 @@ parser:
   # parser.scopeLimiterAliases -- Optional finding aliases to be used in the scopeLimiter.
   scopeLimiterAliases: {}
 
+  # parser.nodeSelector -- Optional nodeSelector settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
+  nodeSelector: {}
+
   # parser.affinity -- Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
   affinity: {}
 
@@ -94,6 +97,9 @@ scanner:
         # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
         - all
 
+  # scanner.nodeSelector -- Optional nodeSelector settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
+  nodeSelector: {}
+
   # scanner.affinity -- Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
   affinity: {}
 
@@ -102,7 +108,7 @@ scanner:
 
   # -- if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue
   suspend: false
-  
+
 # kubeauditScope -- Automatically sets up rbac roles for kubeaudit to access the resources it scans. Can be either "cluster" (ClusterRole) or "namespace" (Role)
 kubeauditScope: "cluster"
 
@@ -115,8 +121,6 @@ trivyDatabaseCache:
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
   enabled: false
-
-
 
 # -- Creates a `trivy-image-autodiscovery` scanType with its own ServiceAccount for the SCB AutoDiscovery, enabled to scan images from both public & private registries.
 createAutoDiscoveryScanType: false

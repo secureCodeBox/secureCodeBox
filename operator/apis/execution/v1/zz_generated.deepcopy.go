@@ -390,6 +390,11 @@ func (in *ParseDefinitionSpec) DeepCopyInto(out *ParseDefinitionSpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.NodeSelector != nil {
+		in, out := &in.NodeSelector, &out.NodeSelector
+		*out = new(corev1.NodeSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Affinity != nil {
 		in, out := &in.Affinity, &out.Affinity
 		*out = new(corev1.Affinity)
@@ -545,6 +550,11 @@ func (in *ScanCompletionHookSpec) DeepCopyInto(out *ScanCompletionHookSpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.NodeSelector != nil {
+		in, out := &in.NodeSelector, &out.NodeSelector
+		*out = new(corev1.NodeSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Affinity != nil {
 		in, out := &in.Affinity, &out.Affinity
 		*out = new(corev1.Affinity)
@@ -672,6 +682,11 @@ func (in *ScanSpec) DeepCopyInto(out *ScanSpec) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.NodeSelector != nil {
+		in, out := &in.NodeSelector, &out.NodeSelector
+		*out = new(corev1.NodeSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Affinity != nil {
 		in, out := &in.Affinity, &out.Affinity

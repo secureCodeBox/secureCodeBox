@@ -19,6 +19,9 @@ parser:
   # parser.scopeLimiterAliases -- Optional finding aliases to be used in the scopeLimiter.
   scopeLimiterAliases: {}
 
+  # parser.nodeSelector -- Optional nodeSelector settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
+  nodeSelector: {}
+
   # parser.affinity -- Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
   affinity: {}
 
@@ -30,8 +33,8 @@ parser:
   resources: {}
 
 scanner:
-  image: 
-    repository:  docker.io/securecodebox/scanner-ssh-audit
+  image:
+    repository: docker.io/securecodebox/scanner-ssh-audit
     tag: null
 
   # scanner.nameAppend -- append a string to the default scantype name.
@@ -86,6 +89,9 @@ scanner:
       drop:
         # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
         - all
+
+  # scanner.nodeSelector -- Optional nodeSelector settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
+  nodeSelector: {}
 
   # scanner.affinity -- Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
   affinity: {}

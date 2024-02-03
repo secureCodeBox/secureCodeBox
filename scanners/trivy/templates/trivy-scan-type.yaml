@@ -63,6 +63,10 @@ spec:
             {{- end }}
           volumes:
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
+          {{- with .Values.scanner.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
 {{ if .Values.createAutoDiscoveryScanType }}
 ---
 apiVersion: "execution.securecodebox.io/v1"

@@ -80,3 +80,7 @@ spec:
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
             {{- end }}
          {{ end }}
+         {{- with .Values.scanner.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
