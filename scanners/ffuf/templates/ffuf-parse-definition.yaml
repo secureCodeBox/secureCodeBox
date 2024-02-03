@@ -15,3 +15,7 @@ spec:
     {{- toYaml .Values.parser.scopeLimiterAliases | nindent 4}}
   affinity: {{- toYaml .Values.parser.affinity | nindent 4}}
   tolerations: {{- toYaml .Values.parser.tolerations | nindent 4}}
+  {{- with .Values.parser.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

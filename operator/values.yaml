@@ -55,6 +55,8 @@ securityContext:
 # -- Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
 podSecurityContext: {}
 
+nodeSelector: {}
+
 lurker:
   image:
     # lurker.image.repository -- The operator image repository

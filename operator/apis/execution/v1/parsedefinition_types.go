@@ -43,7 +43,8 @@ type ParseDefinitionSpec struct {
 	Volumes []corev1.Volume `json:"volumes,omitempty"`
 	// VolumeMounts allows to specify volume mounts for the parser container.
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
-
+	// NodeSelector allows to specify a node selector, to control on which nodes you want a scan to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
+	NodeSelector *corev1.NodeSelector `json:"nodeSelector,omitempty"`
 	// Affinity allows to specify a node affinity, to control on which nodes you want a parser to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
 	Affinity *corev1.Affinity `json:"affinity,omitempty"`
 	// Tolerations are a different way to control on which nodes your parser is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/

@@ -90,6 +90,7 @@ helm install securecodebox-operator secureCodeBox/operator
 | lurker.image.tag | string | defaults to the charts version | Parser image tag |
 | minio | object | `{"auth":{"rootPassword":"password","rootUser":"admin"},"defaultBuckets":"securecodebox","enabled":true,"resources":{"requests":{"memory":"256Mi"}},"tls":{"enabled":false}}` | Minio default config. More config options an info: https://github.com/minio/minio/blob/master/helm/minio/values.yaml |
 | minio.enabled | bool | `true` | Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc. |
+| nodeSelector | object | `{}` |  |
 | podSecurityContext | object | `{}` | Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container |
 | presignedUrlExpirationTimes | object | `{"hooks":"1h","parsers":"1h","scanners":"12h"}` | Duration how long presigned urls are valid |
 | resources | object | `{"limits":{"cpu":"100m","memory":"30Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
