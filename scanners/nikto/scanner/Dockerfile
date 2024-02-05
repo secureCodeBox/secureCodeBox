@@ -9,7 +9,7 @@ RUN git clone --depth 1 --branch "nikto-$scannerVersion" https://github.com/sull
 
 FROM alpine:3.14
 
-ENV  PATH=${PATH}:/nikto
+ENV PATH=${PATH}:/nikto
 
 COPY wrapper.sh /wrapper.sh
 
