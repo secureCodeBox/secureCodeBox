@@ -36,7 +36,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is Git-Repo-Scanner?
 
 Git-Repo-Scanner is a small Python script which discovers repositories on GitHub or GitLab. The main purpose of this scanner
-is to provide a cascading input for the [gitleaks](/docs/scanners/gitleaks) and [semgrep](/docs/scanners/semgrep) scanners.
+is to provide a cascading input for the [gitleaks](https://www.securecodebox.io/docs/scanners/gitleaks) and [semgrep](https://www.securecodebox.io/docs/scanners/semgrep) scanners.
 
 ## Deployment
 The git-repo-scanner chart can be deployed via helm:
