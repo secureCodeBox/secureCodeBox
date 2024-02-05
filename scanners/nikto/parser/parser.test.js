@@ -36,13 +36,12 @@ test("parses OWASP Juice Shop result file into findings", async () => {
 });
 
 test("should properly parse empty json file", async () => {
-  const jsonContent = await readFile(
-    __dirname + "/__testFiles__/test-empty-report.json",
-    {
+  const fileContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/empty-report.json", {
       encoding: "utf8",
-    }
+    })
   );
-  const findings = await parse(jsonContent);
+  const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
