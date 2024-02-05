@@ -2,16 +2,13 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const fs = require("fs");
+const { readFile } = require("fs/promises");
 const Ajv = require("ajv-draft-04");
 const ajv = new Ajv();
 const addFormats = require("ajv-formats");
 addFormats(ajv);
-const util = require("util");
 const jsonpointer = require("jsonpointer");
 
-// eslint-disable-next-line security/detect-non-literal-fs-filename
-const readFile = util.promisify(fs.readFile);
 const { v4: uuid } = require("uuid");
 
 function addIdsAndDates(findings) {
