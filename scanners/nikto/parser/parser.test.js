@@ -11,7 +11,7 @@ const {
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
-const { parse } = require("./parser");
+const {parse} = require("./parser");
 
 test("parses www.securecodebox.io result file into findings", async () => {
   const fileContent = JSON.parse(
@@ -54,4 +54,5 @@ test("parses 'no web server found' finding correctly", async () => {
     })
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();});
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+});
