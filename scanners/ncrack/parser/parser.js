@@ -4,10 +4,7 @@
 
 const xml2js = require("xml2js");
 const crypto = require("crypto");
-const fs = require("fs");
-const util = require("util");
-// eslint-disable-next-line security/detect-non-literal-fs-filename
-const readFile = util.promisify(fs.readFile);
+const { readFile } = require("fs/promises");
 
 async function parse(
   fileContent,
