@@ -5,7 +5,7 @@
 FROM alpine:3.14 as build
 ARG scannerVersion
 RUN apk add git
-RUN git clone --depth 1 --branch "nikto-$scannerVersion" https://github.com/sullo/nikto.git /nikto
+RUN git clone --depth 1 https://github.com/sullo/nikto.git /nikto
 
 FROM alpine:3.14
 
