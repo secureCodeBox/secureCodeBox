@@ -3,890 +3,1039 @@
   "ip": "10.96.244.199",
   "port": "3000",
   "banner": "",
-  "vulnerabilities": [{
-    "id": "999986",
-    "method": "GET",
-    "url": "",
-    "msg": "Retrieved access-control-allow-origin header: *."
-  }, {
-    "id": "999997",
-    "references": "https://portswigger.net/kb/issues/00600600_robots-txt-file",
-    "method": "GET",
-    "url": "",
-    "msg": "Entry '/ftp/' in robots.txt returned a non-forbidden or redirect HTTP code (200)."
-  }, {
-    "id": "999996",
-    "references": "https://developer.mozilla.org/en-US/docs/Glossary/Robots.txt",
-    "method": "GET",
-    "url": "",
-    "msg": "\"robots.txt\" contains 1 entry which should be manually viewed."
-  }, {
-    "id": "999103",
-    "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
-    "method": "GET",
-    "url": "",
-    "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.war: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/demo-targets.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.tar.lzma: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/dump.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.svc.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.cer: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/10.96.244.199.tgz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/svc.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.pem: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targetssvc.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shopdemo-targets.tar: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/archive.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop_demo-targets_svc.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/site.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/juice-shop.demo-targets.jks: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/backup.tar.bz2: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.egg: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "740001",
-    "references": "https://cwe.mitre.org/data/definitions/530.html",
-    "method": "HEAD",
-    "url": "",
-    "msg": "/database.alz: Potentially interesting backup/cert file found. ."
-  }, {
-    "id": "001675",
-    "method": "GET",
-    "url": "",
-    "msg": "/ftp/: This might be interesting."
-  }, {
-    "id": "001811",
-    "method": "GET",
-    "url": "",
-    "msg": "/public/: This might be interesting."
-  }, {
-    "id": "006737",
-    "references": "https://seclists.org/fulldisclosure/2014/Feb/171",
-    "method": "POST",
-    "url": "",
-    "msg": "/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/nextgen_addgallery_page/static/jquery.filetree/connectors/jqueryFileTree.php: NextGEN Gallery LFI."
-  }, {
-    "id": "006737",
-    "references": "https://seclists.org/fulldisclosure/2014/Feb/171",
-    "method": "POST",
-    "url": "",
-    "msg": "/wordpress/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/nextgen_addgallery_page/static/jquery.filetree/connectors/jqueryFileTree.php: NextGEN Gallery LFI."
-  }]
+  "vulnerabilities": [
+    {
+      "id": "999986",
+      "method": "GET",
+      "url": "",
+      "msg": "Retrieved access-control-allow-origin header: *."
+    },
+    {
+      "id": "999997",
+      "references": "https://portswigger.net/kb/issues/00600600_robots-txt-file",
+      "method": "GET",
+      "url": "",
+      "msg": "Entry '/ftp/' in robots.txt returned a non-forbidden or redirect HTTP code (200)."
+    },
+    {
+      "id": "999996",
+      "references": "https://developer.mozilla.org/en-US/docs/Glossary/Robots.txt",
+      "method": "GET",
+      "url": "",
+      "msg": "\"robots.txt\" contains 1 entry which should be manually viewed."
+    },
+    {
+      "id": "999103",
+      "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
+      "method": "GET",
+      "url": "",
+      "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.war: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/demo-targets.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.tar.lzma: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/dump.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.svc.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.cer: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/10.96.244.199.tgz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/svc.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.pem: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targetssvc.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shopdemo-targets.tar: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/archive.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop_demo-targets_svc.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/site.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/juice-shop.demo-targets.jks: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/backup.tar.bz2: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.egg: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "740001",
+      "references": "https://cwe.mitre.org/data/definitions/530.html",
+      "method": "HEAD",
+      "url": "",
+      "msg": "/database.alz: Potentially interesting backup/cert file found. ."
+    },
+    {
+      "id": "001675",
+      "method": "GET",
+      "url": "",
+      "msg": "/ftp/: This might be interesting."
+    },
+    {
+      "id": "001811",
+      "method": "GET",
+      "url": "",
+      "msg": "/public/: This might be interesting."
+    },
+    {
+      "id": "006737",
+      "references": "https://seclists.org/fulldisclosure/2014/Feb/171",
+      "method": "POST",
+      "url": "",
+      "msg": "/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/nextgen_addgallery_page/static/jquery.filetree/connectors/jqueryFileTree.php: NextGEN Gallery LFI."
+    },
+    {
+      "id": "006737",
+      "references": "https://seclists.org/fulldisclosure/2014/Feb/171",
+      "method": "POST",
+      "url": "",
+      "msg": "/wordpress/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/nextgen_addgallery_page/static/jquery.filetree/connectors/jqueryFileTree.php: NextGEN Gallery LFI."
+    }
+  ]
 }
