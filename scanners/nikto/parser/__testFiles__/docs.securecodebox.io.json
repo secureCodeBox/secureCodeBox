@@ -1,29 +1,50 @@
-{
-    "host": "docs.securecodebox.io",
-    "ip": "46.101.121.244",
-    "port": "80",
-    "banner": "Netlify",
-    "vulnerabilities": [
-        {
-            "id": "999957",
-            "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
-            "method": "GET",
-            "url": "",
-            "msg": "The anti-clickjacking X-Frame-Options header is not present."
-        },
-        {
-            "id": "000287",
-            "references": "https://www.netlify.com/",
-            "method": "GET",
-            "url": "",
-            "msg": "Netlify was identified by the x-nf-request-id header."
-        },
-        {
-            "id": "999103",
-            "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
-            "method": "GET",
-            "url": "",
-            "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
-        }
-    ]
-}
+[
+    {
+        "host": "www.securecodebox.io",
+        "ip": "3.70.101.28",
+        "port": "443",
+        "banner": "",
+        "vulnerabilities": [
+            {
+                "id": "000287",
+                "references": "https://www.netlify.com/",
+                "method": "GET",
+                "url": "/",
+                "msg": "Netlify was identified by the x-nf-request-id header."
+            },
+            {
+                "id": "999100",
+                "method": "GET",
+                "url": "/",
+                "msg": "Uncommon header 'cache-status' found, with contents: \\\"Netlify Edge\\\"; hit."
+            },
+            {
+                "id": "999103",
+                "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
+                "method": "GET",
+                "url": "/",
+                "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
+            },
+            {
+                "id": "999984",
+                "references": "CVE-2003-1418",
+                "method": "GET",
+                "url": "/",
+                "msg": "Server may leak inodes via ETags, header found with file /, inode: 47d154f7c9e7e369b48dafb5778d36d4, size: ssl, mtime: df."
+            },
+            {
+                "id": "999966",
+                "references": "http://breachattack.com/",
+                "method": "GET",
+                "url": "/",
+                "msg": "The Content-Encoding header is set to \\\"deflate\\\" which may mean that the server is vulnerable to the BREACH attack."
+            },
+            {
+                "id": "001218",
+                "method": "GET",
+                "url": "/sitemap.xml",
+                "msg": "This gives a nice listing of the site content."
+            }
+        ]
+    }
+]
