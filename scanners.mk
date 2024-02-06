@@ -88,7 +88,8 @@ deploy-with-scanner:
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true" \
 		--set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-$(name)" \
-		--set="scanner.image.tag=$(IMG_TAG)"
+		--set="scanner.image.tag=$(IMG_TAG)" \
+		--set="scanner.backoffLimit=1"
 
 .PHONY: integration-tests
 integration-tests:
