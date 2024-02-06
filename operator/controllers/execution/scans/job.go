@@ -29,7 +29,7 @@ func checkIfAllJobsCompleted(jobs *batch.JobList) jobCompletionType {
 	hasCompleted := true
 
 	for _, job := range jobs.Items {
-		if job.Status.Failed > *job.Spec.BackoffLimit {
+		if job.Status.Failed >= *job.Spec.BackoffLimit {
 			return failed
 		} else if job.Status.Succeeded == 0 {
 			hasCompleted = false
@@ -69,7 +69,7 @@ func (r *ScanReconciler) checkIfJobIsCompleted(scan *executionv1.Scan, labels cl
 
 	r.Log.V(9).Info("Got related jobs", "count", len(jobs.Items))
 
-	return checkIfAllJobsCompleted(jobs), nil
+	return checkIfAllJobsCompleted(jobs, r), nil
 }
 
 // injectCustomCACertsIfConfigured injects CA Certificates to /etc/ssl/certs/
