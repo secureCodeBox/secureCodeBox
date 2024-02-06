@@ -55,8 +55,8 @@ jobs:
           retention-days: 1
 
 
-  test-nodejs-helpers:
-    name: "Unit Test | Node.js Helpers"
+  test-nodejs-scanner-test-helpers:
+    name: "Unit Test | Node.js Scanner Test Helpers"
     needs:
       - nvm-setup
     runs-on: ubuntu-22.04
@@ -76,12 +76,14 @@ jobs:
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
 
-      - name: Install and test Node.js helpers
+      - name: Install dependencies
         working-directory: ./scanners
         run: |
           npm ci
+      - name: Test Node.js Scanner Test Helpers
+        working-directory: ./scanners
+        run: |
           npm run test:helpers
-
   k8s-setup:
     name: "Setup Kind & Kubectl & Helm"
     runs-on: ubuntu-22.04
