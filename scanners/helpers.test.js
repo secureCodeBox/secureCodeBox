@@ -38,6 +38,7 @@ describe("Kubernetes interaction tests", () => {
       mockK8sCRDApi.getNamespacedCustomObjectStatus.mockResolvedValue(
         mockScanStatusResponse
       );
+      const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
 
       const findings = await scan(
         "typo3scan-old-typo3",
@@ -47,9 +48,7 @@ describe("Kubernetes interaction tests", () => {
         [],
         [],
         [],
-        mockK8sCRDApi,
-        mockK8sBatchApi,
-        mockPodsApi
+        k8sApi
       );
 
       expect(findings).toBeDefined();
@@ -83,6 +82,9 @@ describe("Kubernetes interaction tests", () => {
         mockReadNamespacedPodLogResponse
       );
 
+
+      const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
+
       try {
         await scan(
           "typo3scan-old-typo3",
@@ -92,9 +94,7 @@ describe("Kubernetes interaction tests", () => {
           [],
           [],
           [],
-          mockK8sCRDApi,
-          mockK8sBatchApi,
-          mockPodsApi
+          k8sApi
         );
       } catch (error) {
         expect(error).toMatchInlineSnapshot(
@@ -121,6 +121,8 @@ describe("Kubernetes interaction tests", () => {
         mockListNamespacedCustomObjectResponse
       );
 
+      const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
+
       const findings = await cascadingScan(
         "nmap-dummy-ssh",
         "nmap",
@@ -133,9 +135,7 @@ describe("Kubernetes interaction tests", () => {
           },
         },
         180,
-        mockK8sCRDApi,
-        mockK8sBatchApi,
-        mockPodsApi
+        k8sApi
       );
 
       expect(findings).toBeDefined();
@@ -165,6 +165,7 @@ describe("Kubernetes interaction tests", () => {
       mockPodsApi.readNamespacedPodLog.mockResolvedValue(
         mockReadNamespacedPodLogResponse
       );
+      const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
 
       try {
         await cascadingScan(
@@ -179,9 +180,7 @@ describe("Kubernetes interaction tests", () => {
             },
           },
           180,
-          mockK8sCRDApi,
-          mockK8sBatchApi,
-          mockPodsApi
+          k8sApi
         );
       } catch (error) {
         expect(error).toMatchInlineSnapshot(
