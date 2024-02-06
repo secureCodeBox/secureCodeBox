@@ -69,7 +69,7 @@ func (r *ScanReconciler) checkIfJobIsCompleted(scan *executionv1.Scan, labels cl
 
 	r.Log.V(9).Info("Got related jobs", "count", len(jobs.Items))
 
-	return checkIfAllJobsCompleted(jobs, r), nil
+	return checkIfAllJobsCompleted(jobs), nil
 }
 
 // injectCustomCACertsIfConfigured injects CA Certificates to /etc/ssl/certs/
