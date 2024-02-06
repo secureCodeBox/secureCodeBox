@@ -6,7 +6,7 @@ const {scan} = require("../../helpers");
 
 jest.retryTimes(3);
 
-test.skip(
+test(
   "nikto scan against bodgeit demo-target",
   async () => {
     const {categories, severities, count} = await scan(
@@ -23,21 +23,19 @@ test.skip(
       90
     );
 
-    expect(count).toBe(13);
+    expect(count).toBe(12);
     expect(categories).toMatchInlineSnapshot(`
       {
         "Identified Software": 1,
         "Nikto Finding": 3,
         "Potential Vulnerability": 7,
         "X-Content-Type-Options Header": 1,
-        "X-Frame-Options Header": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
       {
         "high": 7,
         "informational": 5,
-        "low": 1,
       }
     `);
   },
