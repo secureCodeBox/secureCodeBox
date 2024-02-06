@@ -85,22 +85,17 @@ describe("Kubernetes interaction tests", () => {
 
       const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
 
-      try {
-        await scan(
-          "typo3scan-old-typo3",
-          "typo3scan",
-          [],
-          180,
-          [],
-          [],
-          [],
-          k8sApi
-        );
-      } catch (error) {
-        expect(error).toMatchInlineSnapshot(
-          `[Error: Scan failed with description "Mocked Error"]`
-        );
-      }
+      return expect(scan(
+        "typo3scan-old-typo3",
+        "typo3scan",
+        [],
+        180,
+        [],
+        [],
+        [],
+        k8sApi
+      )).rejects.toThrow('Scan failed with description "Mocked Error"');
+      
     });
   });
 
@@ -167,26 +162,20 @@ describe("Kubernetes interaction tests", () => {
       );
       const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
 
-      try {
-        await cascadingScan(
-          "nmap-dummy-ssh",
-          "nmap",
-          ["-Pn", "-sV", "dummy-ssh.demo-targets.svc"],
-          {
-            nameCascade: "ncrack-ssh",
-            matchLabels: {
-              "securecodebox.io/invasive": "invasive",
-              "securecodebox.io/intensive": "high",
-            },
+      return expect(cascadingScan(
+        "nmap-dummy-ssh",
+        "nmap",
+        ["-Pn", "-sV", "dummy-ssh.demo-targets.svc"],
+        {
+          nameCascade: "ncrack-ssh",
+          matchLabels: {
+            "securecodebox.io/invasive": "invasive",
+            "securecodebox.io/intensive": "high",
           },
-          180,
-          k8sApi
-        );
-      } catch (error) {
-        expect(error).toMatchInlineSnapshot(
-          `[Error: Initial Scan failed with description "Mocked Error"]`
-        );
-      }
+        },
+        180,
+        k8sApi
+      )).rejects.toThrow('Initial Scan failed with description "Mocked Error"'); 
     });
   });
 });
