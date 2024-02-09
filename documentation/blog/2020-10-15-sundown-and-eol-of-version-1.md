@@ -48,7 +48,7 @@ It may be possible to migrate the data collected by version 1 in Elastic. But at
 
 ## Please Sorry 🥺
 
-So you may face a major fuckup now. We understand that such a move is almost always quite a bit annoying. That's why we ask you for sorry and hope we won't lose you as a *secureCodeBox* user. If you need help moving to *secureCodeBox* version 2 don't hesitate to ask us for help! You can reach us at [Twitter](https://www.twitter.com/secureCodeBox), [OWASP Slack](https://owasp.org/slack/invite) (Channel `#project-securecodebox`), E-Mail (securecodebox [at] iteratec [dot] com) or just file an issue at GitHub.
+So you may face a major fuckup now. We understand that such a move is almost always quite a bit annoying. That's why we ask you for sorry and hope we won't lose you as a *secureCodeBox* user. If you need help moving to *secureCodeBox* version 2 don't hesitate to ask us for help! You can reach us at ~~[Twitter](https://www.twitter.com/secureCodeBox)~~[Mastodon](https://infosec.exchange/@secureCodeBox), [OWASP Slack](https://owasp.org/slack/invite) (Channel `#project-securecodebox`), E-Mail (securecodebox [at] iteratec [dot] com) or just file an issue at GitHub.
 
 Finally to cheer you up a little cute kitten:
 
