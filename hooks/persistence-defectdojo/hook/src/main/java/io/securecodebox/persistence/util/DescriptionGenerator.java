@@ -27,6 +27,7 @@ public class DescriptionGenerator {
       MessageFormat.format("Started: {0}", getStartTime(scan)),
       MessageFormat.format("Ended: {0}", currentTime()),
       MessageFormat.format("ScanType: {0}", spec.getScanType()),
+      // FIXME: #2272 spec.getParameters() may be null in some conditions.
       MessageFormat.format("Parameters: [{0}]", String.join(",", Objects.requireNonNull(spec.getParameters())))
     );
   }
