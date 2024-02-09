@@ -16,7 +16,7 @@ SPDX-License-Identifier: Apache-2.0
   <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
   <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Lab Project" src="https://img.shields.io/badge/OWASP-Lab%20Project-yellow"></a>
   <a href="https://artifacthub.io/packages/search?repo=securecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/secureCodeBox"></a>
-  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
+  <a href="https://infosec.exchange/@secureCodeBox"><img alt="Mastodon Follower" src="https://img.shields.io/mastodon/follow/111902499714281911?domain=https%3A%2F%2Finfosec.exchange%2F"/></a>
   <a href="https://github.com/secureCodeBox/secureCodeBox/actions?query=workflow%3ACI"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox/workflows/CI/badge.svg"></a>
   <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox/badge.svg"></a>
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox.svg?type=shield"/></a>
@@ -87,7 +87,7 @@ You are welcome, please join us on... 👋
 
 - [GitHub Discussions (Questions & Feedback)][scb-github-discussions]
 - [GitHub Issues (Bugs & Feature Requests)][scb-github]
-- [Twitter][scb-twitter]
+- [Mastodon][scb-mastodon]
 
 secureCodeBox is an official [OWASP][owasp] project.
 
@@ -112,11 +112,11 @@ Please have a look at [Contributing](./CONTRIBUTING.md)
 
 Sponsored and maintained by [iteratec GmbH](https://www.iteratec.com/) - [secureCodeBox.io](https://www.securecodebox.io/)
 
-[owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[objspec]: https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
-[secdevops-objspec]: http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
-[scb-github]: https://github.com/secureCodeBox/
-[scb-github-issues]: https://github.com/secureCodeBox/secureCodeBox/issues
+[owasp]:                  https://www.owasp.org/index.php/OWASP_secureCodeBox
+[objspec]:                https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
+[secdevops-objspec]:      http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
+[scb-github]:             https://github.com/secureCodeBox/
+[scb-github-issues]:      https://github.com/secureCodeBox/secureCodeBox/issues
 [scb-github-discussions]: https://github.com/secureCodeBox/secureCodeBox/discussions/categories/general
-[scb-twitter]: https://twitter.com/secureCodeBox
-[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+[scb-mastodon]:           https://infosec.exchange/@secureCodeBox
+[scb-license]:            https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
