@@ -37,9 +37,9 @@ like deduplication. These scan types are:
 - Gitleaks
 - Semgrep
 
-After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out Slack notification for non-duplicate & non-false positive findings only.
+After uploading the results to DefectDojo, it will use the findings parsed by _DefectDojo_ to overwrite the original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false positive and duplicate status from _DefectDojo_ in further ReadOnly hooks, e.g. send out Slack notification for non-duplicate & non-false positive findings only.
 
-For scan types which are not supported by DefectDojo, the generic importer is used, which will result in a less sophisticated display of the results and fewer features inside DefectDojo. In the worst case, it can lead to some findings being lost - see the note below.
+For scan types which are not supported by _DefectDojo_, the generic importer is used, which will result in a less sophisticated display of the results and fewer features inside _DefectDojo_. In the worst case, it can lead to some findings being lost - see the note below.
 
 :::note
 A big amount of findings may require higher resource limits. Changing them may be required to avoid OOM errors. The default values are:
@@ -64,14 +64,14 @@ helm upgrade --namespace NAMESPACE --install persistence-defectdojo secureCodeBo
 
 
 :::caution
-Be careful when using the DefectDojo Hook in combination with other ReadAndWrite hooks. By default, the secureCodeBox makes no guarantees about the execution order of multiple ReadAndWrite hooks, they can be executed in any order. This can lead to "lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the DefectDojo hook as they are always executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with secureCodeBox 3.4.0 and later).
+Be careful when using the _DefectDojo Hook_ in combination with other _ReadAndWrite Hooks_. By default, the secureCodeBox makes no guarantees about the execution order of multiple ReadAndWrite hooks, they can be executed in any order. This can lead to "lost update" problems as the _DefectDojo_ hook will overwrite all findings, which disregards the results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the _DefectDojo_ hook as they are always executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with secureCodeBox 3.4.0 and later).
 :::
 
 :::caution
-The DefectDojo hook will send all scan results to DefectDojo, including those for which DefectDojo does not have native support. In this case, DefectDojo may incorrectly deduplicate findings, which can in some cases [lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312). You can set the hook to read-only mode, which will prevent it from writing the results back to secureCodeBox (`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data loss inside secureCodeBox, but this will not prevent the incorrect deduplication from affecting the data you see inside DefectDojo (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)). You can also selectively disable the DefectDojo hook for certain scans using the [hook selector feature](https://www.securecodebox.io/docs/how-tos/hooks#hook-selector) (supported with secureCodeBox 3.4.0 and later).
+The _DefectDojo_ hook will send all scan results to _DefectDojo_, including those for which _DefectDojo_ does not have native support. In this case, _DefectDojo_ may incorrectly deduplicate findings, which can in some cases [lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312). You can set the hook to read-only mode, which will prevent it from writing the results back to secureCodeBox (`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data loss inside secureCodeBox, but this will not prevent the incorrect deduplication from affecting the data you see inside _DefectDojo_ (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)). You can also selectively disable the _DefectDojo_ hook for certain scans using the [hook selector feature](https://www.securecodebox.io/docs/how-tos/hooks#hook-selector) (supported with secureCodeBox 3.4.0 and later).
 :::
 
-### Running "Persistence DefectDojo" Hook Locally from Source
+### Running _Persistence DefectDojo Hook_ Locally from Source
 
 For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
 
@@ -100,7 +100,7 @@ java -jar build/libs/defectdojo-persistenceprovider-<VERSION>>.jar https://gist.
 {{- define "extra.chartConfigurationSection" -}}
 ## Additional Chart Configurations
 
-Installing the DefectDojo persistenceProvider hook will add a _ReadAndWrite Hook_ to your namespace.
+Installing the _DefectDojo_ persistenceProvider hook will add a _ReadAndWrite Hook_ to your namespace.
 
 ```bash
 kubectl create secret generic defectdojo-credentials --from-literal="username=admin" --from-literal="apikey=08b7..."
@@ -109,9 +109,9 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
     --set="defectdojo.url=https://defectdojo-django.default.svc"
 ```
 
-The hook will automatically import the scan results into an engagement in DefectDojo. If the engagement doesn't exist the hook will create the engagement (CI/CD engagement) and all objects required for it (product & product type). The hook will then pull the imported information from DefectDojo and use them to replace the findings inside secureCodeBox.
+The hook will automatically import the scan results into an engagement in _DefectDojo_. If the engagement doesn't exist the hook will create the engagement (CI/CD engagement) and all objects required for it (product & product type). The hook will then pull the imported information from _DefectDojo_ and use them to replace the findings inside secureCodeBox.
 
-In case you use a DefectDojo instance with a self-signed root CA, upgrade the hook with:
+In case you use a _DefectDojo_ instance with a self-signed root CA, upgrade the hook with:
 
 ```bash
 helm upgrade --install dd secureCodeBox/persistence-defectdojo \
@@ -139,11 +139,11 @@ You don't need any configuration for that to work, the hook will infer engagemen
 
 ### Read-only Mode
 
-By default, the DefectDojo hook will pull the imported results from DefectDojo and use them to replace the results inside secureCodeBox.  This allows you to benefit from DefectDojo's deduplication logic and only trigger follow-up scans or notifications for new findings.  If you want to disable this feature, you can install the hook in read-only mode using `--set defectdojo.syncFindingsBack=false` while  installing the hook using Helm.
+By default, the _DefectDojo_ hook will pull the imported results from _DefectDojo_ and use them to replace the results inside secureCodeBox.  This allows you to benefit from _DefectDojo_'s deduplication logic and only trigger follow-up scans or notifications for new findings.  If you want to disable this feature, you can install the hook in read-only mode using `--set defectdojo.syncFindingsBack=false` while  installing the hook using Helm.
 
 ### Notes on `syncFindingBack` Mode & Duplicate Findings
 
-Attributes like if a finding has been marked as accepted or has been marked as a false positive in DefectDojo are only attached to the original finding. The duplicated findings will always have the `falsePositive`, `riskAccepted` and `outOfScope` attributes set to false as they have just been imported. To enable users to access this meta information on the original the `syncFindingBack` mode automatically embeds the orignal finding in the attributes of synced back duplicate findings. The following example shows a finding produced by the `syncFindingBack` mode, in which the original finding has been marked as accepted.
+Attributes like if a finding has been marked as accepted or has been marked as a false positive in _DefectDojo_ are only attached to the original finding. The duplicated findings will always have the `falsePositive`, `riskAccepted` and `outOfScope` attributes set to false as they have just been imported. To enable users to access this meta information on the original the `syncFindingBack` mode automatically embeds the orignal finding in the attributes of synced back duplicate findings. The following example shows a finding produced by the `syncFindingBack` mode, in which the original finding has been marked as accepted.
 
 ```yaml
 # example synced back duplicate finding
@@ -200,9 +200,9 @@ Attributes like if a finding has been marked as accepted or has been marked as a
 
 ### Low Privileged Mode
 
-By default the DefectDojo Hook requires a API Token with platform wide "Staff" access rights.
+By default the _DefectDojo_ Hook requires a API Token with platform wide "Staff" access rights.
 
-DefectDojo >2.0.0 refined their user access rights, allowing you to restrict the users access rights to only view specific product types in DefectDojo. The secureCodeBox DefectDojo Hook can be configured to run with such a token of a "low privileged" users by setting the `defectdojo.lowPrivilegedMode=true`.
+_DefectDojo_ >2.0.0 refined their user access rights, allowing you to restrict the users access rights to only view specific product types in _DefectDojo_. The secureCodeBox _DefectDojo_ Hook can be configured to run with such a token of a "low privileged" users by setting the `defectdojo.lowPrivilegedMode=true`.
 
 #### Limitations of the Low Privileged Mode
 
@@ -224,7 +224,7 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 
 ### DefectDojo minimum severity
 
-It has come to our attention, that DefectDojo become slow when handling a lot of data. A lot of data in DefectDojo can be informational findings one likes to ignore. Therefore Defectdojo provides the option to only create findings for scan finding from a certain severity level and above, thus lowering the amount of data stored. We integrate this option in our scans by providing the "defectdojo.securecodebox.io/minimum_severity" annotation for scans. This is an example of how the minimum severity for findings of a scan can be set:
+It has come to our attention, that _DefectDojo_ become slow when handling a lot of data. A lot of data in _DefectDojo_ can be informational findings one likes to ignore. Therefore _DefectDojo_ provides the option to only create findings for scan finding from a certain severity level and above, thus lowering the amount of data stored. We integrate this option in our scans by providing the "defectdojo.securecodebox.io/minimum_severity" annotation for scans. This is an example of how the minimum severity for findings of a scan can be set:
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
@@ -241,12 +241,12 @@ spec:
       - "-t"
       - "http://juice-shop.demo-targets.svc:3000"
 ```
-In this example only for scan findings with a severity of "Low" or higher there are findings in DefectDojo created.
+In this example only for scan findings with a severity of "Low" or higher there are findings in _DefectDojo_ created.
 
 
 ### Simple Example Scans
 
-This will run a daily scan using ZAP on a demo target. The results will be imported using the name "zap-juiceshop-$UNIX_TIMESTAMP" (Name of the Scan created by the ScheduledScan), in a product called "zap-juiceshop" in the default DefectDojo product type.
+This will run a daily scan using ZAP on a demo target. The results will be imported using the name "zap-juiceshop-$UNIX_TIMESTAMP" (Name of the Scan created by the ScheduledScan), in a product called "zap-juiceshop" in the default _DefectDojo_ product type.
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
