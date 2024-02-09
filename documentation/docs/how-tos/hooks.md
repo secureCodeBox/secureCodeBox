@@ -12,6 +12,18 @@ sidebar_position: 4
 
 In this step-by-step tutorial, we will go through all the required stages to set up _hooks_ with the _secureCodeBox_. _Hooks_ can be used to perform post-processing on findings, for which we'll give a few examples.
 
+## Hooks Basics
+
+In principle, the _secureCodeBox_ works in such a way that the _raw findings_ (the result provided by a _scanner_) are stored in an S3 storage (e.g. Minio). These stored _raw findings_ are converted by specific parsers (each scanner has its own implementation) into a uniform _secureCodeBox_-specific finding format and will be also stored in the S3 storage. All configured hooks that can read (_Read Hooks_) and write (_ReadAndWrite Hooks_) these Findings are then executed. More details can be found in [ADR-0002](/docs/architecture/architecture_decisions/adr_0002).
+
+The basic purpose is to transfer the findings to third-party systems. Findings can be read with a _ReadHook_ and processed further as required (e.g. saved in another system via a REST call). On the other hand, _ReadWriteHooks_ also offer the option of adding further information to Findings or modifying them.
+
+::: Caution
+In principle, both the _raw findings_ and the _secureCodeBox findings_ are available to hooks via API. In principle, the uniformed _secureCodeBox findings_ should be preferred. However, the [DefectDojo persistence hook](/docs/hooks/defectdojo/), for example, only processes the _raw findings_. This means that post-processing hooks that work on the _secureCodeBox finding_ have no effect on the data that ends up in DefectDojo.
+
+This means that depending on what you want to achieve with your hook, you need to look at how the following hooks process the findings.
+:::
+
 ## Setup
 
 For the sake of the tutorial, we assume that you have your Kubernetes cluster already up and running and that we can work in your default namespace. If not, check out the [installation](/docs/getting-started/installation/) for more information.
