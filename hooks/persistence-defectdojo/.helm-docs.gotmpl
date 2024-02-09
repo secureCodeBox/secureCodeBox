@@ -86,6 +86,7 @@ and upload them to a GitHub Gist.
   - `DEFECTDOJO_APIKEY`: API key, e.g. `DEFECTDOJO_APIKEY="..."` (Can be fetched from the _DefectDojo_ API information page). (Required by _defectdojo-client-java_ lib.)
   - `DEFECTDOJO_IS_DEV`: To enable dev mode, which loads a k8s config from `~/.kube/config`, e.g. `DEFECTDOJO_IS_DEV="true"`.
   - `SCAN_NAME`: (optional) For mocking purpose when debugging locally, e.g `SCAN_NAME="nmap-scanme.nmap.org"`. Must be set exactly to the name of the scan used in step 2. Typically, this is set automatically by _secureCodeBox_. 
+  - `NAMESPACE`: (optional) For mocking purpose when debugging locally, e.g `NAMESPACE=my-namespace`. Typically, this is set automatically by _secureCodeBox_.
 5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
 
 ```bash
