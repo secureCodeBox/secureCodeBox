@@ -16,15 +16,15 @@ test(
       90
     );
 
-    expect(count).toBe(24);
+    expect(count).toBe(27);
     expect(categories).toMatchInlineSnapshot(`
       {
-        "Vulnerability": 24,
+        "Vulnerability": 27,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
       {
-        "high": 24,
+        "high": 27,
       }
     `);
   },
