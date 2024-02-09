@@ -39,6 +39,10 @@ like deduplication. These scan types are (see up-to-date list in [Java source][d
 
 After uploading the results to DefectDojo, it will use the findings parsed by _DefectDojo_ to overwrite the original _secureCodeBox_ findings identified by the parser. This lets you access the finding metadata like the false positive and duplicate status from _DefectDojo_ in further ReadOnly hooks, e.g. send out Slack notification for non-duplicate & non-false positive findings only.
 
+:::warning
+This hook reads only from _raw findings_ and **not** from _secureCodeBox findings_. Because _DefectDojo_ does a way better job on parsing the findings itself, instead of parsing our _secureCodeBox finding_ format with the _generic scan type_. If you want to modify a finding before it is imported into _DefectDojo_ you can write a custom [post-processing hook](/docs/how-tos/hooks) which operates on the _raw findings_. 
+:::
+
 For scan types which are not supported by _DefectDojo_, the generic importer is used, which will result in a less sophisticated display of the results and fewer features inside _DefectDojo_. In the worst case, it can lead to some findings being lost - see the note below.
 
 :::note
