@@ -23,8 +23,13 @@ public class DefectDojoPersistenceProvider {
   private final S3Service s3Service = new S3Service();
   private final KubernetesService kubernetesService = new KubernetesService();
 
-  public static void main(String[] args) throws Exception {
-    new DefectDojoPersistenceProvider().execute(args);
+  public static void main(String[] args) {
+      try {
+          new DefectDojoPersistenceProvider().execute(args);
+      } catch (Exception e) {
+          log.error(e.getMessage(), e);
+          System.exit(1);
+      }
   }
 
   private void execute(String[] args) throws Exception {
