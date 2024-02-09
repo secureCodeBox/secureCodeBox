@@ -77,7 +77,8 @@ deploy-without-scanner:
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-$(name)" \
 		--set="parser.image.tag=$(IMG_TAG)" \
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-		--set-string="parser.env[0].value=true"
+		--set-string="parser.env[0].value=true" \
+		--set="scanner.backoffLimit=1"
 
 .PHONY: deploy-with-scanner
 deploy-with-scanner:
