@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DefectDojoPersistenceProvider {
   public static void main(String[] args) throws Exception {
+    new DefectDojoPersistenceProvider().execute(args);
+  }
+
+  private void execute(String[] args) throws Exception {
     log.info("Starting DefectDojo persistence provider");
 
     var persistenceProviderConfig = new PersistenceProviderConfig(args);
