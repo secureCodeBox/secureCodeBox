@@ -26,7 +26,7 @@ The DefectDojo hook imports the reports from scans automatically into [OWASP Def
 The hook uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
 
 Scan types which are both supported by the _secureCodeBox_ and DefectDojo benefit from the full feature set of DefectDojo,
-like deduplication. These scan types are:
+like deduplication. These scan types are (see up-to-date list in [Java source][dd-scan-types-src]):
 
 - Nmap
 - Nikto
@@ -296,3 +296,5 @@ spec:
 
 {{- define "extra.scannerLinksSection" -}}
 {{- end }}
+
+[dd-scan-types-src]:  https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/persistence-defectdojo/hook/src/main/java/io/securecodebox/persistence/util/ScanNameMapping.java
