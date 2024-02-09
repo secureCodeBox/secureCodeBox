@@ -26,15 +26,13 @@ public class DefectDojoPersistenceProvider {
 
   private void execute(String[] args) throws Exception {
     log.info("Starting DefectDojo persistence provider");
-
-    var persistenceProviderConfig = new PersistenceProviderConfig(args);
-
     kubernetesService.init();
 
     var scan = new Scan(kubernetesService.getScanFromKubernetes());
     scan.validate();
 
     log.info("Downloading Scan Result");
+    var persistenceProviderConfig = new PersistenceProviderConfig(args);
     var scanResultFile = ScanResultService.build(scan, s3Service).getScanResult(persistenceProviderConfig);
 
     var config = Config.fromEnv();
