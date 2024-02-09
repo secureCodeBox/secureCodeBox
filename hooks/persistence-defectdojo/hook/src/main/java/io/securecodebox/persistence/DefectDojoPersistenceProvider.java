@@ -9,18 +9,17 @@ import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.defectdojo.service.FindingService;
 import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
 import io.securecodebox.persistence.models.Scan;
-import io.securecodebox.persistence.service.scanresult.ScanResultService;
 import io.securecodebox.persistence.service.KubernetesService;
 import io.securecodebox.persistence.service.S3Service;
+import io.securecodebox.persistence.service.scanresult.ScanResultService;
 import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.stream.Collectors;
 
 @Slf4j
 public class DefectDojoPersistenceProvider {
+  private final S3Service s3Service = new S3Service();
+  private final KubernetesService kubernetesService = new KubernetesService();
+
   public static void main(String[] args) throws Exception {
     new DefectDojoPersistenceProvider().execute(args);
   }
@@ -30,8 +29,6 @@ public class DefectDojoPersistenceProvider {
 
     var persistenceProviderConfig = new PersistenceProviderConfig(args);
 
-    var s3Service = new S3Service();
-    var kubernetesService = new KubernetesService();
     kubernetesService.init();
 
     var scan = new Scan(kubernetesService.getScanFromKubernetes());
