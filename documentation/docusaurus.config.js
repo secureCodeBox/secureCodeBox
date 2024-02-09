@@ -96,8 +96,8 @@ module.exports = {
                 href: 'https://owasp.org/slack/invite',
               },
               {
-                label: "Twitter",
-                href: "https://twitter.com/securecodebox",
+                label: "Mastodon",
+                href: "https://infosec.exchange/@secureCodeBox",
               },
             ],
           },
