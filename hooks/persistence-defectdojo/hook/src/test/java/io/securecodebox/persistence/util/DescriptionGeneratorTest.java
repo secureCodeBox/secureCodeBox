@@ -30,11 +30,11 @@ class DescriptionGeneratorTest {
   @Test
   void determineDefectDojoScanName() {
     final var spec = new V1ScanSpec();
-    spec.setScanType(ScanNameMapping.NMAP.scbScanType);
+    spec.setScanType(ScanNameMapping.NMAP.secureCodeBoxbScanType);
     final var scan = new V1Scan();
     scan.setSpec(spec);
     
-    assertThat(sut.determineDefectDojoScanName(scan), is(ScanNameMapping.NMAP.scanType.getTestType()));
+    assertThat(sut.determineDefectDojoScanName(scan), is(ScanNameMapping.NMAP.defectDojoScanType.getTestType()));
   }
 
   @Test
