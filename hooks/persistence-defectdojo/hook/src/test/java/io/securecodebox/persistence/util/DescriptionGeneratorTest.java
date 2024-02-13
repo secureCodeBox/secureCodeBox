@@ -95,7 +95,7 @@ class DescriptionGeneratorTest {
 
     assertEquals(
       String.join(
-        System.getProperty("line.separator"),
+        "\n",
         "# Nmap Scan",
         "Started: 30.06.2010 01:20:00",
         "Ended: 07.01.2019 16:50:03",
@@ -118,7 +118,7 @@ class DescriptionGeneratorTest {
     scan.getSpec().setParameters(List.of());
 
     assertEquals(String.join(
-      System.getProperty("line.separator"),
+      "\n",
       "# Nmap Scan",
       "Started: 30.06.2010 01:20:00",
       "Ended: 07.01.2019 16:50:03",
@@ -141,7 +141,7 @@ class DescriptionGeneratorTest {
     scan.getStatus().setFinishedAt(null);
 
     assertEquals(String.join(
-      System.getProperty("line.separator"),
+      "\n",
       "# Nmap Scan",
       "Started: 30.06.2010 01:20:00",
       "Ended: 07.01.2019 16:50:03",

@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+/**
+ * Helper to format a descriptive text for scans
+ */
 public final class DescriptionGenerator {
 
   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
@@ -23,7 +26,7 @@ public final class DescriptionGenerator {
     var spec = Objects.requireNonNull(scan.getSpec());
 
     return String.join(
-      System.getProperty("line.separator"),
+      "\n",
       MessageFormat.format("# {0}", determineDefectDojoScanName(scan)),
       MessageFormat.format("Started: {0}", getStartTime(scan)),
       MessageFormat.format("Ended: {0}", currentTime()),
