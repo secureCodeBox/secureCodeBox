@@ -16,7 +16,7 @@ public class DescriptionGenerator {
 
   protected static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  public static final String DEFAULT_DEFECTDOJO_SCAN_NAME = ScanNameMapping.GENERIC.scanType.getTestType();
+  public static final String DEFAULT_DEFECTDOJO_SCAN_NAME = ScanNameMapping.GENERIC.defectDojoScanType.getTestType();
   Clock clock = Clock.systemDefaultZone();
 
   public String generate(V1Scan scan) {
@@ -79,7 +79,7 @@ public class DescriptionGenerator {
     }
 
       return ScanNameMapping.bySecureCodeBoxScanType(spec.getScanType())
-        .scanType
+        .defectDojoScanType
         .getTestType();
   }
 }

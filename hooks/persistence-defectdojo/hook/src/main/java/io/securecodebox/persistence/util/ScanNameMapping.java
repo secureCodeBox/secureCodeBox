@@ -24,24 +24,27 @@ public enum ScanNameMapping {
 
   /**
    * DefectDojo Scan Type
-   * Example: "Nmap Scan"
+   *
+   * @see ScanType
    */
-  public final ScanType scanType;
+  public final ScanType defectDojoScanType;
 
   /**
    * secureCodeBox ScanType
-   * Examples: "nmap", "zap-api-scan", "zap-baseline-scan"
+   * <p>
+   * Examples: {@literal "nmap"}, {@literal }"zap-api-scan"}, {@literal "zap-baseline-scan"}
+   * </p>
    */
-  public final String scbScanType;
+  public final String secureCodeBoxbScanType;
 
-  ScanNameMapping(String scbScanType, ScanType scanType) {
-    this.scbScanType = scbScanType;
-    this.scanType = scanType;
+  ScanNameMapping(String secureCodeBoxbScanType, ScanType defectDojoScanType) {
+    this.secureCodeBoxbScanType = secureCodeBoxbScanType;
+    this.defectDojoScanType = defectDojoScanType;
   }
 
   public static ScanNameMapping bySecureCodeBoxScanType(@NonNull String scanType) {
     for (var mapping : ScanNameMapping.values()) {
-      if (scanType.equals(mapping.scbScanType)) {
+      if (scanType.equals(mapping.secureCodeBoxbScanType)) {
         return mapping;
       }
     }
