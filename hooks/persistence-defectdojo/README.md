@@ -1,4 +1,6 @@
----
+
+
+[dd-scan-types-src]:  https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/persistence-defectdojo/hook/src/main/java/io/securecodebox/persistence/util/ScanNameMapping.java---
 title: "DefectDojo"
 category: "hook"
 type: "persistenceProvider"
@@ -32,11 +34,12 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
   <a href="https://infosec.exchange/@secureCodeBox"><img alt="Mastodon Follower" src="https://img.shields.io/mastodon/follow/111902499714281911?domain=https%3A%2F%2Finfosec.exchange%2F"/></a>
 </p>
 
-## What is Persistence DefectDojo Hook about?
+## What is "Persistence DefectDojo" Hook about?
+The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
+The hook uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
 
-The _DefectDojo_ _hook_ imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/). The _hook_ uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
-
-_Scan types_ which are both supported by the _secureCodeBox_ and _DefectDojo_ benefit from the full feature set of _DefectDojo_, like deduplication. These scan types are:
+Scan types which are both supported by the _secureCodeBox_ and DefectDojo benefit from the full feature set of DefectDojo,
+like deduplication. These scan types are (see up-to-date list in [Java source][dd-scan-types-src]):
 
 - Nmap
 - Nikto
@@ -47,7 +50,11 @@ _Scan types_ which are both supported by the _secureCodeBox_ and _DefectDojo_ be
 - Gitleaks
 - Semgrep
 
-After uploading the results to _DefectDojo_, it will use the findings parsed by _DefectDojo_ to overwrite the original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false positive and duplicate status from _DefectDojo_ in further ReadOnly hooks, e.g. send out Slack notification for non-duplicate & non-false positive findings only.
+After uploading the results to DefectDojo, it will use the findings parsed by _DefectDojo_ to overwrite the original _secureCodeBox_ findings identified by the parser. This lets you access the finding metadata like the false positive and duplicate status from _DefectDojo_ in further ReadOnly hooks, e.g. send out Slack notification for non-duplicate & non-false positive findings only.
+
+:::warning
+This hook reads only from _raw findings_ and **not** from _secureCodeBox findings_. Because _DefectDojo_ does a way better job on parsing the findings itself, instead of parsing our _secureCodeBox finding_ format with the _generic scan type_. If you want to modify a finding before it is imported into _DefectDojo_ you can write a custom [post-processing hook](/docs/how-tos/hooks) which operates on the _raw findings_.
+:::
 
 For scan types which are not supported by _DefectDojo_, the generic importer is used, which will result in a less sophisticated display of the results and fewer features inside _DefectDojo_. In the worst case, it can lead to some findings being lost - see the note below.
 
@@ -73,37 +80,37 @@ helm upgrade --namespace NAMESPACE --install persistence-defectdojo secureCodeBo
 :::
 
 :::caution
-Be careful when using the _DefectDojo_ Hook in combination with other ReadAndWrite hooks. By default, the _secureCodeBox_ makes no guarantees about the execution order of multiple ReadAndWrite hooks, they can be executed in any order. This can lead to "lost update" problems as the _DefectDojo_ hook will overwrite all findings, which disregards the results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the _DefectDojo_ hook as they are always executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with _secureCodeBox_ 3.4.0 and later).
+Be careful when using the _DefectDojo Hook_ in combination with other _ReadAndWrite Hooks_. By default, the _secureCodeBox_ makes no guarantees about the execution order of multiple ReadAndWrite hooks, they can be executed in any order. This can lead to "lost update" problems as the _DefectDojo_ hook will overwrite all findings, which disregards the results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the _DefectDojo_ hook as they are always executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with secureCodeBox 3.4.0 and later).
 :::
 
 :::caution
 The _DefectDojo_ hook will send all scan results to _DefectDojo_, including those for which _DefectDojo_ does not have native support. In this case, _DefectDojo_ may incorrectly deduplicate findings, which can in some cases [lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312). You can set the hook to read-only mode, which will prevent it from writing the results back to _secureCodeBox_ (`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data loss inside _secureCodeBox_, but this will not prevent the incorrect deduplication from affecting the data you see inside _DefectDojo_ (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)). You can also selectively disable the _DefectDojo_ hook for certain scans using the [hook selector feature](https://www.securecodebox.io/docs/how-tos/hooks#hook-selector) (supported with _secureCodeBox_ 3.4.0 and later).
 :::
 
-### Running Persistence DefectDojo Hook Locally from Source
+### Running _Persistence DefectDojo Hook_ Locally from Source
 
 For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
 
 1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
 2. [Run a Scan](https://www.securecodebox.io/docs/getting-started/first-scans) of your choice.
-3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance) and upload them to a GitHub Gist.
+3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the
+included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
+and upload them to a GitHub Gist.
 4. Set the following environment variables:
-   - `DEFECTDOJO_URL` e.g http://192.168.0.1:8080
-   - `DEFECTDOJO_USERNAME` e.g admin
-   - `DEFECTDOJO_APIKEY` Can be fetched from the _DefectDojo_ API information page.
-   - `DEFECTDOJO_IS_DEV=true` to enable dev mode, which loads a k8s config from `~/.kube/config`.
-   - `DEFECTDOJO_LOW_PRIVILEGED_MODE` to enable [low privilege mode](https://www.securecodebox.io/docs/hooks/defectdojo/#low-privileged-mode)
-   - `DEFECTDOJO_REFETCH_WAIT_SECONDS` :Seconds to wait until re-fetching findings from DefectDojo
-   - `SCAN_NAME` e.g "nmap-scanme.nmap.org", must be set exactly to the name of the scan used in step 2.
-5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar for other versions than the '1.0.0-SNAPSHOT'. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
+  - `DEFECTDOJO_URL`: URL to your DefectDojo server, e.g `DEFECTDOJO_URL="http://192.168.0.1:8080"`. (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_USERNAME`: User you want to use to import findings, e.g `DEFECTDOJO_USERNAME="admin"`. (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_APIKEY`: API key, e.g. `DEFECTDOJO_APIKEY="..."` (Can be fetched from the _DefectDojo_ API information page). (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_IS_DEV`: To enable dev mode, which loads a k8s config from `~/.kube/config`, e.g. `DEFECTDOJO_IS_DEV="true"`.
+  - `SCAN_NAME`: (optional) For mocking purpose when debugging locally, e.g `SCAN_NAME="nmap-scanme.nmap.org"`. Must be set exactly to the name of the scan used in step 2. Typically, this is set automatically by _secureCodeBox_.
+  - `NAMESPACE`: (optional) For mocking purpose when debugging locally, e.g `NAMESPACE=my-namespace`. Typically, this is set automatically by _secureCodeBox_.
+5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
 
 ```bash
 ./gradlew build
-java -jar build/libs/defectdojo-persistenceprovider-0.1.0-SNAPSHOT.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
+java -jar build/libs/defectdojo-persistenceprovider-<VERSION>>.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
 ```
 
 ## Deployment
-
 The persistence-defectdojo chart can be deployed via helm:
 
 ```bash
@@ -136,6 +143,7 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
     --set-json 'hook.extraVolumes=[{"name": "ca-dojo", "configMap": {"name": "ca-dojo"}}]' \
     --set-json 'hook.extraVolumeMounts=[{"name": "ca-dojo", "mountPath": "/etc/ssl/certs/java/cacerts", "subPath": "cacerts", "readOnly": false}]'
 ```
+
 After, you can update `/etc/ssl/certs/java/cacerts` with your certificate.
 
 You don't need any configuration for that to work, the hook will infer engagement & product names from the scan name. If you want more control over the names or add additional meta information like the version of the tested software you can add these via annotation to the scan. See examples below.
@@ -155,7 +163,7 @@ You don't need any configuration for that to work, the hook will infer engagemen
 
 ### Read-only Mode
 
-By default, the _DefectDojo_ hook will pull the imported results from _DefectDojo_ and use them to replace the results inside _secureCodeBox_. This allows you to benefit from _DefectDojo_'s deduplication logic and only trigger follow-up scans or notifications for new findings. If you want to disable this feature, you can install the hook in read-only mode using `--set defectdojo.syncFindingsBack=false` while installing the hook using Helm.
+By default, the _DefectDojo_ hook will pull the imported results from _DefectDojo_ and use them to replace the results inside _secureCodeBox_.  This allows you to benefit from _DefectDojo_'s deduplication logic and only trigger follow-up scans or notifications for new findings.  If you want to disable this feature, you can install the hook in read-only mode using `--set defectdojo.syncFindingsBack=false` while  installing the hook using Helm.
 
 ### Notes on `syncFindingBack` Mode & Duplicate Findings
 
@@ -216,9 +224,9 @@ Attributes like if a finding has been marked as accepted or has been marked as a
 
 ### Low Privileged Mode
 
-By default, the _DefectDojo_ Hook requires an API Token with platform wide "Staff" access rights.
+By default the _DefectDojo_ Hook requires a API Token with platform wide "Staff" access rights.
 
-_DefectDojo_ >2.0.0 refined their user access rights, allowing you to restrict the users access rights to only view specific product types in _DefectDojo_. The _secureCodeBox_ _DefectDojo_ Hook can be configured to run with such a token of a "low privileged" users by setting the `defectdojo.lowPrivilegedMode=true`.
+_DefectDojo_ >2.0.0 refined their user access rights, allowing you to restrict the users access rights to only view specific product types in _DefectDojo_. The _secureCodeBox_ _DefectDojo Persistence Hook_ can be configured to run with such a token of a "low privileged" users by setting the `defectdojo.lowPrivilegedMode=true`.
 
 #### Limitations of the Low Privileged Mode
 
@@ -238,9 +246,9 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
     --set="defectdojo.authentication.userId=42"
 ```
 
-### DefectDojo Minimum Severity
+### DefectDojo minimum severity
 
-It has come to our attention, that _DefectDojo_ become slow when handling a lot of data. A lot of data in _DefectDojo_ can be informational findings one likes to ignore. Therefore, _Defectdojo_ provides the option to only create findings for scan finding from a certain severity level and above, thus lowering the amount of data stored. We integrate this option in our scans by providing the "defectdojo.securecodebox.io/minimum_severity" annotation for scans. This is an example of how the minimum severity for findings of a scan can be set:
+It has come to our attention, that _DefectDojo_ become slow when handling a lot of data. A lot of data in _DefectDojo_ can be informational findings one likes to ignore. Therefore _DefectDojo_ provides the option to only create findings for scan finding from a certain severity level and above, thus lowering the amount of data stored. We integrate this option in our scans by providing the "defectdojo.securecodebox.io/minimum_severity" annotation for scans. This is an example of how the minimum severity for findings of a scan can be set:
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
@@ -279,7 +287,7 @@ spec:
 
 ### Complete Example Scan
 
-This will import the results into engagement, product and product type following the labels. The engagement will be reused by the hook for the daily scans/imports until the engagement version is increased.
+This will import the results into engagement, product and product type following the labels. The engagement will be reused by the hook for the daily scans / imports until the engagement version is increased.
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
@@ -310,33 +318,33 @@ spec:
 
 ## Values
 
-| Key                                   | Type   | Default                                                                                    | Description                                                                                                                                                                                                                                                                                                                                                 |
-|---------------------------------------|--------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| defectdojo.authentication.apiKeyKey   | string | `"apikey"`                                                                                 | Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs                                                                                                                                                                                                                                   |
-| defectdojo.authentication.userId      | string | `nil`                                                                                      | Set the userId explicitly. When not set the configured username is used to look up the userId via the DefectDojo API (which is only available for privileged users.)                                                                                                                                                                                        |
-| defectdojo.authentication.userSecret  | string | `"defectdojo-credentials"`                                                                 | Link a pre-existing generic secret with `username` and `apikey` key / value pairs                                                                                                                                                                                                                                                                           |
-| defectdojo.authentication.usernameKey | string | `"username"`                                                                               | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs                                                                                                                                                                                                                                 |
-| defectdojo.lowPrivilegedMode          | bool   | `false`                                                                                    | Allows the hook to run with a users token whose access rights are restricted to one / multiple product types but doesn't have global platform rights. If set to true, the DefectDojo User ID has to be configured instead of the username (`defectdojo.authentication.userId`). User needs to have at least the `Maintainer` role in the used Product Type. |
-| defectdojo.syncFindingsBack           | bool   | `true`                                                                                     | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync).                                                                                                                                                                               |
-| defectdojo.url                        | string | `"http://defectdojo-django.default.svc"`                                                   | Url to the DefectDojo Instance                                                                                                                                                                                                                                                                                                                              |
-| hook.affinity                         | object | `{}`                                                                                       | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)                                                                                                                                                                                |
-| hook.env                              | list   | `[]`                                                                                       | Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)                                                                                                                                                                                                  |
-| hook.extraVolumeMounts                | list   | `[]`                                                                                       | Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)                                                                                                                                                                                                                                                      |
-| hook.extraVolumes                     | list   | `[]`                                                                                       | Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)                                                                                                                                                                                                                                                           |
-| hook.image.pullPolicy                 | string | `"IfNotPresent"`                                                                           | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images                                                                                                                                          |
-| hook.image.repository                 | string | `"docker.io/securecodebox/hook-persistence-defectdojo"`                                    | Hook image repository                                                                                                                                                                                                                                                                                                                                       |
-| hook.image.tag                        | string | defaults to the charts version                                                             | Container image tag                                                                                                                                                                                                                                                                                                                                         |
-| hook.labels                           | object | `{}`                                                                                       | Add Kubernetes Labels to the hook definition                                                                                                                                                                                                                                                                                                                |
-| hook.priority                         | int    | `0`                                                                                        | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks.                                                                                                                                                                                                                                                                   |
-| hook.resources                        | object | `{ requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }` | Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/                                                                                                                                                                                 |
-| hook.tolerations                      | list   | `[]`                                                                                       | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)                                                                                                                                                                                               |
-| hook.ttlSecondsAfterFinished          | string | `nil`                                                                                      | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/                                                                                                                                                       |
-| imagePullSecrets                      | list   | `[]`                                                                                       | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)                                                                                                                                                                                                        |
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| defectdojo.authentication.apiKeyKey | string | `"apikey"` | Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| defectdojo.authentication.userId | string | `nil` | Set the userId explicitly. When not set the configured username is used to look up the userId via the DefectDojo API (which is only available for privileged users.) |
+| defectdojo.authentication.userSecret | string | `"defectdojo-credentials"` | Link a pre-existing generic secret with `username` and `apikey` key / value pairs |
+| defectdojo.authentication.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| defectdojo.lowPrivilegedMode | bool | `false` | Allows the hook to run with a users token whose access rights are restricted to one / multiple product types but doesn't have global platform rights. If set to true, the DefectDojo User ID has to be configured instead of the username (`defectdojo.authentication.userId`). User needs to have at least the `Maintainer` role in the used Product Type. |
+| defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync). |
+| defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
+| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
+| hook.env | list | `[]` | Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| hook.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| hook.extraVolumes | list | `[]` | Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
+| hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-defectdojo"` | Hook image repository |
+| hook.image.tag | string | defaults to the charts version | Container image tag |
+| hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
+| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
+| hook.resources | object | `{ requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }` | Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
+| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
+| hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Code of _secureCodeBox_ is licensed under the [Apache License 2.0][scb-license].
+Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]:    https://www.owasp.org/index.php/OWASP_secureCodeBox
 [scb-docs]:     https://www.securecodebox.io/
@@ -345,3 +353,4 @@ Code of _secureCodeBox_ is licensed under the [Apache License 2.0][scb-license].
 [scb-mastodon]: https://infosec.exchange/@secureCodeBox
 [scb-slack]:    https://owasp.org/slack/invite
 [scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

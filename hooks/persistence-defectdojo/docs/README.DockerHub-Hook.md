@@ -1,4 +1,6 @@
-<!--
+
+
+[dd-scan-types-src]:  https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/persistence-defectdojo/hook/src/main/java/io/securecodebox/persistence/util/ScanNameMapping.java<!--
 SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
@@ -55,8 +57,8 @@ docker pull securecodebox/hook-persistence-defectdojo
 The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
 The hook uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
 
-Scan types which are both supported by the secureCodeBox and DefectDojo benefit from the full feature set of DefectDojo,
-like deduplication. These scan types are:
+Scan types which are both supported by the _secureCodeBox_ and DefectDojo benefit from the full feature set of DefectDojo,
+like deduplication. These scan types are (see up-to-date list in [Java source][dd-scan-types-src]):
 
 - Nmap
 - Nikto
@@ -67,18 +69,17 @@ like deduplication. These scan types are:
 - Gitleaks
 - Semgrep
 
-After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
-original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
-positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out Slack notification
-for non-duplicate & non-false positive findings only.
+After uploading the results to DefectDojo, it will use the findings parsed by _DefectDojo_ to overwrite the original _secureCodeBox_ findings identified by the parser. This lets you access the finding metadata like the false positive and duplicate status from _DefectDojo_ in further ReadOnly hooks, e.g. send out Slack notification for non-duplicate & non-false positive findings only.
 
-For scan types which are not supported by DefectDojo, the generic importer is used, which will result in a less
-sophisticated display of the results and fewer features inside DefectDojo. In the worst case, it can lead to some
-findings being lost - see the note below.
+:::warning
+This hook reads only from _raw findings_ and **not** from _secureCodeBox findings_. Because _DefectDojo_ does a way better job on parsing the findings itself, instead of parsing our _secureCodeBox finding_ format with the _generic scan type_. If you want to modify a finding before it is imported into _DefectDojo_ you can write a custom [post-processing hook](/docs/how-tos/hooks) which operates on the _raw findings_.
+:::
+
+For scan types which are not supported by _DefectDojo_, the generic importer is used, which will result in a less sophisticated display of the results and fewer features inside _DefectDojo_. In the worst case, it can lead to some findings being lost - see the note below.
 
 :::note
-A big amount of findings may require higher resource limits. Changing them may be required to avoid OOM errors.
-The default values are:
+A big amount of findings may require higher resource limits. Changing them may be required to avoid OOM errors. The default values are:
+
 ```yaml
 requests: {
    cpu: "200m",
@@ -98,30 +99,15 @@ helm upgrade --namespace NAMESPACE --install persistence-defectdojo secureCodeBo
 :::
 
 :::caution
-
-Be careful when using the DefectDojo Hook in combination with other ReadAndWrite hooks. By default, the secureCodeBox
-makes no guarantees about the execution order of multiple ReadAndWrite hooks, they can be executed in any order.
-This can lead to "lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the
-results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the DefectDojo hook as they are always
-executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look
-at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with
-secureCodeBox 3.4.0 and later).
+Be careful when using the _DefectDojo Hook_ in combination with other _ReadAndWrite Hooks_. By default, the _secureCodeBox_ makes no guarantees about the execution order of multiple ReadAndWrite hooks, they can be executed in any order. This can lead to "lost update" problems as the _DefectDojo_ hook will overwrite all findings, which disregards the results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the _DefectDojo_ hook as they are always executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with secureCodeBox 3.4.0 and later).
 :::
 
 :::caution
-
-The DefectDojo hook will send all scan results to DefectDojo, including those for which DefectDojo does not
-have native support. In this case, DefectDojo may incorrectly deduplicate findings, which can in some cases
-[lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312).
-You can set the hook to read-only mode, which will prevent it from writing the results back to secureCodeBox
-(`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data
-loss inside secureCodeBox, but this will not prevent the incorrect deduplication from affecting the data you
-see inside DefectDojo (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)).
-You can also selectively disable the DefectDojo hook for certain scans using the [hook selector feature](https://www.securecodebox.io/docs/how-tos/hooks#hook-selector)
-(supported with secureCodeBox 3.4.0 and later).
+The _DefectDojo_ hook will send all scan results to _DefectDojo_, including those for which _DefectDojo_ does not have native support. In this case, _DefectDojo_ may incorrectly deduplicate findings, which can in some cases [lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312). You can set the hook to read-only mode, which will prevent it from writing the results back to _secureCodeBox_ (`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data loss inside _secureCodeBox_, but this will not prevent the incorrect deduplication from affecting the data you see inside _DefectDojo_ (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)). You can also selectively disable the _DefectDojo_ hook for certain scans using the [hook selector feature](https://www.securecodebox.io/docs/how-tos/hooks#hook-selector) (supported with _secureCodeBox_ 3.4.0 and later).
 :::
 
-### Running "Persistence DefectDojo" Hook Locally from Source
+### Running _Persistence DefectDojo Hook_ Locally from Source
+
 For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
 
 1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
@@ -130,20 +116,17 @@ For development purposes, it can be useful to run this hook locally. You can do 
 included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
 and upload them to a GitHub Gist.
 4. Set the following environment variables:
-
-- DEFECTDOJO_URL (e.g http://192.168.0.1:8080);
-- DEFECTDOJO_USERNAME (e.g admin)
-- DEFECTDOJO_APIKEY= (e.g. b09c.., can be fetched from the DefectDojo API information page)
-- IS_DEV=true
-- SCAN_NAME (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
-
-5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}.
-See the code snippet below. You have to adjust the filename of the jar for other versions than the '0.1.0-SNAPSHOT'.
-Also you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
+  - `DEFECTDOJO_URL`: URL to your DefectDojo server, e.g `DEFECTDOJO_URL="http://192.168.0.1:8080"`. (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_USERNAME`: User you want to use to import findings, e.g `DEFECTDOJO_USERNAME="admin"`. (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_APIKEY`: API key, e.g. `DEFECTDOJO_APIKEY="..."` (Can be fetched from the _DefectDojo_ API information page). (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_IS_DEV`: To enable dev mode, which loads a k8s config from `~/.kube/config`, e.g. `DEFECTDOJO_IS_DEV="true"`.
+  - `SCAN_NAME`: (optional) For mocking purpose when debugging locally, e.g `SCAN_NAME="nmap-scanme.nmap.org"`. Must be set exactly to the name of the scan used in step 2. Typically, this is set automatically by _secureCodeBox_.
+  - `NAMESPACE`: (optional) For mocking purpose when debugging locally, e.g `NAMESPACE=my-namespace`. Typically, this is set automatically by _secureCodeBox_.
+5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
 
 ```bash
 ./gradlew build
-java -jar build/libs/defectdojo-persistenceprovider-0.1.0-SNAPSHOT.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
+java -jar build/libs/defectdojo-persistenceprovider-<VERSION>>.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
 ```
 
 ## Community
