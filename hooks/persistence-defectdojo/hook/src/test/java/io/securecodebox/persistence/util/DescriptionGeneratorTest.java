@@ -73,6 +73,37 @@ class DescriptionGeneratorTest {
     );
   }
 
+  @Test
+  void determineStartTime() {
+    final var metadata = new V1ObjectMeta();
+    metadata.setCreationTimestamp(OffsetDateTime.MAX);
+    final var scan = new V1Scan();
+    scan.setMetadata(metadata);
+
+    assertThat(sut.determineStartTime(scan), is("31.12.+999999999 23:59:59"));
+  }
+
+  @Test
+  void determineStartTime_givenScanMustNotBeNull() {
+    final var e = assertThrows(NullPointerException.class, () -> sut.determineStartTime(null));
+
+    assertThat(e.getMessage(), is("Given parameter 'scan; must not be null!"));
+  }
+
+  @Test
+  void determineStartTime_metaDataIsNullReturnsNull() {
+    final var scan = new V1Scan();
+
+    assertThat(sut.determineStartTime(scan), is(is(nullValue())));
+  }
+
+  @Test
+  void determineStartTime_metaDatasCreationTimestampIsNullReturnsNull() {
+    final var scan = new V1Scan();
+    scan.setMetadata(new V1ObjectMeta());
+
+    assertThat(sut.determineStartTime(scan), is(is(nullValue())));
+  }
   //////////////////////////////////////
   //////////////////////////////////////
 

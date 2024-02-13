@@ -28,7 +28,7 @@ public final class DescriptionGenerator {
     return String.join(
       "\n",
       MessageFormat.format("# {0}", determineDefectDojoScanName(scan)),
-      MessageFormat.format("Started: {0}", getStartTime(scan)),
+      MessageFormat.format("Started: {0}", determineStartTime(scan)),
       MessageFormat.format("Ended: {0}", currentTime()),
       MessageFormat.format("ScanType: {0}", spec.getScanType()),
       // FIXME: #2272 spec.getParameters() may be null in some conditions.
@@ -36,12 +36,6 @@ public final class DescriptionGenerator {
     );
   }
 
-  private String getStartTime(V1Scan scan) {
-    if (scan.getMetadata() == null || scan.getMetadata().getCreationTimestamp() == null) {
-      return null;
-    }
-    return scan.getMetadata().getCreationTimestamp().format(TIME_FORMAT);
-  }
 
   /**
    * Returns the current date as string based on the DATE_FORMAT
@@ -92,5 +86,15 @@ public final class DescriptionGenerator {
     return ScanNameMapping.bySecureCodeBoxScanType(spec.getScanType())
       .defectDojoScanType
       .getTestType();
+  }
+
+  String determineStartTime(V1Scan scan) {
+    Objects.requireNonNull(scan, "Given parameter 'scan; must not be null!");
+
+    if (scan.getMetadata() == null || scan.getMetadata().getCreationTimestamp() == null) {
+      return null;
+    }
+
+    return scan.getMetadata().getCreationTimestamp().format(TIME_FORMAT);
   }
 }
