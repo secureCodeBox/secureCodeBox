@@ -91,18 +91,18 @@ class DescriptionGeneratorTest {
   }
 
   @Test
-  void determineStartTime_metaDataIsNullReturnsNull() {
+  void determineStartTime_metaDataIsNullReturnsDefaultString() {
     final var scan = new V1Scan();
 
-    assertThat(sut.determineStartTime(scan), is(is(nullValue())));
+    assertThat(sut.determineStartTime(scan), is("n/a"));
   }
 
   @Test
-  void determineStartTime_metaDatasCreationTimestampIsNullReturnsNull() {
+  void determineStartTime_metaDatasCreationTimestampIsNullReturnsDefaultString() {
     final var scan = new V1Scan();
     scan.setMetadata(new V1ObjectMeta());
 
-    assertThat(sut.determineStartTime(scan), is(is(nullValue())));
+    assertThat(sut.determineStartTime(scan), is("n/a"));
   }
   //////////////////////////////////////
   //////////////////////////////////////

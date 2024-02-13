@@ -92,7 +92,7 @@ public final class DescriptionGenerator {
     Objects.requireNonNull(scan, "Given parameter 'scan; must not be null!");
 
     if (scan.getMetadata() == null || scan.getMetadata().getCreationTimestamp() == null) {
-      return null;
+      return "n/a";
     }
 
     return scan.getMetadata().getCreationTimestamp().format(TIME_FORMAT);
