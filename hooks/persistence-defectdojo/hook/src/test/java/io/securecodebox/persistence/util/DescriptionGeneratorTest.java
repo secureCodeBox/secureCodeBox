@@ -33,6 +33,70 @@ class DescriptionGeneratorTest {
     sut.setClock(fixedClock);
   }
 
+  @Test
+  void generate() {
+    final var metadata = new V1ObjectMeta();
+    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
+    final var spec = new V1ScanSpec();
+    spec.setScanType("nmap");
+    spec.setParameters(List.of("http://example.target"));
+    final var scan = new V1Scan();
+    scan.setMetadata(metadata);
+    scan.setSpec(spec);
+
+    assertEquals(
+      """
+        # Nmap Scan
+        Started: 30.06.2010 01:20:00
+        Ended: 07.01.2019 16:50:03
+        ScanType: nmap
+        Parameters: [http://example.target]""",
+      sut.generate(scan)
+    );
+  }
+
+  @Test
+  void generate_null() {
+    final var metadata = new V1ObjectMeta();
+    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
+    final var spec = new V1ScanSpec();
+    spec.setScanType("nmap");
+    spec.setParameters(List.of()); // FIXME
+    final var scan = new V1Scan();
+    scan.setMetadata(metadata);
+    scan.setSpec(spec);
+
+    assertEquals("""
+        # Nmap Scan
+        Started: 30.06.2010 01:20:00
+        Ended: 07.01.2019 16:50:03
+        ScanType: nmap
+        Parameters: []""",
+      sut.generate(scan));
+  }
+
+  @Test
+  void generate_shouldUseCurrentTimeIfEndedAtIsNotSet() {
+    final var metadata = new V1ObjectMeta();
+    metadata.setName("test-scan");
+    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
+    final var spec = new V1ScanSpec();
+    spec.setScanType("nmap");
+    spec.setParameters(List.of());
+    final var scan = new V1Scan();
+    scan.setMetadata(metadata);
+    scan.setSpec(spec);
+    scan.setStatus(new V1ScanStatus());
+
+    assertEquals("""
+        # Nmap Scan
+        Started: 30.06.2010 01:20:00
+        Ended: 07.01.2019 16:50:03
+        ScanType: nmap
+        Parameters: []""",
+      sut.generate(scan));
+  }
+
   private final DescriptionGenerator sut = new DescriptionGenerator();
 
   @Test
@@ -104,70 +168,5 @@ class DescriptionGeneratorTest {
 
     assertThat(sut.determineStartTime(scan), is("n/a"));
   }
-  //////////////////////////////////////
-  //////////////////////////////////////
 
-  @Test
-  void generate() {
-    final var metadata = new V1ObjectMeta();
-    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
-    final var spec = new V1ScanSpec();
-    spec.setScanType("nmap");
-    spec.setParameters(List.of("http://example.target"));
-    final var scan = new V1Scan();
-    scan.setMetadata(metadata);
-    scan.setSpec(spec);
-
-    assertEquals(
-      """
-# Nmap Scan
-Started: 30.06.2010 01:20:00
-Ended: 07.01.2019 16:50:03
-ScanType: nmap
-Parameters: [http://example.target]""",
-      sut.generate(scan)
-    );
-  }
-
-  @Test
-  void nullGenerate() {
-    final var metadata = new V1ObjectMeta();
-    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
-    final var spec = new V1ScanSpec();
-    spec.setScanType("nmap");
-    spec.setParameters(List.of()); // FIXME
-    final var scan = new V1Scan();
-    scan.setMetadata(metadata);
-    scan.setSpec(spec);
-
-    assertEquals("""
-# Nmap Scan
-Started: 30.06.2010 01:20:00
-Ended: 07.01.2019 16:50:03
-ScanType: nmap
-Parameters: []""",
-      sut.generate(scan));
-  }
-
-  @Test
-  void shouldUseCurrentTimeIfEndedAtIsntSet() {
-    final var metadata = new V1ObjectMeta();
-    metadata.setName("test-scan");
-    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
-    final var spec = new V1ScanSpec();
-    spec.setScanType("nmap");
-    spec.setParameters(List.of());
-    final var scan = new V1Scan();
-    scan.setMetadata(metadata);
-    scan.setSpec(spec);
-    scan.setStatus(new V1ScanStatus());
-
-    assertEquals("""
-# Nmap Scan
-Started: 30.06.2010 01:20:00
-Ended: 07.01.2019 16:50:03
-ScanType: nmap
-Parameters: []""",
-      sut.generate(scan));
-  }
 }
