@@ -125,14 +125,12 @@ class DescriptionGeneratorTest {
     scan.getSpec().setParameters(List.of("http://example.target"));
 
     assertEquals(
-      String.join(
-        "\n",
-        "# Nmap Scan",
-        "Started: 30.06.2010 01:20:00",
-        "Ended: 07.01.2019 16:50:03",
-        "ScanType: nmap",
-        "Parameters: [http://example.target]"
-      ),
+      """
+# Nmap Scan
+Started: 30.06.2010 01:20:00
+Ended: 07.01.2019 16:50:03
+ScanType: nmap
+Parameters: [http://example.target]""",
       sut.generate(scan)
     );
   }
@@ -148,14 +146,13 @@ class DescriptionGeneratorTest {
     scan.getMetadata().setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
     scan.getSpec().setParameters(List.of());
 
-    assertEquals(String.join(
-      "\n",
-      "# Nmap Scan",
-      "Started: 30.06.2010 01:20:00",
-      "Ended: 07.01.2019 16:50:03",
-      "ScanType: nmap",
-      "Parameters: []"
-    ), sut.generate(scan));
+    assertEquals("""
+# Nmap Scan
+Started: 30.06.2010 01:20:00
+Ended: 07.01.2019 16:50:03
+ScanType: nmap
+Parameters: []""",
+      sut.generate(scan));
   }
 
   @Test
@@ -171,13 +168,12 @@ class DescriptionGeneratorTest {
 
     scan.getStatus().setFinishedAt(null);
 
-    assertEquals(String.join(
-      "\n",
-      "# Nmap Scan",
-      "Started: 30.06.2010 01:20:00",
-      "Ended: 07.01.2019 16:50:03",
-      "ScanType: nmap",
-      "Parameters: []"
-    ), sut.generate(scan));
+    assertEquals("""
+# Nmap Scan
+Started: 30.06.2010 01:20:00
+Ended: 07.01.2019 16:50:03
+ScanType: nmap
+Parameters: []""",
+      sut.generate(scan));
   }
 }
