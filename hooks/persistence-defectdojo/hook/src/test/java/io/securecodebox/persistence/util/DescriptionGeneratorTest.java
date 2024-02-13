@@ -109,20 +109,14 @@ class DescriptionGeneratorTest {
 
   @Test
   void generate() {
+    final var metadata = new V1ObjectMeta();
+    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
+    final var spec = new V1ScanSpec();
+    spec.setScanType("nmap");
+    spec.setParameters(List.of("http://example.target"));
     final var scan = new V1Scan();
-    scan.setMetadata(new V1ObjectMeta());
-    scan.setSpec(new V1ScanSpec());
-    scan.setStatus(new V1ScanStatus());
-    scan.getSpec().setScanType("nmap");
-    scan.getMetadata().setName("test-scan");
-    scan.getMetadata().setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
-    scan.getSpec().setParameters(List.of());
-
-    assert scan.getMetadata() != null;
-
-    scan.getMetadata().setName("nmap");
-    scan.getSpec().setScanType("nmap");
-    scan.getSpec().setParameters(List.of("http://example.target"));
+    scan.setMetadata(metadata);
+    scan.setSpec(spec);
 
     assertEquals(
       """
@@ -137,14 +131,14 @@ Parameters: [http://example.target]""",
 
   @Test
   void nullGenerate() {
+    final var metadata = new V1ObjectMeta();
+    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
+    final var spec = new V1ScanSpec();
+    spec.setScanType("nmap");
+    spec.setParameters(List.of()); // FIXME
     final var scan = new V1Scan();
-    scan.setMetadata(new V1ObjectMeta());
-    scan.setSpec(new V1ScanSpec());
-    scan.setStatus(new V1ScanStatus());
-    scan.getSpec().setScanType("nmap");
-    scan.getMetadata().setName("test-scan");
-    scan.getMetadata().setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
-    scan.getSpec().setParameters(List.of());
+    scan.setMetadata(metadata);
+    scan.setSpec(spec);
 
     assertEquals("""
 # Nmap Scan
@@ -157,16 +151,16 @@ Parameters: []""",
 
   @Test
   void shouldUseCurrentTimeIfEndedAtIsntSet() {
+    final var metadata = new V1ObjectMeta();
+    metadata.setName("test-scan");
+    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
+    final var spec = new V1ScanSpec();
+    spec.setScanType("nmap");
+    spec.setParameters(List.of());
     final var scan = new V1Scan();
-    scan.setMetadata(new V1ObjectMeta());
-    scan.setSpec(new V1ScanSpec());
+    scan.setMetadata(metadata);
+    scan.setSpec(spec);
     scan.setStatus(new V1ScanStatus());
-    scan.getSpec().setScanType("nmap");
-    scan.getMetadata().setName("test-scan");
-    scan.getMetadata().setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
-    scan.getSpec().setParameters(List.of());
-
-    scan.getStatus().setFinishedAt(null);
 
     assertEquals("""
 # Nmap Scan
