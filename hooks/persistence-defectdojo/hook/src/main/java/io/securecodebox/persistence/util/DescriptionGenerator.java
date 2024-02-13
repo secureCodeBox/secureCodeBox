@@ -10,6 +10,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -20,20 +21,26 @@ public final class DescriptionGenerator {
   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final String DEFAULT_DEFECTDOJO_SCAN_NAME = ScanNameMapping.GENERIC.defectDojoScanType.getTestType();
+  private static final String LINE_BREAK = "\n";
   private Clock clock = Clock.systemDefaultZone();
 
   public String generate(V1Scan scan) {
-    var spec = Objects.requireNonNull(scan.getSpec());
+    final var spec = Objects.requireNonNull(scan.getSpec());
+    final var buffer = new StringBuilder()
+      .append(MessageFormat.format("# {0}", determineDefectDojoScanName(scan))).append(LINE_BREAK)
+      .append(MessageFormat.format("Started: {0}", determineStartTime(scan))).append(LINE_BREAK)
+      .append(MessageFormat.format("Ended: {0}", currentTime())).append(LINE_BREAK)
+      .append(MessageFormat.format("ScanType: {0}", spec.getScanType())).append(LINE_BREAK);
 
-    return String.join(
-      "\n",
-      MessageFormat.format("# {0}", determineDefectDojoScanName(scan)),
-      MessageFormat.format("Started: {0}", determineStartTime(scan)),
-      MessageFormat.format("Ended: {0}", currentTime()),
-      MessageFormat.format("ScanType: {0}", spec.getScanType()),
-      // FIXME: #2272 spec.getParameters() may be null in some conditions.
-      MessageFormat.format("Parameters: [{0}]", String.join(",", Objects.requireNonNull(spec.getParameters())))
-    );
+    var parameters = spec.getParameters();
+
+    if (parameters == null) {
+      // Since this value may be null, we default to empty list to prevent NPE on fromatting it.
+      parameters = List.of();
+    }
+
+    buffer.append(MessageFormat.format("Parameters: [{0}]", String.join(",", parameters)));
+    return buffer.toString();
   }
 
 

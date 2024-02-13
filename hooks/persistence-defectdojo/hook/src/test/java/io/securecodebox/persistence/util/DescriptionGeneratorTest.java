@@ -56,12 +56,32 @@ class DescriptionGeneratorTest {
   }
 
   @Test
-  void generate_null() {
+  void generate_emptyScanSpecParameters() {
     final var metadata = new V1ObjectMeta();
     metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
     final var spec = new V1ScanSpec();
     spec.setScanType("nmap");
-    spec.setParameters(List.of()); // FIXME
+    spec.setParameters(List.of());
+    final var scan = new V1Scan();
+    scan.setMetadata(metadata);
+    scan.setSpec(spec);
+
+    assertEquals("""
+        # Nmap Scan
+        Started: 30.06.2010 01:20:00
+        Ended: 07.01.2019 16:50:03
+        ScanType: nmap
+        Parameters: []""",
+      sut.generate(scan));
+  }
+
+  @Test
+  void generate_emptyScanSpecParametersIsNull() {
+    final var metadata = new V1ObjectMeta();
+    metadata.setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
+    final var spec = new V1ScanSpec();
+    spec.setScanType("nmap");
+    spec.setParameters(null); // This is a regression test case for https://github.com/secureCodeBox/secureCodeBox/issues/2272
     final var scan = new V1Scan();
     scan.setMetadata(metadata);
     scan.setSpec(spec);
