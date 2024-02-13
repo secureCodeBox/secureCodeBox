@@ -16,6 +16,7 @@ public class DescriptionGenerator {
 
   protected static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  public static final String DEFAULT_DEFECTDOJO_SCAN_NAME = ScanNameMapping.GENERIC.scanType.getTestType();
   Clock clock = Clock.systemDefaultZone();
 
   public String generate(V1Scan scan) {
@@ -23,7 +24,7 @@ public class DescriptionGenerator {
 
     return String.join(
       System.getProperty("line.separator"),
-      MessageFormat.format("# {0}", getDefectDojoScanName(scan)),
+      MessageFormat.format("# {0}", determineDefectDojoScanName(scan)),
       MessageFormat.format("Started: {0}", getStartTime(scan)),
       MessageFormat.format("Ended: {0}", currentTime()),
       MessageFormat.format("ScanType: {0}", spec.getScanType()),
@@ -56,7 +57,29 @@ public class DescriptionGenerator {
     this.clock = clock;
   }
 
-  public String getDefectDojoScanName(V1Scan scan) {
-    return ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType.getTestType();
+  /**
+   * Determines the DefectDojo scan name from given scan
+   *
+   * <p>If no particular type can't be determined (due to null value or unmapped types)
+   * {@link ScanNameMapping#GENERIC} will be returned as default</p>
+   *
+   * @param scan Must not be {@code null}
+   * @return never {@code null} nor empty
+   */
+  public String determineDefectDojoScanName(V1Scan scan) {
+    final var spec = Objects.requireNonNull(scan, "Given parameter 'scan; must not be null!")
+      .getSpec();
+
+    if (spec == null) {
+      return DEFAULT_DEFECTDOJO_SCAN_NAME;
+    }
+
+    if (spec.getScanType() == null) {
+      return DEFAULT_DEFECTDOJO_SCAN_NAME;
+    }
+
+      return ScanNameMapping.bySecureCodeBoxScanType(spec.getScanType())
+        .scanType
+        .getTestType();
   }
 }
