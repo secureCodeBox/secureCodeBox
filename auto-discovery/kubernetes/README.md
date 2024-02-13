@@ -183,6 +183,13 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
+[scb-owasp]:    https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]:     https://www.securecodebox.io/
+[scb-site]:     https://www.securecodebox.io/
+[scb-github]:   https://github.com/secureCodeBox/
+[scb-mastodon]: https://infosec.exchange/@secureCodeBox
+[scb-slack]:    https://owasp.org/slack/invite
+[scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
 ## Development
 
 ### Run the AutoDiscovery locally
@@ -203,10 +210,3 @@ make test
 # view the test coverage
 go tool cover -html=cover.out
 ```
-
-[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://www.securecodebox.io/
-[scb-site]: https://www.securecodebox.io/
-[scb-github]: https://github.com/secureCodeBox/
-[scb-slack]: https://owasp.org/slack/invite
-[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE

@@ -21,7 +21,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
   <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Lab Project" src="https://img.shields.io/badge/OWASP-Lab%20Project-yellow"/></a>
   <a href="https://artifacthub.io/packages/search?repo=securecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/securecodebox"/></a>
   <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"/></a>
-  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"/></a>
+  <a href="https://infosec.exchange/@secureCodeBox"><img alt="Mastodon Follower" src="https://img.shields.io/mastodon/follow/111902499714281911?domain=https%3A%2F%2Finfosec.exchange%2F"/></a>
 </p>
 
 ## What is OWASP secureCodeBox?
@@ -97,7 +97,7 @@ You are welcome, please join us on... 👋
 
 - [GitHub][scb-github]
 - [OWASP Slack (Channel #project-securecodebox)][scb-slack]
-- [Twitter][scb-twitter]
+- [Mastodon][scb-mastodon]
 
 secureCodeBox is an official [OWASP][scb-owasp] project.
 
@@ -106,11 +106,11 @@ secureCodeBox is an official [OWASP][scb-owasp] project.
 
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
-[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://www.securecodebox.io/
-[scb-site]: https://www.securecodebox.io/
-[scb-github]: https://github.com/secureCodeBox/
-[scb-twitter]: https://twitter.com/secureCodeBox
-[scb-slack]: https://owasp.org/slack/invite
-[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+[scb-owasp]:    https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]:     https://www.securecodebox.io/
+[scb-site]:     https://www.securecodebox.io/
+[scb-github]:   https://github.com/secureCodeBox/
+[scb-mastodon]: https://infosec.exchange/@secureCodeBox
+[scb-slack]:    https://owasp.org/slack/invite
+[scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
 

@@ -100,10 +100,11 @@ Please include any extra Helm chart configurations that can be useful.
 
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
-[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://www.securecodebox.io/
-[scb-site]: https://www.securecodebox.io/
-[scb-github]: https://github.com/secureCodeBox/
-[scb-slack]: https://owasp.org/slack/invite
-[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+[scb-owasp]:    https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]:     https://www.securecodebox.io/
+[scb-site]:     https://www.securecodebox.io/
+[scb-github]:   https://github.com/secureCodeBox/
+[scb-mastodon]: https://infosec.exchange/@secureCodeBox
+[scb-slack]:    https://owasp.org/slack/invite
+[scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
 Please include any links that can be used as a reference for the scanner.
