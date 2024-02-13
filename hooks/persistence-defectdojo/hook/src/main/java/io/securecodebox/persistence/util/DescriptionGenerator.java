@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class DescriptionGenerator {
+public final class DescriptionGenerator {
 
-  protected static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+  private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  public static final String DEFAULT_DEFECTDOJO_SCAN_NAME = ScanNameMapping.GENERIC.defectDojoScanType.getTestType();
-  Clock clock = Clock.systemDefaultZone();
+  private static final String DEFAULT_DEFECTDOJO_SCAN_NAME = ScanNameMapping.GENERIC.defectDojoScanType.getTestType();
+  private Clock clock = Clock.systemDefaultZone();
 
   public String generate(V1Scan scan) {
     var spec = Objects.requireNonNull(scan.getSpec());
@@ -41,19 +41,27 @@ public class DescriptionGenerator {
   }
 
   /**
-   * Returns the current date as string based on the DATE_FORMAT.
+   * Returns the current date as string based on the DATE_FORMAT
    *
-   * @return the current date as string based on the DATE_FORMAT.
+   * @return never {@code null}
    */
   public String currentDate() {
     return LocalDate.now(clock).format(DATE_FORMAT);
   }
 
-  public String currentTime() {
+  private String currentTime() {
     return LocalDateTime.now(clock).format(TIME_FORMAT);
   }
 
-  public void setClock(Clock clock) {
+  /**
+   * Injection point for side effects
+   * <p>
+   * This is merely for testing purposes.
+   * </p>
+   *
+   * @param clock not {@code null}
+   */
+  void setClock(Clock clock) {
     this.clock = clock;
   }
 
@@ -66,7 +74,7 @@ public class DescriptionGenerator {
    * @param scan Must not be {@code null}
    * @return never {@code null} nor empty
    */
-  public String determineDefectDojoScanName(V1Scan scan) {
+  String determineDefectDojoScanName(V1Scan scan) {
     final var spec = Objects.requireNonNull(scan, "Given parameter 'scan; must not be null!")
       .getSpec();
 
@@ -78,8 +86,8 @@ public class DescriptionGenerator {
       return DEFAULT_DEFECTDOJO_SCAN_NAME;
     }
 
-      return ScanNameMapping.bySecureCodeBoxScanType(spec.getScanType())
-        .defectDojoScanType
-        .getTestType();
+    return ScanNameMapping.bySecureCodeBoxScanType(spec.getScanType())
+      .defectDojoScanType
+      .getTestType();
   }
 }
