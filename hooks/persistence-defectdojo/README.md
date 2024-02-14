@@ -1,6 +1,4 @@
-
-
-[dd-scan-types-src]:  https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/persistence-defectdojo/hook/src/main/java/io/securecodebox/persistence/util/ScanNameMapping.java---
+---
 title: "DefectDojo"
 category: "hook"
 type: "persistenceProvider"
@@ -353,4 +351,4 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-mastodon]: https://infosec.exchange/@secureCodeBox
 [scb-slack]:    https://owasp.org/slack/invite
 [scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-
+[dd-scan-types-src]:  https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/persistence-defectdojo/hook/src/main/java/io/securecodebox/persistence/util/ScanNameMapping.java
