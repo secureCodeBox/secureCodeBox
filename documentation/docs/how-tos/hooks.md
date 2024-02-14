@@ -18,7 +18,7 @@ In principle, the _secureCodeBox_ works in such a way that the _raw findings_ (t
 
 The basic purpose is to transfer the findings to third-party systems. Findings can be read with a _ReadHook_ and processed further as required (e.g. saved in another system via a REST call). On the other hand, _ReadWriteHooks_ also offer the option of adding further information to Findings or modifying them.
 
-::: Caution
+:::caution
 In principle, both the _raw findings_ and the _secureCodeBox findings_ are available to hooks via API. In principle, the uniformed _secureCodeBox findings_ should be preferred. However, the [DefectDojo persistence hook](/docs/hooks/defectdojo/), for example, only processes the _raw findings_. This means that post-processing hooks that work on the _secureCodeBox finding_ have no effect on the data that ends up in DefectDojo.
 
 This means that depending on what you want to achieve with your hook, you need to look at how the following hooks process the findings.
