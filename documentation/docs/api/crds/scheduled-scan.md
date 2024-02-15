@@ -11,9 +11,10 @@ The ScheduledScan Custom Resource Definition (CRD) lets you define a [Scan](/doc
 
 ## Specification (Spec)
 
-### Interval (Required)
+### Interval
 
 The `interval` specifies the interval between two scans.
+Either [`interval`](#interval) or [`schedule`](#schedule) need to be set, they are mutually exclusive.
 
 Specified as a [golang duration string](https://golang.org/pkg/time/#ParseDuration).
 
@@ -21,6 +22,11 @@ Specified as a [golang duration string](https://golang.org/pkg/time/#ParseDurati
 The biggest duration golang time strings support is **hours**. Longer durations e.g. days / weeks need to specified as multiples of hours.
 We plan to improve this in the future, by providing a custom format which also supports days and weeks.
 :::
+
+### Schedule
+
+Schedule let's you define a [cron expression](https://en.wikipedia.org/wiki/Cron) to control precisely when the scan is executed.
+Either [`interval`](#interval) or [`schedule`](#schedule) need to be set, they are mutually exclusive.
 
 ### ScanSpec (Required)
 
@@ -40,7 +46,7 @@ The `failedJobsHistoryLimit` controls how many failed scans are supposed to be k
 
 Defaults to 1 if not set. When set to `0`, scans will be deleted directly after failure.
 
-## Example
+## Example with an Interval
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
@@ -49,6 +55,25 @@ metadata:
   name: "nmap-scanme.nmap.org-daily"
 spec:
   interval: 24h
+  scanSpec:
+    scanType: "nmap"
+    parameters:
+      # Use nmaps service detection feature
+      - "-sV"
+      - scanme.nmap.org
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+```
+
+## Example with a Cron Schedule
+
+```yaml
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScheduledScan
+metadata:
+  name: "nmap-scanme.nmap.org-daily-noon"
+spec:
+  schedule: "0 12 * * *"
   scanSpec:
     scanType: "nmap"
     parameters:
