@@ -46,7 +46,7 @@ It can also be used in combination with `initContainers` to provision files, VCS
 See:
 
 - [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/)
-- [API Reference](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#volume-v1-core)
+- [API Reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1)
 
 ### VolumeMounts (Optional)
 
@@ -58,7 +58,7 @@ It is used in combination with [`volumes`](#volumes-optional) (see above).
 See:
 
 - [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/)
-- [API Reference](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#volumemount-v1-core)
+- [API Reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1)
 
 ### InitContainers (Optional)
 
@@ -110,7 +110,7 @@ spec:
 See:
 
 - [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
-- [API Reference](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core)
+- [API Reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#containers)
 
 ### Affinity and Tolerations (optional)
 
