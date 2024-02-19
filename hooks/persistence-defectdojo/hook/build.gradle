@@ -25,7 +25,7 @@ repositories {
 dependencies {
   implementation group: "io.securecodebox", name: "defectdojo-client", version: "2.0.1"
   implementation group: "io.kubernetes", name: "client-java", version: "20.0.0"
-  implementation group: "org.springframework", name: "spring-web", version: "5.3.28"
+  implementation group: "org.springframework", name: "spring-web", version: "6.1.4"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.16.1"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.16.1"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.16.1"
