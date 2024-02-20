@@ -35,7 +35,7 @@
     "react-accessible-accordion": "^5.0.0",
     "react-dom": "^18.2.0",
     "rimraf": "^5.0.5",
-    "sass": "^1.69.7"
+    "sass": "^1.71.0"
   },
   "browserslist": {
     "production": [
@@ -53,8 +53,8 @@
     "@docusaurus/module-type-aliases": "^3.1.1",
     "@docusaurus/tsconfig": "^3.1.1",
     "@docusaurus/types": "^3.1.1",
-    "@types/node": "^20.11.17",
-    "@types/react": "^18.2.55",
+    "@types/node": "^20.11.19",
+    "@types/react": "^18.2.56",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.1.8",
     "eslint": "^8.56.0",
