@@ -74,7 +74,7 @@ s3:
   keySecret: securecodebox-s3-credentials
 ```
 :::note
-If you prefer to use AWS IAM roles instead of access keys for authentication, set s3.authType to aws-irsa and s3.awsStsEndpoint should be configured as https://sts.eu-west-1.amazonaws.com in your helm values. This approach leverages IAM roles for more secure and efficient access management.
+If you prefer to use AWS IAM roles instead of access keys for authentication, set `s3.authType` to `aws-irsa` and `s3.awsStsEndpoint` should be configured as `https://sts.REGION.amazonaws.com` in your helm values. This approach leverages IAM roles for more secure and efficient access management.
 :::
 
 #### Google Cloud Storage
