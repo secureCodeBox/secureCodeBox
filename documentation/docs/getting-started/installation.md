@@ -26,7 +26,7 @@ helm --namespace securecodebox-system upgrade --install securecodebox-operator s
 
 If you didn't see any errors you now have the secureCodeBox Operator up and running! 🥳 🚀
 
-Your now ready to install your [first scan types and start your first scans](/docs/getting-started/first-scans).
+You're now ready to install your [first scan types and start your first scans](/docs/getting-started/first-scans).
 
 ## Version Support
 
@@ -73,6 +73,13 @@ s3:
   # kubectl create secret generic securecodebox-s3-credentials --from-literal=accesskey="******" --from-literal=secretkey="******"
   keySecret: securecodebox-s3-credentials
 ```
+
+:::info
+Instead of using access keys it is possible to use **IAM roles** for more fien grained access management. To achieve that set in your helm values
+
+1. `s3.authType` to `aws-irsa`, and
+2. `s3.awsStsEndpoint` to your desired region (`https://sts.REGION.amazonaws.com`).
+:::
 
 #### Google Cloud Storage
 
