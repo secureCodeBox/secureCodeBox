@@ -54,7 +54,7 @@ var s3StorageFinalizer = "s3.storage.securecodebox.io"
 // Pod permission are required to grant these permission to service accounts
 // +kubebuilder:rbac:groups=core,resources=pods,verbs=get
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;watch;list;create
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=roles,verbs=get;watch;list;create
+// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=roles,verbs=get;watch;list;create;update
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=rolebindings,verbs=get;watch;list;create
 
 // Reconcile compares the scan object against the state of the cluster and updates both if needed
