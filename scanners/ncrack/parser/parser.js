@@ -4,7 +4,7 @@
 
 const xml2js = require("xml2js");
 const crypto = require("crypto");
-const { readFile } = require("fs/promises");
+const {readFile} = require("fs/promises");
 
 async function parse(
   fileContent,
@@ -37,7 +37,7 @@ function transformToFindings(ncrackrun, publicKey) {
           .publicEncrypt(
             {
               key: publicKey,
-              padding: crypto.constants.RSA_PKCS1_PADDING,
+              padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
             },
             Buffer.from(password)
           )
