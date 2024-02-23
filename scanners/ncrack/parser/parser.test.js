@@ -142,7 +142,7 @@ it("should encrypt findings when a public key is set", async () => {
   let decryptedData = crypto.privateDecrypt(
     {
       key: privateKey,
-      padding: crypto.constants.RSA_PKCS1_PADDING,
+      padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
     },
     Buffer.from(finding.attributes.password, "base64")
   );
