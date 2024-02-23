@@ -23,7 +23,7 @@ env:
   KIND_BINARY_VERSION: "v0.20.0"
   KUBECTL_VERSION: "v1.27.4"
   HELM_VERSION: "v3.12.2"
-  HELM_PLUGIN_UNITTEST: "0.3.5"
+  HELM_PLUGIN_UNITTEST: "0.4.1"
 
 jobs:
   # ---- NVM Setup ----
@@ -53,7 +53,6 @@ jobs:
           name: nvm-node
           path: ./nvm-node.tar.gz
           retention-days: 1
-
 
   test-nodejs-scanner-test-helpers:
     name: "Unit Test | Node.js Scanner Test Helpers"
@@ -152,7 +151,7 @@ jobs:
       - name: Install Helm Unit Test Plugin
         run: |
           helm plugin install https://github.com/helm-unittest/helm-unittest.git --version ${{ env.HELM_PLUGIN_UNITTEST }}
-          
+
       - name: Helm-Chart Unit Tests | Operator
         working-directory: ./operator
         run: make helm-unit-tests
@@ -186,7 +185,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -208,7 +207,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         working-directory: hooks/${{ matrix.unit }}/hook
         run: ./gradlew build --info
@@ -296,7 +295,7 @@ jobs:
   auto-discovery-kubernetes-secret-extraction-container:
     name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
     runs-on: ubuntu-22.04
-    needs: 
+    needs:
       - nvm-setup
       - k8s-setup
     steps:
@@ -732,7 +731,6 @@ jobs:
         run: |
           docker load --input /tmp/hook-sdk.tar
           docker images | grep sdk
-
 
       # ---- K8s Cluster Setup ---- #
 

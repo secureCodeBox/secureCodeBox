@@ -1,7 +1,41 @@
 matches the snapshot:
   1: |
-    raw: "\nsecureCodeBox Operator Deployed \U0001F680\n\nThe operator can orchestrate the execution of various security scanning tools inside of your cluster.\nYou can find a list of all officially supported scanners here: https://www.securecodebox.io/\nThe website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.\n\nThe operator send out regular telemetry pings to a central service.\nThis lets us, the secureCodeBox team, get a grasp on how much the secureCodeBox is used.\nThe submitted data is chosen to be as anonymous as possible.\nYou can find a complete report of the data submitted and links to the source-code at: https://www.securecodebox.io/docs/telemetry\nThe first ping is send one hour after the install, you can prevent this by upgrading the chart and setting `telemetryEnabled` to `false`.\n"
+    raw: |
+      CHART NAME: minio
+      CHART VERSION: 13.4.6
+      APP VERSION: 2024.2.13
+
+      ** Please be patient while the chart is being deployed **
+
+      MinIO&reg; can be accessed via port  on the following DNS name from within your cluster:
+
+         RELEASE-NAME-minio.NAMESPACE.svc.cluster.local
+
+      To get your credentials run:
+
+         export ROOT_USER=$(kubectl get secret --namespace NAMESPACE RELEASE-NAME-minio -o jsonpath="{.data.root-user}" | base64 -d)
+         export ROOT_PASSWORD=$(kubectl get secret --namespace NAMESPACE RELEASE-NAME-minio -o jsonpath="{.data.root-password}" | base64 -d)
+
+      To connect to your MinIO&reg; server using a client:
+
+      - Run a MinIO&reg; Client pod and append the desired command (e.g. 'admin info'):
+
+         kubectl run --namespace NAMESPACE RELEASE-NAME-minio-client \
+           --rm --tty -i --restart='Never' \
+           --env MINIO_SERVER_ROOT_USER=$ROOT_USER \
+           --env MINIO_SERVER_ROOT_PASSWORD=$ROOT_PASSWORD \
+           --env MINIO_SERVER_HOST=RELEASE-NAME-minio \
+           --image docker.io/bitnami/minio-client:2024.2.9-debian-11-r7 -- admin info minio
+
+      To access the MinIO&reg; web UI:
+
+      - Get the MinIO&reg; URL:
+
+         echo "MinIO&reg; web URL: http://127.0.0.1:9001/minio"
+         kubectl port-forward --namespace NAMESPACE svc/RELEASE-NAME-minio 9001:9001
   2: |
+    raw: "\nsecureCodeBox Operator Deployed \U0001F680\n\nThe operator can orchestrate the execution of various security scanning tools inside of your cluster.\nYou can find a list of all officially supported scanners here: https://www.securecodebox.io/\nThe website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.\n\nThe operator send out regular telemetry pings to a central service.\nThis lets us, the secureCodeBox team, get a grasp on how much the secureCodeBox is used.\nThe submitted data is chosen to be as anonymous as possible.\nYou can find a complete report of the data submitted and links to the source-code at: https://www.securecodebox.io/docs/telemetry\nThe first ping is send one hour after the install, you can prevent this by upgrading the chart and setting `telemetryEnabled` to `false`.\n"
+  3: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -105,7 +139,7 @@ matches the snapshot:
             - configMap:
                 name: foo
               name: ca-certificate
-  3: |
+  4: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -115,7 +149,7 @@ matches the snapshot:
           - /metrics
         verbs:
           - get
-  4: |
+  5: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -133,7 +167,7 @@ matches the snapshot:
           - subjectaccessreviews
         verbs:
           - create
-  5: |
+  6: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
@@ -146,7 +180,7 @@ matches the snapshot:
       - kind: ServiceAccount
         name: securecodebox-operator
         namespace: NAMESPACE
-  6: |
+  7: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -161,7 +195,7 @@ matches the snapshot:
           targetPort: https
       selector:
         control-plane: controller-manager
-  7: |
+  8: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -185,7 +219,7 @@ matches the snapshot:
           - cascadingrules/status
         verbs:
           - get
-  8: |
+  9: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -205,7 +239,7 @@ matches the snapshot:
           - cascadingrules/status
         verbs:
           - get
-  9: |
+  10: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
     metadata:
@@ -242,7 +276,7 @@ matches the snapshot:
         verbs:
           - create
           - patch
-  10: |
+  11: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
     metadata:
@@ -255,7 +289,7 @@ matches the snapshot:
       - kind: ServiceAccount
         name: securecodebox-operator
         namespace: NAMESPACE
-  11: |
+  12: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -279,7 +313,7 @@ matches the snapshot:
           - parsedefinitions/status
         verbs:
           - get
-  12: |
+  13: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -299,7 +333,7 @@ matches the snapshot:
           - parsedefinitions/status
         verbs:
           - get
-  13: |
+  14: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -430,7 +464,7 @@ matches the snapshot:
           - get
           - list
           - watch
-  14: |
+  15: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
@@ -443,7 +477,7 @@ matches the snapshot:
       - kind: ServiceAccount
         name: securecodebox-operator
         namespace: NAMESPACE
-  15: |
+  16: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -467,7 +501,7 @@ matches the snapshot:
           - scans/status
         verbs:
           - get
-  16: |
+  17: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -487,7 +521,7 @@ matches the snapshot:
           - scans/status
         verbs:
           - get
-  17: |
+  18: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -511,7 +545,7 @@ matches the snapshot:
           - scancompletionhooks/status
         verbs:
           - get
-  18: |
+  19: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -531,7 +565,7 @@ matches the snapshot:
           - scancompletionhooks/status
         verbs:
           - get
-  19: |
+  20: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -555,7 +589,7 @@ matches the snapshot:
           - scantypes/status
         verbs:
           - get
-  20: |
+  21: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -575,7 +609,7 @@ matches the snapshot:
           - scantypes/status
         verbs:
           - get
-  21: |
+  22: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -599,7 +633,7 @@ matches the snapshot:
           - scheduledscans/status
         verbs:
           - get
-  22: |
+  23: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -619,7 +653,7 @@ matches the snapshot:
           - scheduledscans/status
         verbs:
           - get
-  23: |
+  24: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
