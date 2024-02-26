@@ -35,7 +35,7 @@
     "react-accessible-accordion": "^5.0.0",
     "react-dom": "^18.2.0",
     "rimraf": "^5.0.5",
-    "sass": "^1.71.0"
+    "sass": "^1.71.1"
   },
   "browserslist": {
     "production": [
