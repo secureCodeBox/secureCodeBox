@@ -38,7 +38,7 @@ dependencies {
   testImplementation(platform("org.junit:junit-bom:5.10.2"))
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation group: "org.mockito", name: "mockito-core", version: "5.10.0"
-  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.10.0"
+  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.11.0"
   testImplementation group: 'org.hamcrest', name: 'java-hamcrest', version: '2.0.0.0'
   testImplementation group: 'uk.org.webcompere', name: 'system-stubs-jupiter', version: '2.1.6'
 }
