@@ -5,11 +5,9 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -66,18 +64,29 @@ func main() {
 }
 
 func uploadFile(path, url string) error {
-	fileBytes, err := ioutil.ReadFile(path)
-	size := len(fileBytes)
-	log.Printf("File has a size of %d bytes", size)
+	file, err := os.Open(path)
 	if err != nil {
-		log.Println("Failed to read file")
-		log.Fatal(err)
+		log.Printf("Failed to open file: %v", err)
+		return err
 	}
-	req, err := http.NewRequest("PUT", url, bytes.NewReader(fileBytes))
+	defer file.Close()
+
+	fileInfo, err := file.Stat()
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Failed to get file stats: %v", err)
+		return err
+	}
+	size := fileInfo.Size()
+	log.Printf("Scan result file has a size of %d bytes", size)
+
+	// Create a new file upload request
+	req, err := http.NewRequest("PUT", url, file)
+	if err != nil {
+		log.Fatalf("Failed to create request: %v", err)
+		return err
 	}
 
+	req.ContentLength = size
 	client := &http.Client{}
 
 	res, err := client.Do(req)
@@ -86,22 +95,24 @@ func uploadFile(path, url string) error {
 	}
 	defer res.Body.Close()
 
-	if res.StatusCode < 300 {
+	// Check the response status code
+	if res.StatusCode >= 200 && res.StatusCode < 300 {
 		// all good
 		return nil
 	}
 
 	log.Printf("File upload returned non 2xx status code (%d)", res.StatusCode)
 
-	bytes, err := httputil.DumpResponse(res, true)
+	// Dump response for debugging purposes
+	resultBytes, err := httputil.DumpResponse(res, true)
 	if err != nil {
 		log.Fatal(errors.Wrap(err, "Failed to dump out failed requests to upload scan report to the s3 bucket"))
 	}
 
-	log.Println("Failed Request:")
-	log.Println(string(bytes))
+	log.Println("Response of Failed Request:")
+	log.Println(string(resultBytes))
 
-	return fmt.Errorf("Lurker failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode)
+	return fmt.Errorf("lurker failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode)
 }
 
 func waitForMainContainerToEnd(container, pod, namespace string) {
