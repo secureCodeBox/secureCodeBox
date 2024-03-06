@@ -75,7 +75,7 @@ s3:
 ```
 
 :::info
-Instead of using access keys it is possible to use **IAM roles** for more fien grained access management. To achieve that set in your helm values
+Instead of using access keys it is possible to use **IAM roles** for more fine grained access management. To achieve that set in your helm values
 
 1. `s3.authType` to `aws-irsa`, and
 2. `s3.awsStsEndpoint` to your desired region (`https://sts.REGION.amazonaws.com`).
