@@ -262,7 +262,7 @@ func createPodWithMultipleContainersAndImagePullSecrets(ctx context.Context, nam
 			},
 		},
 		Spec: corev1.PodSpec{
-			Containers:       getContainerSpec(name, images),
+			Containers:       getContainerSpec(images),
 			ImagePullSecrets: imagePullSecrets,
 		},
 	}
@@ -271,7 +271,7 @@ func createPodWithMultipleContainersAndImagePullSecrets(ctx context.Context, nam
 	setPodStatus(ctx, name, namespace, images)
 }
 
-func getContainerSpec(name string, images map[string]string) []corev1.Container {
+func getContainerSpec(images map[string]string) []corev1.Container {
 	var result []corev1.Container
 
 	nameCounter := 0

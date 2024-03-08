@@ -16,7 +16,6 @@ import (
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	k8sErrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -115,7 +114,7 @@ func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod
 	allImageIDs := getImageIDsForPod(pod)
 
 	for _, imageID := range allImageIDs {
-		cleanedImageID := cleanupImageID(imageID, r.Log)
+		cleanedImageID := cleanupImageID(imageID)
 
 		if len(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs) == 0 {
 			r.Log.Info("Warning: You have the Container AutoDiscovery enabled but don't have any `scanConfigs` in your AutoDiscovery configuration. No scans will be started!")
@@ -126,7 +125,7 @@ func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod
 			var scan executionv1.ScheduledScan
 			err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 
-			if apierrors.IsNotFound(err) {
+			if k8sErrors.IsNotFound(err) {
 				result[cleanedImageID] = append(result[cleanedImageID], scanConfig)
 			} else if err != nil {
 				r.Log.Error(err, "Unable to fetch scan", "name", scanName, "namespace", pod.Namespace)
@@ -148,7 +147,7 @@ func getImageIDsForPod(pod corev1.Pod) []string {
 	return result
 }
 
-func cleanupImageID(imageID string, log logr.Logger) string {
+func cleanupImageID(imageID string) string {
 	//some setups will add a protocol to the imageID like "docker-pullable://some/image:sha256@0123456789"
 	//this function removes the protocol as it interferes with trivy
 	//the imageid above will be transformed to "some/image:sha256@0123456789"
@@ -270,7 +269,7 @@ func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, i
 		ImageID:    imageID,
 	}
 
-	extraVolumes, extraMounts := getVolumesForSecrets(secrets, imageID)
+	extraVolumes, extraMounts := getVolumesForSecrets(secrets)
 	scanConfig.Volumes = append(scanConfig.Volumes, extraVolumes...)
 
 	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
@@ -293,7 +292,7 @@ func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, i
 	return newScheduledScan
 }
 
-func getVolumesForSecrets(secrets []corev1.LocalObjectReference, imageID string) ([]corev1.Volume, []corev1.VolumeMount) {
+func getVolumesForSecrets(secrets []corev1.LocalObjectReference) ([]corev1.Volume, []corev1.VolumeMount) {
 	var volumes []corev1.Volume
 	var mounts []corev1.VolumeMount
 	for _, secret := range secrets {
@@ -412,7 +411,7 @@ func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, p
 	result := make(map[string][]configv1.ScanConfig)
 
 	for _, imageID := range imageIDs {
-		cleanedImageID := cleanupImageID(imageID, r.Log)
+		cleanedImageID := cleanupImageID(imageID)
 
 		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
 			scanName := getScanName(cleanedImageID, scanConfig)

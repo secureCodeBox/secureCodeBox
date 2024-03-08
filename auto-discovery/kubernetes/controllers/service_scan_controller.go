@@ -17,8 +17,7 @@ import (
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/errors"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	k8sErrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -158,7 +157,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			}
 			scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
 
-			if apierrors.IsNotFound(err) {
+			if k8sErrors.IsNotFound(err) {
 				// service was never scanned
 				log.Info("Discovered new unscanned service, scanning it now", "service", service.Name, "namespace", service.Namespace)
 
@@ -179,7 +178,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 				scanTypeName := scanConfig.ScanType
 				scanType := executionv1.ScanType{}
 				err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: service.Namespace}, &scanType)
-				if errors.IsNotFound(err) {
+				if k8sErrors.IsNotFound(err) {
 					log.Info("Namespace requires configured ScanType to properly start automatic scans.", "namespace", service.Namespace, "service", service.Name, "scanType", scanTypeName)
 					// Add event to service to communicate failure to user
 					r.Recorder.Event(&service, "Warning", "ScanTypeMissing", "Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.")
