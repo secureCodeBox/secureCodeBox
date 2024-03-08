@@ -46,7 +46,7 @@ type ContainerAutoDiscoveryTemplateArgs struct {
 	ImageID    string
 }
 
-// +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch;
+// +kubebuilder:rbac:groups="",resources=pods,verbs=get;list;watch
 
 // Reconcile compares the Pod object against the state of the cluster and updates both if needed
 func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
