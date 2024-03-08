@@ -87,6 +87,12 @@ func uploadFile(path, url string) error {
 	}
 
 	req.ContentLength = size
+	// with the default TransferEncoding golang sends out the requests for empty files without
+	// the required Content-Length header this is valid, but not accepted by S3 compatible APIs
+	if size == 0 {
+		req.TransferEncoding = []string{"identity"}
+	}
+
 	client := &http.Client{}
 
 	res, err := client.Do(req)
