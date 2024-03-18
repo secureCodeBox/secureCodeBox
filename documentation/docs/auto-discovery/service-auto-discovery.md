@@ -9,7 +9,7 @@ path: "docs/auto-discovery/service-auto-discovery"
 sidebar_position: 2
 ---
 
-The Service AutoDiscovery will create a 'ScheduledScan` with the given parameters (see [readme](https://github.com/secureCodeBox/secureCodeBox/blob/main/auto-discovery/kubernetes/README.md) for config options) for each Kubernetes `Service` it detects.
+The Service AutoDiscovery will create a `ScheduledScan` with the given parameters (see [readme](https://github.com/secureCodeBox/secureCodeBox/blob/main/auto-discovery/kubernetes/README.md) for config options) for each Kubernetes `Service` it detects.
 
 The Service AutoDiscovery will ignore services where the underlying pods do not serve http(s). It does this by checking for open ports `80, 443, 3000, 5000, 8000, 8443, 8080`. It is also sufficient to name the ports `http` or `https` when a different port is used than the ports specified above.
 Services without a matching port number or name are currently ignored.
