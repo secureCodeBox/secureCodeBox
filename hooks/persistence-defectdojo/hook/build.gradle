@@ -29,7 +29,7 @@ dependencies {
   implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.16.2"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.16.2"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.16.2"
-  implementation group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-jsr310", version: "2.16.2"
+  implementation group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-jsr310", version: "2.17.0"
   implementation group: "org.slf4j", name: "slf4j-api", version: "2.0.12"
   implementation group: "org.slf4j", name: "slf4j-log4j12", version: "2.0.12"
   // If I try to notate this like the others (with separate strings) I got errors. No idea why sh... Gradle
