@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-baseline-scan-bodgeit"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-baseline-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://bodgeit.demo-targets.svc:8080"
+    # show debug messages
+    - "-d"
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "2"
