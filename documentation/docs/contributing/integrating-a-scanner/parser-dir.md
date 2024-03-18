@@ -11,7 +11,7 @@ This directory contains the parser for your scanner to transform the results of 
 
 ## Dockerfile
 
-For the parser we use multi-stage builds (see: [Multi-Stage Builds](https://www.docker.com/blog/multi-stage-builds/))
+For the parser we use multi-stage builds (see: [Multi-Stage Builds](https://www.docker.com/blog/multi-stage-builds/)).
 For our JavaScript Parser SDK the Dockerfile should look like this:
 
 ```dockerfile
@@ -29,7 +29,7 @@ COPY --chown=app:app ./parser.js ./parser.js
 ```
 
 If your parser does not require any external dependencies, A multi-stage build is not needed.  
-Instead, A simpler Dockerfile can be used.
+Instead, a simpler Dockerfile can be used.
 
 ```dockerfile
 ARG namespace
@@ -69,7 +69,7 @@ Your `package.json` should look something like this:
 
 ### Install The Dependencies
 
-If you need additional dependencies you can install them via `npm install`
+If you need additional dependencies you can install them via `npm install`.
 
 ### Write Your Parser
 
