@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-baseline-scan-juiceshop"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-baseline-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://juice-shop.demo-targets.svc:3000"
+    # show debug messages
+    - "-d"
+    # use the Ajax spider in addition to the traditional one
+    - "-j"
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "3"

@@ -1,0 +1,14 @@
+{
+  "name": "@securecodebox/parser-zap",
+  "version": "1.0.0",
+  "description": "Parses result files for the type: 'zap-xml'",
+  "main": "",
+  "scripts": {},
+  "keywords": [],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "xml2js": "^0.5.0"
+  },
+  "devDependencies": {}
+}
