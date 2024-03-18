@@ -489,6 +489,7 @@ jobs:
           - wpscan
           - zap
           - zap-advanced
+          - zap-automation-framework
     steps:
       - name: Checkout
         uses: actions/checkout@v4
