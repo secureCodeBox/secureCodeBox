@@ -51,7 +51,10 @@ This `scanner` image is intended to work in combination with the corresponding `
 docker pull securecodebox/scanner-zap-advanced
 ```
 
-## What is ZAP?
+## What is OWASP ZAP?
+:::caution Deprecation Notice
+The `zap-advanced` and `zap` ScanType are being deprecated in favor of the `zap-automation-framework`, which encompasses all functionalities of the previous ScanTypes. We recommend transitioning to "zap-automation-framework". This change will take effect in the upcoming release cycle. For guidance on migrating to "zap-automation-framework," please refer to [here](/docs/scanners/zap-automation-framework#migration-to-zap-automation-framework).
+:::
 
 The Zed Attack Proxy (ZAP) is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
 
