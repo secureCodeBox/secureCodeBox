@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-title: README.md And .helm-docs.gotmpl
+title: README.md and .helm-docs.gotmpl
 sidebar_position: 9
 ---
 
