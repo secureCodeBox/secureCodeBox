@@ -7,7 +7,7 @@ imagePullSecrets: []
 parser:
   image:
     # parser.image.repository -- Parser image repository
-    repository: docker.io/securecodebox/parser-zap
+    repository: docker.io/securecodebox/parser-zap-automation-framework
     # parser.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
