@@ -16,7 +16,7 @@ on:
 env:
   # ---- Language Versions ----
 
-  GO_VERSION: "1.19"
+  GO_VERSION: "1.22.1"
   PYTHON_VERSION: "3.9.16"
   NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
   KIND_NODE_IMAGE: "kindest/node:v1.28.0@sha256:b7a4cad12c197af3ba43202d3efe03246b3f0793f162afb40a33c923952d5b31"
