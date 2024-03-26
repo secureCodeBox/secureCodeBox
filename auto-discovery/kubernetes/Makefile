@@ -15,6 +15,9 @@ IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
 ENVTEST_K8S_VERSION = 1.24.2
 
+# SETUP_ENVTEST_VERSION refers to the version of setup-envtest binary.
+SETUP_ENVTEST_VERSION = v0.0.0-20230216140739-c98506dc3b8e
+
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set).
 # IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
 # errors on macOS/FreeBSD because the line wil be interpreted as command which must
@@ -159,4 +162,4 @@ $(CONTROLLER_GEN): $(LOCALBIN)
 .PHONY: envtest
 envtest: $(ENVTEST) ## Download envtest-setup locally if necessary.
 $(ENVTEST): $(LOCALBIN)
-	test -s $(LOCALBIN)/setup-envtest || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
+	test -s $(LOCALBIN)/setup-envtest || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-runtime/tools/setup-envtest@$(SETUP_ENVTEST_VERSION)
