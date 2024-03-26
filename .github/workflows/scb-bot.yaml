@@ -63,14 +63,14 @@ jobs:
       # Fetching scanner version from local chart .appVersion attribute
       # this would look like 1.1.1 or v1.1.1 depending on the corresponding Docker image tag
       - name: Fetch local scanner version
-        uses: mikefarah/yq@v4.42.1
+        uses: mikefarah/yq@v4.43.1
         with:
           cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
       # Fetching scanner version API from local chart .annotations.versionApi attribute
       # This would look like https://api.github.com/repos/OWASP/Amass/releases/latest
       - name: Fetch scanner's version API
-        uses: mikefarah/yq@v4.42.1
+        uses: mikefarah/yq@v4.43.1
         with:
           cmd: echo versionApi=$(yq e .annotations.versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
@@ -145,7 +145,7 @@ jobs:
 
       - name: Upgrade Scanner Helm Chart
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
-        uses: mikefarah/yq@v4.42.1
+        uses: mikefarah/yq@v4.43.1
         with:
           # appVersion value in chart is replaced with release value. Empty lines are deleted in the process
           cmd: yq e --inplace '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
