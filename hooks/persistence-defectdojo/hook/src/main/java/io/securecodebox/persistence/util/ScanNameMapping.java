@@ -13,6 +13,7 @@ public enum ScanNameMapping {
   ZAP_FULL_SCAN("zap-full-scan", ScanType.ZAP_SCAN),
   ZAP_ADVANCED_SCAN("zap-advanced-scan", ScanType.ZAP_SCAN),
   ZAP_AUTOMATION_SCAN("zap-automation-scan", ScanType.ZAP_SCAN),
+  ZAP_AUTOMATION_FRAMEWORK("zap-automation-framework", ScanType.ZAP_SCAN),
   SSLYZE("sslyze", ScanType.SSLYZE_SCAN),
   TRIVY_IMAGE("trivy-image", ScanType.TRIVY_SCAN),
   TRIVY_IMAGE_AUTODISCOVERY("trivy-image-autodiscovery", ScanType.TRIVY_SCAN),

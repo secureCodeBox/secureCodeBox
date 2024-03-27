@@ -1,3 +1,14 @@
+---
+title: "ZAP Automation Framework"
+category: "scanner"
+type: "WebApplication"
+state: "released"
+appVersion: "2.14.0"
+usecase: "WebApp & OpenAPI Vulnerability Scanner"
+---
+
+![zap logo](https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png)
+
 <!--
 SPDX-FileCopyrightText: the secureCodeBox authors
 
@@ -24,27 +35,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
   <a href="https://infosec.exchange/@secureCodeBox"><img alt="Mastodon Follower" src="https://img.shields.io/mastodon/follow/111902499714281911?domain=https%3A%2F%2Finfosec.exchange%2F"/></a>
 </p>
 
-## What is OWASP secureCodeBox?
-
-<p align="center">
-  <img alt="secureCodeBox Logo" src="https://www.securecodebox.io/img/Logo_Color.svg" width="250px"/>
-</p>
-
-_[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
-
-With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
-
-The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
-
-### Quickstart with secureCodeBox on Kubernetes
-
-You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
-
 ## What is OWASP ZAP?
-
-:::caution Deprecation Notice
-The `zap-advanced` and `zap` ScanType are being deprecated in favor of the `zap-automation-framework`, which encompasses all functionalities of the previous ScanTypes. We recommend transitioning to "zap-automation-framework". This change will take effect in the upcoming release cycle. For guidance on migrating to "zap-automation-framework," please refer to [here](/docs/scanners/zap-automation-framework#migration-to-zap-automation-framework).
-:::
 
 The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
 
@@ -308,21 +299,6 @@ Alternatively, have a look at the [official documentation](https://www.zaproxy.o
 | scanner.suspend | bool | `false` | if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue |
 | scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [OWASP Slack (Channel #project-securecodebox)][scb-slack]
-- [Mastodon][scb-mastodon]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

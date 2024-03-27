@@ -346,6 +346,7 @@ jobs:
           - whatweb
           - wpscan
           - zap
+          - zap-automation-framework
 
     steps:
       - name: Checkout
