@@ -96,6 +96,10 @@ secureCodeBox is an official [OWASP][owasp] project.
 Contributions are welcome and extremely helpful 🙌
 Please have a look at [Contributing](./CONTRIBUTING.md)
 
+### Thanks to Our Awesome Contributors
+
+![Awesome Contributors](https://contrib.rocks/image?repo=secureCodeBox/secureCodeBox)
+
 ## Sponsors
 
 <p align="left">
