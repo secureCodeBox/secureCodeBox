@@ -35,7 +35,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
   <a href="https://infosec.exchange/@secureCodeBox"><img alt="Mastodon Follower" src="https://img.shields.io/mastodon/follow/111902499714281911?domain=https%3A%2F%2Finfosec.exchange%2F"/></a>
 </p>
 
-## What is OWASP ZAP?
+## What is ZAP?
 :::caution Deprecation Notice
 The `zap-advanced` and `zap` ScanType are being deprecated in favor of the `zap-automation-framework`, which encompasses all functionalities of the previous ScanTypes. We recommend transitioning to "zap-automation-framework". This change will take effect in the upcoming release cycle. For guidance on migrating to "zap-automation-framework," please refer to [here](/docs/scanners/zap-automation-framework#migration-to-zap-automation-framework).
 :::
@@ -76,7 +76,7 @@ optional arguments:
   -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
                         The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
   -r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD, --report-type XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD
-                        The  ZAP Report Type.
+                        The ZAP Report Type.
 ```
 
 ## Requirements
@@ -109,7 +109,7 @@ Additionally, there will be some ZAP Scripts included, these are stored in the c
 │This CM contains ZAP session          │        │                  ▼                │       │A YAML configuration for ZAP that       │
 │scripts that are already included     │        │     │  ┌───────────────────┐  │   │       │relates to a single scan execution.     │
 │within the zap-advanced scanner.      │        │        │                   │      │       │- can by used for selected scans        │
-│Feel free to add your own.            │────────┼─────┼─▶│   ZAP Proxy  │  │   │       │- not created by default                │
+│Feel free to add your own.            │────────┼─────┼─▶│  ZAP Proxy  │  │   │       │- not created by default                │
 │                                      │        │        │                   │      └───────│- add your scan target specific config  │
 │ConfigMap: zap-scripts-session        │        │     │  └───────────────────┘  │           │- needs to be referenced in Scan        │
 └──────────────────────────────────────┘        │                                           │- please use SecretMap for credentials! │
