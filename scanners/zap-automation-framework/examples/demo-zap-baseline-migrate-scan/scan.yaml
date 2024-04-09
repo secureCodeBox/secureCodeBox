@@ -1,23 +1,24 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: zap-baseline-configuration
+  name: zap-baseline-automation-framework-config
 data:
-  zap-baseline.yaml: |-
-
-    # Environment configuration for ZAP baseline scan
+  1-automation.yaml: |-
 
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
         - name: zap-baseline-automation-scan # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://nginx.demo-targets.svc"] # A mandatory list of top level urls, everything under each url will be included
-          includePaths: 
-            - "http://nginx.demo-targets.svc/.*"
+          urls: ["http://juiceshop.demo-targets.svc:3000/"] # A mandatory list of top level urls, everything under each url will be included
+    jobs:
       - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
         parameters:
           context: zap-baseline-automation-scan # String: Name of the context to spider, default: first context
           maxDuration: 1                   # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
-
       - type: passiveScan-wait             # Passive scan wait for the passive scanner to finish
         parameters:
           maxDuration: 5                   # Int: The max time to wait for the passive scanner, default: 0 unlimited
@@ -30,3 +31,24 @@ data:
           - high
           - medium
           - low
+
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-automation-framework-juice-shop"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-automation-framework"
+  parameters:
+    - "-autorun"
+    - "/home/securecodebox/scb-automation/1-automation.yaml"
+  volumeMounts:
+    - name: zap-baseline-automation-framework-config
+      mountPath: /home/securecodebox/scb-automation/1-automation.yaml
+      subPath: 1-automation.yaml
+  volumes:
+    - name: zap-baseline-automation-framework-config
+      configMap:
+        name: zap-baseline-automation-framework-config

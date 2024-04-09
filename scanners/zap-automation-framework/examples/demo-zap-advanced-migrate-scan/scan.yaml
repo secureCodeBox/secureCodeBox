@@ -1,0 +1,93 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "zap-automation-framework-migrate-advanced-scan-config"
+data:
+  1-automation.yaml: |-
+
+    env:                                   # The environment, mandatory
+      contexts :                           # List of 1 or more contexts, mandatory
+        - name: scb-bodgeit-context        # Name to be used to refer to this context in other jobs, mandatory
+          urls: [http://bodgeit.default.svc:8080/bodgeit/]  # A mandatory list of top level urls, everything under each url will be included
+          includePaths:                    # An optional list of regexes to include
+            - "http://bodgeit.default.svc:8080/bodgeit.*"
+          excludePaths:                    # An optional list of regexes to exclude
+            - "http://bodgeit.default.svc:8080/bodgeit/logout.jsp"
+            - ".*\\.js"
+            - ".*\\.css"
+            - ".*\\.png"
+            - ".*\\.jpeg"
+          authentication:
+            method: form                   # String, one of 'manual', 'http', 'form', 'json' or 'script'
+            parameters:                    # May include any required for scripts. All of the parameters support vars except for the port 
+              loginRequestUrl: "http://bodgeit.default.svc:8080/bodgeit/login.jsp" # String, the login URL to request, only for 'form' or 'json' authentication
+              loginRequestBody: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D" # String, the login request body - if not supplied a GET request will be used, only for 'form' or 'json' authentication
+            verification:
+              method: response                     # String, one of 'response', 'request', 'both', 'poll'
+              loggedInRegex: '\Q<a href="password.jsp">\E'  # String, regex pattern for determining if logged in
+              loggedOutRegex: '\QGuest user\E'  # String, regex pattern for determining if logged out
+          users:                           # List of one or more users available to use for authentication
+          - name: bodgeit-user-1                         # String, the name to be used by the jobs
+            credentials:                   # List of user credentials - may include any required for scripts, vars supported
+              username: test@thebodgeitstore.com  # String, the username to use when authenticating
+              password: password                    # String, the password to use when authenticating
+          sessionManagement:
+            method: cookie                      # String, one of 'cookie', 'http', 'script'
+
+    jobs:
+      - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
+        parameters:
+          context: scb-bodgeit-context     # String: Name of the context to spider, default: first context
+          user: bodgeit-user-1             # String: An optional user to use for authentication, must be defined in the env
+          url: http://bodgeit.default.svc:8080/bodgeit/  # String: Url to start spidering from, default: first context URL
+          maxDuration: 3                   # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+          maxDepth: 5                      # Int: The maximum tree depth to explore, default 5
+          maxChildren: 10                  # Int: The maximum number of children to add to each node in the tree
+          userAgent: "secureCodeBox / ZAP Spider" # String: The user agent to use in requests, default: '' - use the default ZAP one    
+      - type: activeScan                   # The active scanner - this actively attacks the target so should only be used with permission
+        parameters:
+          context: scb-bodgeit-context     # String: Name of the context to attack, default: first context
+          user: bodgeit-user-1             # String: An optional user to use for authentication, must be defined in the env
+          maxRuleDurationInMins: 3         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+          maxScanDurationInMins: 10        # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
+          addQueryParam: false              # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+          delayInMs: 0                     # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+          handleAntiCSRFTokens: false      # Bool: If set then automatically handle anti CSRF tokens, default: false
+          injectPluginIdInHeader: false    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
+          scanHeadersAllRequests: false    # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+          threadPerHost: 2                 # Int: The max number of threads per host, default: 2
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml                        # String: The template id, default : modern
+          reportDir: /home/securecodebox/               # String: The directory into which the report will be written
+          reportFile: zap-results                     # String: The report file name pattern, default: {{yyyy-MM-dd}}-ZAP-Report-[[site]]
+        risks:                             # List: The risks to include in this report, default all
+          - high
+          - medium
+          - low                        # List: The sites to include in this report, default all
+
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-automation-framework-juice-shop-advanced-migrated"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-automation-framework"
+  parameters:
+    - "-autorun"
+    - "/home/securecodebox/scb-automation/1-automation.yaml"
+  volumeMounts:
+    - name: zap-automation-framework-migrate-advanced-scan-config
+      mountPath: /home/securecodebox/scb-automation/1-automation.yaml
+      subPath: 1-automation.yaml
+  volumes:
+    - name: zap-automation-framework-migrate-advanced-scan-config
+      configMap:
+        name: zap-automation-framework-migrate-advanced-scan-config
