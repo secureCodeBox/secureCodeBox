@@ -68,7 +68,7 @@ kind: ConfigMap
 metadata:
   name: "zap-automation-framework-config"
 data:
-  1-automation.yaml: |-
+  automation.yaml: |-
 
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
@@ -104,7 +104,7 @@ kind: ConfigMap
 metadata:
   name: zap-advanced-scan-config
 data:
-  2-zap-advanced-scan.yaml: |-
+  zap-advanced-scan.yaml: |-
 
     # ZAP Contexts Configuration
     contexts:
@@ -229,7 +229,7 @@ kind: ConfigMap
 metadata:
   name: "zap-automation-framework-migrate-advanced-scan-config"
 data:
-  1-automation.yaml: |-
+  automation.yaml: |-
 
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
@@ -371,7 +371,7 @@ kind: ConfigMap
 metadata:
   name: "zap-automation-framework-config"
 data:
-  1-automation.yaml: |-
+  automation.yaml: |-
 
     env:                                   # The environment, mandatory
       contexts:                           # List of 1 or more contexts, mandatory
