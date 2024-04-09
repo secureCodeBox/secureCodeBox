@@ -39,56 +39,280 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 
 The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
 
+The Automation Framework is an add-on that provides a framework that allows ZAP to be automated in an easy and flexible way.
 To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
 To learn more about the ZAP Automation Framework itself visit [https://www.zaproxy.org/docs/desktop/addons/automation-framework/](https://www.zaproxy.org/docs/desktop/addons/automation-framework/).
 
 ## Deployment
-The zap chart can be deployed via helm:
+The zap-automation-framework chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install zap secureCodeBox/zap
+helm upgrade --install zap-automation-framework secureCodeBox/zap-automation-framework
 ```
 
+## Migration to ZAP Automation Framework
+
+### Migration from `zap` to `ZAP Automation Framework`
+The `zap` scanner already uses the ZAP Automation Framework under the hood. It is done through `zap-baseline`, `zap-api-scan.py` and `zap-full-scan` scripts. The `zap` scanner is a wrapper around these scripts.
+The use of a configMap with `ZAP Automation Framework` can replace those scripts. For example, a `zap-baseline` scan can be replaced with a `zap-automation-framework` scan using the following ConfigMap:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "zap-automation-framework-config"
+data:
+  1-automation.yaml: |-
+
+    env:                                   # The environment, mandatory
+      contexts :                           # List of 1 or more contexts, mandatory
+        - name: zap-baseline-automation-scan # Name to be used to refer to this context in other jobs, mandatory
+          urls: ["http://juiceshop.demo-targets.svc:3000/"] # A mandatory list of top level urls, everything under each url will be included
+    jobs:
+      - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
+        parameters:
+          context: zap-baseline-automation-scan  # String: Name of the context to spider, default: first context
+          maxDuration: 1                     # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+      - type: passiveScan-wait             # Passive scan wait for the passive scanner to finish
+        parameters:
+          maxDuration: 5                   # Int: The max time to wait for the passive scanner, default: 0 unlimited
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml                        # String: The template id, default : modern
+          reportDir: /home/securecodebox/               # String: The directory into which the report will be written
+          reportFile: zap-results                     # String: The report file name pattern, default: [[yyyy-MM-dd]]-ZAP-Report-[[site]]
+        risks:                             # List: The risks to include in this report, default all
+          - high
+          - medium
+          - low
+```
+
+### Migration from `zap-advanced` to `ZAP Automation Framework`
+To use the `ZAP Automation Framework` with the same functionality as the `zap-advanced` scan, you can modify the ConfigMap used for the `zap-advanced` to fit  with the `ZAP Automation Framework`. They are very similar in functionality.
+For example the following `zap-advanced` scan:
+<details>
+  <summary>ZAP-Advanced</summary>
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zap-advanced-scan-config
+data:
+  2-zap-advanced-scan.yaml: |-
+
+    # ZAP Contexts Configuration
+    contexts:
+      # Name to be used to refer to this context in other jobs, mandatory
+      - name: scb-bodgeit-context
+        # The top level url, mandatory, everything under this will be included
+        url: http://bodgeit.default.svc:8080/bodgeit/
+        # An optional list of regexes to include
+        includePaths:
+          - "http://bodgeit.default.svc:8080/bodgeit.*"
+        # An optional list of regexes to exclude
+        excludePaths:
+          - "http://bodgeit.default.svc:8080/bodgeit/logout.jsp"
+          - ".*\\.js"
+          - ".*\\.css"
+          - ".*\\.png"
+          - ".*\\.jpeg"
+        # Auth Credentials for the scanner to access the application
+        # Can be either basicAuth or a oidc token.
+        # If both are set, the oidc token takes precedent
+        authentication:
+          # Currently supports "basic-auth", "form-based", "json-based", "script-based"
+          type: "form-based"
+          # basic-auth requires no further configuration
+          form-based:
+            loginUrl: "http://bodgeit.default.svc:8080/bodgeit/login.jsp"
+            # must be escaped already to prevent yaml parser colidations 'username={%username%}&password={%password%}''
+            loginRequestData: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D"
+          # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
+          verification:
+            isLoggedInIndicator: '\Q<a href="password.jsp">\E'
+            isLoggedOutIndicator: '\QGuest user\E'
+        users:
+          - name: bodgeit-user-1
+            username: test@thebodgeitstore.com
+            password: password
+            forced: true
+        session:
+          # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
+          type: "cookieBasedSessionManagement"
+
+    # ZAP Spiders Configuration
+    spiders:
+      - name: scb-bodgeit-spider
+        # String: Name of the context to spider, default: first context
+        context: scb-bodgeit-context
+        # String: Name of the user to authenticate with and used to spider
+        user: bodgeit-user-1
+        # String: Url to start spidering from, default: first context URL
+        url: http://bodgeit.default.svc:8080/bodgeit/
+        # Int: Fail if spider finds less than the specified number of URLs, default: 0
+        failIfFoundUrlsLessThan: 0
+        # Int: Warn if spider finds less than the specified number of URLs, default: 0
+        warnIfFoundUrlsLessThan: 0
+        # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+        maxDuration: 3
+        # Int: The maximum tree depth to explore, default 5
+        maxDepth: 5
+        # Int: The maximum number of children to add to each node in the tree                    
+        maxChildren: 10
+        # String: The user agent to use in requests, default: '' - use the default ZAP one              
+        userAgent: "secureCodeBox / ZAP Spider"
+
+    # ZAP ActiveScans Configuration
+    scanners:
+      - name: scb-bodgeit-scan
+        # String: Name of the context to attack, default: first context
+        context: scb-bodgeit-context
+        # String: Name of the user to authenticate with and used to spider
+        user: bodgeit-user-1
+        # String: Url to start scaning from, default: first context URL
+        url: http://bodgeit.default.svc:8080/bodgeit/
+        # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+        maxRuleDurationInMins: 3
+        # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited         
+        maxScanDurationInMins: 10
+        # Int: The max number of threads per host, default: 2
+        threadPerHost: 2
+        # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+        delayInMs: 0
+        # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+        addQueryParam: false
+        # Bool: If set then automatically handle anti CSRF tokens, default: false
+        handleAntiCSRFTokens: false
+        # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false          
+        injectPluginIdInHeader: false
+        # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+        scanHeadersAllRequests: false
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-authenticated-full-scan-bodgeit"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-advanced-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://bodgeit.default.svc:8080/bodgeit/"
+  volumeMounts:
+    - name: zap-advanced-scan-config
+      mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml
+      subPath: 2-zap-advanced-scan.yaml
+      readOnly: true
+  volumes:
+    - name: zap-advanced-scan-config
+      configMap:
+        name: zap-advanced-scan-config
+
+```
+</details>
+
+can be replaced with the following `ZAP Automation Framework` scan:
+<details>
+  <summary>ZAP-Automation-Framework</summary>
+```yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "zap-automation-framework-migrate-advanced-scan-config"
+data:
+  1-automation.yaml: |-
+
+    env:                                   # The environment, mandatory
+      contexts :                           # List of 1 or more contexts, mandatory
+        - name: scb-bodgeit-context        # Name to be used to refer to this context in other jobs, mandatory
+          urls: [http://bodgeit.default.svc:8080/bodgeit/]  # A mandatory list of top level urls, everything under each url will be included
+          includePaths:                    # An optional list of regexes to include
+            - "http://bodgeit.default.svc:8080/bodgeit.*"
+          excludePaths:                    # An optional list of regexes to exclude
+            - "http://bodgeit.default.svc:8080/bodgeit/logout.jsp"
+            - ".*\\.js"
+            - ".*\\.css"
+            - ".*\\.png"
+            - ".*\\.jpeg"
+          authentication:
+            method: form                   # String, one of 'manual', 'http', 'form', 'json' or 'script'
+            parameters:                    # May include any required for scripts. All of the parameters support vars except for the port
+              loginRequestUrl: "http://bodgeit.default.svc:8080/bodgeit/login.jsp" # String, the login URL to request, only for 'form' or 'json' authentication
+              loginRequestBody: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D" # String, the login request body - if not supplied a GET request will be used, only for 'form' or 'json' authentication
+            verification:
+              method: response                     # String, one of 'response', 'request', 'both', 'poll'
+              loggedInRegex: '\Q<a href="password.jsp">\E'  # String, regex pattern for determining if logged in
+              loggedOutRegex: '\QGuest user\E'  # String, regex pattern for determining if logged out
+          users:                           # List of one or more users available to use for authentication
+          - name: bodgeit-user-1                         # String, the name to be used by the jobs
+            credentials:                   # List of user credentials - may include any required for scripts, vars supported
+              username: test@thebodgeitstore.com  # String, the username to use when authenticating
+              password: password                    # String, the password to use when authenticating
+          sessionManagement:
+            method: cookie                      # String, one of 'cookie', 'http', 'script'
+
+    jobs:
+      - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
+        parameters:
+          context: scb-bodgeit-context     # String: Name of the context to spider, default: first context
+          user: bodgeit-user-1             # String: An optional user to use for authentication, must be defined in the env
+          url: http://bodgeit.default.svc:8080/bodgeit/  # String: Url to start spidering from, default: first context URL
+          maxDuration: 3                   # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+          maxDepth: 5                      # Int: The maximum tree depth to explore, default 5
+          maxChildren: 10                  # Int: The maximum number of children to add to each node in the tree
+          userAgent: "secureCodeBox / ZAP Spider" # String: The user agent to use in requests, default: '' - use the default ZAP one   
+      - type: activeScan                   # The active scanner - this actively attacks the target so should only be used with permission
+        parameters:
+          context: scb-bodgeit-context     # String: Name of the context to attack, default: first context
+          user: bodgeit-user-1             # String: An optional user to use for authentication, must be defined in the env
+          maxRuleDurationInMins: 3         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+          maxScanDurationInMins: 10        # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
+          addQueryParam: false              # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+          delayInMs: 0                     # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+          handleAntiCSRFTokens: false      # Bool: If set then automatically handle anti CSRF tokens, default: false
+          injectPluginIdInHeader: false    # Bool: If set then the relevant rule Id will be injected into the XZAPScanID header of each request, default: false
+          scanHeadersAllRequests: false    # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+          threadPerHost: 2                 # Int: The max number of threads per host, default: 2
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml                        # String: The template id, default : modern
+          reportDir: /home/securecodebox/               # String: The directory into which the report will be written
+          reportFile: zap-results                     # String: The report file name pattern, default: [[yyyy-MM-dd]]-ZAP-Report-[[site]]
+        risks:                             # List: The risks to include in this report, default all
+          - high
+          - medium
+          - low
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-automation-framework-juice-shop-advanced-migrated"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-automation-framework"
+  parameters:
+    - "-autorun"
+    - "/home/securecodebox/scb-automation/1-automation.yaml"
+  volumeMounts:
+    - name: zap-automation-framework-migrate-advanced-scan-config
+      mountPath: /home/securecodebox/scb-automation/1-automation.yaml
+      subPath: 1-automation.yaml
+  volumes:
+    - name: zap-automation-framework-migrate-advanced-scan-config
+      configMap:
+        name: zap-automation-framework-migrate-advanced-scan-config
+```
+</details>
+### Script-Based authentication
+Scripts and script-based authentication (for OAuth for example) are also easily implemented. For a guide see our blogpost ["Automate ZAP with Authentication"](/blog/2023/09/01/automate-zap-with-authentication).
 ## Scanner Configuration
-
-The following security scan configuration example are based on the ZAP Docker Scan Scripts. By default, the secureCodeBox ZAP Helm Chart installs all four ZAP scripts: `zap-baseline`, `zap-full-scan` , `zap-api-scan` & `zap-automation-scan`. Listed below are the arguments supported by the `zap-baseline` script, which are mostly interchangeable with the other ZAP scripts (except for `zap-automation-scan`). For a more complete reference check out the [ZAP Documentation](https://www.zaproxy.org/docs/docker/) and the secureCodeBox based ZAP examples listed below.
-
-The command line interface can be used to easily run server scans: `-t www.example.com`
-
-```bash
-Usage: zap-baseline.py -t <target> [options]
-    -t target         target URL including the protocol, eg https://www.example.com
-Options:
-    -h                print this help message
-    -c config_file    config file to use to INFO, IGNORE or FAIL warnings
-    -u config_url     URL of config file to use to INFO, IGNORE or FAIL warnings
-    -g gen_file       generate default config file (all rules set to WARN)
-    -m mins           the number of minutes to spider for (default 1)
-    -r report_html    file to write the full ZAP HTML report
-    -w report_md      file to write the full ZAP Wiki (Markdown) report
-    -x report_xml     file to write the full ZAP XML report
-    -J report_json    file to write the full ZAP JSON document
-    -a                include the alpha passive scan rules as well
-    -d                show debug messages
-    -P                specify listen port
-    -D                delay in seconds to wait for passive scanning
-    -i                default rules not in the config file to INFO
-    -I                do not return failure on warning
-    -j                use the Ajax spider in addition to the traditional one
-    -l level          minimum level to show: PASS, IGNORE, INFO, WARN or FAIL, use with -s to hide example URLs
-    -n context_file   context file which will be loaded prior to spidering the target
-    -p progress_file  progress file which specifies issues that are being addressed
-    -s                short output format - dont show PASSes or example URLs
-    -T                max time in minutes to wait for ZAP to start and the passive scan to run
-    -z zap_options    ZAP command line options e.g. -z "-config aaa=bbb -config ccc=ddd"
-    --hook            path to python file that define your custom hooks
-```
-
-## ZAP Automation Scanner Configuration
-
-The Automation Framework allows for higher flexibility in configuring ZAP scans. Its goal is the automation of the full functionality of ZAP's GUI. The configuration of the Automation Framework differs from the other three ZAP scan types. The following security scan configuration example highlights the differences for running a `zap-automation-scan`.
-Of particular interest for us will be the -autorun option. `zap-automation-scan` allows for providing an automation file as a ConfigMap that defines the details of the scan. See the secureCodeBox based ZAP Automation example listed below for what such a ConfigMap would look like.
+The Automation Framework allows for higher flexibility in configuring ZAP scans. Its goal is the automation of the full functionality of ZAP's GUI. The configuration of the Automation Framework differs from the other three ZAP scan types. The following security scan configuration example highlights the differences for running a `zap-automation-framework` scan.
+Of particular interest for us will be the -autorun option. `zap-automation-framework` allows for providing an automation file as a ConfigMap that defines the details of the scan. See the secureCodeBox based ZAP Automation example listed below for what such a ConfigMap would look like.
 
 ```bash
 Usage: zap.sh -cmd -host <target> [options]
@@ -125,19 +349,6 @@ Add-on options:
 
 Kubernetes: `>=v1.11.0-0`
 
-The secureCodeBox provides two different scanner charts (`zap`, `zap-advanced`) to automate ZAP WebApplication security scans. The first one `zap` comes with four scanTypes:
-- `zap-baseline-scan`
-- `zap-full-scan`
-- `zap-api-scan`
-- `zap-automation-scan`
-
-The scanTypes `zap-baseline-scan`, `zap-full-scan` & `zap-api-scan` can be configured via CLI arguments which are somehow a bit limited for some advanced usecases, e.g. using custom zap scripts or configuring complex authentication settings.
-
-That's why we introduced this `zap-advanced` scanner chart, which introduces extensive YAML configuration options for ZAP. The YAML configuration can be split in multiple files and will be merged at start.
-ZAP's own Automation Framework provides similar functionality to the `zap-advanced` scanner chart and is set to displace it in the future.
-
-## ZAP Automation Configuration
-
 The ZAP Automation Scanner supports the use of secrets, as to not have hardcoded credentials in the scan definition.
 Generate secrets using the credentials that will later be used in the scan for authentication. Supported authentication methods for the ZAP Authentication scanner are Manual, HTTP / NTLM, Form-based, JSON-based, and Script-based.
 
@@ -153,7 +364,7 @@ A ZAP Automation scan using JSON-based authentication may look like this:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "zap-automation-scan-config"
+  name: "zap-automation-framework-config"
 data:
   1-automation.yaml: |-
 
@@ -224,7 +435,7 @@ kind: Scan
 metadata:
   name: "zap-example-scan"
 spec:
-  scanType: "zap-automation-scan"
+  scanType: "zap-automation-framework"
   parameters:
     - "-autorun"
     - "/home/securecodebox/scb-automation/1-automation.yaml"
@@ -268,7 +479,7 @@ Alternatively, have a look at the [official documentation](https://www.zaproxy.o
 | parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| parser.image.repository | string | `"docker.io/securecodebox/parser-zap"` | Parser image repository |
+| parser.image.repository | string | `"docker.io/securecodebox/parser-zap-automation-framework"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
 | parser.nodeSelector | object | `{}` | Optional nodeSelector settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/) |
 | parser.resources | object | `{ requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }` | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |

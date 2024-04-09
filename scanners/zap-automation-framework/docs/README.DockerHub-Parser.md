@@ -48,13 +48,14 @@ You can find resources to help you get started on our [documentation website](ht
 This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://www.securecodebox.io/docs/scanners/ZAP.
 
 ```bash
-docker pull securecodebox/parser-zap
+docker pull securecodebox/parser-zap-automation-framework
 ```
 
 ## What is OWASP ZAP?
 
 The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
 
+The Automation Framework is an add-on that provides a framework that allows ZAP to be automated in an easy and flexible way.
 To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
 To learn more about the ZAP Automation Framework itself visit [https://www.zaproxy.org/docs/desktop/addons/automation-framework/](https://www.zaproxy.org/docs/desktop/addons/automation-framework/).
 
