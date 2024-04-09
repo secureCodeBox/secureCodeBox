@@ -51,7 +51,7 @@ This `scanner` image is intended to work in combination with the corresponding `
 docker pull securecodebox/scanner-zap-advanced
 ```
 
-## What is OWASP ZAP?
+## What is ZAP?
 :::caution Deprecation Notice
 The `zap-advanced` and `zap` ScanType are being deprecated in favor of the `zap-automation-framework`, which encompasses all functionalities of the previous ScanTypes. We recommend transitioning to "zap-automation-framework". This change will take effect in the upcoming release cycle. For guidance on migrating to "zap-automation-framework," please refer to [here](/docs/scanners/zap-automation-framework#migration-to-zap-automation-framework).
 :::
@@ -84,7 +84,7 @@ optional arguments:
   -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
                         The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
   -r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD, --report-type XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD
-                        The  ZAP Report Type.
+                        The ZAP Report Type.
 ```
 
 ## Community
