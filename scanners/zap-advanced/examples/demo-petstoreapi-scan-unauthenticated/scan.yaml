@@ -110,8 +110,6 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "zap-api-baseline-scan-petstore"
-  labels:
-    organization: "OWASP"
 spec:
   scanType: "zap-advanced-scan"
   parameters:
