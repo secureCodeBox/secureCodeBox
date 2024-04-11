@@ -76,8 +76,6 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "zap-authenticated-baseline-scan-juiceshop"
-  labels:
-    organization: "OWASP"
 spec:
   scanType: "zap-advanced-scan"
   parameters:
