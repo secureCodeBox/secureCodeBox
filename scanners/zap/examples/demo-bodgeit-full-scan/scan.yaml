@@ -6,8 +6,6 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "zap-full-scan-bodgeit"
-  labels:
-    organization: "OWASP"
 spec:
   scanType: "zap-full-scan"
   parameters:

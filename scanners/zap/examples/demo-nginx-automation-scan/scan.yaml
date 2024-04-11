@@ -60,8 +60,6 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "zap-automation-scan-juice-shop"
-  labels:
-    organization: "OWASP"
 spec:
   scanType: "zap-automation-scan"
   parameters:

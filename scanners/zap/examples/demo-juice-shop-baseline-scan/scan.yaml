@@ -6,8 +6,6 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "zap-baseline-scan-juiceshop"
-  labels:
-    organization: "OWASP"
 spec:
   scanType: "zap-baseline-scan"
   parameters:

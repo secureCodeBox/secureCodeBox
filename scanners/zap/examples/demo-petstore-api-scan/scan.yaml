@@ -6,8 +6,6 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "zap-api-petstore"
-  labels:
-    organization: "OWASP"
 spec:
   scanType: "zap-api-scan"
   parameters:
