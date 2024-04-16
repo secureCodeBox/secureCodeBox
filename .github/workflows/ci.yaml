@@ -76,11 +76,11 @@ jobs:
           nvm use
 
       - name: Install dependencies
-        working-directory: ./scanners
+        working-directory: tests/integration
         run: |
           npm ci
       - name: Test Node.js Scanner Test Helpers
-        working-directory: ./scanners
+        working-directory: tests/integration
         run: |
           npm run test:helpers
   k8s-setup:
