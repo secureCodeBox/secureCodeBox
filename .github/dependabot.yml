@@ -32,6 +32,9 @@ updates:
     directory: "/hooks/persistence-defectdojo/hook"
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "io.kubernetes:client-java"
+        versions: ["*-legacy"]
     groups:
       gradle-security-updates:
         applies-to: security-updates
