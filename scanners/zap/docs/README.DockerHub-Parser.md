@@ -51,7 +51,7 @@ This `parser` image is intended to work in combination with the corresponding se
 docker pull securecodebox/parser-zap
 ```
 
-## What is OWASP ZAP?
+## What is ZAP?
 
 The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
 

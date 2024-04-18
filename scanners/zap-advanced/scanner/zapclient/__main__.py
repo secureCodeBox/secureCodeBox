@@ -91,7 +91,7 @@ def process(args):
 def get_parser_args(args=None):
     parser = argparse.ArgumentParser(
         prog="zap-client",
-        description="OWASP secureCodeBox OWASP ZAP Client (can be used to automate OWASP ZAP instances based on YAML configuration files.)",
+        description="OWASP secureCodeBox ZAP Client (can be used to automate ZAP instances based on YAML configuration files.)",
     )
     parser.add_argument(
         "-z",
@@ -110,14 +110,14 @@ def get_parser_args(args=None):
     parser.add_argument(
         "-c",
         "--config-folder",
-        help="The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.",
+        help="The path to a local folder containing the additional ZAP configuration YAMLs used to configure ZAP.",
         default="/home/securecodebox/configs/",
         required=False,
     )
     parser.add_argument(
         "-t",
         "--target",
-        help="The target to scan with OWASP ZAP.",
+        help="The target to scan with ZAP.",
         default=None,
         required=True,
     ),
@@ -136,7 +136,7 @@ def get_parser_args(args=None):
     parser.add_argument(
         "-r",
         "--report-type",
-        help="The OWASP ZAP Report Type.",
+        help="The ZAP Report Type.",
         choices=["XML", "XML-plus", "JSON", "JSON-plus", "HTML", "HTML-plus", "MD"],
         default=None,
         required=False,
