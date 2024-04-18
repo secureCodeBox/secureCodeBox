@@ -15,7 +15,7 @@ authors:
     image_url: https://avatars.githubusercontent.com/u/1688580?v=4
 tags:
 - secureCodeBox
-- OWASP ZAP automation
+- ZAP automation
 - Authentication
 description: This post describes how to automate ZAP to authenticate against an API
 ---

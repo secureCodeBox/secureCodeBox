@@ -56,7 +56,7 @@ docker pull securecodebox/auto-discovery-kubernetes
 This example deploys [JuiceShop](https://owasp.org/www-project-juice-shop/) to a new Kubernetes Namespace.
 (You can find the kubernetes manifests for the deployment [here](./demo/juice-shop.yaml))
 
-The AutoDiscovery will automatically pick up this new deployment and then starts a OWASP ZAP Scan against it.
+The AutoDiscovery will automatically pick up this new deployment and then starts a ZAP Scan against it.
 The scan created uses our `zap-advanced` ScanType by default, this can be changed with the `config.serviceAutoDiscovery.scanConfig.scanType` config on the autoDiscovery helm release.
 
 When the ContainerAutoDiscovery is enabled, the AutoDiscovery can also create a trivy scan for each unique container image (having multiple pods with the same container will only create one scan). The scan type can be defined with `config.containerAutoDiscovery.scanConfig.scanType`.

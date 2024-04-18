@@ -17,4 +17,4 @@ The scans it would start:
 
 1. A image scan scanning for vulnerable libraries in the docker / container image of the deployment. (Using trivy)
 2. A TLS scan against the certificate of the ingress for the host. (Using SSLyze)
-3. A ZAP scan to detect basic web vulnerabilities in the service. (Using OWASP ZAP)
+3. A ZAP scan to detect basic web vulnerabilities in the service. (Using ZAP)

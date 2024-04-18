@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: "Scanning Web Applications"
-description: "Automating OWASP ZAP with the secureCodeBox"
+description: "Automating ZAP with the secureCodeBox"
 sidebar_position: 3
 ---
 

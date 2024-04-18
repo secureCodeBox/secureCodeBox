@@ -51,7 +51,7 @@ This `scanner` image is intended to work in combination with the corresponding `
 docker pull securecodebox/scanner-zap-advanced
 ```
 
-## What is OWASP ZAP?
+## What is ZAP?
 
 The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
 
@@ -66,7 +66,7 @@ The command line interface can be used to easily run server scans: `-t www.examp
 ```bash
 usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD]
 
-OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
+OWASP secureCodeBox ZAP Client  (can be used to automate ZAP instances based on YAML configuration files.)
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -75,13 +75,13 @@ optional arguments:
   -a API_KEY, --api-key API_KEY
                         The ZAP API Key used to call the ZAP API.
   -c CONFIG_FOLDER, --config-folder CONFIG_FOLDER
-                        The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.
+                        The path to a local folder containing the additional ZAP configuration YAMLs used to configure ZAP.
   -t TARGET, --target TARGET
-                        The target to scan with OWASP ZAP.
+                        The target to scan with ZAP.
   -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
                         The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
   -r XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD, --report-type XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD
-                        The OWASP ZAP Report Type.
+                        The ZAP Report Type.
 ```
 
 ## Community
