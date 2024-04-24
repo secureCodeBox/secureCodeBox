@@ -30,5 +30,5 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 [thechief.io]:      https://thechief.io/c/editorial/35-devsecops-tools-to-add-sec-to-your-devops/
 [timo-pagel]:       https://pagel.pro/
 [micromata-blog]:   http://web.archive.org/web/20230528192911/https://www.micromata.de/blog/devsecops-projekte-owasp/
-[lukasz-post]       https://sekurak.pl/wprowadzenie-do-owasp-securecodebox/
-[lukasz-blog]       https://vilya.pl/owasp-securecodebox-historia-pewnego-artykulu/
+[lukasz-post]:      https://sekurak.pl/wprowadzenie-do-owasp-securecodebox/
+[lukasz-blog]:      https://vilya.pl/owasp-securecodebox-historia-pewnego-artykulu/
