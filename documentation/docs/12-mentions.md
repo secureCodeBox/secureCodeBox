@@ -11,6 +11,7 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 
 ## Blog Posts and Articles
 
+- [Wprowadzenie do OWASP secureCodeBox][lukasz-post] 🇵🇱 by [Łukasz Mieczkowski][lukasz-blog].
 - [Exploring secureCodeBox — An Open-Source Continuous Security Testing Solution for DevSecOps][theowni-post] 🇬🇧 by [Krzysztof Pranczk][theowni-author].
 - [SecureCodeBox — k8s based, toolchain for continuous security scans][gortega-post] 🇬🇧 by [Gustavo Ortega][gortega-author].
 
@@ -29,3 +30,5 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 [thechief.io]:      https://thechief.io/c/editorial/35-devsecops-tools-to-add-sec-to-your-devops/
 [timo-pagel]:       https://pagel.pro/
 [micromata-blog]:   http://web.archive.org/web/20230528192911/https://www.micromata.de/blog/devsecops-projekte-owasp/
+[lukasz-post]       https://sekurak.pl/wprowadzenie-do-owasp-securecodebox/
+[lukasz-blog]       https://vilya.pl/owasp-securecodebox-historia-pewnego-artykulu/
