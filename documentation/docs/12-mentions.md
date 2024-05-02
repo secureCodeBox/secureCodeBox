@@ -21,6 +21,7 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 
 ## Random Stuff
 
+- [Interview with RadioTux on YouTube][radiotux-youtube] 🇩🇪 ([Podcast Episode][radiotux-podcast])
 - [35 DevSecOps Tools to Add Sec to Your DevOps][thechief.io] 🇬🇧.
 
 [theowni-post]:     https://itnext.io/exploring-securecodebox-an-open-source-continuous-security-testing-solution-for-devsecops-b233fc5341e1
@@ -32,3 +33,5 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 [micromata-blog]:   http://web.archive.org/web/20230528192911/https://www.micromata.de/blog/devsecops-projekte-owasp/
 [lukasz-post]:      https://sekurak.pl/wprowadzenie-do-owasp-securecodebox/
 [lukasz-blog]:      https://vilya.pl/owasp-securecodebox-historia-pewnego-artykulu/
+[radiotux-youtube]: https://www.youtube.com/watch?v=PaERL7igyqQ
+[radiotux-podcast]: https://www.radiotux.de/index.php?/archives/8100-RadioTux-Sendung-AprilMai-2024.html
