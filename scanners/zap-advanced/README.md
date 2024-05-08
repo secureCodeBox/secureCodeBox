@@ -37,7 +37,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 
 ## What is ZAP?
 :::caution Deprecation Notice
-The `zap-advanced` and `zap` ScanType are being deprecated in favor of the `zap-automation-framework`, which encompasses all functionalities of the previous ScanTypes. We recommend transitioning to "zap-automation-framework". This change will take effect in the upcoming release cycle. For guidance on migrating to "zap-automation-framework," please refer to [here](/docs/scanners/zap-automation-framework#migration-to-zap-automation-framework).
+The `zap-advanced` and `zap` ScanType are being deprecated in favor of the `zap-automation-framework`, which encompasses all functionalities of the previous ScanTypes. We recommend transitioning to the "zap-automation-framework" as soon as possible. `zap-advanced` and `zap` ScanTypes will be removed in the upcoming v5 release. For guidance on migrating to "zap-automation-framework," please refer to [migration to zap-automation framework](/docs/scanners/zap-automation-framework#migration-to-zap-automation-framework).
 :::
 
 The Zed Attack Proxy (ZAP) is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
@@ -109,7 +109,7 @@ Additionally, there will be some ZAP Scripts included, these are stored in the c
 │This CM contains ZAP session          │        │                  ▼                │       │A YAML configuration for ZAP that       │
 │scripts that are already included     │        │     │  ┌───────────────────┐  │   │       │relates to a single scan execution.     │
 │within the zap-advanced scanner.      │        │        │                   │      │       │- can by used for selected scans        │
-│Feel free to add your own.            │────────┼─────┼─▶│  ZAP Proxy  │  │   │       │- not created by default                │
+│Feel free to add your own.            │────────┼─────┼─▶│  ZAP Proxy       │   │       │- not created by default                │
 │                                      │        │        │                   │      └───────│- add your scan target specific config  │
 │ConfigMap: zap-scripts-session        │        │     │  └───────────────────┘  │           │- needs to be referenced in Scan        │
 └──────────────────────────────────────┘        │                                           │- please use SecretMap for credentials! │
