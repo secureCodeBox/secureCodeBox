@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {scan} = require("../../helpers");
+const { scan } = require("../../../tests/integration/helpers.js");
 
 test.concurrent(
   "zap automation scan without config against 'bodgeit' should only find couple findings",
