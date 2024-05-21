@@ -33,8 +33,7 @@ updates:
     schedule:
       interval: "weekly"
     ignore:
-      - dependency-name: "io.kubernetes:client-java"
-        versions: ["*-legacy"]
+      - dependency-name: "io.kubernetes:client-java:*-legacy"
     groups:
       gradle-security-updates:
         applies-to: security-updates
