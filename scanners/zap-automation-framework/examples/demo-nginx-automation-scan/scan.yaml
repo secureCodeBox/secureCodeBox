@@ -6,7 +6,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "zap-automation-nginx"
+  name: "zap-automation-framework-config"
 data:
   automation.yaml: |-
 
