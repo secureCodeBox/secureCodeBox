@@ -7,9 +7,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "zap-automation-framework-config"
+  name: "zap-automation-juicehop"
 data:
-  1-automation.yaml: |-
+  automation.yaml: |-
 
     env:                                   # The environment, mandatory
       contexts:                           # List of 1 or more contexts, mandatory
@@ -78,7 +78,7 @@ kind: ConfigMap
 metadata:
   name: "zap-automation-nginx"
 data:
-  2-automation.yaml: |-
+  automation.yaml: |-
 
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
@@ -131,7 +131,7 @@ kind: ConfigMap
 metadata:
   name: "zap-automation-bodgeit"
 data:
-  3-automation.yaml: |-
+  automation.yaml: |-
 
     env:                                   # The environment, mandatory
       contexts:                           # List of 1 or more contexts, mandatory
@@ -177,7 +177,7 @@ kind: ConfigMap
 metadata:
   name: "zap-automation-petstore"
 data:
-  4-automation.yaml: |-
+  automation.yaml: |-
 
     env:                                   # The environment, mandatory
       contexts:                           # List of 1 or more contexts, mandatory
