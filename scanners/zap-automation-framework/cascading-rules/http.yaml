@@ -21,5 +21,5 @@ spec:
           service: http-*
           state: open
   scanSpec:
-    scanType: "zap-baseline-scan"
+    scanType: "zap-automation-framework"
     parameters: ["-t", "http://{{$.hostOrIP}}:{{attributes.port}}"]
