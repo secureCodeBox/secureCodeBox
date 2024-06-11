@@ -6,7 +6,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "zap-automation-framework-migrate-advanced-scan-config"
+  name: "zap-automation-framework-advanced-scan-config"
 data:
   automation.yaml: |-
 
@@ -75,7 +75,7 @@ data:
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "zap-automation-framework-juice-shop-advanced-migrated"
+  name: "zap-automation-framework-juice-shop-advanced"
   labels:
     organization: "OWASP"
 spec:
@@ -84,10 +84,10 @@ spec:
     - "-autorun"
     - "/home/securecodebox/scb-automation/1-automation.yaml"
   volumeMounts:
-    - name: zap-automation-framework-migrate-advanced-scan-config
+    - name: zap-automation-framework-advanced-scan-config
       mountPath: /home/securecodebox/scb-automation/1-automation.yaml
       subPath: 1-automation.yaml
   volumes:
-    - name: zap-automation-framework-migrate-advanced-scan-config
+    - name: zap-automation-framework-advanced-scan-config
       configMap:
-        name: zap-automation-framework-migrate-advanced-scan-config
+        name: zap-automation-framework-advanced-scan-config
