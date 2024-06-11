@@ -22,7 +22,7 @@ matches the snapshot:
         parameters:
           - -t
           - http://{{$.hostOrIP}}:{{attributes.port}}
-        scanType: zap-baseline-scan
+        scanType: zap-automation-framework
   2: |
     apiVersion: cascading.securecodebox.io/v1
     kind: CascadingRule
@@ -42,7 +42,7 @@ matches the snapshot:
         parameters:
           - -t
           - https://{{$.hostOrIP}}:{{attributes.port}}
-        scanType: zap-baseline-scan
+        scanType: zap-automation-framework
   3: |
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition
