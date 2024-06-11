@@ -88,7 +88,7 @@ test.concurrent(
     const { count } = await scan(
       "zap-automation-juiceshop",
       "zap-automation-framework",
-      ["-autorun", "/home/securecodebox/scb-automation/1-automation.yaml"],
+      ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 31 * 1000,
       // volumes
       [{
@@ -98,7 +98,7 @@ test.concurrent(
       // volumeMounts
       [{
           "name": "zap-automation-framework-config",
-          "mountPath": "/home/securecodebox/scb-automation/1-automation.yaml",
+          "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
           "subPath": "1-automation.yaml"
       }],
     );

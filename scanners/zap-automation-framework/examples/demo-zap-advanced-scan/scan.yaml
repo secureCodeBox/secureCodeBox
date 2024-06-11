@@ -82,11 +82,11 @@ spec:
   scanType: "zap-automation-framework"
   parameters:
     - "-autorun"
-    - "/home/securecodebox/scb-automation/1-automation.yaml"
+    - "/home/securecodebox/scb-automation/automation.yaml"
   volumeMounts:
     - name: zap-automation-framework-advanced-scan-config
-      mountPath: /home/securecodebox/scb-automation/1-automation.yaml
-      subPath: 1-automation.yaml
+      mountPath: /home/securecodebox/scb-automation/automation.yaml
+      subPath: automation.yaml
   volumes:
     - name: zap-automation-framework-advanced-scan-config
       configMap:
