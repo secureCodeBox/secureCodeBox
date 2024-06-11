@@ -98,7 +98,6 @@ test.concurrent(
   },
   3 * 60 * 1000
 );
-
 test.concurrent(
   "trivy k8s scan should not fail",
   async () => {
@@ -106,7 +105,7 @@ test.concurrent(
       "trivy-k8s-test",
       "trivy-k8s",
       // scanners is limited to config, and namespace to default to reduce the time of the test
-      ["cluster", "--debug","--scanners", "config", "--namespace", "default"],
+      ["--debug","--scanners", "config", "--include-namespaces", "securecodebox-system"],
       10 * 60 * 1000
     );
 
