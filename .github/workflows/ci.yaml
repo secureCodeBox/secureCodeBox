@@ -880,3 +880,21 @@ jobs:
       - name: "Delete kind cluster"
         run: |
           kind delete cluster
+  
+  sbctcl-tests:
+    name: "Run sbctcl Tests"
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Run tests
+        run: |
+          cd sbctcl
+          go test -v ./...
+        
