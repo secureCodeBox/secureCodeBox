@@ -14,6 +14,20 @@ var (
 	scheme = runtime.NewScheme()
 )
 
+type ClientProvider interface {
+	GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error)
+}
+
+type DefaultClientProvider struct{}
+
+func (d *DefaultClientProvider) GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error) {
+	return GetClient(flags)
+}
+
+func init() {
+	utilruntime.Must(v1.AddToScheme(scheme))
+}
+
 func GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error) {
 	cnfLoader := flags.ToRawKubeConfigLoader()
 
