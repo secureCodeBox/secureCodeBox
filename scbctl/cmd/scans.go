@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	kubernetes "github.com/secureCodeBox/secureCodeBox/scbctl/pkg"
@@ -43,8 +44,15 @@ var ScanCmd = &cobra.Command{
 		}
 
 		scanName := args[0]
-		target := args[1]
+		paramIndex := cmd.ArgsLenAtDash()
+		if paramIndex == -1 {
+			return errors.New("You must use '--' to separate scan parameters")
+		}
 
+
+		parameters := args[paramIndex:]
+		
+	
 		fmt.Println("🎬 Initializing Kubernetes client")
 
 		kubeclient, namespace, err := clientProvider.GetClient(kubeconfigArgs)
@@ -52,7 +60,11 @@ var ScanCmd = &cobra.Command{
 			return fmt.Errorf("Error initializing Kubernetes client: %s", err)
 		}
 
-		fmt.Printf("🆕 Creating a new scan with name '%s' and target '%s'\n", scanName, target)
+		if namespaceFlag, err := cmd.Flags().GetString("namespace"); err == nil && namespaceFlag != "" {
+			namespace = namespaceFlag
+		}
+
+		fmt.Printf("🆕 Creating a new scan with name '%s' and target '%s'\n", scanName, strings.Join(parameters, " "))
 
 		scan := &v1.Scan{
 			TypeMeta: metav1.TypeMeta{
@@ -65,9 +77,7 @@ var ScanCmd = &cobra.Command{
 			},
 			Spec: v1.ScanSpec{
 				ScanType: scanName,
-				Parameters: []string{
-					target,
-				},
+				Parameters: parameters,
 			},
 		}
 
