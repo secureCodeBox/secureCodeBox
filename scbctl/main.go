@@ -26,8 +26,6 @@ var rootCmd = &cobra.Command{
 func init() {
 	utilruntime.Must(v1.AddToScheme(scheme))
 	rootCmd.AddCommand(cmd.ScanCmd)
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
 	kubeconfigArgs.AddFlags(rootCmd.PersistentFlags())
 }
 func main() {
