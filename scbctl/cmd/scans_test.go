@@ -36,19 +36,19 @@ func TestScanCommand(t *testing.T) {
 		expectedError error
 	}{
 		{
-			name:          "Valid entry",
-			args:          []string{"nmap", "scanme.nmap.org"},
+			name:          "Valid entry ",
+			args:          []string{"nmap", "--", "scanme.nmap.org"},
 			expectedError: nil,
 		},
 		{
-			name:          "Missing values",
-			args:          []string{},
-			expectedError: errors.New("You must specify the name of the scan and the target"),
+			name:          "Valid entry with namespace",
+			args:          []string{"nmap", "--", "scanme.nmap.org"},
+			expectedError: nil,
 		},
 		{
-			name:          "Missing target name",
+			name:          "No scan parameters provided",
 			args:          []string{"nmap"},
-			expectedError: errors.New("You must specify the name of the scan and the target"),
+			expectedError: errors.New("You must use '--' to separate scan parameters"),
 		},
 	}
 
@@ -62,10 +62,14 @@ func TestScanCommand(t *testing.T) {
 			}
 
 			cmd := &cobra.Command{
-				RunE: func(cmd *cobra.Command, args []string) error {
-					return ScanCmd.RunE(cmd, tc.args)
-				},
+				Use:     ScanCmd.Use,
+				Short:   ScanCmd.Short,
+				Long:    ScanCmd.Long,
+				Example: ScanCmd.Example,
+				RunE:    ScanCmd.RunE,
 			}
+
+			cmd.SetArgs(tc.args)
 
 			err := cmd.Execute()
 			if tc.expectedError != nil {
