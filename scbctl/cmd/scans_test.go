@@ -4,6 +4,7 @@
 package cmd
 
 import (
+	"context"
 	"errors"
 	"testing"
 
@@ -86,6 +87,16 @@ func TestScanCommand(t *testing.T) {
 				}
 			} else if err != nil {
 				t.Errorf("expected no error, but got: %v", err)
+			}
+
+			if tc.expectedError == nil {
+				scans := &v1.ScanList{}
+				if listErr := client.List(context.Background(), scans); listErr != nil {
+					t.Fatalf("failed to list scans: %v", listErr)
+				}
+				if len(scans.Items) != 1 {
+					t.Fatalf("expected 1 scan to created but got %d", len(scans.Items))
+				}
 			}
 
 		})
