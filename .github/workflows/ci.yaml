@@ -894,7 +894,6 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
 
       - name: Run tests
-        run: |
-          cd sbctcl
-          go test -v ./...
+        working-directory: scbtcl
+        run: go test -v ./...
         
