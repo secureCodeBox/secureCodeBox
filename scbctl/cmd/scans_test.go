@@ -41,8 +41,13 @@ func TestScanCommand(t *testing.T) {
 			expectedError: nil,
 		},
 		{
+			name:          "Valid entry with multiple parameters",
+			args:          []string{"nmap", "--", "scanme.nmap.org", "-p", "90"},
+			expectedError: nil,
+		},
+		{
 			name:          "Valid entry with namespace",
-			args:          []string{"nmap", "--", "scanme.nmap.org"},
+			args:          []string{"scan", "--namespace", "foobar", "nmap", "--", "scanme.nmap.org"},
 			expectedError: nil,
 		},
 		{
@@ -69,7 +74,10 @@ func TestScanCommand(t *testing.T) {
 				RunE:    ScanCmd.RunE,
 			}
 
+			cmd.Flags().AddFlagSet(ScanCmd.Flags())
+
 			cmd.SetArgs(tc.args)
+			cmd.SilenceUsage = true
 
 			err := cmd.Execute()
 			if tc.expectedError != nil {

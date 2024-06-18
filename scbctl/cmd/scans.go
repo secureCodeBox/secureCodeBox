@@ -27,6 +27,7 @@ var (
 
 func init() {
 	utilruntime.Must(v1.AddToScheme(scheme))
+	ScanCmd.Flags().StringP("namespace", "n", "", "Namespace in which to create the scan")
 }
 
 var ScanCmd = &cobra.Command{
@@ -61,7 +62,7 @@ var ScanCmd = &cobra.Command{
 			namespace = namespaceFlag
 		}
 
-		fmt.Printf("🆕 Creating a new scan with name '%s' and target '%s'\n", scanName, strings.Join(parameters, " "))
+		fmt.Printf("🆕 Creating a new scan with name '%s' and parameters '%s'\n", scanName, strings.Join(parameters, " "))
 
 		scan := &v1.Scan{
 			TypeMeta: metav1.TypeMeta{
