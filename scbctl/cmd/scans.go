@@ -4,7 +4,6 @@
 package cmd
 
 import (
-	"context"
 	"fmt"
 	"strings"
 
@@ -64,7 +63,7 @@ func NewScanCommand() *cobra.Command {
 				},
 			}
 
-			err = kubeclient.Create(context.TODO(), scan)
+			err = kubeclient.Create(cmd.Context(), scan)
 			if err != nil {
 				if metav2.IsNotFound(err) {
 					return fmt.Errorf("failed to create Scan: namespace '%s' not found", namespace)
