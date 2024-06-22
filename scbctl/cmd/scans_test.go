@@ -4,12 +4,12 @@
 package cmd
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"testing"
 
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
-	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -38,12 +38,12 @@ func TestScanCommand(t *testing.T) {
 	}{
 		{
 			name:          "Valid entry ",
-			args:          []string{"nmap", "--", "scanme.nmap.org"},
+			args:          []string{"scan", "nmap", "--", "scanme.nmap.org"},
 			expectedError: nil,
 		},
 		{
 			name:          "Valid entry with multiple parameters",
-			args:          []string{"nmap", "--", "scanme.nmap.org", "-p", "90"},
+			args:          []string{"scan", "nmap", "--", "scanme.nmap.org", "-p", "90"},
 			expectedError: nil,
 		},
 		{
@@ -53,8 +53,8 @@ func TestScanCommand(t *testing.T) {
 		},
 		{
 			name:          "No scan parameters provided",
-			args:          []string{"nmap"},
-			expectedError: errors.New("You must use '--' to separate scan parameters"),
+			args:          []string{"scan", "nmap"},
+			expectedError: errors.New("you must use '--' to separate scan parameters"),
 		},
 	}
 
@@ -67,20 +67,14 @@ func TestScanCommand(t *testing.T) {
 				err:       nil,
 			}
 
-			cmd := &cobra.Command{
-				Use:     ScanCmd.Use,
-				Short:   ScanCmd.Short,
-				Long:    ScanCmd.Long,
-				Example: ScanCmd.Example,
-				RunE:    ScanCmd.RunE,
-			}
+			rootCmd := NewRootCommand()
+			buf := new(bytes.Buffer)
+			rootCmd.SetOut(buf)
 
-			cmd.Flags().AddFlagSet(ScanCmd.Flags())
+			rootCmd.SetArgs(tc.args)
+			rootCmd.SilenceUsage = true
 
-			cmd.SetArgs(tc.args)
-			cmd.SilenceUsage = true
-
-			err := cmd.Execute()
+			err := rootCmd.Execute()
 			if tc.expectedError != nil {
 				if err == nil || err.Error() != tc.expectedError.Error() {
 					t.Errorf("expected error: %v, got: %v", tc.expectedError, err)
