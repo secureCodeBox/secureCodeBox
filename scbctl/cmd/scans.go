@@ -15,7 +15,7 @@ import (
 )
 
 func NewScanCommand() *cobra.Command {
-	return &cobra.Command{
+	scanCmd := &cobra.Command{
 		Use:   "scan [scanType] -- [parameters...]",
 		Short: "Create a new scan",
 		Long:  `Create a new Scan custom resource in the the current namespace`,
@@ -23,13 +23,24 @@ func NewScanCommand() *cobra.Command {
 		Example: `
 		# Create a new scan
 		scbctl scan nmap -- scanme.nmap.org
+
+		# Create a scan with a custom name
+		scbctl scan nmap --name scanme-nmap-org -- scanme.nmap.org
+
+		# Create a with a different scan type
+		scbctl scan nuclei -- -target example.com
+
 		# Create in a different namespace
 		scbctl scan --namespace foobar nmap -- -p 80 scanme.nmap.org
 		`,
 		SilenceUsage: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			scanType := args[0]
 
-			scanName := args[0]
+			scanName := scanType
+			if name, err := cmd.Flags().GetString("name"); err == nil && name != "" {
+				scanName = name
+			}
 			paramIndex := cmd.ArgsLenAtDash()
 			if paramIndex == -1 {
 				return fmt.Errorf("you must use '--' to separate scan parameters")
@@ -58,7 +69,7 @@ func NewScanCommand() *cobra.Command {
 					Namespace: namespace,
 				},
 				Spec: v1.ScanSpec{
-					ScanType:   scanName,
+					ScanType:   scanType,
 					Parameters: parameters,
 				},
 			}
@@ -75,4 +86,8 @@ func NewScanCommand() *cobra.Command {
 			return nil
 		},
 	}
+
+	scanCmd.Flags().String("name", "", "Name of the created scan. If no name is provided, the ScanType will be used as the name")
+
+	return scanCmd
 }

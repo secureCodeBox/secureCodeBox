@@ -4,7 +4,6 @@
 package cmd
 
 import (
-	"bytes"
 	"context"
 	"errors"
 	"testing"
@@ -43,9 +42,6 @@ type expectedScan struct {
 }
 
 func TestScanCommand(t *testing.T) {
-	scheme := runtime.NewScheme()
-	utilruntime.Must(v1.AddToScheme(scheme))
-
 	testcases := []testcase{
 		{
 			name:          "Should create nmap scan with a single parameter",
@@ -67,6 +63,17 @@ func TestScanCommand(t *testing.T) {
 				scanType:   "nmap",
 				namespace:  "default",
 				parameters: []string{"scanme.nmap.org", "-p", "90"},
+			},
+		},
+		{
+			name:          "Should use --name flag as the name of the scan if provided",
+			args:          []string{"scan", "--name", "scanme-nmap-org", "nmap", "--", "scanme.nmap.org"},
+			expectedError: nil,
+			expectedScan: &expectedScan{
+				scanType:   "nmap",
+				name:       "scanme-nmap-org",
+				namespace:  "default",
+				parameters: []string{"scanme.nmap.org"},
 			},
 		},
 		{
@@ -107,6 +114,8 @@ func TestScanCommand(t *testing.T) {
 
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {
+			scheme := runtime.NewScheme()
+			utilruntime.Must(v1.AddToScheme(scheme))
 			client := fake.NewClientBuilder().WithScheme(scheme).Build()
 			clientProvider = &MockClientProvider{
 				Client:    client,
@@ -115,31 +124,26 @@ func TestScanCommand(t *testing.T) {
 			}
 
 			rootCmd := NewRootCommand()
-			buf := new(bytes.Buffer)
-			rootCmd.SetOut(buf)
 
 			rootCmd.SetArgs(tc.args)
 			rootCmd.SilenceUsage = true
 
 			err := rootCmd.Execute()
 
-			assert.Equal(t, err, tc.expectedError, "error returned by scan should match")
+			assert.Equal(t, tc.expectedError, err, "error returned by scan should match")
 
 			if tc.expectedScan != nil {
 				scans := &v1.ScanList{}
-				if listErr := client.List(context.Background(), scans); listErr != nil {
-					t.Fatalf("failed to list scans: %v", listErr)
-				}
-				if len(scans.Items) != 1 {
-					t.Fatalf("expected 1 scan to created but got %d", len(scans.Items))
-				}
+				listErr := client.List(context.Background(), scans)
+				assert.Nil(t, listErr, "failed to list scans")
+				assert.Len(t, scans.Items, 1, "expected 1 scan to be created")
 
 				scan := scans.Items[0]
 
-				assert.Equal(t, scan.Name, tc.expectedScan.name)
-				assert.Equal(t, scan.Namespace, tc.expectedScan.namespace)
-				assert.Equal(t, scan.Spec.ScanType, tc.expectedScan.scanType)
-				assert.Equal(t, scan.Spec.Parameters, tc.expectedScan.parameters)
+				assert.Equal(t, tc.expectedScan.name, scan.Name)
+				assert.Equal(t, tc.expectedScan.namespace, scan.Namespace)
+				assert.Equal(t, tc.expectedScan.scanType, scan.Spec.ScanType)
+				assert.Equal(t, tc.expectedScan.parameters, scan.Spec.Parameters)
 			}
 		})
 	}
