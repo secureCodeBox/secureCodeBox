@@ -64,8 +64,6 @@ func NewScanCommand() *cobra.Command {
 				},
 			}
 
-			fmt.Println("🔁 Launching the scan")
-
 			err = kubeclient.Create(context.TODO(), scan)
 			if err != nil {
 				if metav2.IsNotFound(err) {
