@@ -38,11 +38,9 @@ func NewScanCommand() *cobra.Command {
 
 			parameters := args[paramIndex:]
 
-			fmt.Println("🎬 Initializing Kubernetes client")
-
 			kubeclient, namespace, err := clientProvider.GetClient(kubeconfigArgs)
 			if err != nil {
-				return fmt.Errorf("error initializing kubernetes client: %s", err)
+				return fmt.Errorf("error initializing kubernetes client. your kubeconfig is likely malformed or invalid. %s", err)
 			}
 
 			if namespaceFlag, err := cmd.Flags().GetString("namespace"); err == nil && namespaceFlag != "" {
