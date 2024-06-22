@@ -74,7 +74,7 @@ func NewScanCommand() *cobra.Command {
 				return fmt.Errorf("failed to create scan: %s", err)
 			}
 
-			fmt.Printf("🚀 Successfully created a new Scan '%s'\n", args[0])
+			fmt.Printf("🚀 Successfully created a new Scan '%s'\n", scanName)
 			return nil
 		},
 	}
