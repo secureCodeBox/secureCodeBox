@@ -58,11 +58,11 @@ helm upgrade --install notification ./hooks/notification/ --values /path/to/your
 ```
 
 The `values.yaml` you need depends on the notification type you want to use.
-Please take a look at the documentation for each type (e.g. for slack see [Configuration of a Slack Notification](#configuration-o-a-slack-notification))
+Please take a look at the documentation for each type (e.g. for slack see [Configuration of a Slack Notification](#configuration-of-a-slack-notification-webhook))
 
 ### Available Notifier
 
-- [Slack](#configuration-of-a-slack-notification)
+- [Slack](#configuration-of-a-slack-notification-webhook)
 - [Slack App](#configuration-of-a-slack-app-notification)
 - [Email](#configuration-of-an-email-notification)
 - [MS Teams](#configuration-of-a-ms-teams-notification)
@@ -229,7 +229,7 @@ env:
 ##### Supported Notification Channels
 
 The `slack-app` notifier supports the same message templates as the `slack` notifier.
-See [slack](#configuration-of-a-slack-notification) for the supported message types.
+See [slack](#configuration-of-a-slack-notification-webhook) for the supported message types.
 
 ##### Scan / Channel Config
 

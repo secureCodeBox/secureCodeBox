@@ -55,7 +55,7 @@ spec:
   failedJobsHistoryLimit: 5
 ```
 
-We set the kind to `ScheduledScan`. This tells secureCodeBox to use the [ScheduledScan](/docs/api/crds/scheduled-scan) CRD. The interval here is set to 5 minutes (`5m`). This is only done to have quicker results for the example. If you're doing this on a real scan target, use a bigger time frame. It should be noted that hours (h) is the biggest unit that can be used. More info [here](/docs/api/crds/scheduled-scan#interval-required).
+We set the kind to `ScheduledScan`. This tells secureCodeBox to use the [ScheduledScan](/docs/api/crds/scheduled-scan) CRD. The interval here is set to 5 minutes (`5m`). This is only done to have quicker results for the example. If you're doing this on a real scan target, use a bigger time frame. It should be noted that hours (h) is the biggest unit that can be used. More info [here](/docs/api/crds/scheduled-scan#interval).
 
 The `successfulJobsHistoryLimit` controls how many completed scans are supposed to be kept until the oldest one will be deleted. And the `failedJobsHistoryLimit` controls how many failed scans are supposed to be kept until the oldest one will be deleted.
 
