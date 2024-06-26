@@ -8,20 +8,20 @@ test.concurrent(
   "zap automation scan without config against 'bodgeit' should only find couple findings",
   async () => {
     const { count } = await scan(
-      "zap-automation-bodgeit",
+      "zap-automation-framwork-bodgeit",
       "zap-automation-framework",
-      ["-autorun", "/home/securecodebox/scb-automation/3-automation.yaml"],
+      ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 30,
       // volumes
       [{
-        "name": "zap-automation-bodgeit",
-        "configMap": {"name": "zap-automation-bodgeit"}
+        "name": "zap-automation-framwork-bodgeit",
+        "configMap": {"name": "zap-automation-framwork-bodgeit"}
       }],
       // volumeMounts
       [{
-          "name": "zap-automation-bodgeit",
-          "mountPath": "/home/securecodebox/scb-automation/3-automation.yaml",
-          "subPath": "3-automation.yaml"
+          "name": "zap-automation-framwork-bodgeit",
+          "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
+          "subPath": "automation.yaml"
       }],
     );
     // There must be at least one finding
@@ -34,20 +34,20 @@ test.concurrent(
   "zap automation scan without config against 'swagger-petstore' should only find couple findings",
   async () => {
     const { count } = await scan(
-      "zap-automation-petstore",
+      "zap-automation-framework-petstore",
       "zap-automation-framework",
-      ["-autorun", "/home/securecodebox/scb-automation/4-automation.yaml"],
+      ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 30,
       // volumes
       [{
-        "name": "zap-automation-petstore",
-        "configMap": {"name": "zap-automation-petstore"}
+        "name": "zap-automation-framework-petstore",
+        "configMap": {"name": "zap-automation-framework-petstore"}
       }],
       // volumeMounts
       [{
-          "name": "zap-automation-petstore",
-          "mountPath": "/home/securecodebox/scb-automation/4-automation.yaml",
-          "subPath": "4-automation.yaml"
+          "name": "zap-automation-framework-petstore",
+          "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
+          "subPath": "automation.yaml"
       }],
     );
     // There must be at least one finding
@@ -60,20 +60,20 @@ test.concurrent(
   "zap automation scan against a plain nginx container should only find a couple of findings",
   async () => {
     const { count } = await scan(
-      "zap-automation-nginx",
+      "zap-automation-framework-nginx",
       "zap-automation-framework",
-      ["-autorun", "/home/securecodebox/scb-automation/2-automation.yaml"],
+      ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 31 * 1000,
       // volumes
       [{
-        "name": "zap-automation-nginx",
-        "configMap": {"name": "zap-automation-nginx"}
+        "name": "zap-automation-framework-nginx",
+        "configMap": {"name": "zap-automation-framework-nginx"}
       }],
       // volumeMounts
       [{
-          "name": "zap-automation-nginx",
-          "mountPath": "/home/securecodebox/scb-automation/2-automation.yaml",
-          "subPath": "2-automation.yaml"
+          "name": "zap-automation-framework-nginx",
+          "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
+          "subPath": "automation.yaml"
       }],
     );
 
@@ -86,20 +86,20 @@ test.concurrent(
   "authenticated zap automation scan with little spider time against a juice shop container should find some findings",
   async () => {
     const { count } = await scan(
-      "zap-automation-juiceshop",
+      "zap-automation-framework-juicehop",
       "zap-automation-framework",
       ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 31 * 1000,
       // volumes
       [{
-        "name": "zap-automation-framework-config",
-        "configMap": {"name": "zap-automation-framework-config"}
+        "name": "zap-automation-framework-juicehop",
+        "configMap": {"name": "zap-automation-framework-juicehop"}
       }],
       // volumeMounts
       [{
-          "name": "zap-automation-framework-config",
+          "name": "zap-automation-framework-juicehop",
           "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
-          "subPath": "1-automation.yaml"
+          "subPath": "automation.yaml"
       }],
     );
 
