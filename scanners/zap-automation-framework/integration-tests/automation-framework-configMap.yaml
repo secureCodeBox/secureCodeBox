@@ -7,7 +7,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "zap-automation-juicehop"
+  name: "zap-automation-framework-juicehop"
 data:
   automation.yaml: |-
 
@@ -76,7 +76,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "zap-automation-nginx"
+  name: "zap-automation-framework-nginx"
 data:
   automation.yaml: |-
 
@@ -129,7 +129,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "zap-automation-bodgeit"
+  name: "zap-automation-framework-bodgeit"
 data:
   automation.yaml: |-
 
@@ -175,7 +175,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "zap-automation-petstore"
+  name: "zap-automation-framework-petstore"
 data:
   automation.yaml: |-
 
