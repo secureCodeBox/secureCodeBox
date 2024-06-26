@@ -2,20 +2,20 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
+const { readFile } = require("node:fs/promises");
+const { randomUUID } = require("node:crypto");
 const Ajv = require("ajv-draft-04");
-const ajv = new Ajv();
 const addFormats = require("ajv-formats");
-addFormats(ajv);
 const jsonpointer = require("jsonpointer");
 
-const { v4: uuid } = require("uuid");
+const ajv = new Ajv();
+addFormats(ajv);
 
 function addIdsAndDates(findings) {
   return findings.map((finding) => {
     return {
       ...finding,
-      id: uuid(),
+      id: randomUUID(),
       parsed_at: new Date().toISOString(),
     };
   });
