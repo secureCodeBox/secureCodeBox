@@ -14,14 +14,8 @@ The secureCodeBox is running on [Kubernetes](https://kubernetes.io/). To install
 First of all you need to install the secureCodeBox Operator which is responsible for starting all security scans.
 
 ```bash
-# Add the secureCodeBox Helm Repo
-helm repo add secureCodeBox https://charts.securecodebox.io
-
-# Create a new namespace for the secureCodeBox Operator
-kubectl create namespace securecodebox-system
-
-# Install the Operator & CRD's
-helm --namespace securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator
+# Install the Operator & CRD's into the `securecodebox-system` namespace
+helm --namespace securecodebox-system upgrade --install --create-namespace securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 ```
 
 If you didn't see any errors you now have the secureCodeBox Operator up and running! 🥳 🚀
