@@ -43,7 +43,7 @@ The git-repo-scanner chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install git-repo-scanner secureCodeBox/git-repo-scanner
+helm upgrade --install git-repo-scanner oci://ghcr.io/securecodebox/helm/git-repo-scanner
 ```
 
 ## Scanner Configuration

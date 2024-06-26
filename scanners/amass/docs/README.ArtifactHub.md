@@ -53,7 +53,7 @@ The amass chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install amass secureCodeBox/amass
+helm upgrade --install amass oci://ghcr.io/securecodebox/helm/amass
 ```
 
 ## Scanner Configuration

@@ -55,7 +55,7 @@ The cascading-scans chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install cascading-scans secureCodeBox/cascading-scans
+helm upgrade --install cascading-scans oci://ghcr.io/securecodebox/helm/cascading-scans
 ```
 
 ## Requirements

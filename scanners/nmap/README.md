@@ -60,7 +60,7 @@ The nmap chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install nmap secureCodeBox/nmap
+helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
 ```
 
 ## Scanner Configuration
@@ -96,7 +96,7 @@ If you want to use Nmap to identify operating systems of hosts you'll need to we
 You can deploy the ScanType with the config like this:
 
 ```bash
-cat <<EOF | helm install nmap-privileged ./scanners/nmap --values -
+cat <<EOF | helm install nmap-privileged oci://ghcr.io/securecodebox/helm/nmap --values -
 scanner:
   nameAppend: "-privileged"
   env:

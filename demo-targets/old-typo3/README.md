@@ -46,7 +46,7 @@ The old-typo3 chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install old-typo3 secureCodeBox/old-typo3
+helm upgrade --install old-typo3 oci://ghcr.io/securecodebox/helm/old-typo3
 ```
 
 ## Values

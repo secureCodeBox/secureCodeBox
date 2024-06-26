@@ -10,5 +10,5 @@ In this example, we execute an nikto scan against the intentionally vulnerable [
 
 Before executing the scan, make sure to setup bodgeit
 ```bash
-helm upgrade --install bodgeit secureCodeBox/bodgeit --wait
+helm upgrade --install bodgeit oci://ghcr.io/securecodebox/helm/bodgeit --wait
 ```

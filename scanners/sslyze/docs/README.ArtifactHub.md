@@ -49,7 +49,7 @@ The sslyze chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install sslyze secureCodeBox/sslyze
+helm upgrade --install sslyze oci://ghcr.io/securecodebox/helm/sslyze
 ```
 
 ## Scanner Configuration

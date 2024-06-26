@@ -43,7 +43,7 @@ The ncrack chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install ncrack secureCodeBox/ncrack
+helm upgrade --install ncrack oci://ghcr.io/securecodebox/helm/ncrack
 ```
 
 ## Scanner Configuration
@@ -152,7 +152,7 @@ Now you only need to set the value *encryptPasswords.existingSecret* to the
 secrets name when installing the scanner
 
 ```bash
-  helm upgrade --install ncrack secureCodeBox/ncrack --set="encryptPasswords.existingSecret=<ncrack-secret-name>"
+  helm upgrade --install ncrack oci://ghcr.io/securecodebox/helm/ncrack --set="encryptPasswords.existingSecret=<ncrack-secret-name>"
 ```
 
 To decrypt a password from a finding use:
@@ -174,7 +174,7 @@ Now we created a secret named "ncrack-lists".
 Before we can use the files, we have to install the Ncrack ScanType:
 
 ```bash
-cat <<EOF | helm upgrade --install ncrack secureCodeBox/ncrack --values -
+cat <<EOF | helm upgrade --install ncrack oci://ghcr.io/securecodebox/helm/ncrack --values -
 scanner:
   extraVolumes:
     - name: ncrack-lists
@@ -195,7 +195,7 @@ For a full example on how to configure Ncrack with your custom files against a s
 The Ncrack ScanType can be deployed via helm:
 
 ```bash
-helm upgrade --install ncrack secureCodeBox/ncrack
+helm upgrade --install ncrack oci://ghcr.io/securecodebox/helm/ncrack
 ```
 
 #### Delete Ncrack ScanType:

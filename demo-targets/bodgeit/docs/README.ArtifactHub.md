@@ -56,7 +56,7 @@ The bodgeit chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install bodgeit secureCodeBox/bodgeit
+helm upgrade --install bodgeit oci://ghcr.io/securecodebox/helm/bodgeit
 ```
 
 ## Values

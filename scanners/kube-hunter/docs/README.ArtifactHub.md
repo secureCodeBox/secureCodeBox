@@ -50,7 +50,7 @@ The kube-hunter chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install kube-hunter secureCodeBox/kube-hunter
+helm upgrade --install kube-hunter oci://ghcr.io/securecodebox/helm/kube-hunter
 ```
 
 ## Scanner Configuration

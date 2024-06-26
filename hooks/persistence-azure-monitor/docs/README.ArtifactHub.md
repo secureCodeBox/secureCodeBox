@@ -52,7 +52,7 @@ The persistence-azure-monitor chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install persistence-azure-monitor secureCodeBox/persistence-azure-monitor
+helm upgrade --install persistence-azure-monitor oci://ghcr.io/securecodebox/helm/persistence-azure-monitor
 ```
 
 ## Requirements
@@ -72,7 +72,7 @@ Create a Kubernetes secret with these values using
 
 Then, configure the hook to use this secret when installing it:
 ```bash
-helm upgrade --install persistence-azure-monitor . --wait \
+helm upgrade --install oci://ghcr.io/securecodebox/helm/persistence-azure-monitor . --wait \
              --set="monitor.authentication.apiKeySecret="azure-monitor""
 ```
 

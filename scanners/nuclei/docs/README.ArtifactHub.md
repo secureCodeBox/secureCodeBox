@@ -50,7 +50,7 @@ The nuclei chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install nuclei secureCodeBox/nuclei
+helm upgrade --install nuclei oci://ghcr.io/securecodebox/helm/nuclei
 ```
 
 ## Scanner Configuration
@@ -174,7 +174,7 @@ In these cases you can disable the template cache mechanism by setting `nucleiTe
 Note thought, that this will limit the number of scans you can run in parallel as the rate limit will likely cause some of the scans to fail.
 
 ```bash
-helm install nuclei secureCodeBox/nuclei --set="nucleiTemplateCache.enabled=false"
+helm upgrade --install nuclei oci://ghcr.io/securecodebox/helm/nuclei --set="nucleiTemplateCache.enabled=false"
 ```
 
 ## Values

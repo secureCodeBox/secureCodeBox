@@ -51,7 +51,7 @@ The whatweb chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install whatweb secureCodeBox/whatweb
+helm upgrade --install whatweb oci://ghcr.io/securecodebox/helm/whatweb
 ```
 
 ## Scanner Configuration

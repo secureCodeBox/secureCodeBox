@@ -48,7 +48,7 @@ The zap-automation-framework chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install zap-automation-framework secureCodeBox/zap-automation-framework
+helm upgrade --install zap-automation-framework oci://ghcr.io/securecodebox/helm/zap-automation-framework
 ```
 
 ## Migration to ZAP Automation Framework

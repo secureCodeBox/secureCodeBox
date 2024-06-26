@@ -20,13 +20,13 @@ If not, check out the [installation](/docs/getting-started/installation/) for mo
 We will start by installing the typo3 scanner:
 
 ```bash
-helm upgrade --install typo3scan secureCodeBox/typo3scan
+helm upgrade --install typo3scan oci://ghcr.io/securecodebox/helm/typo3scan
 ```
 
 And the Typo3 demo-target. This is only required if you don't already have a target you want to scan.
 
 ```bash
-helm upgrade --install old-typo3 secureCodeBox/old-typo3
+helm upgrade --install old-typo3 oci://ghcr.io/securecodebox/helm/old-typo3
 ```
 
 ## Creating the Repeating Scan

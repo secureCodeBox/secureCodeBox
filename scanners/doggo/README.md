@@ -43,7 +43,7 @@ The doggo chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install doggo secureCodeBox/doggo
+helm upgrade --install doggo oci://ghcr.io/securecodebox/helm/doggo
 ```
 
 ## Scanner Configuration

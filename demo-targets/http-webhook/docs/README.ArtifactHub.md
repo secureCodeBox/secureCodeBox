@@ -53,7 +53,7 @@ The http-webhook chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install http-webhook secureCodeBox/http-webhook
+helm upgrade --install http-webhook oci://ghcr.io/securecodebox/helm/http-webhook
 ```
 
 ## Values

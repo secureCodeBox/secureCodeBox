@@ -48,7 +48,7 @@ The gitleaks chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install gitleaks secureCodeBox/gitleaks
+helm upgrade --install gitleaks oci://ghcr.io/securecodebox/helm/gitleaks
 ```
 
 ## Scanner Configuration

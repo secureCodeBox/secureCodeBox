@@ -43,7 +43,7 @@ The nikto chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install nikto secureCodeBox/nikto
+helm upgrade --install nikto oci://ghcr.io/securecodebox/helm/nikto
 ```
 
 ## Scanner Configuration

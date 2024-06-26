@@ -152,12 +152,12 @@ At first, we install the operator and a scanner:
 # Install the operator
 helm repo add secureCodeBox https://charts.securecodebox.io
 kubectl create namespace securecodebox-system
-helm --namespace securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator
+helm --namespace securecodebox-system upgrade --install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 
 # Create a namespace for scanning - makes it easier to read logs if something went wrong
 kubectl create namespace scanning
 # Install nmap scanner for the later tutorial steps
-helm upgrade --namespace scanning --install nmap secureCodeBox/nmap
+helm upgrade --namespace scanning --install nmap oci://ghcr.io/securecodebox/helm/nmap
 ```
 
 To install the DefectDojo hook, we need to create a secret with the API v2 Key we retrieved before:
@@ -168,7 +168,7 @@ kubectl create secret generic defectdojo-credentials -n scanning \
 
 Finally, we can install the DefectDojo hook via helm:
 ```bash
-helm upgrade --namespace scanning --install dd secureCodeBox/persistence-defectdojo
+helm upgrade --namespace scanning --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo
 ```
 
 To verify that everything works, we now start an nmap scan and check that its results are uploaded to our DefectDojo

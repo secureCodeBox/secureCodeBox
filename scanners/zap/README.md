@@ -51,7 +51,7 @@ The zap chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install zap secureCodeBox/zap
+helm upgrade --install zap oci://ghcr.io/securecodebox/helm/zap
 ```
 
 ## Scanner Configuration

@@ -51,7 +51,7 @@ The semgrep chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install semgrep secureCodeBox/semgrep
+helm upgrade --install semgrep oci://ghcr.io/securecodebox/helm/semgrep
 ```
 
 ## Scanner Configuration

@@ -44,7 +44,7 @@ The ssh-audit chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install ssh-audit secureCodeBox/ssh-audit
+helm upgrade --install ssh-audit oci://ghcr.io/securecodebox/helm/ssh-audit
 ```
 
 ## Scanner Configuration

@@ -45,7 +45,7 @@ The operator chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install operator secureCodeBox/operator
+helm upgrade --install operator oci://ghcr.io/securecodebox/helm/operator
 ```
 
 ## Requirements

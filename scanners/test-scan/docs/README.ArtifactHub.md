@@ -50,7 +50,7 @@ The test-scan chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install test-scan secureCodeBox/test-scan
+helm upgrade --install test-scan oci://ghcr.io/securecodebox/helm/test-scan
 ```
 
 ## Requirements

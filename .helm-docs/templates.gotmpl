@@ -53,7 +53,7 @@ The {{ template "chart.name" . }} chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "chart.name" . }}
+helm upgrade --install {{ template "chart.name" . }} oci://ghcr.io/securecodebox/helm/{{ template "chart.name" . }}
 ```
 {{- end }}
 

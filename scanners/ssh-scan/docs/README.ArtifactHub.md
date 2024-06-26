@@ -51,7 +51,7 @@ The ssh-scan chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install ssh-scan secureCodeBox/ssh-scan
+helm upgrade --install ssh-scan oci://ghcr.io/securecodebox/helm/ssh-scan
 ```
 
 ## Scanner Configuration

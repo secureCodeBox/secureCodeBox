@@ -31,14 +31,14 @@ For the sake of the tutorial, we assume that you have your Kubernetes cluster al
 We'll start by installing the nmap scanner:
 
 ```bash
-helm upgrade --install nmap secureCodeBox/nmap
+helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
 ```
 
 Next, we'll install two `update-field` _hooks_:
 
 ```bash
-helm upgrade --install ufh1 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="first-hook"
-helm upgrade --install ufh2 secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="second-hook"
+helm upgrade --install ufh1 oci://ghcr.io/securecodebox/helm/update-field-hook --set attribute.name="category" --set attribute.value="first-hook"
+helm upgrade --install ufh2 oci://ghcr.io/securecodebox/helm/update-field-hook --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
 The first hook will update all _secureCodeBox_ findings such that the field `category` is set to the value `first-hook`. The second hook will set the same field to `second-hook`.

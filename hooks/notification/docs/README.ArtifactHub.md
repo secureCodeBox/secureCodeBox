@@ -50,7 +50,7 @@ The notification chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install notification secureCodeBox/notification
+helm upgrade --install notification oci://ghcr.io/securecodebox/helm/notification
 ```
 
 ## Requirements
@@ -199,7 +199,7 @@ data:
     SLACK_WEB_HOOK: NOIDONTHINKSOBASE64STUFF
 
 kubectl apply -f values_slack_secrets.yaml
-helm upgrade --install nwh secureCodeBox/notification-hook --values myvalues.yaml
+helm upgrade --install nwh oci://ghcr.io/securecodebox/helm/notification-hook --values myvalues.yaml
 ```
 
 #### Configuration of a Slack App Notification
@@ -422,7 +422,7 @@ stringData:
     key: YOURSECRETTRELLOAPIKEY
     token: YOURSECRETTRELLOAPITOKEN
 kubectl apply -f trello_secrets.yaml
-helm upgrade --install nwh secureCodeBox/notification-hook --values trello_values.yaml
+helm upgrade --install nwh oci://ghcr.io/securecodebox/helm/notification-hook --values trello_values.yaml
 ```
 
 #### Configuration Of A rocket.chat Notification

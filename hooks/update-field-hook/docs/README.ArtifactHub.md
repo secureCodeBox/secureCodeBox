@@ -49,7 +49,7 @@ The update-field-hook chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install update-field-hook secureCodeBox/update-field-hook
+helm upgrade --install update-field-hook oci://ghcr.io/securecodebox/helm/update-field-hook
 ```
 
 ## Requirements
@@ -60,7 +60,7 @@ Kubernetes: `>=v1.11.0-0`
 Installing the _Update Field_ hook will add a ReadAndWrite Hook to your namespace, which can be used to add or update fields from your findings.
 
 ```bash
-helm upgrade --install ufh secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="my-own-category"
+helm upgrade --install ufh oci://ghcr.io/securecodebox/helm/update-field-hook --set attribute.name="category" --set attribute.value="my-own-category"
 ```
 > ✍ This documentation is currently work-in-progress.
 

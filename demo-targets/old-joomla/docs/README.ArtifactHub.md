@@ -53,7 +53,7 @@ The old-joomla chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install old-joomla secureCodeBox/old-joomla
+helm upgrade --install old-joomla oci://ghcr.io/securecodebox/helm/old-joomla
 ```
 
 ## Values

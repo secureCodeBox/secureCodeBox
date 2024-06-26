@@ -147,7 +147,7 @@ function installResources() {
 
   if [[ $unattended == 'true' ]]; then
     for resource in "${resources[@]}"; do
-      helm upgrade --install -n "$namespace" "$resource" secureCodeBox/"$resource" ||
+      helm upgrade --install -n "$namespace" "$resource" oci://ghcr.io/securecodebox/helm/"$resource" ||
         print "$COLOR_ERROR" "Installation of '$resource' failed"
     done
 
@@ -158,7 +158,7 @@ function installResources() {
       read -r line
 
       if [[ $line == *[Yy] ]]; then
-        helm upgrade --install -n "$namespace" "$resource" secureCodeBox/"$resource" ||
+        helm upgrade --install -n "$namespace" "$resource" oci://ghcr.io/securecodebox/helm/"$resource" ||
           print "$COLOR_ERROR" "Installation of '$resource' failed"
       fi
     done

@@ -48,7 +48,7 @@ The generic-webhook chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install generic-webhook secureCodeBox/generic-webhook
+helm upgrade --install generic-webhook oci://ghcr.io/securecodebox/helm/generic-webhook
 ```
 
 ## Requirements
@@ -59,7 +59,7 @@ Kubernetes: `>=v1.11.0-0`
 The webhook URL is set as follows:
 
 ```bash
-helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
+helm upgrade --install generic-webhook oci://ghcr.io/securecodebox/helm/generic-webhook \
     --set="webhookUrl=http://http-webhook/hello-world"
 ```
 Two authentication methods exist for the Generic WebHook Hook. You can either use  Basic authentication or API authentication.
@@ -86,7 +86,7 @@ The keys for your secret mapping can also be renamed if necessary, for example `
 
 This is usually done to reuse existing secrets.
 ```bash
-helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
+helm upgrade --install generic-webhook oci://ghcr.io/securecodebox/helm/generic-webhook \
 --set="hook.authentication.apikey.headerNameKey=name"  \
 --set="hook.authentication.apikey.headerValueKey=value"
 ```

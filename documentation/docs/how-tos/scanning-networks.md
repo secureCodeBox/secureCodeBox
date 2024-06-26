@@ -19,13 +19,13 @@ For the sake of the tutorial, we assume that you have your Kubernetes cluster al
 If not done yet, **install the nmap scanner:**
 
 ```bash
-helm upgrade --install nmap secureCodeBox/nmap
+helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
 ```
 
 Now we also need the **cascading-scans hook** (if not installed yet):
 
 ```bash
-helm upgrade --install cascading-scans secureCodeBox/cascading-scans
+helm upgrade --install cascading-scans oci://ghcr.io/securecodebox/helm/cascading-scans
 ```
 
 Finally, setting up **Ncrack** is a little trickier though. Ncrack uses files with lists of usernames and passwords to brute-force an authentication. In its default configuration, the scanner will check for all combinations of usernames and passwords provided by our lists. You can use your own existing files or just create two **dummy files** for the purpose of the tutorial:
@@ -52,7 +52,7 @@ Starting from secureCodeBox v4.0, it is also necessary to set `cascadingRules.en
 :::
 
 ```bash
-cat <<EOF | helm upgrade --install ncrack secureCodeBox/ncrack --values -
+cat <<EOF | helm upgrade --install ncrack oci://ghcr.io/securecodebox/helm/ncrack --values -
 scannerJob:
   extraVolumes:
     - name: ncrack-lists
