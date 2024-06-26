@@ -8,18 +8,18 @@ test.concurrent(
   "zap automation scan without config against 'bodgeit' should only find couple findings",
   async () => {
     const { count } = await scan(
-      "zap-automation-framwork-bodgeit",
+      "zap-automation-framework-bodgeit",
       "zap-automation-framework",
       ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 30,
       // volumes
       [{
-        "name": "zap-automation-framwork-bodgeit",
-        "configMap": {"name": "zap-automation-framwork-bodgeit"}
+        "name": "zap-automation-framework-bodgeit",
+        "configMap": {"name": "zap-automation-framework-bodgeit"}
       }],
       // volumeMounts
       [{
-          "name": "zap-automation-framwork-bodgeit",
+          "name": "zap-automation-framework-bodgeit",
           "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
           "subPath": "automation.yaml"
       }],
