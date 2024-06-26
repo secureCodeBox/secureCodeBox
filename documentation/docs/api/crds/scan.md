@@ -32,7 +32,7 @@ Env has the same API as "env" property on Kubernetes Pods.
 See:
 
 - [Documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
-- [API Reference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#envvar-v1-core)
+- [API Reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables)
 
 ### Volumes (Optional)
 
@@ -120,7 +120,7 @@ See:
 
 `cascades` let you start new scans based on the results of the current scan.
 
-The cascades config in the scans spec contains [Kubernetes Label Selectors](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#labelselector-v1-meta) which allow you to select which [CascadingRule](https://www.securecodebox.io/docs/api/crds/cascading-rule) are allowed to be used by the cascading logic.
+The cascades config in the scans spec contains [Kubernetes Label Selectors](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/label-selector/) which allow you to select which [CascadingRule](https://www.securecodebox.io/docs/api/crds/cascading-rule) are allowed to be used by the cascading logic.
 
 Furthermore, in the cascade config you can specify whether cascading scan should inherit parent fields:
 
@@ -154,7 +154,7 @@ You can use Mustache templating in order to select certain properties from findi
 Under `scopeLimiter`, you may specify `anyOf`, `noneOf`, and `allOf` with a selector to limit your scope.
 If you specify multiple fields, all the rules must pass.
 
-A selector looks similar to the [Kubernetes Label Selectors](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#labelselector-v1-meta).
+A selector looks similar to the [Kubernetes Label Selectors](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/label-selector/).
 
 ```yaml
 anyOf:
@@ -304,7 +304,7 @@ See the [Scope HowTo](/docs/how-tos/scope) for more information.
 
 ### HookSelector (Optional)
 
-`hookSelector` allows you to select which hooks to run using [Kubernetes Label Selectors](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#labelselector-v1-meta).
+`hookSelector` allows you to select which hooks to run using [Kubernetes Label Selectors](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/label-selector/).
 
 You can only select hooks in the namespace in which the scan is running.
 
@@ -342,7 +342,7 @@ resources:
 
 ## Metadata
 
-Metadata is a standard field on Kubernetes resources. It contains multiple relevant fields, e.g. the name of the resource, its namespace and a `creationTimestamp` of the resource. See more on the [Kubernetes Docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) and the [Kubernetes API Reference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#objectmeta-v1-meta).
+Metadata is a standard field on Kubernetes resources. It contains multiple relevant fields, e.g. the name of the resource, its namespace and a `creationTimestamp` of the resource. See more on the [Kubernetes Docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) and the [Kubernetes API Reference](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/).
 
 ## Status
 

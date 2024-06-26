@@ -34,7 +34,7 @@ E.g. `/home/securecodebox/nmap-results.xml`
 
 Template of the Kubernetes job to create when running the scan.
 
-For info about the JobTemplate generic parameters, see here: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#job-v1-batch
+For info about the JobTemplate generic parameters, see here: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/job-v1/#JobSpec
 When specified, as with the `ttlSecondsAfterFinished` parameter, the values from `values.yaml` will be used in the JobTemplate.
 
 ## Example

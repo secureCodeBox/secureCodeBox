@@ -9,7 +9,7 @@ export enum LabelSelectorRequirementOperator {
   DoesNotExist = "DoesNotExist",
 }
 
-// See: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#labelselectorrequirement-v1-meta
+// See: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/label-selector/
 // Re created in TS because the included types suck 😕
 export interface LabelSelectorRequirement {
   key: string;
