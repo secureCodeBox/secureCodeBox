@@ -162,8 +162,6 @@ Notice that the `handle()` function has to be exported to use in the _hook-sdk_
 :::
 
 ```js
-const axios = require("axios");
-
 async function handle({
   getFindings,
   scan,
@@ -173,7 +171,11 @@ async function handle({
 
   console.log(`Sending ${findings.length} findings to ${webhookUrl}`);
 
-  await axios.post(webhookUrl, { scan, findings });
+  await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ scan, findings })
+  });;
 }
 module.exports.handle = handle;
 ```
