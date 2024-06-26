@@ -4,7 +4,7 @@
 
 module github.com/secureCodeBox/secureCodeBox/lurker
 
-go 1.19
+go 1.22
 
 require (
 	github.com/pkg/errors v0.9.1
