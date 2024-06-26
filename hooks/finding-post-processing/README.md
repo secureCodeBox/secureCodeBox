@@ -41,7 +41,7 @@ The finding-post-processing chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install finding-post-processing secureCodeBox/finding-post-processing
+helm upgrade --install finding-post-processing oci://ghcr.io/securecodebox/helm/finding-post-processing
 ```
 
 ## Requirements

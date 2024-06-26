@@ -33,7 +33,7 @@ Installing the Generic WebHook hook will add a ReadOnly Hook to your namespace w
 The webhook URL is set as follows:
 
 ```bash
-helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
+helm upgrade --install generic-webhook oci://ghcr.io/securecodebox/helm/generic-webhook \
     --set="webhookUrl=http://http-webhook/hello-world"
 ```
 Two authentication methods exist for the Generic WebHook Hook. You can either use  Basic authentication or API authentication.
@@ -60,7 +60,7 @@ The keys for your secret mapping can also be renamed if necessary, for example `
 
 This is usually done to reuse existing secrets.
 ```bash
-helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
+helm upgrade --install generic-webhook oci://ghcr.io/securecodebox/helm/generic-webhook \
 --set="hook.authentication.apikey.headerNameKey=name"  \
 --set="hook.authentication.apikey.headerValueKey=value"
 ```

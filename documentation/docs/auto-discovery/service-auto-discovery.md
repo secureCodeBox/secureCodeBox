@@ -21,7 +21,7 @@ By default the Service AutoDiscovery creates [ZAP Advanced](../scanners/zap-adva
 By default the Service AutoDiscovery creates ScheduledScans using the [ZAP Advanced](/docs/scanners/zap-advanced) ScanType. It has to be installed in the same namespace as the containers that you wish to scan. The following steps will install zap-advanced in the `default` namespace:
 
 ```bash
-helm upgrade --install zap-advanced secureCodeBox/zap-advanced
+helm upgrade --install zap-advanced oci://ghcr.io/securecodebox/helm/zap-advanced
 ```
 
 #### Deactivation
@@ -29,5 +29,5 @@ helm upgrade --install zap-advanced secureCodeBox/zap-advanced
 The Service AutoDiscovery is enabled by default but can be disabled manually.
 
 ```bash
-helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes secureCodeBox/auto-discovery-kubernetes --set config.serviceAutoDiscovery.enabled=false
+helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes oci://ghcr.io/securecodebox/helm/auto-discovery-kubernetes --set config.serviceAutoDiscovery.enabled=false
 ```

@@ -19,13 +19,13 @@ For the sake of the tutorial, we assume that you have your Kubernetes cluster al
 We will start by installing the ZAP-Advanced scanner:
 
 ```bash
-helm upgrade --install zap-advanced secureCodeBox/zap-advanced
+helm upgrade --install zap-advanced oci://ghcr.io/securecodebox/helm/zap-advanced
 ```
 
 And the juice-shop demo-target.
 
 ```bash
-helm upgrade --install juice-shop secureCodeBox/juice-shop
+helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop
 ```
 
 ## Creating the ZAP-Advanced scan

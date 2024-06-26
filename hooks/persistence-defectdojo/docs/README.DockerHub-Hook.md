@@ -92,7 +92,7 @@ limits: {
 For example, to set the memory limit to 512Mi, we run the following command:
 
 ```bash
-helm upgrade --namespace NAMESPACE --install persistence-defectdojo secureCodeBox/persistence-defectdojo --set="hook.resources.limits.memory=512Mi"
+helm upgrade --namespace NAMESPACE --install persistence-defectdojo oci://ghcr.io/securecodebox/helm/persistence-defectdojo --set="hook.resources.limits.memory=512Mi"
 ```
 :::
 

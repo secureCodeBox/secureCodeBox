@@ -50,7 +50,7 @@ The persistence-elastic chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install persistence-elastic secureCodeBox/persistence-elastic
+helm upgrade --install persistence-elastic oci://ghcr.io/securecodebox/helm/persistence-elastic
 ```
 
 ## Requirements

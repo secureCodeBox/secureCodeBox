@@ -22,10 +22,10 @@ We also assume that you have the latest version of cascading scans installed.
 We will start by installing Amass and Nmap:
 
 ```bash
-helm upgrade --install amass secureCodeBox/amass
+helm upgrade --install amass oci://ghcr.io/securecodebox/helm/amass
 Release "amass" does not exist. Installing it now.
 [...]
-helm upgrade --install nmap secureCodeBox/nmap
+helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
 Release "nmap" does not exist. Installing it now.
 [...]
 ```
@@ -136,11 +136,11 @@ A more fool-proof solution is to ensure that the hostname field is available in 
 When deploying your scanner, you can define `scopeLimiterAliases`.
 
 ```shell
-$ helm upgrade --install amass secureCodeBox/amass \
+$ helm upgrade --install amass oci://ghcr.io/securecodebox/helm/amass \
  --set="parser.scopeLimiterAliases.hostname=\{\{attributes.name\}\}"
 Release "amass" has been upgraded. Happy Helming!
 [...]
-$ helm upgrade --install nmap secureCodeBox/nmap \
+$ helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap \
  --set="parser.scopeLimiterAliases.hostname=\{\{attributes.hostname\}\}"
 Release "nmap" has been upgraded. Happy Helming!
 [...]

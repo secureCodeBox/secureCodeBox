@@ -73,7 +73,7 @@ limits: {
 For example, to set the memory limit to 512Mi, we run the following command:
 
 ```bash
-helm upgrade --namespace NAMESPACE --install persistence-defectdojo secureCodeBox/persistence-defectdojo --set="hook.resources.limits.memory=512Mi"
+helm upgrade --namespace NAMESPACE --install persistence-defectdojo oci://ghcr.io/securecodebox/helm/persistence-defectdojo --set="hook.resources.limits.memory=512Mi"
 ```
 :::
 
@@ -113,7 +113,7 @@ The persistence-defectdojo chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install persistence-defectdojo secureCodeBox/persistence-defectdojo
+helm upgrade --install persistence-defectdojo oci://ghcr.io/securecodebox/helm/persistence-defectdojo
 ```
 
 ## Requirements
@@ -127,7 +127,7 @@ Installing the _DefectDojo_ persistenceProvider hook will add a _ReadAndWrite Ho
 ```bash
 kubectl create secret generic defectdojo-credentials --from-literal="username=admin" --from-literal="apikey=08b7..."
 
-helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
     --set="defectdojo.url=https://defectdojo-django.default.svc"
 ```
 
@@ -136,7 +136,7 @@ The hook will automatically import the scan results into an engagement in _Defec
 In case you use a _DefectDojo_ instance with a self-signed root CA, upgrade the hook with:
 
 ```bash
-helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
     --set="defectdojo.url=https://defectdojo-django.default.svc" \
     --set-json 'hook.extraVolumes=[{"name": "ca-dojo", "configMap": {"name": "ca-dojo"}}]' \
     --set-json 'hook.extraVolumeMounts=[{"name": "ca-dojo", "mountPath": "/etc/ssl/certs/java/cacerts", "subPath": "cacerts", "readOnly": false}]'
@@ -238,7 +238,7 @@ _DefectDojo_ >2.0.0 refined their user access rights, allowing you to restrict t
 ```bash
 kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7..."
 
-helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
     --set="defectdojo.url=http://defectdojo-django.default.svc" \
     --set="defectdojo.lowPrivilegedMode=true" \
     --set="defectdojo.authentication.userId=42"

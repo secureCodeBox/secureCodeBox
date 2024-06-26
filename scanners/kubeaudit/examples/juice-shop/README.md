@@ -11,7 +11,7 @@ In this example we execute an kubeaudit scan against the intentional vulnerable 
 Before executing the scan, make sure to setup juice-shop
 
 ```bash
-helm upgrade --install juice-shop secureCodeBox/juice-shop --wait
+helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop --wait
 ```
 
 After that you can execute the scan in this directory:
@@ -24,7 +24,7 @@ kubectl apply -f scan.yaml
 If you juice-shop runs in, e.g., the `kubeaudit-tests` namespace, install the chart and run the scan there too
 ```bash
 # Install HelmChart in kubeaudit-tests namespace
-helm upgrade --install kubeaudit secureCodeBox/kubeaudit -n kubeaudit-tests
+helm upgrade --install kubeaudit oci://ghcr.io/securecodebox/helm/kubeaudit -n kubeaudit-tests
 # Run scan in kubeaudit-tests namespace
 kubectl apply -f scan.yaml -n kubeaudit-tests
 ```
@@ -32,5 +32,5 @@ Also, you must adjust the namespace in the scan.yaml with the `-n` flag.
 
 Alternatively, you can set the scope of kubeaudit to cluster:
 ```bash
-helm upgrade --install kubeaudit secureCodeBox/kubeaudit -n kubeaudit-tests --set="kubeauditScope=cluster"
+helm upgrade --install kubeaudit oci://ghcr.io/securecodebox/helm/kubeaudit -n kubeaudit-tests --set="kubeauditScope=cluster"
 ```

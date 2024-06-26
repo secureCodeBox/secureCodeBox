@@ -24,7 +24,7 @@ If a pod consists of multiple containers, the above described logic will be appl
 
 [Trivy](/docs/scanners/trivy) is a container image scanner that is used by the Container AutoDiscovery. It has to be installed in the same namespace as the containers that you wish to scan. The following steps will install trivy in the `default` namespace:
 ```bash
-helm upgrade --install trivy secureCodeBox/trivy
+helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
 ```
 
 #### Deactivation
@@ -32,5 +32,5 @@ helm upgrade --install trivy secureCodeBox/trivy
 The Container AutoDiscovery is enabled by default but can be disabled manually.
 
 ```bash
-helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes secureCodeBox/auto-discovery-kubernetes --set config.containerAutoDiscovery.enabled=false
+helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes oci://ghcr.io/securecodebox/helm/auto-discovery-kubernetes --set config.containerAutoDiscovery.enabled=false
 ```

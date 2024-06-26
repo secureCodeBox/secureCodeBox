@@ -43,14 +43,14 @@ This tutorial will use the `default` and `securecodebox-system` namespaces.
 First install the `zap-advanced` (for service AutoDiscovery) and `trivy` (for Container AutoDiscovery) scan types:
 
 ```bash
-helm upgrade --install zap-advanced secureCodeBox/zap-advanced
-helm upgrade --install trivy secureCodeBox/trivy
+helm upgrade --install zap-advanced oci://ghcr.io/securecodebox/helm/zap-advanced
+helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
 ```
 
 Then install the SCB AutoDiscovery (Container AutoDiscovery is explicitly enabled in this example):
 
 ```bash
-helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes secureCodeBox/auto-discovery-kubernetes --set config.containerAutoDiscovery.enabled=true
+helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes oci://ghcr.io/securecodebox/helm/auto-discovery-kubernetes --set config.containerAutoDiscovery.enabled=true
 ```
 
 There are three so-called `resourceInclusionModes`. These control which resources the AutoDiscovery will scan.
@@ -70,7 +70,7 @@ kubectl annotate namespace default auto-discovery.securecodebox.io/enabled=true
 Then install juice-shop as a demo target:
 
 ```bash
-helm upgrade --install juice-shop secureCodeBox/juice-shop
+helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop
 ```
 
 The AutoDiscovery will create two scheduled scans after some time. One for the juice-shop service using `zap`, and one for the juice-shop container using `trivy`:
@@ -85,7 +85,7 @@ scan-juice-shop-at-350cf9a6ea37138b987a3968d046e61bcd3bb18d2ec   trivy          
 Install a second juice-shop into the namespace:
 
 ```bash
-helm upgrade --install juice-shop2 secureCodeBox/juice-shop
+helm upgrade --install juice-shop2 oci://ghcr.io/securecodebox/helm/juice-shop
 ```
 
 The AutoDiscovery will then create a second `zap` scan for the service, but no additional `trivy` container scan, as the juice-shop container is already being scanned.

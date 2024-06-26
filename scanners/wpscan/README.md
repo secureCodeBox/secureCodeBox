@@ -48,7 +48,7 @@ The wpscan chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install wpscan secureCodeBox/wpscan
+helm upgrade --install wpscan oci://ghcr.io/securecodebox/helm/wpscan
 ```
 
 ## Scanner Configuration

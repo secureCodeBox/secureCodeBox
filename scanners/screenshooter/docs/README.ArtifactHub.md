@@ -49,7 +49,7 @@ The screenshooter chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install screenshooter secureCodeBox/screenshooter
+helm upgrade --install screenshooter oci://ghcr.io/securecodebox/helm/screenshooter
 ```
 
 ## Scanner Configuration

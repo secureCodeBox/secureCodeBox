@@ -45,7 +45,7 @@ Create a Kubernetes secret with these values using
 
 Then, configure the hook to use this secret when installing it:
 ```bash
-helm upgrade --install persistence-azure-monitor . --wait \
+helm upgrade --install oci://ghcr.io/securecodebox/helm/persistence-azure-monitor . --wait \
              --set="monitor.authentication.apiKeySecret="azure-monitor""
 ```
 

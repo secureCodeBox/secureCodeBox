@@ -59,7 +59,7 @@ The auto-discovery-kubernetes chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install auto-discovery-kubernetes secureCodeBox/auto-discovery-kubernetes
+helm upgrade --install auto-discovery-kubernetes oci://ghcr.io/securecodebox/helm/auto-discovery-kubernetes
 ```
 
 ## Requirements

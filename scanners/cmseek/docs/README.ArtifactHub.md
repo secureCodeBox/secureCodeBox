@@ -51,7 +51,7 @@ The cmseek chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install cmseek secureCodeBox/cmseek
+helm upgrade --install cmseek oci://ghcr.io/securecodebox/helm/cmseek
 ```
 
 ## Scanner Configuration

@@ -54,7 +54,7 @@ The zap-advanced chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install zap-advanced secureCodeBox/zap-advanced
+helm upgrade --install zap-advanced oci://ghcr.io/securecodebox/helm/zap-advanced
 ```
 
 ## Scanner Configuration

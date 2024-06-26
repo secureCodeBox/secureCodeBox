@@ -55,7 +55,7 @@ The unsafe-https chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install unsafe-https secureCodeBox/unsafe-https
+helm upgrade --install unsafe-https oci://ghcr.io/securecodebox/helm/unsafe-https
 ```
 
 ## Values

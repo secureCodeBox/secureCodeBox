@@ -111,16 +111,16 @@ You can optionally deploy SCB scanner charts for each security scanner you want 
 ```bash
 # The following chart will be installed in the `default` namespace by you can choose the namespace of your choice by
 # adding `--namespace YOURNAMESPACE` to each line
-helm upgrade --install amass secureCodeBox/amass
-helm upgrade --install gitleaks secureCodeBox/gitleaks
-helm upgrade --install kube-hunter secureCodeBox/kube-hunter
-helm upgrade --install nikto secureCodeBox/nikto
-helm upgrade --install nmap secureCodeBox/nmap
-helm upgrade --install ssh-scan secureCodeBox/ssh-scan
-helm upgrade --install sslyze secureCodeBox/sslyze
-helm upgrade --install trivy secureCodeBox/trivy
-helm upgrade --install wpscan secureCodeBox/wpscan
-helm upgrade --install zap secureCodeBox/zap
+helm upgrade --install amass oci://ghcr.io/securecodebox/helm/amass
+helm upgrade --install gitleaks oci://ghcr.io/securecodebox/helm/gitleaks
+helm upgrade --install kube-hunter oci://ghcr.io/securecodebox/helm/kube-hunter
+helm upgrade --install nikto oci://ghcr.io/securecodebox/helm/nikto
+helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
+helm upgrade --install ssh-scan oci://ghcr.io/securecodebox/helm/ssh-scan
+helm upgrade --install sslyze oci://ghcr.io/securecodebox/helm/sslyze
+helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
+helm upgrade --install wpscan oci://ghcr.io/securecodebox/helm/wpscan
+helm upgrade --install zap oci://ghcr.io/securecodebox/helm/zap
 ```
 
 ## Install some demo targets
@@ -133,11 +133,11 @@ Otherwise you could be targeted by someone else really fast 😈
 :::
 
 ```bash
-helm upgrade --install dummy-ssh secureCodeBox/dummy-ssh
-helm upgrade --install bodgeit secureCodeBox/bodgeit
-helm upgrade --install juice-shop secureCodeBox/juice-shop
-helm upgrade --install old-wordpress secureCodeBox/old-wordpress
-helm upgrade --install swagger-petstore secureCodeBox/swagger-petstore
+helm upgrade --install dummy-ssh oci://ghcr.io/securecodebox/helm/dummy-ssh
+helm upgrade --install bodgeit oci://ghcr.io/securecodebox/helm/bodgeit
+helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop
+helm upgrade --install old-wordpress oci://ghcr.io/securecodebox/helm/old-wordpress
+helm upgrade --install swagger-petstore oci://ghcr.io/securecodebox/helm/swagger-petstore
 ```
 
 :::note

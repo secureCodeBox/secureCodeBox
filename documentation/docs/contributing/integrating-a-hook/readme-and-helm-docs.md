@@ -34,7 +34,7 @@ This Hook will make a request to the specified `webhookUrl` containing the findi
 Installing the Generic WebHook hook will add a ReadOnly Hook to your namespace.
 Change `webhookUrl` to your desired endpoint.
 
-helm upgrade --install gwh secureCodeBox/generic-webhook --set webhookUrl="http://example.com/my/webhook/target"
+helm upgrade --install gwh oci://ghcr.io/securecodebox/helm/generic-webhook --set webhookUrl="http://example.com/my/webhook/target"
 
 ## Chart Configuration
 

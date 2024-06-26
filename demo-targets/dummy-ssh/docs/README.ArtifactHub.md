@@ -59,7 +59,7 @@ The dummy-ssh chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install dummy-ssh secureCodeBox/dummy-ssh
+helm upgrade --install dummy-ssh oci://ghcr.io/securecodebox/helm/dummy-ssh
 ```
 
 ## Values

@@ -50,7 +50,7 @@ The trivy-sbom chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install trivy-sbom secureCodeBox/trivy-sbom
+helm upgrade --install trivy-sbom oci://ghcr.io/securecodebox/helm/trivy-sbom
 ```
 
 ## Scanner Configuration

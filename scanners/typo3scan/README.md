@@ -43,7 +43,7 @@ The typo3scan chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install typo3scan secureCodeBox/typo3scan
+helm upgrade --install typo3scan oci://ghcr.io/securecodebox/helm/typo3scan
 ```
 
 ## Scanner Configuration

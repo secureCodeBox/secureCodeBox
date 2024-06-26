@@ -47,7 +47,7 @@ The swagger-petstore chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install swagger-petstore secureCodeBox/swagger-petstore
+helm upgrade --install swagger-petstore oci://ghcr.io/securecodebox/helm/swagger-petstore
 ```
 
 ## Values

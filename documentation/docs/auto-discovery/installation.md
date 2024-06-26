@@ -38,7 +38,7 @@ This behavior can be configured using one of the following `resourceInclusion` m
 These modes can be set via the `config.resourceInclusion` parameter in the helm chart:
 
 ```bash
-helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes secureCodeBox/auto-discovery-kubernetes --set config.resourceInclusion.mode="enabled-per-resource"
+helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes oci://ghcr.io/securecodebox/helm/auto-discovery-kubernetes --set config.resourceInclusion.mode="enabled-per-resource"
 ```
 
 The default mode is `enabled-per-namespace`.
@@ -57,7 +57,7 @@ Annotating a individual resource is done as follows. Here the deployment `juice-
 It is done by adding the annotation to the chart values, which is then passed to the deployment template. This results into the pod containing the service/deployment always having the annotation. The process may be different in your case:
 
 ```bash
-helm upgrade --install juice-shop secureCodeBox/juice-shop  --set-json='annotations={"auto-discovery.securecodebox.io/enabled":"true"}'
+helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop  --set-json='annotations={"auto-discovery.securecodebox.io/enabled":"true"}'
 ```
 
 You should now see a ZAP-advanced [ScheduledScan](/docs/api/crds/scheduled-scan) created for juice-shop or any other service that you have annotated.

@@ -79,7 +79,7 @@ If you want to use Nmap to identify operating systems of hosts you'll need to we
 You can deploy the ScanType with the config like this:
 
 ```bash
-cat <<EOF | helm install nmap-privileged ./scanners/nmap --values -
+cat <<EOF | helm install nmap-privileged oci://ghcr.io/securecodebox/helm/nmap --values -
 scanner:
   nameAppend: "-privileged"
   env:

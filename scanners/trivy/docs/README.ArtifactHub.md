@@ -54,7 +54,7 @@ The trivy chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install trivy secureCodeBox/trivy
+helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
 ```
 
 ## Scanner Configuration

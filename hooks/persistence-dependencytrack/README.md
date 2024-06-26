@@ -44,7 +44,7 @@ The persistence-dependencytrack chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install persistence-dependencytrack secureCodeBox/persistence-dependencytrack
+helm upgrade --install persistence-dependencytrack oci://ghcr.io/securecodebox/helm/persistence-dependencytrack
 ```
 
 ## Requirements
@@ -61,7 +61,7 @@ Check the [Dependency-Track documentation][dt-api-docs], to learn how to configu
 ```bash
 kubectl create secret generic dependencytrack-credentials --from-literal="apikey=NoEs..."
 
-helm upgrade --install dt secureCodeBox/persistence-dependencytrack \
+helm upgrade --install dt oci://ghcr.io/securecodebox/helm/persistence-dependencytrack \
     --set="dependencytrack.url=https://dependency-track-backend.default.svc"
 ```
 

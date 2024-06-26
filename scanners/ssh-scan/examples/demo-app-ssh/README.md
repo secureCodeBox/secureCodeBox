@@ -11,7 +11,7 @@ In this example we execute an kubeaudit scan against the intentional vulnerable 
 Before executing the scan, make sure to setup dummy-ssh
 
 ```bash
-helm upgrade --install dummy-ssh secureCodeBox/dummy-ssh --wait
+helm upgrade --install dummy-ssh oci://ghcr.io/securecodebox/helm/dummy-ssh --wait
 ```
 
 After that you can execute the scan in this directory:

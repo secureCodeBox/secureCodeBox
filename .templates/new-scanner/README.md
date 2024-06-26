@@ -44,7 +44,7 @@ The new-scanner chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install new-scanner secureCodeBox/new-scanner
+helm upgrade --install new-scanner oci://ghcr.io/securecodebox/helm/new-scanner
 ```
 
 Please write how to configure the scanner

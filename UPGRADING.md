@@ -156,7 +156,7 @@ To avoid the duplicate “scan-scan”, the scheduled scans from the container a
 
 Having the Cascading rules enabled by default on scanner helm install, has led to some confusion on the users side as mentioned in issue [#914](https://github.com/secureCodeBox/secureCodeBox/issues/914). As a result Cascading rules will have to be explicitly enabled by setting the `cascadingRules.enabled` value to `true`. For example as so:
 ```yaml
-helm upgrade --install nmap secureCodeBox/nmap --set=cascadingRules.enabled=true 
+helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap --set=cascadingRules.enabled=true 
 ```
 
 ➡️  [Reference: #1347](https://github.com/secureCodeBox/secureCodeBox/pull/1347)

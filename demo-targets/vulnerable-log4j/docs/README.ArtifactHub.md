@@ -53,7 +53,7 @@ The vulnerable-log4j chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install vulnerable-log4j secureCodeBox/vulnerable-log4j
+helm upgrade --install vulnerable-log4j oci://ghcr.io/securecodebox/helm/vulnerable-log4j
 ```
 
 ## Values

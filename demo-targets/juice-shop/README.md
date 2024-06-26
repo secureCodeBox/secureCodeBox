@@ -49,7 +49,7 @@ The juice-shop chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install juice-shop secureCodeBox/juice-shop
+helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop
 ```
 
 ## Values

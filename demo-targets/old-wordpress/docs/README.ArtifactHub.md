@@ -53,7 +53,7 @@ The old-wordpress chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install old-wordpress secureCodeBox/old-wordpress
+helm upgrade --install old-wordpress oci://ghcr.io/securecodebox/helm/old-wordpress
 ```
 
 ## Values

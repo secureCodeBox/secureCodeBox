@@ -134,7 +134,7 @@ The auto-discovery-cloud-aws chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install auto-discovery-cloud-aws secureCodeBox/auto-discovery-cloud-aws
+helm upgrade --install auto-discovery-cloud-aws oci://ghcr.io/securecodebox/helm/auto-discovery-cloud-aws
 ```
 
 To directly deploy the auto-discovery-cloud-aws chart with the options for AWS configured, you can pass additional config values to helm:
