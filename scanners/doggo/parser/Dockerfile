@@ -12,7 +12,7 @@ COPY --chown=app:app ./parser.js ./parser.js
 # Additional packages
 # ARG namespace
 # ARG baseImageTag
-# FROM node:18-alpine as build
+# FROM node:22-alpine as build
 # RUN mkdir -p /home/app
 # WORKDIR /home/app
 # COPY package.json package-lock.json ./
