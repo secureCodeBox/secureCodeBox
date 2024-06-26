@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const axios = require("axios");
 const { parse } = require("./parser/parser");
 const { validate, addIdsAndDates } = require("./parser-utils");
 const k8s = require("@kubernetes/client-node");
@@ -24,12 +23,23 @@ async function uploadResultToFileStorageService(
   resultUploadUrl,
   findingsWithIdsAndDates
 ) {
-  return axios
-    .put(resultUploadUrl, findingsWithIdsAndDates, {
-      headers: { "content-type": "" },
-      maxBodyLength: Infinity,
+  return fetch(resultUploadUrl, {
+    method: 'PUT',
+    headers: { 'Content-Type': '' },
+    body: JSON.stringify(findingsWithIdsAndDates),
+    // No equivalent for maxBodyLength in fetch API
+  })
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(body => {
+          console.error(`Finding Upload Failed with Response Code: ${response.status}`);
+          console.error(`Error Response Body: ${body}`);
+          process.exit(1);
+        });
+      }
+      return response;
     })
-    .catch(function (error) {
+    .catch(error => {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -109,7 +119,6 @@ async function extractScan() {
     console.error(err);
     process.exit(1);
   }
-
 }
 
 async function extractParseDefinition(scan) {
@@ -128,9 +137,6 @@ async function extractParseDefinition(scan) {
     process.exit(1);
   }
 }
-
-
-
 
 async function main() {
   console.log("Starting Parser");
