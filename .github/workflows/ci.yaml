@@ -18,7 +18,6 @@ env:
 
   GO_VERSION: "1.19"
   PYTHON_VERSION: "3.9.16"
-  NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
   KIND_NODE_IMAGE: "kindest/node:v1.28.0@sha256:b7a4cad12c197af3ba43202d3efe03246b3f0793f162afb40a33c923952d5b31"
   KIND_BINARY_VERSION: "v0.20.0"
   KUBECTL_VERSION: "v1.27.4"
@@ -26,54 +25,15 @@ env:
   HELM_PLUGIN_UNITTEST: "0.4.1"
 
 jobs:
-  # ---- NVM Setup ----
-  # It is more efficient to do the installation process of nvm only once and upload it as an archive.
-  # This can later be imported and extracted quickly in the hooks/scanners testing containers.
-  # It also ensures that we pull from an external source to install nvm only once, instead of x number of hooks + y number of scanners
-  nvm-setup:
-    name: "Configuration"
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install nvm and Node.js
-        run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${{ env.NVM_VERSION }}/install.sh | bash
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm install "$(cat .nvmrc)"
-
-      - name: Archive nvm and Node.js
-        run: |
-          tar czf nvm-node.tar.gz -C $HOME .nvm
-
-      - name: Upload nvm and Node.js
-        uses: actions/upload-artifact@v4
-        with:
-          name: nvm-node
-          path: ./nvm-node.tar.gz
-          retention-days: 1
-
   test-nodejs-scanner-test-helpers:
     name: "Unit Test | Node.js Scanner Test Helpers"
-    needs:
-      - nvm-setup
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download nvm and Node.js
-        uses: actions/download-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: nvm-node
-          path: nvm-node
-
-      - name: Extract nvm and Node.js
-        run: |
-          tar xzf nvm-node/nvm-node.tar.gz -C $HOME
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm use
+          node-version-file: ".nvmrc"
 
       - name: Install dependencies
         working-directory: tests/integration
@@ -296,7 +256,6 @@ jobs:
     name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
     runs-on: ubuntu-22.04
     needs:
-      - nvm-setup
       - k8s-setup
     steps:
       - name: Checkout
@@ -307,18 +266,9 @@ jobs:
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
-      - name: Download nvm and Node.js
-        uses: actions/download-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: nvm-node
-          path: nvm-node
-
-      - name: Extract nvm and Node.js
-        run: |
-          tar xzf nvm-node/nvm-node.tar.gz -C $HOME
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm use
+          node-version-file: ".nvmrc"
 
       - name: Download Kind
         uses: actions/download-artifact@v4
@@ -458,7 +408,6 @@ jobs:
     needs:
       - sdk
       - operator
-      - nvm-setup
       - k8s-setup
     runs-on: ubuntu-22.04
     strategy:
@@ -494,18 +443,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download nvm and Node.js
-        uses: actions/download-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: nvm-node
-          path: nvm-node
-
-      - name: Extract nvm and Node.js
-        run: |
-          tar xzf nvm-node/nvm-node.tar.gz -C $HOME
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm use
+          node-version-file: ".nvmrc"
 
       - name: Download Kind
         uses: actions/download-artifact@v4
@@ -645,7 +585,6 @@ jobs:
     name: Test |  Hook ${{ matrix.hook }}
     needs:
       - operator
-      - nvm-setup
       - k8s-setup
     runs-on: ubuntu-22.04
     strategy:
@@ -662,6 +601,11 @@ jobs:
           # - persistence-static-report (WIP)
     steps:
       - uses: actions/checkout@master
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
       - name: "Start kind cluster"
         run: |
           kind version
@@ -797,19 +741,6 @@ jobs:
         working-directory: ./hooks/${{ matrix.hook }}
         run: make kind-import
 
-      - name: Download nvm and Node.js
-        uses: actions/download-artifact@v4
-        with:
-          name: nvm-node
-          path: ./nvm-node
-
-      - name: Extract nvm and Node.js
-        run: |
-          tar xzf nvm-node/nvm-node.tar.gz -C $HOME
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm use
-
       - name: "Install Test Dependencies"
         working-directory: ./hooks
         run: npm ci
@@ -881,7 +812,7 @@ jobs:
       - name: "Delete kind cluster"
         run: |
           kind delete cluster
-  
+
   sbctcl-tests:
     name: "Run sbctcl Tests"
     runs-on: ubuntu-22.04
@@ -897,4 +828,3 @@ jobs:
       - name: Run tests
         working-directory: scbctl
         run: go test -v ./...
-        
