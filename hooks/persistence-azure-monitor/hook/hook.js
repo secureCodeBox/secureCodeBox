@@ -13,7 +13,7 @@ async function handle({
   logTypePrefix = process.env["MONITOR_LOGTYPE_PREFIX"],
   processingDate = new Date().toUTCString(),
   crypto = require("crypto"),
-  fetch = require("node-fetch"),
+  fetch = global.fetch,
 }) {
   if (!(workspaceId && sharedKey)) {
     console.error(
