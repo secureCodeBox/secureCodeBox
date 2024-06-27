@@ -6,9 +6,9 @@ package utils
 
 import (
 	"fmt"
-	"testing"
 
-	"github.com/stretchr/testify/assert"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	batchv1 "k8s.io/api/batch/v1"
@@ -50,109 +50,83 @@ var scanType executionv1.ScanType = executionv1.ScanType{
 	}}
 
 // Tests that getAnnotationsForScan drops all annotations not prefixed with "*.securecodebox.io/*"
-func TestScanTypeHashing(t *testing.T) {
-	hashValues := HashScanType(scanType)
+var _ = Describe("ScanType Hashing", func() {
+	Context("ScanType Hashing", func() {
 
-	fmt.Printf("Hash: %d", hashValues)
+		It("should hash scantype consistently", func() {
+			hashValues := HashScanType(scanType)
 
-	assert.Equal(
-		t,
-		uint64(0x2e78bbefed51ff8),
-		hashValues,
-		"Should hash scantype consistently",
-	)
-}
+			fmt.Printf("Hash: %d", hashValues)
 
-func TestScanTypeHashingIgnoresNonScbAnnotations(t *testing.T) {
-	originalScanType := scanType.DeepCopy()
-	originalScanType.ObjectMeta.Annotations = map[string]string{
-		"foo.example.com/bar": "54165165135",
-	}
+			Expect(hashValues).To(Equal(uint64(0x2e78bbefed51ff8)), "Should hash scantype consistently")
+		})
 
-	modifiedScantype := scanType.DeepCopy()
-	modifiedScantype.ObjectMeta.Annotations = map[string]string{
-		"foo.example.com/bar": "719839183223",
-	}
+		It("should ignore non-scb annotations on the scantypes", func() {
+			originalScanType := scanType.DeepCopy()
+			originalScanType.ObjectMeta.Annotations = map[string]string{
+				"foo.example.com/bar": "54165165135",
+			}
 
-	assert.Equal(
-		t,
-		HashScanType(*originalScanType),
-		HashScanType(*modifiedScantype),
-		"Should ignore non scb annotation on the scantypes",
-	)
-}
+			modifiedScantype := scanType.DeepCopy()
+			modifiedScantype.ObjectMeta.Annotations = map[string]string{
+				"foo.example.com/bar": "719839183223",
+			}
 
-func TestScanTypeHashingIncludesScbAnnotations(t *testing.T) {
-	originalScanType := scanType.DeepCopy()
-	originalScanType.ObjectMeta.Annotations = map[string]string{
-		"foo.example.com/bar":                           "54165165135",
-		"auto-discovery.securecodebox.io/scantype-hash": "same-hash",
-	}
+			Expect(HashScanType(*originalScanType)).To(Equal(HashScanType(*modifiedScantype)), "Should ignore non scb annotation on the scantypes")
+		})
 
-	modifiedScantype := scanType.DeepCopy()
-	modifiedScantype.ObjectMeta.Annotations = map[string]string{
-		"foo.example.com/bar":                           "719839183223",
-		"auto-discovery.securecodebox.io/scantype-hash": "other-hash",
-	}
+		It("should include scb annotations in the hash", func() {
+			originalScanType := scanType.DeepCopy()
+			originalScanType.ObjectMeta.Annotations = map[string]string{
+				"foo.example.com/bar":                           "54165165135",
+				"auto-discovery.securecodebox.io/scantype-hash": "same-hash",
+			}
 
-	assert.NotEqual(
-		t,
-		HashScanType(*originalScanType),
-		HashScanType(*modifiedScantype),
-		"Should not equal as hash should include *.securecodebox.io/* annotations",
-	)
-}
+			modifiedScantype := scanType.DeepCopy()
+			modifiedScantype.ObjectMeta.Annotations = map[string]string{
+				"foo.example.com/bar":                           "719839183223",
+				"auto-discovery.securecodebox.io/scantype-hash": "other-hash",
+			}
 
-func TestScanTypeHashingIgnoresNonScbLabels(t *testing.T) {
-	originalScanType := scanType.DeepCopy()
-	originalScanType.ObjectMeta.Labels = map[string]string{
-		"foo.example.com/bar": "54165165135",
-	}
+			Expect(HashScanType(*originalScanType)).NotTo(Equal(HashScanType(*modifiedScantype)), "Should not equal as hash should include *.securecodebox.io/* annotations")
+		})
 
-	modifiedScantype := scanType.DeepCopy()
-	modifiedScantype.ObjectMeta.Labels = map[string]string{
-		"foo.example.com/bar": "719839183223",
-	}
+		It("should ignore non-scb labels on the scantypes", func() {
+			originalScanType := scanType.DeepCopy()
+			originalScanType.ObjectMeta.Labels = map[string]string{
+				"foo.example.com/bar": "54165165135",
+			}
 
-	assert.Equal(
-		t,
-		HashScanType(*originalScanType),
-		HashScanType(*modifiedScantype),
-		"Should ignore non scb labels on the scantypes",
-	)
-}
+			modifiedScantype := scanType.DeepCopy()
+			modifiedScantype.ObjectMeta.Labels = map[string]string{
+				"foo.example.com/bar": "719839183223",
+			}
 
-func TestScanTypeHashingIncludesScbLabels(t *testing.T) {
-	originalScanType := scanType.DeepCopy()
-	originalScanType.ObjectMeta.Labels = map[string]string{
-		"foo.example.com/bar":                           "54165165135",
-		"auto-discovery.securecodebox.io/scantype-hash": "same-hash",
-	}
+			Expect(HashScanType(*originalScanType)).To(Equal(HashScanType(*modifiedScantype)), "Should ignore non scb labels on the scantypes")
+		})
 
-	modifiedScantype := scanType.DeepCopy()
-	modifiedScantype.ObjectMeta.Labels = map[string]string{
-		"foo.example.com/bar":                           "719839183223",
-		"auto-discovery.securecodebox.io/scantype-hash": "other-hash",
-	}
+		It("should include scb labels in the hash", func() {
+			originalScanType := scanType.DeepCopy()
+			originalScanType.ObjectMeta.Labels = map[string]string{
+				"foo.example.com/bar":                           "54165165135",
+				"auto-discovery.securecodebox.io/scantype-hash": "same-hash",
+			}
 
-	assert.NotEqual(
-		t,
-		HashScanType(*originalScanType),
-		HashScanType(*modifiedScantype),
-		"Should not equal as hash should include *.securecodebox.io/* labels",
-	)
-}
+			modifiedScantype := scanType.DeepCopy()
+			modifiedScantype.ObjectMeta.Labels = map[string]string{
+				"foo.example.com/bar":                           "719839183223",
+				"auto-discovery.securecodebox.io/scantype-hash": "other-hash",
+			}
 
-func TestShouldIgnoreAutoGeneratedAttributes(t *testing.T) {
+			Expect(HashScanType(*originalScanType)).NotTo(Equal(HashScanType(*modifiedScantype)), "Should not equal as hash should include *.securecodebox.io/* labels")
+		})
 
-	modifiedScantype := scanType.DeepCopy()
+		It("should ignore auto-generated attributes", func() {
+			modifiedScantype := scanType.DeepCopy()
 
-	modifiedScantype.ResourceVersion = "ajbsdiavof1t2hvasjhdvaj"
+			modifiedScantype.ResourceVersion = "ajbsdiavof1t2hvasjhdvaj"
 
-	assert.Equal(
-		t,
-		HashScanType(scanType),
-		HashScanType(*modifiedScantype),
-		"Should ignore auto generated attributes",
-	)
-}
+			Expect(HashScanType(scanType)).To(Equal(HashScanType(*modifiedScantype)), "Should ignore auto generated attributes")
+		})
+	})
+})
