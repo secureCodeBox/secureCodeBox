@@ -5,8 +5,6 @@
 package utils
 
 import (
-	"fmt"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -55,9 +53,6 @@ var _ = Describe("ScanType Hashing", func() {
 
 		It("should hash scantype consistently", func() {
 			hashValues := HashScanType(scanType)
-
-			fmt.Printf("Hash: %d", hashValues)
-
 			Expect(hashValues).To(Equal(uint64(0xc1cee52ba3736175)), "Should hash scantype consistently")
 		})
 
