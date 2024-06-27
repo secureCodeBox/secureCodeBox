@@ -7,7 +7,7 @@ package util
 import (
 	"time"
 
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -18,7 +18,7 @@ import (
 type TestTemplateArgs struct {
 	Target    metav1.ObjectMeta
 	Namespace corev1.Namespace
-	Cluster   configv1.ClusterConfig
+	Cluster   config.ClusterConfig
 }
 
 var _ = Describe("gotemplate helper util", func() {
@@ -75,13 +75,13 @@ var _ = Describe("gotemplate helper util", func() {
 						Name: "barfoo",
 					},
 				},
-				Cluster: configv1.ClusterConfig{
+				Cluster: config.ClusterConfig{
 					Name: "test-cluster",
 				},
 			}
 
-			scanConfig := configv1.ScanConfig{
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+			scanConfig := config.ScanConfig{
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
@@ -144,14 +144,14 @@ var _ = Describe("gotemplate helper util", func() {
 						Name: "barfoo",
 					},
 				},
-				Cluster: configv1.ClusterConfig{
+				Cluster: config.ClusterConfig{
 					Name: "test-cluster",
 				},
 			}
 
 			It("should work with empty list of matchExpression", func() {
-				scanConfig := configv1.ScanConfig{
-					RepeatInterval: metav1.Duration{Duration: time.Hour},
+				scanConfig := config.ScanConfig{
+					RepeatInterval: time.Hour,
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
@@ -193,8 +193,8 @@ var _ = Describe("gotemplate helper util", func() {
 			})
 
 			It("should work a a list of multiple matchExpressions", func() {
-				scanConfig := configv1.ScanConfig{
-					RepeatInterval: metav1.Duration{Duration: time.Hour},
+				scanConfig := config.ScanConfig{
+					RepeatInterval: time.Hour,
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
@@ -211,8 +211,8 @@ var _ = Describe("gotemplate helper util", func() {
 			})
 
 			It("should template with matchLabels", func() {
-				scanConfig := configv1.ScanConfig{
-					RepeatInterval: metav1.Duration{Duration: time.Hour},
+				scanConfig := config.ScanConfig{
+					RepeatInterval: time.Hour,
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
@@ -251,7 +251,7 @@ func render(annotationTemplates map[string]string) map[string]string {
 	templateArgs := TestTemplateArgs{
 		Target:    targetMeta,
 		Namespace: namespace,
-		Cluster:   configv1.ClusterConfig{Name: "test-cluster"},
+		Cluster:   config.ClusterConfig{Name: "test-cluster"},
 	}
 	return ParseMapTemplate(templateArgs, annotationTemplates)
 }

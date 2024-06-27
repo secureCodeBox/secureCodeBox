@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 
@@ -32,13 +32,13 @@ type ServiceScanReconciler struct {
 	Log      logr.Logger
 	Scheme   *runtime.Scheme
 	Recorder record.EventRecorder
-	Config   configv1.AutoDiscoveryConfig
+	Config   config.AutoDiscoveryConfig
 }
 
 type ServiceAutoDiscoveryTemplateArgs struct {
-	Config     configv1.AutoDiscoveryConfig
-	ScanConfig configv1.ScanConfig
-	Cluster    configv1.ClusterConfig
+	Config     config.AutoDiscoveryConfig
+	ScanConfig config.ScanConfig
+	Cluster    config.ClusterConfig
 	Target     metav1.ObjectMeta
 	Service    corev1.Service
 	Namespace  corev1.Namespace
@@ -109,10 +109,10 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			RequeueAfter: requeueInterval,
 		}, nil
 	}
-	if len(r.Config.ServiceAutoDiscoveryConfig.ScanConfigs) == 0 {
+	if len(r.Config.ServiceAutoDiscovery.ScanConfigs) == 0 {
 		log.Info("Warning: You have the Service AutoDiscovery enabled but don't have any `scanConfigs` in your AutoDiscovery configuration. No scans will be started!")
 	}
-	for _, scanConfig := range r.Config.ServiceAutoDiscoveryConfig.ScanConfigs {
+	for _, scanConfig := range r.Config.ServiceAutoDiscovery.ScanConfigs {
 		log.V(8).Info("Started Loop of ScanConfig", "ScanConfig Name", scanConfig.Name)
 		for _, host := range getHostPorts(service) {
 			// Checking if we already have run a scan against this version
@@ -186,7 +186,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 					// Requeue to allow scan to be created when the user installs the scanType
 					return ctrl.Result{
 						Requeue:      true,
-						RequeueAfter: r.Config.ServiceAutoDiscoveryConfig.PassiveReconcileInterval.Duration,
+						RequeueAfter: Config.ServiceAutoDiscovery.PassiveReconcileInterval,
 					}, nil
 				} else if err != nil {
 					return ctrl.Result{
@@ -241,7 +241,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 	}
 	return ctrl.Result{
 		Requeue:      true,
-		RequeueAfter: r.Config.ServiceAutoDiscoveryConfig.PassiveReconcileInterval.Duration,
+		RequeueAfter: r.Config.ServiceAutoDiscovery.PassiveReconcileInterval,
 	}, nil
 }
 
@@ -425,7 +425,7 @@ podLoop:
 
 // generateScanAnnotations generates annotations for a scan based on the given configuration and template arguments.
 // It also copies over certain annotations from the current annotations to the generated annotations.
-func generateScanAnnotations(currentAnnotations map[string]string, scanConfig configv1.ScanConfig, templateArgs ServiceAutoDiscoveryTemplateArgs) map[string]string {
+func generateScanAnnotations(currentAnnotations map[string]string, scanConfig config.ScanConfig, templateArgs ServiceAutoDiscoveryTemplateArgs) map[string]string {
 	annotations := util.ParseMapTemplate(templateArgs, scanConfig.Annotations)
 	re := regexp.MustCompile(`.*securecodebox\.io/.*`)
 
@@ -437,7 +437,7 @@ func generateScanAnnotations(currentAnnotations map[string]string, scanConfig co
 	return annotations
 }
 
-func generateScanLabels(currentLabels map[string]string, scanConfig configv1.ScanConfig, templateArgs ServiceAutoDiscoveryTemplateArgs) map[string]string {
+func generateScanLabels(currentLabels map[string]string, scanConfig config.ScanConfig, templateArgs ServiceAutoDiscoveryTemplateArgs) map[string]string {
 	// Parse the scan labels template and return the resulting map
 	newLabels := util.ParseMapTemplate(templateArgs, scanConfig.Labels)
 
@@ -450,7 +450,7 @@ func generateScanLabels(currentLabels map[string]string, scanConfig configv1.Sca
 // SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ServiceScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	// Check if scan names are unique
-	if err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs); err != nil {
+	if err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscovery.ScanConfigs); err != nil {
 		r.Log.Error(err, "Scan names are not unique")
 		return err
 	}
