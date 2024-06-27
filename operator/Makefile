@@ -104,7 +104,7 @@ run: manifests generate fmt vet ## Run a controller from your host.
 	go run ./main.go
 
 .PHONY: docker-build
-docker-build: test ## Build docker image with the manager.
+docker-build: ## Build docker image with the manager.
 	@echo ".: ⚙️ Build Container Images"
 	docker build -t $(IMG_NS)/${OPERATOR_IMG}:${IMG_TAG} .
 	cd $(PROJECT_DIR)/lurker && docker build -t $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG) .

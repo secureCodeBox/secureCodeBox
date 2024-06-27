@@ -197,6 +197,10 @@ jobs:
           go fmt ./...
           go vet ./...
 
+      - name: Test
+        working-directory: ./operator
+        run: make test
+
       - name: Build Container Image
         working-directory: ./operator
         run: make docker-build
@@ -604,7 +608,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
 
       - name: "Start kind cluster"
         run: |
