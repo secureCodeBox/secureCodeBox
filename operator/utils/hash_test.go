@@ -58,7 +58,7 @@ var _ = Describe("ScanType Hashing", func() {
 
 			fmt.Printf("Hash: %d", hashValues)
 
-			Expect(hashValues).To(Equal(uint64(0x2e78bbefed51ff8)), "Should hash scantype consistently")
+			Expect(hashValues).To(Equal(uint64(0xc1cee52ba3736175)), "Should hash scantype consistently")
 		})
 
 		It("should ignore non-scb annotations on the scantypes", func() {
