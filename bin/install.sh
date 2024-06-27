@@ -118,7 +118,7 @@ function createNamespaceAndInstallOperator() {
 
   print "Installing the operator in the '$SCB_SYSTEM_NAMESPACE' namespace"
 
-  if [[ $(helm -n "$SCB_SYSTEM_NAMESPACE" upgrade --install securecodebox-operator secureCodeBox/operator) ]]; then
+  if [[ $(helm -n "$SCB_SYSTEM_NAMESPACE" upgrade --install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator) ]]; then
     print "$COLOR_OK" "Successfully installed the operator in namespace '$SCB_SYSTEM_NAMESPACE'!"
   else
     print "$COLOR_ERROR" "Operator installation failed in namespace '$SCB_SYSTEM_NAMESPACE', cancelling installation!" && exit 1

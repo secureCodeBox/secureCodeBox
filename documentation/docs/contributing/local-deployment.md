@@ -64,7 +64,7 @@ securecodebox$ helm repo add secureCodeBox https://charts.securecodebox.io
 [...]
 securecodebox$ kubectl create namespace securecodebox-system
 namespace/securecodebox-system created
-securecodebox$ helm --namespace securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator
+securecodebox$ helm --namespace securecodebox-system upgrade --install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 Release "securecodebox-operator" does not exist. Installing it now.
 NAME: securecodebox-operator
 LAST DEPLOYED: Fri Jan 26 14:34:50 2024

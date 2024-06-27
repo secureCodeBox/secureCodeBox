@@ -12,7 +12,7 @@ path: "docs/getting-started/uninstallation"
 
 If you want to uninstall every scanner and every hook you can simply delete the namespace in which they were installed (if you did not install any resources you still need in the same namespace).
 
-If you want to uninstall specific scanners or hooks you can delete them via `helm`. For example if you installed nmap using `helm install nmap secureCodeBox/nmap` you can delete nmap like this:
+If you want to uninstall specific scanners or hooks you can delete them via `helm`. For example if you installed nmap using `helm install nmap oci://ghcr.io/securecodebox/helm/nmap` you can delete nmap like this:
 
 ```bash
 helm delete nmap

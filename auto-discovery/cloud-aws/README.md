@@ -149,7 +149,7 @@ To directly deploy the auto-discovery-cloud-aws chart with the options for AWS c
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install auto-discovery-cloud-aws secureCodeBox/auto-discovery-cloud-aws --set="config.aws.queueUrl=${SQS_QUEUE_URL}" --set="config.aws.region=${AWS_REGION}"
+helm upgrade --install auto-discovery-cloud-aws oci://ghcr.io/securecodebox/helm/auto-discovery-cloud-aws --set="config.aws.queueUrl=${SQS_QUEUE_URL}" --set="config.aws.region=${AWS_REGION}"
 ```
 
 ## Requirements

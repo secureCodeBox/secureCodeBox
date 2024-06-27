@@ -66,7 +66,7 @@ helm repo add secureCodeBox https://charts.securecodebox.io
 # Create a new namespace for the secureCodeBox Operator
 kubectl create namespace securecodebox-system
 # Install the Operator & CRDs
-helm install securecodebox-operator secureCodeBox/operator
+helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 ```
 
 ## Values
