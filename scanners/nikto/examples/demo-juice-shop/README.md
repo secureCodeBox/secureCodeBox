@@ -9,5 +9,5 @@ In this example we execute an kubeaudit scan against the intentional vulnerable 
 
 Before executing the scan, make sure to setup juice-shop
 ```bash
-helm upgrade --install juice-shop secureCodeBox/juice-shop --wait
+helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop --wait
 ```

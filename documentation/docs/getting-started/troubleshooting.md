@@ -17,18 +17,20 @@ to create an issue in our [GitHub Repository](https://github.com/secureCodeBox/s
 
 ### *helm upgrade --install* does not work
 
-* Check if you have added the secureCodeBox repository:
+In most cases this is related to the helm repository missing. secureCodeBox used a classic helm in the default install instructions until 4.6.0.
+Since 4.6.0 it's recommended to install our helm charts using the helm charts from the Open Container Initiative (OCI) images.
+
+E.g.
+
 ```bash
-helm repo add secureCodeBox https://charts.securecodebox.io
-```
-* Check your spelling: Helm repo is case-sensitive and no backslash at the end of a resource
-```bash
+# OUTDATE
+helm upgrade --install nmap secureCodeBox/nmap
 # WRONG!
 helm upgrade --install nmap securecodebox/nmap
 # ALSO WRONG!
 helm upgrade --install nmap secureCodeBox/nmap/
 # CORRECT
-helm upgrade --install nmap secureCodeBox/nmap
+helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
 ```
 
 ## Running scans

@@ -14,7 +14,7 @@ sidebar_position: 1
 The secureCodeBox (SCB) AutoDiscovery is packaged as a helm chart. As the AutoDiscovery works by creating (Scheduled)Scan custom resources for the discovered resources it requires the operator to be installed first.
 
 ```bash
-helm install --namespace securecodebox-system auto-discovery-kubernetes secureCodeBox/auto-discovery-kubernetes
+helm install --namespace securecodebox-system auto-discovery-kubernetes oci://ghcr.io/securecodebox/helm/auto-discovery-kubernetes
 ```
 
 ## Configuration

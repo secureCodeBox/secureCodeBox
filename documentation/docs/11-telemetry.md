@@ -25,7 +25,7 @@ The data is submitted every 24 hours. When the Operator starts, the first data-p
 The collection of telemetry data can be completely disabled by setting the `telemetryEnabled` to `false`, e.g:
 
 ```bash
-helm install securecodebox-operator secureCodeBox/operator --set="telemetryEnabled=false"
+helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator --set="telemetryEnabled=false"
 ```
 
 ## Telemetry Code

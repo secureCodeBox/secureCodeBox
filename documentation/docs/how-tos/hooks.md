@@ -113,7 +113,7 @@ By default, all _hooks_ have a priority of `0`.
 If we set `ufh2` hook's priority to `1`, we'll observe that it will execute before `ufh1`.
 
 ```bash
-helm upgrade --install ufh2 secureCodeBox/update-field-hook --set hook.priority="1" --set attribute.name="category" --set attribute.value="second-hook"
+helm upgrade --install ufh2 oci://ghcr.io/securecodebox/helm/update-field-hook --set hook.priority="1" --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
 ```bash
@@ -210,7 +210,7 @@ The following labels are available by default:
 You can also deploy _secureCodeBox_ _hooks_ with your own labels like so:
 
 ```bash
-helm upgrade --install ufh2 secureCodeBox/update-field-hook --set hook.labels.securecodebox="rocks" --set attribute.name="category" --set attribute.value="second-hook"
+helm upgrade --install ufh2 oci://ghcr.io/securecodebox/helm/update-field-hook --set hook.labels.securecodebox="rocks" --set attribute.name="category" --set attribute.value="second-hook"
 ```
 
 This will add your custom label to the _secureCodeBox_ hook so that you can select is with `hookSelector`.

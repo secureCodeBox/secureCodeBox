@@ -277,16 +277,15 @@ At first, we create a cluster and the *secureCodeBox* namespace and operator:
 ```bash
 minikube start
 
-kubectl create namespace securecodebox-system
-helm --namespace securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator
+helm --namespace securecodebox-system --create-namespace upgrade --install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 ```
 
 Next, we simply install an exemplary scanner and the *persistence-elastic* hook. Note that Kibana is enabled by default.
 ```bash
 # Scanner and ElasticSearch should be in the same namespace
 kubectl create namespace elastic
-helm --namespace elastic upgrade --install nmap secureCodeBox/nmap
-helm --namespace elastic upgrade --install persistence-elastic secureCodeBox/persistence-elastic
+helm --namespace elastic upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
+helm --namespace elastic upgrade --install persistence-elastic oci://ghcr.io/securecodebox/helm/persistence-elastic
 ```
 
 That's it! Let us run an example scan (same as above for DefectDojo):
@@ -361,7 +360,7 @@ Connecting the SCB to a persistence provider, especially DefectDojo, can sometim
 
   ```shell
   # $YOURLOCALIP should look something like http://192.168.2.242:8080
-  helm upgrade --install persistence-defectdojo secureCodeBox/persistence-defectdojo \
+  helm upgrade --install persistence-defectdojo oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
       --set="defectdojo.url=$YOURLOCALIP"
   ```
 
