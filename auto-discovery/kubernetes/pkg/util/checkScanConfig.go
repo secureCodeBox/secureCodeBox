@@ -8,11 +8,11 @@ import (
 	"errors"
 	"fmt"
 
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	"k8s.io/utils/strings/slices"
 )
 
-func CheckUniquenessOfScanNames(scanConfigs []configv1.ScanConfig) error {
+func CheckUniquenessOfScanNames(scanConfigs []config.ScanConfig) error {
 	var namesSeen []string
 	for _, config := range scanConfigs {
 		if slices.Contains(namesSeen, config.Name) {

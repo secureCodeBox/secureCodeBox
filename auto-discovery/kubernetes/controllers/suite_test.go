@@ -16,7 +16,6 @@ import (
 	"k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
-	"sigs.k8s.io/controller-runtime/pkg/envtest/printer"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
@@ -26,7 +25,7 @@ import (
 
 	//+kubebuilder:scaffold:imports
 
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 
@@ -41,9 +40,7 @@ var cancel context.CancelFunc
 func TestAPIs(t *testing.T) {
 	RegisterFailHandler(Fail)
 
-	RunSpecsWithDefaultAndCustomReporters(t,
-		"Controller Suite",
-		[]Reporter{printer.NewlineReporter{}})
+	RunSpecs(t, "Controller Suite")
 }
 
 var _ = BeforeSuite(func() {
@@ -75,16 +72,16 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
-	config := configv1.AutoDiscoveryConfig{
-		Cluster: configv1.ClusterConfig{
+	config := config.AutoDiscoveryConfig{
+		Cluster: config.ClusterConfig{
 			Name: "test-cluster",
 		},
-		ServiceAutoDiscoveryConfig: configv1.ServiceAutoDiscoveryConfig{
-			PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-			ScanConfigs: []configv1.ScanConfig{
+		ServiceAutoDiscovery: config.ServiceAutoDiscoveryConfig{
+			PassiveReconcileInterval: 1 * time.Second,
+			ScanConfigs: []config.ScanConfig{
 				{
 					Name:           "test-scan-0",
-					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					RepeatInterval: time.Hour,
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -97,7 +94,7 @@ var _ = BeforeSuite(func() {
 				},
 				{
 					Name:           "test-scan-1",
-					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					RepeatInterval: time.Hour,
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -110,17 +107,17 @@ var _ = BeforeSuite(func() {
 				},
 			},
 		},
-		ContainerAutoDiscoveryConfig: configv1.ContainerAutoDiscoveryConfig{
-			PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-			ImagePullSecretConfig: configv1.ImagePullSecretConfig{
+		ContainerAutoDiscovery: config.ContainerAutoDiscoveryConfig{
+			PassiveReconcileInterval: 1 * time.Second,
+			ImagePullSecretConfig: config.ImagePullSecretConfig{
 				MapImagePullSecretsToEnvironmentVariables: true,
 				UsernameEnvironmentVariableName:           "username",
 				PasswordNameEnvironmentVariableName:       "password",
 			},
-			ScanConfigs: []configv1.ScanConfig{
+			ScanConfigs: []config.ScanConfig{
 				{
 					Name:           "test-scan",
-					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					RepeatInterval: time.Hour,
 					Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 					Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 					Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -141,7 +138,7 @@ var _ = BeforeSuite(func() {
 				},
 				{
 					Name:           "test-scan-two",
-					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					RepeatInterval: time.Hour,
 					Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 					Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 					Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -162,8 +159,8 @@ var _ = BeforeSuite(func() {
 				},
 			},
 		},
-		ResourceInclusion: configv1.ResourceInclusionConfig{
-			Mode: configv1.EnabledPerResource,
+		ResourceInclusion: config.ResourceInclusionConfig{
+			Mode: config.EnabledPerResource,
 		},
 	}
 

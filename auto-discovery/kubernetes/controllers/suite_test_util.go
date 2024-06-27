@@ -7,20 +7,20 @@ package controllers
 import (
 	"time"
 
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-var Config = configv1.AutoDiscoveryConfig{
-	Cluster: configv1.ClusterConfig{
+var Config = config.AutoDiscoveryConfig{
+	Cluster: config.ClusterConfig{
 		Name: "test-cluster",
 	},
-	ServiceAutoDiscoveryConfig: configv1.ServiceAutoDiscoveryConfig{
-		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-		ScanConfigs: []configv1.ScanConfig{
+	ServiceAutoDiscovery: config.ServiceAutoDiscoveryConfig{
+		PassiveReconcileInterval: 1 * time.Second,
+		ScanConfigs: []config.ScanConfig{
 			{
 				Name:           "test-scan-0",
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -33,7 +33,7 @@ var Config = configv1.AutoDiscoveryConfig{
 			},
 			{
 				Name:           "test-scan-1",
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -46,12 +46,12 @@ var Config = configv1.AutoDiscoveryConfig{
 			},
 		},
 	},
-	ContainerAutoDiscoveryConfig: configv1.ContainerAutoDiscoveryConfig{
-		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-		ScanConfigs: []configv1.ScanConfig{
+	ContainerAutoDiscovery: config.ContainerAutoDiscoveryConfig{
+		PassiveReconcileInterval: 1 * time.Second,
+		ScanConfigs: []config.ScanConfig{
 			{
 				Name:           "test-scan",
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -72,7 +72,7 @@ var Config = configv1.AutoDiscoveryConfig{
 			},
 			{
 				Name:           "test-scan-two",
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -93,22 +93,22 @@ var Config = configv1.AutoDiscoveryConfig{
 			},
 		},
 	},
-	ResourceInclusion: configv1.ResourceInclusionConfig{
-		Mode: configv1.EnabledPerResource,
+	ResourceInclusion: config.ResourceInclusionConfig{
+		Mode: config.EnabledPerResource,
 	},
 }
 
 // broken config has two scans (per autodiscovery) defined with the same name which will trigger an error during controller setup
-var BrokenConfig = configv1.AutoDiscoveryConfig{
-	Cluster: configv1.ClusterConfig{
+var BrokenConfig = config.AutoDiscoveryConfig{
+	Cluster: config.ClusterConfig{
 		Name: "test-cluster",
 	},
-	ServiceAutoDiscoveryConfig: configv1.ServiceAutoDiscoveryConfig{
-		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-		ScanConfigs: []configv1.ScanConfig{
+	ServiceAutoDiscovery: config.ServiceAutoDiscoveryConfig{
+		PassiveReconcileInterval: 1 * time.Second,
+		ScanConfigs: []config.ScanConfig{
 			{
 				Name:           "test-scan",
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -121,7 +121,7 @@ var BrokenConfig = configv1.AutoDiscoveryConfig{
 			},
 			{
 				Name:           "test-scan",
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -134,12 +134,12 @@ var BrokenConfig = configv1.AutoDiscoveryConfig{
 			},
 		},
 	},
-	ContainerAutoDiscoveryConfig: configv1.ContainerAutoDiscoveryConfig{
-		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-		ScanConfigs: []configv1.ScanConfig{
+	ContainerAutoDiscovery: config.ContainerAutoDiscoveryConfig{
+		PassiveReconcileInterval: 1 * time.Second,
+		ScanConfigs: []config.ScanConfig{
 			{
 				Name:           "test-scan",
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -160,7 +160,7 @@ var BrokenConfig = configv1.AutoDiscoveryConfig{
 			},
 			{
 				Name:           "test-scan",
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				RepeatInterval: time.Hour,
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -181,7 +181,7 @@ var BrokenConfig = configv1.AutoDiscoveryConfig{
 			},
 		},
 	},
-	ResourceInclusion: configv1.ResourceInclusionConfig{
-		Mode: configv1.EnabledPerResource,
+	ResourceInclusion: config.ResourceInclusionConfig{
+		Mode: config.EnabledPerResource,
 	},
 }

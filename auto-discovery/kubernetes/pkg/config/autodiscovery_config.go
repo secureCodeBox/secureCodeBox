@@ -2,37 +2,46 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package v1
+package config
 
 import (
+	"time"
+
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	cfg "sigs.k8s.io/controller-runtime/pkg/config/v1alpha1"
 )
 
-// +kubebuilder:object:root=true
 type AutoDiscoveryConfig struct {
 	metav1.TypeMeta `json:",inline"`
 
-	// ControllerManagerConfigurationSpec returns the contfigurations for controllers
-	cfg.ControllerManagerConfigurationSpec `json:",inline"`
+	Metrics        MetricsConfig        `json:"metrics"`
+	LeaderElection LeaderElectionConfig `json:"leaderElection"`
 
-	Cluster                      ClusterConfig                `json:"cluster"`
-	ResourceInclusion            ResourceInclusionConfig      `json:"resourceInclusion"`
-	ServiceAutoDiscoveryConfig   ServiceAutoDiscoveryConfig   `json:"serviceAutoDiscovery"`
-	ContainerAutoDiscoveryConfig ContainerAutoDiscoveryConfig `json:"containerAutoDiscovery"`
+	Cluster                ClusterConfig                `json:"cluster"`
+	ResourceInclusion      ResourceInclusionConfig      `json:"resourceInclusion"`
+	ServiceAutoDiscovery   ServiceAutoDiscoveryConfig   `json:"serviceAutoDiscovery"`
+	ContainerAutoDiscovery ContainerAutoDiscoveryConfig `json:"containerAutoDiscovery"`
+}
+
+type MetricsConfig struct {
+	BindAddress string `json:"bindAddress"`
+}
+
+type LeaderElectionConfig struct {
+	LeaderElect  bool   `json:"leaderElect"`
+	ResourceName string `json:"resourceName"`
 }
 
 type ServiceAutoDiscoveryConfig struct {
-	Enabled                  bool            `json:"enabled"`
-	PassiveReconcileInterval metav1.Duration `json:"passiveReconcileInterval"`
-	ScanConfigs              []ScanConfig    `json:"scanConfigs"`
+	Enabled                  bool          `json:"enabled"`
+	PassiveReconcileInterval time.Duration `json:"passiveReconcileInterval"`
+	ScanConfigs              []ScanConfig  `json:"scanConfigs"`
 }
 
 type ContainerAutoDiscoveryConfig struct {
 	Enabled                  bool                  `json:"enabled"`
 	ImagePullSecretConfig    ImagePullSecretConfig `json:"imagePullSecretConfig"`
-	PassiveReconcileInterval metav1.Duration       `json:"passiveReconcileInterval"`
+	PassiveReconcileInterval time.Duration         `json:"passiveReconcileInterval"`
 	ScanConfigs              []ScanConfig          `json:"scanConfigs"`
 }
 
@@ -61,7 +70,7 @@ type ResourceInclusionConfig struct {
 
 type ScanConfig struct {
 	Name           string               `json:"name"`
-	RepeatInterval metav1.Duration      `json:"repeatInterval"`
+	RepeatInterval time.Duration        `json:"repeatInterval"`
 	Annotations    map[string]string    `json:"annotations"`
 	Labels         map[string]string    `json:"labels"`
 	ScanType       string               `json:"scanType"`
@@ -69,8 +78,4 @@ type ScanConfig struct {
 	Volumes        []corev1.Volume      `json:"volumes"`
 	VolumeMounts   []corev1.VolumeMount `json:"volumeMounts"`
 	HookSelector   metav1.LabelSelector `json:"hookSelector"`
-}
-
-func init() {
-	SchemeBuilder.Register(&AutoDiscoveryConfig{})
 }

@@ -11,8 +11,8 @@ import (
 	"strings"
 
 	"github.com/go-logr/logr"
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 
+	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -31,16 +31,16 @@ type ContainerScanReconciler struct {
 	Log      logr.Logger
 	Scheme   *runtime.Scheme
 	Recorder record.EventRecorder
-	Config   configv1.AutoDiscoveryConfig
+	Config   config.AutoDiscoveryConfig
 }
 
 type Cluster struct {
 	Name string
 }
 type ContainerAutoDiscoveryTemplateArgs struct {
-	Config     configv1.AutoDiscoveryConfig
-	ScanConfig configv1.ScanConfig
-	Cluster    configv1.ClusterConfig
+	Config     config.AutoDiscoveryConfig
+	ScanConfig config.ScanConfig
+	Cluster    config.ClusterConfig
 	Target     metav1.ObjectMeta
 	Namespace  corev1.Namespace
 	ImageID    string
@@ -74,7 +74,7 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 
 	scanTypesInstalled := r.checkForScanTypes(ctx, pod)
 	if !scanTypesInstalled {
-		requeueDuration := r.Config.ContainerAutoDiscoveryConfig.PassiveReconcileInterval.Duration
+		requeueDuration := r.Config.ContainerAutoDiscovery.PassiveReconcileInterval
 		return ctrl.Result{Requeue: true, RequeueAfter: requeueDuration}, nil
 	}
 
@@ -109,17 +109,17 @@ func (r *ContainerScanReconciler) checkIfNewScansNeedToBeCreated(ctx context.Con
 	r.createScheduledScans(ctx, pod, nonScannedImageIDs)
 }
 
-func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod corev1.Pod) map[string][]configv1.ScanConfig {
-	result := make(map[string][]configv1.ScanConfig)
+func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod corev1.Pod) map[string][]config.ScanConfig {
+	result := make(map[string][]config.ScanConfig)
 	allImageIDs := getImageIDsForPod(pod)
 
 	for _, imageID := range allImageIDs {
 		cleanedImageID := cleanupImageID(imageID)
 
-		if len(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs) == 0 {
+		if len(r.Config.ContainerAutoDiscovery.ScanConfigs) == 0 {
 			r.Log.Info("Warning: You have the Container AutoDiscovery enabled but don't have any `scanConfigs` in your AutoDiscovery configuration. No scans will be started!")
 		}
-		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
+		for _, scanConfig := range r.Config.ContainerAutoDiscovery.ScanConfigs {
 			scanName := getScanName(cleanedImageID, scanConfig)
 
 			var scan executionv1.ScheduledScan
@@ -155,7 +155,7 @@ func cleanupImageID(imageID string) string {
 	return imageRegex.FindStringSubmatch(imageID)[2]
 }
 
-func getScanName(imageID string, scanConfig configv1.ScanConfig) string {
+func getScanName(imageID string, scanConfig config.ScanConfig) string {
 	//function builds string like: _appName_-_customScanName_-at-_imageID_HASH_ eg: nginx-myTrivyScan-at-0123456789
 
 	hashRegex := regexp.MustCompile(".*/(?P<appName>.*)@sha256:(?P<hash>.*)")
@@ -177,9 +177,9 @@ func getScanName(imageID string, scanConfig configv1.ScanConfig) string {
 	return result[:62]
 }
 
-func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod corev1.Pod, scansToBeCreated map[string][]configv1.ScanConfig) {
+func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod corev1.Pod, scansToBeCreated map[string][]config.ScanConfig) {
 	secretsDefined, secrets := checkForImagePullSecrets(pod)
-	mapSecretsToEnv := r.Config.ContainerAutoDiscoveryConfig.ImagePullSecretConfig.MapImagePullSecretsToEnvironmentVariables
+	mapSecretsToEnv := r.Config.ContainerAutoDiscovery.ImagePullSecretConfig.MapImagePullSecretsToEnvironmentVariables
 
 	for imageID, scans := range scansToBeCreated {
 		for _, scan := range scans {
@@ -200,7 +200,7 @@ func checkForImagePullSecrets(pod corev1.Pod) (bool, []corev1.LocalObjectReferen
 	return secretsDefined, imagePullSecrets
 }
 
-func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig) {
+func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod corev1.Pod, imageID string, scanConfig config.ScanConfig) {
 	namespace := r.getNamespace(ctx, pod)
 
 	newScheduledScan := r.generateScan(pod, imageID, scanConfig, namespace)
@@ -213,7 +213,7 @@ func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod c
 	}
 }
 
-func (r *ContainerScanReconciler) createScheduledScanWithImagePullSecrets(ctx context.Context, pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig, secrets []corev1.LocalObjectReference) {
+func (r *ContainerScanReconciler) createScheduledScanWithImagePullSecrets(ctx context.Context, pod corev1.Pod, imageID string, scanConfig config.ScanConfig, secrets []corev1.LocalObjectReference) {
 	namespace := r.getNamespace(ctx, pod)
 
 	newScheduledScan := r.generateScanWithVolumeMounts(pod, imageID, scanConfig, namespace, secrets)
@@ -236,7 +236,7 @@ func (r *ContainerScanReconciler) getNamespace(ctx context.Context, pod corev1.P
 	return result
 }
 
-func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig, namespace corev1.Namespace) executionv1.ScheduledScan {
+func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, scanConfig config.ScanConfig, namespace corev1.Namespace) executionv1.ScheduledScan {
 	templateArgs := ContainerAutoDiscoveryTemplateArgs{
 		Config:     r.Config,
 		ScanConfig: scanConfig,
@@ -259,7 +259,7 @@ func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, s
 	return newScheduledScan
 }
 
-func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig, namespace corev1.Namespace, secrets []corev1.LocalObjectReference) executionv1.ScheduledScan {
+func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, imageID string, scanConfig config.ScanConfig, namespace corev1.Namespace, secrets []corev1.LocalObjectReference) executionv1.ScheduledScan {
 	templateArgs := ContainerAutoDiscoveryTemplateArgs{
 		Config:     r.Config,
 		ScanConfig: scanConfig,
@@ -275,7 +275,7 @@ func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, i
 	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
 	scanSpec.ScanSpec.InitContainers = append(scanSpec.ScanSpec.InitContainers, getSecretExtractionInitContainer(imageID, scanConfig, extraMounts))
 
-	pullSecretConfig := r.Config.ContainerAutoDiscoveryConfig.ImagePullSecretConfig
+	pullSecretConfig := r.Config.ContainerAutoDiscovery.ImagePullSecretConfig
 	usernameEnvVarName := pullSecretConfig.UsernameEnvironmentVariableName
 	passwordEnvVarName := pullSecretConfig.PasswordNameEnvironmentVariableName
 	scanSpec.ScanSpec.Env = append(scanSpec.ScanSpec.Env, getTemporarySecretEnvironmentVariableMount(imageID, scanConfig, usernameEnvVarName, passwordEnvVarName)...)
@@ -316,7 +316,7 @@ func getVolumesForSecrets(secrets []corev1.LocalObjectReference) ([]corev1.Volum
 	return volumes, mounts
 }
 
-func getSecretExtractionInitContainer(imageID string, scanConfig configv1.ScanConfig, volumeMounts []corev1.VolumeMount) corev1.Container {
+func getSecretExtractionInitContainer(imageID string, scanConfig config.ScanConfig, volumeMounts []corev1.VolumeMount) corev1.Container {
 	temporarySecretName := getTemporarySecretName(imageID, scanConfig)
 
 	return corev1.Container{
@@ -346,12 +346,12 @@ func getSecretExtractionInitContainer(imageID string, scanConfig configv1.ScanCo
 	}
 }
 
-func getTemporarySecretName(imageID string, scanConfig configv1.ScanConfig) string {
+func getTemporarySecretName(imageID string, scanConfig config.ScanConfig) string {
 	//limit name to kubernetes max length
 	return ("temporary-secret-" + getScanName(imageID, scanConfig))[:62]
 }
 
-func getTemporarySecretEnvironmentVariableMount(imageID string, scanConfig configv1.ScanConfig, usernameEnvVarName string, passwordEnvVarName string) []corev1.EnvVar {
+func getTemporarySecretEnvironmentVariableMount(imageID string, scanConfig config.ScanConfig, usernameEnvVarName string, passwordEnvVarName string) []corev1.EnvVar {
 	trueBool := true
 	return []corev1.EnvVar{
 		{
@@ -385,7 +385,7 @@ func (r *ContainerScanReconciler) checkForScanTypes(ctx context.Context, pod cor
 	result := true
 	namespace := r.getNamespace(ctx, pod)
 
-	scanConfigs := r.Config.ContainerAutoDiscoveryConfig.ScanConfigs
+	scanConfigs := r.Config.ContainerAutoDiscovery.ScanConfigs
 	for _, scanConfig := range scanConfigs {
 		scanTypeName := scanConfig.ScanType
 		scanType := executionv1.ScanType{}
@@ -407,13 +407,13 @@ func (r *ContainerScanReconciler) checkIfScansNeedToBeDeleted(ctx context.Contex
 	r.deleteScans(ctx, pod, imageIDsToBeDeleted)
 }
 
-func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, pod corev1.Pod, imageIDs []string) map[string][]configv1.ScanConfig {
-	result := make(map[string][]configv1.ScanConfig)
+func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, pod corev1.Pod, imageIDs []string) map[string][]config.ScanConfig {
+	result := make(map[string][]config.ScanConfig)
 
 	for _, imageID := range imageIDs {
 		cleanedImageID := cleanupImageID(imageID)
 
-		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
+		for _, scanConfig := range r.Config.ContainerAutoDiscovery.ScanConfigs {
 			scanName := getScanName(cleanedImageID, scanConfig)
 
 			var scan executionv1.ScheduledScan
@@ -452,7 +452,7 @@ func searchForImageIDInPods(pods []corev1.Pod, targetImageID string) bool {
 	return false
 }
 
-func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Pod, scansToBeDeleted map[string][]configv1.ScanConfig) {
+func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Pod, scansToBeDeleted map[string][]config.ScanConfig) {
 	for imageID, scanConfigs := range scansToBeDeleted {
 		for _, scanConfig := range scanConfigs {
 
@@ -473,18 +473,18 @@ func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Po
 	}
 }
 
-func (r *ContainerScanReconciler) getScan(ctx context.Context, pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig) (executionv1.ScheduledScan, error) {
+func (r *ContainerScanReconciler) getScan(ctx context.Context, pod corev1.Pod, imageID string, scanConfig config.ScanConfig) (executionv1.ScheduledScan, error) {
 	var scan executionv1.ScheduledScan
 	scanName := getScanName(imageID, scanConfig)
 	err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 	return scan, err
 }
 
-func getScanAnnotations(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
+func getScanAnnotations(scanConfig config.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
 	return util.ParseMapTemplate(templateArgs, scanConfig.Annotations)
 }
 
-func getScanLabels(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
+func getScanLabels(scanConfig config.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
 	generatedLabels := util.ParseMapTemplate(templateArgs, scanConfig.Labels)
 	generatedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 
@@ -493,7 +493,7 @@ func getScanLabels(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDis
 
 // SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ContainerScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs)
+	err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscovery.ScanConfigs)
 	if err != nil {
 		r.Log.Error(err, "Scan names are not unique")
 		return err

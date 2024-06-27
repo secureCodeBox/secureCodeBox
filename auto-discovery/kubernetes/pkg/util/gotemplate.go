@@ -10,7 +10,7 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -64,7 +64,7 @@ func ParseListTemplate(templateArgs interface{}, templates []string) []string {
 	return result
 }
 
-func generateVolumes(scanConfig configv1.ScanConfig, templateArgs interface{}) []corev1.Volume {
+func generateVolumes(scanConfig config.ScanConfig, templateArgs interface{}) []corev1.Volume {
 	volumes := make([]corev1.Volume, len(scanConfig.Volumes))
 	for i, volume := range scanConfig.Volumes {
 		templatedVolume := volume.DeepCopy()
@@ -80,7 +80,7 @@ func generateVolumes(scanConfig configv1.ScanConfig, templateArgs interface{}) [
 	return volumes
 }
 
-func generateVolumeMounts(scanConfig configv1.ScanConfig, templateArgs interface{}) []corev1.VolumeMount {
+func generateVolumeMounts(scanConfig config.ScanConfig, templateArgs interface{}) []corev1.VolumeMount {
 	volumeMounts := make([]corev1.VolumeMount, len(scanConfig.VolumeMounts))
 	for i, volumeMount := range scanConfig.VolumeMounts {
 		templatedVolumeMount := volumeMount.DeepCopy()
@@ -94,7 +94,7 @@ func generateVolumeMounts(scanConfig configv1.ScanConfig, templateArgs interface
 	return volumeMounts
 }
 
-func generateHookSelectors(scanConfig configv1.ScanConfig, templateArgs interface{}) *metav1.LabelSelector {
+func generateHookSelectors(scanConfig config.ScanConfig, templateArgs interface{}) *metav1.LabelSelector {
 	var hookSelector *metav1.LabelSelector = nil
 	if scanConfig.HookSelector.MatchExpressions != nil {
 		templatedMatchExpression := make([]metav1.LabelSelectorRequirement, len(scanConfig.HookSelector.MatchExpressions))
@@ -129,7 +129,7 @@ func generateHookSelectors(scanConfig configv1.ScanConfig, templateArgs interfac
 }
 
 // GenerateScanSpec takes in both autoDiscoveryConfig and scanConfig as this function might be used by other controllers in the future, which can then pass in the their relevant scanConfig into this function
-func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) executionv1.ScheduledScanSpec {
+func GenerateScanSpec(scanConfig config.ScanConfig, templateArgs interface{}) executionv1.ScheduledScanSpec {
 	parameters := scanConfig.Parameters
 
 	params := ParseListTemplate(templateArgs, parameters)
@@ -139,7 +139,7 @@ func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) 
 	hookSelector := generateHookSelectors(scanConfig, templateArgs)
 
 	scheduledScanSpec := executionv1.ScheduledScanSpec{
-		Interval: scanConfig.RepeatInterval,
+		Interval: metav1.Duration{Duration: scanConfig.RepeatInterval},
 		ScanSpec: &executionv1.ScanSpec{
 			ScanType:     scanConfig.ScanType,
 			Parameters:   params,

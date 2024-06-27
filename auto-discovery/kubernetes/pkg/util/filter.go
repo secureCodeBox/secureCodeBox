@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
@@ -38,14 +38,14 @@ func getNamespaceName(object client.Object) string {
 	return object.GetNamespace()
 }
 
-func GetPredicates(client client.Client, log logr.Logger, resourceInclusionMode configv1.ResourceInclusionMode) predicate.Predicate {
+func GetPredicates(client client.Client, log logr.Logger, resourceInclusionMode config.ResourceInclusionMode) predicate.Predicate {
 	log.Info("Setting up Predicate Filter", "resourceInclusionMode", resourceInclusionMode)
 
-	if resourceInclusionMode == configv1.EnabledPerResource {
+	if resourceInclusionMode == config.EnabledPerResource {
 		return getPredicatesForEnabledPerResource(client, log)
-	} else if resourceInclusionMode == configv1.All {
+	} else if resourceInclusionMode == config.All {
 		return getPredicatesForScanAll(client, log)
-	} else if resourceInclusionMode == configv1.EnabledPerNamespace {
+	} else if resourceInclusionMode == config.EnabledPerNamespace {
 		return getPredicatesForEnabledPerNamespace(client, log)
 	}
 
