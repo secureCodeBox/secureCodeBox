@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 async function parse(fileContent) {
-  const targets = parseResultFile(fileContent);
+  const targets = parseResultFile(fileContent.responses);
 
   if (process.env["DEBUG"] === "true") {
     console.log("Parsing Result File");
