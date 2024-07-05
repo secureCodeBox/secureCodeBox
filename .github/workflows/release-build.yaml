@@ -63,8 +63,8 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
           readme-filepath: ./${{ matrix.component }}/docs/README.DockerHub-Core.md
 
@@ -110,8 +110,8 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
           readme-filepath: ./auto-discovery/kubernetes/docs/README.DockerHub-Core.md
 
@@ -157,8 +157,8 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-pull-secret-extractor
           readme-filepath: ./auto-discovery/kubernetes/pull-secret-extractor/readme.md
 
@@ -270,8 +270,8 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
           readme-filepath: ./hooks/${{ matrix.hook }}/docs/README.DockerHub-Hook.md
 
@@ -392,8 +392,8 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
           readme-filepath: ./scanners/${{ matrix.parser }}/docs/README.DockerHub-Parser.md
 
@@ -477,8 +477,8 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
 
@@ -539,8 +539,8 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
   # ---- Build | Demo-Targets | Custom ----
@@ -601,7 +601,7 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/demo-target-${{ matrix.target }}
           readme-filepath: ./demo-targets/${{ matrix.target }}/docs/README.DockerHub-Target.md
