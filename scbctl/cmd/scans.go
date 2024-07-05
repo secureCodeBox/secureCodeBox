@@ -8,8 +8,10 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 
@@ -145,29 +147,43 @@ func NewScanCommand() *cobra.Command {
 }
 
 func followScanLogs(context context.Context, clientset *kubernetes.Clientset, namespace, scanName string) error {
-	podList, err := clientset.CoreV1().Pods(namespace).List(context, metav1.ListOptions{})
-	if err != nil {
-		return fmt.Errorf("failed to list pods: %s", err)
+	fmt.Printf("Waiting for scan '%s' to start...\n", scanName)
+
+	for {
+			podList, err := clientset.CoreV1().Pods(namespace).List(context, metav1.ListOptions{})
+			if err != nil {
+					return fmt.Errorf("failed to list pods: %s", err)
+			}
+
+			var podName string
+			for _, pod := range podList.Items {
+					if strings.HasPrefix(pod.Name, fmt.Sprintf("scan-%s-", scanName)) {
+							podName = pod.Name
+							break
+					}
+			}
+
+			if podName != "" {
+					fmt.Printf("📄 Following logs for pod '%s', container 'nmap'\n", podName)
+
+					req := clientset.CoreV1().Pods(namespace).GetLogs(podName, &corev1.PodLogOptions{
+							Follow:    true,
+							Container: scanName,
+					})
+					readCloser, err := req.Stream(context)
+					if err != nil {
+							return fmt.Errorf("failed to stream logs: %s", err)
+					}
+					defer readCloser.Close()
+
+					_, err = io.Copy(os.Stdout, readCloser)
+					if err != nil && err != io.EOF {
+							return fmt.Errorf("error copying log output: %s", err)
+					}
+
+					return nil
+			}
+
+			time.Sleep(2 * time.Second)
 	}
-
-	if len(podList.Items) == 0 {
-		return fmt.Errorf("no pods found for scan '%s'", scanName)
-	}
-
-	podName := podList.Items[0].Name
-	fmt.Printf("📄 Following logs for pod '%s'\n", podName)
-
-	req := clientset.CoreV1().Pods(namespace).GetLogs(podName, &corev1.PodLogOptions{Follow: true})
-	readCloser, err := req.Stream(context)
-	if err != nil {
-		return fmt.Errorf("failed to stream logs: %s", err)
-	}
-	defer readCloser.Close()
-
-	_, err = io.Copy(io.Discard, readCloser)
-	if err != nil {
-		return fmt.Errorf("error copying log output: %s", err)
-	}
-
-	return nil
 }
