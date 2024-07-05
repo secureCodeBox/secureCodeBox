@@ -98,6 +98,10 @@ Please have a look at [Contributing](./CONTRIBUTING.md)
 
 ![Awesome Contributors](https://contrib.rocks/image?repo=secureCodeBox/secureCodeBox)
 
+### Stargazers over time
+
+[![Star History Chart](https://api.star-history.com/svg?repos=secureCodeBox/secureCodeBox&type=Date)](https://star-history.com/#secureCodeBox/secureCodeBox&Date)
+
 ## Sponsors
 
 <p align="left">
