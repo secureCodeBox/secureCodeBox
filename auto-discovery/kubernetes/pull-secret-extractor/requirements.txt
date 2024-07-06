@@ -1,5 +1,5 @@
 cachetools==5.2.1
-certifi==2023.7.22
+certifi==2024.7.4
 charset-normalizer==3.0.1
 google-auth==2.16.0
 idna==3.7
