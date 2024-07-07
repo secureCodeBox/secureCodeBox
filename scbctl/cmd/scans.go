@@ -5,15 +5,14 @@ package cmd
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
 	"strings"
 	"time"
 
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	client "github.com/secureCodeBox/secureCodeBox/scbctl/pkg"
 
 	"github.com/spf13/cobra"
 	corev1 "k8s.io/api/core/v1"
@@ -22,10 +21,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/tools/clientcmd"
-	"k8s.io/client-go/util/homedir"
 )
 
 func NewScanCommand() *cobra.Command {
@@ -61,22 +57,7 @@ func NewScanCommand() *cobra.Command {
 			}
 
 			parameters := args[paramIndex:]
-			var kubeconfig *string
-			if home := homedir.HomeDir(); home != "" {
-				kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
-			} else {
-				kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
-			}
-			flag.Parse()
-			config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
-			if err != nil {
-				return fmt.Errorf("error building kubeconfig: %s", err)
-			}
-
-			clientset, err := kubernetes.NewForConfig(config)
-			if err != nil {
-				return fmt.Errorf("error creating kubernetes client: %s", err)
-			}
+			clientset, dynamicClient, err := client.GetClient(kubeconfigArgs)
 
 			namespace := metav1.NamespaceDefault
 			if namespaceFlag, err := cmd.Flags().GetString("namespace"); err == nil && namespaceFlag != "" {
@@ -84,12 +65,6 @@ func NewScanCommand() *cobra.Command {
 			}
 
 			fmt.Printf("🆕 Creating a new scan with name '%s' and parameters '%s'\n", scanName, strings.Join(parameters, " "))
-
-			dynamicClient, err := dynamic.NewForConfig(config)
-			if err != nil {
-				return fmt.Errorf("Error creating dynamicClient %s", err)
-			}
-
 			scan := &v1.Scan{
 				TypeMeta: metav1.TypeMeta{
 					Kind:       "Scan",
