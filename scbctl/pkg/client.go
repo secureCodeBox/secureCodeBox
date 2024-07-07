@@ -58,24 +58,5 @@ func GetClient(flags *genericclioptions.ConfigFlags) (*kubernetes.Clientset, *dy
 	if err != nil {
 		return nil, nil, fmt.Errorf("Error creating dynamic Client %s", err)
 	}
-	// cnfLoader := flags.ToRawKubeConfigLoader()
-
-	// cnf, err := cnfLoader.ClientConfig()
-	// if err != nil {
-	// 	return nil, "", fmt.Errorf("failed to generate config from kubeconfig")
-	// }
-
-	// namespace, _, err := cnfLoader.Namespace()
-	// if err != nil {
-	// 	return nil, "", fmt.Errorf("failed to read namespace from kubeconfig")
-	// }
-
-	// utilruntime.Must(v1.AddToScheme(scheme))
-
-	// client, err := client.New(cnf, client.Options{Scheme: scheme})
-	// if err != nil {
-	// 	return nil, "", err
-	// }
-
 	return clientset, dynamicClient, nil
 }
