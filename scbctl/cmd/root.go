@@ -24,6 +24,7 @@ func NewRootCommand() *cobra.Command {
 	kubeconfigArgs.AddFlags(rootCmd.PersistentFlags())
 
 	rootCmd.AddCommand(NewScanCommand())
+	rootCmd.AddCommand(NewTriggerCommand())
 
 	return rootCmd
 }
