@@ -22,6 +22,9 @@ func NewTriggerCommand() *cobra.Command {
 		SilenceUsage: true,
 
 		RunE:  func(cmd *cobra.Command, args []string) error {
+			if len(args) < 1 {
+				return fmt.Errorf("you must specify a scheduled scan name")
+			}
 			scheduledScanName := args[0]
 			kubeclient, namespace, err := clientProvider.GetClient(kubeconfigArgs)
 			if err != nil {
@@ -37,7 +40,7 @@ func NewTriggerCommand() *cobra.Command {
 			err = kubeclient.Get(context.TODO(), types.NamespacedName{Name: scheduledScanName, Namespace: namespace}, &scan)
 			if err != nil {
 				if apierrors.IsNotFound(err) {
-					return fmt.Errorf("could not find ScheduledScan '%s' in namespace '%s'\n", scheduledScanName, namespace)
+					return fmt.Errorf("could not find ScheduledScan '%s' in namespace '%s'", scheduledScanName, namespace)
 				} else {
 					panic(err)
 				}
