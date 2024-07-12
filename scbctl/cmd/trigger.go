@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
 package cmd
 
 import (
@@ -10,25 +13,25 @@ import (
 	"github.com/spf13/cobra"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
-
 
 func NewTriggerCommand() *cobra.Command {
 	triggerCmd := &cobra.Command{
-		Use: "trigger [filename]",
-		Short: "Trigger a new scheduled scan",
-		Long: `Trigger a new scan custom ressource in the current namespace`,
-		Example: ``,
+		Use:          "trigger [filename]",
+		Short:        "Trigger a new scheduled scan",
+		Long:         `Trigger a new scan custom resource in the current namespace`,
+		Example:      ``,
 		SilenceUsage: true,
 
-		RunE:  func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) < 1 {
 				return fmt.Errorf("you must specify a scheduled scan name")
 			}
 			scheduledScanName := args[0]
 			kubeclient, namespace, err := clientProvider.GetClient(kubeconfigArgs)
 			if err != nil {
-				return fmt.Errorf("error initializing kubernetes clinet, your kubeconfig is likely malformed or invalid ")
+				return fmt.Errorf("error initializing kubernetes client, your kubeconfig is likely malformed or invalid")
 			}
 
 			if namespaceFlag, err := cmd.Flags().GetString("namespace"); err == nil && namespaceFlag != "" {
@@ -48,9 +51,34 @@ func NewTriggerCommand() *cobra.Command {
 
 			utils.RetriggerScheduledScan(context.TODO(), kubeclient.Status(), scan)
 			fmt.Printf("triggered new Scan for ScheduledScan '%s'\n", scheduledScanName)
-		
 
 			return nil
+		},
+		ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+			kubeclient, namespace, err := clientProvider.GetClient(kubeconfigArgs)
+			if err != nil {
+				fmt.Printf("Error initializing kubernetes client: %v\n", err)
+				return nil, cobra.ShellCompDirectiveError
+			}
+
+			if namespaceFlag, err := cmd.Flags().GetString("namespace"); err == nil && namespaceFlag != "" {
+				namespace = namespaceFlag
+			}
+
+			var scans v1.ScheduledScanList
+
+			err = kubeclient.List(context.TODO(), &scans, client.InNamespace(namespace))
+			if err != nil {
+				fmt.Printf("Error listing ScheduledScans: %v\n", err)
+				return nil, cobra.ShellCompDirectiveError
+			}
+
+			scanNames := make([]string, len(scans.Items))
+			for i, scan := range scans.Items {
+				scanNames[i] = scan.Name
+			}
+
+			return scanNames, cobra.ShellCompDirectiveDefault
 		},
 	}
 
