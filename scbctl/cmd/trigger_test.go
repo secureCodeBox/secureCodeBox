@@ -41,13 +41,13 @@ func TestTriggerCommand(t *testing.T) {
 		{
 			name:      "Should trigger a scheduled scan successfully",
 			args:      []string{"trigger", "nmap"},
-			namespace: "default",
+			namespace: "foobar",
 			expectedError: nil,
 			setup: func(client client.Client) {
 				scan := &v1.ScheduledScan{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      "nmap",
-						Namespace: "default",
+						Namespace: "foobar",
 					},
 				}
 				client.Create(context.Background(), scan)
@@ -56,8 +56,8 @@ func TestTriggerCommand(t *testing.T) {
 		{
 			name:          "Should return error if scheduled scan not found",
 			args:          []string{"trigger", "nonexistent-scan"},
-			namespace:     "default",
-			expectedError: errors.New("could not find ScheduledScan 'nonexistent-scan' in namespace 'default'"),
+			namespace:     "foobar",
+			expectedError: errors.New("could not find ScheduledScan 'nonexistent-scan' in namespace 'foobar'"),
 			setup:         func(client.Client) {},
 		},
 		{
@@ -70,7 +70,7 @@ func TestTriggerCommand(t *testing.T) {
 		{
 			name:      "Should trigger a scheduled scan in a custom namespace",
 			args:      []string{"trigger", "nmap", "--namespace", "foobar"},
-			namespace: "custom-namespace",
+			namespace: "custom-ns",
 			expectedError: nil,
 			setup: func(client client.Client) {
 				scan := &v1.ScheduledScan{
