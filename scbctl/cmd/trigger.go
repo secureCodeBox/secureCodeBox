@@ -20,14 +20,18 @@ func NewTriggerCommand() *cobra.Command {
 	triggerCmd := &cobra.Command{
 		Use:          "trigger [filename]",
 		Short:        "Trigger a new scheduled scan",
-		Long:         `Trigger a new scan custom resource in the current namespace`,
-		Example:      ``,
+		Long:         `Trigger a new execution (Scan) of a ScheduledScan, ahead of its usual execution schedule.`,
+		Args: cobra.MinimumNArgs(1),
+		Example:      `
+		# Trigger a new scan for a ScheduledScan
+		scbctl trigger nmap
+
+		# Trigger in a different namespace
+		scbctl trigger nmap --namespace foobar
+		`,
 		SilenceUsage: true,
 
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if len(args) < 1 {
-				return fmt.Errorf("you must specify a scheduled scan name")
-			}
 			scheduledScanName := args[0]
 			kubeclient, namespace, err := clientProvider.GetClient(kubeconfigArgs)
 			if err != nil {
