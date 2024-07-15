@@ -64,7 +64,7 @@ func TestTriggerCommand(t *testing.T) {
 			name:          "Should return error if no scan name is provided",
 			args:          []string{"trigger"},
 			namespace:     "default",
-			expectedError: errors.New("you must specify a scheduled scan name"),
+			expectedError: errors.New("requires at least 1 arg(s), only received 0"),
 			setup:         func(client.Client) {},
 		},
 		{
