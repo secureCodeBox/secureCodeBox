@@ -55,3 +55,4 @@ Committing with `git commit -s` will add the sign-off at the end of the commit m
 - Boris Shek <boris.shek@iteratec.com>
 - Kamiren Dawkins <kamiren@dawkins.dev>
 - Tobias Stenby Brixen <kind.job1347@fastmail.com>
+- Eline Henriksen <mains.moon.0x@icloud.com>
