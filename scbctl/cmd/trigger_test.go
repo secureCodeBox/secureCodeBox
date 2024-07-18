@@ -64,7 +64,7 @@ func TestTriggerCommand(t *testing.T) {
 			name:          "Should return error if no scan name is provided",
 			args:          []string{"trigger"},
 			namespace:     "default",
-			expectedError: errors.New("requires at least 1 arg(s), only received 0"),
+			expectedError: errors.New("accepts 1 arg(s), received 0"),
 			setup:         func(client.Client) {},
 		},
 		{

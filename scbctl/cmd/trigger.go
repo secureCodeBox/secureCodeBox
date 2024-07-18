@@ -21,7 +21,7 @@ func NewTriggerCommand() *cobra.Command {
 		Use:   "trigger [scheduledScan name]",
 		Short: "Trigger a scheduled scan",
 		Long:  `Trigger a new execution (Scan) of a ScheduledScan, ahead of its usual execution schedule.`,
-		Args:  cobra.MinimumNArgs(1),
+		Args:  cobra.ExactArgs(1),
 		Example: `
 		# Trigger a new scan for ScheduledScan "nmap"
 		scbctl trigger nmap
