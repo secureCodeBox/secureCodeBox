@@ -44,9 +44,9 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		if err := r.Get(ctx, types.NamespacedName{Name: parseType, Namespace: scan.Namespace}, &parseDefinition); err != nil {
 			log.V(7).Info("Unable to fetch ParseDefinition")
 
-			scan.Status.State = "Errored"
+			scan.Status.State = executionv1.ScanStateErrored
 			scan.Status.ErrorDescription = fmt.Sprintf("No ParseDefinition for ResultType '%s' found in Scans Namespace.", parseType)
-			if err := r.Status().Update(ctx, scan); err != nil {
+			if err := r.updateScanStatus(ctx, scan); err != nil {
 				r.Log.Error(err, "unable to update Scan status")
 				return err
 			}
@@ -60,9 +60,9 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		if err := r.Get(ctx, types.NamespacedName{Name: parseType}, &clusterParseDefinition); err != nil {
 			log.V(7).Info("Unable to fetch ClusterParseDefinition")
 
-			scan.Status.State = "Errored"
+			scan.Status.State = executionv1.ScanStateErrored
 			scan.Status.ErrorDescription = fmt.Sprintf("No ClusterParseDefinition for ResultType '%s' found.", parseType)
-			if err := r.Status().Update(ctx, scan); err != nil {
+			if err := r.updateScanStatus(ctx, scan); err != nil {
 				r.Log.Error(err, "unable to update Scan status")
 				return err
 			}
@@ -250,8 +250,8 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		return err
 	}
 
-	scan.Status.State = "Parsing"
-	if err := r.Status().Update(ctx, scan); err != nil {
+	scan.Status.State = executionv1.ScanStateParsing
+	if err := r.updateScanStatus(ctx, scan); err != nil {
 		log.Error(err, "unable to update Scan status")
 		return err
 	}
@@ -271,15 +271,15 @@ func (r *ScanReconciler) checkIfParsingIsCompleted(scan *executionv1.Scan) error
 	switch status {
 	case completed:
 		r.Log.V(7).Info("Parsing is completed")
-		scan.Status.State = "ParseCompleted"
-		if err := r.Status().Update(ctx, scan); err != nil {
+		scan.Status.State = executionv1.ScanStateParseCompleted
+		if err := r.updateScanStatus(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
 		}
 	case failed:
-		scan.Status.State = "Errored"
+		scan.Status.State = executionv1.ScanStateErrored
 		scan.Status.ErrorDescription = "Failed to run the Parser. This is likely a Bug, we would like to know about. Please open up a Issue on GitHub."
-		if err := r.Status().Update(ctx, scan); err != nil {
+		if err := r.updateScanStatus(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
 		}

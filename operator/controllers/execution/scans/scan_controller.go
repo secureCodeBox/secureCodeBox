@@ -43,6 +43,22 @@ var (
 // https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
 var s3StorageFinalizer = "s3.storage.securecodebox.io"
 
+type ScanStatus string
+
+const (
+	ScanStatusInit                       ScanStatus = "Init"
+	ScanStatusScanning                   ScanStatus = "Scanning"
+	ScanStatusScanCompleted              ScanStatus = "ScanCompleted"
+	ScanStatusParsing                    ScanStatus = "Parsing"
+	ScanStatusParseCompleted             ScanStatus = "ParseCompleted"
+	ScanStatusHookProcessing             ScanStatus = "HookProcessing"
+	ScanStatusReadAndWriteHookProcessing ScanStatus = "ReadAndWriteHookProcessing"
+	ScanStatusReadAndWriteHookCompleted  ScanStatus = "ReadAndWriteHookCompleted"
+	ScanStatusReadOnlyHookProcessing     ScanStatus = "ReadOnlyHookProcessing"
+	ScanStatusErrored                    ScanStatus = "Errored"
+	ScanStatusDone                       ScanStatus = "Done"
+)
+
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scantypes,verbs=get;list;watch
@@ -81,7 +97,7 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 	// Handle Finalizer if the scan is getting deleted
 	if !scan.ObjectMeta.DeletionTimestamp.IsZero() {
 		// Check if this Scan has not yet been converted to new CRD
-		if scan.Status.OrderedHookStatuses == nil && scan.Status.ReadAndWriteHookStatus != nil && scan.Status.State == "Done" {
+		if scan.Status.OrderedHookStatuses == nil && scan.Status.ReadAndWriteHookStatus != nil && scan.Status.State == executionv1.ScanStateDone {
 			if err := r.migrateHookStatus(&scan); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -94,23 +110,23 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 
 	var err error
 	switch state {
-	case "Init":
+	case executionv1.ScanStateInit:
 		err = r.startScan(&scan)
-	case "Scanning":
+	case executionv1.ScanStateScanning:
 		err = r.checkIfScanIsCompleted(&scan)
-	case "ScanCompleted":
+	case executionv1.ScanStateScanCompleted:
 		err = r.startParser(&scan)
-	case "Parsing":
+	case executionv1.ScanStateParsing:
 		err = r.checkIfParsingIsCompleted(&scan)
-	case "ParseCompleted":
+	case executionv1.ScanStateParseCompleted:
 		err = r.setHookStatus(&scan)
-	case "HookProcessing":
+	case executionv1.ScanStateHookProcessing:
 		err = r.executeHooks(&scan)
-	case "ReadAndWriteHookProcessing":
+	case executionv1.ScanStateReadAndWriteHookProcessing:
 		fallthrough
-	case "ReadAndWriteHookCompleted":
+	case executionv1.ScanStateReadAndWriteHookCompleted:
 		fallthrough
-	case "ReadOnlyHookProcessing":
+	case executionv1.ScanStateReadOnlyHookProcessing:
 		err = r.migrateHookStatus(&scan)
 	}
 	if err != nil {
@@ -224,6 +240,14 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 	}
 
 	return minioClient
+}
+
+func (r *ScanReconciler) updateScanStatus(ctx context.Context, scan *executionv1.Scan) error {
+	if err := r.Status().Update(ctx, scan); err != nil {
+		r.Log.Error(err, "unable to update Scan status")
+		return err
+	}
+	return nil
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs

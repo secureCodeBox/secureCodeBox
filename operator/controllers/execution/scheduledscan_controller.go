@@ -244,7 +244,7 @@ func getAnnotationsForScan(scheduledScan executionv1.ScheduledScan) map[string]s
 }
 
 // Returns a sorted list of scans with a matching state
-func getScansWithState(scans []executionv1.Scan, state string) []executionv1.Scan {
+func getScansWithState(scans []executionv1.Scan, state executionv1.ScanState) []executionv1.Scan {
 	// Get a sorted list of scans.
 	var newScans []executionv1.Scan
 	for _, scan := range scans {
@@ -264,7 +264,7 @@ func getScansInProgress(scans []executionv1.Scan) []executionv1.Scan {
 	// Get a sorted list of scans.
 	var newScans []executionv1.Scan
 	for _, scan := range scans {
-		if scan.Status.State != "Done" && scan.Status.State != "Errored" {
+		if scan.Status.State != executionv1.ScanStateDone && scan.Status.State != executionv1.ScanStateErrored {
 			newScans = append(newScans, scan)
 		}
 	}
