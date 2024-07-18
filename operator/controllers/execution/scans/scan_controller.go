@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	"github.com/prometheus/client_golang/prometheus"
 	batch "k8s.io/api/batch/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -87,12 +88,12 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	state := scan.Status.State
-	if state == "" {
-		state = "Init"
+	if scan.Status.State == "" {
+		scan.Status.State = executionv1.ScanStateInit
+		updateScanStateMetrics(scan)
 	}
 
-	log.V(5).Info("Scan Found", "Type", scan.Spec.ScanType, "State", state)
+	log.V(5).Info("Scan Found", "Type", scan.Spec.ScanType, "State", scan.Status.State)
 
 	// Handle Finalizer if the scan is getting deleted
 	if !scan.ObjectMeta.DeletionTimestamp.IsZero() {
@@ -109,7 +110,7 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 	}
 
 	var err error
-	switch state {
+	switch scan.Status.State {
 	case executionv1.ScanStateInit:
 		err = r.startScan(&scan)
 	case executionv1.ScanStateScanning:
@@ -242,7 +243,21 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 	return minioClient
 }
 
+func updateScanStateMetrics(scan executionv1.Scan) {
+	if scan.Status.State == executionv1.ScanStateInit {
+		scansStartedMetric.With(prometheus.Labels{commonMetricLabelScanType: scan.Spec.ScanType}).Inc()
+	}
+	if scan.Status.State == executionv1.ScanStateErrored {
+		scansErroredMetric.With(prometheus.Labels{commonMetricLabelScanType: scan.Spec.ScanType}).Inc()
+	}
+	if scan.Status.State == executionv1.ScanStateDone {
+		scansDoneMetric.With(prometheus.Labels{commonMetricLabelScanType: scan.Spec.ScanType}).Inc()
+	}
+}
+
 func (r *ScanReconciler) updateScanStatus(ctx context.Context, scan *executionv1.Scan) error {
+	updateScanStateMetrics(*scan)
+
 	if err := r.Status().Update(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
 		return err
