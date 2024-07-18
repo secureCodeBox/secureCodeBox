@@ -219,6 +219,9 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		parseDefinitionSpec.Volumes...,
 	)
 
+	// Merge NodeSelectors from ParseDefinition & Scan into Parse Job
+	job.Spec.Template.Spec.NodeSelector = util.MergeStringMaps(job.Spec.Template.Spec.NodeSelector, parseDefinitionSpec.NodeSelector, scan.Spec.NodeSelector)
+
 	// Set affinity based on scan, if defined, or parseDefinition if not overridden by scan
 	if scan.Spec.Affinity != nil {
 		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
