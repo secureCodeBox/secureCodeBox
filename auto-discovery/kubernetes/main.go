@@ -72,8 +72,9 @@ func main() {
 		Metrics: server.Options{
 			BindAddress: ctrlConfig.Metrics.BindAddress,
 		},
-		LeaderElection:   ctrlConfig.LeaderElection.LeaderElect,
-		LeaderElectionID: ctrlConfig.LeaderElection.ResourceName,
+		HealthProbeBindAddress: ctrlConfig.Health.HealthProbeBindAddress,
+		LeaderElection:         ctrlConfig.LeaderElection.LeaderElect,
+		LeaderElectionID:       ctrlConfig.LeaderElection.ResourceName,
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")

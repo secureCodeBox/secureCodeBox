@@ -9,10 +9,11 @@ kind: AutoDiscoveryConfig
 
 # kubebuilder config
 
+health:
+  healthProbeBindAddress: 127.0.0.1:8081
 metrics:
-  bindAddress: 127.0.0.1:8081
-# webhook:
-#   port: 9443
+  bindAddress: 127.0.0.1:8080
+
 leaderElection:
   leaderElect: false
   resourceName: 80807133.tutorial.kubebuilder.io
