@@ -15,6 +15,7 @@ type AutoDiscoveryConfig struct {
 	metav1.TypeMeta `json:",inline"`
 
 	Metrics        MetricsConfig        `json:"metrics"`
+	Health         HealthConfig         `json:"health"`
 	LeaderElection LeaderElectionConfig `json:"leaderElection"`
 
 	Cluster                ClusterConfig                `json:"cluster"`
@@ -25,6 +26,10 @@ type AutoDiscoveryConfig struct {
 
 type MetricsConfig struct {
 	BindAddress string `json:"bindAddress"`
+}
+
+type HealthConfig struct {
+	HealthProbeBindAddress string `json:"healthProbeBindAddress"`
 }
 
 type LeaderElectionConfig struct {
