@@ -266,6 +266,9 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 		},
 	)
 
+	// Merge NodeSelectors from Scan into Scan job
+	job.Spec.Template.Spec.NodeSelector = util.MergeStringMaps(job.Spec.Template.Spec.NodeSelector, scan.Spec.NodeSelector)
+
 	// Get lurker image config from env
 	lurkerImage := os.Getenv("LURKER_IMAGE")
 	if lurkerImage == "" {
