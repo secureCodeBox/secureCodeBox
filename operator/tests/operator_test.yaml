@@ -19,3 +19,18 @@ tests:
       podSecurityContext: {fsGroup: 1234}
     asserts:
       - matchSnapshot: {}
+  - it: properly-renders-the-service-monitor-when-enabled
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      imagePullSecrets: [{name: foo}]
+      customCACertificate.existingCertificate: foo
+      serviceaccount: {create: true, annotations: {foo: bar}, name: foo}
+      podSecurityContext: {fsGroup: 1234}
+
+      metrics:
+        serviceMonitor:
+          enabled: true
+    asserts:
+      - matchSnapshot: {}
