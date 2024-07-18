@@ -2,6 +2,22 @@ matches the snapshot:
   1: |
     raw: "\nsecureCodeBox Operator Deployed \U0001F680\n\nThe operator can orchestrate the execution of various security scanning tools inside of your cluster.\nYou can find a list of all officially supported scanners here: https://www.securecodebox.io/\nThe website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.\n\nThe operator send out regular telemetry pings to a central service.\nThis lets us, the secureCodeBox team, get a grasp on how much the secureCodeBox is used.\nThe submitted data is chosen to be as anonymous as possible.\nYou can find a complete report of the data submitted and links to the source-code at: https://www.securecodebox.io/docs/telemetry\nThe first ping is send one hour after the install, you can prevent this by upgrading the chart and setting `telemetryEnabled` to `false`.\n"
   2: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/name: securecodebox-operator-metrics
+      name: securecodebox-operator-metrics
+    spec:
+      ports:
+        - name: metrics
+          port: 8080
+          protocol: TCP
+          targetPort: metrics
+      selector:
+        control-plane: securecodebox-controller-manager
+      type: ClusterIP
+  3: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -66,14 +82,19 @@ matches the snapshot:
               livenessProbe:
                 httpGet:
                   path: /healthz
-                  port: 8081
+                  port: healthchecks
                 initialDelaySeconds: 15
                 periodSeconds: 20
               name: manager
+              ports:
+                - containerPort: 8080
+                  name: metrics
+                - containerPort: 8081
+                  name: healthchecks
               readinessProbe:
                 httpGet:
                   path: /readyz
-                  port: 8081
+                  port: healthchecks
                 initialDelaySeconds: 5
                 periodSeconds: 10
               resources:
@@ -105,63 +126,7 @@ matches the snapshot:
             - configMap:
                 name: foo
               name: ca-certificate
-  3: |
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRole
-    metadata:
-      name: metrics-reader
-    rules:
-      - nonResourceURLs:
-          - /metrics
-        verbs:
-          - get
   4: |
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRole
-    metadata:
-      name: proxy-role
-    rules:
-      - apiGroups:
-          - authentication.k8s.io
-        resources:
-          - tokenreviews
-        verbs:
-          - create
-      - apiGroups:
-          - authorization.k8s.io
-        resources:
-          - subjectaccessreviews
-        verbs:
-          - create
-  5: |
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: proxy-rolebinding
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: proxy-role
-    subjects:
-      - kind: ServiceAccount
-        name: securecodebox-operator
-        namespace: NAMESPACE
-  6: |
-    apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        control-plane: controller-manager
-      name: controller-manager-metrics-service
-      namespace: NAMESPACE
-    spec:
-      ports:
-        - name: https
-          port: 8443
-          targetPort: https
-      selector:
-        control-plane: controller-manager
-  7: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -185,7 +150,7 @@ matches the snapshot:
           - cascadingrules/status
         verbs:
           - get
-  8: |
+  5: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -205,7 +170,7 @@ matches the snapshot:
           - cascadingrules/status
         verbs:
           - get
-  9: |
+  6: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
     metadata:
@@ -242,7 +207,7 @@ matches the snapshot:
         verbs:
           - create
           - patch
-  10: |
+  7: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
     metadata:
@@ -255,7 +220,7 @@ matches the snapshot:
       - kind: ServiceAccount
         name: securecodebox-operator
         namespace: NAMESPACE
-  11: |
+  8: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -279,7 +244,7 @@ matches the snapshot:
           - parsedefinitions/status
         verbs:
           - get
-  12: |
+  9: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -299,7 +264,7 @@ matches the snapshot:
           - parsedefinitions/status
         verbs:
           - get
-  13: |
+  10: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -430,7 +395,7 @@ matches the snapshot:
           - list
           - update
           - watch
-  14: |
+  11: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
@@ -443,7 +408,7 @@ matches the snapshot:
       - kind: ServiceAccount
         name: securecodebox-operator
         namespace: NAMESPACE
-  15: |
+  12: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -467,7 +432,7 @@ matches the snapshot:
           - scans/status
         verbs:
           - get
-  16: |
+  13: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -487,7 +452,7 @@ matches the snapshot:
           - scans/status
         verbs:
           - get
-  17: |
+  14: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -511,7 +476,7 @@ matches the snapshot:
           - scancompletionhooks/status
         verbs:
           - get
-  18: |
+  15: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -531,7 +496,7 @@ matches the snapshot:
           - scancompletionhooks/status
         verbs:
           - get
-  19: |
+  16: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -555,7 +520,7 @@ matches the snapshot:
           - scantypes/status
         verbs:
           - get
-  20: |
+  17: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -575,7 +540,7 @@ matches the snapshot:
           - scantypes/status
         verbs:
           - get
-  21: |
+  18: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -599,7 +564,7 @@ matches the snapshot:
           - scheduledscans/status
         verbs:
           - get
-  22: |
+  19: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -619,7 +584,7 @@ matches the snapshot:
           - scheduledscans/status
         verbs:
           - get
-  23: |
+  20: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
