@@ -57,6 +57,12 @@ podSecurityContext: {}
 
 nodeSelector: {}
 
+# -- Configuration for the metrics the operator exports
+metrics:
+  serviceMonitor:
+    # -- Creates a prometheus operator ServiceMonitor rule to automatically scrape the operators metrics: https://github.com/prometheus-operator/prometheus-operator
+    enabled: false
+
 lurker:
   image:
     # lurker.image.repository -- The operator image repository

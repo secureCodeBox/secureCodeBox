@@ -91,6 +91,21 @@ s3:
   keySecret: gcs-bucket-credentials
 ```
 
+### Prometheus Metrics
+
+If you want to monitor the scans managed by your secureCodeBox Operator you can use the [Prometheus](https://prometheus.io/) metrics that the operator provides.
+To use them you need to configure your prometheus instance to scrape these metrics from port 8080 of the operator pod.
+
+If you are using the prometheus operator you can enable metric collection by enabling the service monitoring included in the operators helm chart.
+To do that you need to set the `metrics.serviceMonitor.enabled` flag to `true`.
+
+```bash
+helm --namespace securecodebox-system upgrade --install --create-namespace securecodebox-operator oci://ghcr.io/securecodebox/helm/operator --set="metrics.serviceMonitor.enabled=true"
+```
+
+Custom metrics from the secureCodeBox operator are prefixed with: `securecodebox_`.
+You can list them, together with an explanation in your prometheus / grafana explore view.
+
 ## Install SCB Scanner
 
 The following list will give you a short overview of all supported security scanner charts and how to install them.
