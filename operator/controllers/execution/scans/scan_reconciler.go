@@ -63,7 +63,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 				return err
 			}
 
-			return fmt.Errorf("No ScanType of type '%s' found", scan.Spec.ScanType)
+			return fmt.Errorf("no ScanType of type '%s' found", scan.Spec.ScanType)
 		}
 		log.Info("Matching ScanType Found", "ScanType", scanType.Name)
 		scanTypeSpec = scanType.Spec
@@ -81,7 +81,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 				return err
 			}
 
-			return fmt.Errorf("No ClusterScanType of type '%s' found", scan.Spec.ScanType)
+			return fmt.Errorf("no ClusterScanType of type '%s' found", scan.Spec.ScanType)
 		}
 		log.Info("Matching ClusterScanType Found", "ClusterScanType", clusterScanType.Name)
 		scanTypeSpec = clusterScanType.Spec
@@ -286,7 +286,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 	case "":
 		lurkerPullPolicy = corev1.PullAlways
 	default:
-		return nil, fmt.Errorf("Unknown imagePull Policy for lurker: %s", lurkerPullPolicyRaw)
+		return nil, fmt.Errorf("unknown imagePull Policy for lurker: %s", lurkerPullPolicyRaw)
 	}
 
 	falsePointer := false

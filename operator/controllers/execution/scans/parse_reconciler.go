@@ -51,7 +51,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 				return err
 			}
 
-			return fmt.Errorf("No ParseDefinition of type '%s' found", parseType)
+			return fmt.Errorf("no ParseDefinition of type '%s' found", parseType)
 		}
 		log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
 		parseDefinitionSpec = parseDefinition.Spec
@@ -67,7 +67,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 				return err
 			}
 
-			return fmt.Errorf("No ClusterParseDefinition of type '%s' found", parseType)
+			return fmt.Errorf("no ClusterParseDefinition of type '%s' found", parseType)
 		}
 		log.Info("Matching ClusterParseDefinition Found", "ClusterParseDefinition", parseType)
 		parseDefinitionSpec = clusterParseDefinition.Spec
