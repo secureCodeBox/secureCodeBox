@@ -391,8 +391,10 @@ func (in *ParseDefinitionSpec) DeepCopyInto(out *ParseDefinitionSpec) {
 	}
 	if in.NodeSelector != nil {
 		in, out := &in.NodeSelector, &out.NodeSelector
-		*out = new(corev1.NodeSelector)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.Affinity != nil {
 		in, out := &in.Affinity, &out.Affinity
@@ -551,8 +553,10 @@ func (in *ScanCompletionHookSpec) DeepCopyInto(out *ScanCompletionHookSpec) {
 	}
 	if in.NodeSelector != nil {
 		in, out := &in.NodeSelector, &out.NodeSelector
-		*out = new(corev1.NodeSelector)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.Affinity != nil {
 		in, out := &in.Affinity, &out.Affinity
@@ -684,8 +688,10 @@ func (in *ScanSpec) DeepCopyInto(out *ScanSpec) {
 	}
 	if in.NodeSelector != nil {
 		in, out := &in.NodeSelector, &out.NodeSelector
-		*out = new(corev1.NodeSelector)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.Affinity != nil {
 		in, out := &in.Affinity, &out.Affinity
