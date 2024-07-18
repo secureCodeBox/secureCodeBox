@@ -148,9 +148,25 @@ type ScanSpec struct {
 	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
+type ScanState string
+
+const (
+	ScanStateInit                       ScanState = "Init"
+	ScanStateScanning                   ScanState = "Scanning"
+	ScanStateScanCompleted              ScanState = "ScanCompleted"
+	ScanStateParsing                    ScanState = "Parsing"
+	ScanStateParseCompleted             ScanState = "ParseCompleted"
+	ScanStateHookProcessing             ScanState = "HookProcessing"
+	ScanStateReadAndWriteHookProcessing ScanState = "ReadAndWriteHookProcessing"
+	ScanStateReadAndWriteHookCompleted  ScanState = "ReadAndWriteHookCompleted"
+	ScanStateReadOnlyHookProcessing     ScanState = "ReadOnlyHookProcessing"
+	ScanStateErrored                    ScanState = "Errored"
+	ScanStateDone                       ScanState = "Done"
+)
+
 // ScanStatus defines the observed state of Scan
 type ScanStatus struct {
-	State string `json:"state,omitempty"`
+	State ScanState `json:"state,omitempty"`
 
 	// FinishedAt contains the time where the scan (including parser & hooks) has been marked as "Done"
 	FinishedAt       *metav1.Time `json:"finishedAt,omitempty"`

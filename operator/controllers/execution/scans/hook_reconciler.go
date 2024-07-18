@@ -59,9 +59,9 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 
 	orderedHookStatus := utils.FromUnorderedList(hookStatuses)
 	scan.Status.OrderedHookStatuses = orderedHookStatus
-	scan.Status.State = "HookProcessing"
+	scan.Status.State = executionv1.ScanStateHookProcessing
 
-	if err := r.Status().Update(ctx, scan); err != nil {
+	if err := r.updateScanStatus(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
 		return err
 	}
@@ -98,14 +98,14 @@ func (r *ScanReconciler) migrateHookStatus(scan *executionv1.Scan) error {
 				Type:     executionv1.ReadOnly,
 			}
 
-			if scan.Status.State == "ReadAndWriteHookProcessing" || scan.Status.State == "ReadAndWriteHookCompleted" {
+			if scan.Status.State == executionv1.ScanStateReadAndWriteHookProcessing || scan.Status.State == executionv1.ScanStateReadAndWriteHookCompleted {
 				// ReadOnly hooks should not have started yet, so mark them all as pending
 				hookStatus.State = executionv1.Pending
-			} else if scan.Status.State == "ReadOnlyHookProcessing" {
+			} else if scan.Status.State == executionv1.ScanStateReadOnlyHookProcessing {
 				// Had already started ReadOnly hooks and should now check status.
 				// No status for ReadOnly in old CRD, so mark everything as InProgress and let processInProgressHook update it later.
 				hookStatus.State = executionv1.InProgress
-			} else if scan.Status.State == "Done" {
+			} else if scan.Status.State == executionv1.ScanStateDone {
 				// Had completely finished
 				hookStatus.State = executionv1.Completed
 			}
@@ -117,11 +117,11 @@ func (r *ScanReconciler) migrateHookStatus(scan *executionv1.Scan) error {
 	}
 
 	scan.Status.OrderedHookStatuses = utils.OrderHookStatusesInsideAPrioClass(append(readOnlyHooks, strSlice...))
-	if scan.Status.State != "Done" {
-		scan.Status.State = "HookProcessing"
+	if scan.Status.State != executionv1.ScanStateDone {
+		scan.Status.State = executionv1.ScanStateHookProcessing
 	}
 
-	if err := r.Status().Update(ctx, scan); err != nil {
+	if err := r.updateScanStatus(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
 		return err
 	}
@@ -138,27 +138,27 @@ func (r *ScanReconciler) executeHooks(scan *executionv1.Scan) error {
 
 	err, currentHooks := utils.CurrentHookGroup(scan.Status.OrderedHookStatuses)
 
-	if err != nil && scan.Status.State == "Errored" {
+	if err != nil && scan.Status.State == executionv1.ScanStateErrored {
 		r.Log.V(8).Info("Skipping hook execution as it already contains failed hooks.")
 		return nil
 	} else if err != nil {
-		scan.Status.State = "Errored"
+		scan.Status.State = executionv1.ScanStateErrored
 		scan.Status.ErrorDescription = "hook execution failed for a unknown hook. Check the scan.status.hookStatus field for more details"
 	} else if currentHooks == nil {
 		// No hooks left to execute
-		scan.Status.State = "Done"
+		scan.Status.State = executionv1.ScanStateDone
 	} else {
 		for _, hook := range currentHooks {
 			err = r.processHook(scan, hook)
 
 			if err != nil {
-				scan.Status.State = "Errored"
+				scan.Status.State = executionv1.ScanStateErrored
 				scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute Hook '%s' in job '%s'. Check the logs of the hook for more information.", hook.HookName, hook.JobName)
 			}
 		}
 	}
 
-	if sErr := r.Status().Update(ctx, scan); sErr != nil {
+	if sErr := r.updateScanStatus(ctx, scan); sErr != nil {
 		r.Log.Error(sErr, "Unable to update Scan status")
 		return sErr
 	}
