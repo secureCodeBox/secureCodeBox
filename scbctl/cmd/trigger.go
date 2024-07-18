@@ -44,7 +44,7 @@ func NewTriggerCommand() *cobra.Command {
 
 			var scan v1.ScheduledScan
 
-			err = kubeclient.Get(context.TODO(), types.NamespacedName{Name: scheduledScanName, Namespace: namespace}, &scan)
+			err = kubeclient.Get(cmd.Context(), types.NamespacedName{Name: scheduledScanName, Namespace: namespace}, &scan)
 			if err != nil {
 				if apierrors.IsNotFound(err) {
 					return fmt.Errorf("could not find ScheduledScan '%s' in namespace '%s'", scheduledScanName, namespace)
@@ -71,7 +71,7 @@ func NewTriggerCommand() *cobra.Command {
 
 			var scans v1.ScheduledScanList
 
-			err = kubeclient.List(context.TODO(), &scans, client.InNamespace(namespace))
+			err = kubeclient.List(cmd.Context(), &scans, client.InNamespace(namespace))
 			if err != nil {
 				fmt.Printf("Error listing ScheduledScans: %v\n", err)
 				return nil, cobra.ShellCompDirectiveError
