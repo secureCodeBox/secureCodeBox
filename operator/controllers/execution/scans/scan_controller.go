@@ -303,6 +303,9 @@ func executeUrlTemplate(urlTemplate string, scan executionv1.Scan, filename stri
 		}
 
 		err = tmpl.Execute(&rawOutput, templateArgs)
+		if err != nil {
+			panic(err)
+		}
 		output := rawOutput.String()
 		return output
 	}
