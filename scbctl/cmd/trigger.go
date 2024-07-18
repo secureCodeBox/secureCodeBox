@@ -18,15 +18,15 @@ import (
 
 func NewTriggerCommand() *cobra.Command {
 	triggerCmd := &cobra.Command{
-		Use:          "trigger [filename]",
-		Short:        "Trigger a new scheduled scan",
-		Long:         `Trigger a new execution (Scan) of a ScheduledScan, ahead of its usual execution schedule.`,
-		Args: cobra.MinimumNArgs(1),
-		Example:      `
-		# Trigger a new scan for a ScheduledScan
+		Use:   "trigger [scheduledScan name]",
+		Short: "Trigger a scheduled scan",
+		Long:  `Trigger a new execution (Scan) of a ScheduledScan, ahead of its usual execution schedule.`,
+		Args:  cobra.MinimumNArgs(1),
+		Example: `
+		# Trigger a new scan for ScheduledScan "nmap"
 		scbctl trigger nmap
 
-		# Trigger in a different namespace
+		# Trigger a ScheduledScan outside of your current namespace
 		scbctl trigger nmap --namespace foobar
 		`,
 		SilenceUsage: true,
