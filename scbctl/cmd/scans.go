@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/spf13/cobra"
 	metav2 "k8s.io/apimachinery/pkg/api/errors"
@@ -85,6 +86,33 @@ func NewScanCommand() *cobra.Command {
 			fmt.Printf("🚀 Successfully created a new Scan '%s'\n", scanName)
 			return nil
 		},
+		ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+			if len(args) != 0 {
+					return nil, cobra.ShellCompDirectiveNoFileComp
+			}
+
+			kubeclient, namespace, err := clientProvider.GetClient(kubeconfigArgs)
+			if err != nil {
+					return nil, cobra.ShellCompDirectiveError
+			}
+
+			if namespaceFlag, err := cmd.Flags().GetString("namespace"); err == nil && namespaceFlag != "" {
+					namespace = namespaceFlag
+			}
+
+			var scanTypeList v1.ScanTypeList
+			err = kubeclient.List(cmd.Context(), &scanTypeList, client.InNamespace(namespace))
+			if err != nil {
+					return nil, cobra.ShellCompDirectiveError
+			}
+
+			scanTypes := make([]string, len(scanTypeList.Items))
+			for i, scanType := range scanTypeList.Items {
+					scanTypes[i] = scanType.Name
+			}
+
+			return scanTypes, cobra.ShellCompDirectiveNoFileComp
+	},
 	}
 
 	scanCmd.Flags().String("name", "", "Name of the created scan. If no name is provided, the ScanType will be used as the name")
