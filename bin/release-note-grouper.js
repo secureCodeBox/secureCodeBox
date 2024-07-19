@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /**
 Groups release notes from our SCB Bot into one group/line each per scanner
 To use this script you first have to install the node.js dependencies of the bin/package.json using npm install
