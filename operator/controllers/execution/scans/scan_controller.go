@@ -44,22 +44,6 @@ var (
 // https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
 var s3StorageFinalizer = "s3.storage.securecodebox.io"
 
-type ScanStatus string
-
-const (
-	ScanStatusInit                       ScanStatus = "Init"
-	ScanStatusScanning                   ScanStatus = "Scanning"
-	ScanStatusScanCompleted              ScanStatus = "ScanCompleted"
-	ScanStatusParsing                    ScanStatus = "Parsing"
-	ScanStatusParseCompleted             ScanStatus = "ParseCompleted"
-	ScanStatusHookProcessing             ScanStatus = "HookProcessing"
-	ScanStatusReadAndWriteHookProcessing ScanStatus = "ReadAndWriteHookProcessing"
-	ScanStatusReadAndWriteHookCompleted  ScanStatus = "ReadAndWriteHookCompleted"
-	ScanStatusReadOnlyHookProcessing     ScanStatus = "ReadOnlyHookProcessing"
-	ScanStatusErrored                    ScanStatus = "Errored"
-	ScanStatusDone                       ScanStatus = "Done"
-)
-
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scantypes,verbs=get;list;watch
