@@ -454,7 +454,7 @@ func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1
 	}
 
 	// Merge NodeSelectors from Hook & Scan into Hook Job
-	job.Spec.Template.Spec.NodeSelector = util.MergeStringMaps(job.Spec.Template.Spec.NodeSelector, hookSpec.NodeSelector, scan.Spec.NodeSelector)
+	job.Spec.Template.Spec.NodeSelector = utils.MergeStringMaps(job.Spec.Template.Spec.NodeSelector, hookSpec.NodeSelector, scan.Spec.NodeSelector)
 
 	// Replace tolerations from template with those from the scan, if specified.
 	// Otherwise, stick to those from the template
