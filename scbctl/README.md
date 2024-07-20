@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
 # scbctl - CLI for secureCodeBox
 
 A handy CLI for interaction with [secureCodeBox](https://github.com/secureCodeBox/secureCodeBox) CustomResources like Scans & ScheduledScans which are tedious to perform using usual `kubectl` & `helm` tooling.
