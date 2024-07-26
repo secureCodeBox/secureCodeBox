@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -112,5 +113,73 @@ func TestTriggerCommand(t *testing.T) {
 				assert.NoError(t, err)
 			}
 		})
+	}
+}
+
+
+func TestTriggerCommandCompletion(t *testing.T) {
+	testcases := []struct {
+			name           string
+			namespace      string
+			expectedScans  []string
+			setup          func(client.Client)
+			expectedError  bool
+	}{
+			{
+					name:          "Should return all scheduled scans in the namespace",
+					namespace:     "default",
+					expectedScans: []string{"nmap-scan", "zap-scan"},
+					setup: func(client client.Client) {
+							scans := []v1.ScheduledScan{
+									{ObjectMeta: metav1.ObjectMeta{Name: "nmap-scan", Namespace: "default"}},
+									{ObjectMeta: metav1.ObjectMeta{Name: "zap-scan", Namespace: "default"}},
+							}
+							for _, scan := range scans {
+									err := client.Create(context.Background(), &scan)
+									if err != nil {
+											t.Fatalf("Failed to create scan: %v", err)
+									}
+							}
+					},
+					expectedError: false,
+			},
+			{
+					name:          "Should return empty list when no scans exist",
+					namespace:     "empty-ns",
+					expectedScans: []string{},
+					setup:         func(client.Client) {},
+					expectedError: false,
+			},
+	}
+
+	for _, tc := range testcases {
+			t.Run(tc.name, func(t *testing.T) {
+					scheme := runtime.NewScheme()
+					utilruntime.Must(v1.AddToScheme(scheme))
+					client := fake.NewClientBuilder().WithScheme(scheme).Build()
+
+					if tc.setup != nil {
+							tc.setup(client)
+					}
+
+					cmd := NewTriggerCommand()
+
+					clientProvider = &TestClientProvider{
+							Client:    client,
+							namespace: tc.namespace,
+							err:       nil,
+					}
+
+					kubeconfigArgs = genericclioptions.NewConfigFlags(true)
+
+					completions, directive := cmd.ValidArgsFunction(cmd, []string{}, "")
+
+					if tc.expectedError {
+							assert.Equal(t, cobra.ShellCompDirectiveError, directive)
+					} else {
+							assert.Equal(t, cobra.ShellCompDirectiveDefault, directive)
+							assert.ElementsMatch(t, tc.expectedScans, completions)
+					}
+			})
 	}
 }
