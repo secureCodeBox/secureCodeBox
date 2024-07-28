@@ -151,70 +151,69 @@ func TestScanCommand(t *testing.T) {
 	}
 }
 
-
 func TestScanCommandCompletion(t *testing.T) {
 	testcases := []struct {
-			name           string
-			namespace      string
-			expectedTypes  []string
-			setup          func(client.Client)
-			expectedError  bool
+		name          string
+		namespace     string
+		expectedTypes []string
+		setup         func(client.Client)
+		expectedError bool
 	}{
-			{
-					name:          "Should return all scan types in the namespace",
-					namespace:     "default",
-					expectedTypes: []string{"nmap", "zap"},
-					setup: func(client client.Client) {
-							scanTypes := []v1.ScanType{
-									{ObjectMeta: metav1.ObjectMeta{Name: "nmap", Namespace: "default"}},
-									{ObjectMeta: metav1.ObjectMeta{Name: "zap", Namespace: "default"}},
-							}
-							for _, st := range scanTypes {
-									err := client.Create(context.Background(), &st)
-									if err != nil {
-											t.Fatalf("Failed to create scan type: %v", err)
-									}
-							}
-					},
-					expectedError: false,
+		{
+			name:          "Should return all scan types in the namespace",
+			namespace:     "default",
+			expectedTypes: []string{"nmap", "zap"},
+			setup: func(client client.Client) {
+				scanTypes := []v1.ScanType{
+					{ObjectMeta: metav1.ObjectMeta{Name: "nmap", Namespace: "default"}},
+					{ObjectMeta: metav1.ObjectMeta{Name: "zap", Namespace: "default"}},
+				}
+				for _, st := range scanTypes {
+					err := client.Create(context.Background(), &st)
+					if err != nil {
+						t.Fatalf("Failed to create scan type: %v", err)
+					}
+				}
 			},
-			{
-					name:          "Should return empty list when no scan types exist",
-					namespace:     "empty-ns",
-					expectedTypes: []string{},
-					setup:         func(client.Client) {},
-					expectedError: false,
-			},
+			expectedError: false,
+		},
+		{
+			name:          "Should return empty list when no scan types exist",
+			namespace:     "empty-ns",
+			expectedTypes: []string{},
+			setup:         func(client.Client) {},
+			expectedError: false,
+		},
 	}
 
 	for _, tc := range testcases {
-			t.Run(tc.name, func(t *testing.T) {
-					scheme := runtime.NewScheme()
-					utilruntime.Must(v1.AddToScheme(scheme))
-					client := fake.NewClientBuilder().WithScheme(scheme).Build()
+		t.Run(tc.name, func(t *testing.T) {
+			scheme := runtime.NewScheme()
+			utilruntime.Must(v1.AddToScheme(scheme))
+			client := fake.NewClientBuilder().WithScheme(scheme).Build()
 
-					if tc.setup != nil {
-							tc.setup(client)
-					}
+			if tc.setup != nil {
+				tc.setup(client)
+			}
 
-					cmd := NewScanCommand()
-					
-					clientProvider = &TestClientProvider{
-							Client:    client,
-							namespace: tc.namespace,
-							err:       nil,
-					}
+			cmd := NewScanCommand()
 
-					kubeconfigArgs = genericclioptions.NewConfigFlags(true)
+			clientProvider = &TestClientProvider{
+				Client:    client,
+				namespace: tc.namespace,
+				err:       nil,
+			}
 
-					completions, directive := cmd.ValidArgsFunction(cmd, []string{}, "")
+			kubeconfigArgs = genericclioptions.NewConfigFlags(true)
 
-					if tc.expectedError {
-							assert.Equal(t, cobra.ShellCompDirectiveError, directive)
-					} else {
-							assert.Equal(t, cobra.ShellCompDirectiveNoFileComp, directive)
-							assert.ElementsMatch(t, tc.expectedTypes, completions)
-					}
-			})
+			completions, directive := cmd.ValidArgsFunction(cmd, []string{}, "")
+
+			if tc.expectedError {
+				assert.Equal(t, cobra.ShellCompDirectiveError, directive)
+			} else {
+				assert.Equal(t, cobra.ShellCompDirectiveNoFileComp, directive)
+				assert.ElementsMatch(t, tc.expectedTypes, completions)
+			}
+		})
 	}
 }
