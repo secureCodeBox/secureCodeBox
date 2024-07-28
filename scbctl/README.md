@@ -3,78 +3,23 @@ SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
+
 # scbctl - CLI for secureCodeBox
 
-A handy CLI for interaction with [secureCodeBox](https://github.com/secureCodeBox/secureCodeBox) CustomResources like Scans & ScheduledScans which are tedious to perform using usual `kubectl` & `helm` tooling.
+The main purpose of scbctl is to provide an easier way to manage secureCodeBox CustomResources in Kubernetes, reducing the complexity of using kubectl and helm for common secureCodeBox operations.
 
 ## Installation
 
-```bash
-git clone https://github.com/secureCodeBox/secureCodeBox.git
-make scbctl
+At the moment we do not provide precompiled binaries for the `scbctl`.
+If you have go installed installing it is as simple as running:
 
-# move `scbctl` binary into a directory in your path
-cd scbctl
-sudo mv scbctl /usr/local/bin/scbctl
+```bash
+go install github.com/secureCodeBox/secureCodeBox/scbctl@latest
 ```
+
+Make sure that your golang home `bin` directory is part of your shell path.
+If you don't know where your go home directory is run `go env GOPATH`.
 
 ## Commands
 
-### scan
-
-Create a new Scan custom resource in the current namespace.
-
-#### Usage
-
-```bash
-scbctl scan [scanType] -- [parameters...]
-```
-
-#### Arguments
-
-- `scanType`: The type of scan to create.
-- `parameters...`: Additional parameters to pass to the scan.
-
-#### Examples
-
-```bash
-# Create a new scan
-scbctl scan nmap -- scanme.nmap.org
-
-# Create a scan with a custom name
-scbctl scan nmap --name scanme-nmap-org -- scanme.nmap.org
-
-# Create with multiple parameters
-scbctl scan nuclei -- -target example.com
-
-# Create in a different namespace
-scbctl scan --namespace foobar nmap -- -p 80 scanme.nmap.org
-```
-
-### trigger
-
-Trigger a new execution (Scan) of a ScheduledScan, ahead of its usual execution schedule.
-
-#### Usage
-
-```bash
-scbctl trigger [scheduledScanName] [flags]
-```
-
-#### Arguments
-
-- `scheduledScanName`: The name of the ScheduledScan to trigger.
-
-#### Examples
-
-```bash
-# Trigger a new scan for a ScheduledScan
-scbctl trigger nmap-localhost
-
-# Trigger in a different namespace
-scbctl trigger nmap-localhost --namespace foobar
-```
-
-## Completion
-
-`scbctl` offers shell completion. See `scbctl completion --help` for instructions on how to set it up in your shell environment.
+To find out more about the commands & functionalities supported by `scbctl`, run `scbctl --help` or refer to the [scbctl documentation](https://www.securecodebox.io/docs/scbctl/overview).
