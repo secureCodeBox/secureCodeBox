@@ -5,7 +5,7 @@
 
 title: "Setup Shell completion"
 description: "How to shell completion and leverage scbctl shell completion"
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Setting Up Shell Completion for scbctl
@@ -15,6 +15,7 @@ Shell completion is a feature that allows scbctl to automatically complete comma
 ## Supported Shells
 
 scbctl supports shell completion for the following shells:
+
 - Bash
 - Zsh
 - Fish
@@ -102,7 +103,6 @@ This will display usage information and examples for different shells.
    ```powershell
    . $HOME\Documents\WindowsPowerShell\scbctl_completion.ps1
    ```
-
 
 ## Verifying Completion Setup
 
