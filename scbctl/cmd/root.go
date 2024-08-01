@@ -25,6 +25,7 @@ func NewRootCommand() *cobra.Command {
 
 	rootCmd.AddCommand(NewScanCommand())
 	rootCmd.AddCommand(NewTriggerCommand())
+	rootCmd.AddCommand(NewCascadeCommand())
 
 	return rootCmd
 }

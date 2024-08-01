@@ -16,11 +16,19 @@ require (
 	sigs.k8s.io/controller-runtime v0.18.4
 )
 
-require github.com/stretchr/testify v1.8.4
+require github.com/stretchr/testify v1.9.0
+
+require (
+	github.com/fatih/color v1.16.0 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/pelletier/go-toml/v2 v2.2.0 // indirect
+)
 
 require (
 	github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/ddddddO/gtree v1.10.10
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
 	github.com/evanphx/json-patch v5.6.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
