@@ -13,7 +13,6 @@ import (
 	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	"github.com/spf13/cobra"
-	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -25,6 +24,12 @@ type cascadeOptions struct {
 	namespace string
 }
 
+// var scheme = runtime.NewScheme()
+
+// func init() {
+//     utilruntime.Must(cascadingv1.AddToScheme(scheme))
+//     utilruntime.Must(v1.AddToScheme(scheme))
+// }
 func NewCascadeCommand() *cobra.Command {
 	cascadeCmd := &cobra.Command{
 		Use: "cascade",
@@ -84,8 +89,6 @@ func fetchCascadingRules(ctx context.Context, client client.Client, namespace st
 	return ruleList.Items, nil
 }
 
-
-
 func buildTree(scans []v1.Scan, rules []cascadingv1.CascadingRule) *gtree.Node {
 	root := gtree.NewRoot("Scans")
 	
@@ -111,6 +114,9 @@ func buildScanSubtree(node *gtree.Node, scan *v1.Scan, scanMap map[string]*v1.Sc
 	}
 }
 
+// func isInitialScan(scan *v1.Scan) bool {
+// 	return len(scan.OwnerReferences) == 0
+// }
 
 func getChildScans(parentScan *v1.Scan, scanMap map[string]*v1.Scan, rules []cascadingv1.CascadingRule) []*v1.Scan {
 	var childScans []*v1.Scan
@@ -125,17 +131,14 @@ func getChildScans(parentScan *v1.Scan, scanMap map[string]*v1.Scan, rules []cas
 }
 
 func isCascadedFrom(childScan, parentScan *v1.Scan, rules []cascadingv1.CascadingRule) bool {
-	// Check if the child was created after the parent
 	if !childScan.CreationTimestamp.After(parentScan.CreationTimestamp.Time) {
 			return false
 	}
 
-	// Check for a specific annotation indicating the parent scan
 	if parentScanName, exists := childScan.Annotations["parentScan"]; exists && parentScanName == parentScan.Name {
 			return true
 	}
 
-	// Check if any CascadingRule matches
 	for _, rule := range rules {
 			if matchesRule(parentScan, rule) && scanMatchesSpec(childScan, rule.Spec.ScanSpec) {
 					return true
@@ -146,64 +149,28 @@ func isCascadedFrom(childScan, parentScan *v1.Scan, rules []cascadingv1.Cascadin
 }
 
 func matchesRule(scan *v1.Scan, rule cascadingv1.CascadingRule) bool {
-    for _, matchRule := range rule.Spec.Matches.AnyOf {
-        if matchesFinding(scan, matchRule) {
-            return true
-        }
-    }
-    return false
+	for _, matchRule := range rule.Spec.Matches.AnyOf {
+			if matchesFinding(scan, matchRule) {
+					return true
+			}
+	}
+	return false
 }
 
 func matchesFinding(scan *v1.Scan, matchRule cascadingv1.MatchesRule) bool {
-    // This is a simplified matching logic. You may need to adjust it based on how
-    // your findings are stored and how you want to match them.
-    
-    // For this example, we'll assume that findings are stored as annotations on the Scan
-    // with keys like "finding.category", "finding.severity", etc.
-    
-    if matchRule.Category != "" && scan.Annotations["finding.category"] != matchRule.Category {
-        return false
-    }
-    if matchRule.Severity != "" && scan.Annotations["finding.severity"] != matchRule.Severity {
-        return false
-    }
-    if matchRule.OsiLayer != "" && scan.Annotations["finding.osi_layer"] != matchRule.OsiLayer {
-        return false
-    }
-    
-    // Check attributes
-    for key, value := range matchRule.Attributes {
-        scanValue, exists := scan.Annotations["finding.attribute."+key]
-        if !exists {
-            return false
-        }
-        if value.Type == intstr.String && scanValue != value.StrVal {
-            return false
-        }
-        // For Int type, you'd need to parse the scanValue to int and compare
-        // This is left as an exercise as it depends on how you store int values in annotations
-    }
-    
-    return true
+	// This is a simplified matching logic. Adjust based on how your findings are stored.
+	if matchRule.Category != "" && scan.Annotations["finding.category"] != matchRule.Category {
+			return false
+	}
+	if matchRule.Severity != "" && scan.Annotations["finding.severity"] != matchRule.Severity {
+			return false
+	}
+	// Add more checks for other fields as necessary
+	return true
 }
 
 func scanMatchesSpec(scan *v1.Scan, spec v1.ScanSpec) bool {
-    // Check if the scan type matches
-    if scan.Spec.ScanType != spec.ScanType {
-        return false
-    }
-    
-    if len(scan.Spec.Parameters) != len(spec.Parameters) {
-        return false
-    }
-    for i, param := range scan.Spec.Parameters {
-        if param != spec.Parameters[i] {
-            return false
-        }
-    }
-    
-    
-    return true
+	return scan.Spec.ScanType == spec.ScanType
 }
 // func isCascadedFrom(childScan, parentScan *v1.Scan) bool {
 // 	// Check if the parent scan has a CascadeSpec
