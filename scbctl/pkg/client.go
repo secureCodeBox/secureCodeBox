@@ -6,6 +6,8 @@ package client
 import (
 	"fmt"
 
+	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
+	excv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -29,6 +31,8 @@ func (d *DefaultClientProvider) GetClient(flags *genericclioptions.ConfigFlags) 
 
 func init() {
 	utilruntime.Must(v1.AddToScheme(scheme))
+	utilruntime.Must(cascadingv1.AddToScheme(scheme))
+	utilruntime.Must(excv1.AddToScheme(scheme))
 }
 
 func GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error) {
