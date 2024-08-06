@@ -6,13 +6,15 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/ddddddO/gtree"
 	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	"github.com/spf13/cobra"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/selection"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -107,27 +109,17 @@ func buildTree(scans []v1.Scan, rules []cascadingv1.CascadingRule) *gtree.Node {
 	return root
 }
 
-func buildScanSubtree(node *gtree.Node, scan *v1.Scan, scanMap map[string]*v1.Scan, rules []cascadingv1.CascadingRule) {
-	for _, childScan := range getChildScans(scan, scanMap, rules) {
-			childNode := node.Add(childScan.Name)
-			buildScanSubtree(childNode, childScan, scanMap, rules)
-	}
+func isInitialScan(scan *v1.Scan) bool {
+	return scan.Spec.Cascades != nil
 }
 
-// func isInitialScan(scan *v1.Scan) bool {
-// 	return len(scan.OwnerReferences) == 0
-// }
-
-func getChildScans(parentScan *v1.Scan, scanMap map[string]*v1.Scan, rules []cascadingv1.CascadingRule) []*v1.Scan {
-	var childScans []*v1.Scan
-
-	for _, scan := range scanMap {
-			if isCascadedFrom(scan, parentScan, rules) {
-					childScans = append(childScans, scan)
+func buildScanSubtree(node *gtree.Node, scan *v1.Scan, scanMap map[string]*v1.Scan, rules []cascadingv1.CascadingRule) {
+	for _, childScan := range scanMap {
+			if isCascadedFrom(childScan, scan, rules) {
+					childNode := node.Add(childScan.Name)
+					buildScanSubtree(childNode, childScan, scanMap, rules)
 			}
 	}
-
-	return childScans
 }
 
 func isCascadedFrom(childScan, parentScan *v1.Scan, rules []cascadingv1.CascadingRule) bool {
@@ -135,12 +127,14 @@ func isCascadedFrom(childScan, parentScan *v1.Scan, rules []cascadingv1.Cascadin
 			return false
 	}
 
-	if parentScanName, exists := childScan.Annotations["parentScan"]; exists && parentScanName == parentScan.Name {
-			return true
+	if parentScan.Spec.Cascades == nil {
+			return false
 	}
 
+	selector := createSelectorFromCascadeSpec(parentScan.Spec.Cascades)
+
 	for _, rule := range rules {
-			if matchesRule(parentScan, rule) && scanMatchesSpec(childScan, rule.Spec.ScanSpec) {
+			if selector.Matches(labels.Set(rule.Labels)) && ruleMatchesScan(rule, parentScan) && childMatchesRule(childScan, rule) {
 					return true
 			}
 	}
@@ -148,7 +142,35 @@ func isCascadedFrom(childScan, parentScan *v1.Scan, rules []cascadingv1.Cascadin
 	return false
 }
 
-func matchesRule(scan *v1.Scan, rule cascadingv1.CascadingRule) bool {
+func createSelectorFromCascadeSpec(cascadeSpec *v1.CascadeSpec) labels.Selector {
+	selector := labels.NewSelector()
+
+	for key, value := range cascadeSpec.MatchLabels {
+			req, _ := labels.NewRequirement(key, selection.Equals, []string{value})
+			selector = selector.Add(*req)
+	}
+
+	for _, expr := range cascadeSpec.MatchExpressions {
+			var op selection.Operator
+			switch expr.Operator {
+			case metav1.LabelSelectorOpIn:
+					op = selection.In
+			case metav1.LabelSelectorOpNotIn:
+					op = selection.NotIn
+			case metav1.LabelSelectorOpExists:
+					op = selection.Exists
+			case metav1.LabelSelectorOpDoesNotExist:
+					op = selection.DoesNotExist
+			default:
+					continue
+			}
+			req, _ := labels.NewRequirement(expr.Key, op, expr.Values)
+			selector = selector.Add(*req)
+	}
+
+	return selector
+}
+func ruleMatchesScan(rule cascadingv1.CascadingRule, scan *v1.Scan) bool {
 	for _, matchRule := range rule.Spec.Matches.AnyOf {
 			if matchesFinding(scan, matchRule) {
 					return true
@@ -158,92 +180,12 @@ func matchesRule(scan *v1.Scan, rule cascadingv1.CascadingRule) bool {
 }
 
 func matchesFinding(scan *v1.Scan, matchRule cascadingv1.MatchesRule) bool {
-	// This is a simplified matching logic. Adjust based on how your findings are stored.
-	if matchRule.Category != "" && scan.Annotations["finding.category"] != matchRule.Category {
+	if matchRule.Category != "" && scan.Status.State != matchRule.Category {
 			return false
 	}
-	if matchRule.Severity != "" && scan.Annotations["finding.severity"] != matchRule.Severity {
-			return false
-	}
-	// Add more checks for other fields as necessary
 	return true
 }
 
-func scanMatchesSpec(scan *v1.Scan, spec v1.ScanSpec) bool {
-	return scan.Spec.ScanType == spec.ScanType
-}
-// func isCascadedFrom(childScan, parentScan *v1.Scan) bool {
-// 	// Check if the parent scan has a CascadeSpec
-// 	if parentScan.Spec.Cascades == nil {
-// 			return false
-// 	}
-
-// 	// Check if the child was created after the parent
-// 	if !childScan.CreationTimestamp.After(parentScan.CreationTimestamp.Time) {
-// 			return false
-// 	}
-
-// 	// Check for a specific annotation indicating the parent scan
-// 	if parentScanName, exists := childScan.Annotations["parentScan"]; exists && parentScanName == parentScan.Name {
-// 			return true
-// 	}
-
-// 	// Create a label selector from the parent's CascadeSpec
-// 	selector := labels.SelectorFromSet(parentScan.Spec.Cascades.MatchLabels)
-
-// 	// Add the MatchExpressions to the selector
-// 	for _, expr := range parentScan.Spec.Cascades.MatchExpressions {
-// 			var op selection.Operator
-// 			switch expr.Operator {
-// 			case metav1.LabelSelectorOpIn:
-// 					op = selection.In
-// 			case metav1.LabelSelectorOpNotIn:
-// 					op = selection.NotIn
-// 			case metav1.LabelSelectorOpExists:
-// 					op = selection.Exists
-// 			case metav1.LabelSelectorOpDoesNotExist:
-// 					op = selection.DoesNotExist
-// 			default:
-// 					// Skip invalid operators
-// 					continue
-// 			}
-// 			r, err := labels.NewRequirement(expr.Key, op, expr.Values)
-// 			if err == nil {
-// 					selector = selector.Add(*r)
-// 			}
-// 	}
-
-// 	// Check if the child scan's labels match the selector
-// 	return selector.Matches(labels.Set(childScan.Labels))
-// }
-
-func isInitialScan(scan *v1.Scan) bool {
-	log.Printf("Checking if scan %s is an initial scan", scan.Name)
-
-	if value, exists := scan.Labels["initialScan"]; exists && value == "true" {
-			log.Printf("Scan %s is an initial scan (initialScan label)", scan.Name)
-			return true
-	}
-	if value, exists := scan.Annotations["initialScan"]; exists && value == "true" {
-			log.Printf("Scan %s is an initial scan (initialScan annotation)", scan.Name)
-			return true
-	}
-
-	if _, exists := scan.Annotations["parentScan"]; exists {
-			log.Printf("Scan %s is not an initial scan (has parentScan annotation)", scan.Name)
-			return false
-	}
-
-	if scan.Spec.Cascades != nil {
-			log.Printf("Scan %s is not an initial scan (has Cascade spec)", scan.Name)
-			return false
-	}
-
-	if len(scan.OwnerReferences) == 0 {
-			log.Printf("Scan %s is an initial scan (no owner references)", scan.Name)
-			return true
-	}
-
-	log.Printf("Scan %s is assumed to be an initial scan", scan.Name)
-	return true
+func childMatchesRule(childScan *v1.Scan, rule cascadingv1.CascadingRule) bool {
+	return childScan.Spec.ScanType == rule.Spec.ScanSpec.ScanType
 }
