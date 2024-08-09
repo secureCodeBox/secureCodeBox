@@ -44,6 +44,10 @@ The update-field-hook chart can be deployed via helm:
 helm upgrade --install update-field-hook oci://ghcr.io/securecodebox/helm/update-field-hook
 ```
 
+## Requirements
+
+Kubernetes: `>=v1.11.0-0`
+
 ## Additional Chart Configurations
 Installing the _Update Field_ hook will add a ReadAndWrite Hook to your namespace, which can be used to add or update fields from your findings.
 
