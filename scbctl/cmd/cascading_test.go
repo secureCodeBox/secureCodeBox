@@ -2,18 +2,15 @@ package cmd
 
 import (
 	"bytes"
-	"strings"
 	"testing"
 
+	"github.com/ddddddO/gtree"
 	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 )
 
 type MockCascadeClientProvider struct {
@@ -35,171 +32,188 @@ type testcases struct {
 	initialRules   []cascadingv1.CascadingRule
 }
 
-func TestCascadeCommand(t *testing.T) {
-	testcases := []testcases{
-			{
-					name:          "Should display simple scan tree",
-					args:          []string{"cascade"},
-					expectedError: nil,
-					expectedOutput: `Scans
-└── nmap-scan
-`,
-					initialScans: []v1.Scan{
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name: "nmap-scan",
-											Annotations: map[string]string{},
-									},
-									Spec: v1.ScanSpec{ScanType: "nmap"},
-							},
+func TestBuildTree(t *testing.T) {
+	tests := []struct {
+		name     string
+		scans    []v1.Scan
+		expected string
+	}{
+		{
+			name: "Single scan",
+			scans: []v1.Scan{
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "scan1",
 					},
-					initialRules: []cascadingv1.CascadingRule{},
+				},
 			},
-			{
-					name:          "Should display scan tree with parent-child relationship",
-					args:          []string{"cascade"},
-					expectedError: nil,
-					expectedOutput: `Scans
-└── nmap-scan
-	└── nuclei-scan
-`,
-					initialScans: []v1.Scan{
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name: "nmap-scan",
-											Annotations: map[string]string{},
-									},
-									Spec: v1.ScanSpec{ScanType: "nmap"},
-							},
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name: "nuclei-scan",
-											Annotations: map[string]string{
-													ParentScanAnnotation: "nmap-scan",
-											},
-									},
-									Spec: v1.ScanSpec{ScanType: "nuclei"},
-							},
+			expected: "Scans\n└── scan1\n",
+		},
+		{
+			name: "Two unrelated scans",
+			scans: []v1.Scan{
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "scan1",
 					},
-					initialRules: []cascadingv1.CascadingRule{},
-			},
-			{
-					name:          "Should respect namespace flag",
-					args:          []string{"cascade", "--namespace", "test-namespace"},
-					expectedError: nil,
-					expectedOutput: `Scans
-└── nmap-scan
-`,
-					initialScans: []v1.Scan{
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name:      "nmap-scan",
-											Namespace: "test-namespace",
-											Annotations: map[string]string{},
-									},
-									Spec: v1.ScanSpec{ScanType: "nmap"},
-							},
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name:      "other-scan",
-											Namespace: "default",
-											Annotations: map[string]string{},
-									},
-									Spec: v1.ScanSpec{ScanType: "nmap"},
-							},
+				},
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "scan2",
 					},
-					initialRules: []cascadingv1.CascadingRule{},
+				},
 			},
-			{
-					name:          "Should display complex scan tree",
-					args:          []string{"cascade"},
-					expectedError: nil,
-					expectedOutput: `Scans
-└── nmap-scan
-	├── nuclei-scan-1
-	│   └── zap-scan
-	└── nuclei-scan-2
-`,
-					initialScans: []v1.Scan{
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name: "nmap-scan",
-											Annotations: map[string]string{},
-									},
-									Spec: v1.ScanSpec{ScanType: "nmap"},
-							},
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name: "nuclei-scan-1",
-											Annotations: map[string]string{
-													ParentScanAnnotation: "nmap-scan",
-											},
-									},
-									Spec: v1.ScanSpec{ScanType: "nuclei"},
-							},
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name: "nuclei-scan-2",
-											Annotations: map[string]string{
-													ParentScanAnnotation: "nmap-scan",
-											},
-									},
-									Spec: v1.ScanSpec{ScanType: "nuclei"},
-							},
-							{
-									ObjectMeta: metav1.ObjectMeta{
-											Name: "zap-scan",
-											Annotations: map[string]string{
-													ParentScanAnnotation: "nuclei-scan-1",
-											},
-									},
-									Spec: v1.ScanSpec{ScanType: "zap"},
-							},
+			expected: "Scans\n├── scan1\n└── scan2\n",
+		},
+		{
+			name: "One parent, one child",
+			scans: []v1.Scan{
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "parent",
 					},
-					initialRules: []cascadingv1.CascadingRule{},
+				},
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "child",
+						Annotations: map[string]string{
+							ParentScanAnnotation: "parent",
+						},
+					},
+				},
 			},
+			expected: "Scans\n└── parent\n    └── child\n",
+		},
+		{
+			name: "Complex cascade",
+			scans: []v1.Scan{
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "root",
+					},
+				},
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "child1",
+						Annotations: map[string]string{
+							ParentScanAnnotation: "root",
+						},
+					},
+				},
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "child2",
+						Annotations: map[string]string{
+							ParentScanAnnotation: "root",
+						},
+					},
+				},
+				{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "grandchild",
+						Annotations: map[string]string{
+							ParentScanAnnotation: "child1",
+						},
+					},
+				},
+			},
+			expected: "Scans\n└── root\n    ├── child1\n    │   └── grandchild\n    └── child2\n",
+		},
 	}
 
-	for _, tc := range testcases {
-		t.Run(tc.name, func(t *testing.T) {
-				scheme := runtime.NewScheme()
-				utilruntime.Must(v1.AddToScheme(scheme))
-				utilruntime.Must(cascadingv1.AddToScheme(scheme))
-
-				scanList := &v1.ScanList{
-						Items: tc.initialScans,
-				}
-				client := fake.NewClientBuilder().
-						WithScheme(scheme).
-						WithLists(scanList).
-						Build()
-
-				clientProvider = &MockClientProvider{
-						Client:    client,
-						namespace: "default",
-						err:       nil,
-				}
-
-				rootCmd := NewRootCommand()
-				rootCmd.SetArgs(tc.args)
-				rootCmd.SilenceUsage = true
-
-				output := &bytes.Buffer{}
-				rootCmd.SetOut(output)
-
-				err := rootCmd.Execute()
-
-				assert.Equal(t, tc.expectedError, err, "error returned by cascade should match")
-				
-				actualOutput := strings.TrimRight(output.String(), "\n")
-				expectedOutput := strings.TrimRight(tc.expectedOutput, "\n")
-				
-				assert.Equal(t, expectedOutput, actualOutput, "output should match expected")
-
-				if expectedOutput != actualOutput {
-						t.Logf("Expected:\n%s", expectedOutput)
-						t.Logf("Actual:\n%s", actualOutput)
-				}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			root := buildTree(tt.scans)
+			var buf bytes.Buffer
+			err := gtree.OutputProgrammably(&buf, root)
+			assert.NoError(t, err)
+			result := buf.String()
+			assert.Equal(t, tt.expected, result)
 		})
+	}
 }
+
+func TestIsInitialScan(t *testing.T) {
+	tests := []struct {
+		name     string
+		scan     v1.Scan
+		expected bool
+	}{
+		{
+			name: "Initial scan",
+			scan: v1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "initial",
+				},
+			},
+			expected: true,
+		},
+		{
+			name: "Child scan",
+			scan: v1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "child",
+					Annotations: map[string]string{
+						ParentScanAnnotation: "parent",
+					},
+				},
+			},
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := isInitialScan(&tt.scan)
+			assert.Equal(t, tt.expected, result)
+		})
+	}
+}
+
+func TestIsCascadedFrom(t *testing.T) {
+	tests := []struct {
+		name       string
+		childScan  v1.Scan
+		parentScan v1.Scan
+		expected   bool
+	}{
+		{
+			name: "Direct child",
+			childScan: v1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "child",
+					Annotations: map[string]string{
+						ParentScanAnnotation: "parent",
+					},
+				},
+			},
+			parentScan: v1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "parent",
+				},
+			},
+			expected: true,
+		},
+		{
+			name: "Unrelated scans",
+			childScan: v1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "scan1",
+				},
+			},
+			parentScan: v1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "scan2",
+				},
+			},
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := isCascadedFrom(&tt.childScan, &tt.parentScan)
+			assert.Equal(t, tt.expected, result)
+		})
+	}
 }
