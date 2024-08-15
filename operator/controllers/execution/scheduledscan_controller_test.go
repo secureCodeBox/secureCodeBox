@@ -86,7 +86,7 @@ var _ = Describe("ScheduledScan controller", func() {
 			Expect(scanlist.Items).Should(HaveLen(1))
 
 			scan := scanlist.Items[0]
-			scan.Status.State = "Done"
+			scan.Status.State = executionv1.ScanStateDone
 
 			scan.Status.Findings = executionv1.FindingStats{
 				Count:             42,

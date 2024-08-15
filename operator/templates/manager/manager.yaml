@@ -46,16 +46,21 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: manager
+          ports:
+            - name: metrics
+              containerPort: 8080
+            - name: healthchecks
+              containerPort: 8081
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8081
+              port: healthchecks
             initialDelaySeconds: 15
             periodSeconds: 20
           readinessProbe:
             httpGet:
               path: /readyz
-              port: 8081
+              port: healthchecks
             initialDelaySeconds: 5
             periodSeconds: 10
           env:
