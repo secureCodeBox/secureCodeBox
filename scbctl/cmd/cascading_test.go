@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"bytes"
+	"strings"
 	"testing"
 
 	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
@@ -36,110 +37,169 @@ type testcases struct {
 
 func TestCascadeCommand(t *testing.T) {
 	testcases := []testcases{
-		{
-			name:          "Should display simple scan tree",
-			args:          []string{"cascade"},
-			expectedError: nil,
-			expectedOutput: `Scans
+			{
+					name:          "Should display simple scan tree",
+					args:          []string{"cascade"},
+					expectedError: nil,
+					expectedOutput: `Scans
 └── nmap-scan
 `,
-			initialScans: []v1.Scan{
-				{
-					ObjectMeta: metav1.ObjectMeta{Name: "nmap-scan"},
-					Spec:       v1.ScanSpec{ScanType: "nmap"},
-				},
-			},
-			initialRules: []cascadingv1.CascadingRule{},
-		},
-		{
-			name:          "Should display scan tree with cascading rule",
-			args:          []string{"cascade"},
-			expectedError: nil,
-			expectedOutput: `Scans
-└── nmap-scan
-    └── nuclei-scan
-`,
-			initialScans: []v1.Scan{
-				{
-					ObjectMeta: metav1.ObjectMeta{Name: "nmap-scan"},
-					Spec:       v1.ScanSpec{ScanType: "nmap"},
-					Status: v1.ScanStatus{
-						Findings: v1.FindingStats{
-							FindingSeverities: v1.FindingSeverities{High: 1},
-						},
-					},
-				},
-				{
-					ObjectMeta: metav1.ObjectMeta{Name: "nuclei-scan"},
-					Spec:       v1.ScanSpec{ScanType: "nuclei"},
-				},
-			},
-			initialRules: []cascadingv1.CascadingRule{
-				{
-					Spec: cascadingv1.CascadingRuleSpec{
-						Matches: cascadingv1.Matches{
-							AnyOf: []cascadingv1.MatchesRule{
-								{Severity: "High"},
+					initialScans: []v1.Scan{
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name: "nmap-scan",
+											Annotations: map[string]string{},
+									},
+									Spec: v1.ScanSpec{ScanType: "nmap"},
 							},
-						},
-						ScanSpec: v1.ScanSpec{ScanType: "nuclei"},
 					},
-				},
+					initialRules: []cascadingv1.CascadingRule{},
 			},
-		},
-		{
-			name:          "Should respect namespace flag",
-			args:          []string{"cascade", "--namespace", "test-namespace"},
-			expectedError: nil,
-			expectedOutput: `Scans
+			{
+					name:          "Should display scan tree with parent-child relationship",
+					args:          []string{"cascade"},
+					expectedError: nil,
+					expectedOutput: `Scans
+└── nmap-scan
+	└── nuclei-scan
+`,
+					initialScans: []v1.Scan{
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name: "nmap-scan",
+											Annotations: map[string]string{},
+									},
+									Spec: v1.ScanSpec{ScanType: "nmap"},
+							},
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name: "nuclei-scan",
+											Annotations: map[string]string{
+													ParentScanAnnotation: "nmap-scan",
+											},
+									},
+									Spec: v1.ScanSpec{ScanType: "nuclei"},
+							},
+					},
+					initialRules: []cascadingv1.CascadingRule{},
+			},
+			{
+					name:          "Should respect namespace flag",
+					args:          []string{"cascade", "--namespace", "test-namespace"},
+					expectedError: nil,
+					expectedOutput: `Scans
 └── nmap-scan
 `,
-			initialScans: []v1.Scan{
-				{
-					ObjectMeta: metav1.ObjectMeta{Name: "nmap-scan", Namespace: "test-namespace"},
-					Spec:       v1.ScanSpec{ScanType: "nmap"},
-				},
-				{
-					ObjectMeta: metav1.ObjectMeta{Name: "other-scan", Namespace: "default"},
-					Spec:       v1.ScanSpec{ScanType: "nmap"},
-				},
+					initialScans: []v1.Scan{
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name:      "nmap-scan",
+											Namespace: "test-namespace",
+											Annotations: map[string]string{},
+									},
+									Spec: v1.ScanSpec{ScanType: "nmap"},
+							},
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name:      "other-scan",
+											Namespace: "default",
+											Annotations: map[string]string{},
+									},
+									Spec: v1.ScanSpec{ScanType: "nmap"},
+							},
+					},
+					initialRules: []cascadingv1.CascadingRule{},
 			},
-			initialRules: []cascadingv1.CascadingRule{},
-		},
+			{
+					name:          "Should display complex scan tree",
+					args:          []string{"cascade"},
+					expectedError: nil,
+					expectedOutput: `Scans
+└── nmap-scan
+	├── nuclei-scan-1
+	│   └── zap-scan
+	└── nuclei-scan-2
+`,
+					initialScans: []v1.Scan{
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name: "nmap-scan",
+											Annotations: map[string]string{},
+									},
+									Spec: v1.ScanSpec{ScanType: "nmap"},
+							},
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name: "nuclei-scan-1",
+											Annotations: map[string]string{
+													ParentScanAnnotation: "nmap-scan",
+											},
+									},
+									Spec: v1.ScanSpec{ScanType: "nuclei"},
+							},
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name: "nuclei-scan-2",
+											Annotations: map[string]string{
+													ParentScanAnnotation: "nmap-scan",
+											},
+									},
+									Spec: v1.ScanSpec{ScanType: "nuclei"},
+							},
+							{
+									ObjectMeta: metav1.ObjectMeta{
+											Name: "zap-scan",
+											Annotations: map[string]string{
+													ParentScanAnnotation: "nuclei-scan-1",
+											},
+									},
+									Spec: v1.ScanSpec{ScanType: "zap"},
+							},
+					},
+					initialRules: []cascadingv1.CascadingRule{},
+			},
 	}
 
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {
-			scheme := runtime.NewScheme()
-			utilruntime.Must(v1.AddToScheme(scheme))
-			utilruntime.Must(cascadingv1.AddToScheme(scheme))
-			
-			clientBuilder := fake.NewClientBuilder().WithScheme(scheme)
-			for _, scan := range tc.initialScans {
-				clientBuilder = clientBuilder.WithObjects(&scan)
-			}
-			for _, rule := range tc.initialRules {
-				clientBuilder = clientBuilder.WithObjects(&rule)
-			}
-			client := clientBuilder.Build()
-			
-			clientProvider = &MockClientProvider{
-				Client:    client,
-				namespace: "default",
-				err:       nil,
-			}
+				scheme := runtime.NewScheme()
+				utilruntime.Must(v1.AddToScheme(scheme))
+				utilruntime.Must(cascadingv1.AddToScheme(scheme))
 
-			rootCmd := NewRootCommand()
-			rootCmd.SetArgs(tc.args)
-			rootCmd.SilenceUsage = true
+				scanList := &v1.ScanList{
+						Items: tc.initialScans,
+				}
+				client := fake.NewClientBuilder().
+						WithScheme(scheme).
+						WithLists(scanList).
+						Build()
 
-			output := &bytes.Buffer{}
-			rootCmd.SetOut(output)
+				clientProvider = &MockClientProvider{
+						Client:    client,
+						namespace: "default",
+						err:       nil,
+				}
 
-			err := rootCmd.Execute()
+				rootCmd := NewRootCommand()
+				rootCmd.SetArgs(tc.args)
+				rootCmd.SilenceUsage = true
 
-			assert.Equal(t, tc.expectedError, err, "error returned by cascade should match")
-			assert.Equal(t, tc.expectedOutput, output.String(), "output should match expected")
+				output := &bytes.Buffer{}
+				rootCmd.SetOut(output)
+
+				err := rootCmd.Execute()
+
+				assert.Equal(t, tc.expectedError, err, "error returned by cascade should match")
+				
+				actualOutput := strings.TrimRight(output.String(), "\n")
+				expectedOutput := strings.TrimRight(tc.expectedOutput, "\n")
+				
+				assert.Equal(t, expectedOutput, actualOutput, "output should match expected")
+
+				if expectedOutput != actualOutput {
+						t.Logf("Expected:\n%s", expectedOutput)
+						t.Logf("Actual:\n%s", actualOutput)
+				}
 		})
-	}
+}
 }
