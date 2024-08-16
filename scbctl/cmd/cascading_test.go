@@ -67,7 +67,10 @@ func TestBuildTree(t *testing.T) {
 				},
 			},
 			expected: "Scans\n├── scan1\n└── scan2\n",
-		},
+			expected: `Scans
+├── scan1
+└── scan2
+`,
 		{
 			name: "One parent, one child",
 			scans: []v1.Scan{
