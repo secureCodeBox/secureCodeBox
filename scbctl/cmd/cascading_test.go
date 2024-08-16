@@ -12,19 +12,7 @@ import (
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/cli-runtime/pkg/genericclioptions"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 )
-
-type MockCascadeClientProvider struct {
-	client.Client
-	namespace string
-	err       error
-}
-
-func (m *MockCascadeClientProvider) GetClient(_ *genericclioptions.ConfigFlags) (client.Client, string, error) {
-	return m.Client, m.namespace, m.err
-}
 
 type testcases struct {
 	name           string
@@ -50,7 +38,9 @@ func TestBuildTree(t *testing.T) {
 					},
 				},
 			},
-			expected: "Scans\n└── scan1\n",
+			expected: `Scans
+└── scan1
+`,
 		},
 		{
 			name: "Two unrelated scans",
@@ -66,11 +56,11 @@ func TestBuildTree(t *testing.T) {
 					},
 				},
 			},
-			expected: "Scans\n├── scan1\n└── scan2\n",
 			expected: `Scans
 ├── scan1
 └── scan2
 `,
+		},
 		{
 			name: "One parent, one child",
 			scans: []v1.Scan{
@@ -88,7 +78,10 @@ func TestBuildTree(t *testing.T) {
 					},
 				},
 			},
-			expected: "Scans\n└── parent\n    └── child\n",
+			expected: `Scans
+└── parent
+    └── child
+`,
 		},
 		{
 			name: "Complex cascade",
@@ -123,7 +116,12 @@ func TestBuildTree(t *testing.T) {
 					},
 				},
 			},
-			expected: "Scans\n└── root\n    ├── child1\n    │   └── grandchild\n    └── child2\n",
+			expected: `Scans
+└── root
+    ├── child1
+    │   └── grandchild
+    └── child2
+`,
 		},
 	}
 
