@@ -8,20 +8,10 @@ import (
 	"testing"
 
 	"github.com/ddddddO/gtree"
-	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
-
-type testcases struct {
-	name           string
-	args           []string
-	expectedError  error
-	expectedOutput string
-	initialScans   []v1.Scan
-	initialRules   []cascadingv1.CascadingRule
-}
 
 func TestBuildTree(t *testing.T) {
 	tests := []struct {
