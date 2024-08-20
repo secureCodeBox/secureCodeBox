@@ -2684,6 +2684,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  ttlSecondsAfterFinished:
+                    description: Time in seconds after which the scan should be deleted automatically.
+                    format: int32
+                    type: integer
                   volumeMounts:
                     description: VolumeMounts allows to specify volume mounts for
                       the scan container.
