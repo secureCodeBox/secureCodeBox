@@ -104,7 +104,6 @@ func NewScanCommand() *cobra.Command {
 	return scanCmd
 }
 
-
 func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, scanName string) error {
 	// Find the job associated with the scan
 	jobList := &batchv1.JobList{}
@@ -113,54 +112,54 @@ func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, sc
 	fmt.Println("Listing jobs in namespace:", namespace)
 
 	for {
-			fmt.Println("Attempting to list jobs...")
-			err := kubeclient.List(ctx, jobList, client.InNamespace(namespace), labelSelector)
-			if err != nil {
-					return fmt.Errorf("error listing jobs: %s", err)
+		fmt.Println("Attempting to list jobs...")
+		err := kubeclient.List(ctx, jobList, client.InNamespace(namespace), labelSelector)
+		if err != nil {
+			return fmt.Errorf("error listing jobs: %s", err)
+		}
+
+		if len(jobList.Items) == 0 {
+			fmt.Println("No jobs found, retrying...")
+			time.Sleep(2 * time.Second)
+			continue
+		}
+
+		fmt.Printf("Found %d job(s)\n", len(jobList.Items))
+
+		for _, j := range jobList.Items {
+			fmt.Printf("Job: %s, Labels: %v\n", j.Name, j.Labels)
+		}
+
+		var job *batchv1.Job
+		for _, j := range jobList.Items {
+			fmt.Printf(j.Name)
+			if strings.HasPrefix(j.Name, fmt.Sprintf("scan-%s", scanName)) {
+				job = &j
+				break
 			}
+		}
 
-			if len(jobList.Items) == 0 {
-					fmt.Println("No jobs found, retrying...")
-					time.Sleep(2 * time.Second)
-					continue
-			}
+		if job == nil {
+			fmt.Println("No matching job found, retrying...")
+			time.Sleep(2 * time.Second)
+			continue
+		}
 
-			fmt.Printf("Found %d job(s)\n", len(jobList.Items))
+		jobName := job.Name
+		containerName := scanName // Assuming container name matches scan name
 
-			for _, j := range jobList.Items {
-					fmt.Printf("Job: %s, Labels: %v\n", j.Name, j.Labels)
-			}
+		fmt.Printf("📡 Streaming logs for job '%s' and container '%s'\n", jobName, containerName)
 
-			var job *batchv1.Job
-			for _, j := range jobList.Items {
-				fmt.Printf(j.Name)
-					if strings.HasPrefix(j.Name, fmt.Sprintf("scan-%s", scanName)) {
-							job = &j
-							break
-					}
-			}
+		// Execute kubectl logs command
+		cmd := exec.CommandContext(ctx, "kubectl", "logs", fmt.Sprintf("job/%s", jobName), containerName, "--follow", "-n", namespace)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
 
-			if job == nil {
-					fmt.Println("No matching job found, retrying...")
-					time.Sleep(2 * time.Second)
-					continue
-			}
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("error streaming logs: %s", err)
+		}
 
-			jobName := job.Name
-			containerName := scanName // Assuming container name matches scan name
-
-			fmt.Printf("📡 Streaming logs for job '%s' and container '%s'\n", jobName, containerName)
-
-			// Execute kubectl logs command
-			cmd := exec.CommandContext(ctx, "kubectl", "logs", fmt.Sprintf("job/%s", jobName), containerName, "--follow", "-n", namespace)
-			cmd.Stdout = os.Stdout
-			cmd.Stderr = os.Stderr
-
-			if err := cmd.Run(); err != nil {
-					return fmt.Errorf("error streaming logs: %s", err)
-			}
-
-			break
+		break
 	}
 
 	return nil

@@ -26,7 +26,6 @@ func init() {
 	utilruntime.Must(executionv1.AddToScheme(scheme))
 }
 
-
 type ClientProvider interface {
 	GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error)
 }
