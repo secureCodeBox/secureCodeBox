@@ -4,10 +4,15 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"os"
+	"os/exec"
 	"strings"
+	"time"
 
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	batchv1 "k8s.io/api/batch/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/spf13/cobra"
@@ -84,6 +89,11 @@ func NewScanCommand() *cobra.Command {
 			}
 
 			fmt.Printf("🚀 Successfully created a new Scan '%s'\n", scanName)
+
+			follow, _ := cmd.Flags().GetBool("follow")
+			if follow {
+				return followScanLogs(cmd.Context(), kubeclient, namespace, scanName)
+			}
 			return nil
 		},
 		ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
@@ -116,6 +126,74 @@ func NewScanCommand() *cobra.Command {
 	}
 
 	scanCmd.Flags().String("name", "", "Name of the created scan. If no name is provided, the ScanType will be used as the name")
+	scanCmd.Flags().Bool("follow", false, "Follow the log output")
 
 	return scanCmd
+}
+
+func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, scanName string) error {
+	// Find the job associated with the scan
+	jobList := &batchv1.JobList{}
+	labelSelector := client.MatchingLabels{}
+
+	fmt.Println("Listing jobs in namespace:", namespace)
+
+	for {
+		fmt.Println("Attempting to list jobs...")
+		err := kubeclient.List(ctx, jobList, client.InNamespace(namespace), labelSelector)
+		if err != nil {
+			return fmt.Errorf("error listing jobs: %s", err)
+		}
+
+		if len(jobList.Items) == 0 {
+			fmt.Println("No jobs found, retrying...")
+			time.Sleep(2 * time.Second)
+			continue
+		}
+
+		fmt.Printf("Found %d job(s)\n", len(jobList.Items))
+
+		for _, j := range jobList.Items {
+			fmt.Printf("Job: %s, Labels: %v\n", j.Name, j.Labels)
+		}
+
+		var job *batchv1.Job
+		for _, j := range jobList.Items {
+			fmt.Printf(j.Name)
+			if strings.HasPrefix(j.Name, fmt.Sprintf("scan-%s", scanName)) {
+				job = &j
+				break
+			}
+		}
+
+		if job == nil {
+			fmt.Println("No matching job found, retrying...")
+			time.Sleep(2 * time.Second)
+			continue
+		}
+
+		jobName := job.Name
+		containerName := scanName // Assuming container name matches scan name
+
+		fmt.Printf("📡 Streaming logs for job '%s' and container '%s'\n", jobName, containerName)
+
+		// Execute kubectl logs command
+		cmd := exec.CommandContext(ctx, "kubectl", "logs", fmt.Sprintf("job/%s", jobName), containerName, "--follow", "-n", namespace)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("error streaming logs: %s", err)
+		}
+
+		break
+	}
+
+	return nil
+}
+func runKubectlLogs(jobName, containerName, namespace string) error {
+	cmd := exec.Command("kubectl", "logs", fmt.Sprintf("job/%s", jobName), "-c", containerName, "-n", namespace, "--follow")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }

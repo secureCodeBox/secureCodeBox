@@ -6,9 +6,10 @@ package client
 import (
 	"fmt"
 
-	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
-	excv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
-	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	v1 "k8s.io/api/apps/v1"
+	batchv1 "k8s.io/api/batch/v1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -19,6 +20,12 @@ var (
 	scheme = runtime.NewScheme()
 )
 
+func init() {
+	utilruntime.Must(corev1.AddToScheme(scheme))
+	utilruntime.Must(batchv1.AddToScheme(scheme))
+	utilruntime.Must(executionv1.AddToScheme(scheme))
+}
+
 type ClientProvider interface {
 	GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error)
 }
@@ -27,12 +34,6 @@ type DefaultClientProvider struct{}
 
 func (d *DefaultClientProvider) GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error) {
 	return GetClient(flags)
-}
-
-func init() {
-	utilruntime.Must(v1.AddToScheme(scheme))
-	utilruntime.Must(cascadingv1.AddToScheme(scheme))
-	utilruntime.Must(excv1.AddToScheme(scheme))
 }
 
 func GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error) {
