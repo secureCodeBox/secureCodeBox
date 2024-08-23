@@ -15,10 +15,10 @@ tags:
   - community
   - open source
 description: This post gives some insights about the Google summer of code work with SecureCodeBox.
-image: /documentation/static/img/blog/2024-08-20-gsoc.png
+image: /img/blog/2024-08-20-gsoc.png
 ---
 
-![Notes](/documentation/static/img/blog/2024-08-20-gsoc.png)
+![Notes](/img/blog/2024-08-20-gsoc.png)
 
 ---
 
@@ -40,7 +40,7 @@ During the summer, I focused on two main goals: implementing the new commands an
 
 The commands implementation essential follows this workflow
 
-![workflow](/documentation/static/img/blog/2024-08-20-workflow.png).
+![workflow](/img/blog/2024-08-20-workflow.png).
 
 #### **1. Create Scan Command (`scbctl scan`)**
 
@@ -88,13 +88,13 @@ The `scbctl trigger` command allows users to manually trigger a `ScheduledScan` 
 
 **Usage Example:**
 ```bash
-scbctl trigger daily-nmap-scan
+scbctl trigger nmap --namespace foobar
 ```
-This command triggers the `daily-nmap-scan` scheduled scan immediately.
+This command triggers the `nmap` scheduled scan immediately.
 
 **Output:**
 ```bash
-triggered new Scan for ScheduledScan 'daily-nmap-scan'
+triggered new Scan for ScheduledScan 'nmap'
 ```
 
 #### **4. Cascade Visualization Command (`scbctl cascade`)**
