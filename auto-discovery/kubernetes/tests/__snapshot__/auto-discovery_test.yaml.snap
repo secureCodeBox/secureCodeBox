@@ -19,6 +19,7 @@ matches the snapshot:
                   "defectdojo.securecodebox.io/product-name": "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}",
                   "defectdojo.securecodebox.io/product-tags": "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
                 },
+                "env": [],
                 "hookSelector": {},
                 "labels": {},
                 "name": "trivy",
@@ -62,6 +63,7 @@ matches the snapshot:
                   "defectdojo.securecodebox.io/product-name": "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}",
                   "defectdojo.securecodebox.io/product-tags": "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
                 },
+                "env": [],
                 "hookSelector": {},
                 "labels": {},
                 "name": "zap",
