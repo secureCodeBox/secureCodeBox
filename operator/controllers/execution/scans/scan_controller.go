@@ -107,6 +107,14 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 		err = r.setHookStatus(&scan)
 	case executionv1.ScanStateHookProcessing:
 		err = r.executeHooks(&scan)
+	case executionv1.ScanStateErrored:
+		if r.checkIfTTLSecondsAfterFinishedisCompleted(&scan) {
+			err = r.deleteScan(&scan)
+		}
+	case executionv1.ScanStateDone:
+		if r.checkIfTTLSecondsAfterFinishedisCompleted(&scan) {
+			err = r.deleteScan(&scan)
+		}
 	case executionv1.ScanStateReadAndWriteHookProcessing:
 		fallthrough
 	case executionv1.ScanStateReadAndWriteHookCompleted:
