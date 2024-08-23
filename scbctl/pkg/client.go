@@ -6,6 +6,7 @@ package client
 import (
 	"fmt"
 
+	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	v1 "k8s.io/api/apps/v1"
 	batchv1 "k8s.io/api/batch/v1"
@@ -24,6 +25,7 @@ func init() {
 	utilruntime.Must(corev1.AddToScheme(scheme))
 	utilruntime.Must(batchv1.AddToScheme(scheme))
 	utilruntime.Must(executionv1.AddToScheme(scheme))
+	utilruntime.Must(cascadingv1.AddToScheme(scheme))
 }
 
 type ClientProvider interface {
