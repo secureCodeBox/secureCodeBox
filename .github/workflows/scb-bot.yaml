@@ -11,7 +11,6 @@
 # including mikefarah/yq to fetch local and remote versions of the scanners,
 # crazy-max/ghaction-import-gpg to import a GPG key, and jq to parse the JSON output of the scanner version API.
 
-
 # The CI runs on ubuntu-22.04; More info about the installed software is found here:
 # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 
@@ -48,6 +47,7 @@ jobs:
           - wpscan
           - zap
           - zap-advanced
+          - zap-automation-framework
           # missing scanners are : nmap, nikto
     steps:
       - uses: actions/checkout@v4
