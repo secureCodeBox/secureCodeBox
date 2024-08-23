@@ -233,6 +233,50 @@ var _ = Describe("gotemplate helper util", func() {
 					"bar": "foobar",
 				}))
 			})
+
+			It("should template with env vars", func() {
+				envVarConfig := []corev1.EnvVar{
+					{
+						Name:  "EXAMPLE_ENV_PLAIN",
+						Value: "foobar",
+					},
+					{
+						Name:  "EXAMPLE_ENV_TEMPLATED",
+						Value: "{{ .Target.Name }}",
+					},
+					{
+						Name: "EXAMPLE_ENV_VALUE_FROM",
+						ValueFrom: &corev1.EnvVarSource{
+							ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
+								LocalObjectReference: corev1.LocalObjectReference{
+									Name: "foobar-configmap",
+								},
+								Key: "key",
+							},
+						},
+					},
+				}
+				scanConfig := config.ScanConfig{
+					RepeatInterval: time.Hour,
+					Annotations:    map[string]string{},
+					Labels:         map[string]string{},
+					Parameters:     []string{"example.com"},
+					ScanType:       "nmap",
+					Env:            envVarConfig,
+				}
+
+				scanSpec := GenerateScanSpec(scanConfig, templateArgs)
+
+				Expect(scanSpec.ScanSpec.ScanType).To(Equal("nmap"))
+				Expect(scanSpec.ScanSpec.Env).To(BeEquivalentTo([]corev1.EnvVar{
+					envVarConfig[0],
+					{
+						Name:  "EXAMPLE_ENV_TEMPLATED",
+						Value: "foobar", // should be templated out
+					},
+					envVarConfig[2],
+				}))
+			})
 		})
 	})
 })

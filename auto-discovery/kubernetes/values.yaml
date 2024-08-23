@@ -55,6 +55,9 @@ config:
         # All values in the matchLabels map support templating.
         # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
         hookSelector: {}
+        # -- allows to overwrite the env var list of the scan job.
+        # the value field supports templating.
+        env: []
 
   containerAutoDiscovery:
     enabled: false
@@ -88,6 +91,9 @@ config:
         # All values in the matchLabels map support templating.
         # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
         hookSelector: {}
+        # -- allows to overwrite the env var list of the scan job.
+        # the value field supports templating.
+        env: []
   imagePullSecretConfig:
       mapImagePullSecretsToEnvironmentVariables: true
       usernameEnvironmentVariableName: "TRIVY_USERNAME"

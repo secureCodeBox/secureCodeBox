@@ -83,4 +83,5 @@ type ScanConfig struct {
 	Volumes        []corev1.Volume      `json:"volumes"`
 	VolumeMounts   []corev1.VolumeMount `json:"volumeMounts"`
 	HookSelector   metav1.LabelSelector `json:"hookSelector"`
+	Env            []corev1.EnvVar      `json:"env,omitempty"`
 }
