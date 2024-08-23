@@ -20,6 +20,7 @@ import (
 	rbacv1 "k8s.io/api/rbac/v1"
 	resource "k8s.io/apimachinery/pkg/api/resource"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -415,4 +416,35 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 	job.Spec.Template.Spec.Containers[0].Args = nil
 
 	return job, nil
+}
+
+func (r *ScanReconciler) checkIfTTLSecondsAfterFinishedisCompleted(scan *executionv1.Scan) bool {
+	if scan.Spec.TTLSecondsAfterFinished == nil {
+		return false
+	}
+	interval := time.Duration(*scan.Spec.TTLSecondsAfterFinished) * time.Second
+	r.Log.Info("TTLSecondsAfterFinished interval", "interval:", interval)
+	if scan.Status.FinishedAt != nil {
+		scanTimeout := scan.Status.FinishedAt
+		r.Log.Info("TTLSecondsAfterFinished scanTimeout", "scanTimeout", scanTimeout)
+		now := time.Now()
+		if now.After(scanTimeout.Add(interval)) {
+			return true
+		}
+	}
+	return false
+}
+
+func (r *ScanReconciler) deleteScan(scan *executionv1.Scan) error {
+	ctx := context.Background()
+	err := r.Client.Delete(ctx, scan)
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			r.Log.V(1).Info("Scan was already deleted, nothing to do")
+		} else {
+			r.Log.Error(err, "Unexpected error while trying to delete Scan")
+			return err
+		}
+	}
+	return nil
 }
