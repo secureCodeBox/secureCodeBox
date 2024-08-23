@@ -339,6 +339,19 @@ resources:
     cpu: 4
     memory: 4Gi
 ```
+### TTLSecondsAfterFinished
+`ttlSecondsAfterFinished` deletes the scan after a specified duration.
+
+```yaml
+TTLSecondsAfterFinished: 30 #deletes the scan after 30 seconds after completion
+```
+
+:::note
+TTLSecondsAfterFinished can also be set for the scanner or parser jobs individually (e.g [ScanType Custom Resource](
+/docs/contributing/integrating-a-scanner/values.yaml)). This will only deleted the job not the entire scan. 
+:::
+
+
 
 ## Metadata
 
