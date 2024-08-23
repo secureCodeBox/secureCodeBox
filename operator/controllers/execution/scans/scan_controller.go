@@ -242,6 +242,9 @@ func updateScanStateMetrics(scan executionv1.Scan) {
 func (r *ScanReconciler) updateScanStatus(ctx context.Context, scan *executionv1.Scan) error {
 	updateScanStateMetrics(*scan)
 
+	if scan.Status.FinishedAt == nil {
+		scan.Status.FinishedAt = &metav1.Time{Time: time.Now()}
+	}
 	if err := r.Status().Update(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
 		return err
