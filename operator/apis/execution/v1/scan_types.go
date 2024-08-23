@@ -170,7 +170,7 @@ const (
 type ScanStatus struct {
 	State ScanState `json:"state,omitempty"`
 
-	// FinishedAt contains the time where the scan (including parser & hooks) has been marked as "Done"
+	// FinishedAt contains the time where the scan (including parser & hooks) has been marked as "Done", or has errored
 	FinishedAt       *metav1.Time `json:"finishedAt,omitempty"`
 	ErrorDescription string       `json:"errorDescription,omitempty"`
 
