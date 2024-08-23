@@ -114,6 +114,13 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 	case executionv1.ScanStateReadOnlyHookProcessing:
 		err = r.migrateHookStatus(&scan)
 	}
+
+	if scan.Spec.TTLSecondsAfterFinished != nil && (scan.Status.State == executionv1.ScanStateDone || scan.Status.State == executionv1.ScanStateErrored) {
+		return ctrl.Result{
+			Requeue:      true,
+			RequeueAfter: time.Duration(*scan.Spec.TTLSecondsAfterFinished) * time.Second,
+		}, err
+	}
 	if err != nil {
 		return ctrl.Result{}, err
 	}
