@@ -6,7 +6,7 @@ package client
 import (
 	"fmt"
 
-	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	cascadingv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1"
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -20,12 +20,6 @@ var (
 	scheme = runtime.NewScheme()
 )
 
-func init() {
-	utilruntime.Must(corev1.AddToScheme(scheme))
-	utilruntime.Must(batchv1.AddToScheme(scheme))
-	utilruntime.Must(executionv1.AddToScheme(scheme))
-}
-
 type ClientProvider interface {
 	GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error)
 }
@@ -38,6 +32,9 @@ func (d *DefaultClientProvider) GetClient(flags *genericclioptions.ConfigFlags) 
 
 func init() {
 	utilruntime.Must(v1.AddToScheme(scheme))
+  utilruntime.Must(corev1.AddToScheme(scheme))
+	utilruntime.Must(batchv1.AddToScheme(scheme))
+	utilruntime.Must(cascadingv1.AddToScheme(scheme))
 }
 
 func GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error) {

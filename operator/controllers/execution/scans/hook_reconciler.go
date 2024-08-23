@@ -11,8 +11,7 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
-	"github.com/secureCodeBox/secureCodeBox/operator/utils"
-	util "github.com/secureCodeBox/secureCodeBox/operator/utils"
+	utils "github.com/secureCodeBox/secureCodeBox/operator/utils"
 	batch "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -43,7 +42,7 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 			return err
 		}
 
-		hookStatuses = util.MapHooksToHookStatus(scanCompletionHooks.Items)
+		hookStatuses = utils.MapHooksToHookStatus(scanCompletionHooks.Items)
 	} else {
 		var clusterScanCompletionHooks executionv1.ClusterScanCompletionHookList
 		if err := r.List(ctx, &clusterScanCompletionHooks,
@@ -53,16 +52,16 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 			return err
 		}
 
-		hookStatuses = util.MapClusterHooksToHookStatus(clusterScanCompletionHooks.Items)
+		hookStatuses = utils.MapClusterHooksToHookStatus(clusterScanCompletionHooks.Items)
 	}
 
 	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(hookStatuses))
 
-	orderedHookStatus := util.FromUnorderedList(hookStatuses)
+	orderedHookStatus := utils.FromUnorderedList(hookStatuses)
 	scan.Status.OrderedHookStatuses = orderedHookStatus
-	scan.Status.State = "HookProcessing"
+	scan.Status.State = executionv1.ScanStateHookProcessing
 
-	if err := r.Status().Update(ctx, scan); err != nil {
+	if err := r.updateScanStatus(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
 		return err
 	}
@@ -99,14 +98,14 @@ func (r *ScanReconciler) migrateHookStatus(scan *executionv1.Scan) error {
 				Type:     executionv1.ReadOnly,
 			}
 
-			if scan.Status.State == "ReadAndWriteHookProcessing" || scan.Status.State == "ReadAndWriteHookCompleted" {
+			if scan.Status.State == executionv1.ScanStateReadAndWriteHookProcessing || scan.Status.State == executionv1.ScanStateReadAndWriteHookCompleted {
 				// ReadOnly hooks should not have started yet, so mark them all as pending
 				hookStatus.State = executionv1.Pending
-			} else if scan.Status.State == "ReadOnlyHookProcessing" {
+			} else if scan.Status.State == executionv1.ScanStateReadOnlyHookProcessing {
 				// Had already started ReadOnly hooks and should now check status.
 				// No status for ReadOnly in old CRD, so mark everything as InProgress and let processInProgressHook update it later.
 				hookStatus.State = executionv1.InProgress
-			} else if scan.Status.State == "Done" {
+			} else if scan.Status.State == executionv1.ScanStateDone {
 				// Had completely finished
 				hookStatus.State = executionv1.Completed
 			}
@@ -117,12 +116,12 @@ func (r *ScanReconciler) migrateHookStatus(scan *executionv1.Scan) error {
 		}
 	}
 
-	scan.Status.OrderedHookStatuses = util.OrderHookStatusesInsideAPrioClass(append(readOnlyHooks, strSlice...))
-	if scan.Status.State != "Done" {
-		scan.Status.State = "HookProcessing"
+	scan.Status.OrderedHookStatuses = utils.OrderHookStatusesInsideAPrioClass(append(readOnlyHooks, strSlice...))
+	if scan.Status.State != executionv1.ScanStateDone {
+		scan.Status.State = executionv1.ScanStateHookProcessing
 	}
 
-	if err := r.Status().Update(ctx, scan); err != nil {
+	if err := r.updateScanStatus(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
 		return err
 	}
@@ -139,27 +138,27 @@ func (r *ScanReconciler) executeHooks(scan *executionv1.Scan) error {
 
 	err, currentHooks := utils.CurrentHookGroup(scan.Status.OrderedHookStatuses)
 
-	if err != nil && scan.Status.State == "Errored" {
+	if err != nil && scan.Status.State == executionv1.ScanStateErrored {
 		r.Log.V(8).Info("Skipping hook execution as it already contains failed hooks.")
 		return nil
 	} else if err != nil {
-		scan.Status.State = "Errored"
-		scan.Status.ErrorDescription = fmt.Sprintf("Hook execution failed for a unknown hook. Check the scan.status.hookStatus field for more details")
-	} else if err == nil && currentHooks == nil {
+		scan.Status.State = executionv1.ScanStateErrored
+		scan.Status.ErrorDescription = "hook execution failed for a unknown hook. Check the scan.status.hookStatus field for more details"
+	} else if currentHooks == nil {
 		// No hooks left to execute
-		scan.Status.State = "Done"
+		scan.Status.State = executionv1.ScanStateDone
 	} else {
 		for _, hook := range currentHooks {
 			err = r.processHook(scan, hook)
 
 			if err != nil {
-				scan.Status.State = "Errored"
+				scan.Status.State = executionv1.ScanStateErrored
 				scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute Hook '%s' in job '%s'. Check the logs of the hook for more information.", hook.HookName, hook.JobName)
 			}
 		}
 	}
 
-	if sErr := r.Status().Update(ctx, scan); sErr != nil {
+	if sErr := r.updateScanStatus(ctx, scan); sErr != nil {
 		r.Log.Error(sErr, "Unable to update Scan status")
 		return sErr
 	}
@@ -227,7 +226,7 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 		return nil
 	}
 
-	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.HookController)
+	urlExpirationDuration, err := utils.GetUrlExpirationDuration(utils.HookController)
 	if err != nil {
 		r.Log.Error(err, "Failed to parse hook url expiration")
 		panic(err)
@@ -382,7 +381,7 @@ func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
-			GenerateName: util.TruncateName(fmt.Sprintf("%s-%s", hookName, scan.Name)),
+			GenerateName: utils.TruncateName(fmt.Sprintf("%s-%s", hookName, scan.Name)),
 			Namespace:    scan.Namespace,
 			Labels:       labels,
 		},
@@ -455,7 +454,7 @@ func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1
 	}
 
 	// Merge NodeSelectors from Hook & Scan into Hook Job
-	job.Spec.Template.Spec.NodeSelector = util.MergeStringMaps(job.Spec.Template.Spec.NodeSelector, hookSpec.NodeSelector, scan.Spec.NodeSelector)
+	job.Spec.Template.Spec.NodeSelector = utils.MergeStringMaps(job.Spec.Template.Spec.NodeSelector, hookSpec.NodeSelector, scan.Spec.NodeSelector)
 
 	// Replace tolerations from template with those from the scan, if specified.
 	// Otherwise, stick to those from the template

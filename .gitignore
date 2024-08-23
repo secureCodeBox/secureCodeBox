@@ -70,3 +70,4 @@ documentation/src/integrations.js
 ## Copied over during the build
 documentation/static/findings
 
+**/node_modules/
