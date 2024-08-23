@@ -135,8 +135,8 @@ func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, sc
 	// Find the job associated with the scan
 	jobList := &batchv1.JobList{}
 	labelSelector := client.MatchingLabels{
-        "securecodebox.io/job-type": "scanner"
-    }
+		"securecodebox.io/job-type": "scanner",
+	}
 
 	fmt.Println("Listing jobs in namespace:", namespace)
 
@@ -192,10 +192,4 @@ func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, sc
 	}
 
 	return nil
-}
-func runKubectlLogs(jobName, containerName, namespace string) error {
-	cmd := exec.Command("kubectl", "logs", fmt.Sprintf("job/%s", jobName), "-c", containerName, "-n", namespace, "--follow")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return cmd.Run()
 }
