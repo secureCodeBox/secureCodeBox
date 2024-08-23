@@ -134,7 +134,9 @@ func NewScanCommand() *cobra.Command {
 func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, scanName string) error {
 	// Find the job associated with the scan
 	jobList := &batchv1.JobList{}
-	labelSelector := client.MatchingLabels{}
+	labelSelector := client.MatchingLabels{
+        "securecodebox.io/job-type": "scanner"
+    }
 
 	fmt.Println("Listing jobs in namespace:", namespace)
 
