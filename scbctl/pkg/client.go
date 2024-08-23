@@ -32,7 +32,7 @@ func (d *DefaultClientProvider) GetClient(flags *genericclioptions.ConfigFlags) 
 
 func init() {
 	utilruntime.Must(v1.AddToScheme(scheme))
-  utilruntime.Must(corev1.AddToScheme(scheme))
+	utilruntime.Must(corev1.AddToScheme(scheme))
 	utilruntime.Must(batchv1.AddToScheme(scheme))
 	utilruntime.Must(cascadingv1.AddToScheme(scheme))
 }
