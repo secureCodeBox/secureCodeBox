@@ -6,7 +6,10 @@ package client
 import (
 	"fmt"
 
+	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	batchv1 "k8s.io/api/batch/v1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -16,6 +19,13 @@ import (
 var (
 	scheme = runtime.NewScheme()
 )
+
+func init() {
+	utilruntime.Must(corev1.AddToScheme(scheme))
+	utilruntime.Must(batchv1.AddToScheme(scheme))
+	utilruntime.Must(executionv1.AddToScheme(scheme))
+}
+
 
 type ClientProvider interface {
 	GetClient(flags *genericclioptions.ConfigFlags) (client.Client, string, error)
