@@ -29,6 +29,9 @@ func templateOrPanic(templateString string, templateArgs interface{}) string {
 	var rawOutput bytes.Buffer
 	err = tmpl.Execute(&rawOutput, templateArgs)
 	output := rawOutput.String()
+	if err != nil {
+		panic(err)
+	}
 
 	if output != "" {
 		return output
