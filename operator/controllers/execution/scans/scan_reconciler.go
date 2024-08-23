@@ -423,12 +423,10 @@ func (r *ScanReconciler) checkIfTTLSecondsAfterFinishedisCompleted(scan *executi
 		return false
 	}
 	interval := time.Duration(*scan.Spec.TTLSecondsAfterFinished) * time.Second
-	r.Log.Info("TTLSecondsAfterFinished interval", "interval:", interval)
 	if scan.Status.FinishedAt != nil {
-		scanTimeout := scan.Status.FinishedAt
-		r.Log.Info("TTLSecondsAfterFinished scanTimeout", "scanTimeout", scanTimeout)
+		scanTimeout := scan.Status.FinishedAt.Add(interval)
 		now := time.Now()
-		if now.After(scanTimeout.Add(interval)) {
+		if now.After(scanTimeout) {
 			return true
 		}
 	}
@@ -440,11 +438,13 @@ func (r *ScanReconciler) deleteScan(scan *executionv1.Scan) error {
 	err := r.Client.Delete(ctx, scan)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			r.Log.V(1).Info("Scan was already deleted, nothing to do")
+			r.Log.Info("Scan was already deleted, nothing to do")
 		} else {
 			r.Log.Error(err, "Unexpected error while trying to delete Scan")
 			return err
 		}
+	} else {
+		r.Log.Info("Scan was deleted seccessfully", "scan", scan.Name)
 	}
 	return nil
 }
