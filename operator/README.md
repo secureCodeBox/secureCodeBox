@@ -83,6 +83,8 @@ helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 | lurker.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | lurker.image.repository | string | `"docker.io/securecodebox/lurker"` | The operator image repository |
 | lurker.image.tag | string | defaults to the charts version | Parser image tag |
+| metrics | object | `{"serviceMonitor":{"enabled":false}}` | Configuration for the metrics the operator exports |
+| metrics.serviceMonitor.enabled | bool | `false` | Creates a prometheus operator ServiceMonitor rule to automatically scrape the operators metrics: https://github.com/prometheus-operator/prometheus-operator |
 | minio | object | `{"auth":{"rootPassword":"password","rootUser":"admin"},"defaultBuckets":"securecodebox","enabled":true,"resources":{"requests":{"memory":"256Mi"}},"tls":{"enabled":false}}` | Minio default config. More config options an info: https://github.com/minio/minio/blob/master/helm/minio/values.yaml |
 | minio.enabled | bool | `true` | Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc. |
 | nodeSelector | object | `{}` |  |

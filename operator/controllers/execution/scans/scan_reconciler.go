@@ -56,14 +56,14 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 
 			log.V(7).Info("Unable to fetch ScanType")
 
-			scan.Status.State = "Errored"
+			scan.Status.State = executionv1.ScanStateErrored
 			scan.Status.ErrorDescription = fmt.Sprintf("Configured ScanType '%s' not found in '%s' namespace. You'll likely need to deploy the ScanType.", scan.Spec.ScanType, scan.Namespace)
-			if err := r.Status().Update(ctx, scan); err != nil {
+			if err := r.updateScanStatus(ctx, scan); err != nil {
 				r.Log.Error(err, "unable to update Scan status")
 				return err
 			}
 
-			return fmt.Errorf("No ScanType of type '%s' found", scan.Spec.ScanType)
+			return fmt.Errorf("no ScanType of type '%s' found", scan.Spec.ScanType)
 		}
 		log.Info("Matching ScanType Found", "ScanType", scanType.Name)
 		scanTypeSpec = scanType.Spec
@@ -74,14 +74,14 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 			r.Log.Error(err, "Failing around")
 			log.V(7).Info("Unable to fetch ClusterScanType")
 
-			scan.Status.State = "Errored"
+			scan.Status.State = executionv1.ScanStateErrored
 			scan.Status.ErrorDescription = fmt.Sprintf("Configured ClusterScanType '%s' not found in global ClusterScanTypes. You'll likely need to deploy the ScanType.", scan.Spec.ScanType)
-			if err := r.Status().Update(ctx, scan); err != nil {
+			if err := r.updateScanStatus(ctx, scan); err != nil {
 				r.Log.Error(err, "unable to update Scan status")
 				return err
 			}
 
-			return fmt.Errorf("No ClusterScanType of type '%s' found", scan.Spec.ScanType)
+			return fmt.Errorf("no ClusterScanType of type '%s' found", scan.Spec.ScanType)
 		}
 		log.Info("Matching ClusterScanType Found", "ClusterScanType", clusterScanType.Name)
 		scanTypeSpec = clusterScanType.Spec
@@ -114,7 +114,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		return err
 	}
 
-	scan.Status.State = "Scanning"
+	scan.Status.State = executionv1.ScanStateScanning
 	scan.Status.RawResultType = scanTypeSpec.ExtractResults.Type
 	scan.Status.RawResultFile = filepath.Base(scanTypeSpec.ExtractResults.Location)
 
@@ -151,10 +151,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	}
 	scan.Status.RawResultHeadLink = rawResultsHeadURL
 
-	if err := r.Status().Update(ctx, scan); err != nil {
-		log.Error(err, "unable to update Scan status")
-		return err
-	}
+	r.updateScanStatus(ctx, scan)
 
 	log.V(7).Info("created Job for Scan", "job", job)
 	return nil
@@ -172,15 +169,15 @@ func (r *ScanReconciler) checkIfScanIsCompleted(scan *executionv1.Scan) error {
 	switch status {
 	case completed:
 		r.Log.V(7).Info("Scan is completed")
-		scan.Status.State = "ScanCompleted"
-		if err := r.Status().Update(ctx, scan); err != nil {
+		scan.Status.State = executionv1.ScanStateScanCompleted
+		if err := r.updateScanStatus(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
 		}
 	case failed:
-		scan.Status.State = "Errored"
+		scan.Status.State = executionv1.ScanStateErrored
 		scan.Status.ErrorDescription = "Failed to run the Scan Container, check k8s Job and its logs for more details"
-		if err := r.Status().Update(ctx, scan); err != nil {
+		if err := r.updateScanStatus(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
 		}
@@ -286,7 +283,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 	case "":
 		lurkerPullPolicy = corev1.PullAlways
 	default:
-		return nil, fmt.Errorf("Unknown imagePull Policy for lurker: %s", lurkerPullPolicyRaw)
+		return nil, fmt.Errorf("unknown imagePull Policy for lurker: %s", lurkerPullPolicyRaw)
 	}
 
 	falsePointer := false

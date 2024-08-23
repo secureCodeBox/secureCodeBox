@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+{{ if .Values.metrics.serviceMonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: securecodebox-operator-metrics
+  labels:
+    app.kubernetes.io/name: securecodebox-operator-metrics
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: securecodebox-operator-metrics
+  endpoints:
+    - port: metrics
+{{ end -}}
