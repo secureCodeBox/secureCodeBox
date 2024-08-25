@@ -18,6 +18,7 @@ import (
 	"github.com/spf13/cobra"
 	metav2 "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 func NewScanCommand() *cobra.Command {
@@ -132,50 +133,39 @@ func NewScanCommand() *cobra.Command {
 }
 
 func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, scanName string) error {
-	// Find the job associated with the scan
-	jobList := &batchv1.JobList{}
-	labelSelector := client.MatchingLabels{
-		"securecodebox.io/job-type": "scanner",
-	}
+
 
 	fmt.Println("Listing jobs in namespace:", namespace)
 
 	for {
-		fmt.Println("Attempting to list jobs...")
-		err := kubeclient.List(ctx, jobList, client.InNamespace(namespace), labelSelector)
-		if err != nil {
-			return fmt.Errorf("error listing jobs: %s", err)
-		}
+		scan := &v1.Scan{}
+    err := kubeclient.Get(ctx, types.NamespacedName{Name: scanName, Namespace: namespace}, scan)
+    if err != nil {
+        return fmt.Errorf("error getting scan: %s", err)
+    }
 
-		if len(jobList.Items) == 0 {
-			fmt.Println("No jobs found, retrying...")
+    // Find the job name from OrderedHookStatuses
+    var jobName string
+    if len(scan.Status.OrderedHookStatuses) > 0 && len(scan.Status.OrderedHookStatuses[0]) > 0 {
+        jobName = scan.Status.OrderedHookStatuses[0][0].JobName
+    }
+
+    if jobName == "" {
+			fmt.Println("No matching jobName found, retrying...")
 			time.Sleep(2 * time.Second)
 			continue
-		}
+    }
 
-		fmt.Printf("Found %d job(s)\n", len(jobList.Items))
+    // Now get the job
+    job := &batchv1.Job{}
+    err = kubeclient.Get(ctx, types.NamespacedName{Name: jobName, Namespace: namespace}, job)
+    if err != nil {
+        return fmt.Errorf("error getting job: %s", err)
+    }
 
-		for _, j := range jobList.Items {
-			fmt.Printf("Job: %s, Labels: %v\n", j.Name, j.Labels)
-		}
+    fmt.Printf("Found job: %s\n", job.Name)
 
-		var job *batchv1.Job
-		for _, j := range jobList.Items {
-			fmt.Printf(j.Name)
-			if strings.HasPrefix(j.Name, fmt.Sprintf("scan-%s", scanName)) {
-				job = &j
-				break
-			}
-		}
-
-		if job == nil {
-			fmt.Println("No matching job found, retrying...")
-			time.Sleep(2 * time.Second)
-			continue
-		}
-
-		jobName := job.Name
-		containerName := scanName
+		containerName :=  job.Spec.Template.Spec.Containers[0].Name
 
 		fmt.Printf("📡 Streaming logs for job '%s' and container '%s'\n", jobName, containerName)
 
@@ -192,4 +182,14 @@ func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, sc
 	}
 
 	return nil
+}
+
+
+func isOwnedBy(job *batchv1.Job, scan *v1.Scan) bool {
+    for _, ownerRef := range job.OwnerReferences {
+        if ownerRef.UID == scan.UID {
+            return true
+        }
+    }
+    return false
 }
