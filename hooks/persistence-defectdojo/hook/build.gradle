@@ -4,7 +4,7 @@
 
 plugins {
   id "java"
-  id "io.freefair.lombok" version "8.7.1"
+  id "io.freefair.lombok" version "8.10"
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.51.0"
@@ -25,7 +25,7 @@ repositories {
 dependencies {
   implementation group: "io.securecodebox", name: "defectdojo-client", version: "3.0.0"
   implementation group: "io.kubernetes", name: "client-java", version: "20.0.1"
-  implementation group: "org.springframework", name: "spring-web", version: "6.1.11"
+  implementation group: "org.springframework", name: "spring-web", version: "6.1.12"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.17.2"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.17.2"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.17.2"
@@ -35,7 +35,7 @@ dependencies {
   // If I try to notate this like the others (with separate strings) I got errors. No idea why sh... Gradle
   // want it like this. It is the official documented example:
   // https://github.com/junit-team/junit5-samples/blob/r5.10.0/junit5-jupiter-starter-gradle/build.gradle
-  testImplementation(platform("org.junit:junit-bom:5.10.3"))
+  testImplementation(platform("org.junit:junit-bom:5.11.0"))
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation group: "org.mockito", name: "mockito-core", version: "5.12.0"
   testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.12.0"
