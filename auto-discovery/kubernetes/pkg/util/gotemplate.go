@@ -29,6 +29,9 @@ func templateOrPanic(templateString string, templateArgs interface{}) string {
 	var rawOutput bytes.Buffer
 	err = tmpl.Execute(&rawOutput, templateArgs)
 	output := rawOutput.String()
+	if err != nil {
+		panic(err)
+	}
 
 	if output != "" {
 		return output
@@ -128,6 +131,16 @@ func generateHookSelectors(scanConfig config.ScanConfig, templateArgs interface{
 	return hookSelector
 }
 
+func generateEnvVars(scanConfig config.ScanConfig, templateArgs interface{}) []corev1.EnvVar {
+	var envVars []corev1.EnvVar = []corev1.EnvVar{}
+	for _, envVar := range scanConfig.Env {
+		envVarCopy := envVar.DeepCopy()
+		envVarCopy.Value = templateOrPanic(envVarCopy.Value, templateArgs)
+		envVars = append(envVars, *envVarCopy)
+	}
+	return envVars
+}
+
 // GenerateScanSpec takes in both autoDiscoveryConfig and scanConfig as this function might be used by other controllers in the future, which can then pass in the their relevant scanConfig into this function
 func GenerateScanSpec(scanConfig config.ScanConfig, templateArgs interface{}) executionv1.ScheduledScanSpec {
 	parameters := scanConfig.Parameters
@@ -137,6 +150,7 @@ func GenerateScanSpec(scanConfig config.ScanConfig, templateArgs interface{}) ex
 	volumes := generateVolumes(scanConfig, templateArgs)
 	volumeMounts := generateVolumeMounts(scanConfig, templateArgs)
 	hookSelector := generateHookSelectors(scanConfig, templateArgs)
+	envVars := generateEnvVars(scanConfig, templateArgs)
 
 	scheduledScanSpec := executionv1.ScheduledScanSpec{
 		Interval: metav1.Duration{Duration: scanConfig.RepeatInterval},
@@ -146,6 +160,7 @@ func GenerateScanSpec(scanConfig config.ScanConfig, templateArgs interface{}) ex
 			Volumes:      volumes,
 			VolumeMounts: volumeMounts,
 			HookSelector: hookSelector,
+			Env:          envVars,
 		},
 		RetriggerOnScanTypeChange: true,
 	}
