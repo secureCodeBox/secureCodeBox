@@ -16,7 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/spf13/cobra"
-	metav2 "k8s.io/apimachinery/pkg/api/errors"
+	k8sErrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/types"
@@ -84,7 +84,7 @@ func NewScanCommand() *cobra.Command {
 
 			err = kubeclient.Create(cmd.Context(), scan)
 			if err != nil {
-				if metav2.IsNotFound(err) {
+				if k8sErrors.IsNotFound(err) {
 					return fmt.Errorf("failed to create Scan: namespace '%s' not found", namespace)
 				}
 				return fmt.Errorf("failed to create scan: %s", err)
