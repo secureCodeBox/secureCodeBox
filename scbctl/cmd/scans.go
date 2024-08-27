@@ -18,6 +18,8 @@ import (
 	"github.com/spf13/cobra"
 	metav2 "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 func NewScanCommand() *cobra.Command {
@@ -132,55 +134,39 @@ func NewScanCommand() *cobra.Command {
 }
 
 func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, scanName string) error {
-	// Find the job associated with the scan
-	jobList := &batchv1.JobList{}
-	labelSelector := client.MatchingLabels{
-		"securecodebox.io/job-type": "scanner",
-	}
-
-	fmt.Println("Listing jobs in namespace:", namespace)
+	fmt.Println("⏰ Waiting for scan job to start...")
+	const recheckInterval = 250 * time.Millisecond
 
 	for {
-		fmt.Println("Attempting to list jobs...")
-		err := kubeclient.List(ctx, jobList, client.InNamespace(namespace), labelSelector)
+		scan := &v1.Scan{}
+		err := kubeclient.Get(ctx, types.NamespacedName{Name: scanName, Namespace: namespace}, scan)
 		if err != nil {
-			return fmt.Errorf("error listing jobs: %s", err)
+			return fmt.Errorf("error getting scan: %s", err)
 		}
 
-		if len(jobList.Items) == 0 {
-			fmt.Println("No jobs found, retrying...")
-			time.Sleep(2 * time.Second)
+		jobs, err := getJobsForScanOfType(ctx, kubeclient, scan, "scanner")
+		if err != nil {
+			return fmt.Errorf("error getting jobs for scan: %s", err)
+		}
+
+		if len(jobs) == 0 {
+			time.Sleep(recheckInterval)
 			continue
 		}
 
-		fmt.Printf("Found %d job(s)\n", len(jobList.Items))
+		job := jobs[0]
 
-		for _, j := range jobList.Items {
-			fmt.Printf("Job: %s, Labels: %v\n", j.Name, j.Labels)
-		}
-
-		var job *batchv1.Job
-		for _, j := range jobList.Items {
-			fmt.Printf(j.Name)
-			if strings.HasPrefix(j.Name, fmt.Sprintf("scan-%s", scanName)) {
-				job = &j
-				break
-			}
-		}
-
-		if job == nil {
-			fmt.Println("No matching job found, retrying...")
-			time.Sleep(2 * time.Second)
+		// check if job has started or completed yet (checking for completion in case it finished before we got the ready state)
+		if job.Status.CompletionTime == nil && (job.Status.Ready == nil || (*job.Status.Ready == 0)) {
+			time.Sleep(recheckInterval)
 			continue
 		}
 
-		jobName := job.Name
 		containerName := scanName // Assuming container name matches scan name
 
-		fmt.Printf("📡 Streaming logs for job '%s' and container '%s'\n", jobName, containerName)
+		fmt.Printf("📡 Streaming logs for job '%s' and container '%s'\n", job.Name, containerName)
 
-		// Execute kubectl logs command
-		cmd := exec.CommandContext(ctx, "kubectl", "logs", fmt.Sprintf("job/%s", jobName), containerName, "--follow", "-n", namespace)
+		cmd := exec.CommandContext(ctx, "kubectl", "logs", fmt.Sprintf("job/%s", job.Name), containerName, "--follow", "--namespace", namespace)
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 
@@ -192,4 +178,26 @@ func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, sc
 	}
 
 	return nil
+}
+
+func getJobsForScanOfType(ctx context.Context, kubeclient client.Client, scan *v1.Scan, jobType string) ([]batchv1.Job, error) {
+	var jobs []batchv1.Job
+
+	scanJobs := &batchv1.JobList{}
+	err := kubeclient.List(ctx, scanJobs, &client.ListOptions{
+		LabelSelector: labels.SelectorFromSet(map[string]string{"securecodebox.io/job-type": jobType}),
+	})
+	if err != nil {
+		return []batchv1.Job{}, fmt.Errorf("error fetching jobs: %s", err)
+	}
+
+	for _, job := range scanJobs.Items {
+		for _, jobOwnerReference := range job.GetOwnerReferences() {
+			if jobOwnerReference.UID == scan.GetUID() {
+				jobs = append(jobs, job)
+			}
+		}
+	}
+
+	return jobs, nil
 }
