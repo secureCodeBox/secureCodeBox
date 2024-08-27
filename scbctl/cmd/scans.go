@@ -126,7 +126,7 @@ func NewScanCommand() *cobra.Command {
 	}
 
 	scanCmd.Flags().String("name", "", "Name of the created scan. If no name is provided, the ScanType will be used as the name")
-	scanCmd.Flags().Bool("follow", false, "Follow the log output")
+	scanCmd.Flags().Bool("follow", false, "Follow the log output of the scan container. Requires kubectl to be installed and in the shell path")
 
 	return scanCmd
 }
