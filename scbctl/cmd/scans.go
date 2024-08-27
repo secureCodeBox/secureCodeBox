@@ -133,39 +133,37 @@ func NewScanCommand() *cobra.Command {
 }
 
 func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, scanName string) error {
-
-
 	fmt.Println("Listing jobs in namespace:", namespace)
 
 	for {
 		scan := &v1.Scan{}
-    err := kubeclient.Get(ctx, types.NamespacedName{Name: scanName, Namespace: namespace}, scan)
-    if err != nil {
-        return fmt.Errorf("error getting scan: %s", err)
-    }
+		err := kubeclient.Get(ctx, types.NamespacedName{Name: scanName, Namespace: namespace}, scan)
+		if err != nil {
+			return fmt.Errorf("error getting scan: %s", err)
+		}
 
-    // Find the job name from OrderedHookStatuses
-    var jobName string
-    if len(scan.Status.OrderedHookStatuses) > 0 && len(scan.Status.OrderedHookStatuses[0]) > 0 {
-        jobName = scan.Status.OrderedHookStatuses[0][0].JobName
-    }
+		// Find the job name from OrderedHookStatuses
+		var jobName string
+		if len(scan.Status.OrderedHookStatuses) > 0 && len(scan.Status.OrderedHookStatuses[0]) > 0 {
+			jobName = scan.Status.OrderedHookStatuses[0][0].JobName
+		}
 
-    if jobName == "" {
+		if jobName == "" {
 			fmt.Println("No matching jobName found, retrying...")
 			time.Sleep(2 * time.Second)
 			continue
-    }
+		}
 
-    // Now get the job
-    job := &batchv1.Job{}
-    err = kubeclient.Get(ctx, types.NamespacedName{Name: jobName, Namespace: namespace}, job)
-    if err != nil {
-        return fmt.Errorf("error getting job: %s", err)
-    }
+		// Now get the job
+		job := &batchv1.Job{}
+		err = kubeclient.Get(ctx, types.NamespacedName{Name: jobName, Namespace: namespace}, job)
+		if err != nil {
+			return fmt.Errorf("error getting job: %s", err)
+		}
 
-    fmt.Printf("Found job: %s\n", job.Name)
+		fmt.Printf("Found job: %s\n", job.Name)
 
-		containerName :=  job.Spec.Template.Spec.Containers[0].Name
+		containerName := job.Spec.Template.Spec.Containers[0].Name
 
 		fmt.Printf("📡 Streaming logs for job '%s' and container '%s'\n", jobName, containerName)
 
@@ -184,12 +182,11 @@ func followScanLogs(ctx context.Context, kubeclient client.Client, namespace, sc
 	return nil
 }
 
-
 func isOwnedBy(job *batchv1.Job, scan *v1.Scan) bool {
-    for _, ownerRef := range job.OwnerReferences {
-        if ownerRef.UID == scan.UID {
-            return true
-        }
-    }
-    return false
+	for _, ownerRef := range job.OwnerReferences {
+		if ownerRef.UID == scan.UID {
+			return true
+		}
+	}
+	return false
 }
