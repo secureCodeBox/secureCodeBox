@@ -92,6 +92,8 @@ minio:
 s3:
   # s3.enabled Enable this and disable minio if you want to directly connect against AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: false
+  tls:
+    enabled: true
   endpoint: "fra1.digitaloceanspaces.com"
   bucket: "my-bucket"
   # Implicit 443. You probably only need to change this when the system uses a non default port
