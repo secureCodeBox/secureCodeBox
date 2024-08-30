@@ -444,7 +444,7 @@ func (r *ScanReconciler) deleteScan(scan *executionv1.Scan) error {
 			return err
 		}
 	} else {
-		r.Log.Info("Scan was deleted seccessfully", "scan", scan.Name)
+		r.Log.Info("Scan was deleted successfully", "scan", scan.Name)
 	}
 	return nil
 }

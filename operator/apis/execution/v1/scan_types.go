@@ -146,7 +146,7 @@ type ScanSpec struct {
 
 	// Resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
-
+	// ttlSecondsAfterFinished limits the lifetime of a Scan that has finished execution (either Done or Errored). If this field is set ttlSecondsAfterFinished after the Scan finishes, it is eligible to be automatically deleted. When the Scan is being deleted, its lifecycle guarantees (e.g. finalizers) will be honored. If this field is unset, the Scan won't be automatically deleted. If this is set to zero, the Scan becomes eligible to be deleted immediately after it finishes.
 	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
 }
 
@@ -170,7 +170,7 @@ const (
 type ScanStatus struct {
 	State ScanState `json:"state,omitempty"`
 
-	// FinishedAt contains the time where the scan (including parser & hooks) has been marked as "Done", or has errored
+	// FinishedAt contains the time where the scan (including parser & hooks) has been marked as "Done", or "Errored"
 	FinishedAt       *metav1.Time `json:"finishedAt,omitempty"`
 	ErrorDescription string       `json:"errorDescription,omitempty"`
 

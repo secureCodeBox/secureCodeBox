@@ -339,19 +339,17 @@ resources:
     cpu: 4
     memory: 4Gi
 ```
+
 ### TTLSecondsAfterFinished
 `ttlSecondsAfterFinished` deletes the scan after a specified duration.
 
 ```yaml
-TTLSecondsAfterFinished: 30 #deletes the scan after 30 seconds after completion
+ttlSecondsAfterFinished: 30 #deletes the scan after 30 seconds after completion
 ```
 
 :::note
-TTLSecondsAfterFinished can also be set for the scanner or parser jobs individually (e.g [ScanType Custom Resource](
-/docs/contributing/integrating-a-scanner/values.yaml)). This will only deleted the job not the entire scan. 
+ttlSecondsAfterFinished can also be set for the scan (as part of the [jobTemplate](https://www.securecodebox.io/docs/api/crds/scan-type#jobtemplate-required)), [parser](https://www.securecodebox.io/docs/api/crds/parse-definition) and [hook](https://www.securecodebox.io/docs/api/crds/scan-completion-hook#ttlsecondsafterfinished-optional) jobs individually. Setting these will only deleted the jobs not the entire scan. 
 :::
-
-
 
 ## Metadata
 
