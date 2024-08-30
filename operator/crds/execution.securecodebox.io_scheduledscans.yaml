@@ -2679,7 +2679,10 @@ spec:
                       type: object
                     type: array
                   ttlSecondsAfterFinished:
-                    description: Time in seconds after which the scan should be deleted automatically.
+                    description: ttlSecondsAfterFinished limits the lifetime of a
+                      Scan that has finished execution (either Done or Errored). If
+                      this field is set ttlSecondsAfterFinished after the Scan finishes,
+                      it is eligible to be automatically deleted.
                     format: int32
                     type: integer
                   volumeMounts:

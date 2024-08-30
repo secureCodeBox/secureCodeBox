@@ -2624,7 +2624,10 @@ spec:
                   type: object
                 type: array
               ttlSecondsAfterFinished:
-                description: Time in seconds after which the scan should be deleted automatically.
+                description: ttlSecondsAfterFinished limits the lifetime of a Scan
+                  that has finished execution (either Done or Errored). If this field
+                  is set ttlSecondsAfterFinished after the Scan finishes, it is eligible
+                  to be automatically deleted.
                 format: int32
                 type: integer
               volumeMounts:
@@ -4281,7 +4284,7 @@ spec:
                 type: object
               finishedAt:
                 description: FinishedAt contains the time where the scan (including
-                  parser & hooks) has been marked as "Done"
+                  parser & hooks) has been marked as "Done", or "Errored"
                 format: date-time
                 type: string
               orderedHookStatuses:
