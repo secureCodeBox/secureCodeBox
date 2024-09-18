@@ -5,7 +5,6 @@
 import { NotifierType } from "../NotifierType"
 import { AbstractWebHookNotifier } from "./AbstractWebHookNotifier"
 import { Finding } from "../model/Finding"
-import axios from 'axios';
 import { NotificationChannel } from "../model/NotificationChannel";
 import { Scan } from "../model/Scan";
 
