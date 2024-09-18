@@ -128,3 +128,6 @@ presignedUrlExpirationTimes:
   scanners: "12h"
   parsers: "1h"
   hooks: "1h"
+
+# Sets the value of the istio sidecar annotation for jobs: "sidecar.istio.io/inject"
+istioInjectJobs: false
