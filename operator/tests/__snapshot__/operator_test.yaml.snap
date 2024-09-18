@@ -77,6 +77,8 @@ matches the snapshot:
                   value: 1h
                 - name: URL_EXPIRATION_HOOK
                   value: 1h
+                - name: ISTIO_INJECT_JOBS
+                  value: "false"
               image: docker.io/securecodebox/operator:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
@@ -683,6 +685,8 @@ properly-renders-the-service-monitor-when-enabled:
                   value: 1h
                 - name: URL_EXPIRATION_HOOK
                   value: 1h
+                - name: ISTIO_INJECT_JOBS
+                  value: "false"
               image: docker.io/securecodebox/operator:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
