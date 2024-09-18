@@ -7,6 +7,7 @@ package scancontrollers
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"k8s.io/apimachinery/pkg/labels"
 
@@ -378,6 +379,13 @@ func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1
 	if len(hookSpec.Resources.Requests) != 0 || len(hookSpec.Resources.Limits) != 0 {
 		resources = hookSpec.Resources
 	}
+
+	istioInjectJobs := "false"
+
+	if configuredIstioInjectJobs, ok := os.LookupEnv("ISTIO_INJECT_JOBS"); ok {
+		istioInjectJobs = configuredIstioInjectJobs
+	}
+
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
@@ -395,7 +403,7 @@ func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1
 					},
 					Annotations: map[string]string{
 						"auto-discovery.securecodebox.io/ignore": "true",
-						"sidecar.istio.io/inject":                "false",
+						"sidecar.istio.io/inject":                istioInjectJobs,
 					},
 				},
 				Spec: corev1.PodSpec{

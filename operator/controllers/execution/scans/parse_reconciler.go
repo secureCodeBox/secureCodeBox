@@ -7,6 +7,7 @@ package scancontrollers
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
@@ -137,6 +138,12 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		resources = parseDefinitionSpec.Resources
 	}
 
+	istioInjectJobs := "false"
+
+	if configuredIstioInjectJobs, ok := os.LookupEnv("ISTIO_INJECT_JOBS"); ok {
+		istioInjectJobs = configuredIstioInjectJobs
+	}
+
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
@@ -154,7 +161,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 					},
 					Annotations: map[string]string{
 						"auto-discovery.securecodebox.io/ignore": "true",
-						"sidecar.istio.io/inject":                "false",
+						"sidecar.istio.io/inject":                istioInjectJobs,
 					},
 				},
 				Spec: corev1.PodSpec{
