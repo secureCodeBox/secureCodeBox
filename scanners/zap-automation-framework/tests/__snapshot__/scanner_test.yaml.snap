@@ -44,6 +44,15 @@ matches the snapshot:
           - https://{{$.hostOrIP}}:{{attributes.port}}
         scanType: zap-automation-framework
   3: |
+    apiVersion: v1
+    data:
+      zap-entrypoint.bash: |2
+        # ensures that zap still exits with a exit code of zero when the scan logged warnings: see https://www.zaproxy.org/docs/automate/automation-framework/
+        ./zap.sh -cmd $@ || [ $? -ne 1 ]
+    kind: ConfigMap
+    metadata:
+      name: zap-automation-framework-entrypoint
+  4: |
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition
     metadata:
@@ -63,7 +72,7 @@ matches the snapshot:
       tolerations:
         - foo: bar
       ttlSecondsAfterFinished: null
-  4: |
+  5: |
     apiVersion: execution.securecodebox.io/v1
     kind: ScanType
     metadata:
@@ -81,8 +90,8 @@ matches the snapshot:
                 foo: bar
               containers:
                 - command:
-                    - zap.sh
-                    - -cmd
+                    - bash
+                    - /zap/zap-entrypoint.bash
                   env: []
                   envFrom: []
                   image: softwaresecurityproject/zap-stable:0.0.0
@@ -101,6 +110,10 @@ matches the snapshot:
                   volumeMounts:
                     - mountPath: /zap/wrk
                       name: zap-workdir
+                    - mountPath: /zap/zap-entrypoint.bash
+                      name: zap-automation-framework-entrypoint
+                      readOnly: true
+                      subPath: zap-entrypoint.bash
                 - image: bar
                   name: foo
               restartPolicy: Never
@@ -110,3 +123,6 @@ matches the snapshot:
               volumes:
                 - emptyDir: {}
                   name: zap-workdir
+                - configMap:
+                    name: zap-automation-framework-entrypoint
+                  name: zap-automation-framework-entrypoint

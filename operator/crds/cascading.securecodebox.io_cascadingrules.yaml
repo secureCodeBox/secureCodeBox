@@ -2684,6 +2684,13 @@ spec:
                           type: string
                       type: object
                     type: array
+                  ttlSecondsAfterFinished:
+                    description: ttlSecondsAfterFinished limits the lifetime of a
+                      Scan that has finished execution (either Done or Errored). If
+                      this field is set ttlSecondsAfterFinished after the Scan finishes,
+                      it is eligible to be automatically deleted.
+                    format: int32
+                    type: integer
                   volumeMounts:
                     description: VolumeMounts allows to specify volume mounts for
                       the scan container.

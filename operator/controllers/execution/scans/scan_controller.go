@@ -107,12 +107,27 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 		err = r.setHookStatus(&scan)
 	case executionv1.ScanStateHookProcessing:
 		err = r.executeHooks(&scan)
+	case executionv1.ScanStateErrored:
+		if r.checkIfTTLSecondsAfterFinishedisCompleted(&scan) {
+			err = r.deleteScan(&scan)
+		}
+	case executionv1.ScanStateDone:
+		if r.checkIfTTLSecondsAfterFinishedisCompleted(&scan) {
+			err = r.deleteScan(&scan)
+		}
 	case executionv1.ScanStateReadAndWriteHookProcessing:
 		fallthrough
 	case executionv1.ScanStateReadAndWriteHookCompleted:
 		fallthrough
 	case executionv1.ScanStateReadOnlyHookProcessing:
 		err = r.migrateHookStatus(&scan)
+	}
+
+	if scan.Spec.TTLSecondsAfterFinished != nil && (scan.Status.State == executionv1.ScanStateDone || scan.Status.State == executionv1.ScanStateErrored) {
+		return ctrl.Result{
+			Requeue:      true,
+			RequeueAfter: time.Duration(*scan.Spec.TTLSecondsAfterFinished) * time.Second,
+		}, err
 	}
 	if err != nil {
 		return ctrl.Result{}, err
@@ -241,6 +256,11 @@ func updateScanStateMetrics(scan executionv1.Scan) {
 
 func (r *ScanReconciler) updateScanStatus(ctx context.Context, scan *executionv1.Scan) error {
 	updateScanStateMetrics(*scan)
+	if scan.Status.State == executionv1.ScanStateDone || scan.Status.State == executionv1.ScanStateErrored {
+		if scan.Status.FinishedAt == nil {
+			scan.Status.FinishedAt = &metav1.Time{Time: time.Now()}
+		}
+	}
 
 	if err := r.Status().Update(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")

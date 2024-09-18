@@ -340,6 +340,17 @@ resources:
     memory: 4Gi
 ```
 
+### TTLSecondsAfterFinished
+`ttlSecondsAfterFinished` deletes the scan after a specified duration.
+
+```yaml
+ttlSecondsAfterFinished: 30 #deletes the scan after 30 seconds after completion
+```
+
+:::note
+ttlSecondsAfterFinished can also be set for the scan (as part of the [jobTemplate](https://www.securecodebox.io/docs/api/crds/scan-type#jobtemplate-required)), [parser](https://www.securecodebox.io/docs/api/crds/parse-definition) and [hook](https://www.securecodebox.io/docs/api/crds/scan-completion-hook#ttlsecondsafterfinished-optional) jobs individually. Setting these will only deleted the jobs not the entire scan. 
+:::
+
 ## Metadata
 
 Metadata is a standard field on Kubernetes resources. It contains multiple relevant fields, e.g. the name of the resource, its namespace and a `creationTimestamp` of the resource. See more on the [Kubernetes Docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) and the [Kubernetes API Reference](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/).

@@ -75,11 +75,18 @@ scanner:
   extraVolumes:
     - name: zap-workdir
       emptyDir: {}
+    - name: zap-automation-framework-entrypoint
+      configMap:
+        name: zap-automation-framework-entrypoint
 
   # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumeMounts:
     - mountPath: /zap/wrk
       name: zap-workdir
+    - name: zap-automation-framework-entrypoint
+      mountPath: "/zap/zap-entrypoint.bash"
+      readOnly: true
+      subPath: zap-entrypoint.bash
 
   # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
