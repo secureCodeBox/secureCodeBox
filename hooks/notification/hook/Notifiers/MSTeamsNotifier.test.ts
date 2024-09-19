@@ -14,14 +14,16 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+const TEAMS_ENDPOINT =
+  "https://teams.example.com/webhookb2/<uuid>@<uuid>>/IncomingWebhook/<something>/<uuid>";
 const channel: NotificationChannel = {
   name: "Channel Name",
   type: NotifierType.MS_TEAMS,
   template: "msteams-messageCard",
   rules: [],
-  endPoint:
-    "https://teams.example.com/webhookb2/<uuid>@<uuid>>/IncomingWebhook/<something>/<uuid>",
+  endPoint: "TEAMS_ENDPOINT",
 };
+process.env["TEAMS_ENDPOINT"] = TEAMS_ENDPOINT;
 
 test("Should Send Message With Findings And Severities", async () => {
   const scan: Scan = {
@@ -67,7 +69,9 @@ test("Should Send Message With Findings And Severities", async () => {
 
   const teamsNotifier = new MSTeamsNotifier(channel, scan, [], []);
   teamsNotifier.sendMessage();
-  expect(axios.post).toHaveBeenCalled();
+  expect(axios.post).toHaveBeenCalledWith(TEAMS_ENDPOINT, expect.any(String), {
+    headers: { "Content-Type": "application/json" },
+  });
 });
 
 test("Should Send Minimal Template For Empty Findings", async () => {
@@ -101,5 +105,7 @@ test("Should Send Minimal Template For Empty Findings", async () => {
 
   const n = new MSTeamsNotifier(channel, scan, [], []);
   n.sendMessage();
-  expect(axios.post).toHaveBeenCalled();
+  expect(axios.post).toHaveBeenCalledWith(TEAMS_ENDPOINT, expect.any(String), {
+    headers: { "Content-Type": "application/json" },
+  });
 });

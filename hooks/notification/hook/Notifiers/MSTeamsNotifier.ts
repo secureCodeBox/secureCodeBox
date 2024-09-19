@@ -19,4 +19,10 @@ export class MSTeamsNotifier extends AbstractWebHookNotifier {
   ) {
     super(channel, scan, findings, args);
   }
+
+  public async sendMessage(): Promise<void> {
+    await this.sendPostRequest(this.renderMessage(), {
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }
