@@ -19,7 +19,7 @@ export class NotifierFactory {
     channel: NotificationChannel,
     scan: Scan,
     findings: Finding[],
-    args: any
+    args: any,
   ): Notifier {
     switch (channel.type) {
       case NotifierType.SLACK:
@@ -35,7 +35,9 @@ export class NotifierFactory {
       case NotifierType.ROCKET_CHAT:
         return new RocketChatNotifier(channel, scan, findings, args);
       default:
-        throw new Error(`Notifier of Type: "${channel.type}"  is not implemented :( Check with the notification hooks documentation for a list of available notifiers.`);
+        throw new Error(
+          `Notifier of Type: "${channel.type}"  is not implemented :( Check with the notification hooks documentation for a list of available notifiers.`,
+        );
     }
   }
 }

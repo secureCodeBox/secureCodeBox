@@ -14,7 +14,7 @@ import * as nunjucks from "nunjucks";
 export abstract class AbstractNotifier implements Notifier {
   private static readonly TEMPLATE_DIR: string = path.join(
     __dirname,
-    "../notification-templates"
+    "../notification-templates",
   );
   private static readonly TEMPLATE_FILE_TYPE = "njk";
   protected channel: NotificationChannel;
@@ -28,7 +28,7 @@ export abstract class AbstractNotifier implements Notifier {
     channel: NotificationChannel,
     scan: Scan,
     findings: Finding[],
-    args: Object
+    args: Object,
   ) {
     this.channel = channel;
     this.scan = scan;
@@ -42,11 +42,10 @@ export abstract class AbstractNotifier implements Notifier {
     return JSON.stringify(this.renderYamlTemplate());
   }
 
-
   /**
    * By default the value of the endpoint channel config is mapped to a environment variable to be able to store these values securely
    * This behavior can be overwritten for hooks where it doesn't make sense as the endpoint is not considered sensitive.
-   * 
+   *
    * @param envName value of the channels endpoint
    * @returns string actual EndPoint value
    */
@@ -63,7 +62,7 @@ export abstract class AbstractNotifier implements Notifier {
         scan: this.scan,
         args: this.args,
         renderString: nunjucks.renderString,
-      }
+      },
     );
     try {
       const templateObject = jsyaml.load(renderedTemplate);

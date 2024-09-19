@@ -20,16 +20,16 @@ export async function handle({ getFindings, scan }) {
 
   console.log("Starting notification hook");
   console.log(
-    "Configured notification channels: " + notificationChannels.join(", ")
+    "Configured notification channels: " + notificationChannels.join(", "),
   );
   console.log(notificationChannels);
   for (const channel of notificationChannels) {
     console.log(
-      `Starting notifier "${channel.name}" of type "${channel.type}"`
+      `Starting notifier "${channel.name}" of type "${channel.type}"`,
     );
 
     const findingsToNotify = findings.filter((finding) =>
-      matches(finding, channel.rules)
+      matches(finding, channel.rules),
     );
 
     if (
@@ -37,7 +37,7 @@ export async function handle({ getFindings, scan }) {
       findingsToNotify.length === 0
     ) {
       console.log(
-        `Skipping notifier "${channel.name}" as there are no findings to send the notification out for.`
+        `Skipping notifier "${channel.name}" as there are no findings to send the notification out for.`,
       );
       continue;
     }
@@ -46,7 +46,7 @@ export async function handle({ getFindings, scan }) {
       channel,
       scan,
       findingsToNotify,
-      args
+      args,
     );
     await notifier.sendMessage();
   }
@@ -74,7 +74,7 @@ export function getNotificationChannels(channelFile: string): any[] {
 
 function doesNotMatch(rule: any, finding: Finding): boolean {
   return !rule.matches.anyOf.some((condition: object) =>
-    isMatch(finding, condition)
+    isMatch(finding, condition),
   );
 }
 

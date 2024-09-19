@@ -3,17 +3,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TrelloNotifier } from "./TrelloNotifier";
-import axios from 'axios'
+import axios from "axios";
 import { Finding } from "../model/Finding";
 import { NotificationChannel } from "../model/NotificationChannel";
 import { NotifierType } from "../NotifierType";
 import { Scan } from "../model/Scan";
 
-jest.mock('axios');
+jest.mock("axios");
 
 beforeEach(() => {
   jest.clearAllMocks();
-})
+});
 
 const finding: Finding = {
   name: "test finding",
@@ -30,11 +30,10 @@ const channel: NotificationChannel = {
   type: NotifierType.TRELLO,
   template: "",
   rules: [],
-  endPoint: "https://api.trello.com/1/cards"
+  endPoint: "https://api.trello.com/1/cards",
 };
 
 test("Should Create Cards With Findings And Severities", async () => {
-
   const scan: Scan = {
     metadata: {
       uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
@@ -76,8 +75,8 @@ test("Should Create Cards With Findings And Severities", async () => {
     },
   };
 
-  const findings: Finding[] = []
-  findings.push(finding)
+  const findings: Finding[] = [];
+  findings.push(finding);
 
   const trelloNotifier = new TrelloNotifier(channel, scan, findings, []);
   trelloNotifier.sendMessage();
@@ -113,10 +112,10 @@ test("Should Send Minimal Template For Empty Findings", async () => {
     },
   };
 
-  const findings: Finding[] = []
-  findings.push(finding)
+  const findings: Finding[] = [];
+  findings.push(finding);
 
   const trelloNotifier = new TrelloNotifier(channel, scan, findings, []);
   trelloNotifier.sendMessage();
   expect(axios.post).toBeCalled();
-})
+});

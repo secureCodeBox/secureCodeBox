@@ -3,27 +3,27 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { MSTeamsNotifier } from "./MSTeamsNotifier";
-import axios from 'axios'
+import axios from "axios";
 import { NotificationChannel } from "../model/NotificationChannel";
 import { NotifierType } from "../NotifierType";
 import { Scan } from "../model/Scan";
 
-jest.mock('axios');
+jest.mock("axios");
 
 beforeEach(() => {
   jest.clearAllMocks();
-})
+});
 
 const channel: NotificationChannel = {
   name: "Channel Name",
   type: NotifierType.MS_TEAMS,
   template: "msteams-messageCard",
   rules: [],
-  endPoint: "https://teams.example.com/webhookb2/<uuid>@<uuid>>/IncomingWebhook/<something>/<uuid>"
+  endPoint:
+    "https://teams.example.com/webhookb2/<uuid>@<uuid>>/IncomingWebhook/<something>/<uuid>",
 };
 
 test("Should Send Message With Findings And Severities", async () => {
-
   const scan: Scan = {
     metadata: {
       uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
@@ -102,4 +102,4 @@ test("Should Send Minimal Template For Empty Findings", async () => {
   const n = new MSTeamsNotifier(channel, scan, [], []);
   n.sendMessage();
   expect(axios.post).toBeCalled();
-})
+});
