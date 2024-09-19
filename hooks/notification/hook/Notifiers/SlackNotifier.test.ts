@@ -66,7 +66,7 @@ test("Should Send Message With Findings And Severities", async () => {
 
   const slackNotifier = new SlackNotifier(channel, scan, [], []);
   slackNotifier.sendMessage();
-  expect(axios.post).toBeCalled();
+  expect(axios.post).toHaveBeenCalled();
 });
 
 test("Should Send Minimal Template For Empty Findings", async () => {
@@ -100,5 +100,5 @@ test("Should Send Minimal Template For Empty Findings", async () => {
 
   const n = new SlackNotifier(channel, scan, [], []);
   n.sendMessage();
-  expect(axios.post).toBeCalled();
+  expect(axios.post).toHaveBeenCalled();
 });

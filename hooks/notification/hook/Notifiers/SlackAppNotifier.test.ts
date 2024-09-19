@@ -68,5 +68,5 @@ test("Should Send Message With Findings And Severities", async () => {
 
   const slackNotifier = new SlackAppNotifier(channel, scan, [], []);
   slackNotifier.sendMessage();
-  expect(axios.post).toBeCalled();
+  expect(axios.post).toHaveBeenCalled();
 });

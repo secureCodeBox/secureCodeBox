@@ -86,7 +86,7 @@ test("Should Send Mail", async () => {
 
   await notifier.sendMessage();
 
-  expect(sendMail).toBeCalledWith({
+  expect(sendMail).toHaveBeenCalledWith({
     from: "secureCodeBox",
     html: `<strong>Scan demo-scan-1601086432</strong><br>
 Created at ${creationTimestamp.toString()}
@@ -121,7 +121,7 @@ Strict-Transport-Security Header Not Set: 1
 `,
     to: "mail@example.com",
   });
-  expect(close).toBeCalled();
+  expect(close).toHaveBeenCalled();
 });
 
 test("should send mail to recipient overwritten in scan annotation", async () => {
@@ -147,7 +147,7 @@ test("should send mail to recipient overwritten in scan annotation", async () =>
 
   await notifier.sendMessage();
 
-  expect(sendMail).toBeCalledWith({
+  expect(sendMail).toHaveBeenCalledWith({
     from: "secureCodeBox",
     html: `<strong>Scan demo-scan-1601086432</strong><br>
 Created at ${creationTimestamp.toString()}
@@ -182,5 +182,5 @@ Strict-Transport-Security Header Not Set: 1
 `,
     to: "foo@example.com",
   });
-  expect(close).toBeCalled();
+  expect(close).toHaveBeenCalled();
 });
