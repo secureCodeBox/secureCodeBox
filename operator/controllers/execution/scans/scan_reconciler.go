@@ -233,15 +233,9 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 		podAnnotations = make(map[string]string)
 	}
 
-	istioInjectJobs := "false"
-
-	if configuredIstioInjectJobs, ok := os.LookupEnv("ISTIO_INJECT_JOBS"); ok {
-		istioInjectJobs = configuredIstioInjectJobs
-	}
-
 	podAnnotations["auto-discovery.securecodebox.io/ignore"] = "true"
 	// Ensuring that istio doesn't inject a sidecar proxy.
-	podAnnotations["sidecar.istio.io/inject"] = istioInjectJobs
+	podAnnotations["sidecar.istio.io/inject"] = allowIstioSidecarInjectionInJobs
 	job.Spec.Template.Annotations = podAnnotations
 
 	if job.Spec.Template.Spec.ServiceAccountName == "" {

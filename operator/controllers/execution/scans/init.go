@@ -5,6 +5,8 @@
 package scancontrollers
 
 import (
+	"os"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
 )
@@ -37,7 +39,13 @@ var (
 	)
 )
 
+var allowIstioSidecarInjectionInJobs = "false"
+
 func init() {
 	// Register custom metrics with the global prometheus registry
 	metrics.Registry.MustRegister(scansStartedMetric, scansDoneMetric, scansErroredMetric)
+
+	if allowIstioSidecarInjectionInJobsEnv, ok := os.LookupEnv("ALLOW_ISTIO_SIDECAR_INJECTION_IN_JOBS"); ok && (allowIstioSidecarInjectionInJobsEnv == "true" || allowIstioSidecarInjectionInJobsEnv == "false") {
+		allowIstioSidecarInjectionInJobs = allowIstioSidecarInjectionInJobsEnv
+	}
 }
