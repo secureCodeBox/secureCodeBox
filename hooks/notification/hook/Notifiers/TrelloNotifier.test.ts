@@ -80,7 +80,7 @@ test("Should Create Cards With Findings And Severities", async () => {
 
   const trelloNotifier = new TrelloNotifier(channel, scan, findings, []);
   trelloNotifier.sendMessage();
-  expect(axios.post).toBeCalled();
+  expect(axios.post).toHaveBeenCalled();
 });
 
 test("Should Send Minimal Template For Empty Findings", async () => {
@@ -117,5 +117,5 @@ test("Should Send Minimal Template For Empty Findings", async () => {
 
   const trelloNotifier = new TrelloNotifier(channel, scan, findings, []);
   trelloNotifier.sendMessage();
-  expect(axios.post).toBeCalled();
+  expect(axios.post).toHaveBeenCalled();
 });

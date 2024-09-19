@@ -90,7 +90,7 @@ test("Should Send Message With Findings And Severities", async () => {
   });
   await rocketChatNotifier.sendMessage();
 
-  expect(axios.post).toBeCalledWith(
+  expect(axios.post).toHaveBeenCalledWith(
     "https://rocketchat.example.com/api/v1/chat.postMessage",
     '{"channel":"#securecodebox","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world","short":false}]}]}',
     {
@@ -116,7 +116,7 @@ test("Should use channel overwrite from annotation if set", async () => {
   });
   await rocketChatNotifier.sendMessage();
 
-  expect(axios.post).toBeCalledWith(
+  expect(axios.post).toHaveBeenCalledWith(
     "https://rocketchat.example.com/api/v1/chat.postMessage",
     '{"channel":"#team-42-channel","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world","short":false}]}]}',
     {
@@ -143,7 +143,7 @@ test("Should include link back to defectdojo if set in finding", async () => {
   });
   await rocketChatNotifier.sendMessage();
 
-  expect(axios.post).toBeCalledWith(
+  expect(axios.post).toHaveBeenCalledWith(
     "https://rocketchat.example.com/api/v1/chat.postMessage",
     '{"channel":"#securecodebox","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world [Open in DefectDojo](https://defectdojo.example.com/finding/42)","short":false}]}]}',
     {
