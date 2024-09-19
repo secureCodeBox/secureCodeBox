@@ -43,7 +43,7 @@ test("Should Send Message With Findings And Severities", async () => {
     },
     status: {
       findingDownloadLink:
-        "https://my-secureCodeBox-instance.com/scan-b9as-sdweref--sadf-asdfsdf-dasdgf-asdffdsfa7/findings.json",
+        "https://s3.securecodebox.example.com/scan-b9as-sdweref--sadf-asdfsdf-dasdgf-asdffdsfa7/findings.json",
       findings: {
         categories: {
           "A Client Error response code was returned by the server": 1,
@@ -60,7 +60,7 @@ test("Should Send Message With Findings And Severities", async () => {
       },
       finishedAt: new Date("2020-05-25T02:38:13Z"),
       rawResultDownloadLink:
-        "https://my-secureCodeBox-instance.com/scan-blkfsdg-sdgfsfgd-sfg-sdfg-dfsg-gfs98-e8af2172caa7/zap-results.json?Expires=1601691232",
+        "https://s3.securecodebox.example.com/scan-blkfsdg-sdgfsfgd-sfg-sdfg-dfsg-gfs98-e8af2172caa7/zap-results.json?Expires=1601691232",
       rawResultFile: "zap-results.json",
       rawResultType: "zap-json",
       state: "Done",
@@ -92,11 +92,11 @@ test("Should Send Minimal Template For Empty Findings", async () => {
     },
     status: {
       findingDownloadLink:
-        "https://my-secureCodeBox-instance.com/scan-b9as-sdweref--sadf-asdfsdf-dasdgf-asdffdsfa7/findings.json",
+        "https://s3.securecodebox.example.com/scan-b9as-sdweref--sadf-asdfsdf-dasdgf-asdffdsfa7/findings.json",
       findings: {},
       finishedAt: new Date("2020-05-25T02:38:13Z"),
       rawResultDownloadLink:
-        "https://my-secureCodeBox-instance.com/scan-blkfsdg-sdgfsfgd-sfg-sdfg-dfsg-gfs98-e8af2172caa7/zap-results.json?Expires=1601691232",
+        "https://s3.securecodebox.example.com/scan-blkfsdg-sdgfsfgd-sfg-sdfg-dfsg-gfs98-e8af2172caa7/zap-results.json?Expires=1601691232",
       rawResultFile: "zap-results.json",
       rawResultType: "zap-json",
       state: "Done",
