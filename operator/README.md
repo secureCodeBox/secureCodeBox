@@ -73,6 +73,7 @@ helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| allowIstioSidecarInjectionInJobs | bool | `false` | Sets the value of the istio sidecar annotation ("sidecar.istio.io/inject") for jobs started by the operator (scans, parser and hooks). defaults to false to prevent jobs hanging indefinitely due to the sidecar never terminating. If you aren't using istio this setting/annotation has no effect. |
 | customCACertificate | object | `{"certificate":"public.crt","existingCertificate":null}` | Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurker, parser & hooks). Requires that every namespace has a configmap with the CA certificate(s) |
 | customCACertificate.certificate | string | `"public.crt"` | key in the configmap holding the certificate(s) |
 | customCACertificate.existingCertificate | string | `nil` | name of the configMap holding the ca certificate(s), needs to be the same across all namespaces |

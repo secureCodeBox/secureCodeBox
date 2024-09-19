@@ -139,8 +139,8 @@ spec:
               value: {{ .Values.presignedUrlExpirationTimes.parsers | quote }}
             - name: URL_EXPIRATION_HOOK
               value: {{ .Values.presignedUrlExpirationTimes.hooks | quote }}
-            - name: ISTIO_INJECT_JOBS
-              value: {{ .Values.istioInjectJobs | quote }}
+            - name: ALLOW_ISTIO_SIDECAR_INJECTION_IN_JOBS
+              value: {{ .Values.allowIstioSidecarInjectionInJobs | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:

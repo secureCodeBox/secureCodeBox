@@ -129,5 +129,5 @@ presignedUrlExpirationTimes:
   parsers: "1h"
   hooks: "1h"
 
-# Sets the value of the istio sidecar annotation for jobs: "sidecar.istio.io/inject"
-istioInjectJobs: false
+# -- Sets the value of the istio sidecar annotation ("sidecar.istio.io/inject") for jobs started by the operator (scans, parser and hooks). defaults to false to prevent jobs hanging indefinitely due to the sidecar never terminating. If you aren't using istio this setting/annotation has no effect.
+allowIstioSidecarInjectionInJobs: false
