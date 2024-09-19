@@ -23,7 +23,7 @@ export class SlackAppNotifier extends AbstractNotifier {
     channel: NotificationChannel,
     scan: Scan,
     findings: Finding[],
-    args: Object
+    args: Object,
   ) {
     super(channel, scan, findings, args);
 
@@ -35,7 +35,7 @@ export class SlackAppNotifier extends AbstractNotifier {
 
     if (this.slackChannel === undefined) {
       throw new Error(
-        "Not Slack channel configured via 'notification.securecodebox.io/slack-channel' scan annotation or via the 'SLACK_DEFAULT_CHANNEL' env variable."
+        "Not Slack channel configured via 'notification.securecodebox.io/slack-channel' scan annotation or via the 'SLACK_DEFAULT_CHANNEL' env variable.",
       );
     }
   }
@@ -47,7 +47,7 @@ export class SlackAppNotifier extends AbstractNotifier {
   protected async sendPostRequest(message: any) {
     try {
       console.log(
-        `Sending notification to Slack Channel: ${this.slackChannel}`
+        `Sending notification to Slack Channel: ${this.slackChannel}`,
       );
 
       const { data: response } = await axios.post<SlackApiResponse>(
@@ -60,7 +60,7 @@ export class SlackAppNotifier extends AbstractNotifier {
           headers: {
             Authorization: `Bearer ${process.env["SLACK_APP_TOKEN"]}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -68,7 +68,7 @@ export class SlackAppNotifier extends AbstractNotifier {
       }
     } catch (e) {
       console.log(
-        `There was an Error sending the Message for the Slack App Notifier "${this.channel.name}"`
+        `There was an Error sending the Message for the Slack App Notifier "${this.channel.name}"`,
       );
       console.log(e);
     }

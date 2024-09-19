@@ -15,7 +15,7 @@ export class RocketChatNotifier extends AbstractWebHookNotifier {
     channel: NotificationChannel,
     scan: Scan,
     findings: Finding[],
-    args: Object
+    args: Object,
   ) {
     super(channel, scan, findings, args);
   }

@@ -5,7 +5,7 @@
 import { Finding } from "./model/Finding";
 import { NotificationChannel } from "./model/NotificationChannel";
 import { Scan } from "./model/Scan";
-import { NotifierFactory } from "./NotifierFactory"
+import { NotifierFactory } from "./NotifierFactory";
 import { SlackNotifier } from "./Notifiers/SlackNotifier";
 import { MSTeamsNotifier } from "./Notifiers/MSTeamsNotifier";
 import { TrelloNotifier } from "./Notifiers/TrelloNotifier";
@@ -68,14 +68,14 @@ test("Should Create Slack Notifier", async () => {
     type: NotifierType.SLACK,
     template: "template",
     rules: [],
-    endPoint: "some.endpoint"
-  }
-  const findings: Finding[] = []
-  findings.push(finding)
+    endPoint: "some.endpoint",
+  };
+  const findings: Finding[] = [];
+  findings.push(finding);
   const s = NotifierFactory.create(chan, scan, findings, []);
 
   expect(s instanceof SlackNotifier).toBe(true);
-})
+});
 
 test("Should Create MS Teams Notifier", async () => {
   const chan: NotificationChannel = {
@@ -83,15 +83,15 @@ test("Should Create MS Teams Notifier", async () => {
     type: NotifierType.MS_TEAMS,
     template: "template",
     rules: [],
-    endPoint: "some.endpoint"
-  }
-  const findings: Finding[] = []
-  findings.push(finding)
+    endPoint: "some.endpoint",
+  };
+  const findings: Finding[] = [];
+  findings.push(finding);
 
   const s = NotifierFactory.create(chan, scan, findings, []);
 
   expect(s instanceof MSTeamsNotifier).toBe(true);
-})
+});
 
 test("Should Create Trello Notifier", async () => {
   const chan: NotificationChannel = {
@@ -99,12 +99,12 @@ test("Should Create Trello Notifier", async () => {
     type: NotifierType.TRELLO,
     template: "template",
     rules: [],
-    endPoint: "some.endpoint"
-  }
-  const findings: Finding[] = []
-  findings.push(finding)
+    endPoint: "some.endpoint",
+  };
+  const findings: Finding[] = [];
+  findings.push(finding);
 
   const s = NotifierFactory.create(chan, scan, findings, []);
 
   expect(s instanceof TrelloNotifier).toBe(true);
-})
+});

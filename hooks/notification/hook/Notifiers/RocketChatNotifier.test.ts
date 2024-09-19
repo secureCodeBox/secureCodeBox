@@ -99,7 +99,7 @@ test("Should Send Message With Findings And Severities", async () => {
         "X-Auth-Token": "foobar",
         "X-User-Id": "barfoo",
       },
-    }
+    },
   );
 });
 
@@ -125,7 +125,7 @@ test("Should use channel overwrite from annotation if set", async () => {
         "X-Auth-Token": "foobar",
         "X-User-Id": "barfoo",
       },
-    }
+    },
   );
 });
 
@@ -152,6 +152,6 @@ test("Should include link back to defectdojo if set in finding", async () => {
         "X-Auth-Token": "foobar",
         "X-User-Id": "barfoo",
       },
-    }
+    },
   );
 });
