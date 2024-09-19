@@ -9,16 +9,8 @@ import (
 	"github.com/ddddddO/gtree"
 	v1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	"github.com/spf13/cobra"
-	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
-
-type cascadeOptions struct {
-	configFlags *genericclioptions.ConfigFlags
-	genericclioptions.IOStreams
-
-	namespace string
-}
 
 func NewCascadeCommand() *cobra.Command {
 	cascadeCmd := &cobra.Command{
