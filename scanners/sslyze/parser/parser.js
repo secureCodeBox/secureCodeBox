@@ -171,11 +171,6 @@ function analyseCertificateDeployments(serverScanResult) {
           description:
             "Hostname of Server didn't match the certificates subject names",
         });
-      } else if (certInfo.selfSigned === true) {
-        findingTemplates.push({
-          name: "Self-Signed Certificate",
-          description: "Certificate is self-signed",
-        });
       } else if (certInfo.expired === true) {
         findingTemplates.push({
           name: "Expired Certificate",
@@ -220,24 +215,22 @@ function analyseCertificateDeployment(certificateDeployment) {
   const errorsAcrossAllTruststores = new Set();
 
   for (const {
-    openssl_error_string,
+    validation_error,
   } of certificateDeployment.path_validation_results) {
-    if (openssl_error_string !== null) {
-      errorsAcrossAllTruststores.add(openssl_error_string);
+    if (validation_error !== null) {
+      errorsAcrossAllTruststores.add(validation_error);
     }
   }
 
-  const matchesHostname =
-    certificateDeployment.leaf_certificate_subject_matches_hostname;
-
   return {
     // To be trusted no openssl errors should have occurred and should match hostname
-    trusted: errorsAcrossAllTruststores.size === 0 && matchesHostname,
-    matchesHostname,
-    selfSigned: errorsAcrossAllTruststores.has("self signed certificate"),
-    expired: errorsAcrossAllTruststores.has("certificate has expired"),
+    trusted: errorsAcrossAllTruststores.size === 0,
+    matchesHostname: !errorsAcrossAllTruststores.has(
+      "validation failed: Other(\"leaf certificate has no matching subjectAltName\")"
+    ),
+    expired: errorsAcrossAllTruststores.has("validation failed: Other(\"cert is not valid at validation time\")"),
     untrustedRoot: errorsAcrossAllTruststores.has(
-      "self signed certificate in certificate chain"
+      "validation failed: Other(\"Certificate is missing required extension\")"
     ),
   };
 }
