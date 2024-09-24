@@ -161,6 +161,8 @@ function analyseCertificateDeployments(serverScanResult) {
       return [];
     }
 
+    console.log(certificateInfos)
+
     // No Cert Deployment is trusted, creating individual findings
 
     const findingTemplates = [];
@@ -170,6 +172,11 @@ function analyseCertificateDeployments(serverScanResult) {
           name: "Invalid Hostname",
           description:
             "Hostname of Server didn't match the certificates subject names",
+        });
+      } else if (certInfo.selfSigned === true) {
+        findingTemplates.push({
+          name: "Self-Signed Certificate",
+          description: "Certificate is self-signed",
         });
       } else if (certInfo.expired === true) {
         findingTemplates.push({
@@ -222,15 +229,25 @@ function analyseCertificateDeployment(certificateDeployment) {
     }
   }
 
+  // Access the leaf certificate in the chain
+  const leafCertificate = certificateDeployment.received_certificate_chain[0];
+
+  // Check if the certificate is self-signed by comparing subject and issuer
+  const isSelfSigned = leafCertificate.subject.rfc4514_string === leafCertificate.issuer.rfc4514_string;
+
+  // Determine if the certificate is missing required extension
+  const hasMissingRequiredExtension = errorsAcrossAllTruststores.has(
+    "validation failed: Other(\"Certificate is missing required extension\")"
+  );
+
   return {
     // To be trusted no openssl errors should have occurred and should match hostname
     trusted: errorsAcrossAllTruststores.size === 0,
     matchesHostname: !errorsAcrossAllTruststores.has(
       "validation failed: Other(\"leaf certificate has no matching subjectAltName\")"
     ),
+    selfSigned: isSelfSigned,
     expired: errorsAcrossAllTruststores.has("validation failed: Other(\"cert is not valid at validation time\")"),
-    untrustedRoot: errorsAcrossAllTruststores.has(
-      "validation failed: Other(\"Certificate is missing required extension\")"
-    ),
+    untrustedRoot: hasMissingRequiredExtension && !isSelfSigned,
   };
 }
