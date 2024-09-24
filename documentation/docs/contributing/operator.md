@@ -86,3 +86,21 @@ To run multiple operator instances locally (e.g. SCB operator and SCB Autodiscov
 go run ./main.go -metrics-bind-address :9090 -health-probe-bind-address :9595
 ```
 
+## Structure
+
+The operator was build based on the [kubebuilder](https://book.kubebuilder.io/cronjob-tutorial/cronjob-tutorial). Here is a very short summery on the important files. For a better understanding you should read the [kubebuilder](https://book.kubebuilder.io/cronjob-tutorial/cronjob-tutorial)
+
+API and Controller Files:
+
+`apis/`
+
+The files defines the APIs for the custom resources (CRDs) e.g. the file `scan_types.go` defines the schema (Spec, Status etc.) for the CRD _Scan_. The fields and definitions are changed here. To update the the CRDs in the operator run `make install` in the /operator directory.
+
+
+`controllers/` 
+
+Contains the controllers that manage the CRDs e.g. `scantype_controller.go` implements how scans are started, updated and terminated.
+  
+Reconcile Function:
+The reconcile function is a loop that checks the current state of the resource and updates them according to their state.      
+
