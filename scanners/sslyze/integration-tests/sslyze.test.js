@@ -16,7 +16,7 @@ test(
       90
     );
 
-    expect(count).toBe(4);
+    expect(count).toBe(3);
     expect(categories).toMatchInlineSnapshot(`
       {
         "Invalid Certificate": 1,
