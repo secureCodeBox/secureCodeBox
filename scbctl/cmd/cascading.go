@@ -57,9 +57,6 @@ func buildTree(scans []v1.Scan) *gtree.Node {
 	root := gtree.NewRoot("Scans")
 
 	scanMap := make(map[string]*v1.Scan)
-	for i := range scans {
-		scanMap[scans[i].Name] = &scans[i]
-	}
 	for _, scan := range scans {
 		scanMap[scan.Name] = &scan
 	}
