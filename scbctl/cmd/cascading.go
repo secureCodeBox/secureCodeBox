@@ -56,15 +56,21 @@ const (
 func buildTree(scans []v1.Scan) *gtree.Node {
 	root := gtree.NewRoot("Scans")
 
-	scanMap := make(map[string]*v1.Scan)
+	uniq := make(map[string]struct{})
+	uniqScans := []*v1.Scan{}
 	for _, scan := range scans {
-		scanMap[scan.Name] = &scan
+		if _, ok := uniq[scan.Name]; ok {
+			continue
+		}
+
+		uniqScans = append(uniqScans, &scan)
+		uniq[scan.Name] = struct{}{}
 	}
 
 	for _, scan := range scans {
 		if isInitialScan(&scan) {
 			scanNode := root.Add(scan.Name)
-			buildScanSubtree(scanNode, &scan, scanMap)
+			buildScanSubtree(scanNode, &scan, uniqScans)
 		}
 	}
 
@@ -75,11 +81,11 @@ func isInitialScan(scan *v1.Scan) bool {
 	return scan.Annotations[ParentScanAnnotation] == ""
 }
 
-func buildScanSubtree(node *gtree.Node, scan *v1.Scan, scanMap map[string]*v1.Scan) {
-	for _, childScan := range scanMap {
+func buildScanSubtree(node *gtree.Node, scan *v1.Scan, uniqScans []*v1.Scan) {
+	for _, childScan := range uniqScans {
 		if isCascadedFrom(childScan, scan) {
 			childNode := node.Add(childScan.Name)
-			buildScanSubtree(childNode, childScan, scanMap)
+			buildScanSubtree(childNode, childScan, uniqScans)
 		}
 	}
 }
