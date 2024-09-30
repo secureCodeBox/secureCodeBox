@@ -13,10 +13,8 @@ test(
       "nikto-bodgeit",
       "nikto",
       [
-        "-h",
-        "bodgeit.demo-targets.svc",
-        "-port",
-        "8080",
+        "-url",
+        "http://bodgeit.demo-targets.svc:8080",
         "-Tuning",
         "1,2,3,5,7,b",
       ], // See nikto bodgeit example
