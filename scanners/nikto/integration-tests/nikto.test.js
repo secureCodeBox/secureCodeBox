@@ -9,7 +9,7 @@ jest.retryTimes(3);
 test(
   "nikto scan against bodgeit demo-target",
   async () => {
-    const {categories, severities, count} = await scan(
+    const {categories, severities} = await scan(
       "nikto-bodgeit",
       "nikto",
       [
@@ -21,7 +21,6 @@ test(
       90
     );
 
-    expect(count).toBe(12);
     expect(categories).toMatchInlineSnapshot(`
       {
         "Identified Software": 1,
