@@ -2,13 +2,23 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+//go:build fast
+// +build fast
+
 package scancontrollers
 
 import (
+	"testing"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	batch "k8s.io/api/batch/v1"
 )
+
+func TestScanControllers(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "ScanControllers Suite")
+}
 
 var _ = Describe("ScanControllers", func() {
 	Context("checkIfAllJobsCompleted", func() {

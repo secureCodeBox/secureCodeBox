@@ -2,6 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+//go:build fast
+// +build fast
+
 package scancontrollers
 
 import (
@@ -51,7 +54,8 @@ var _ = Describe("ScanControllers", func() {
 			}
 			Expect(reconciler.checkIfTTLSecondsAfterFinishedisCompleted(scan)).To(BeFalse())
 		})
-		It("should return false if TTLSecondsAfterFinished is timed out", func() {
+
+		It("should return false if TTLSecondsAfterFinished is not timed out", func() {
 			finishTime := time.Now()
 			var timeout int32 = 300
 			var scan = &executionv1.Scan{
