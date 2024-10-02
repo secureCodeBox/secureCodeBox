@@ -10,7 +10,8 @@ matches the snapshot:
       name: securecodebox-operator-metrics
     spec:
       ports:
-        - name: metrics
+        - appProtocol: http
+          name: metrics
           port: 8080
           protocol: TCP
           targetPort: metrics
@@ -618,7 +619,8 @@ properly-renders-the-service-monitor-when-enabled:
       name: securecodebox-operator-metrics
     spec:
       ports:
-        - name: metrics
+        - appProtocol: http
+          name: metrics
           port: 8080
           protocol: TCP
           targetPort: metrics
