@@ -10,7 +10,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: metrics
+    - appProtocol: http
+      name: metrics
       port: 8080
       protocol: TCP
       targetPort: metrics
