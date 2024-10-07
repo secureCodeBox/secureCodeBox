@@ -4,7 +4,7 @@
 
 plugins {
   id "java"
-  id "io.freefair.lombok" version "8.10"
+  id "io.freefair.lombok" version "8.10.2"
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.51.0"
@@ -35,10 +35,10 @@ dependencies {
   // If I try to notate this like the others (with separate strings) I got errors. No idea why sh... Gradle
   // want it like this. It is the official documented example:
   // https://github.com/junit-team/junit5-samples/blob/r5.10.0/junit5-jupiter-starter-gradle/build.gradle
-  testImplementation(platform("org.junit:junit-bom:5.11.1"))
+  testImplementation(platform("org.junit:junit-bom:5.11.2"))
   testImplementation("org.junit.jupiter:junit-jupiter")
-  testImplementation group: "org.mockito", name: "mockito-core", version: "5.14.0"
-  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.14.0"
+  testImplementation group: "org.mockito", name: "mockito-core", version: "5.14.1"
+  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.14.1"
   testImplementation group: 'org.hamcrest', name: 'java-hamcrest', version: '2.0.0.0'
   testImplementation group: 'uk.org.webcompere', name: 'system-stubs-jupiter', version: '2.1.7'
 }
