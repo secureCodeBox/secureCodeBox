@@ -161,6 +161,8 @@ function analyseCertificateDeployments(serverScanResult) {
       return [];
     }
 
+    console.log(certificateInfos)
+
     // No Cert Deployment is trusted, creating individual findings
 
     const findingTemplates = [];
@@ -220,24 +222,32 @@ function analyseCertificateDeployment(certificateDeployment) {
   const errorsAcrossAllTruststores = new Set();
 
   for (const {
-    openssl_error_string,
+    validation_error,
   } of certificateDeployment.path_validation_results) {
-    if (openssl_error_string !== null) {
-      errorsAcrossAllTruststores.add(openssl_error_string);
+    if (validation_error !== null) {
+      errorsAcrossAllTruststores.add(validation_error);
     }
   }
 
-  const matchesHostname =
-    certificateDeployment.leaf_certificate_subject_matches_hostname;
+  // Access the leaf certificate in the chain
+  const leafCertificate = certificateDeployment.received_certificate_chain[0];
+
+  // Check if the certificate is self-signed by comparing subject and issuer
+  const isSelfSigned = leafCertificate.subject.rfc4514_string === leafCertificate.issuer.rfc4514_string;
+
+  // Determine if the certificate is missing required extension
+  const hasMissingRequiredExtension = errorsAcrossAllTruststores.has(
+    "validation failed: Other(\"Certificate is missing required extension\")"
+  );
 
   return {
     // To be trusted no openssl errors should have occurred and should match hostname
-    trusted: errorsAcrossAllTruststores.size === 0 && matchesHostname,
-    matchesHostname,
-    selfSigned: errorsAcrossAllTruststores.has("self signed certificate"),
-    expired: errorsAcrossAllTruststores.has("certificate has expired"),
-    untrustedRoot: errorsAcrossAllTruststores.has(
-      "self signed certificate in certificate chain"
+    trusted: errorsAcrossAllTruststores.size === 0,
+    matchesHostname: !errorsAcrossAllTruststores.has(
+      "validation failed: Other(\"leaf certificate has no matching subjectAltName\")"
     ),
+    selfSigned: isSelfSigned,
+    expired: errorsAcrossAllTruststores.has("validation failed: Other(\"cert is not valid at validation time\")"),
+    untrustedRoot: hasMissingRequiredExtension && !isSelfSigned,
   };
 }
