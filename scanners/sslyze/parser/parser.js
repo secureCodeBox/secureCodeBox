@@ -161,8 +161,6 @@ function analyseCertificateDeployments(serverScanResult) {
       return [];
     }
 
-    console.log(certificateInfos)
-
     // No Cert Deployment is trusted, creating individual findings
 
     const findingTemplates = [];
