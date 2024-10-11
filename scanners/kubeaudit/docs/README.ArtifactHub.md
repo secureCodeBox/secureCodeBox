@@ -41,6 +41,11 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is Kubeaudit?
+
+:::caution Deprecation Notice
+The `kubeaudit ` ScanType is being deprecated in the secureCodeBox since it will no longer be maintained as described in the [GitHub repository](kubeaudit GitHub). The scanner will be removed in the  upcoming v5 release.
+:::
+
 Kubeaudit finds security misconfigurations in you Kubernetes Resources and gives tips on how to resolve these.
 
 Kubeaudit comes with a large lists of "auditors" which test various aspects, like the SecurityContext of pods.

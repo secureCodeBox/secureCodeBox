@@ -35,6 +35,10 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 
 ## What is SSH_scan?
 
+:::caution Deprecation Notice
+The `ssh-scan` ScanType is being deprecated in the secureCodeBox since it will no longer be maintained as described in the [GitHub repository](ssh_scan GitHub). The 'ssh-audit' has been integrated as an alternative to the ssh-scan. The scanner will be removed in the  upcoming v5 release.
+:::
+
 SSH_scan is an easy-to-use prototype SSH configuration and policy scanner, inspired by Mozilla OpenSSH Security Guide, which provides a reasonable baseline policy recommendation for SSH configuration parameters such as Ciphers, MACs, and KexAlgos and much more.
 
 To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].

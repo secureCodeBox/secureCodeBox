@@ -41,6 +41,11 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is Typo3Scan?
+
+:::caution Deprecation Notice
+The `typo3scan` ScanType is being deprecated in the secureCodeBox since it will no longer be maintained as described in the [GitHub repository](https://github.com/whoot/Typo3Scan). The scanner will be removed in the  upcoming v5 release.
+:::
+
 Typo3Scan is an open source penetration testing tool, that automates the process of detecting the Typo3 CMS version and its installed extensions. It also has a database with known vulnerabilities for core and extensions.
 The vulnerabilities corresponding to the version detected are presented as findings.
 To learn more about the Typo3Scan scanner itself, visit the Typo3Scan GitHub repository [here](https://github.com/whoot/Typo3Scan).
