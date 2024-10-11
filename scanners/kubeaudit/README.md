@@ -34,6 +34,11 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 </p>
 
 ## What is Kubeaudit?
+
+:::caution Deprecation Notice
+The `kubeaudit ` ScanType is being deprecated in the secureCodeBox since it will no longer be maintained as described in the [GitHub repository](kubeaudit GitHub). The scanner will be removed in the  upcoming v5 release.
+:::
+
 Kubeaudit finds security misconfigurations in you Kubernetes Resources and gives tips on how to resolve these.
 
 Kubeaudit comes with a large lists of "auditors" which test various aspects, like the SecurityContext of pods.
