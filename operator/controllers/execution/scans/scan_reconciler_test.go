@@ -16,7 +16,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-var namespace = "namespace"
+var namespace = "test-namespace"
 var reconciler = &ScanReconciler{}
 var _ = Describe("ScanControllers", func() {
 	Context("checkIfTTLSecondsAfterFinishedisCompleted", func() {
@@ -61,7 +61,7 @@ var _ = Describe("ScanControllers", func() {
 			var scan = &executionv1.Scan{
 				ObjectMeta: metav1.ObjectMeta{
 					Namespace: namespace,
-					Name:      "nmap3",
+					Name:      "nmap",
 				},
 				Spec: executionv1.ScanSpec{
 					ScanType:                "nmap",
