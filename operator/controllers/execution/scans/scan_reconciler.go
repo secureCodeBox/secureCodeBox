@@ -419,7 +419,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 	return job, nil
 }
 
-func (r *ScanReconciler) checkIfTTLSecondsAfterFinishedisCompleted(scan *executionv1.Scan) bool {
+func (r *ScanReconciler) checkIfTTLSecondsAfterFinishedIsCompleted(scan *executionv1.Scan) bool {
 	if scan.Spec.TTLSecondsAfterFinished == nil {
 		return false
 	}

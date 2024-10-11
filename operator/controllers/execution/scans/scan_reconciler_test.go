@@ -19,7 +19,7 @@ import (
 var namespace = "test-namespace"
 var reconciler = &ScanReconciler{}
 var _ = Describe("ScanControllers", func() {
-	Context("checkIfTTLSecondsAfterFinishedisCompleted", func() {
+	Context("checkIfTTLSecondsAfterFinishedIsCompleted", func() {
 		It("should return true if TTLSecondsAfterFinished is set", func() {
 			finishTime := time.Date(
 				2009, 11, 17, 20, 34, 58, 651387237, time.UTC)
@@ -38,7 +38,7 @@ var _ = Describe("ScanControllers", func() {
 					FinishedAt: &metav1.Time{Time: finishTime},
 				},
 			}
-			Expect(reconciler.checkIfTTLSecondsAfterFinishedisCompleted(scan)).To(BeTrue())
+			Expect(reconciler.checkIfTTLSecondsAfterFinishedIsCompleted(scan)).To(BeTrue())
 		})
 
 		It("should return false if TTLSecondsAfterFinished is not set", func() {
@@ -52,7 +52,7 @@ var _ = Describe("ScanControllers", func() {
 					Parameters: []string{"scanme.nmap.org"},
 				},
 			}
-			Expect(reconciler.checkIfTTLSecondsAfterFinishedisCompleted(scan)).To(BeFalse())
+			Expect(reconciler.checkIfTTLSecondsAfterFinishedIsCompleted(scan)).To(BeFalse())
 		})
 
 		It("should return false if TTLSecondsAfterFinished is not timed out", func() {
@@ -72,7 +72,7 @@ var _ = Describe("ScanControllers", func() {
 					FinishedAt: &metav1.Time{Time: finishTime},
 				},
 			}
-			Expect(reconciler.checkIfTTLSecondsAfterFinishedisCompleted(scan)).To(BeFalse())
+			Expect(reconciler.checkIfTTLSecondsAfterFinishedIsCompleted(scan)).To(BeFalse())
 		})
 
 	})
