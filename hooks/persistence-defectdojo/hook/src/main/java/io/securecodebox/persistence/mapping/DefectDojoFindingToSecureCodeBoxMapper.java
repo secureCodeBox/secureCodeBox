@@ -50,12 +50,12 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     attributes.put("defectdojo.org/test-id", defectDojoFinding.getTest());
     attributes.put("defectdojo.org/test-url", config.getUrl() + "/test/" + defectDojoFinding.getTest());
 
-    attributes.put("duplicate", defectDojoFinding.isDuplicate());
-    attributes.put("falsePositive", defectDojoFinding.isFalsePositive());
-    attributes.put("riskAccepted", defectDojoFinding.isRiskAccepted());
-    attributes.put("outOfScope", defectDojoFinding.isOutOfScope());
+    attributes.put("duplicate", defectDojoFinding.getDuplicate());
+    attributes.put("falsePositive", defectDojoFinding.getFalsePositive());
+    attributes.put("riskAccepted", defectDojoFinding.getRiskAccepted());
+    attributes.put("outOfScope", defectDojoFinding.getOutOfScope());
 
-    if (defectDojoFinding.isDuplicate()) {
+    if (defectDojoFinding.getDuplicate() && defectDojoFinding.getDuplicateFinding() != null) {
       if (!recurse) {
         final var message = String.format(
           "Duplicate finding does not point to the actual original finding, as the original finding (id: %s) is also a duplicate. This should never happen.",
@@ -76,21 +76,21 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
 
     // Map DefectDojo Severities to secureCodeBox Severities
     switch (defectDojoFinding.getSeverity()) {
-      case CRITICAL, HIGH:
+      case Critical, High:
         finding.setSeverity(SecureCodeBoxFinding.Severities.HIGH);
         break;
-      case MEDIUM:
+      case Medium:
         finding.setSeverity(SecureCodeBoxFinding.Severities.MEDIUM);
         break;
-      case LOW:
+      case Low:
         finding.setSeverity(SecureCodeBoxFinding.Severities.LOW);
         break;
-      case INFORMATIONAL:
+      case Informational:
         finding.setSeverity(SecureCodeBoxFinding.Severities.INFORMATIONAL);
         break;
     }
 
-    if (defectDojoFinding.getEndpoints().isEmpty()) {
+    if (defectDojoFinding.getEndpoints() == null || defectDojoFinding.getEndpoints().isEmpty()) {
       finding.setLocation("unknown");
     } else {
       var endpoint = endpointService.get(defectDojoFinding.getEndpoints().get(0));
@@ -106,19 +106,15 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     if (endpoint.getProtocol() != null) {
       uriBuilder.scheme(endpoint.getProtocol());
     }
-
     if (endpoint.getHost() != null) {
       uriBuilder.host(endpoint.getHost());
     }
-
-    if (endpoint.getPort() > 0) {
-      uriBuilder.port((int) endpoint.getPort());
+    if (endpoint.getPort() != null) {
+      uriBuilder.port(endpoint.getPort().intValue());
     }
-
     if (endpoint.getPath() != null) {
       uriBuilder.path(endpoint.getPath());
     }
-
     if (endpoint.getQuery() != null) {
       uriBuilder.query(endpoint.getQuery());
     }
