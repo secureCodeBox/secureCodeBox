@@ -209,6 +209,13 @@ matches the snapshot:
       - apiGroups:
           - ""
         resources:
+          - events
+        verbs:
+          - create
+          - patch
+      - apiGroups:
+          - ""
+        resources:
           - namespaces
         verbs:
           - get

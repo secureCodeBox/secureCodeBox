@@ -55,6 +55,7 @@ const requeueInterval = 5 * time.Second
 // +kubebuilder:rbac:groups="",resources=namespaces,verbs=get;list;watch
 // +kubebuilder:rbac:groups="",resources=pods,verbs=get;list;watch
 // +kubebuilder:rbac:groups="",resources=pods/status,verbs=get
+// +kubebuilder:rbac:groups="",resources=events,verbs=create;patch
 
 // Reconcile compares the Service object against the state of the cluster and updates both if needed
 func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
