@@ -86,7 +86,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
         URI.create(secureCodeBoxFinding.getLocation());
         result.setEndpoints(Collections.singletonList(secureCodeBoxFinding.getLocation()));
       } catch (IllegalArgumentException e) {
-        log.warn("Couldn't parse the secureCodeBox location, because it: {} is not a vailid uri: {}", e, secureCodeBoxFinding.getLocation());
+        log.warn("Couldn't parse the secureCodeBox location, because it: {} is not a valid uri: {}", e, secureCodeBoxFinding.getLocation());
       }
     }
   }
