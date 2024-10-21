@@ -173,13 +173,14 @@ function convertTrivyK8sFindingToSCBFinding(trivyK8sFinding, clusterName, namesp
     }
   }
 
-  let location = `Kind: '${kind}' / Name: '${k8sName}'`;
-  if (namespace) {
-    location = `Namespace: '${namespace}' / ${location}`;
-  }
-  if (clusterName) {
-    location = `Cluster: '${clusterName}' / ${location}`;
-  }
+  const baseUrl = `scb://trivy/?`;
+  const urlParams = [];
+  if (clusterName) urlParams.push(`cluster=${clusterName}`);
+  if (namespace) urlParams.push(`namespace=${namespace}`);
+  urlParams.push(`kind=${kind}`, `name=${k8sName}`);
+
+  const location = baseUrl + urlParams.join('&');
+  // scb://<scanner>/?cluster=<cluster>&namespace=<namespace>&kind=<kind>&name=<name>
 
   let foundIn = `Target: '${target}'`
   if (clazz) {
