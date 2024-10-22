@@ -8,7 +8,7 @@ imagePullSecrets: []
 parser:
   image:
     # parser.image.repository -- Parser image repository
-    repository: docker.io/securecodebox/parser-cyclonedx
+    repository: docker.io/securecodebox/parser-trivy-sbom
     # parser.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
