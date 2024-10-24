@@ -129,8 +129,9 @@ function parseK8sScanResultResource(clusterName, resourceItem, reject) {
   for (const aResult of results) {
     const {Target: target, Class: clazz, Type: type} = aResult;
 
-    var keys = Object.keys(aResult);
-    const expectedAttributes = ["Target", "Class", "Type", "Misconfigurations", "Vulnerabilities", "MisconfSummary"];
+    const keys = Object.keys(aResult);
+    const expectedAttributes = ["Target", "Class", "Type", "Misconfigurations", "Vulnerabilities", "MisconfSummary", "Packages"];
+    // The "Packages" attribute is now included in the scan report by default starting with Trivy 0.56.0 (https://github.com/aquasecurity/trivy/pull/6765)
     const found = keys.find(key => !expectedAttributes.includes(key));
     if (found !== undefined) {
       reject(new Error("Unexpected attribute '" + found + "' on resource-item"));
