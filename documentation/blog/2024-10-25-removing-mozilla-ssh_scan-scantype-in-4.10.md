@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 title: Removing Mozilla ssh_scan ScanType in 4.10.0
 description: In release 4.10.0, we are removing the ssh-scan ScanType due to the deletion of the associated Docker Hub repository. Users are advised to switch to the newer ssh-audit scanner, introduced after the deprecation of Mozilla's ssh_scan project.
 author: Jannik Hollenbach
