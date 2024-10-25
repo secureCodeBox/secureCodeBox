@@ -64,6 +64,10 @@ DATE=$(date +'%Y-%m-%d')
 BLOG_POST_FILE="${BLOG_DIR}/${DATE}-${TITLE_CLEANSED}.md"
 cat << EOF > "${BLOG_POST_FILE}"
 ---
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 title: ${TITLE}
 author: ${AUTHOR:-}
 author_title: ${AUTHOR_TITLE:-}
