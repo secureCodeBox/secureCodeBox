@@ -61,7 +61,7 @@ const findings = imageScanResults.Results.flatMap(({ Target: target, Vulnerabili
       name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`,
       description: vulnerability.Description,
       category,
-      location: imageId,
+      location: `scb://trivy/?ArtifactName=${imageId}`,
       osi_layer: "NOT_APPLICABLE",
       severity: getAdjustedSeverity(vulnerability.Severity),
       mitigation: `Update the affected package ${vulnerability.PkgName} to the fixed version: ${vulnerability.FixedVersion} or remove the package from the image.`,
@@ -175,12 +175,11 @@ function convertTrivyK8sFindingToSCBFinding(trivyK8sFinding, clusterName, namesp
 
   const baseUrl = `scb://trivy/?`;
   const urlParams = [];
-  if (clusterName) urlParams.push(`cluster=${clusterName}`);
-  if (namespace) urlParams.push(`namespace=${namespace}`);
-  urlParams.push(`kind=${kind}`, `name=${k8sName}`);
+  if (clusterName) urlParams.push(`ClusterName=${clusterName}`);
+  if (namespace) urlParams.push(`Namespace=${namespace}`);
+  urlParams.push(`Kind=${kind}`, `Name=${k8sName}`);
 
   const location = baseUrl + urlParams.join('&');
-  // scb://<scanner>/?cluster=<cluster>&namespace=<namespace>&kind=<kind>&name=<name>
 
   let foundIn = `Target: '${target}'`
   if (clazz) {
