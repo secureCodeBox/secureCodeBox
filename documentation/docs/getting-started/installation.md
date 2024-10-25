@@ -125,7 +125,7 @@ helm upgrade --install gitleaks oci://ghcr.io/securecodebox/helm/gitleaks
 helm upgrade --install kube-hunter oci://ghcr.io/securecodebox/helm/kube-hunter
 helm upgrade --install nikto oci://ghcr.io/securecodebox/helm/nikto
 helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
-helm upgrade --install ssh-scan oci://ghcr.io/securecodebox/helm/ssh-scan
+helm upgrade --install ssh-audit oci://ghcr.io/securecodebox/helm/ssh-audit
 helm upgrade --install sslyze oci://ghcr.io/securecodebox/helm/sslyze
 helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
 helm upgrade --install wpscan oci://ghcr.io/securecodebox/helm/wpscan
