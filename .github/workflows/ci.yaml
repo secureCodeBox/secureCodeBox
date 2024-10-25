@@ -433,7 +433,6 @@ jobs:
           - screenshooter
           - semgrep
           - ssh-audit
-          - ssh-scan
           - sslyze
           - trivy
           - trivy-sbom
