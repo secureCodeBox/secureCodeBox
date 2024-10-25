@@ -15,34 +15,32 @@ for your scanner to check if everything is running smoothly together.
 In most cases, the simplest and most effective way
 to test your scanner is by running it against a `demo-target`. You can also re-use one of the examples you provided.
 
-Let's have a look at the [ssh-scan](https://github.com/secureCodeBox/secureCodeBox/blob/main/tests/integration/scanner/ssh-scan.test.js) test to understand all the steps required:
+Let's have a look at the [nmap](https://github.com/secureCodeBox/secureCodeBox/blob/main/scanners/nmap/integration-tests/nmap.test.js) test to understand all the steps required:
 
 ```javascript
 test(
-  "ssh-scan should find a couple of findings for a dummy ssh service",
+  "localhost port scan should only find a host finding",
   async () => {
     const { categories, severities, count } = await scan(
-      "ssh-scan-dummy-ssh", // Name of test
-      "ssh-scan", // Name of scan command
-      ["-t", "dummy-ssh.demo-targets.svc"], // Parameters
-      90
+      "nmap-localhost",
+      "nmap",
+      ["localhost"],
+      90,
     );
 
-    expect(count).toBe(4);
+    expect(count).toBe(1);
     expect(categories).toMatchInlineSnapshot(`
-      Object {
-        "SSH Policy Violation": 3,
-        "SSH Service": 1,
+      {
+        "Host": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
-      Object {
+      {
         "informational": 1,
-        "medium": 3,
       }
     `);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );
 ```
 
