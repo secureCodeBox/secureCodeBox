@@ -39,7 +39,7 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"screenshooter":            true,
 	"semgrep":                  true,
 	"ssh-audit":                true,
-	"ssh-scan":                 true,
+	"ssh-scan":                 true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"sslyze":                   true,
 	"trivy-image":              true,
 	"trivy-filesystem":         true,
