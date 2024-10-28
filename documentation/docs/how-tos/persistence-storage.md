@@ -47,7 +47,7 @@ we install the *secureCodeBox* and the [DefectDojo hook](https://www.securecodeb
 
 :::info
 At the moment **DefectDojo does not provide a Docker image for arm64**. As a workaround you can run a local instance
-of DefectDojo (see [Troubleshooting](#troubleshooting)).
+of DefectDojo (see [Troubleshooting](#troubleshooting)) or [use Colima on Silicon Macs](/blog/2024/10/25/run-x86-images-with-kubernetes-on-apple-silicon).
 :::
 
 Using *minikube* (for kind clusters see instructions below):
