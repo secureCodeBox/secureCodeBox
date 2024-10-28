@@ -69,5 +69,6 @@ documentation/docs/hooks/*.md
 documentation/src/integrations.js
 ## Copied over during the build
 documentation/static/findings
+documentation/.author_meta
 
 **/node_modules/
