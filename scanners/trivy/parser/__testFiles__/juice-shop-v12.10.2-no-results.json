@@ -1,5 +1,6 @@
 {
   "SchemaVersion": 2,
+  "CreatedAt": "2024-10-28T15:33:51.265546208Z",
   "ArtifactName": "bkimminich/juice-shop:v12.10.2",
   "ArtifactType": "container_image",
   "Metadata": {
@@ -28,7 +29,8 @@
     "ImageConfig": {
       "architecture": "amd64",
       "created": "2021-10-12T21:23:22.113753293Z",
-      "history": [{
+      "history": [
+        {
           "created": "2021-08-31T23:18:31.206789071Z",
           "created_by": "/bin/sh -c #(nop) ADD file:9d14b11183983923090d9e6d15cc51ee210466296e913bfefbfd580b3de59c95 in / "
         },

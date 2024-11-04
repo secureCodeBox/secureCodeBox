@@ -16,6 +16,7 @@
           "Target": "Deployment/securecodebox-controller-manager",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 137,
             "Failures": 4,
@@ -511,6 +512,7 @@
           "Target": "coredns",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2020-8911",
@@ -1371,6 +1373,7 @@
           "Target": "Deployment/coredns",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 134,
             "Failures": 7,
@@ -2223,6 +2226,7 @@
           "Target": "docker.io/kindest/local-path-provisioner:v0.0.22-kind.0 (debian 11.6)",
           "Class": "os-pkgs",
           "Type": "debian",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2010-4756",
@@ -3159,6 +3163,7 @@
           "Target": "usr/local/bin/local-path-provisioner",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-21698",
@@ -4081,6 +4086,7 @@
           "Target": "Deployment/local-path-provisioner",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 129,
             "Failures": 12,
@@ -5527,7 +5533,8 @@
         {
           "Target": "k8s.gcr.io/kube-scheduler:v1.24.0 (debian 11.3)",
           "Class": "os-pkgs",
-          "Type": "debian"
+          "Type": "debian",
+          "Packages": []
         }
       ]
     },
@@ -5540,6 +5547,7 @@
           "Target": "Pod/kube-scheduler-kind-control-plane",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 128,
             "Failures": 13,
@@ -7105,7 +7113,8 @@
         {
           "Target": "k8s.gcr.io/kube-apiserver:v1.24.0 (debian 11.3)",
           "Class": "os-pkgs",
-          "Type": "debian"
+          "Type": "debian",
+          "Packages": []
         }
       ]
     },
@@ -7118,6 +7127,7 @@
           "Target": "Pod/kube-apiserver-kind-control-plane",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 119,
             "Failures": 22,
@@ -9754,7 +9764,8 @@
         {
           "Target": "k8s.gcr.io/kube-controller-manager:v1.24.0 (debian 11.3)",
           "Class": "os-pkgs",
-          "Type": "debian"
+          "Type": "debian",
+          "Packages": []
         }
       ]
     },
@@ -9767,6 +9778,7 @@
           "Target": "Pod/kube-controller-manager-kind-control-plane",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 126,
             "Failures": 15,
@@ -11571,6 +11583,7 @@
           "Target": "docker.io/bitnami/minio:2022.9.1-debian-11-r0 (debian 11.4)",
           "Class": "os-pkgs",
           "Type": "debian",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2011-3374",
@@ -19510,6 +19523,7 @@
           "Target": "opt/bitnami/common/bin/gosu",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2023-27561",
@@ -19860,6 +19874,7 @@
           "Target": "opt/bitnami/common/bin/wait-for-port",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-29526",
@@ -19932,6 +19947,7 @@
           "Target": "opt/bitnami/minio-client/bin/mc",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-27664",
@@ -20247,6 +20263,7 @@
           "Target": "opt/bitnami/minio/bin/minio",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-2835",
@@ -20695,6 +20712,7 @@
           "Target": "Deployment/securecodebox-operator-minio",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 131,
             "Failures": 10,
@@ -21904,6 +21922,7 @@
           "Target": "Service/kubernetes",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -21921,6 +21940,7 @@
           "Target": "Service/kube-dns",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -21937,12 +21957,14 @@
         {
           "Target": "k8s.gcr.io/etcd:3.5.3-0 (debian 11.3)",
           "Class": "os-pkgs",
-          "Type": "debian"
+          "Type": "debian",
+          "Packages": []
         },
         {
           "Target": "usr/local/bin/etcd",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-27191",
@@ -22469,6 +22491,7 @@
           "Target": "usr/local/bin/etcd-3.5.3",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-27191",
@@ -22995,6 +23018,7 @@
           "Target": "usr/local/bin/etcdctl",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-27191",
@@ -23521,6 +23545,7 @@
           "Target": "usr/local/bin/etcdctl-3.5.3",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-27191",
@@ -24054,6 +24079,7 @@
           "Target": "Pod/etcd-kind-control-plane",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 130,
             "Failures": 11,
@@ -25382,6 +25408,7 @@
           "Target": "Service/controller-manager-metrics-service",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -25399,6 +25426,7 @@
           "Target": "Service/securecodebox-operator-minio",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -25416,6 +25444,7 @@
           "Target": "k8s.gcr.io/kube-proxy:v1.24.0 (debian 11.3)",
           "Class": "os-pkgs",
           "Type": "debian",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2011-3374",
@@ -30782,6 +30811,7 @@
           "Target": "DaemonSet/kube-proxy",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 126,
             "Failures": 15,
@@ -32586,6 +32616,7 @@
           "Target": "ServiceAccount/default",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -32603,6 +32634,7 @@
           "Target": "ServiceAccount/default",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -32620,6 +32652,7 @@
           "Target": "ServiceAccount/default",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -32637,6 +32670,7 @@
           "Target": "ServiceAccount/lurker",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -32654,6 +32688,7 @@
           "Target": "docker.io/kindest/kindnetd:v20220510-4929dd75 (debian 11.3)",
           "Class": "os-pkgs",
           "Type": "debian",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2011-3374",
@@ -38013,6 +38048,7 @@
           "Target": "bin/kindnetd",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2022-1996",
@@ -38464,6 +38500,7 @@
           "Target": "DaemonSet/kindnet",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 130,
             "Failures": 11,
@@ -39792,6 +39829,7 @@
           "Target": "ServiceAccount/parser",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39809,6 +39847,7 @@
           "Target": "ServiceAccount/trivy-k8s",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39826,6 +39865,7 @@
           "Target": "ServiceAccount/default",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39843,6 +39883,7 @@
           "Target": "ServiceAccount/default",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39860,6 +39901,7 @@
           "Target": "ServiceAccount/attachdetach-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39877,6 +39919,7 @@
           "Target": "ServiceAccount/certificate-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39894,6 +39937,7 @@
           "Target": "ServiceAccount/clusterrole-aggregation-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39911,6 +39955,7 @@
           "Target": "ServiceAccount/bootstrap-signer",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39928,6 +39973,7 @@
           "Target": "ServiceAccount/coredns",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39945,6 +39991,7 @@
           "Target": "ServiceAccount/daemon-set-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39962,6 +40009,7 @@
           "Target": "ServiceAccount/cronjob-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39979,6 +40027,7 @@
           "Target": "ServiceAccount/default",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -39996,6 +40045,7 @@
           "Target": "ServiceAccount/deployment-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -40013,6 +40063,7 @@
           "Target": "ServiceAccount/endpointslice-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -40030,6 +40081,7 @@
           "Target": "ServiceAccount/disruption-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -40047,6 +40099,7 @@
           "Target": "ServiceAccount/endpoint-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -40064,6 +40117,7 @@
           "Target": "ServiceAccount/endpointslicemirroring-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -40081,6 +40135,7 @@
           "Target": "docker.io/aquasec/trivy:0.42.0 (alpine 3.18.0)",
           "Class": "os-pkgs",
           "Type": "alpine",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2023-2650",
@@ -40192,6 +40247,7 @@
           "Target": "usr/local/bin/trivy",
           "Class": "lang-pkgs",
           "Type": "gobinary",
+          "Packages": [],
           "Vulnerabilities": [
             {
               "VulnerabilityID": "CVE-2020-8911",
@@ -40320,6 +40376,7 @@
           "Target": "Job/scan-trivy-k8s-kvmnm",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 131,
             "Failures": 14,
@@ -42005,6 +42062,7 @@
           "Target": "ServiceAccount/ephemeral-volume-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42022,6 +42080,7 @@
           "Target": "ServiceAccount/generic-garbage-collector",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42039,6 +42098,7 @@
           "Target": "ServiceAccount/expand-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42056,6 +42116,7 @@
           "Target": "ServiceAccount/horizontal-pod-autoscaler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42073,6 +42134,7 @@
           "Target": "ServiceAccount/job-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42090,6 +42152,7 @@
           "Target": "ServiceAccount/kindnet",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42107,6 +42170,7 @@
           "Target": "ServiceAccount/kube-proxy",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42124,6 +42188,7 @@
           "Target": "ServiceAccount/node-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42141,6 +42206,7 @@
           "Target": "ServiceAccount/namespace-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42158,6 +42224,7 @@
           "Target": "ServiceAccount/persistent-volume-binder",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42175,6 +42242,7 @@
           "Target": "ServiceAccount/pod-garbage-collector",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42192,6 +42260,7 @@
           "Target": "ServiceAccount/pv-protection-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42209,6 +42278,7 @@
           "Target": "ServiceAccount/pvc-protection-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42226,6 +42296,7 @@
           "Target": "ServiceAccount/replicaset-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42243,6 +42314,7 @@
           "Target": "ServiceAccount/replication-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42260,6 +42332,7 @@
           "Target": "ServiceAccount/root-ca-cert-publisher",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42277,6 +42350,7 @@
           "Target": "ServiceAccount/resourcequota-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42294,6 +42368,7 @@
           "Target": "ServiceAccount/service-account-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42311,6 +42386,7 @@
           "Target": "ServiceAccount/service-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42328,6 +42404,7 @@
           "Target": "ServiceAccount/statefulset-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42345,6 +42422,7 @@
           "Target": "ServiceAccount/token-cleaner",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42362,6 +42440,7 @@
           "Target": "ServiceAccount/ttl-after-finished-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42379,6 +42458,7 @@
           "Target": "ServiceAccount/ttl-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42396,6 +42476,7 @@
           "Target": "ServiceAccount/default",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42413,6 +42494,7 @@
           "Target": "ServiceAccount/local-path-provisioner-service-account",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42430,6 +42512,7 @@
           "Target": "ServiceAccount/default",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42447,6 +42530,7 @@
           "Target": "ServiceAccount/securecodebox-operator",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42464,6 +42548,7 @@
           "Target": "ConfigMap/kube-root-ca.crt",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42481,6 +42566,7 @@
           "Target": "ServiceAccount/securecodebox-operator-minio",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42498,6 +42584,7 @@
           "Target": "ConfigMap/kube-root-ca.crt",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42515,6 +42602,7 @@
           "Target": "ConfigMap/kube-root-ca.crt",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42532,6 +42620,7 @@
           "Target": "ConfigMap/kube-root-ca.crt",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42549,6 +42638,7 @@
           "Target": "ConfigMap/cluster-info",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42566,6 +42656,7 @@
           "Target": "ConfigMap/kube-root-ca.crt",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42583,6 +42674,7 @@
           "Target": "ConfigMap/coredns",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42600,6 +42692,7 @@
           "Target": "ConfigMap/extension-apiserver-authentication",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -42644,6 +42737,7 @@
           "Target": "ConfigMap/kube-proxy",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42661,6 +42755,7 @@
           "Target": "ConfigMap/kube-root-ca.crt",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42678,6 +42773,7 @@
           "Target": "ConfigMap/kubeadm-config",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42695,6 +42791,7 @@
           "Target": "ConfigMap/kubelet-config",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42712,6 +42809,7 @@
           "Target": "ConfigMap/local-path-config",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42729,6 +42827,7 @@
           "Target": "ConfigMap/kube-root-ca.crt",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42746,6 +42845,7 @@
           "Target": "Role/lurker",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42763,6 +42863,7 @@
           "Target": "ConfigMap/kube-root-ca.crt",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42780,6 +42881,7 @@
           "Target": "Role/parser",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42797,6 +42899,7 @@
           "Target": "Role/kubeadm:bootstrap-signer-clusterinfo",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42814,6 +42917,7 @@
           "Target": "Role/system:controller:bootstrap-signer",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -42934,6 +43038,7 @@
           "Target": "Role/kubeadm:kubelet-config",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42951,6 +43056,7 @@
           "Target": "Role/extension-apiserver-authentication-reader",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42968,6 +43074,7 @@
           "Target": "Role/kube-proxy",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -42985,6 +43092,7 @@
           "Target": "Role/kubeadm:nodes-kubeadm-config",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43002,6 +43110,7 @@
           "Target": "Role/system::leader-locking-kube-controller-manager",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -43131,6 +43240,7 @@
           "Target": "Role/system::leader-locking-kube-scheduler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -43260,6 +43370,7 @@
           "Target": "Role/system:controller:cloud-provider",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -43389,6 +43500,7 @@
           "Target": "Role/system:controller:bootstrap-signer",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -43509,6 +43621,7 @@
           "Target": "Role/leader-election-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -43647,6 +43760,7 @@
           "Target": "Role/system:controller:token-cleaner",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -43776,6 +43890,7 @@
           "Target": "RoleBinding/lurker",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43793,6 +43908,7 @@
           "Target": "RoleBinding/parser",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43810,6 +43926,7 @@
           "Target": "RoleBinding/trivy-k8s-lurker",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43827,6 +43944,7 @@
           "Target": "RoleBinding/kubeadm:bootstrap-signer-clusterinfo",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43844,6 +43962,7 @@
           "Target": "RoleBinding/system:controller:bootstrap-signer",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43861,6 +43980,7 @@
           "Target": "RoleBinding/kube-proxy",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43878,6 +43998,7 @@
           "Target": "RoleBinding/kubeadm:kubelet-config",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43895,6 +44016,7 @@
           "Target": "RoleBinding/kubeadm:nodes-kubeadm-config",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43912,6 +44034,7 @@
           "Target": "RoleBinding/system::extension-apiserver-authentication-reader",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43929,6 +44052,7 @@
           "Target": "RoleBinding/system::leader-locking-kube-controller-manager",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43946,6 +44070,7 @@
           "Target": "RoleBinding/system::leader-locking-kube-scheduler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43963,6 +44088,7 @@
           "Target": "RoleBinding/system:controller:bootstrap-signer",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43980,6 +44106,7 @@
           "Target": "RoleBinding/system:controller:cloud-provider",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -43997,6 +44124,7 @@
           "Target": "RoleBinding/leader-election-rolebinding",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -44014,6 +44142,7 @@
           "Target": "RoleBinding/system:controller:token-cleaner",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -44030,6 +44159,7 @@
           "Target": "ClusterRole/cluster-admin",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 139,
             "Failures": 2,
@@ -44214,6 +44344,7 @@
           "Target": "ClusterRole/admin",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 136,
             "Failures": 11,
@@ -45541,6 +45672,7 @@
           "Target": "ClusterRole/edit",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 137,
             "Failures": 10,
@@ -46749,6 +46881,7 @@
           "Target": "ClusterRole/kubeadm:get-nodes",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -46765,6 +46898,7 @@
           "Target": "ClusterRole/kindnet",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -46781,6 +46915,7 @@
           "Target": "ClusterRole/manager-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 139,
             "Failures": 3,
@@ -47147,6 +47282,7 @@
           "Target": "ClusterRole/local-path-provisioner-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 139,
             "Failures": 2,
@@ -47367,6 +47503,7 @@
           "Target": "ClusterRole/parsedefinition-viewer-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47383,6 +47520,7 @@
           "Target": "ClusterRole/parsedefinition-editor-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47399,6 +47537,7 @@
           "Target": "ClusterRole/metrics-reader",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47415,6 +47554,7 @@
           "Target": "ClusterRole/proxy-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47431,6 +47571,7 @@
           "Target": "ClusterRole/scan-viewer-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47447,6 +47588,7 @@
           "Target": "ClusterRole/scantype-editor-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47463,6 +47605,7 @@
           "Target": "ClusterRole/scan-editor-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47479,6 +47622,7 @@
           "Target": "ClusterRole/scantype-viewer-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47495,6 +47639,7 @@
           "Target": "ClusterRole/scheduledscan-editor-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47511,6 +47656,7 @@
           "Target": "ClusterRole/system:aggregate-to-admin",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -47648,6 +47794,7 @@
           "Target": "ClusterRole/scheduledscan-viewer-role",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -47664,6 +47811,7 @@
           "Target": "ClusterRole/system:aggregate-to-edit",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 137,
             "Failures": 10,
@@ -48872,6 +49020,7 @@
           "Target": "ClusterRole/system:aggregate-to-view",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -48888,6 +49037,7 @@
           "Target": "ClusterRole/system:auth-delegator",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -48904,6 +49054,7 @@
           "Target": "ClusterRole/system:basic-user",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -48920,6 +49071,7 @@
           "Target": "ClusterRole/system:certificates.k8s.io:certificatesigningrequests:nodeclient",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -48936,6 +49088,7 @@
           "Target": "ClusterRole/system:certificates.k8s.io:certificatesigningrequests:selfnodeclient",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -48952,6 +49105,7 @@
           "Target": "ClusterRole/system:certificates.k8s.io:kube-apiserver-client-approver",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -48968,6 +49122,7 @@
           "Target": "ClusterRole/system:certificates.k8s.io:kube-apiserver-client-kubelet-approver",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -48984,6 +49139,7 @@
           "Target": "ClusterRole/system:certificates.k8s.io:kubelet-serving-approver",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -49000,6 +49156,7 @@
           "Target": "ClusterRole/system:certificates.k8s.io:legacy-unknown-approver",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -49016,6 +49173,7 @@
           "Target": "ClusterRole/system:controller:attachdetach-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -49032,6 +49190,7 @@
           "Target": "ClusterRole/system:controller:certificate-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -49048,6 +49207,7 @@
           "Target": "ClusterRole/system:controller:clusterrole-aggregation-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -49064,6 +49224,7 @@
           "Target": "ClusterRole/system:controller:daemon-set-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -49080,6 +49241,7 @@
           "Target": "ClusterRole/system:controller:cronjob-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 2,
@@ -49327,6 +49489,7 @@
           "Target": "ClusterRole/system:controller:deployment-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 2,
@@ -49583,6 +49746,7 @@
           "Target": "ClusterRole/system:controller:endpoint-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -49720,6 +49884,7 @@
           "Target": "ClusterRole/system:controller:disruption-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -49736,6 +49901,7 @@
           "Target": "ClusterRole/system:controller:endpointslice-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -49873,6 +50039,7 @@
           "Target": "ClusterRole/system:controller:endpointslicemirroring-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -50010,6 +50177,7 @@
           "Target": "ClusterRole/system:controller:ephemeral-volume-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -50026,6 +50194,7 @@
           "Target": "ClusterRole/system:controller:generic-garbage-collector",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -50163,6 +50332,7 @@
           "Target": "ClusterRole/system:controller:expand-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -50264,6 +50434,7 @@
           "Target": "ClusterRole/system:controller:horizontal-pod-autoscaler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 2,
@@ -50466,6 +50637,7 @@
           "Target": "ClusterRole/system:controller:job-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -50603,6 +50775,7 @@
           "Target": "ClusterRole/system:controller:namespace-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -50731,6 +50904,7 @@
           "Target": "ClusterRole/system:controller:pod-garbage-collector",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -50747,6 +50921,7 @@
           "Target": "ClusterRole/system:controller:node-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -50763,6 +50938,7 @@
           "Target": "ClusterRole/system:controller:persistent-volume-binder",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 139,
             "Failures": 3,
@@ -51075,6 +51251,7 @@
           "Target": "ClusterRole/system:controller:pv-protection-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51091,6 +51268,7 @@
           "Target": "ClusterRole/system:controller:pvc-protection-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51107,6 +51285,7 @@
           "Target": "ClusterRole/system:controller:replicaset-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -51244,6 +51423,7 @@
           "Target": "ClusterRole/system:controller:resourcequota-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -51354,6 +51534,7 @@
           "Target": "ClusterRole/system:controller:replication-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -51482,6 +51663,7 @@
           "Target": "ClusterRole/system:controller:root-ca-cert-publisher",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -51592,6 +51774,7 @@
           "Target": "ClusterRole/system:controller:service-account-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51608,6 +51791,7 @@
           "Target": "ClusterRole/system:controller:route-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51624,6 +51808,7 @@
           "Target": "ClusterRole/system:controller:service-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51640,6 +51825,7 @@
           "Target": "ClusterRole/system:controller:ttl-after-finished-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51656,6 +51842,7 @@
           "Target": "ClusterRole/system:controller:statefulset-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51672,6 +51859,7 @@
           "Target": "ClusterRole/system:controller:ttl-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51688,6 +51876,7 @@
           "Target": "ClusterRole/system:coredns",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51704,6 +51893,7 @@
           "Target": "ClusterRole/system:discovery",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51720,6 +51910,7 @@
           "Target": "ClusterRole/system:heapster",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51736,6 +51927,7 @@
           "Target": "ClusterRole/system:kube-aggregator",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -51752,6 +51944,7 @@
           "Target": "ClusterRole/system:kube-controller-manager",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 138,
             "Failures": 7,
@@ -52432,6 +52625,7 @@
           "Target": "ClusterRole/system:kube-scheduler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 2,
@@ -52643,6 +52837,7 @@
           "Target": "ClusterRole/system:kube-dns",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52659,6 +52854,7 @@
           "Target": "ClusterRole/system:kubelet-api-admin",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52675,6 +52871,7 @@
           "Target": "ClusterRole/system:monitoring",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52691,6 +52888,7 @@
           "Target": "ClusterRole/system:node-bootstrapper",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52707,6 +52905,7 @@
           "Target": "ClusterRole/system:node-proxier",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52723,6 +52922,7 @@
           "Target": "ClusterRole/system:node-problem-detector",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52739,6 +52939,7 @@
           "Target": "ClusterRole/system:node",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -52867,6 +53068,7 @@
           "Target": "ClusterRole/system:persistent-volume-provisioner",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52883,6 +53085,7 @@
           "Target": "ClusterRole/system:public-info-viewer",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52899,6 +53102,7 @@
           "Target": "ClusterRole/system:service-account-issuer-discovery",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52915,6 +53119,7 @@
           "Target": "ClusterRole/system:volume-scheduler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52931,6 +53136,7 @@
           "Target": "ClusterRole/trivy-k8s",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52947,6 +53153,7 @@
           "Target": "ClusterRole/view",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52963,6 +53170,7 @@
           "Target": "ClusterRoleBinding/cluster-admin",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52979,6 +53187,7 @@
           "Target": "ClusterRoleBinding/kindnet",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -52995,6 +53204,7 @@
           "Target": "ClusterRoleBinding/kubeadm:kubelet-bootstrap",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53011,6 +53221,7 @@
           "Target": "ClusterRoleBinding/kubeadm:get-nodes",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53027,6 +53238,7 @@
           "Target": "ClusterRoleBinding/kubeadm:node-autoapprove-bootstrap",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53043,6 +53255,7 @@
           "Target": "ClusterRoleBinding/kubeadm:node-autoapprove-certificate-rotation",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53059,6 +53272,7 @@
           "Target": "ClusterRoleBinding/kubeadm:node-proxier",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53075,6 +53289,7 @@
           "Target": "ClusterRoleBinding/local-path-provisioner-bind",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53091,6 +53306,7 @@
           "Target": "ClusterRoleBinding/manager-rolebinding",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53107,6 +53323,7 @@
           "Target": "ClusterRoleBinding/proxy-rolebinding",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53123,6 +53340,7 @@
           "Target": "ClusterRoleBinding/system:basic-user",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53139,6 +53357,7 @@
           "Target": "ClusterRoleBinding/system:controller:attachdetach-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53155,6 +53374,7 @@
           "Target": "ClusterRoleBinding/system:controller:certificate-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53171,6 +53391,7 @@
           "Target": "ClusterRoleBinding/system:controller:clusterrole-aggregation-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53187,6 +53408,7 @@
           "Target": "ClusterRoleBinding/system:controller:cronjob-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53203,6 +53425,7 @@
           "Target": "ClusterRoleBinding/system:controller:daemon-set-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53219,6 +53442,7 @@
           "Target": "ClusterRoleBinding/system:controller:deployment-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53235,6 +53459,7 @@
           "Target": "ClusterRoleBinding/system:controller:disruption-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53251,6 +53476,7 @@
           "Target": "ClusterRoleBinding/system:controller:endpoint-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53267,6 +53493,7 @@
           "Target": "ClusterRoleBinding/system:controller:endpointslice-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53283,6 +53510,7 @@
           "Target": "ClusterRoleBinding/system:controller:endpointslicemirroring-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53299,6 +53527,7 @@
           "Target": "ClusterRoleBinding/system:controller:expand-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53315,6 +53544,7 @@
           "Target": "ClusterRoleBinding/system:controller:ephemeral-volume-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53331,6 +53561,7 @@
           "Target": "ClusterRoleBinding/system:controller:generic-garbage-collector",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53347,6 +53578,7 @@
           "Target": "ClusterRoleBinding/system:controller:namespace-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53363,6 +53595,7 @@
           "Target": "ClusterRoleBinding/system:controller:horizontal-pod-autoscaler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53379,6 +53612,7 @@
           "Target": "ClusterRoleBinding/system:controller:job-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53395,6 +53629,7 @@
           "Target": "ClusterRoleBinding/system:controller:node-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53411,6 +53646,7 @@
           "Target": "ClusterRoleBinding/system:controller:persistent-volume-binder",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53427,6 +53663,7 @@
           "Target": "ClusterRoleBinding/system:controller:pod-garbage-collector",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53443,6 +53680,7 @@
           "Target": "ClusterRoleBinding/system:controller:replicaset-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53459,6 +53697,7 @@
           "Target": "ClusterRoleBinding/system:controller:pvc-protection-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53475,6 +53714,7 @@
           "Target": "ClusterRoleBinding/system:controller:pv-protection-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53491,6 +53731,7 @@
           "Target": "ClusterRoleBinding/system:controller:replication-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53507,6 +53748,7 @@
           "Target": "ClusterRoleBinding/system:controller:resourcequota-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53523,6 +53765,7 @@
           "Target": "ClusterRoleBinding/system:controller:route-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53539,6 +53782,7 @@
           "Target": "ClusterRoleBinding/system:controller:service-account-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53555,6 +53799,7 @@
           "Target": "ClusterRoleBinding/system:controller:root-ca-cert-publisher",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53571,6 +53816,7 @@
           "Target": "ClusterRoleBinding/system:controller:service-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53587,6 +53833,7 @@
           "Target": "ClusterRoleBinding/system:controller:statefulset-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53603,6 +53850,7 @@
           "Target": "ClusterRoleBinding/system:coredns",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53619,6 +53867,7 @@
           "Target": "ClusterRoleBinding/system:controller:ttl-after-finished-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53635,6 +53884,7 @@
           "Target": "ClusterRoleBinding/system:controller:ttl-controller",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53651,6 +53901,7 @@
           "Target": "ClusterRoleBinding/system:discovery",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53667,6 +53918,7 @@
           "Target": "ClusterRoleBinding/system:kube-controller-manager",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53683,6 +53935,7 @@
           "Target": "ClusterRoleBinding/system:kube-dns",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53699,6 +53952,7 @@
           "Target": "ClusterRoleBinding/system:monitoring",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53715,6 +53969,7 @@
           "Target": "ClusterRoleBinding/system:kube-scheduler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53731,6 +53986,7 @@
           "Target": "ClusterRoleBinding/system:node",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53747,6 +54003,7 @@
           "Target": "ClusterRoleBinding/system:node-proxier",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53763,6 +54020,7 @@
           "Target": "ClusterRoleBinding/system:public-info-viewer",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53779,6 +54037,7 @@
           "Target": "ClusterRoleBinding/system:volume-scheduler",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53795,6 +54054,7 @@
           "Target": "ClusterRoleBinding/system:service-account-issuer-discovery",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53811,6 +54071,7 @@
           "Target": "ClusterRoleBinding/trivy-k8s",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 140,
             "Failures": 1,
@@ -53948,6 +54209,7 @@
           "Target": "Node/kind-control-plane",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 141,
             "Failures": 0,
@@ -53964,6 +54226,7 @@
           "Target": "NodeInfo/kind-control-plane",
           "Class": "config",
           "Type": "kubernetes",
+          "Packages": [],
           "MisconfSummary": {
             "Successes": 135,
             "Failures": 6,
