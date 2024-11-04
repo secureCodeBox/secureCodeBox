@@ -1,5 +1,6 @@
 {
   "SchemaVersion": 2,
+  "CreatedAt": "2024-10-28T15:57:12.588540249Z",
   "ArtifactName": "https://github.com/secureCodeBox/secureCodeBox",
   "ArtifactType": "repository",
   "Metadata": {
@@ -16,138 +17,197 @@
   },
   "Results": [
     {
-      "Target": "auto-discovery/kubernetes/go.sum",
+      "Target": "auto-discovery/cloud-aws/go.mod",
       "Class": "lang-pkgs",
-      "Type": "gomod",
+      "Type": "gomod"
+    },
+    {
+      "Target": "auto-discovery/kubernetes/go.mod",
+      "Class": "lang-pkgs",
+      "Type": "gomod"
+    },
+    {
+      "Target": "auto-discovery/kubernetes/pull-secret-extractor/integration-test/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
       "Vulnerabilities": [
         {
-          "VulnerabilityID": "CVE-2020-26160",
-          "PkgName": "github.com/dgrijalva/jwt-go",
-          "InstalledVersion": "3.2.0+incompatible",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-26160",
-          "Title": "jwt-go: access restriction bypass vulnerability",
-          "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
-          "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-862"
-          ],
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V2Score": 5,
-              "V3Score": 7.5
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 7.5
-            }
+          "VulnerabilityID": "CVE-2023-28155",
+          "PkgID": "request@2.88.2",
+          "PkgName": "request",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/request@2.88.2",
+            "UID": "da66bf40b01ba9c5"
           },
-          "References": [
-            "https://github.com/dgrijalva/jwt-go/pull/426",
-            "https://nvd.nist.gov/vuln/detail/CVE-2020-26160",
-            "https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMDGRIJALVAJWTGO-596515"
-          ],
-          "PublishedDate": "2020-09-30T18:15:00Z",
-          "LastModifiedDate": "2021-07-21T11:39:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2021-3121",
-          "PkgName": "github.com/gogo/protobuf",
-          "InstalledVersion": "1.3.1",
-          "FixedVersion": "v1.3.2",
+          "InstalledVersion": "2.88.2",
+          "Status": "affected",
           "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2021-3121",
-          "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
-          "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
-          "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-129"
-          ],
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
-              "V2Score": 7.5,
-              "V3Score": 8.6
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
-              "V3Score": 8.6
-            }
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-28155",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
           },
-          "References": [
-            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3121",
-            "https://discuss.hashicorp.com/t/hcsec-2021-23-consul-exposed-to-denial-of-service-in-gogo-protobuf-dependency/29025",
-            "https://github.com/gogo/protobuf/commit/b03c65ea87cdc3521ede29f62fe3ce239267c1bc",
-            "https://github.com/gogo/protobuf/compare/v1.3.1...v1.3.2",
-            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
-            "https://lists.apache.org/thread.html/r88d69555cb74a129a7bf84838073b61259b4a3830190e05a3b87994e@%3Ccommits.pulsar.apache.org%3E",
-            "https://lists.apache.org/thread.html/rc1e9ff22c5641d73701ba56362fb867d40ed287cca000b131dcf4a44@%3Ccommits.pulsar.apache.org%3E",
-            "https://nvd.nist.gov/vuln/detail/CVE-2021-3121",
-            "https://security.netapp.com/advisory/ntap-20210219-0006/"
-          ],
-          "PublishedDate": "2021-01-11T06:15:00Z",
-          "LastModifiedDate": "2021-10-18T06:15:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2019-19794",
-          "PkgName": "github.com/miekg/dns",
-          "InstalledVersion": "1.0.14",
-          "FixedVersion": "v1.1.25-0.20191211073109-8ebf2e419df7",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-19794",
-          "Title": "golang-github-miekg-dns: predictable TXID can lead to response forgeries",
-          "Description": "The miekg Go DNS package before 1.1.25, as used in CoreDNS before 1.6.6 and other products, improperly generates random numbers because math/rand is used. The TXID becomes predictable, leading to response forgeries.",
+          "Title": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF ...",
+          "Description": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF mitigations via an attacker-controller server that does a cross-protocol redirect (HTTP to HTTPS, or HTTPS to HTTP). NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
           "Severity": "MEDIUM",
           "CweIDs": [
-            "CWE-338"
+            "CWE-918"
           ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2
+          },
           "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
-              "V2Score": 4.3,
-              "V3Score": 5.9
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
             },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
-              "V3Score": 5.9
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
             }
           },
           "References": [
-            "https://github.com/coredns/coredns/issues/3519",
-            "https://github.com/coredns/coredns/issues/3547",
-            "https://github.com/miekg/dns/compare/v1.1.24...v1.1.25",
-            "https://github.com/miekg/dns/issues/1043",
-            "https://github.com/miekg/dns/pull/1044"
+            "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+            "https://github.com/cypress-io/request/blob/master/lib/redirect.js#L116",
+            "https://github.com/cypress-io/request/commit/c5bcf21d40fb61feaff21a0e5a2b3934a440024f",
+            "https://github.com/cypress-io/request/pull/28",
+            "https://github.com/cypress-io/request/releases/tag/v3.0.0",
+            "https://github.com/github/advisory-database/pull/2500",
+            "https://github.com/request/request",
+            "https://github.com/request/request/blob/master/lib/redirect.js#L111",
+            "https://github.com/request/request/issues/3442",
+            "https://github.com/request/request/pull/3444",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-28155",
+            "https://security.netapp.com/advisory/ntap-20230413-0007",
+            "https://security.netapp.com/advisory/ntap-20230413-0007/"
           ],
-          "PublishedDate": "2019-12-13T22:15:00Z",
-          "LastModifiedDate": "2020-01-02T17:36:00Z"
+          "PublishedDate": "2023-03-16T15:15:11.107Z",
+          "LastModifiedDate": "2024-08-02T13:15:37.183Z"
         },
         {
-          "VulnerabilityID": "CVE-2020-29652",
-          "PkgName": "golang.org/x/crypto",
-          "InstalledVersion": "0.0.0-20201002170205-7f63de1d35b0",
-          "FixedVersion": "v0.0.0-20201216223049-8b5274cf687f",
+          "VulnerabilityID": "CVE-2023-26136",
+          "PkgID": "tough-cookie@2.5.0",
+          "PkgName": "tough-cookie",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/tough-cookie@2.5.0",
+            "UID": "bd6da816c9e0f468"
+          },
+          "InstalledVersion": "2.5.0",
+          "FixedVersion": "4.1.3",
+          "Status": "fixed",
           "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-29652",
-          "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
-          "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-26136",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "tough-cookie: prototype pollution in cookie memstore",
+          "Description": "Versions of the package tough-cookie before 4.1.3 are vulnerable to Prototype Pollution due to improper handling of Cookies when using CookieJar in rejectPublicSuffixes=false mode. This issue arises from the manner in which the objects are initialized.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1321"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2023-26136",
+            "https://github.com/salesforce/tough-cookie",
+            "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+            "https://github.com/salesforce/tough-cookie/issues/282",
+            "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+            "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-26136",
+            "https://security.netapp.com/advisory/ntap-20240621-0006",
+            "https://security.netapp.com/advisory/ntap-20240621-0006/",
+            "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873",
+            "https://www.cve.org/CVERecord?id=CVE-2023-26136"
+          ],
+          "PublishedDate": "2023-07-01T05:15:16.103Z",
+          "LastModifiedDate": "2024-06-21T19:15:26.163Z"
+        }
+      ]
+    },
+    {
+      "Target": "auto-discovery/kubernetes/pull-secret-extractor/requirements.txt",
+      "Class": "lang-pkgs",
+      "Type": "pip"
+    },
+    {
+      "Target": "bin/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "documentation/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-45590",
+          "PkgID": "body-parser@1.20.2",
+          "PkgName": "body-parser",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/body-parser@1.20.2",
+            "UID": "c799827e3a8016cf"
+          },
+          "InstalledVersion": "1.20.2",
+          "FixedVersion": "1.20.3",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-45590",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "body-parser: Denial of Service Vulnerability in body-parser",
+          "Description": "body-parser is Node.js body parsing middleware. body-parser \u003c1.20.3 is vulnerable to denial of service when url encoding is enabled. A malicious actor using a specially crafted payload could flood the server with a large number of requests, resulting in denial of service. This issue is patched in 1.20.3.",
           "Severity": "HIGH",
           "CweIDs": [
-            "CWE-476"
+            "CWE-405"
           ],
+          "VendorSeverity": {
+            "azure": 3,
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3
+          },
           "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "ghsa": {
               "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
               "V3Score": 7.5
             },
             "redhat": {
@@ -156,26 +216,1049 @@
             }
           },
           "References": [
-            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-29652",
-            "https://go-review.googlesource.com/c/crypto/+/278852",
-            "https://groups.google.com/g/golang-announce/c/ouZIlBimOsE?pli=1",
-            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
-            "https://nvd.nist.gov/vuln/detail/CVE-2020-29652"
+            "https://access.redhat.com/security/cve/CVE-2024-45590",
+            "https://github.com/expressjs/body-parser",
+            "https://github.com/expressjs/body-parser/commit/b2695c4450f06ba3b0ccf48d872a229bb41c9bce",
+            "https://github.com/expressjs/body-parser/security/advisories/GHSA-qwcr-r2fm-qrc7",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-45590",
+            "https://www.cve.org/CVERecord?id=CVE-2024-45590"
           ],
-          "PublishedDate": "2020-12-17T05:15:00Z",
-          "LastModifiedDate": "2021-10-18T06:15:00Z"
+          "PublishedDate": "2024-09-10T16:15:21.083Z",
+          "LastModifiedDate": "2024-09-20T16:26:44.977Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-47764",
+          "PkgID": "cookie@0.6.0",
+          "PkgName": "cookie",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/cookie@0.6.0",
+            "UID": "1ca30e7803060e91"
+          },
+          "InstalledVersion": "0.6.0",
+          "FixedVersion": "0.7.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-47764",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "cookie: cookie accepts cookie name, path, and domain with out of bounds characters",
+          "Description": "cookie is a basic HTTP cookie parser and serializer for HTTP servers. The cookie name could be used to set other fields of the cookie, resulting in an unexpected cookie value. A similar escape can be used for path and domain, which could be abused to alter other fields of the cookie. Upgrade to 0.7.0, which updates the validation for name, path, and domain.",
+          "Severity": "LOW",
+          "CweIDs": [
+            "CWE-74"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 1,
+            "redhat": 1
+          },
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+              "V3Score": 3.7
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-47764",
+            "https://github.com/jshttp/cookie",
+            "https://github.com/jshttp/cookie/commit/e10042845354fea83bd8f34af72475eed1dadf5c",
+            "https://github.com/jshttp/cookie/pull/167",
+            "https://github.com/jshttp/cookie/security/advisories/GHSA-pxg6-pf52-xh8x",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-47764",
+            "https://www.cve.org/CVERecord?id=CVE-2024-47764"
+          ],
+          "PublishedDate": "2024-10-04T20:15:07.31Z",
+          "LastModifiedDate": "2024-10-07T17:48:28.117Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-43796",
+          "PkgID": "express@4.19.2",
+          "PkgName": "express",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/express@4.19.2",
+            "UID": "de0ddb585f46bea6"
+          },
+          "InstalledVersion": "4.19.2",
+          "FixedVersion": "4.20.0, 5.0.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-43796",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "express: Improper Input Handling in Express Redirects",
+          "Description": "Express.js minimalist web framework for node. In express \u003c 4.20.0, passing untrusted user input - even after sanitizing it - to response.redirect() may execute untrusted code. This issue is patched in express 4.20.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-79"
+          ],
+          "VendorSeverity": {
+            "azure": 2,
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 4.7
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-43796",
+            "https://github.com/expressjs/express",
+            "https://github.com/expressjs/express/commit/54271f69b511fea198471e6ff3400ab805d6b553",
+            "https://github.com/expressjs/express/security/advisories/GHSA-qw6h-vgh9-j6wx",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-43796",
+            "https://www.cve.org/CVERecord?id=CVE-2024-43796"
+          ],
+          "PublishedDate": "2024-09-10T15:15:17.51Z",
+          "LastModifiedDate": "2024-09-20T16:07:47.997Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-21536",
+          "PkgID": "http-proxy-middleware@2.0.6",
+          "PkgName": "http-proxy-middleware",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/http-proxy-middleware@2.0.6",
+            "UID": "ecd0884d9376c311"
+          },
+          "InstalledVersion": "2.0.6",
+          "FixedVersion": "2.0.7, 3.0.3",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21536",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "http-proxy-middleware: Denial of Service",
+          "Description": "Versions of the package http-proxy-middleware before 2.0.7, from 3.0.0 and before 3.0.3 are vulnerable to Denial of Service (DoS) due to an UnhandledPromiseRejection error thrown by micromatch. An attacker could kill the Node.js process and crash the server by making requests to certain paths.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-400"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-21536",
+            "https://gist.github.com/mhassan1/28be67266d82a53708ed59ce5dc3c94a",
+            "https://github.com/chimurai/http-proxy-middleware",
+            "https://github.com/chimurai/http-proxy-middleware/commit/0b4274e8cc9e9a2c5a06f35fbf456ccfcebc55a5",
+            "https://github.com/chimurai/http-proxy-middleware/commit/788b21e4aff38332d6319557d4a5b1b13b1f9a22",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-21536",
+            "https://security.snyk.io/vuln/SNYK-JS-HTTPPROXYMIDDLEWARE-8229906",
+            "https://www.cve.org/CVERecord?id=CVE-2024-21536"
+          ],
+          "PublishedDate": "2024-10-19T05:15:13.097Z",
+          "LastModifiedDate": "2024-10-21T17:10:22.857Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-4067",
+          "PkgID": "micromatch@4.0.5",
+          "PkgName": "micromatch",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/micromatch@4.0.5",
+            "UID": "5f3564ae1df27645"
+          },
+          "InstalledVersion": "4.0.5",
+          "FixedVersion": "4.0.8",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-4067",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "micromatch: vulnerable to Regular Expression Denial of Service",
+          "Description": "The NPM package `micromatch` prior to 4.0.8 is vulnerable to Regular Expression Denial of Service (ReDoS). The vulnerability occurs in `micromatch.braces()` in `index.js` because the pattern `.*` will greedily match anything. By passing a malicious payload, the pattern matching will keep backtracking to the input while it doesn't find the closing bracket. As the input size increases, the consumption time will also increase until it causes the application to hang or slow down. There was a merged fix but further testing shows the issue persists. This issue should be mitigated by using a safe pattern that won't start backtracking the regular expression due to greedy matching. This issue was fixed in version 4.0.8.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1333"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-4067",
+            "https://advisory.checkmarx.net/advisory/CVE-2024-4067",
+            "https://advisory.checkmarx.net/advisory/CVE-2024-4067/",
+            "https://devhub.checkmarx.com/cve-details/CVE-2024-4067",
+            "https://devhub.checkmarx.com/cve-details/CVE-2024-4067/",
+            "https://github.com/micromatch/micromatch",
+            "https://github.com/micromatch/micromatch/blob/2c56a8604b68c1099e7bc0f807ce0865a339747a/index.js#L448",
+            "https://github.com/micromatch/micromatch/commit/03aa8052171e878897eee5d7bb2ae0ae83ec2ade",
+            "https://github.com/micromatch/micromatch/commit/500d5d6f42f0e8dfa1cb5464c6cb420b1b6aaaa0",
+            "https://github.com/micromatch/micromatch/issues/243",
+            "https://github.com/micromatch/micromatch/pull/247",
+            "https://github.com/micromatch/micromatch/pull/266",
+            "https://github.com/micromatch/micromatch/releases/tag/4.0.8",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-4067",
+            "https://www.cve.org/CVERecord?id=CVE-2024-4067"
+          ],
+          "PublishedDate": "2024-05-14T15:42:47.947Z",
+          "LastModifiedDate": "2024-08-28T00:15:04.13Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-45296",
+          "PkgID": "path-to-regexp@0.1.7",
+          "PkgName": "path-to-regexp",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/path-to-regexp@0.1.7",
+            "UID": "460f223cddc320b9"
+          },
+          "InstalledVersion": "0.1.7",
+          "FixedVersion": "1.9.0, 0.1.10, 8.0.0, 3.3.0, 6.3.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-45296",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "path-to-regexp: Backtracking regular expressions cause ReDoS",
+          "Description": "path-to-regexp turns path strings into a regular expressions. In certain cases, path-to-regexp will output a regular expression that can be exploited to cause poor performance. Because JavaScript is single threaded and regex matching runs on the main thread, poor performance will block the event loop and lead to a DoS. The bad regular expression is generated any time you have two parameters within a single segment, separated by something that is not a period (.). For users of 0.1, upgrade to 0.1.10. All other users should upgrade to 8.0.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-1333"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-45296",
+            "https://github.com/pillarjs/path-to-regexp",
+            "https://github.com/pillarjs/path-to-regexp/commit/29b96b4a1de52824e1ca0f49a701183cc4ed476f",
+            "https://github.com/pillarjs/path-to-regexp/commit/60f2121e9b66b7b622cc01080df0aabda9eedee6",
+            "https://github.com/pillarjs/path-to-regexp/commit/925ac8e3c5780b02f58cbd4e52f95da8ad2ac485",
+            "https://github.com/pillarjs/path-to-regexp/commit/d31670ae8f6e69cbfd56e835742195b7d10942ef",
+            "https://github.com/pillarjs/path-to-regexp/commit/f1253b47b347dcb909e3e80b0eb2649109e59894",
+            "https://github.com/pillarjs/path-to-regexp/releases/tag/v6.3.0",
+            "https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-9wv6-86v2-598j",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-45296",
+            "https://www.cve.org/CVERecord?id=CVE-2024-45296"
+          ],
+          "PublishedDate": "2024-09-09T19:15:13.33Z",
+          "LastModifiedDate": "2024-09-10T12:09:50.377Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-45296",
+          "PkgID": "path-to-regexp@1.8.0",
+          "PkgName": "path-to-regexp",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/path-to-regexp@1.8.0",
+            "UID": "ed3f3031b58d2831"
+          },
+          "InstalledVersion": "1.8.0",
+          "FixedVersion": "1.9.0, 0.1.10, 8.0.0, 3.3.0, 6.3.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-45296",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "path-to-regexp: Backtracking regular expressions cause ReDoS",
+          "Description": "path-to-regexp turns path strings into a regular expressions. In certain cases, path-to-regexp will output a regular expression that can be exploited to cause poor performance. Because JavaScript is single threaded and regex matching runs on the main thread, poor performance will block the event loop and lead to a DoS. The bad regular expression is generated any time you have two parameters within a single segment, separated by something that is not a period (.). For users of 0.1, upgrade to 0.1.10. All other users should upgrade to 8.0.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-1333"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-45296",
+            "https://github.com/pillarjs/path-to-regexp",
+            "https://github.com/pillarjs/path-to-regexp/commit/29b96b4a1de52824e1ca0f49a701183cc4ed476f",
+            "https://github.com/pillarjs/path-to-regexp/commit/60f2121e9b66b7b622cc01080df0aabda9eedee6",
+            "https://github.com/pillarjs/path-to-regexp/commit/925ac8e3c5780b02f58cbd4e52f95da8ad2ac485",
+            "https://github.com/pillarjs/path-to-regexp/commit/d31670ae8f6e69cbfd56e835742195b7d10942ef",
+            "https://github.com/pillarjs/path-to-regexp/commit/f1253b47b347dcb909e3e80b0eb2649109e59894",
+            "https://github.com/pillarjs/path-to-regexp/releases/tag/v6.3.0",
+            "https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-9wv6-86v2-598j",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-45296",
+            "https://www.cve.org/CVERecord?id=CVE-2024-45296"
+          ],
+          "PublishedDate": "2024-09-09T19:15:13.33Z",
+          "LastModifiedDate": "2024-09-10T12:09:50.377Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-45296",
+          "PkgID": "path-to-regexp@2.2.1",
+          "PkgName": "path-to-regexp",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/path-to-regexp@2.2.1",
+            "UID": "97ad1531f1fef39c"
+          },
+          "InstalledVersion": "2.2.1",
+          "FixedVersion": "1.9.0, 0.1.10, 8.0.0, 3.3.0, 6.3.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-45296",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "path-to-regexp: Backtracking regular expressions cause ReDoS",
+          "Description": "path-to-regexp turns path strings into a regular expressions. In certain cases, path-to-regexp will output a regular expression that can be exploited to cause poor performance. Because JavaScript is single threaded and regex matching runs on the main thread, poor performance will block the event loop and lead to a DoS. The bad regular expression is generated any time you have two parameters within a single segment, separated by something that is not a period (.). For users of 0.1, upgrade to 0.1.10. All other users should upgrade to 8.0.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-1333"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-45296",
+            "https://github.com/pillarjs/path-to-regexp",
+            "https://github.com/pillarjs/path-to-regexp/commit/29b96b4a1de52824e1ca0f49a701183cc4ed476f",
+            "https://github.com/pillarjs/path-to-regexp/commit/60f2121e9b66b7b622cc01080df0aabda9eedee6",
+            "https://github.com/pillarjs/path-to-regexp/commit/925ac8e3c5780b02f58cbd4e52f95da8ad2ac485",
+            "https://github.com/pillarjs/path-to-regexp/commit/d31670ae8f6e69cbfd56e835742195b7d10942ef",
+            "https://github.com/pillarjs/path-to-regexp/commit/f1253b47b347dcb909e3e80b0eb2649109e59894",
+            "https://github.com/pillarjs/path-to-regexp/releases/tag/v6.3.0",
+            "https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-9wv6-86v2-598j",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-45296",
+            "https://www.cve.org/CVERecord?id=CVE-2024-45296"
+          ],
+          "PublishedDate": "2024-09-09T19:15:13.33Z",
+          "LastModifiedDate": "2024-09-10T12:09:50.377Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-43799",
+          "PkgID": "send@0.18.0",
+          "PkgName": "send",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/send@0.18.0",
+            "UID": "b639822ce894189"
+          },
+          "InstalledVersion": "0.18.0",
+          "FixedVersion": "0.19.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-43799",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "send: Code Execution Vulnerability in Send Library",
+          "Description": "Send is a library for streaming files from the file system as a http response. Send passes untrusted user input to SendStream.redirect() which executes untrusted code. This issue is patched in send 0.19.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-79"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 4.7
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-43799",
+            "https://github.com/pillarjs/send",
+            "https://github.com/pillarjs/send/commit/ae4f2989491b392ae2ef3b0015a019770ae65d35",
+            "https://github.com/pillarjs/send/security/advisories/GHSA-m6fv-jmcg-4jfg",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-43799",
+            "https://www.cve.org/CVERecord?id=CVE-2024-43799"
+          ],
+          "PublishedDate": "2024-09-10T15:15:17.727Z",
+          "LastModifiedDate": "2024-09-20T16:57:14.687Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-43800",
+          "PkgID": "serve-static@1.15.0",
+          "PkgName": "serve-static",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/serve-static@1.15.0",
+            "UID": "5959ab2c89a04911"
+          },
+          "InstalledVersion": "1.15.0",
+          "FixedVersion": "1.16.0, 2.1.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-43800",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "serve-static: Improper Sanitization in serve-static",
+          "Description": "serve-static serves static files. serve-static passes untrusted user input - even after sanitizing it - to redirect() may execute untrusted code. This issue is patched in serve-static 1.16.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-79"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 4.7
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-43800",
+            "https://github.com/expressjs/serve-static",
+            "https://github.com/expressjs/serve-static/commit/0c11fad159898cdc69fd9ab63269b72468ecaf6b",
+            "https://github.com/expressjs/serve-static/commit/ce730896fddce1588111d9ef6fdf20896de5c6fa",
+            "https://github.com/expressjs/serve-static/security/advisories/GHSA-cm22-4g7w-348p",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-43800",
+            "https://www.cve.org/CVERecord?id=CVE-2024-43800"
+          ],
+          "PublishedDate": "2024-09-10T15:15:17.937Z",
+          "LastModifiedDate": "2024-09-20T17:36:30.313Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-43788",
+          "PkgID": "webpack@5.89.0",
+          "PkgName": "webpack",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/webpack@5.89.0",
+            "UID": "9250ac56a07283fe"
+          },
+          "InstalledVersion": "5.89.0",
+          "FixedVersion": "5.94.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-43788",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "webpack: DOM Clobbering vulnerability in AutoPublicPathRuntimeModule",
+          "Description": "Webpack is a module bundler. Its main purpose is to bundle JavaScript files for usage in a browser, yet it is also capable of transforming, bundling, or packaging just about any resource or asset. The webpack developers have discovered a DOM Clobbering vulnerability in Webpack’s `AutoPublicPathRuntimeModule`. The DOM Clobbering gadget in the module can lead to cross-site scripting (XSS) in web pages where scriptless attacker-controlled HTML elements (e.g., an `img` tag with an unsanitized `name` attribute) are present. Real-world exploitation of this gadget has been observed in the Canvas LMS which allows a XSS attack to happen through a javascript code compiled by Webpack (the vulnerable part is from Webpack). DOM Clobbering is a type of code-reuse attack where the attacker first embeds a piece of non-script, seemingly benign HTML markups in the webpage (e.g. through a post or comment) and leverages the gadgets (pieces of js code) living in the existing javascript code to transform it into executable code. This vulnerability can lead to cross-site scripting (XSS) on websites that include Webpack-generated files and allow users to inject certain scriptless HTML tags with improperly sanitized name or id attributes. This issue has been addressed in release version 5.94.0. All users are advised to upgrade. There are no known workarounds for this issue.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-79"
+          ],
+          "VendorSeverity": {
+            "azure": 2,
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:H",
+              "V3Score": 6.4
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-43788",
+            "https://github.com/webpack/webpack",
+            "https://github.com/webpack/webpack/commit/955e057abc6cc83cbc3fa1e1ef67a49758bf5a61",
+            "https://github.com/webpack/webpack/issues/18718#issuecomment-2326296270",
+            "https://github.com/webpack/webpack/security/advisories/GHSA-4vvj-4cpr-p986",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-43788",
+            "https://research.securitum.com/xss-in-amp4email-dom-clobbering",
+            "https://scnps.co/papers/sp23_domclob.pdf",
+            "https://www.cve.org/CVERecord?id=CVE-2024-43788"
+          ],
+          "PublishedDate": "2024-08-27T17:15:07.967Z",
+          "LastModifiedDate": "2024-09-03T15:15:15.937Z"
         }
       ]
     },
     {
       "Target": "hook-sdk/nodejs/package-lock.json",
       "Class": "lang-pkgs",
-      "Type": "npm"
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-39338",
+          "PkgID": "axios@1.6.0",
+          "PkgName": "axios",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/axios@1.6.0",
+            "UID": "efb06667c4571c71"
+          },
+          "InstalledVersion": "1.6.0",
+          "FixedVersion": "1.7.4",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-39338",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "axios: axios: Server-Side Request Forgery",
+          "Description": "axios 1.7.2 allows SSRF via unexpected behavior where requests for path relative URLs get processed as protocol relative URLs.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-39338",
+            "https://github.com/axios/axios",
+            "https://github.com/axios/axios/commit/6b6b605eaf73852fb2dae033f1e786155959de3a",
+            "https://github.com/axios/axios/issues/6463",
+            "https://github.com/axios/axios/pull/6539",
+            "https://github.com/axios/axios/pull/6543",
+            "https://github.com/axios/axios/releases",
+            "https://github.com/axios/axios/releases/tag/v1.7.4",
+            "https://jeffhacks.com/advisories/2024/06/24/CVE-2024-39338.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-39338",
+            "https://www.cve.org/CVERecord?id=CVE-2024-39338"
+          ],
+          "PublishedDate": "2024-08-12T13:38:24.487Z",
+          "LastModifiedDate": "2024-08-23T18:35:36.313Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-21534",
+          "PkgID": "jsonpath-plus@7.2.0",
+          "PkgName": "jsonpath-plus",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/jsonpath-plus@7.2.0",
+            "UID": "4f332f2d78ed8f2a"
+          },
+          "InstalledVersion": "7.2.0",
+          "FixedVersion": "10.0.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21534",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "jsonpath-plus: Remote Code Execution in jsonpath-plus via Improper Input Sanitization",
+          "Description": "Versions of the package jsonpath-plus before 10.0.7 are vulnerable to Remote Code Execution (RCE) due to improper input sanitization. An attacker can execute aribitrary code on the system by exploiting the unsafe default usage of vm in Node.\r\r**Note:**\r\rThere was an attempt to fix it in version [10.0.0](https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3) but it could still be exploited using [different payloads](https://github.com/JSONPath-Plus/JSONPath/issues/226).",
+          "Severity": "CRITICAL",
+          "CweIDs": [
+            "CWE-94"
+          ],
+          "VendorSeverity": {
+            "ghsa": 4,
+            "redhat": 4
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-21534",
+            "https://github.com/JSONPath-Plus/JSONPath",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/b70aa713553caf838a63bac923195a5bc541fd72",
+            "https://github.com/JSONPath-Plus/JSONPath/issues/226",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-21534",
+            "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8185019",
+            "https://security.snyk.io/vuln/SNYK-JS-JSONPATHPLUS-7945884",
+            "https://www.cve.org/CVERecord?id=CVE-2024-21534"
+          ],
+          "PublishedDate": "2024-10-11T13:15:15.667Z",
+          "LastModifiedDate": "2024-10-20T12:15:02.757Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-28155",
+          "PkgID": "request@2.88.2",
+          "PkgName": "request",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/request@2.88.2",
+            "UID": "bfac9a85e49edbbd"
+          },
+          "InstalledVersion": "2.88.2",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-28155",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF ...",
+          "Description": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF mitigations via an attacker-controller server that does a cross-protocol redirect (HTTP to HTTPS, or HTTPS to HTTP). NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            }
+          },
+          "References": [
+            "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+            "https://github.com/cypress-io/request/blob/master/lib/redirect.js#L116",
+            "https://github.com/cypress-io/request/commit/c5bcf21d40fb61feaff21a0e5a2b3934a440024f",
+            "https://github.com/cypress-io/request/pull/28",
+            "https://github.com/cypress-io/request/releases/tag/v3.0.0",
+            "https://github.com/github/advisory-database/pull/2500",
+            "https://github.com/request/request",
+            "https://github.com/request/request/blob/master/lib/redirect.js#L111",
+            "https://github.com/request/request/issues/3442",
+            "https://github.com/request/request/pull/3444",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-28155",
+            "https://security.netapp.com/advisory/ntap-20230413-0007",
+            "https://security.netapp.com/advisory/ntap-20230413-0007/"
+          ],
+          "PublishedDate": "2023-03-16T15:15:11.107Z",
+          "LastModifiedDate": "2024-08-02T13:15:37.183Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-26136",
+          "PkgID": "tough-cookie@2.5.0",
+          "PkgName": "tough-cookie",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/tough-cookie@2.5.0",
+            "UID": "bd285d224cfda1bd"
+          },
+          "InstalledVersion": "2.5.0",
+          "FixedVersion": "4.1.3",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-26136",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "tough-cookie: prototype pollution in cookie memstore",
+          "Description": "Versions of the package tough-cookie before 4.1.3 are vulnerable to Prototype Pollution due to improper handling of Cookies when using CookieJar in rejectPublicSuffixes=false mode. This issue arises from the manner in which the objects are initialized.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1321"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2023-26136",
+            "https://github.com/salesforce/tough-cookie",
+            "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+            "https://github.com/salesforce/tough-cookie/issues/282",
+            "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+            "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-26136",
+            "https://security.netapp.com/advisory/ntap-20240621-0006",
+            "https://security.netapp.com/advisory/ntap-20240621-0006/",
+            "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873",
+            "https://www.cve.org/CVERecord?id=CVE-2023-26136"
+          ],
+          "PublishedDate": "2023-07-01T05:15:16.103Z",
+          "LastModifiedDate": "2024-06-21T19:15:26.163Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-37890",
+          "PkgID": "ws@8.13.0",
+          "PkgName": "ws",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/ws@8.13.0",
+            "UID": "2e626fd95dbd8ec5"
+          },
+          "InstalledVersion": "8.13.0",
+          "FixedVersion": "5.2.4, 6.2.3, 7.5.10, 8.17.1",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-37890",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "nodejs-ws: denial of service when handling a request with many HTTP headers",
+          "Description": "ws is an open source WebSocket client and server for Node.js. A request with a number of headers exceeding theserver.maxHeadersCount threshold could be used to crash a ws server. The vulnerability was fixed in ws@8.17.1 (e55e510) and backported to ws@7.5.10 (22c2876), ws@6.2.3 (eeb76d3), and ws@5.2.4 (4abd8f6). In vulnerable versions of ws, the issue can be mitigated in the following ways: 1. Reduce the maximum allowed length of the request headers using the --max-http-header-size=size and/or the maxHeaderSize options so that no more headers than the server.maxHeadersCount limit can be sent. 2. Set server.maxHeadersCount to 0 so that no limit is applied.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-476"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 5.9
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-37890",
+            "https://github.com/websockets/ws",
+            "https://github.com/websockets/ws/commit/22c28763234aa75a7e1b76f5c01c181260d7917f",
+            "https://github.com/websockets/ws/commit/4abd8f6de4b0b65ef80b3ff081989479ed93377e",
+            "https://github.com/websockets/ws/commit/e55e5106f10fcbaac37cfa89759e4cc0d073a52c",
+            "https://github.com/websockets/ws/commit/eeb76d313e2a00dd5247ca3597bba7877d064a63",
+            "https://github.com/websockets/ws/issues/2230",
+            "https://github.com/websockets/ws/pull/2231",
+            "https://github.com/websockets/ws/security/advisories/GHSA-3h5v-q93c-6h6q",
+            "https://nodejs.org/api/http.html#servermaxheaderscount",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-37890",
+            "https://www.cve.org/CVERecord?id=CVE-2024-37890"
+          ],
+          "PublishedDate": "2024-06-17T20:15:13.203Z",
+          "LastModifiedDate": "2024-06-20T12:44:22.977Z"
+        }
+      ]
     },
     {
       "Target": "hooks/cascading-scans/hook/package-lock.json",
       "Class": "lang-pkgs",
-      "Type": "npm"
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-21534",
+          "PkgID": "jsonpath-plus@7.2.0",
+          "PkgName": "jsonpath-plus",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/jsonpath-plus@7.2.0",
+            "UID": "8cbb0f12d48703a"
+          },
+          "InstalledVersion": "7.2.0",
+          "FixedVersion": "10.0.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21534",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "jsonpath-plus: Remote Code Execution in jsonpath-plus via Improper Input Sanitization",
+          "Description": "Versions of the package jsonpath-plus before 10.0.7 are vulnerable to Remote Code Execution (RCE) due to improper input sanitization. An attacker can execute aribitrary code on the system by exploiting the unsafe default usage of vm in Node.\r\r**Note:**\r\rThere was an attempt to fix it in version [10.0.0](https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3) but it could still be exploited using [different payloads](https://github.com/JSONPath-Plus/JSONPath/issues/226).",
+          "Severity": "CRITICAL",
+          "CweIDs": [
+            "CWE-94"
+          ],
+          "VendorSeverity": {
+            "ghsa": 4,
+            "redhat": 4
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-21534",
+            "https://github.com/JSONPath-Plus/JSONPath",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/b70aa713553caf838a63bac923195a5bc541fd72",
+            "https://github.com/JSONPath-Plus/JSONPath/issues/226",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-21534",
+            "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8185019",
+            "https://security.snyk.io/vuln/SNYK-JS-JSONPATHPLUS-7945884",
+            "https://www.cve.org/CVERecord?id=CVE-2024-21534"
+          ],
+          "PublishedDate": "2024-10-11T13:15:15.667Z",
+          "LastModifiedDate": "2024-10-20T12:15:02.757Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-28155",
+          "PkgID": "request@2.88.2",
+          "PkgName": "request",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/request@2.88.2",
+            "UID": "6c6989f7207454f3"
+          },
+          "InstalledVersion": "2.88.2",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-28155",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF ...",
+          "Description": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF mitigations via an attacker-controller server that does a cross-protocol redirect (HTTP to HTTPS, or HTTPS to HTTP). NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            }
+          },
+          "References": [
+            "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+            "https://github.com/cypress-io/request/blob/master/lib/redirect.js#L116",
+            "https://github.com/cypress-io/request/commit/c5bcf21d40fb61feaff21a0e5a2b3934a440024f",
+            "https://github.com/cypress-io/request/pull/28",
+            "https://github.com/cypress-io/request/releases/tag/v3.0.0",
+            "https://github.com/github/advisory-database/pull/2500",
+            "https://github.com/request/request",
+            "https://github.com/request/request/blob/master/lib/redirect.js#L111",
+            "https://github.com/request/request/issues/3442",
+            "https://github.com/request/request/pull/3444",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-28155",
+            "https://security.netapp.com/advisory/ntap-20230413-0007",
+            "https://security.netapp.com/advisory/ntap-20230413-0007/"
+          ],
+          "PublishedDate": "2023-03-16T15:15:11.107Z",
+          "LastModifiedDate": "2024-08-02T13:15:37.183Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-26136",
+          "PkgID": "tough-cookie@2.5.0",
+          "PkgName": "tough-cookie",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/tough-cookie@2.5.0",
+            "UID": "22ac4fba0750dd45"
+          },
+          "InstalledVersion": "2.5.0",
+          "FixedVersion": "4.1.3",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-26136",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "tough-cookie: prototype pollution in cookie memstore",
+          "Description": "Versions of the package tough-cookie before 4.1.3 are vulnerable to Prototype Pollution due to improper handling of Cookies when using CookieJar in rejectPublicSuffixes=false mode. This issue arises from the manner in which the objects are initialized.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1321"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2023-26136",
+            "https://github.com/salesforce/tough-cookie",
+            "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+            "https://github.com/salesforce/tough-cookie/issues/282",
+            "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+            "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-26136",
+            "https://security.netapp.com/advisory/ntap-20240621-0006",
+            "https://security.netapp.com/advisory/ntap-20240621-0006/",
+            "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873",
+            "https://www.cve.org/CVERecord?id=CVE-2023-26136"
+          ],
+          "PublishedDate": "2023-07-01T05:15:16.103Z",
+          "LastModifiedDate": "2024-06-21T19:15:26.163Z"
+        }
+      ]
     },
     {
       "Target": "hooks/finding-post-processing/hook/package-lock.json",
@@ -185,17 +1268,540 @@
     {
       "Target": "hooks/generic-webhook/hook/package-lock.json",
       "Class": "lang-pkgs",
-      "Type": "npm"
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-39338",
+          "PkgID": "axios@1.6.0",
+          "PkgName": "axios",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/axios@1.6.0",
+            "UID": "5a862eefb3de832e"
+          },
+          "InstalledVersion": "1.6.0",
+          "FixedVersion": "1.7.4",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-39338",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "axios: axios: Server-Side Request Forgery",
+          "Description": "axios 1.7.2 allows SSRF via unexpected behavior where requests for path relative URLs get processed as protocol relative URLs.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-39338",
+            "https://github.com/axios/axios",
+            "https://github.com/axios/axios/commit/6b6b605eaf73852fb2dae033f1e786155959de3a",
+            "https://github.com/axios/axios/issues/6463",
+            "https://github.com/axios/axios/pull/6539",
+            "https://github.com/axios/axios/pull/6543",
+            "https://github.com/axios/axios/releases",
+            "https://github.com/axios/axios/releases/tag/v1.7.4",
+            "https://jeffhacks.com/advisories/2024/06/24/CVE-2024-39338.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-39338",
+            "https://www.cve.org/CVERecord?id=CVE-2024-39338"
+          ],
+          "PublishedDate": "2024-08-12T13:38:24.487Z",
+          "LastModifiedDate": "2024-08-23T18:35:36.313Z"
+        }
+      ]
     },
     {
       "Target": "hooks/notification/hook/package-lock.json",
       "Class": "lang-pkgs",
-      "Type": "npm"
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-39338",
+          "PkgID": "axios@1.6.0",
+          "PkgName": "axios",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/axios@1.6.0",
+            "UID": "cc631ada2c929230"
+          },
+          "InstalledVersion": "1.6.0",
+          "FixedVersion": "1.7.4",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-39338",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "axios: axios: Server-Side Request Forgery",
+          "Description": "axios 1.7.2 allows SSRF via unexpected behavior where requests for path relative URLs get processed as protocol relative URLs.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-39338",
+            "https://github.com/axios/axios",
+            "https://github.com/axios/axios/commit/6b6b605eaf73852fb2dae033f1e786155959de3a",
+            "https://github.com/axios/axios/issues/6463",
+            "https://github.com/axios/axios/pull/6539",
+            "https://github.com/axios/axios/pull/6543",
+            "https://github.com/axios/axios/releases",
+            "https://github.com/axios/axios/releases/tag/v1.7.4",
+            "https://jeffhacks.com/advisories/2024/06/24/CVE-2024-39338.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-39338",
+            "https://www.cve.org/CVERecord?id=CVE-2024-39338"
+          ],
+          "PublishedDate": "2024-08-12T13:38:24.487Z",
+          "LastModifiedDate": "2024-08-23T18:35:36.313Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-21534",
+          "PkgID": "jsonpath-plus@7.2.0",
+          "PkgName": "jsonpath-plus",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/jsonpath-plus@7.2.0",
+            "UID": "61f1a6af2c23a45b"
+          },
+          "InstalledVersion": "7.2.0",
+          "FixedVersion": "10.0.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21534",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "jsonpath-plus: Remote Code Execution in jsonpath-plus via Improper Input Sanitization",
+          "Description": "Versions of the package jsonpath-plus before 10.0.7 are vulnerable to Remote Code Execution (RCE) due to improper input sanitization. An attacker can execute aribitrary code on the system by exploiting the unsafe default usage of vm in Node.\r\r**Note:**\r\rThere was an attempt to fix it in version [10.0.0](https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3) but it could still be exploited using [different payloads](https://github.com/JSONPath-Plus/JSONPath/issues/226).",
+          "Severity": "CRITICAL",
+          "CweIDs": [
+            "CWE-94"
+          ],
+          "VendorSeverity": {
+            "ghsa": 4,
+            "redhat": 4
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-21534",
+            "https://github.com/JSONPath-Plus/JSONPath",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/b70aa713553caf838a63bac923195a5bc541fd72",
+            "https://github.com/JSONPath-Plus/JSONPath/issues/226",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-21534",
+            "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8185019",
+            "https://security.snyk.io/vuln/SNYK-JS-JSONPATHPLUS-7945884",
+            "https://www.cve.org/CVERecord?id=CVE-2024-21534"
+          ],
+          "PublishedDate": "2024-10-11T13:15:15.667Z",
+          "LastModifiedDate": "2024-10-20T12:15:02.757Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-28155",
+          "PkgID": "request@2.88.2",
+          "PkgName": "request",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/request@2.88.2",
+            "UID": "904b4b564397768e"
+          },
+          "InstalledVersion": "2.88.2",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-28155",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF ...",
+          "Description": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF mitigations via an attacker-controller server that does a cross-protocol redirect (HTTP to HTTPS, or HTTPS to HTTP). NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            }
+          },
+          "References": [
+            "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+            "https://github.com/cypress-io/request/blob/master/lib/redirect.js#L116",
+            "https://github.com/cypress-io/request/commit/c5bcf21d40fb61feaff21a0e5a2b3934a440024f",
+            "https://github.com/cypress-io/request/pull/28",
+            "https://github.com/cypress-io/request/releases/tag/v3.0.0",
+            "https://github.com/github/advisory-database/pull/2500",
+            "https://github.com/request/request",
+            "https://github.com/request/request/blob/master/lib/redirect.js#L111",
+            "https://github.com/request/request/issues/3442",
+            "https://github.com/request/request/pull/3444",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-28155",
+            "https://security.netapp.com/advisory/ntap-20230413-0007",
+            "https://security.netapp.com/advisory/ntap-20230413-0007/"
+          ],
+          "PublishedDate": "2023-03-16T15:15:11.107Z",
+          "LastModifiedDate": "2024-08-02T13:15:37.183Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-26136",
+          "PkgID": "tough-cookie@2.5.0",
+          "PkgName": "tough-cookie",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/tough-cookie@2.5.0",
+            "UID": "9e1992906bb70548"
+          },
+          "InstalledVersion": "2.5.0",
+          "FixedVersion": "4.1.3",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-26136",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "tough-cookie: prototype pollution in cookie memstore",
+          "Description": "Versions of the package tough-cookie before 4.1.3 are vulnerable to Prototype Pollution due to improper handling of Cookies when using CookieJar in rejectPublicSuffixes=false mode. This issue arises from the manner in which the objects are initialized.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1321"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2023-26136",
+            "https://github.com/salesforce/tough-cookie",
+            "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+            "https://github.com/salesforce/tough-cookie/issues/282",
+            "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+            "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-26136",
+            "https://security.netapp.com/advisory/ntap-20240621-0006",
+            "https://security.netapp.com/advisory/ntap-20240621-0006/",
+            "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873",
+            "https://www.cve.org/CVERecord?id=CVE-2023-26136"
+          ],
+          "PublishedDate": "2023-07-01T05:15:16.103Z",
+          "LastModifiedDate": "2024-06-21T19:15:26.163Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-37890",
+          "PkgID": "ws@8.12.0",
+          "PkgName": "ws",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/ws@8.12.0",
+            "UID": "22b7b41fca316da"
+          },
+          "InstalledVersion": "8.12.0",
+          "FixedVersion": "5.2.4, 6.2.3, 7.5.10, 8.17.1",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-37890",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "nodejs-ws: denial of service when handling a request with many HTTP headers",
+          "Description": "ws is an open source WebSocket client and server for Node.js. A request with a number of headers exceeding theserver.maxHeadersCount threshold could be used to crash a ws server. The vulnerability was fixed in ws@8.17.1 (e55e510) and backported to ws@7.5.10 (22c2876), ws@6.2.3 (eeb76d3), and ws@5.2.4 (4abd8f6). In vulnerable versions of ws, the issue can be mitigated in the following ways: 1. Reduce the maximum allowed length of the request headers using the --max-http-header-size=size and/or the maxHeaderSize options so that no more headers than the server.maxHeadersCount limit can be sent. 2. Set server.maxHeadersCount to 0 so that no limit is applied.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-476"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 5.9
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-37890",
+            "https://github.com/websockets/ws",
+            "https://github.com/websockets/ws/commit/22c28763234aa75a7e1b76f5c01c181260d7917f",
+            "https://github.com/websockets/ws/commit/4abd8f6de4b0b65ef80b3ff081989479ed93377e",
+            "https://github.com/websockets/ws/commit/e55e5106f10fcbaac37cfa89759e4cc0d073a52c",
+            "https://github.com/websockets/ws/commit/eeb76d313e2a00dd5247ca3597bba7877d064a63",
+            "https://github.com/websockets/ws/issues/2230",
+            "https://github.com/websockets/ws/pull/2231",
+            "https://github.com/websockets/ws/security/advisories/GHSA-3h5v-q93c-6h6q",
+            "https://nodejs.org/api/http.html#servermaxheaderscount",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-37890",
+            "https://www.cve.org/CVERecord?id=CVE-2024-37890"
+          ],
+          "PublishedDate": "2024-06-17T20:15:13.203Z",
+          "LastModifiedDate": "2024-06-20T12:44:22.977Z"
+        }
+      ]
     },
     {
       "Target": "hooks/package-lock.json",
       "Class": "lang-pkgs",
-      "Type": "npm"
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-21534",
+          "PkgID": "jsonpath-plus@7.2.0",
+          "PkgName": "jsonpath-plus",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/jsonpath-plus@7.2.0",
+            "UID": "2493a063c3978fce"
+          },
+          "InstalledVersion": "7.2.0",
+          "FixedVersion": "10.0.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21534",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "jsonpath-plus: Remote Code Execution in jsonpath-plus via Improper Input Sanitization",
+          "Description": "Versions of the package jsonpath-plus before 10.0.7 are vulnerable to Remote Code Execution (RCE) due to improper input sanitization. An attacker can execute aribitrary code on the system by exploiting the unsafe default usage of vm in Node.\r\r**Note:**\r\rThere was an attempt to fix it in version [10.0.0](https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3) but it could still be exploited using [different payloads](https://github.com/JSONPath-Plus/JSONPath/issues/226).",
+          "Severity": "CRITICAL",
+          "CweIDs": [
+            "CWE-94"
+          ],
+          "VendorSeverity": {
+            "ghsa": 4,
+            "redhat": 4
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-21534",
+            "https://github.com/JSONPath-Plus/JSONPath",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/b70aa713553caf838a63bac923195a5bc541fd72",
+            "https://github.com/JSONPath-Plus/JSONPath/issues/226",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-21534",
+            "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8185019",
+            "https://security.snyk.io/vuln/SNYK-JS-JSONPATHPLUS-7945884",
+            "https://www.cve.org/CVERecord?id=CVE-2024-21534"
+          ],
+          "PublishedDate": "2024-10-11T13:15:15.667Z",
+          "LastModifiedDate": "2024-10-20T12:15:02.757Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-28155",
+          "PkgID": "request@2.88.2",
+          "PkgName": "request",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/request@2.88.2",
+            "UID": "84dede0f5c381dcf"
+          },
+          "InstalledVersion": "2.88.2",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-28155",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF ...",
+          "Description": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF mitigations via an attacker-controller server that does a cross-protocol redirect (HTTP to HTTPS, or HTTPS to HTTP). NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            }
+          },
+          "References": [
+            "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+            "https://github.com/cypress-io/request/blob/master/lib/redirect.js#L116",
+            "https://github.com/cypress-io/request/commit/c5bcf21d40fb61feaff21a0e5a2b3934a440024f",
+            "https://github.com/cypress-io/request/pull/28",
+            "https://github.com/cypress-io/request/releases/tag/v3.0.0",
+            "https://github.com/github/advisory-database/pull/2500",
+            "https://github.com/request/request",
+            "https://github.com/request/request/blob/master/lib/redirect.js#L111",
+            "https://github.com/request/request/issues/3442",
+            "https://github.com/request/request/pull/3444",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-28155",
+            "https://security.netapp.com/advisory/ntap-20230413-0007",
+            "https://security.netapp.com/advisory/ntap-20230413-0007/"
+          ],
+          "PublishedDate": "2023-03-16T15:15:11.107Z",
+          "LastModifiedDate": "2024-08-02T13:15:37.183Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-26136",
+          "PkgID": "tough-cookie@2.5.0",
+          "PkgName": "tough-cookie",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/tough-cookie@2.5.0",
+            "UID": "91a742ce803d4a14"
+          },
+          "InstalledVersion": "2.5.0",
+          "FixedVersion": "4.1.3",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-26136",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "tough-cookie: prototype pollution in cookie memstore",
+          "Description": "Versions of the package tough-cookie before 4.1.3 are vulnerable to Prototype Pollution due to improper handling of Cookies when using CookieJar in rejectPublicSuffixes=false mode. This issue arises from the manner in which the objects are initialized.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1321"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2023-26136",
+            "https://github.com/salesforce/tough-cookie",
+            "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+            "https://github.com/salesforce/tough-cookie/issues/282",
+            "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+            "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-26136",
+            "https://security.netapp.com/advisory/ntap-20240621-0006",
+            "https://security.netapp.com/advisory/ntap-20240621-0006/",
+            "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873",
+            "https://www.cve.org/CVERecord?id=CVE-2023-26136"
+          ],
+          "PublishedDate": "2023-07-01T05:15:16.103Z",
+          "LastModifiedDate": "2024-06-21T19:15:26.163Z"
+        }
+      ]
     },
     {
       "Target": "hooks/persistence-elastic/hook/package-lock.json",
@@ -203,436 +1809,669 @@
       "Type": "npm"
     },
     {
-      "Target": "hooks/update-field/hook/package-lock.json",
+      "Target": "hooks/update-field-hook/hook/package-lock.json",
       "Class": "lang-pkgs",
-      "Type": "npm"
-    },
-    {
-      "Target": "lurker/go.sum",
-      "Class": "lang-pkgs",
-      "Type": "gomod",
+      "Type": "npm",
       "Vulnerabilities": [
         {
-          "VulnerabilityID": "CVE-2020-26160",
-          "PkgName": "github.com/dgrijalva/jwt-go",
-          "InstalledVersion": "3.2.0+incompatible",
+          "VulnerabilityID": "CVE-2020-8203",
+          "PkgID": "lodash.set@4.3.2",
+          "PkgName": "lodash.set",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/lodash.set@4.3.2",
+            "UID": "63ea1a6aaf5d59c5"
+          },
+          "InstalledVersion": "4.3.2",
+          "Status": "affected",
           "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-26160",
-          "Title": "jwt-go: access restriction bypass vulnerability",
-          "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-8203",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "nodejs-lodash: prototype pollution in zipObjectDeep function",
+          "Description": "Prototype pollution attack when using _.zipObjectDeep in lodash before 4.17.20.",
           "Severity": "HIGH",
           "CweIDs": [
-            "CWE-862"
+            "CWE-1321",
+            "CWE-770"
           ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 2
+          },
           "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H",
+              "V3Score": 7.4
+            },
             "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V2Score": 5,
-              "V3Score": 7.5
+              "V2Vector": "AV:N/AC:M/Au:N/C:N/I:P/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H",
+              "V2Score": 5.8,
+              "V3Score": 7.4
             },
             "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 7.5
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H",
+              "V3Score": 7.4
             }
           },
           "References": [
-            "https://github.com/dgrijalva/jwt-go/pull/426",
-            "https://nvd.nist.gov/vuln/detail/CVE-2020-26160",
-            "https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMDGRIJALVAJWTGO-596515"
+            "https://access.redhat.com/security/cve/CVE-2020-8203",
+            "https://github.com/github/advisory-database/pull/2884",
+            "https://github.com/lodash/lodash",
+            "https://github.com/lodash/lodash/commit/c84fe82760fb2d3e03a63379b297a1cc1a2fce12",
+            "https://github.com/lodash/lodash/issues/4744",
+            "https://github.com/lodash/lodash/issues/4874",
+            "https://github.com/lodash/lodash/wiki/Changelog#v41719",
+            "https://hackerone.com/reports/712065",
+            "https://hackerone.com/reports/864701",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-8203",
+            "https://security.netapp.com/advisory/ntap-20200724-0006",
+            "https://security.netapp.com/advisory/ntap-20200724-0006/",
+            "https://web.archive.org/web/20210914001339/https://github.com/lodash/lodash/issues/4744",
+            "https://www.cve.org/CVERecord?id=CVE-2020-8203",
+            "https://www.npmjs.com/advisories/1523",
+            "https://www.oracle.com//security-alerts/cpujul2021.html",
+            "https://www.oracle.com/security-alerts/cpuApr2021.html",
+            "https://www.oracle.com/security-alerts/cpuapr2022.html",
+            "https://www.oracle.com/security-alerts/cpujan2022.html",
+            "https://www.oracle.com/security-alerts/cpuoct2021.html"
           ],
-          "PublishedDate": "2020-09-30T18:15:00Z",
-          "LastModifiedDate": "2021-07-21T11:39:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2021-3121",
-          "PkgName": "github.com/gogo/protobuf",
-          "InstalledVersion": "1.2.2-0.20190723190241-65acae22fc9d",
-          "FixedVersion": "v1.3.2",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2021-3121",
-          "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
-          "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
-          "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-129"
-          ],
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
-              "V2Score": 7.5,
-              "V3Score": 8.6
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
-              "V3Score": 8.6
-            }
-          },
-          "References": [
-            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3121",
-            "https://discuss.hashicorp.com/t/hcsec-2021-23-consul-exposed-to-denial-of-service-in-gogo-protobuf-dependency/29025",
-            "https://github.com/gogo/protobuf/commit/b03c65ea87cdc3521ede29f62fe3ce239267c1bc",
-            "https://github.com/gogo/protobuf/compare/v1.3.1...v1.3.2",
-            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
-            "https://lists.apache.org/thread.html/r88d69555cb74a129a7bf84838073b61259b4a3830190e05a3b87994e@%3Ccommits.pulsar.apache.org%3E",
-            "https://lists.apache.org/thread.html/rc1e9ff22c5641d73701ba56362fb867d40ed287cca000b131dcf4a44@%3Ccommits.pulsar.apache.org%3E",
-            "https://nvd.nist.gov/vuln/detail/CVE-2021-3121",
-            "https://security.netapp.com/advisory/ntap-20210219-0006/"
-          ],
-          "PublishedDate": "2021-01-11T06:15:00Z",
-          "LastModifiedDate": "2021-10-18T06:15:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2020-29652",
-          "PkgName": "golang.org/x/crypto",
-          "InstalledVersion": "0.0.0-20190611184440-5c40567a22f8",
-          "FixedVersion": "v0.0.0-20201216223049-8b5274cf687f",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-29652",
-          "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
-          "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
-          "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-476"
-          ],
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-              "V2Score": 5,
-              "V3Score": 7.5
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-              "V3Score": 7.5
-            }
-          },
-          "References": [
-            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-29652",
-            "https://go-review.googlesource.com/c/crypto/+/278852",
-            "https://groups.google.com/g/golang-announce/c/ouZIlBimOsE?pli=1",
-            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
-            "https://nvd.nist.gov/vuln/detail/CVE-2020-29652"
-          ],
-          "PublishedDate": "2020-12-17T05:15:00Z",
-          "LastModifiedDate": "2021-10-18T06:15:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2020-9283",
-          "PkgName": "golang.org/x/crypto",
-          "InstalledVersion": "0.0.0-20190611184440-5c40567a22f8",
-          "FixedVersion": "v0.0.0-20200220183623-bac4c82f6975",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-9283",
-          "Title": "golang.org/x/crypto: Processing of crafted ssh-ed25519 public keys allows for panic",
-          "Description": "golang.org/x/crypto before v0.0.0-20200220183623-bac4c82f6975 for Go allows a panic during signature verification in the golang.org/x/crypto/ssh package. A client can attack an SSH server that accepts public keys. Also, a server can attack any SSH client.",
-          "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-347"
-          ],
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-              "V2Score": 5,
-              "V3Score": 7.5
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-              "V3Score": 7.5
-            }
-          },
-          "References": [
-            "http://packetstormsecurity.com/files/156480/Go-SSH-0.0.2-Denial-Of-Service.html",
-            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9283",
-            "https://groups.google.com/forum/#!topic/golang-announce/3L45YRc91SY",
-            "https://lists.debian.org/debian-lts-announce/2020/10/msg00014.html",
-            "https://lists.debian.org/debian-lts-announce/2020/11/msg00027.html",
-            "https://lists.debian.org/debian-lts-announce/2020/11/msg00031.html",
-            "https://nvd.nist.gov/vuln/detail/CVE-2020-9283"
-          ],
-          "PublishedDate": "2020-02-20T20:15:00Z",
-          "LastModifiedDate": "2020-11-18T23:15:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2019-11254",
-          "PkgName": "gopkg.in/yaml.v2",
-          "InstalledVersion": "2.2.4",
-          "FixedVersion": "v2.2.8",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-11254",
-          "Title": "kubernetes: Denial of service in API server via crafted YAML payloads by authorized users",
-          "Description": "The Kubernetes API Server component in versions 1.1-1.14, and versions prior to 1.15.10, 1.16.7 and 1.17.3 allows an authorized user who sends malicious YAML payloads to cause the kube-apiserver to consume excessive CPU cycles while parsing YAML.",
-          "Severity": "MEDIUM",
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:S/C:N/I:N/A:P",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
-              "V2Score": 4,
-              "V3Score": 6.5
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
-              "V3Score": 6.5
-            }
-          },
-          "References": [
-            "https://github.com/kubernetes/kubernetes/issues/89535",
-            "https://groups.google.com/d/msg/kubernetes-announce/ALL9s73E5ck/4yHe8J-PBAAJ",
-            "https://groups.google.com/forum/#!topic/kubernetes-security-announce/wuwEwZigXBc",
-            "https://linux.oracle.com/cve/CVE-2019-11254.html",
-            "https://linux.oracle.com/errata/ELSA-2020-5653.html",
-            "https://security.netapp.com/advisory/ntap-20200413-0003/"
-          ],
-          "PublishedDate": "2020-04-01T21:15:00Z",
-          "LastModifiedDate": "2020-10-02T17:37:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2019-11250",
-          "PkgName": "k8s.io/client-go",
-          "InstalledVersion": "0.0.0-20191114101535-6c5935290e33",
-          "FixedVersion": "v0.17.0",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-11250",
-          "Title": "kubernetes: Bearer tokens written to logs at high verbosity levels (\u003e= 7)",
-          "Description": "The Kubernetes client-go library logs request headers at verbosity levels of 7 or higher. This can disclose credentials to unauthorized users via logs or command output. Kubernetes components (such as kube-apiserver) prior to v1.16.0, which make use of basic or bearer token authentication, and run at high verbosity levels, are affected.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-532"
-          ],
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:M/Au:S/C:P/I:N/A:N",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
-              "V2Score": 3.5,
-              "V3Score": 6.5
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.0/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 4.4
-            }
-          },
-          "References": [
-            "http://www.openwall.com/lists/oss-security/2020/10/16/2",
-            "https://access.redhat.com/errata/RHSA-2019:4052",
-            "https://access.redhat.com/errata/RHSA-2019:4087",
-            "https://github.com/kubernetes/kubernetes/issues/81114",
-            "https://nvd.nist.gov/vuln/detail/CVE-2019-11250",
-            "https://security.netapp.com/advisory/ntap-20190919-0003/"
-          ],
-          "PublishedDate": "2019-08-29T01:15:00Z",
-          "LastModifiedDate": "2020-10-16T09:15:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2020-8565",
-          "PkgName": "k8s.io/client-go",
-          "InstalledVersion": "0.0.0-20191114101535-6c5935290e33",
-          "FixedVersion": "v0.20.0-alpha.2",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-8565",
-          "Title": "kubernetes: Incomplete fix for CVE-2019-11250 allows for token leak in logs when logLevel \u003e= 9",
-          "Description": "In Kubernetes, if the logging level is set to at least 9, authorization and bearer tokens will be written to log files. This can occur both in API server logs and client tool output like kubectl. This affects \u003c= v1.19.3, \u003c= v1.18.10, \u003c= v1.17.13, \u003c v1.20.0-alpha2.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-532"
-          ],
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:L/AC:L/Au:N/C:P/I:N/A:N",
-              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
-              "V2Score": 2.1,
-              "V3Score": 5.5
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 5.3
-            }
-          },
-          "References": [
-            "https://github.com/kubernetes/kubernetes/issues/95623",
-            "https://groups.google.com/g/kubernetes-announce/c/ScdmyORnPDk",
-            "https://groups.google.com/g/kubernetes-security-discuss/c/vm-HcrFUOCs/m/36utxAM5CwAJ",
-            "https://nvd.nist.gov/vuln/detail/CVE-2020-8565"
-          ],
-          "PublishedDate": "2020-12-07T22:15:00Z",
-          "LastModifiedDate": "2020-12-08T19:51:00Z"
+          "PublishedDate": "2020-07-15T17:15:11.797Z",
+          "LastModifiedDate": "2024-01-21T02:37:13.193Z"
         }
       ]
     },
     {
-      "Target": "operator/go.sum",
+      "Target": "lurker/go.mod",
       "Class": "lang-pkgs",
       "Type": "gomod",
       "Vulnerabilities": [
         {
-          "VulnerabilityID": "CVE-2020-26160",
-          "PkgName": "github.com/dgrijalva/jwt-go",
-          "InstalledVersion": "3.2.0+incompatible",
+          "VulnerabilityID": "CVE-2023-45288",
+          "PkgID": "golang.org/x/net@v0.17.0",
+          "PkgName": "golang.org/x/net",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/golang.org/x/net@0.17.0",
+            "UID": "ce8fa95a094c902d"
+          },
+          "InstalledVersion": "0.17.0",
+          "FixedVersion": "0.23.0",
+          "Status": "fixed",
           "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-26160",
-          "Title": "jwt-go: access restriction bypass vulnerability",
-          "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
-          "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-862"
-          ],
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-45288",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Go",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Ago"
+          },
+          "Title": "golang: net/http, x/net/http2: unlimited number of CONTINUATION frames causes DoS",
+          "Description": "An attacker may cause an HTTP/2 endpoint to read arbitrary amounts of header data by sending an excessive number of CONTINUATION frames. Maintaining HPACK state requires parsing and processing all HEADERS and CONTINUATION frames on a connection. When a request's headers exceed MaxHeaderBytes, no memory is allocated to store the excess headers, but they are still parsed. This permits an attacker to cause an HTTP/2 endpoint to read arbitrary amounts of header data, all associated with a request which is going to be rejected. These headers can include Huffman-encoded data which is significantly more expensive for the receiver to decode than for an attacker to send. The fix sets a limit on the amount of excess header frames we will process before closing a connection.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 2,
+            "azure": 3,
+            "bitnami": 3,
+            "cbl-mariner": 3,
+            "ghsa": 2,
+            "oracle-oval": 3,
+            "photon": 3,
+            "redhat": 3,
+            "rocky": 3,
+            "ubuntu": 2
+          },
           "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V2Score": 5,
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
               "V3Score": 7.5
             },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            },
             "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
               "V3Score": 7.5
             }
           },
           "References": [
-            "https://github.com/dgrijalva/jwt-go/pull/426",
-            "https://nvd.nist.gov/vuln/detail/CVE-2020-26160",
-            "https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMDGRIJALVAJWTGO-596515"
+            "http://www.openwall.com/lists/oss-security/2024/04/03/16",
+            "http://www.openwall.com/lists/oss-security/2024/04/05/4",
+            "https://access.redhat.com/errata/RHSA-2024:2724",
+            "https://access.redhat.com/security/cve/CVE-2023-45288",
+            "https://bugzilla.redhat.com/2268017",
+            "https://bugzilla.redhat.com/2268018",
+            "https://bugzilla.redhat.com/2268019",
+            "https://bugzilla.redhat.com/2268273",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2268017",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2268018",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2268019",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2268273",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-45288",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-45289",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-45290",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-24783",
+            "https://errata.almalinux.org/9/ALSA-2024-2724.html",
+            "https://errata.rockylinux.org/RLSA-2024:2724",
+            "https://go.dev/cl/576155",
+            "https://go.dev/issue/65051",
+            "https://groups.google.com/g/golang-announce/c/YgW0sx8mN3M",
+            "https://kb.cert.org/vuls/id/421644",
+            "https://linux.oracle.com/cve/CVE-2023-45288.html",
+            "https://linux.oracle.com/errata/ELSA-2024-3346.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/QRYFHIQ6XRKRYBI2F5UESH67BJBQXUPT",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/QRYFHIQ6XRKRYBI2F5UESH67BJBQXUPT/",
+            "https://nowotarski.info/http2-continuation-flood-technical-details",
+            "https://nowotarski.info/http2-continuation-flood/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-45288",
+            "https://pkg.go.dev/vuln/GO-2024-2687",
+            "https://security.netapp.com/advisory/ntap-20240419-0009",
+            "https://security.netapp.com/advisory/ntap-20240419-0009/",
+            "https://ubuntu.com/security/notices/USN-6886-1",
+            "https://www.cve.org/CVERecord?id=CVE-2023-45288",
+            "https://www.kb.cert.org/vuls/id/421644"
           ],
-          "PublishedDate": "2020-09-30T18:15:00Z",
-          "LastModifiedDate": "2021-07-21T11:39:00Z"
-        },
+          "PublishedDate": "2024-04-04T21:15:16.113Z",
+          "LastModifiedDate": "2024-08-26T21:35:02.457Z"
+        }
+      ]
+    },
+    {
+      "Target": "operator/go.mod",
+      "Class": "lang-pkgs",
+      "Type": "gomod"
+    },
+    {
+      "Target": "package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
         {
-          "VulnerabilityID": "CVE-2021-3121",
-          "PkgName": "github.com/gogo/protobuf",
-          "InstalledVersion": "1.3.1",
-          "FixedVersion": "v1.3.2",
-          "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2021-3121",
-          "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
-          "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
-          "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-129"
-          ],
-          "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
-              "V2Score": 7.5,
-              "V3Score": 8.6
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
-              "V3Score": 8.6
-            }
+          "VulnerabilityID": "CVE-2023-28155",
+          "PkgID": "request@2.88.2",
+          "PkgName": "request",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/request@2.88.2",
+            "UID": "106532a08919ef70"
           },
-          "References": [
-            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3121",
-            "https://discuss.hashicorp.com/t/hcsec-2021-23-consul-exposed-to-denial-of-service-in-gogo-protobuf-dependency/29025",
-            "https://github.com/gogo/protobuf/commit/b03c65ea87cdc3521ede29f62fe3ce239267c1bc",
-            "https://github.com/gogo/protobuf/compare/v1.3.1...v1.3.2",
-            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
-            "https://lists.apache.org/thread.html/r88d69555cb74a129a7bf84838073b61259b4a3830190e05a3b87994e@%3Ccommits.pulsar.apache.org%3E",
-            "https://lists.apache.org/thread.html/rc1e9ff22c5641d73701ba56362fb867d40ed287cca000b131dcf4a44@%3Ccommits.pulsar.apache.org%3E",
-            "https://nvd.nist.gov/vuln/detail/CVE-2021-3121",
-            "https://security.netapp.com/advisory/ntap-20210219-0006/"
-          ],
-          "PublishedDate": "2021-01-11T06:15:00Z",
-          "LastModifiedDate": "2021-10-18T06:15:00Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2019-19794",
-          "PkgName": "github.com/miekg/dns",
-          "InstalledVersion": "1.0.14",
-          "FixedVersion": "v1.1.25-0.20191211073109-8ebf2e419df7",
+          "InstalledVersion": "2.88.2",
+          "Status": "affected",
           "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-19794",
-          "Title": "golang-github-miekg-dns: predictable TXID can lead to response forgeries",
-          "Description": "The miekg Go DNS package before 1.1.25, as used in CoreDNS before 1.6.6 and other products, improperly generates random numbers because math/rand is used. The TXID becomes predictable, leading to response forgeries.",
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-28155",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF ...",
+          "Description": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF mitigations via an attacker-controller server that does a cross-protocol redirect (HTTP to HTTPS, or HTTPS to HTTP). NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
           "Severity": "MEDIUM",
           "CweIDs": [
-            "CWE-338"
+            "CWE-918"
           ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2
+          },
           "CVSS": {
-            "nvd": {
-              "V2Vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
-              "V2Score": 4.3,
-              "V3Score": 5.9
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
             },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
-              "V3Score": 5.9
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
             }
           },
           "References": [
-            "https://github.com/coredns/coredns/issues/3519",
-            "https://github.com/coredns/coredns/issues/3547",
-            "https://github.com/miekg/dns/compare/v1.1.24...v1.1.25",
-            "https://github.com/miekg/dns/issues/1043",
-            "https://github.com/miekg/dns/pull/1044"
+            "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+            "https://github.com/cypress-io/request/blob/master/lib/redirect.js#L116",
+            "https://github.com/cypress-io/request/commit/c5bcf21d40fb61feaff21a0e5a2b3934a440024f",
+            "https://github.com/cypress-io/request/pull/28",
+            "https://github.com/cypress-io/request/releases/tag/v3.0.0",
+            "https://github.com/github/advisory-database/pull/2500",
+            "https://github.com/request/request",
+            "https://github.com/request/request/blob/master/lib/redirect.js#L111",
+            "https://github.com/request/request/issues/3442",
+            "https://github.com/request/request/pull/3444",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-28155",
+            "https://security.netapp.com/advisory/ntap-20230413-0007",
+            "https://security.netapp.com/advisory/ntap-20230413-0007/"
           ],
-          "PublishedDate": "2019-12-13T22:15:00Z",
-          "LastModifiedDate": "2020-01-02T17:36:00Z"
+          "PublishedDate": "2023-03-16T15:15:11.107Z",
+          "LastModifiedDate": "2024-08-02T13:15:37.183Z"
         },
         {
-          "VulnerabilityID": "CVE-2020-29652",
-          "PkgName": "golang.org/x/crypto",
-          "InstalledVersion": "0.0.0-20201002170205-7f63de1d35b0",
-          "FixedVersion": "v0.0.0-20201216223049-8b5274cf687f",
+          "VulnerabilityID": "CVE-2023-26136",
+          "PkgID": "tough-cookie@2.5.0",
+          "PkgName": "tough-cookie",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/tough-cookie@2.5.0",
+            "UID": "98b5ba94ff1352be"
+          },
+          "InstalledVersion": "2.5.0",
+          "FixedVersion": "4.1.3",
+          "Status": "fixed",
           "Layer": {},
-          "SeveritySource": "nvd",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-29652",
-          "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
-          "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
-          "Severity": "HIGH",
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-26136",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "tough-cookie: prototype pollution in cookie memstore",
+          "Description": "Versions of the package tough-cookie before 4.1.3 are vulnerable to Prototype Pollution due to improper handling of Cookies when using CookieJar in rejectPublicSuffixes=false mode. This issue arises from the manner in which the objects are initialized.",
+          "Severity": "MEDIUM",
           "CweIDs": [
-            "CWE-476"
+            "CWE-1321"
           ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 4,
+            "redhat": 2
+          },
           "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            },
             "nvd": {
-              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-              "V2Score": 5,
-              "V3Score": 7.5
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
             },
             "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-              "V3Score": 7.5
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
             }
           },
           "References": [
-            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-29652",
-            "https://go-review.googlesource.com/c/crypto/+/278852",
-            "https://groups.google.com/g/golang-announce/c/ouZIlBimOsE?pli=1",
-            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
-            "https://nvd.nist.gov/vuln/detail/CVE-2020-29652"
+            "https://access.redhat.com/security/cve/CVE-2023-26136",
+            "https://github.com/salesforce/tough-cookie",
+            "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+            "https://github.com/salesforce/tough-cookie/issues/282",
+            "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+            "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-26136",
+            "https://security.netapp.com/advisory/ntap-20240621-0006",
+            "https://security.netapp.com/advisory/ntap-20240621-0006/",
+            "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873",
+            "https://www.cve.org/CVERecord?id=CVE-2023-26136"
           ],
-          "PublishedDate": "2020-12-17T05:15:00Z",
-          "LastModifiedDate": "2021-10-18T06:15:00Z"
+          "PublishedDate": "2023-07-01T05:15:16.103Z",
+          "LastModifiedDate": "2024-06-21T19:15:26.163Z"
         }
       ]
     },
     {
       "Target": "parser-sdk/nodejs/package-lock.json",
       "Class": "lang-pkgs",
-      "Type": "npm"
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-39338",
+          "PkgID": "axios@1.6.0",
+          "PkgName": "axios",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/axios@1.6.0",
+            "UID": "d62c1b8df85bd809"
+          },
+          "InstalledVersion": "1.6.0",
+          "FixedVersion": "1.7.4",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-39338",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "axios: axios: Server-Side Request Forgery",
+          "Description": "axios 1.7.2 allows SSRF via unexpected behavior where requests for path relative URLs get processed as protocol relative URLs.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-39338",
+            "https://github.com/axios/axios",
+            "https://github.com/axios/axios/commit/6b6b605eaf73852fb2dae033f1e786155959de3a",
+            "https://github.com/axios/axios/issues/6463",
+            "https://github.com/axios/axios/pull/6539",
+            "https://github.com/axios/axios/pull/6543",
+            "https://github.com/axios/axios/releases",
+            "https://github.com/axios/axios/releases/tag/v1.7.4",
+            "https://jeffhacks.com/advisories/2024/06/24/CVE-2024-39338.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-39338",
+            "https://www.cve.org/CVERecord?id=CVE-2024-39338"
+          ],
+          "PublishedDate": "2024-08-12T13:38:24.487Z",
+          "LastModifiedDate": "2024-08-23T18:35:36.313Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-21534",
+          "PkgID": "jsonpath-plus@7.2.0",
+          "PkgName": "jsonpath-plus",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/jsonpath-plus@7.2.0",
+            "UID": "25acc5c2ef93a750"
+          },
+          "InstalledVersion": "7.2.0",
+          "FixedVersion": "10.0.0",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21534",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "jsonpath-plus: Remote Code Execution in jsonpath-plus via Improper Input Sanitization",
+          "Description": "Versions of the package jsonpath-plus before 10.0.7 are vulnerable to Remote Code Execution (RCE) due to improper input sanitization. An attacker can execute aribitrary code on the system by exploiting the unsafe default usage of vm in Node.\r\r**Note:**\r\rThere was an attempt to fix it in version [10.0.0](https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3) but it could still be exploited using [different payloads](https://github.com/JSONPath-Plus/JSONPath/issues/226).",
+          "Severity": "CRITICAL",
+          "CweIDs": [
+            "CWE-94"
+          ],
+          "VendorSeverity": {
+            "ghsa": 4,
+            "redhat": 4
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-21534",
+            "https://github.com/JSONPath-Plus/JSONPath",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/6b2f1b4c234292c75912b790bf7e2d7339d4ccd3",
+            "https://github.com/JSONPath-Plus/JSONPath/commit/b70aa713553caf838a63bac923195a5bc541fd72",
+            "https://github.com/JSONPath-Plus/JSONPath/issues/226",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-21534",
+            "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8185019",
+            "https://security.snyk.io/vuln/SNYK-JS-JSONPATHPLUS-7945884",
+            "https://www.cve.org/CVERecord?id=CVE-2024-21534"
+          ],
+          "PublishedDate": "2024-10-11T13:15:15.667Z",
+          "LastModifiedDate": "2024-10-20T12:15:02.757Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-28155",
+          "PkgID": "request@2.88.2",
+          "PkgName": "request",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/request@2.88.2",
+            "UID": "7bbcabf6b71a294b"
+          },
+          "InstalledVersion": "2.88.2",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-28155",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF ...",
+          "Description": "The Request package through 2.88.1 for Node.js allows a bypass of SSRF mitigations via an attacker-controller server that does a cross-protocol redirect (HTTP to HTTPS, or HTTPS to HTTP). NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "nvd": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "V3Score": 6.1
+            }
+          },
+          "References": [
+            "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+            "https://github.com/cypress-io/request/blob/master/lib/redirect.js#L116",
+            "https://github.com/cypress-io/request/commit/c5bcf21d40fb61feaff21a0e5a2b3934a440024f",
+            "https://github.com/cypress-io/request/pull/28",
+            "https://github.com/cypress-io/request/releases/tag/v3.0.0",
+            "https://github.com/github/advisory-database/pull/2500",
+            "https://github.com/request/request",
+            "https://github.com/request/request/blob/master/lib/redirect.js#L111",
+            "https://github.com/request/request/issues/3442",
+            "https://github.com/request/request/pull/3444",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-28155",
+            "https://security.netapp.com/advisory/ntap-20230413-0007",
+            "https://security.netapp.com/advisory/ntap-20230413-0007/"
+          ],
+          "PublishedDate": "2023-03-16T15:15:11.107Z",
+          "LastModifiedDate": "2024-08-02T13:15:37.183Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-26136",
+          "PkgID": "tough-cookie@2.5.0",
+          "PkgName": "tough-cookie",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/tough-cookie@2.5.0",
+            "UID": "670fbdf8fd5ab3f5"
+          },
+          "InstalledVersion": "2.5.0",
+          "FixedVersion": "4.1.3",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-26136",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "tough-cookie: prototype pollution in cookie memstore",
+          "Description": "Versions of the package tough-cookie before 4.1.3 are vulnerable to Prototype Pollution due to improper handling of Cookies when using CookieJar in rejectPublicSuffixes=false mode. This issue arises from the manner in which the objects are initialized.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1321"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2023-26136",
+            "https://github.com/salesforce/tough-cookie",
+            "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+            "https://github.com/salesforce/tough-cookie/issues/282",
+            "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+            "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-26136",
+            "https://security.netapp.com/advisory/ntap-20240621-0006",
+            "https://security.netapp.com/advisory/ntap-20240621-0006/",
+            "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873",
+            "https://www.cve.org/CVERecord?id=CVE-2023-26136"
+          ],
+          "PublishedDate": "2023-07-01T05:15:16.103Z",
+          "LastModifiedDate": "2024-06-21T19:15:26.163Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-37890",
+          "PkgID": "ws@8.13.0",
+          "PkgName": "ws",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/ws@8.13.0",
+            "UID": "d2f3e38884fe28e1"
+          },
+          "InstalledVersion": "8.13.0",
+          "FixedVersion": "5.2.4, 6.2.3, 7.5.10, 8.17.1",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-37890",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "nodejs-ws: denial of service when handling a request with many HTTP headers",
+          "Description": "ws is an open source WebSocket client and server for Node.js. A request with a number of headers exceeding theserver.maxHeadersCount threshold could be used to crash a ws server. The vulnerability was fixed in ws@8.17.1 (e55e510) and backported to ws@7.5.10 (22c2876), ws@6.2.3 (eeb76d3), and ws@5.2.4 (4abd8f6). In vulnerable versions of ws, the issue can be mitigated in the following ways: 1. Reduce the maximum allowed length of the request headers using the --max-http-header-size=size and/or the maxHeaderSize options so that no more headers than the server.maxHeadersCount limit can be sent. 2. Set server.maxHeadersCount to 0 so that no limit is applied.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-476"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 5.9
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-37890",
+            "https://github.com/websockets/ws",
+            "https://github.com/websockets/ws/commit/22c28763234aa75a7e1b76f5c01c181260d7917f",
+            "https://github.com/websockets/ws/commit/4abd8f6de4b0b65ef80b3ff081989479ed93377e",
+            "https://github.com/websockets/ws/commit/e55e5106f10fcbaac37cfa89759e4cc0d073a52c",
+            "https://github.com/websockets/ws/commit/eeb76d313e2a00dd5247ca3597bba7877d064a63",
+            "https://github.com/websockets/ws/issues/2230",
+            "https://github.com/websockets/ws/pull/2231",
+            "https://github.com/websockets/ws/security/advisories/GHSA-3h5v-q93c-6h6q",
+            "https://nodejs.org/api/http.html#servermaxheaderscount",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-37890",
+            "https://www.cve.org/CVERecord?id=CVE-2024-37890"
+          ],
+          "PublishedDate": "2024-06-17T20:15:13.203Z",
+          "LastModifiedDate": "2024-06-20T12:44:22.977Z"
+        }
+      ]
+    },
+    {
+      "Target": "scanners/amass/parser/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-29415",
+          "PkgID": "ip@2.0.1",
+          "PkgName": "ip",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/ip@2.0.1",
+            "UID": "f05a4e12c8d5eeec"
+          },
+          "InstalledVersion": "2.0.1",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-29415",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "node-ip: Incomplete fix for CVE-2023-42282",
+          "Description": "The ip package through 2.0.1 for Node.js might allow SSRF because some IP addresses (such as 127.1, 01200034567, 012.1.2.3, 000:0:0000::01, and ::fFFf:127.0.0.1) are improperly categorized as globally routable via isPublic. NOTE: this issue exists because of an incomplete fix for CVE-2023-42282.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-918",
+            "CWE-941"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 8.1
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-29415",
+            "https://cosmosofcyberspace.github.io/npm_ip_cve/npm_ip_cve.html",
+            "https://github.com/indutny/node-ip",
+            "https://github.com/indutny/node-ip/issues/150",
+            "https://github.com/indutny/node-ip/pull/143",
+            "https://github.com/indutny/node-ip/pull/144",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-29415",
+            "https://www.cve.org/CVERecord?id=CVE-2024-29415"
+          ],
+          "PublishedDate": "2024-05-27T20:15:08.97Z",
+          "LastModifiedDate": "2024-08-16T14:35:01.26Z"
+        }
+      ]
     },
     {
       "Target": "scanners/git-repo-scanner/scanner/requirements.txt",
       "Class": "lang-pkgs",
       "Type": "pip"
-    },
-    {
-      "Target": "scanners/gitleaks/parser/package-lock.json",
-      "Class": "lang-pkgs",
-      "Type": "npm"
     },
     {
       "Target": "scanners/ncrack/parser/package-lock.json",
@@ -641,16 +2480,6 @@
     },
     {
       "Target": "scanners/nmap/parser/package-lock.json",
-      "Class": "lang-pkgs",
-      "Type": "npm"
-    },
-    {
-      "Target": "scanners/package-lock.json",
-      "Class": "lang-pkgs",
-      "Type": "npm"
-    },
-    {
-      "Target": "scanners/semgrep/parser/package-lock.json",
       "Class": "lang-pkgs",
       "Type": "npm"
     },
@@ -665,9 +2494,182 @@
       "Type": "pip"
     },
     {
+      "Target": "scanners/zap-automation-framework/parser/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
       "Target": "scanners/zap/parser/package-lock.json",
       "Class": "lang-pkgs",
       "Type": "npm"
+    },
+    {
+      "Target": "scbctl/go.mod",
+      "Class": "lang-pkgs",
+      "Type": "gomod"
+    },
+    {
+      "Target": "tests/integration/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-4068",
+          "PkgID": "braces@3.0.2",
+          "PkgName": "braces",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/braces@3.0.2",
+            "UID": "e8271e58ed0af80e"
+          },
+          "InstalledVersion": "3.0.2",
+          "FixedVersion": "3.0.3",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-4068",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "braces: fails to limit the number of characters it can handle",
+          "Description": "The NPM package `braces`, versions prior to 3.0.3, fails to limit the number of characters it can handle, which could lead to Memory Exhaustion. In `lib/parse.js,` if a malicious user sends \"imbalanced braces\" as input, the parsing will enter a loop, which will cause the program to start allocating heap memory without freeing it at any moment of the loop. Eventually, the JavaScript heap limit is reached, and the program will crash.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-1050",
+            "CWE-400"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-4068",
+            "https://devhub.checkmarx.com/cve-details/CVE-2024-4068",
+            "https://devhub.checkmarx.com/cve-details/CVE-2024-4068/",
+            "https://github.com/micromatch/braces",
+            "https://github.com/micromatch/braces/blob/98414f9f1fabe021736e26836d8306d5de747e0d/lib/parse.js#L308",
+            "https://github.com/micromatch/braces/commit/415d660c3002d1ab7e63dbf490c9851da80596ff",
+            "https://github.com/micromatch/braces/issues/35",
+            "https://github.com/micromatch/braces/pull/37",
+            "https://github.com/micromatch/braces/pull/40",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-4068",
+            "https://www.cve.org/CVERecord?id=CVE-2024-4068"
+          ],
+          "PublishedDate": "2024-05-14T15:42:48.66Z",
+          "LastModifiedDate": "2024-07-03T02:07:03.943Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-4067",
+          "PkgID": "micromatch@4.0.5",
+          "PkgName": "micromatch",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/micromatch@4.0.5",
+            "UID": "b4ea741f58081b09"
+          },
+          "InstalledVersion": "4.0.5",
+          "FixedVersion": "4.0.8",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-4067",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "micromatch: vulnerable to Regular Expression Denial of Service",
+          "Description": "The NPM package `micromatch` prior to 4.0.8 is vulnerable to Regular Expression Denial of Service (ReDoS). The vulnerability occurs in `micromatch.braces()` in `index.js` because the pattern `.*` will greedily match anything. By passing a malicious payload, the pattern matching will keep backtracking to the input while it doesn't find the closing bracket. As the input size increases, the consumption time will also increase until it causes the application to hang or slow down. There was a merged fix but further testing shows the issue persists. This issue should be mitigated by using a safe pattern that won't start backtracking the regular expression due to greedy matching. This issue was fixed in version 4.0.8.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1333"
+          ],
+          "VendorSeverity": {
+            "cbl-mariner": 3,
+            "ghsa": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-4067",
+            "https://advisory.checkmarx.net/advisory/CVE-2024-4067",
+            "https://advisory.checkmarx.net/advisory/CVE-2024-4067/",
+            "https://devhub.checkmarx.com/cve-details/CVE-2024-4067",
+            "https://devhub.checkmarx.com/cve-details/CVE-2024-4067/",
+            "https://github.com/micromatch/micromatch",
+            "https://github.com/micromatch/micromatch/blob/2c56a8604b68c1099e7bc0f807ce0865a339747a/index.js#L448",
+            "https://github.com/micromatch/micromatch/commit/03aa8052171e878897eee5d7bb2ae0ae83ec2ade",
+            "https://github.com/micromatch/micromatch/commit/500d5d6f42f0e8dfa1cb5464c6cb420b1b6aaaa0",
+            "https://github.com/micromatch/micromatch/issues/243",
+            "https://github.com/micromatch/micromatch/pull/247",
+            "https://github.com/micromatch/micromatch/pull/266",
+            "https://github.com/micromatch/micromatch/releases/tag/4.0.8",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-4067",
+            "https://www.cve.org/CVERecord?id=CVE-2024-4067"
+          ],
+          "PublishedDate": "2024-05-14T15:42:47.947Z",
+          "LastModifiedDate": "2024-08-28T00:15:04.13Z"
+        }
+      ]
+    },
+    {
+      "Target": "demo-targets/unsafe-https/container/site.key",
+      "Class": "secret",
+      "Secrets": [
+        {
+          "RuleID": "private-key",
+          "Category": "AsymmetricPrivateKey",
+          "Severity": "HIGH",
+          "Title": "Asymmetric Private Key",
+          "StartLine": 1,
+          "EndLine": 1,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1,
+                "Content": "-----BEGIN PRIVATE KEY-----***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************-----END PRIVATE KEY",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "-----BEGIN PRIVATE KEY-----***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************-----END PRIVATE KEY",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2,
+                "Content": "",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "-----BEGIN PRIVATE KEY-----***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************-----END PRIVATE KEY",
+          "Layer": {}
+        }
+      ]
     }
   ]
 }
