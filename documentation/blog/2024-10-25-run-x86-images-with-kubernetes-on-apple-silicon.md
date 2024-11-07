@@ -15,7 +15,6 @@ tags:
   - macos
 description: This blog article describes how to setup Colima container runtime on macOS to run x86 images in Kubernetes on Apple Silicon.
 image: /img/blog/2024-10-25-a-close-up-of-a-computer-processor-chip.jpg
-draft: true
 ---
 
 ![A close up of a computer processor chip](/img/blog/2024-10-25-a-close-up-of-a-computer-processor-chip.jpg)
