@@ -72,9 +72,7 @@ helm upgrade --install \
   --set django.ingress.enabled=true \
   --set django.ingress.activateTLS=false \
   --set createSecret=true \
-  --set createRabbitMqSecret=true \
   --set createRedisSecret=true \
-  --set createMysqlSecret=true \
   --set createPostgresqlSecret=true \
   --set host="defectdojo.default.minikube.local" \
   --set "alternativeHosts={localhost,defectdojo.default.minikube.local:8080,defectdojo-django.default.svc}"
