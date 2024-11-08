@@ -5,13 +5,13 @@
 name: Move Dependabot PRs to Review
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [reopened]
     
 
 jobs:
   move-dependabot-pr-to-review:
     env:
-      PR_ID: ${{ github.event.pullrequest.id }}
+      PR_ID: ${{ github.event.pull_request.id }}
     runs-on: ubuntu-22.04
     steps:
       - name: Add dependabot PR to column To Review
@@ -20,14 +20,14 @@ jobs:
 
           # Get the ID for the field Status 
           # gh project field-list 6 --owner secureCodeBox
-          StatusFieldID =  PVTSSF_lADOAg-Nic05Gc4AAZuO
+          StatusFieldID=PVTSSF_lADOAg-Nic05Gc4AAZuO
           
           # Get the projectID
           # gh project list --owner secureCodeBox
-          secureCodeBoxV4ProjectID = PVT_kwDOAg-Nic05GQ
+          secureCodeBoxV4ProjectID=PVT_kwDOAg-Nic05GQ
 
           # To move PR to "To Review" status
-          gh project item-edit --id $PR_ID --field-id ${StatusFieldID} --project-id {seureCodeBoxV4ProjectID} --single-select-option-id 00b0c876
+          gh project item-edit --id $PR_ID --field-id ${StatusFieldID} --project-id ${seureCodeBoxV4ProjectID} --single-select-option-id 00b0c876
           
           
           # This command gets theIDs for the status options
