@@ -1,0 +1,106 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: Move Dependabot PRs to Review
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - 'dependabot/**'
+
+jobs:
+  move-dependabot-pr-to-review:
+    env:
+      PR_ID: ${{ github.event.pullrequest.id }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Add dependabot PR to column To Review
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+
+          # Get the ID for the field Status 
+          # gh project field-list 6 --owner secureCodeBox
+          StatusFieldID =  PVTSSF_lADOAg-Nic05Gc4AAZuO
+          
+          # Get the projectID
+          # gh project list --owner secureCodeBox
+          secureCodeBoxV4ProjectID = PVT_kwDOAg-Nic05GQ
+
+          # To move PR to "To Review" status
+          gh project item-edit --id $PR_ID --field-id ${StatusFieldID} --project-id {seureCodeBoxV4ProjectID} --single-select-option-id 00b0c876
+          
+          
+          # This command gets theIDs for the status options
+          #gh api graphql -f query='
+          #  query {
+          #    organization(login: "secureCodeBox") {
+          #      projectV2(number: 6) {
+          #        fields(first: 20) {
+          #          nodes {
+          #            ... on ProjectV2SingleSelectField {
+          #              id
+          #              name
+          #              options {
+          #                id
+          #                name
+          #              }
+          #            }
+          #          }
+          #        }      
+          #      }    
+          #    }  
+          #  }'
+
+          # 
+          #  "data": {
+          #    "organization": {
+          #      "projectV2": {
+          #        "fields": {
+          #          "nodes": [
+          #            {},
+          #            {},
+          #            {
+          #              "id": "PVTSSF_lADOAg-Nic05Gc4AAZuO",
+          #              "name": "Status",
+          #              "options": [
+          #                "organization": {
+          #                {
+          #                  "id": "fdb7acaa",
+          #                  "name": "Backlog"
+          #                },
+          #                {
+          #                  "id": "f75ad846",
+          #                  "name": "Todo"
+          #                },
+          #                {
+          #                  "id": "47fc9ee4",
+          #                  "name": "In Progress"
+          #                },
+          #                {
+          #                  "id": "00b0c876",
+          #                  "name": "To Review"
+          #                },
+          #                {
+          #                  "id": "ea7b630a",
+          #                  "name": "Reviewer Approved"
+          #                },
+          #                {
+          #                  "id": "98236657",
+          #                  "name": "Done"
+          #                }
+          #              ]
+          #            },
+          #            {},
+          #            {},
+          #            {},
+          #            {},
+          #            {}
+          #          ]
+          #        }
+          #      }
+          #    }
+          #  }
+          #}
+          
