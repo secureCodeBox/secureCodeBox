@@ -5,10 +5,8 @@
 name: Move Dependabot PRs to Review
 on:
   pull_request:
-    types:
-      - opened
-    branches:
-      - 'dependabot/**'
+    types: [opened, reopened]
+    
 
 jobs:
   move-dependabot-pr-to-review:
