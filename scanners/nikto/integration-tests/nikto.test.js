@@ -9,7 +9,7 @@ jest.retryTimes(3);
 test(
   "nikto scan against bodgeit demo-target",
   async () => {
-    const {categories, severities} = await scan(
+    const { categories, severities } = await scan(
       "nikto-bodgeit",
       "nikto",
       [
@@ -25,13 +25,13 @@ test(
       {
         "Identified Software": 1,
         "Nikto Finding": 3,
-        "Potential Vulnerability": 7,
+        "Potential Vulnerability": 12,
         "X-Content-Type-Options Header": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
       {
-        "high": 7,
+        "high": 12,
         "informational": 5,
       }
     `);
