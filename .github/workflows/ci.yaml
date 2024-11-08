@@ -11,7 +11,7 @@ on:
   pull_request:
 
 # The CI runs on ubuntu-22.04; More info about the installed software is found here:
-# https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+# https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 
 env:
   # ---- Language Versions ----
