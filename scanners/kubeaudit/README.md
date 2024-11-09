@@ -3,7 +3,7 @@ title: "Kubeaudit"
 category: "scanner"
 type: "Kubernetes"
 state: "released"
-appVersion: "0.22.1"
+appVersion: "0.22.2"
 usecase: "Kubernetes Configuration Scanner"
 ---
 
