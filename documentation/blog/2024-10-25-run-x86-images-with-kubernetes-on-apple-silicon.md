@@ -120,11 +120,12 @@ And store it in the file `~/Library/LaunchAgents/de.weltraumschaf.colima.plist`.
 The rest is straight forward. To install _secureCodeBox_ simply execute (as documented [here](https://www.securecodebox.io/docs/getting-started/installation)):
 
 ```shell
-helm --namespace securecodebox-system \ 
-  upgrade \ 
-  --install \
-  --create-namespace securecodebox-operator \
-  oci://ghcr.io/securecodebox/helm/operator
+helm --namespace securecodebox-system \
+    upgrade \
+    --install \
+    --create-namespace \
+    securecodebox-operator \
+    oci://ghcr.io/securecodebox/helm/operator
 ```
 
 Then install the scanners you want, e.g. [Nmap](https://nmap.org/:
