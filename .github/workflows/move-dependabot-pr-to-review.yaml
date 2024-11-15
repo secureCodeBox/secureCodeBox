@@ -19,6 +19,8 @@ jobs:
       PR_NUMBER: ${{ github.event.pull_request.number}}
     runs-on: ubuntu-22.04
     steps:
+      - uses: actions/checkout@v4
+      
       - name: Add dependabot PR to column To Review
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
