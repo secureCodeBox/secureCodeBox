@@ -154,7 +154,7 @@ helm upgrade --install \
   --set createRedisSecret=true \
   --set createMysqlSecret=true \
   --set createPostgresqlSecret=true \
-  --set host="defectdojo.default.colima.local" \
+  --set host="defectdojo.default.svc.cluster.local" \
   --set "alternativeHosts={localhost}"
 ```
 
