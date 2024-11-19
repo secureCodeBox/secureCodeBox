@@ -4,11 +4,11 @@
 
 plugins {
   id "java"
-  id "io.freefair.lombok" version "8.10.2"
+  id "io.freefair.lombok" version "8.11"
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.51.0"
-  id "org.sonarqube" version "5.1.0.4882"
+  id "org.sonarqube" version "6.0.0.5145"
 }
 
 group = "io.securecodebox"
@@ -23,22 +23,22 @@ repositories {
 }
 
 dependencies {
-  implementation group: "io.securecodebox", name: "defectdojo-client", version: "2.0.1"
+  implementation group: "io.securecodebox", name: "defectdojo-client", version: "3.0.0"
   implementation group: "io.kubernetes", name: "client-java", version: "20.0.1"
-  implementation group: "org.springframework", name: "spring-web", version: "6.1.13"
-  implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.18.0"
-  implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.18.0"
-  implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.18.0"
-  implementation group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-jsr310", version: "2.18.0"
+  implementation group: "org.springframework", name: "spring-web", version: "6.2.0"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.18.1"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.18.1"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.18.1"
+  implementation group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-jsr310", version: "2.18.1"
   implementation group: "org.slf4j", name: "slf4j-api", version: "2.0.16"
   implementation group: "org.slf4j", name: "slf4j-log4j12", version: "2.0.16"
   // If I try to notate this like the others (with separate strings) I got errors. No idea why sh... Gradle
   // want it like this. It is the official documented example:
   // https://github.com/junit-team/junit5-samples/blob/r5.10.0/junit5-jupiter-starter-gradle/build.gradle
-  testImplementation(platform("org.junit:junit-bom:5.11.2"))
+  testImplementation(platform("org.junit:junit-bom:5.11.3"))
   testImplementation("org.junit.jupiter:junit-jupiter")
-  testImplementation group: "org.mockito", name: "mockito-core", version: "5.14.1"
-  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.14.1"
+  testImplementation group: "org.mockito", name: "mockito-core", version: "5.14.2"
+  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.14.2"
   testImplementation group: 'org.hamcrest', name: 'java-hamcrest', version: '2.0.0.0'
   testImplementation group: 'uk.org.webcompere', name: 'system-stubs-jupiter', version: '2.1.7'
 }
