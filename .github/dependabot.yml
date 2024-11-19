@@ -9,8 +9,10 @@
 
 version: 2
 updates:
+  # NPM Updates for all directories recursively
   - package-ecosystem: "npm"
-    directory: "/"
+    directories:
+      - "**/*"
     schedule:
       interval: "weekly"
     groups:
@@ -23,20 +25,8 @@ updates:
         patterns:
           - "*"
 
-  - package-ecosystem: "npm"
-    directory: "/*"
-    schedule:
-      interval: "weekly"
-    groups:
-      npm-security-updates:
-        applies-to: security-updates
-        patterns:
-          - "*"
-      npm-version-updates:
-        applies-to: version-updates
-        patterns:
-          - "*"
-
+  # NPM Updates for the /documentation directory for docusaurus grouping
+  # Docusaurus packages have to be updated simultaneously for compatibility
   - package-ecosystem: "npm"
     directory: "/documentation"
     schedule:
@@ -46,7 +36,16 @@ updates:
         applies-to: version-updates
         patterns:
           - "docusaurus"
+      npm-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      npm-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
 
+  # Gradle Updates
   - package-ecosystem: "gradle"
     directory: "/hooks/persistence-defectdojo/hook"
     schedule:
@@ -63,8 +62,10 @@ updates:
         patterns:
           - "*"
 
+  # Docker Updates
   - package-ecosystem: "docker"
-    directory: "/"
+    directories:
+      - "**/*"
     schedule:
       interval: "weekly"
     groups:
@@ -77,8 +78,10 @@ updates:
         patterns:
           - "*"
 
+  # GitHub Actions Updates
   - package-ecosystem: "github-actions"
-    directory: "/.github/workflows"
+    directories:
+      - "**/*"
     schedule:
       interval: "weekly"
     groups:
@@ -90,3 +93,4 @@ updates:
         applies-to: version-updates
         patterns:
           - "*"
+
