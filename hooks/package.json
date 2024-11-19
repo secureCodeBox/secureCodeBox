@@ -40,11 +40,11 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/jest": "^29.4.0",
-    "jest": "^29.3.1",
-    "ts-jest": "^29.0.5"
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.19.0"
+    "@kubernetes/client-node": "^0.22.2"
   }
 }
