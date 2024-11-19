@@ -9,10 +9,10 @@
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.22.1"
+    "@kubernetes/client-node": "^0.22.2"
   },
   "devDependencies": {
-    "jest": "^29.3.1",
-    "jest-runner-eslint": "^1.1.0"
+    "jest": "^29.7.0",
+    "jest-runner-eslint": "^2.2.1"
   }
 }
