@@ -9,24 +9,7 @@
 
 version: 2
 updates:
-  # NPM Updates for all directories recursively
-  - package-ecosystem: "npm"
-    directories:
-      - "**/*"
-    schedule:
-      interval: "weekly"
-    groups:
-      npm-security-updates:
-        applies-to: security-updates
-        patterns:
-          - "*"
-      npm-version-updates:
-        applies-to: version-updates
-        patterns:
-          - "*"
-
-  # NPM Updates for the /documentation directory for docusaurus grouping
-  # Docusaurus packages have to be updated simultaneously for compatibility
+  # NPM Updates for the /documentation directory with docusaurus grouping
   - package-ecosystem: "npm"
     directory: "/documentation"
     schedule:
@@ -36,6 +19,23 @@ updates:
         applies-to: version-updates
         patterns:
           - "docusaurus"
+      npm-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      npm-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+
+  # NPM Updates for all other directories recursively
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "**/*"
+    schedule:
+      interval: "weekly"
+    groups:
       npm-security-updates:
         applies-to: security-updates
         patterns:
@@ -65,6 +65,7 @@ updates:
   # Docker Updates
   - package-ecosystem: "docker"
     directories:
+      - "/"
       - "**/*"
     schedule:
       interval: "weekly"
@@ -81,7 +82,7 @@ updates:
   # GitHub Actions Updates
   - package-ecosystem: "github-actions"
     directories:
-      - "**/*"
+      - "/.github/workflows"
     schedule:
       interval: "weekly"
     groups:
@@ -93,4 +94,3 @@ updates:
         applies-to: version-updates
         patterns:
           - "*"
-
