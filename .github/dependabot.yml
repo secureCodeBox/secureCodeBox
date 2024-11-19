@@ -14,11 +14,6 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      # Dependabot creates groups in the order they appear
-      docusaurus:
-        applies-to: version-updates
-        patterns:
-          - "docusaurus"
       npm-security-updates:
         applies-to: security-updates
         patterns:
@@ -27,6 +22,30 @@ updates:
         applies-to: version-updates
         patterns:
           - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/*"
+    schedule:
+      interval: "weekly"
+    groups:
+      npm-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      npm-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/documentation"
+    schedule:
+      interval: "weekly"
+    groups:
+      docusaurus:
+        applies-to: version-updates
+        patterns:
+          - "docusaurus"
 
   - package-ecosystem: "gradle"
     directory: "/hooks/persistence-defectdojo/hook"
