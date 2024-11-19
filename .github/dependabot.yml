@@ -32,7 +32,13 @@ updates:
   - package-ecosystem: "npm"
     directories:
       - "/"
-      - "**/*"
+      - "/auto-discovery/kubernetes/pull-secret-extractor/integration-test"
+      - "/bin"
+      - "/tests/integration"
+      - "/hook-sdk/nodejs"
+      - "/parser-sdk/nodejs"
+      - "/hooks/**"
+      - "/scanners/**"
     schedule:
       interval: "weekly"
     groups:
