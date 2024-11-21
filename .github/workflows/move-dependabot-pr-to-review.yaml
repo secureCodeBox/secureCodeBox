@@ -5,12 +5,8 @@
 name: Move Dependabot PRs to Review
 on:
   pull_request:
-    types: [reopened]    # For testing the workflow
+    types: [reopened]   # For testing the workflow
 
-permissions: 
-  contents: read
-  pull-requests: read
-  repository-projects: write
 
 jobs:
   move-dependabot-pr-to-review:
@@ -20,7 +16,14 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      
+
+      - name: Add dependabot PR to project
+        run: |
+          # Add item to project
+          gh pr edit $PR_NUMBER --add-project "secureCodeBox v4"
+        env: 
+          GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
+
       - name: Add dependabot PR to column To Review
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
@@ -36,8 +39,6 @@ jobs:
           # ID for status "To Review"
           ToReviewID="00b0c876"
 
-          # Add item to project
-          gh pr edit $PR_NUMBER --add-project "secureCodeBox v4"
           # Move PR to "To Review" status
           gh project item-edit --id $PR_ID --field-id $StatusFieldID --project-id $seureCodeBoxV4ProjectID --single-select-option-id $ToReviewID
           
