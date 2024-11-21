@@ -26,8 +26,6 @@ jobs:
 
       - name: Add dependabot PR to column To Review
         run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-
           # Get the ID for the field Status 
           # gh project field-list 6 --owner secureCodeBox
           StatusFieldID="PVTSSF_lADOAg-Nic05Gc4AAZuO"
@@ -114,4 +112,6 @@ jobs:
           #    }
           #  }
           #}
+        env:
+          GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
           
