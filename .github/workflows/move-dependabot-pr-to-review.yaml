@@ -9,38 +9,47 @@ on:
 
 
 jobs:
-  move-dependabot-pr-to-review:
-    env:
-      PR_NUMBER: ${{ github.event.pull_request.number}}
+  move-dependabot-pr-to-review:   
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
       - name: Add dependabot PR to project
         run: |
+          # Get the ID for the field Status 
+          # gh project list --owner secureCodeBox
+          secureCodeBoxV4ProjectID="PVT_kwDOAg-Nic05GQ"
+
           # Add item to project
-          gh pr edit $PR_NUMBER --add-project "secureCodeBox v4"
+          echo prNodeID=$(gh api graphql -f query='
+            mutation {
+              addProjectV2ItemById(input: {projectId: "$secureCodeBoxV4ProjectID" contentId: "$PR_ID"}) {
+                item {
+                  id
+                }
+              }
+            }' | jq '.data.addProjectV2ItemById.item.id') >> $GITHUB_ENV
         env: 
           GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
+          PR_ID: ${{ github.event.pull_request.node_id }}
 
       - name: Add dependabot PR to column To Review
         run: |
           # Get the ID for the field Status 
           # gh project field-list 6 --owner secureCodeBox
           StatusFieldID="PVTSSF_lADOAg-Nic05Gc4AAZuO"
-          
-          # Get the projectID
-          # gh project list --owner secureCodeBox
+
           secureCodeBoxV4ProjectID="PVT_kwDOAg-Nic05GQ"
 
           # ID for status "To Review"
           ToReviewID="00b0c876"
 
+          prNodeID=${{env.prNodeID}}
           # Move PR to "To Review" status
-          gh project item-edit --id $PR_ID --field-id $StatusFieldID --project-id $seureCodeBoxV4ProjectID --single-select-option-id $ToReviewID
+          gh project item-edit --id ${{ env.prNodeID }} --field-id $StatusFieldID --project-id "$seureCodeBoxV4ProjectID" --single-select-option-id "$ToReviewID"
           
           
-          # This command gets theIDs for the status options
+          # This command gets the IDs for the status options
           #gh api graphql -f query='
           #  query {
           #    organization(login: "secureCodeBox") {
@@ -113,4 +122,3 @@ jobs:
           #}
         env:
           GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
-          PR_ID: ${{ github.event.pull_request.node_id }}
