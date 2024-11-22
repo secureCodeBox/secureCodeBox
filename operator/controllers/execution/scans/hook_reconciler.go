@@ -305,36 +305,7 @@ func (r *ScanReconciler) processInProgressHook(scan *executionv1.Scan, status *e
 	return nil
 }
 
-func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1.ScanCompletionHookSpec, scan *executionv1.Scan, cliArgs []string) (string, error) {
-	ctx := context.Background()
-
-	serviceAccountName := "scan-completion-hook"
-	if hookSpec.ServiceAccountName != nil {
-		// Hook uses a custom ServiceAccount
-		serviceAccountName = *hookSpec.ServiceAccountName
-	} else {
-		// Check and create a serviceAccount for the hook in its namespace, if it doesn't already exist.
-		rules := []rbacv1.PolicyRule{
-			{
-				APIGroups: []string{"execution.securecodebox.io"},
-				Resources: []string{"scans"},
-				Verbs:     []string{"get"},
-			},
-			{
-				APIGroups: []string{"execution.securecodebox.io"},
-				Resources: []string{"scans/status"},
-				Verbs:     []string{"get", "patch"},
-			},
-		}
-
-		r.ensureServiceAccountExists(
-			scan.Namespace,
-			serviceAccountName,
-			"ScanCompletionHooks need to access the current scan to view where its results are stored",
-			rules,
-		)
-	}
-
+func generateJobForHook(hookName string, hookSpec *executionv1.ScanCompletionHookSpec, scan *executionv1.Scan, cliArgs []string, serviceAccountName string) *batch.Job {
 	standardEnvVars := []corev1.EnvVar{
 		{
 			Name: "NAMESPACE",
@@ -427,7 +398,6 @@ func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1
 		},
 	}
 
-	r.Log.V(8).Info("Configuring customCACerts for Hook")
 	injectCustomCACertsIfConfigured(job)
 
 	// Merge Env from HookTemplate
@@ -464,6 +434,40 @@ func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1
 	} else {
 		job.Spec.Template.Spec.Tolerations = hookSpec.Tolerations
 	}
+	return job
+}
+
+func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1.ScanCompletionHookSpec, scan *executionv1.Scan, cliArgs []string) (string, error) {
+	ctx := context.Background()
+
+	serviceAccountName := "scan-completion-hook"
+	if hookSpec.ServiceAccountName != nil {
+		// Hook uses a custom ServiceAccount
+		serviceAccountName = *hookSpec.ServiceAccountName
+	} else {
+		// Check and create a serviceAccount for the hook in its namespace, if it doesn't already exist.
+		rules := []rbacv1.PolicyRule{
+			{
+				APIGroups: []string{"execution.securecodebox.io"},
+				Resources: []string{"scans"},
+				Verbs:     []string{"get"},
+			},
+			{
+				APIGroups: []string{"execution.securecodebox.io"},
+				Resources: []string{"scans/status"},
+				Verbs:     []string{"get", "patch"},
+			},
+		}
+
+		r.ensureServiceAccountExists(
+			scan.Namespace,
+			serviceAccountName,
+			"ScanCompletionHooks need to access the current scan to view where its results are stored",
+			rules,
+		)
+	}
+
+	job := generateJobForHook(hookName, hookSpec, scan, cliArgs, serviceAccountName)
 
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
