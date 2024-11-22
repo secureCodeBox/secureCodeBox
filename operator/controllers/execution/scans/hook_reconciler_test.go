@@ -26,9 +26,6 @@ var _ = Describe("generateJobForHook", func() {
 		hookSpec = &executionv1.ScanCompletionHookSpec{
 			Image: "test-image:latest",
 			Type:  executionv1.ReadAndWrite,
-			Env: []corev1.EnvVar{
-				{Name: "TEST_ENV", Value: "test-value"},
-			},
 		}
 		scan = &executionv1.Scan{
 			ObjectMeta: metav1.ObjectMeta{
