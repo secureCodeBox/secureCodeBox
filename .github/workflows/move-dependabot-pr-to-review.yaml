@@ -21,14 +21,14 @@ jobs:
           secureCodeBoxV4ProjectID="PVT_kwDOAg-Nic05GQ"
 
           # Add item to project
-          echo prNodeID=$(gh api graphql -f query='
+          echo prNodeID=$(gh api graphql -f query="
             mutation {
-              addProjectV2ItemById(input: {projectId: "$secureCodeBoxV4ProjectID" contentId: "$PR_ID"}) {
+              addProjectV2ItemById(input: {projectId: \"$secureCodeBoxV4ProjectID\", contentId: \"$PR_ID\"}) {
                 item {
                   id
                 }
               }
-            }' | jq '.data.addProjectV2ItemById.item.id') >> $GITHUB_ENV
+            }" | jq -r '.data.addProjectV2ItemById.item.id') >> $GITHUB_ENV
         env: 
           GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
           PR_ID: ${{ github.event.pull_request.node_id }}
@@ -46,7 +46,7 @@ jobs:
 
           prNodeID=${{env.prNodeID}}
           # Move PR to "To Review" status
-          gh project item-edit --id ${{ env.prNodeID }} --field-id $StatusFieldID --project-id "$seureCodeBoxV4ProjectID" --single-select-option-id "$ToReviewID"
+          gh project item-edit --id ${{ env.prNodeID }} --field-id $StatusFieldID --project-id $secureCodeBoxV4ProjectID --single-select-option-id $ToReviewID
           
           
           # This command gets the IDs for the status options
