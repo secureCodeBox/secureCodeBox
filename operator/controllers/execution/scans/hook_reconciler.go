@@ -379,7 +379,7 @@ func generateJobForHook(hookName string, hookSpec *executionv1.ScanCompletionHoo
 							Name:            "hook",
 							Image:           hookSpec.Image,
 							Args:            cliArgs,
-							Env:             append(hookSpec.Env, standardEnvVars...),
+							Env:             append(standardEnvVars, hookSpec.Env...),
 							ImagePullPolicy: hookSpec.ImagePullPolicy,
 							Resources:       resources,
 							SecurityContext: &corev1.SecurityContext{
@@ -400,12 +400,6 @@ func generateJobForHook(hookName string, hookSpec *executionv1.ScanCompletionHoo
 
 	injectCustomCACertsIfConfigured(job)
 
-	// Merge Env from HookTemplate
-	job.Spec.Template.Spec.Containers[0].Env = append(
-		job.Spec.Template.Spec.Containers[0].Env,
-
-		hookSpec.Env...,
-	)
 	// Merge VolumeMounts from HookTemplate
 	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
 		job.Spec.Template.Spec.Containers[0].VolumeMounts,
