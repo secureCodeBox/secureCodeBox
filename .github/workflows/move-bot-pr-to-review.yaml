@@ -2,19 +2,22 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: Move Dependabot PRs to Review
+name: Move bot PRs to Review
 on:
   pull_request:
-    types: [reopened]   # For testing the workflow
+    types: [opened]
+    branches:
+      - 'dependabot/**'
+      - 'dependencies/upgrading**'
 
 
 jobs:
-  move-dependabot-pr-to-review:   
+  move-bot-pr-to-review:   
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
-      - name: Add dependabot PR to project
+      - name: Add bot PR to project
         run: |
           # Get the ID for the field Status 
           # gh project list --owner secureCodeBox
@@ -33,7 +36,7 @@ jobs:
           GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
           PR_ID: ${{ github.event.pull_request.node_id }}
 
-      - name: Add dependabot PR to column To Review
+      - name: Move PR to column To Review
         run: |
           # Get the ID for the field Status 
           # gh project field-list 6 --owner secureCodeBox
