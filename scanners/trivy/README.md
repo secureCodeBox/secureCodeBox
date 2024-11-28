@@ -103,6 +103,25 @@ One way to avoid that is to [preemptively download](https://aquasecurity.github.
 
 In case only a single scan or very few are run, and you want to avoid the small performance overhead, client/server mode can be disabled by setting `--set="trivyDatabaseCache.enabled=false"` during helm install.
 
+## Parser specifics
+Our parser customizes the format of Trivy scan results by using a unique `location` attribute that employs a custom URL format (`scb://trivy/`) with URL parameters. These parameters are extracted from the corresponding scan result file attributes and vary depending on the type of scan performed — either a Kubernetes (K8S) resource scan or a container image scan.
+
+### URL Format Patterns
+#### For Kubernetes (K8S) Resource Scans:
+`scb://trivy/?ClusterName=<ClusterName>&Namespace=<Namespace>&Kind=<Kind>&Name=<Name>`
+
+##### Parameters:
+- ClusterName: The name of the Kubernetes cluster (optional).
+- Namespace: The namespace within the cluster (optional).
+- Kind: The type of Kubernetes resource (e.g., Deployment, Service, Pod).
+- Name: The name of the resource.
+
+#### For Container Image Scans:
+`scb://trivy/?ArtifactName=<ArtifactName>`
+
+##### Parameter:
+- ArtifactName: The name (and optionally the tag) of the container image.
+
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
