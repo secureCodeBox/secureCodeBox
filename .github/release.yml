@@ -1,0 +1,37 @@
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+  categories:
+    - title: 💣 Breaking
+      labels:
+        - breaking
+    - title: 🚀 Features
+      labels:
+        - enhancement
+    - title: 🚓 Security Scanner
+      labels:
+        - scanner
+    - title: ⚓️ Hooks
+      labels:
+        - hook
+    - title: 🐛 Bug Fixes
+      labels:
+        - bug
+    - title: 🧪 Test
+      labels:
+        - test
+        - testing
+    - title: 📚 Documentation
+      labels:
+        - docs
+        - documentation
+    - title: 🔧 Maintenance
+      labels:
+        - maintenance
+    - title: 📌 Dependencies
+      labels:
+        - dependencies
+    - title: Other Changes
+      labels:
+        - "*"
