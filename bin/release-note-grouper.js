@@ -45,7 +45,7 @@ let upgrades = {};
 rl.on("line", (line) => {
   // Extract information from each line
   const match = line.match(
-    /\[SCB-Bot\] Upgraded (\w+) from ([\w\.]+) to ([\w\.]+) @secureCodeBoxBot \((#\d+)\)/,
+    /.*\[SCB-Bot\] Upgraded (.+) from ([\w\.]+) to ([\w\.]+) by @secureCodeBoxBot in (.*)/,
   );
   if (match) {
     const [, dependency, oldVersion, newVersion, pr] = match;
