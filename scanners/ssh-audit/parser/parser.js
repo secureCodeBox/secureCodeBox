@@ -215,30 +215,6 @@ function transformRecommendationToFinding(
   return policyViolationFindings;
 }
 
-/**
- * Transforms cves's from the ssh-audit scanner into SSH Violation Findings
- * @param {{}} cves
- */
-function transformCVEtoFinding(cves, destination) {
-  const cvesArray = Object.values(cves);
-  return Object.values(cvesArray).flatMap(({cvssv2, description, name}) => {
-    let severity = "HIGH";
-    if (cvssv2 < 4) severity = "LOW";
-    else if (cvssv2 < 7) severity = "MEDIUM";
-    return {
-      name,
-      description,
-      category: "SSH Violation",
-      location: destination,
-      severity,
-      attributes: {cvssv2},
-      references: [
-        {type: "CVE", value: `${name}`},
-        {type: "URL", value: `https://nvd.nist.gov/vuln/detail/${name}`},
-      ],
-    };
-  });
-}
 
 function isIPaddress(target) {
   if (/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(target))
@@ -271,7 +247,6 @@ async function parse(fileContent) {
         location
       )
   );
-  const cvesFindings = transformCVEtoFinding(host.cves, location);
 
   // informational findings
 
@@ -287,7 +262,7 @@ async function parse(fileContent) {
       hostname: hostname || null,
       ip_address: ipAddress || null,
       server_banner: host.banner?.raw || null,
-      ssh_version: host.banner?.protocol[0] || null,
+      ssh_version: host.banner?.protocol || null,
       ssh_lib_cpe: host.banner?.software,
       key_algorithms: host.key,
       encryption_algorithms: host.enc,
@@ -297,7 +272,7 @@ async function parse(fileContent) {
       fingerprints: host.fingerprints,
     },
   };
-  return [serviceFinding, ...policyViolationFindings, ...cvesFindings];
+  return [serviceFinding, ...policyViolationFindings];
 }
 
 module.exports.parse = parse;
