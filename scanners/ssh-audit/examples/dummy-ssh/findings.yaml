@@ -16,53 +16,270 @@
         "hostname": "dummy-ssh.demo-targets.svc",
         "ip_address": null,
         "server_banner": "SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.8",
-        "ssh_version": 2,
+        "ssh_version": "2.0",
         "ssh_lib_cpe": "OpenSSH_7.2p2",
         "key_algorithms":
           [
-            {"algorithm": "ssh-rsa", "keysize": 2048},
-            {"algorithm": "rsa-sha2-512", "keysize": 2048},
-            {"algorithm": "rsa-sha2-256", "keysize": 2048},
-            {"algorithm": "ecdsa-sha2-nistp256"},
-            {"algorithm": "ssh-ed25519"},
+            {
+              "algorithm": "ssh-rsa",
+              "keysize": 2048,
+              "notes":
+                {
+                  "fail": ["using broken SHA-1 hash algorithm"],
+                  "info":
+                    [
+                      "deprecated in OpenSSH 8.8: https://www.openssh.com/txt/release-8.8",
+                      "available since OpenSSH 2.5.0, Dropbear SSH 0.28",
+                    ],
+                  "warn":
+                    [
+                      "2048-bit modulus only provides 112-bits of symmetric strength",
+                    ],
+                },
+            },
+            {
+              "algorithm": "rsa-sha2-512",
+              "keysize": 2048,
+              "notes":
+                {
+                  "info": ["available since OpenSSH 7.2"],
+                  "warn":
+                    [
+                      "2048-bit modulus only provides 112-bits of symmetric strength",
+                    ],
+                },
+            },
+            {
+              "algorithm": "rsa-sha2-256",
+              "keysize": 2048,
+              "notes":
+                {
+                  "info": ["available since OpenSSH 7.2, Dropbear SSH 2020.79"],
+                  "warn":
+                    [
+                      "2048-bit modulus only provides 112-bits of symmetric strength",
+                    ],
+                },
+            },
+            {
+              "algorithm": "ecdsa-sha2-nistp256",
+              "notes":
+                {
+                  "fail":
+                    [
+                      "using elliptic curves that are suspected as being backdoored by the U.S. National Security Agency",
+                    ],
+                  "info": ["available since OpenSSH 5.7, Dropbear SSH 2013.62"],
+                  "warn":
+                    ["using weak random number generator could reveal the key"],
+                },
+            },
+            {
+              "algorithm": "ssh-ed25519",
+              "notes":
+                {"info": ["available since OpenSSH 6.5, Dropbear SSH 2020.79"]},
+            },
           ],
         "encryption_algorithms":
           [
-            "chacha20-poly1305@openssh.com",
-            "aes128-ctr",
-            "aes192-ctr",
-            "aes256-ctr",
-            "aes128-gcm@openssh.com",
-            "aes256-gcm@openssh.com",
+            {
+              "algorithm": "chacha20-poly1305@openssh.com",
+              "notes":
+                {
+                  "info":
+                    [
+                      "default cipher since OpenSSH 6.9",
+                      "available since OpenSSH 6.5, Dropbear SSH 2020.79",
+                    ],
+                  "warn":
+                    [
+                      "vulnerable to the Terrapin attack (CVE-2023-48795), allowing message prefix truncation",
+                    ],
+                },
+            },
+            {
+              "algorithm": "aes128-ctr",
+              "notes":
+                {"info": ["available since OpenSSH 3.7, Dropbear SSH 0.52"]},
+            },
+            {
+              "algorithm": "aes192-ctr",
+              "notes": {"info": ["available since OpenSSH 3.7"]},
+            },
+            {
+              "algorithm": "aes256-ctr",
+              "notes":
+                {"info": ["available since OpenSSH 3.7, Dropbear SSH 0.52"]},
+            },
+            {
+              "algorithm": "aes128-gcm@openssh.com",
+              "notes": {"info": ["available since OpenSSH 6.2"]},
+            },
+            {
+              "algorithm": "aes256-gcm@openssh.com",
+              "notes": {"info": ["available since OpenSSH 6.2"]},
+            },
           ],
         "mac_algorithms":
           [
-            "umac-64-etm@openssh.com",
-            "umac-128-etm@openssh.com",
-            "hmac-sha2-256-etm@openssh.com",
-            "hmac-sha2-512-etm@openssh.com",
-            "hmac-sha1-etm@openssh.com",
-            "umac-64@openssh.com",
-            "umac-128@openssh.com",
-            "hmac-sha2-256",
-            "hmac-sha2-512",
-            "hmac-sha1",
+            {
+              "algorithm": "umac-64-etm@openssh.com",
+              "notes":
+                {
+                  "info": ["available since OpenSSH 6.2"],
+                  "warn": ["using small 64-bit tag size"],
+                },
+            },
+            {
+              "algorithm": "umac-128-etm@openssh.com",
+              "notes": {"info": ["available since OpenSSH 6.2"]},
+            },
+            {
+              "algorithm": "hmac-sha2-256-etm@openssh.com",
+              "notes": {"info": ["available since OpenSSH 6.2"]},
+            },
+            {
+              "algorithm": "hmac-sha2-512-etm@openssh.com",
+              "notes": {"info": ["available since OpenSSH 6.2"]},
+            },
+            {
+              "algorithm": "hmac-sha1-etm@openssh.com",
+              "notes":
+                {
+                  "fail": ["using broken SHA-1 hash algorithm"],
+                  "info": ["available since OpenSSH 6.2"],
+                },
+            },
+            {
+              "algorithm": "umac-64@openssh.com",
+              "notes":
+                {
+                  "info": ["available since OpenSSH 4.7"],
+                  "warn":
+                    [
+                      "using encrypt-and-MAC mode",
+                      "using small 64-bit tag size",
+                    ],
+                },
+            },
+            {
+              "algorithm": "umac-128@openssh.com",
+              "notes":
+                {
+                  "info": ["available since OpenSSH 6.2"],
+                  "warn": ["using encrypt-and-MAC mode"],
+                },
+            },
+            {
+              "algorithm": "hmac-sha2-256",
+              "notes":
+                {
+                  "info": ["available since OpenSSH 5.9, Dropbear SSH 2013.56"],
+                  "warn": ["using encrypt-and-MAC mode"],
+                },
+            },
+            {
+              "algorithm": "hmac-sha2-512",
+              "notes":
+                {
+                  "info": ["available since OpenSSH 5.9, Dropbear SSH 2013.56"],
+                  "warn": ["using encrypt-and-MAC mode"],
+                },
+            },
+            {
+              "algorithm": "hmac-sha1",
+              "notes":
+                {
+                  "fail": ["using broken SHA-1 hash algorithm"],
+                  "info": ["available since OpenSSH 2.1.0, Dropbear SSH 0.28"],
+                  "warn": ["using encrypt-and-MAC mode"],
+                },
+            },
           ],
         "compression_algorithms": ["none", "zlib@openssh.com"],
         "key_exchange_algorithms":
           [
-            {"algorithm": "curve25519-sha256@libssh.org"},
-            {"algorithm": "ecdh-sha2-nistp256"},
-            {"algorithm": "ecdh-sha2-nistp384"},
-            {"algorithm": "ecdh-sha2-nistp521"},
+            {
+              "algorithm": "curve25519-sha256@libssh.org",
+              "notes":
+                {
+                  "info":
+                    [
+                      "default key exchange from OpenSSH 6.5 to 7.3",
+                      "available since OpenSSH 6.4, Dropbear SSH 2013.62",
+                    ],
+                },
+            },
+            {
+              "algorithm": "ecdh-sha2-nistp256",
+              "notes":
+                {
+                  "fail":
+                    [
+                      "using elliptic curves that are suspected as being backdoored by the U.S. National Security Agency",
+                    ],
+                  "info": ["available since OpenSSH 5.7, Dropbear SSH 2013.62"],
+                },
+            },
+            {
+              "algorithm": "ecdh-sha2-nistp384",
+              "notes":
+                {
+                  "fail":
+                    [
+                      "using elliptic curves that are suspected as being backdoored by the U.S. National Security Agency",
+                    ],
+                  "info": ["available since OpenSSH 5.7, Dropbear SSH 2013.62"],
+                },
+            },
+            {
+              "algorithm": "ecdh-sha2-nistp521",
+              "notes":
+                {
+                  "fail":
+                    [
+                      "using elliptic curves that are suspected as being backdoored by the U.S. National Security Agency",
+                    ],
+                  "info": ["available since OpenSSH 5.7, Dropbear SSH 2013.62"],
+                },
+            },
             {
               "algorithm": "diffie-hellman-group-exchange-sha256",
-              "keysize": 2048,
+              "keysize": 3072,
+              "notes":
+                {
+                  "info":
+                    [
+                      "OpenSSH's GEX fallback mechanism was triggered during testing. Very old SSH clients will still be able to create connections using a 2048-bit modulus, though modern clients will use 3072. This can only be disabled by recompiling the code (see https://github.com/openssh/openssh-portable/blob/V_9_4/dh.c#L477).",
+                      "available since OpenSSH 4.4",
+                    ],
+                },
             },
-            {"algorithm": "diffie-hellman-group14-sha1"},
+            {
+              "algorithm": "diffie-hellman-group14-sha1",
+              "notes":
+                {
+                  "fail": ["using broken SHA-1 hash algorithm"],
+                  "info": ["available since OpenSSH 3.9, Dropbear SSH 0.53"],
+                  "warn":
+                    [
+                      "2048-bit modulus only provides 112-bits of symmetric strength",
+                    ],
+                },
+            },
           ],
         "fingerprints":
           [
+            {
+              "hash": "pa+Jwax5syiezfL29o6j6uaWBoJeK/LZJ8OXUwPrE5A",
+              "hash_alg": "SHA256",
+              "hostkey": "ecdsa-sha2-nistp256",
+            },
+            {
+              "hash": "f5:fb:82:83:cd:0e:1f:af:2a:45:17:0b:b7:3c:9f:ee",
+              "hash_alg": "MD5",
+              "hostkey": "ecdsa-sha2-nistp256",
+            },
             {
               "hash": "eLwgzyjvrpwDbDr+pDbIfUhlNANB4DPH9/0w1vGa87E",
               "hash_alg": "SHA256",
@@ -85,8 +302,8 @@
             },
           ],
       },
-    "id": "32b5daad-2421-4731-b06f-ecdb9c238dfe",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
+    "id": "d0005b42-7481-4dae-91b2-5d3293d78b3f",
+    "parsed_at": "2024-12-06T08:42:46.521Z",
   },
   {
     "name": "Insecure SSH KEX Algorithms",
@@ -105,8 +322,8 @@
             "ecdh-sha2-nistp521",
           ],
       },
-    "id": "0692f9e0-443d-4b08-ac18-2b6751ebf90f",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
+    "id": "1d136f73-222a-49a5-9d24-73eff949e7fc",
+    "parsed_at": "2024-12-06T08:42:46.522Z",
   },
   {
     "name": "Insecure SSH Key Algorithms",
@@ -116,8 +333,8 @@
     "category": "SSH Policy Violation",
     "location": "ssh://dummy-ssh.demo-targets.svc",
     "attributes": {"algorithms": ["ecdsa-sha2-nistp256", "ssh-rsa"]},
-    "id": "6fec8829-3c6a-4366-8006-b8f7c180e4bd",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
+    "id": "20b8e8c7-01f5-46ac-ae78-ca7b04d61100",
+    "parsed_at": "2024-12-06T08:42:46.522Z",
   },
   {
     "name": "Insecure SSH MAC Algorithms",
@@ -127,8 +344,8 @@
     "category": "SSH Policy Violation",
     "location": "ssh://dummy-ssh.demo-targets.svc",
     "attributes": {"algorithms": ["hmac-sha1", "hmac-sha1-etm@openssh.com"]},
-    "id": "42947f7f-64ec-4f25-bb96-98515ba8296a",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
+    "id": "1af1e73f-6244-4192-9c9b-8fe62796306e",
+    "parsed_at": "2024-12-06T08:42:46.522Z",
   },
   {
     "name": "SSH Key Algorithms must be changed",
@@ -145,8 +362,19 @@
             "rsa-sha2-512 (Note: increase modulus size to 3072 bits or larger)",
           ],
       },
-    "id": "17d34bda-8944-4311-9986-d149967b2727",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
+    "id": "87516897-4ac4-4e9e-b74b-58835faf47c2",
+    "parsed_at": "2024-12-06T08:42:46.522Z",
+  },
+  {
+    "name": "Insecure SSH Encryption Algorithms",
+    "description": "Discouraged SSH Encryption algorithms are in use",
+    "mitigation": "Remove these encryption algorithms",
+    "severity": "MEDIUM",
+    "category": "SSH Policy Violation",
+    "location": "ssh://dummy-ssh.demo-targets.svc",
+    "attributes": {"algorithms": ["chacha20-poly1305@openssh.com"]},
+    "id": "74b1328b-6e8d-49ad-a1ea-40319890ed13",
+    "parsed_at": "2024-12-06T08:42:46.522Z",
   },
   {
     "name": "Insecure SSH MAC Algorithms",
@@ -166,133 +394,7 @@
             "umac-64@openssh.com",
           ],
       },
-    "id": "39479a40-2c2a-46cc-8289-b38dae8a32af",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
-  },
-  {
-    "name": "CVE-2021-41617",
-    "description": "privilege escalation via supplemental groups",
-    "category": "SSH Violation",
-    "location": "ssh://dummy-ssh.demo-targets.svc",
-    "severity": "HIGH",
-    "attributes": {"cvssv2": 7},
-    "references":
-      [
-        {"type": "CVE", "value": "CVE-2021-41617"},
-        {
-          "type": "URL",
-          "value": "https://nvd.nist.gov/vuln/detail/CVE-2021-41617",
-        },
-      ],
-    "id": "2b97dd59-760a-4245-b560-07b57796454d",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
-  },
-  {
-    "name": "CVE-2020-15778",
-    "description": "command injection via anomalous argument transfers",
-    "category": "SSH Violation",
-    "location": "ssh://dummy-ssh.demo-targets.svc",
-    "severity": "HIGH",
-    "attributes": {"cvssv2": 7.8},
-    "references":
-      [
-        {"type": "CVE", "value": "CVE-2020-15778"},
-        {
-          "type": "URL",
-          "value": "https://nvd.nist.gov/vuln/detail/CVE-2020-15778",
-        },
-      ],
-    "id": "80ea0ec2-b558-480f-90d6-2b335e1f24ef",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
-  },
-  {
-    "name": "CVE-2018-15919",
-    "description": "username enumeration via GS2",
-    "category": "SSH Violation",
-    "location": "ssh://dummy-ssh.demo-targets.svc",
-    "severity": "MEDIUM",
-    "attributes": {"cvssv2": 5.3},
-    "references":
-      [
-        {"type": "CVE", "value": "CVE-2018-15919"},
-        {
-          "type": "URL",
-          "value": "https://nvd.nist.gov/vuln/detail/CVE-2018-15919",
-        },
-      ],
-    "id": "9bbc1631-1eec-4fbe-91fc-ab9998da801a",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
-  },
-  {
-    "name": "CVE-2018-15473",
-    "description": "enumerate usernames due to timing discrepancies",
-    "category": "SSH Violation",
-    "location": "ssh://dummy-ssh.demo-targets.svc",
-    "severity": "MEDIUM",
-    "attributes": {"cvssv2": 5.3},
-    "references":
-      [
-        {"type": "CVE", "value": "CVE-2018-15473"},
-        {
-          "type": "URL",
-          "value": "https://nvd.nist.gov/vuln/detail/CVE-2018-15473",
-        },
-      ],
-    "id": "29fb98fd-d165-4657-8f42-c25a9ab1bcaa",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
-  },
-  {
-    "name": "CVE-2016-20012",
-    "description": "enumerate usernames via challenge response",
-    "category": "SSH Violation",
-    "location": "ssh://dummy-ssh.demo-targets.svc",
-    "severity": "MEDIUM",
-    "attributes": {"cvssv2": 5.3},
-    "references":
-      [
-        {"type": "CVE", "value": "CVE-2016-20012"},
-        {
-          "type": "URL",
-          "value": "https://nvd.nist.gov/vuln/detail/CVE-2016-20012",
-        },
-      ],
-    "id": "e9230054-4fce-4c78-ba92-dcbdba65de93",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
-  },
-  {
-    "name": "CVE-2016-6515",
-    "description": "cause DoS via long password string (crypt CPU consumption)",
-    "category": "SSH Violation",
-    "location": "ssh://dummy-ssh.demo-targets.svc",
-    "severity": "HIGH",
-    "attributes": {"cvssv2": 7.8},
-    "references":
-      [
-        {"type": "CVE", "value": "CVE-2016-6515"},
-        {
-          "type": "URL",
-          "value": "https://nvd.nist.gov/vuln/detail/CVE-2016-6515",
-        },
-      ],
-    "id": "b3d1eb1d-3711-439b-a722-ea33f064cb47",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
-  },
-  {
-    "name": "CVE-2015-8325",
-    "description": "privilege escalation via triggering crafted environment",
-    "category": "SSH Violation",
-    "location": "ssh://dummy-ssh.demo-targets.svc",
-    "severity": "HIGH",
-    "attributes": {"cvssv2": 7.2},
-    "references":
-      [
-        {"type": "CVE", "value": "CVE-2015-8325"},
-        {
-          "type": "URL",
-          "value": "https://nvd.nist.gov/vuln/detail/CVE-2015-8325",
-        },
-      ],
-    "id": "b4fde106-ca72-44ce-902c-f5287dcf663b",
-    "parsed_at": "2023-05-11T08:51:15.833Z",
+    "id": "965e1a1f-9bf5-4066-9774-fbb4bde786c7",
+    "parsed_at": "2024-12-06T08:42:46.522Z",
   },
 ]
