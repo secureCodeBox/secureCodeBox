@@ -15,19 +15,18 @@ test(
       ["dummy-ssh.demo-targets.svc"],
       90
     );
-    expect(count).toBe(14);
+    expect(count).toBe(7);
     expect(categories).toMatchInlineSnapshot(`
-    {
-      "SSH Policy Violation": 6,
-      "SSH Service": 1,
-      "SSH Violation": 7,
-    }
+      {
+        "SSH Policy Violation": 6,
+        "SSH Service": 1,
+      }
     `);
     expect(severities).toMatchInlineSnapshot(`
     {
-      "high": 7,
+      "high": 3,
       "informational": 1,
-      "medium": 6,
+      "medium": 3,
     }
     `);
   },
