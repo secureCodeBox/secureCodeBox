@@ -39,7 +39,7 @@
     "@types/node": "^22.10.1",
     "jest": "^29.7.0",
     "jest-runner-eslint": "^2.2.1",
-    "prettier": "^3.4.1",
+    "prettier": "^3.4.2",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.2"
   },
