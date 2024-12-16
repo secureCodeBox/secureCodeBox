@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@kubernetes/client-node": "^0.22.3",
-    "axios": "^1.7.8",
+    "axios": "^1.7.9",
     "ws": "^8.13.0"
   }
 }
