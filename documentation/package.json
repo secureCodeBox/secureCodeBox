@@ -26,16 +26,16 @@
     "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
     "colors": "^1.4.0",
-    "docusaurus-plugin-sass": "^0.2.5",
+    "docusaurus-plugin-sass": "^0.2.6",
     "gray-matter": "^4.0.3",
     "mustache": "^4.2.0",
     "node-fetch": "^3.1.1",
-    "prism-react-renderer": "^2.4.0",
+    "prism-react-renderer": "^2.4.1",
     "react": "^18.3.1",
     "react-accessible-accordion": "^5.0.0",
     "react-dom": "^18.3.1",
     "rimraf": "^6.0.1",
-    "sass": "1.81"
+    "sass": "1.83"
   },
   "browserslist": {
     "production": [
@@ -53,11 +53,11 @@
     "@docusaurus/module-type-aliases": "^3.6.0",
     "@docusaurus/tsconfig": "^3.6.3",
     "@docusaurus/types": "^3.6.0",
-    "@types/node": "^22.10.1",
+    "@types/node": "^22.10.2",
     "@types/react": "^18.3.12",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.1.8",
-    "sass-loader": "^16.0.3",
+    "sass-loader": "^16.0.4",
     "typescript": "^5.7.2"
   },
   "engines": {
