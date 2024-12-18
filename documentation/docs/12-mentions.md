@@ -17,7 +17,7 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 
 ## Talks and Presentations
 
-- [Булат Гафуров "Быстрый старт в DevSecOps через SecureCodeBox"](https://www.youtube.com/watch?v=upjbzQTM7Bo) 🇷🇺 by Bulat Gafurov at [UFACoder Уфимское IT сообщество][ufa-coder]
+- [Быстрый старт в DevSecOps через SecureCodeBox](https://www.youtube.com/watch?v=upjbzQTM7Bo) 🇷🇺 by Bulat Gafurov at [UFADEVCONF 2024][ufa-coder]
 - [Continuous Security Testing with OWASP secureCodeBox in Kubernetes](https://www.youtube.com/watch?v=M3zbRGASlJc) 🇬🇧 by [Jannik Hollenbach][jannik] at [ContainerDays 2024 in Hamburg](https://www.containerdays.io/containerdays-conference-2024/)
 - [DevSecOps Pipeline & kontinuierliche Security Scans](https://www.youtube.com/watch?v=I_C8E4_F1Do) 🇩🇪 by [Sven Strittmatter][weltraumschaf] and hosted by [Verein der Karlsruher Software-Ingenieure (VKSI) e.V.][vksi].
 - [DevSecOps in OWASP-Projekten](https://www.youtube.com/watch?v=MNdprBU2Pac) 🇩🇪 by [Timo Pagel][timo-pagel] and hosted by [Micromata][micromata-blog].
