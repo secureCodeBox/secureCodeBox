@@ -37,6 +37,8 @@ jobs:
           PR_ID: ${{ github.event.pull_request.node_id }}
 
       - name: Move PR to column To Review
+        # only move SCB-Bot, since dependabot is not part of core team and therefore has no access to secrets
+        if: startsWith(github.head_ref, 'dependencies/upgrading')
         run: |
           # Get the ID for the field Status 
           # gh project field-list 6 --owner secureCodeBox
