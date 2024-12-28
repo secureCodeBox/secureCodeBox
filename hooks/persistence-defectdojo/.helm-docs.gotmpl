@@ -63,7 +63,7 @@ The _DefectDojo_ hook will send all scan results to _DefectDojo_, including thos
 Installing the _DefectDojo_ persistenceProvider hook will add a _ReadAndWrite Hook_ to your namespace.
 
 ```bash
-kubectl create secret generic defectdojo-credentials --from-literal="username=admin" --from-literal="apikey=08b7..."
+kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7..."
 
 helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
     --set="defectdojo.url=https://defectdojo-django.default.svc"
@@ -157,7 +157,6 @@ _DefectDojo_ >2.0.0 refined their user access rights, allowing you to restrict t
 
 #### Limitations of the Low Privileged Mode
 
-- Instead of the username, the userId **must** be configured as the low privileged can't use the users list api to look up its own userId.
 - The configured product type must exist beforehand as the low privileged user isn't permitted to create a new one
 - The hook will not create / link the engagement to the _secureCodeBox_ orchestration engine tool type.
 - The low privileged user must have at least the `Maintainer` role in the configured product type.
@@ -169,8 +168,7 @@ kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7
 
 helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
     --set="defectdojo.url=http://defectdojo-django.default.svc" \
-    --set="defectdojo.lowPrivilegedMode=true" \
-    --set="defectdojo.authentication.userId=42"
+    --set="defectdojo.lowPrivilegedMode=true"
 ```
 
 ### DefectDojo minimum severity
@@ -288,7 +286,6 @@ included [Minio Instance](https://www.securecodebox.io/docs/getting-started/inst
 and upload them to a GitHub Gist.
 4. Set the following environment variables:
   - `DEFECTDOJO_URL`: URL to your DefectDojo server, e.g `DEFECTDOJO_URL="http://192.168.0.1:8080"`. (Required by _defectdojo-client-java_ lib.)
-  - `DEFECTDOJO_USERNAME`: User you want to use to import findings, e.g `DEFECTDOJO_USERNAME="admin"`. (Required by _defectdojo-client-java_ lib.)
   - `DEFECTDOJO_APIKEY`: API key, e.g. `DEFECTDOJO_APIKEY="..."` (Can be fetched from the _DefectDojo_ API information page). (Required by _defectdojo-client-java_ lib.)
   - `DEFECTDOJO_IS_DEV`: To enable dev mode, which loads a k8s config from `~/.kube/config`, e.g. `DEFECTDOJO_IS_DEV="true"`.
   - `SCAN_NAME`: (optional) For mocking purpose when debugging locally, e.g `SCAN_NAME="nmap-scanme.nmap.org"`. Must be set exactly to the name of the scan used in step 2. Typically, this is set automatically by _secureCodeBox_. 
