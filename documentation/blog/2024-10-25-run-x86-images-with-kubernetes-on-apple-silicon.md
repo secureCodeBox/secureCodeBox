@@ -128,7 +128,7 @@ helm --namespace securecodebox-system \
     oci://ghcr.io/securecodebox/helm/operator
 ```
 
-Then install the scanners you want, e.g. [Nmap](https://nmap.org/:
+Then install the scanners you want, e.g. [Nmap](https://nmap.org/):
 ```shell
 helm install nmap oci://ghcr.io/securecodebox/helm/nmap
 kubectl get scantypes
