@@ -64,27 +64,6 @@ This hook reads only from _raw findings_ and **not** from _secureCodeBox finding
 
 For scan types which are not supported by _DefectDojo_, the generic importer is used, which will result in a less sophisticated display of the results and fewer features inside _DefectDojo_. In the worst case, it can lead to some findings being lost - see the note below.
 
-:::note
-A big amount of findings may require higher resource limits. Changing them may be required to avoid OOM errors. The default values are:
-
-```yaml
-requests: {
-   cpu: "200m",
-   memory: "100Mi"
-},
-limits: {
-  cpu: "400m",
-   memory: "200Mi"
-}
-```
-
-For example, to set the memory limit to 512Mi, we run the following command:
-
-```bash
-helm upgrade --namespace NAMESPACE --install persistence-defectdojo oci://ghcr.io/securecodebox/helm/persistence-defectdojo --set="hook.resources.limits.memory=512Mi"
-```
-:::
-
 :::caution
 Be careful when using the _DefectDojo Hook_ in combination with other _ReadAndWrite Hooks_. By default, the _secureCodeBox_ makes no guarantees about the execution order of multiple ReadAndWrite hooks, they can be executed in any order. This can lead to "lost update" problems as the _DefectDojo_ hook will overwrite all findings, which disregards the results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the _DefectDojo_ hook as they are always executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with secureCodeBox 3.4.0 and later).
 :::
@@ -92,29 +71,6 @@ Be careful when using the _DefectDojo Hook_ in combination with other _ReadAndWr
 :::caution
 The _DefectDojo_ hook will send all scan results to _DefectDojo_, including those for which _DefectDojo_ does not have native support. In this case, _DefectDojo_ may incorrectly deduplicate findings, which can in some cases [lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312). You can set the hook to read-only mode, which will prevent it from writing the results back to _secureCodeBox_ (`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data loss inside _secureCodeBox_, but this will not prevent the incorrect deduplication from affecting the data you see inside _DefectDojo_ (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)). You can also selectively disable the _DefectDojo_ hook for certain scans using the [hook selector feature](https://www.securecodebox.io/docs/how-tos/hooks#hook-selector) (supported with _secureCodeBox_ 3.4.0 and later).
 :::
-
-### Running _Persistence DefectDojo Hook_ Locally from Source
-
-For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
-
-1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
-2. [Run a Scan](https://www.securecodebox.io/docs/getting-started/first-scans) of your choice.
-3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the
-included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
-and upload them to a GitHub Gist.
-4. Set the following environment variables:
-  - `DEFECTDOJO_URL`: URL to your DefectDojo server, e.g `DEFECTDOJO_URL="http://192.168.0.1:8080"`. (Required by _defectdojo-client-java_ lib.)
-  - `DEFECTDOJO_USERNAME`: User you want to use to import findings, e.g `DEFECTDOJO_USERNAME="admin"`. (Required by _defectdojo-client-java_ lib.)
-  - `DEFECTDOJO_APIKEY`: API key, e.g. `DEFECTDOJO_APIKEY="..."` (Can be fetched from the _DefectDojo_ API information page). (Required by _defectdojo-client-java_ lib.)
-  - `DEFECTDOJO_IS_DEV`: To enable dev mode, which loads a k8s config from `~/.kube/config`, e.g. `DEFECTDOJO_IS_DEV="true"`.
-  - `SCAN_NAME`: (optional) For mocking purpose when debugging locally, e.g `SCAN_NAME="nmap-scanme.nmap.org"`. Must be set exactly to the name of the scan used in step 2. Typically, this is set automatically by _secureCodeBox_.
-  - `NAMESPACE`: (optional) For mocking purpose when debugging locally, e.g `NAMESPACE=my-namespace`. Typically, this is set automatically by _secureCodeBox_.
-5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
-
-```bash
-./gradlew build
-java -jar build/libs/defectdojo-persistenceprovider-<VERSION>>.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
-```
 
 ## Deployment
 The persistence-defectdojo chart can be deployed via helm:
@@ -133,24 +89,15 @@ Kubernetes: `>=v1.11.0-0`
 Installing the _DefectDojo_ persistenceProvider hook will add a _ReadAndWrite Hook_ to your namespace.
 
 ```bash
-kubectl create secret generic defectdojo-credentials --from-literal="username=admin" --from-literal="apikey=08b7..."
+kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7..."
 
 helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
     --set="defectdojo.url=https://defectdojo-django.default.svc"
 ```
 
+### Configuring Where In DefectDojo Results Are Ingested To
+
 The hook will automatically import the scan results into an engagement in _DefectDojo_. If the engagement doesn't exist the hook will create the engagement (CI/CD engagement) and all objects required for it (product & product type). The hook will then pull the imported information from _DefectDojo_ and use them to replace the findings inside _secureCodeBox_.
-
-In case you use a _DefectDojo_ instance with a self-signed root CA, upgrade the hook with:
-
-```bash
-helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
-    --set="defectdojo.url=https://defectdojo-django.default.svc" \
-    --set-json 'hook.extraVolumes=[{"name": "ca-dojo", "configMap": {"name": "ca-dojo"}}]' \
-    --set-json 'hook.extraVolumeMounts=[{"name": "ca-dojo", "mountPath": "/etc/ssl/certs/java/cacerts", "subPath": "cacerts", "readOnly": false}]'
-```
-
-After, you can update `/etc/ssl/certs/java/cacerts` with your certificate.
 
 You don't need any configuration for that to work, the hook will infer engagement & product names from the scan name. If you want more control over the names or add additional meta information like the version of the tested software you can add these via annotation to the scan. See examples below.
 
@@ -236,7 +183,6 @@ _DefectDojo_ >2.0.0 refined their user access rights, allowing you to restrict t
 
 #### Limitations of the Low Privileged Mode
 
-- Instead of the username, the userId **must** be configured as the low privileged can't use the users list api to look up its own userId.
 - The configured product type must exist beforehand as the low privileged user isn't permitted to create a new one
 - The hook will not create / link the engagement to the _secureCodeBox_ orchestration engine tool type.
 - The low privileged user must have at least the `Maintainer` role in the configured product type.
@@ -248,8 +194,7 @@ kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7
 
 helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
     --set="defectdojo.url=http://defectdojo-django.default.svc" \
-    --set="defectdojo.lowPrivilegedMode=true" \
-    --set="defectdojo.authentication.userId=42"
+    --set="defectdojo.lowPrivilegedMode=true"
 ```
 
 ### DefectDojo minimum severity
@@ -320,6 +265,61 @@ spec:
     parameters:
       - "-t"
       - "http://juice-shop.demo-targets.svc:3000"
+```
+
+## Assinging more resources (CPU/Memory) to the Hook
+
+:::note
+When ingesting a large amount of findings into DefectDojo, you may require higher resource limits. Changing them may be required to avoid OOM errors. The default values are:
+:::
+```yaml
+requests:
+  cpu: "200m"
+  memory: "100Mi"
+limits:
+  cpu: "400m"
+  memory: "200Mi"
+```
+
+For example, to set the memory limit to 512Mi, we run the following command:
+
+```bash
+helm upgrade --namespace NAMESPACE --install persistence-defectdojo oci://ghcr.io/securecodebox/helm/persistence-defectdojo --set="hook.resources.limits.memory=512Mi"
+```
+
+### Connecting to DefectDojo Instances usign a custom Certificate Authority
+
+In case you use a _DefectDojo_ instance with a self-signed root CA, upgrade the hook with:
+
+```bash
+helm upgrade --install dd oci://ghcr.io/securecodebox/helm/persistence-defectdojo \
+    --set="defectdojo.url=https://defectdojo-django.default.svc" \
+    --set-json 'hook.extraVolumes=[{"name": "ca-dojo", "configMap": {"name": "ca-dojo"}}]' \
+    --set-json 'hook.extraVolumeMounts=[{"name": "ca-dojo", "mountPath": "/etc/ssl/certs/java/cacerts", "subPath": "cacerts", "readOnly": false}]'
+```
+
+After, you can update `/etc/ssl/certs/java/cacerts` with your certificate.
+
+## Running _Persistence DefectDojo Hook_ Locally from Source
+
+For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
+
+1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
+2. [Run a Scan](https://www.securecodebox.io/docs/getting-started/first-scans) of your choice.
+3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the
+included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
+and upload them to a GitHub Gist.
+4. Set the following environment variables:
+  - `DEFECTDOJO_URL`: URL to your DefectDojo server, e.g `DEFECTDOJO_URL="http://192.168.0.1:8080"`. (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_APIKEY`: API key, e.g. `DEFECTDOJO_APIKEY="..."` (Can be fetched from the _DefectDojo_ API information page). (Required by _defectdojo-client-java_ lib.)
+  - `DEFECTDOJO_IS_DEV`: To enable dev mode, which loads a k8s config from `~/.kube/config`, e.g. `DEFECTDOJO_IS_DEV="true"`.
+  - `SCAN_NAME`: (optional) For mocking purpose when debugging locally, e.g `SCAN_NAME="nmap-scanme.nmap.org"`. Must be set exactly to the name of the scan used in step 2. Typically, this is set automatically by _secureCodeBox_.
+  - `NAMESPACE`: (optional) For mocking purpose when debugging locally, e.g `NAMESPACE=my-namespace`. Typically, this is set automatically by _secureCodeBox_.
+5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}. See the code snippet below. You have to adjust the filename of the jar. Also, you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
+
+```bash
+./gradlew build
+java -jar build/libs/defectdojo-persistenceprovider-<VERSION>>.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
 ```
 
 ## Values
