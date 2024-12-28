@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM alpine:3.13 as base
+FROM alpine:3.13 AS base
 
 WORKDIR /html
 RUN apk add wget unzip \
