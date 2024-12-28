@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Base Image
-FROM python:3.9-alpine as base
+FROM python:3.9-alpine AS base
 ARG scannerVersion
 # Install git and Clone Repo 
 RUN apk add git \
@@ -12,7 +12,7 @@ RUN apk add git \
     && rm -r .git .github doc
 
 # Runtime Image
-FROM python:3.9-alpine as runtime
+FROM python:3.9-alpine AS runtime
 
 # Create typo3scan user/group and give access
 RUN addgroup --system --gid 1001 typo3scan && adduser typo3scan --system --uid 1001 --ingroup typo3scan

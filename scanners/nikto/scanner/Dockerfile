@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM alpine:3.14 as build
+FROM alpine:3.14 AS build
 ARG scannerVersion
 RUN apk add git
 RUN git clone --depth 1 https://github.com/sullo/nikto.git /nikto
