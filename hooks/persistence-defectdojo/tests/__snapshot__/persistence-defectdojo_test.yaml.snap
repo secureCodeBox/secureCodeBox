@@ -28,8 +28,6 @@ matches the snapshot:
       env:
         - name: DEFECTDOJO_URL
           value: http://defectdojo-django.default.svc
-        - name: DEFECTDOJO_USER_ID
-          value: foo
         - name: DEFECTDOJO_APIKEY
           valueFrom:
             secretKeyRef:
