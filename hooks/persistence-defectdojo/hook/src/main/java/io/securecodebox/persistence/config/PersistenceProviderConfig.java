@@ -6,6 +6,7 @@ package io.securecodebox.persistence.config;
 
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import java.util.List;
  * the Hook is run in ReadOnly or ReadAndWrite mode based on the number of args.
  */
 @Slf4j
+@ToString
 public final class PersistenceProviderConfig {
   private final EnvConfig env = new EnvConfig();
 
@@ -91,5 +93,5 @@ public final class PersistenceProviderConfig {
   public boolean isInLowPrivilegedMode() {
     return env.lowPrivilegedMode();
   }
-  
+
 }
