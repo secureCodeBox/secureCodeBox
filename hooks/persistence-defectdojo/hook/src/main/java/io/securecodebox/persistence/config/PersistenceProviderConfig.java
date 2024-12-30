@@ -32,6 +32,8 @@ public class PersistenceProviderConfig {
   // has to be assumed for DefectDojo. It defaults to the Time Zone of the system clock
   @Getter
   ZoneId defectDojoTimezoneId = ZoneId.systemDefault();
+  @Getter
+  final boolean readOnly;
 
   // Download Urls
   @Getter
@@ -56,9 +58,6 @@ public class PersistenceProviderConfig {
     }
     return findingUploadUrl;
   }
-
-  @Getter
-  final boolean readOnly;
 
   public boolean isReadAndWrite() {
     return !readOnly;
