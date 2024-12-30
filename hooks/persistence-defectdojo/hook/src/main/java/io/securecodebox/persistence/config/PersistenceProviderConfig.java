@@ -6,6 +6,7 @@ package io.securecodebox.persistence.config;
 
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -47,13 +48,14 @@ public final class PersistenceProviderConfig {
   final String rawResultUploadUrl;
   final String findingUploadUrl;
 
-  public PersistenceProviderConfig(String[] args) {
-    // Parse Hook Args passed via command line flags
-    if (args == null) {
-      throw new DefectDojoPersistenceException("Received `null` as command line flags. Expected exactly four (RawResult & Finding Up/Download Urls)");
-    } else if (args.length == 2) {
+  /**
+   * Provider configuration
+   *
+   * @param args not {@code null}, hook args passed via command line flags
+   */
+  public PersistenceProviderConfig(@NonNull final String[] args) {
+    if (args.length == 2) {
       this.readOnly = true;
-
       this.rawResultDownloadUrl = args[RAW_RESULT_DOWNLOAD_ARG_POSITION];
       this.findingDownloadUrl = args[FINDING_DOWNLOAD_ARG_POSITION];
       // Not set for ReadOnly hooks
@@ -61,7 +63,6 @@ public final class PersistenceProviderConfig {
       this.findingUploadUrl = null;
     } else if (args.length == 4) {
       this.readOnly = false;
-
       this.rawResultDownloadUrl = args[RAW_RESULT_DOWNLOAD_ARG_POSITION];
       this.findingDownloadUrl = args[FINDING_DOWNLOAD_ARG_POSITION];
       this.rawResultUploadUrl = args[RAW_RESULT_UPLOAD_ARG_POSITION];
