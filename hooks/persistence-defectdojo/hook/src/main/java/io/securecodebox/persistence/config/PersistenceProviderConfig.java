@@ -22,14 +22,12 @@ import java.util.List;
 @Slf4j
 @ToString
 public final class PersistenceProviderConfig {
-  private final EnvConfig env = new EnvConfig();
-
   private static final int RAW_RESULT_DOWNLOAD_ARG_POSITION = 0;
   private static final int FINDING_DOWNLOAD_ARG_POSITION = 1;
-
   private static final int RAW_RESULT_UPLOAD_ARG_POSITION = 2;
   private static final int FINDING_UPLOAD_ARG_POSITION = 3;
 
+  private final EnvConfig env = new EnvConfig();
   // DefectDojo does in contrast to secureCodeBox not pay attention to time zones
   // to guarantee consistent results when converting back and forth  a time zone
   // has to be assumed for DefectDojo. It defaults to the Time Zone of the system clock
@@ -38,14 +36,23 @@ public final class PersistenceProviderConfig {
   @Getter
   final boolean readOnly;
 
-  // Download Urls
+  /**
+   * URL where to download the raw result file
+   */
   @Getter
   final String rawResultDownloadUrl;
+  /**
+   * URL where to download the parsed finding file
+   */
   @Getter
   final String findingDownloadUrl;
-
-  // Upload Urls
+  /**
+   * URL where to upload the raw result file, maybe {@code null}
+   */
   final String rawResultUploadUrl;
+  /**
+   * URL where to upload the parsed finding file, maybe {@code null}
+   */
   final String findingUploadUrl;
 
   /**
