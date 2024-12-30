@@ -31,7 +31,7 @@ public final class PersistenceProviderConfig {
   // to guarantee consistent results when converting back and forth  a time zone
   // has to be assumed for DefectDojo. It defaults to the Time Zone of the system clock
   @Getter
-  ZoneId defectDojoTimezoneId = ZoneId.systemDefault();
+  final ZoneId defectDojoTimezoneId = ZoneId.systemDefault();
   @Getter
   final boolean readOnly;
 
