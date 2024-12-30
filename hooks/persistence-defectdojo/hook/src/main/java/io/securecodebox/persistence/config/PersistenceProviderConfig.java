@@ -18,7 +18,7 @@ import java.util.List;
  * the Hook is run in ReadOnly or ReadAndWrite mode based on the number of args.
  */
 @Slf4j
-public class PersistenceProviderConfig {
+public final class PersistenceProviderConfig {
   private final EnvConfig env = new EnvConfig();
 
   private static final int RAW_RESULT_DOWNLOAD_ARG_POSITION = 0;
