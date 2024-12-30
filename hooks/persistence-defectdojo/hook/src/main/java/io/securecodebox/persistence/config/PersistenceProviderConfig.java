@@ -9,8 +9,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.ZoneId;
 import java.util.List;
@@ -26,6 +24,8 @@ public final class PersistenceProviderConfig {
   private static final int FINDING_DOWNLOAD_ARG_POSITION = 1;
   private static final int RAW_RESULT_UPLOAD_ARG_POSITION = 2;
   private static final int FINDING_UPLOAD_ARG_POSITION = 3;
+  public static final int NUMBER_OF_ARGS_READONLY = 2;
+  public static final int NUMBER_OF_ARGS_READWRITE = 4;
 
   private final EnvConfig env = new EnvConfig();
   /**
@@ -66,22 +66,23 @@ public final class PersistenceProviderConfig {
    * @param args not {@code null}, hook args passed via command line flags
    */
   public PersistenceProviderConfig(@NonNull final String[] args) {
-    if (args.length == 2) {
+    if (args.length == NUMBER_OF_ARGS_READONLY) {
       this.readOnly = true;
       this.rawResultDownloadUrl = args[RAW_RESULT_DOWNLOAD_ARG_POSITION];
       this.findingDownloadUrl = args[FINDING_DOWNLOAD_ARG_POSITION];
       // Not set for ReadOnly hooks
       this.rawResultUploadUrl = null;
       this.findingUploadUrl = null;
-    } else if (args.length == 4) {
+    } else if (args.length == NUMBER_OF_ARGS_READWRITE) {
       this.readOnly = false;
       this.rawResultDownloadUrl = args[RAW_RESULT_DOWNLOAD_ARG_POSITION];
       this.findingDownloadUrl = args[FINDING_DOWNLOAD_ARG_POSITION];
       this.rawResultUploadUrl = args[RAW_RESULT_UPLOAD_ARG_POSITION];
       this.findingUploadUrl = args[FINDING_UPLOAD_ARG_POSITION];
     } else {
-      log.error("Received unexpected command line arguments: {}", List.of(args));
-      throw new DefectDojoPersistenceException("DefectDojo Hook received a unexpected number of command line flags. Expected exactly two (for ReadOnly Mode) or four (for ReadAndWrite mode)");
+      final var msg = "Unexpected number of arguments given %d! Expected are either %d or %d arguments in array!";
+      throw new DefectDojoPersistenceException(
+        String.format(msg, args.length, NUMBER_OF_ARGS_READONLY, NUMBER_OF_ARGS_READWRITE));
     }
   }
 
