@@ -57,11 +57,8 @@ public class PersistenceProviderConfig {
     return findingUploadUrl;
   }
 
+  @Getter
   final boolean readOnly;
-
-  public boolean isReadOnly() {
-    return readOnly;
-  }
 
   public boolean isReadAndWrite() {
     return !readOnly;
