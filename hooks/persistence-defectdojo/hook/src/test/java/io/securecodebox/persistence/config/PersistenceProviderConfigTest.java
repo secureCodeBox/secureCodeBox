@@ -41,4 +41,14 @@ class PersistenceProviderConfigTest {
       () -> assertThat(sut.getFindingUploadUrl(), is("snafu"))
     );
   }
+
+  @Test
+  void constructorThrowsExceptionForWrongArgumentLength() {
+    assertAll(
+      () -> assertThrows(DefectDojoPersistenceException.class, () -> new PersistenceProviderConfig(new String[0])),
+      () -> assertThrows(DefectDojoPersistenceException.class, () -> new PersistenceProviderConfig(new String[]{"foo"})),
+      () -> assertThrows(DefectDojoPersistenceException.class, () -> new PersistenceProviderConfig(new String[]{"foo", "bar", "baz"})),
+      () -> assertThrows(DefectDojoPersistenceException.class, () -> new PersistenceProviderConfig(new String[]{"foo", "bar", "baz", "snafu", "shtf"}))
+    );
+  }
 }
