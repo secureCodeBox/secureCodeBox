@@ -85,6 +85,9 @@ public final class PersistenceProviderConfig {
     }
   }
 
+  /**
+   * Throws {@link DefectDojoPersistenceException} if {@link #isReadOnly()} is {@code true}
+   */
   public String getRawResultUploadUrl() {
     if (isReadOnly()) {
       throw new DefectDojoPersistenceException("Cannot access the RawResult Upload URL because the hook is executed in ReadOnly mode!");
@@ -92,6 +95,9 @@ public final class PersistenceProviderConfig {
     return rawResultUploadUrl;
   }
 
+  /**
+   * Throws {@link DefectDojoPersistenceException} if {@link #isReadOnly()} is {@code true}
+   */
   public String getFindingUploadUrl() {
     if (isReadOnly()) {
       throw new DefectDojoPersistenceException("Cannot access the Finding Upload URL because the hook is executed in ReadOnly mode!");
