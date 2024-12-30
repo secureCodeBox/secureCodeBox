@@ -45,28 +45,6 @@ public final class PersistenceProviderConfig {
   final String rawResultUploadUrl;
   final String findingUploadUrl;
 
-  public String getRawResultUploadUrl() {
-    if (isReadOnly()) {
-      throw new DefectDojoPersistenceException("Cannot access the RawResult Upload URL because the hook is executed in ReadOnly mode!");
-    }
-    return rawResultUploadUrl;
-  }
-
-  public String getFindingUploadUrl() {
-    if (isReadOnly()) {
-      throw new DefectDojoPersistenceException("Cannot access the Finding Upload URL because the hook is executed in ReadOnly mode!");
-    }
-    return findingUploadUrl;
-  }
-
-  public boolean isReadAndWrite() {
-    return !readOnly;
-  }
-
-  public boolean isInLowPrivilegedMode() {
-    return env.lowPrivilegedMode();
-  }
-
   public PersistenceProviderConfig(String[] args) {
     // Parse Hook Args passed via command line flags
     if (args == null) {
@@ -91,4 +69,27 @@ public final class PersistenceProviderConfig {
       throw new DefectDojoPersistenceException("DefectDojo Hook received a unexpected number of command line flags. Expected exactly two (for ReadOnly Mode) or four (for ReadAndWrite mode)");
     }
   }
+
+  public String getRawResultUploadUrl() {
+    if (isReadOnly()) {
+      throw new DefectDojoPersistenceException("Cannot access the RawResult Upload URL because the hook is executed in ReadOnly mode!");
+    }
+    return rawResultUploadUrl;
+  }
+
+  public String getFindingUploadUrl() {
+    if (isReadOnly()) {
+      throw new DefectDojoPersistenceException("Cannot access the Finding Upload URL because the hook is executed in ReadOnly mode!");
+    }
+    return findingUploadUrl;
+  }
+
+  public boolean isReadAndWrite() {
+    return !readOnly;
+  }
+
+  public boolean isInLowPrivilegedMode() {
+    return env.lowPrivilegedMode();
+  }
+  
 }
