@@ -15,19 +15,23 @@ test(
       [
         "-c",
         "r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
-        "/test/",
+        "/test-semgrep/",
       ],
       90,
       // volumes
-      [{
-          "name": "test-dir",
-          "configMap": {"name": "semgrep-test-file"}
-      }],
+      [
+        {
+          name: "test-dir",
+          configMap: { name: "semgrep-test-file" },
+        },
+      ],
       // volumeMounts
-      [{
-          "mountPath": "/test/",
-          "name": "test-dir"
-      }],
+      [
+        {
+          mountPath: "/test-semgrep/",
+          name: "test-dir",
+        },
+      ],
     );
 
     expect(count).toBe(3);
