@@ -47,7 +47,7 @@ matches the snapshot:
                   env:
                     - name: foo
                       value: bar
-                  image: docker.io/returntocorp/semgrep:0.0.0
+                  image: docker.io/semgrep/semgrep:0.0.0
                   imagePullPolicy: IfNotPresent
                   name: semgrep
                   resources:
