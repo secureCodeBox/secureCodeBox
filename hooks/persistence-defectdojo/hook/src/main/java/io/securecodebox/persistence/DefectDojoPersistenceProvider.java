@@ -125,7 +125,7 @@ public class DefectDojoPersistenceProvider {
     kubernetesService.updateScanInKubernetes(findings);
   }
 
-  private boolean shouldShowHelp(String[] args) {
+  boolean shouldShowHelp(String[] args) {
     return Arrays.stream(args).anyMatch(arg -> arg.equals("-h") || arg.equals("--help"));
   }
 
