@@ -8,6 +8,7 @@ import io.securecodebox.persistence.defectdojo.config.Config;
 import io.securecodebox.persistence.defectdojo.model.Finding;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.defectdojo.service.FindingService;
+import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.KubernetesService;
@@ -20,16 +21,27 @@ import java.util.List;
 
 @Slf4j
 public class DefectDojoPersistenceProvider {
+  private static final String HELP_HINT = "Use option -h or --help to get more details about the arguments.";
+  private static final int EXIT_CODE_OK = 0;
+  private static final int EXIT_CODE_ERROR = 1;
   private final S3Service s3Service = new S3Service();
   private final KubernetesService kubernetesService = new KubernetesService();
 
   public static void main(String[] args) {
-      try {
-          new DefectDojoPersistenceProvider().execute(args);
-      } catch (Exception e) {
-          log.error(e.getMessage(), e);
-          System.exit(1);
-      }
+    try {
+      new DefectDojoPersistenceProvider().execute(args);
+      System.exit(EXIT_CODE_OK);
+    } catch (final DefectDojoPersistenceException e) {
+      // We do not log stack traces on own errors because the message itself must be helpful enough to fix it!
+      log.error(e.getMessage());
+      log.error(HELP_HINT);
+      System.exit(EXIT_CODE_ERROR);
+    } catch (final Exception e) {
+      // Also log the stack trace as context for unforeseen errors.
+      log.error(e.getMessage(), e);
+      log.error(HELP_HINT);
+      System.exit(EXIT_CODE_ERROR);
+    }
   }
 
   private void execute(String[] args) throws Exception {
