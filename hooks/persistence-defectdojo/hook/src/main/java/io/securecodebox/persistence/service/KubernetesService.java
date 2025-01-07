@@ -52,6 +52,9 @@ public class KubernetesService {
       } catch (final IOException e) {
         final var msg = String.format("Can't read Kubernetes configuration! Tried file path was '%s'.", kubeConfigPath);
         throw new DefectDojoPersistenceException(msg);
+      } catch (final Exception e) {
+        final var msg = "Can't parse and create Kubernetes config! Reason: " + e.getMessage();
+        throw new DefectDojoPersistenceException(msg, e);
       }
     } else {
       try {
