@@ -6,6 +6,7 @@ package io.securecodebox.persistence.service;
 
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.util.ClientBuilder;
+import io.kubernetes.client.util.Config;
 import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import io.securecodebox.models.V1Scan;
@@ -46,7 +47,15 @@ public class KubernetesService {
       String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
       clientBuilder = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath)));
     } else {
-      clientBuilder = ClientBuilder.cluster();
+      try {
+        clientBuilder = ClientBuilder.cluster();
+      } catch (final IllegalStateException e) {
+        final var msg = String.format(
+          "Could not create Kubernetes client config! Maybe the env var '%s' and/or '%s' is not set correct" +
+          "ly.",
+          Config.ENV_SERVICE_HOST,Config.ENV_SERVICE_PORT);
+        throw new DefectDojoPersistenceException(msg);
+      }
     }
 
     this.client = clientBuilder
