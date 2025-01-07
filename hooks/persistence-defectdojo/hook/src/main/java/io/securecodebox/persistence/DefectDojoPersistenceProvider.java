@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package io.securecodebox.persistence;
 
+import io.securecodebox.persistence.config.EnvConfig;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.config.Config;
 import io.securecodebox.persistence.defectdojo.model.Finding;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class DefectDojoPersistenceProvider {
@@ -45,6 +47,10 @@ public class DefectDojoPersistenceProvider {
       3rd argument (RAW_RESULT_UPLOAD_URL):   HTTP URL where to store modified finding file (various formats depending on scanner).
       4th argument (FINDING_UPLOAD_URL):      HTTP URL where to  store modified secureCodeBox finding file (JSON).
       -h|--help                               Show this help.
+    
+    The hook also looks for various environment variables:
+    
+    <ENV-VARS>
     
     See the documentation for more details: https://www.securecodebox.io/docs/hooks/defectdojo
     """;
@@ -132,7 +138,10 @@ public class DefectDojoPersistenceProvider {
   private void showHelp() {
     System.out.println(USAGE);
     System.out.println();
-    System.out.println(HELP);
+    final var envVars = Arrays.stream(EnvConfig.EnvVarNames.values())
+      .map(name -> "  " + name.getLiteral() + ": " + name.getDescription())
+      .collect(Collectors.joining("\n"));
+    System.out.println(HELP.replace("<ENV-VARS>", envVars));
   }
 
   boolean wrongNumberOfArguments(String[] args) {

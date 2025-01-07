@@ -119,42 +119,28 @@ public final class EnvConfig {
    * Enumerates all environment variable names used in this hook
    */
   @Getter
-  enum EnvVarNames {
+  public enum EnvVarNames {
     /**
-     * Enable development mode.
-     *
      * @deprecated use {@link #IS_DEV} instead
      */
     @Deprecated
-    IS_DEV_LEGACY("IS_DEV"),
+    IS_DEV_LEGACY("IS_DEV", "(deprecated) Enable development mode."),
+    IS_DEV("DEFECTDOJO_IS_DEV", "Enable development mode."),
+    SCAN_NAME("SCAN_NAME", "(provided) secureCodeBox wide environment variable populated with name of the scan custom resource."),
+    NAMESPACE("NAMESPACE", "(provided) secureCodeBox wide environment variable populated with the Kubernetes namespace the scan is running in."),
+    LOW_PRIVILEGED_MODE("DEFECTDOJO_LOW_PRIVILEGED_MODE", "Whether low privilege mode is enabled."),
     /**
-     * Enable development mode.
-     */
-    IS_DEV("DEFECTDOJO_IS_DEV"),
-    /**
-     * secureCodeBox wide environment variable populated with name of the scan custom resource
-     */
-    SCAN_NAME("SCAN_NAME"),
-    /**
-     * secureCodeBox wide environment variable populated with the Kubernetes namespace the scan is running in
-     */
-    NAMESPACE("NAMESPACE"),
-    /**
-     * Whether low privilege mode is enabled
-     */
-    LOW_PRIVILEGED_MODE("DEFECTDOJO_LOW_PRIVILEGED_MODE"),
-    /**
-     * Seconds to wait until re-fetching findings from DefectDojo
-     *
      * @deprecated see {@link EnvConfig#refetchWaitSeconds()}
      */
     @Deprecated
-    REFETCH_WAIT_SECONDS("DEFECTDOJO_REFETCH_WAIT_SECONDS");
+    REFETCH_WAIT_SECONDS("DEFECTDOJO_REFETCH_WAIT_SECONDS", "(deprecated) Seconds to wait until re-fetching findings from DefectDojo.");
 
     private final String literal;
+    private final String description;
 
-    EnvVarNames(String literal) {
+    EnvVarNames(String literal, String description) {
       this.literal = literal;
+      this.description = description;
     }
   }
 }
