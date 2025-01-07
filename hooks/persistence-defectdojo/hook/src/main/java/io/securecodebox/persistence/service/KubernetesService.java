@@ -21,6 +21,7 @@ import okhttp3.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,9 +47,11 @@ public class KubernetesService {
       // loading the out-of-cluster config, a kubeconfig from file-system
       // FIXME: Usage of reading system properties should be encapsulated in own class.
       final var kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
-      // FIXME: Better error message if file not exists.
       try (final var kubeConfigReader = new FileReader(kubeConfigPath)) {
         clientBuilder = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(kubeConfigReader));
+      } catch (final IOException e) {
+        final var msg = String.format("Can't read Kubernetes configuration! Tried file path was '%s'.", kubeConfigPath);
+        throw new DefectDojoPersistenceException(msg);
       }
     } else {
       try {
