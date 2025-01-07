@@ -45,8 +45,11 @@ public class KubernetesService {
       log.warn("Hook is executed in DEV MODE!");
       // loading the out-of-cluster config, a kubeconfig from file-system
       // FIXME: Usage of reading system properties should be encapsulated in own class.
-      String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
-      clientBuilder = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath)));
+      final var kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
+      // FIXME: Better error message if file not exists.
+      try (final var kubeConfigReader = new FileReader(kubeConfigPath)) {
+        clientBuilder = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(kubeConfigReader));
+      }
     } else {
       try {
         clientBuilder = ClientBuilder.cluster();
