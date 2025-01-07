@@ -42,6 +42,7 @@ public class KubernetesService {
     final ClientBuilder clientBuilder;
 
     if (env.isDev()) {
+      log.warn("Hook is executed in DEV MODE!");
       // loading the out-of-cluster config, a kubeconfig from file-system
       // FIXME: Usage of reading system properties should be encapsulated in own class.
       String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
