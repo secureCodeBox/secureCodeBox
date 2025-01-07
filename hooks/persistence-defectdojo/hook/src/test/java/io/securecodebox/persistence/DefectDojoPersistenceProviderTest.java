@@ -35,4 +35,23 @@ class DefectDojoPersistenceProviderTest {
     assertThat(sut.wrongNumberOfArguments(args), is(numberOfArgsCorrect));
   }
 
+  private static Stream<Arguments> provideShouldShowHelpFixtures() {
+    return Stream.of(
+      Arguments.of(new String[]{}, false),
+      Arguments.of(new String[]{"foo"}, false),
+      Arguments.of(new String[]{"foo", "bar"}, false),
+      Arguments.of(new String[]{"foo", "bar", "baz"}, false),
+      Arguments.of(new String[]{"-h"}, true),
+      Arguments.of(new String[]{"--help"}, true),
+      Arguments.of(new String[]{"foo", "-h", "baz"}, true),
+      Arguments.of(new String[]{"foo", "bar", "--help"}, true)
+    );
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideShouldShowHelpFixtures")
+  void shouldShowHelp(final String[] args, final boolean showHelp) {
+    assertThat(sut.shouldShowHelp(args), is(showHelp));
+  }
+
 }
