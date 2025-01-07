@@ -81,6 +81,10 @@ public class DefectDojoPersistenceProvider {
       return; // Someone showing the help does not expect that anything more is done.
     }
 
+    if (!wrongNumberOfArguments(args)) {
+      throw new DefectDojoPersistenceException("Wrong number of arguments!");
+    }
+
     kubernetesService.init();
 
     var scan = new Scan(kubernetesService.getScanFromKubernetes());
@@ -131,4 +135,15 @@ public class DefectDojoPersistenceProvider {
     System.out.println(HELP);
   }
 
+  boolean wrongNumberOfArguments(String[] args) {
+    if (args.length == 2) {
+      return true;
+    }
+
+    if (args.length == 4) {
+      return true;
+    }
+
+    return false;
+  }
 }
