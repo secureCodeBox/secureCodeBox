@@ -26,7 +26,7 @@ usecase: "Cascading Scans based declarative Rules."
 The Cascading Scans Hook can be used to start additional scans based on the results of other scans.
 This allows you to create powerful setups to automatically discover targets, and then trigger more specialized scans for the type of target that was discovered.
 
-![Diagram of CascadingScans showing one amass scans for example.com finding two subdomains. These then trigger a port scan each. An identified ssh port then gets a SSH Scan and a Ncrack scan triggered. A https port gets a sslyze and a nuclei scan triggered.](https://www.securecodebox.io/static/img/cascades.drawio.svg)
+![Diagram of CascadingScans showing one amass scans for example.com finding two subdomains. These then trigger a port scan each. An identified ssh port then gets a SSH Scan and a Ncrack scan triggered. A https port gets a sslyze and a nuclei scan triggered.](https://www.securecodebox.io/img/cascades.drawio.svg)
 
 The so called `CascadingRules` consist of a `matches` section which contains one or multiple rules which are compared against `findings`.
 When a `finding` matches a `rule` the `scanSpec` section will then be used to create a new scan.
