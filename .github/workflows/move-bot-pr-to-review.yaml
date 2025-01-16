@@ -14,10 +14,6 @@ jobs:
     runs-on: ubuntu-22.04
     # only run if the branch starts with 'dependabot/' or 'dependencies/upgrading' 
     if: startsWith(github.head_ref, 'dependabot/') || startsWith(github.head_ref, 'dependencies/upgrading')
-    permissions:
-      pull-requests: write
-      repository-projects: write
-    
     steps:
       - uses: actions/checkout@v4
 
@@ -37,7 +33,7 @@ jobs:
               }
             }" | jq -r '.data.addProjectV2ItemById.item.id') >> $GITHUB_ENV
         env: 
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
           PR_ID: ${{ github.event.pull_request.node_id }}
 
       - name: Move PR to column To Review
