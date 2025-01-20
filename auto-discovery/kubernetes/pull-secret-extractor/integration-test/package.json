@@ -9,7 +9,7 @@
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.22.3"
+    "@kubernetes/client-node": "^1.0.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
