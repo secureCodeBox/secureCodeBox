@@ -64,6 +64,7 @@ rules:
   - scheduledscans
   verbs:
   - create
+  - delete
   - get
   - list
   - patch
