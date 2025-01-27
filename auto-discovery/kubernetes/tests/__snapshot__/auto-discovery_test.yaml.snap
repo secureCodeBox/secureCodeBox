@@ -263,6 +263,7 @@ matches the snapshot:
           - scheduledscans
         verbs:
           - create
+          - delete
           - get
           - list
           - patch
