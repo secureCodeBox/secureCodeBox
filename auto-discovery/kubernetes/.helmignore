@@ -16,3 +16,6 @@ Makefile
 PROJECT
 auto-discovery-config.yaml
 ./tests/
+docs/
+auto-discovery-kubernetes.tar
+pull-secret-extractor/
