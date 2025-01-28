@@ -6161,8 +6161,8 @@
       }
     }
   ],
-  "date_scans_started": "2024-09-02T16:56:57.661483",
-  "date_scans_completed": "2024-09-02T16:57:27.742230",
+  "date_scans_started": "2024-09-02T16:56:57.661483Z",
+  "date_scans_completed": "2024-09-02T16:57:27.742230Z",
   "sslyze_version": "6.0.0",
   "sslyze_url": "https://github.com/nabla-c0d3/sslyze"
 }
