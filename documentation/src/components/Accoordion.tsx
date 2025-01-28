@@ -3,48 +3,56 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import clsx from "clsx";
-import React from "react";
-import {useColorMode} from '@docusaurus/theme-common';
-import {
-  Accordion as AccessibleAccordion,
-  AccordionItem,
-  AccordionItemButton,
-  AccordionItemHeading,
-  AccordionItemPanel,
-} from "react-accessible-accordion";
+import React, { useState } from "react";
+import { useColorMode } from "@docusaurus/theme-common";
 import styles from "../css/accordion.module.scss";
 
-export default function Accordion({
-  items,
-  fullWidth = false,
-}: {
-  items: { title: string; content: string }[];
+type AccordionItem = {
+  title: string;
+  content: string;
+};
+
+type AccordionProps = {
+  items: AccordionItem[];
   fullWidth?: boolean;
-}) {
+};
+
+export default function Accordion({ items, fullWidth = false }: AccordionProps) {
   const { isDarkTheme } = useColorMode();
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const handleToggle = (index: number) => {
+    setExpandedIndex((prev) => (prev === index ? null : index));
+  };
+
   return (
-    <AccessibleAccordion
-      allowZeroExpanded={true}
-      allowMultipleExpanded={false}
-      className={clsx(styles.accordion, fullWidth ? "" : styles.width80)}
+    <div
+      className={clsx(styles.accordion, {
+        [styles.width80]: !fullWidth,
+      })}
     >
-      {items.map((item, i) => (
-        <AccordionItem className={styles.accordionItem} key={i}>
-          <AccordionItemHeading>
-            <AccordionItemButton
-              className={clsx(
-                styles.accordionButton,
-                isDarkTheme ? styles.dark : null
-              )}
+      {items.map((item, i) => {
+        const isExpanded = (expandedIndex === i);
+        return (
+          <div
+            key={i}
+            className={styles.accordionItem}
+            onClick={() => handleToggle(i)}
+          >
+            <div
+              className={clsx(styles.accordionButton, {
+                [styles.dark]: isDarkTheme,
+              })}
             >
               {item.title}
-            </AccordionItemButton>
-          </AccordionItemHeading>
-          <AccordionItemPanel className={styles.accordionPanel}>
-            {item.content}
-          </AccordionItemPanel>
-        </AccordionItem>
-      ))}
-    </AccessibleAccordion>
+            </div>
+
+            {isExpanded && (
+              <div className={styles.accordionPanel}>{item.content}</div>
+            )}
+          </div>
+        );
+      })}
+    </div>
   );
 }
