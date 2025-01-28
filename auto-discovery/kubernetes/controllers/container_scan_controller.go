@@ -427,7 +427,11 @@ func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, p
 			var scan executionv1.ScheduledScan
 			err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 			if err != nil {
-				r.Log.Error(err, "Unable to fetch scan", "name", scanName)
+				if k8sErrors.IsNotFound(err) {
+					r.Log.Info("Scan was already deleted, nothing to do", "name", scanName)
+				} else {
+					r.Log.Error(err, "Unable to fetch scan", "name", scanName)
+				}
 			} else if !r.containerIDInUse(ctx, pod, imageID) {
 				result[cleanedImageID] = append(result[cleanedImageID], scanConfig)
 			}
