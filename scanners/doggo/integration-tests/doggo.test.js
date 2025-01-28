@@ -24,12 +24,12 @@ test(
       expect(count).toBeGreaterThanOrEqual(1);
       expect(categories).toMatchInlineSnapshot(`
       {
-        "DNS Information": 1,
+        "DNS Information": 6,
       }
     `);
       expect(severities).toMatchInlineSnapshot(`
       {
-        "informational": 1,
+        "informational": 6,
       }
     `);
     },
