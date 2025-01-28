@@ -6,6 +6,7 @@ package io.securecodebox.persistence.service;
 
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.util.ClientBuilder;
+import io.kubernetes.client.util.Config;
 import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import io.securecodebox.models.V1Scan;
@@ -20,6 +21,7 @@ import okhttp3.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -41,12 +43,29 @@ public class KubernetesService {
     final ClientBuilder clientBuilder;
 
     if (env.isDev()) {
+      log.warn("Hook is executed in DEV MODE!");
       // loading the out-of-cluster config, a kubeconfig from file-system
       // FIXME: Usage of reading system properties should be encapsulated in own class.
-      String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
-      clientBuilder = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath)));
+      final var kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
+      try (final var kubeConfigReader = new FileReader(kubeConfigPath)) {
+        clientBuilder = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(kubeConfigReader));
+      } catch (final IOException e) {
+        final var msg = String.format("Can't read Kubernetes configuration! Tried file path was '%s'.", kubeConfigPath);
+        throw new DefectDojoPersistenceException(msg);
+      } catch (final Exception e) {
+        final var msg = "Can't parse and create Kubernetes config! Reason: " + e.getMessage();
+        throw new DefectDojoPersistenceException(msg, e);
+      }
     } else {
-      clientBuilder = ClientBuilder.cluster();
+      try {
+        clientBuilder = ClientBuilder.cluster();
+      } catch (final IllegalStateException e) {
+        final var msg = String.format(
+          "Could not create Kubernetes client config! Maybe the env var '%s' and/or '%s' is not set correct" +
+          "ly.",
+          Config.ENV_SERVICE_HOST,Config.ENV_SERVICE_PORT);
+        throw new DefectDojoPersistenceException(msg);
+      }
     }
 
     this.client = clientBuilder
