@@ -34,15 +34,12 @@ export default function Accordion({ items, fullWidth = false }: AccordionProps) 
       {items.map((item, i) => {
         const isExpanded = (expandedIndex === i);
         return (
-          <div
-            key={i}
-            className={styles.accordionItem}
-            onClick={() => handleToggle(i)}
-          >
+          <div key={i} className={styles.accordionItem}>
             <button
               className={clsx(styles.accordionButton, {
                 [styles.dark]: isDarkTheme,
               })}
+              onClick={() => handleToggle(i)}
             >
               {item.title}
             </button>
