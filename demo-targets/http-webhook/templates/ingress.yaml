@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{{- if .Values.ingress.enabled -}}
+{{ if .Values.ingress.enabled -}}
 {{- $fullName := include "http-webhook.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 apiVersion: networking.k8s.io/v1
