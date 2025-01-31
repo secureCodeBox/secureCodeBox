@@ -39,13 +39,13 @@ export default function Accordion({ items, fullWidth = false }: AccordionProps) 
             className={styles.accordionItem}
             onClick={() => handleToggle(i)}
           >
-            <div
+            <button
               className={clsx(styles.accordionButton, {
                 [styles.dark]: isDarkTheme,
               })}
             >
               {item.title}
-            </div>
+            </button>
 
             {isExpanded && (
               <div className={styles.accordionPanel}>{item.content}</div>
