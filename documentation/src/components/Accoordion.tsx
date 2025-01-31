@@ -40,6 +40,7 @@ export default function Accordion({ items, fullWidth = false }: AccordionProps) 
                 [styles.dark]: isDarkTheme,
               })}
               onClick={() => handleToggle(i)}
+              aria-expanded={isExpanded}
             >
               {item.title}
             </button>
