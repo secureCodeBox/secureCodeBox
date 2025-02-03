@@ -45,6 +45,6 @@
     "ts-jest": "^29.2.5"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.22.3"
+    "@kubernetes/client-node": "^1.0.0"
   }
 }
