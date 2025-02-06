@@ -18,27 +18,7 @@ rules:
   - ""
   resources:
   - namespaces
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
   - pods
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - pods/status
-  verbs:
-  - get
-- apiGroups:
-  - ""
-  resources:
   - services
   verbs:
   - get
@@ -47,6 +27,7 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - pods/status
   - services/status
   verbs:
   - get
