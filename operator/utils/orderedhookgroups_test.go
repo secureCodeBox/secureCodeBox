@@ -257,7 +257,7 @@ var _ = Describe("HookOrderingGroup Retrival", func() {
 				},
 			})
 
-			Expect(err).To(MatchError("Hook rw-1 failed to be executed."))
+			Expect(err).To(MatchError("hook rw-1 failed to be executed"))
 			Expect(currentHookGroup).To(BeNil())
 		})
 
