@@ -11,7 +11,7 @@ PROJECT_DIR=..
 IMG_NS ?= securecodebox
 
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
-ENVTEST_K8S_VERSION = 1.30.0
+ENVTEST_K8S_VERSION = 1.32.0
 
 # Image URL to use all building/pushing image targets for the operator
 OPERATOR_IMG ?= operator
@@ -178,8 +178,8 @@ CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen-$(CONTROLLER_TOOLS_VERSION)
 ENVTEST ?= $(LOCALBIN)/setup-envtest-$(ENVTEST_VERSION)
 
 ## Tool Versions
-CONTROLLER_TOOLS_VERSION ?= v0.15.0
-ENVTEST_VERSION ?= release-0.18
+CONTROLLER_TOOLS_VERSION ?= v0.17.1
+ENVTEST_VERSION ?= release-0.20
 
 .PHONY: controller-gen
 controller-gen: $(CONTROLLER_GEN) ## Download controller-gen locally if necessary.
