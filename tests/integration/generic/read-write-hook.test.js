@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {scan} = require("../helpers");
+const { scan } = require("../helpers");
 
 jest.retryTimes(3);
 
@@ -12,7 +12,7 @@ test(
     const { categories, severities, count } = await scan(
       "test-scan-read-write-hook",
       "test-scan",
-      [],
+      ["hello-world"],
       90
     );
 

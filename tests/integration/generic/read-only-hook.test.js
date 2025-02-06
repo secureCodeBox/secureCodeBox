@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {scan} = require("../helpers");
+const { scan } = require("../helpers");
 const k8s = require("@kubernetes/client-node");
 
 jest.retryTimes(3);
@@ -10,7 +10,7 @@ jest.retryTimes(3);
 test(
   "should trigger a webhook",
   async () => {
-    await scan("test-scan-read-only-hook", "test-scan", [], 90);
+    await scan("test-scan-read-only-hook", "test-scan", ["hello-world"], 90);
 
     const WEBHOOK = "http-webhook";
     const NAMESPACE = "integration-tests";
