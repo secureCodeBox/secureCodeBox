@@ -136,7 +136,7 @@ func (r *ScanReconciler) migrateHookStatus(scan *executionv1.Scan) error {
 func (r *ScanReconciler) executeHooks(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	err, currentHooks := utils.CurrentHookGroup(scan.Status.OrderedHookStatuses)
+	currentHooks, err := utils.CurrentHookGroup(scan.Status.OrderedHookStatuses)
 
 	if err != nil && scan.Status.State == executionv1.ScanStateErrored {
 		r.Log.V(8).Info("Skipping hook execution as it already contains failed hooks.")
