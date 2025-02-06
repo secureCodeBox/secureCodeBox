@@ -217,27 +217,7 @@ matches the snapshot:
           - ""
         resources:
           - namespaces
-        verbs:
-          - get
-          - list
-          - watch
-      - apiGroups:
-          - ""
-        resources:
           - pods
-        verbs:
-          - get
-          - list
-          - watch
-      - apiGroups:
-          - ""
-        resources:
-          - pods/status
-        verbs:
-          - get
-      - apiGroups:
-          - ""
-        resources:
           - services
         verbs:
           - get
@@ -246,6 +226,7 @@ matches the snapshot:
       - apiGroups:
           - ""
         resources:
+          - pods/status
           - services/status
         verbs:
           - get
