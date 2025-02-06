@@ -281,18 +281,6 @@ matches the snapshot:
           - create
           - patch
       - apiGroups:
-          - batch
-        resources:
-          - jobs
-        verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - update
-          - watch
-      - apiGroups:
           - ""
         resources:
           - pods
@@ -308,25 +296,9 @@ matches the snapshot:
           - list
           - watch
       - apiGroups:
-          - execution.securecodebox.io
+          - batch
         resources:
-          - parsedefinitions
-        verbs:
-          - get
-          - list
-          - watch
-      - apiGroups:
-          - execution.securecodebox.io
-        resources:
-          - scancompletionhooks
-        verbs:
-          - get
-          - list
-          - watch
-      - apiGroups:
-          - execution.securecodebox.io
-        resources:
-          - scans
+          - jobs
         verbs:
           - create
           - delete
@@ -338,14 +310,8 @@ matches the snapshot:
       - apiGroups:
           - execution.securecodebox.io
         resources:
-          - scans/status
-        verbs:
-          - get
-          - patch
-          - update
-      - apiGroups:
-          - execution.securecodebox.io
-        resources:
+          - parsedefinitions
+          - scancompletionhooks
           - scantypes
         verbs:
           - get
@@ -354,6 +320,7 @@ matches the snapshot:
       - apiGroups:
           - execution.securecodebox.io
         resources:
+          - scans
           - scheduledscans
         verbs:
           - create
@@ -366,6 +333,7 @@ matches the snapshot:
       - apiGroups:
           - execution.securecodebox.io
         resources:
+          - scans/status
           - scheduledscans/status
         verbs:
           - get
@@ -890,18 +858,6 @@ properly-renders-the-service-monitor-when-enabled:
           - create
           - patch
       - apiGroups:
-          - batch
-        resources:
-          - jobs
-        verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - update
-          - watch
-      - apiGroups:
           - ""
         resources:
           - pods
@@ -917,25 +873,9 @@ properly-renders-the-service-monitor-when-enabled:
           - list
           - watch
       - apiGroups:
-          - execution.securecodebox.io
+          - batch
         resources:
-          - parsedefinitions
-        verbs:
-          - get
-          - list
-          - watch
-      - apiGroups:
-          - execution.securecodebox.io
-        resources:
-          - scancompletionhooks
-        verbs:
-          - get
-          - list
-          - watch
-      - apiGroups:
-          - execution.securecodebox.io
-        resources:
-          - scans
+          - jobs
         verbs:
           - create
           - delete
@@ -947,14 +887,8 @@ properly-renders-the-service-monitor-when-enabled:
       - apiGroups:
           - execution.securecodebox.io
         resources:
-          - scans/status
-        verbs:
-          - get
-          - patch
-          - update
-      - apiGroups:
-          - execution.securecodebox.io
-        resources:
+          - parsedefinitions
+          - scancompletionhooks
           - scantypes
         verbs:
           - get
@@ -963,6 +897,7 @@ properly-renders-the-service-monitor-when-enabled:
       - apiGroups:
           - execution.securecodebox.io
         resources:
+          - scans
           - scheduledscans
         verbs:
           - create
@@ -975,6 +910,7 @@ properly-renders-the-service-monitor-when-enabled:
       - apiGroups:
           - execution.securecodebox.io
         resources:
+          - scans/status
           - scheduledscans/status
         verbs:
           - get
