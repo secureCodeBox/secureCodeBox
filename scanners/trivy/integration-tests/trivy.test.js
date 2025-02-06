@@ -105,7 +105,7 @@ test.concurrent(
       "trivy-k8s-test",
       "trivy-k8s",
       // scanners is limited to config, and namespace to default to reduce the time of the test
-      ["--debug","--scanners", "config", "--include-namespaces", "securecodebox-system"],
+      ["--debug", "--scanners", "misconfig", "--include-namespaces", "securecodebox-system"],
       10 * 60 * 1000
     );
 
