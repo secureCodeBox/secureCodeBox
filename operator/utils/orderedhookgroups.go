@@ -11,18 +11,18 @@ import (
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 
-func CurrentHookGroup(orderedHookGroup [][]*executionv1.HookStatus) (error, []*executionv1.HookStatus) {
+func CurrentHookGroup(orderedHookGroup [][]*executionv1.HookStatus) ([]*executionv1.HookStatus, error) {
 	for _, group := range orderedHookGroup {
 		for _, hookStatus := range group {
 			switch hookStatus.State {
 			case executionv1.Pending:
-				return nil, group
+				return group, nil
 			case executionv1.InProgress:
-				return nil, group
+				return group, nil
 			case executionv1.Failed:
-				return fmt.Errorf("Hook %s failed to be executed.", hookStatus.HookName), nil
+				return nil, fmt.Errorf("hook %s failed to be executed", hookStatus.HookName)
 			case executionv1.Cancelled:
-				return fmt.Errorf("Hook %s was cancelled while it was executed.", hookStatus.HookName), nil
+				return nil, fmt.Errorf("hook %s was cancelled while it was executed", hookStatus.HookName)
 			case executionv1.Completed:
 				// continue to next group
 			}
