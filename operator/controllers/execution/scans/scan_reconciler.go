@@ -243,7 +243,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 	}
 
 	// merging volume definition from ScanType (if existing) with standard results volume
-	if job.Spec.Template.Spec.Containers[0].VolumeMounts == nil || len(job.Spec.Template.Spec.Containers[0].VolumeMounts) == 0 {
+	if len(job.Spec.Template.Spec.Containers[0].VolumeMounts) == 0 {
 		job.Spec.Template.Spec.Volumes = []corev1.Volume{}
 	}
 	job.Spec.Template.Spec.Volumes = append(job.Spec.Template.Spec.Volumes, corev1.Volume{
@@ -254,7 +254,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 	})
 
 	// merging volume mounts (for the primary scanner container) from ScanType (if existing) with standard results volume mount
-	if job.Spec.Template.Spec.Containers[0].VolumeMounts == nil || len(job.Spec.Template.Spec.Containers[0].VolumeMounts) == 0 {
+	if len(job.Spec.Template.Spec.Containers[0].VolumeMounts) == 0 {
 		job.Spec.Template.Spec.Containers[0].VolumeMounts = []corev1.VolumeMount{}
 	}
 	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
