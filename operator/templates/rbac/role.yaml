@@ -15,18 +15,6 @@ rules:
   - create
   - patch
 - apiGroups:
-  - batch
-  resources:
-  - jobs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
   - ""
   resources:
   - pods
@@ -42,25 +30,9 @@ rules:
   - list
   - watch
 - apiGroups:
-  - execution.securecodebox.io
+  - batch
   resources:
-  - parsedefinitions
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scancompletionhooks
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scans
+  - jobs
   verbs:
   - create
   - delete
@@ -72,14 +44,8 @@ rules:
 - apiGroups:
   - execution.securecodebox.io
   resources:
-  - scans/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
+  - parsedefinitions
+  - scancompletionhooks
   - scantypes
   verbs:
   - get
@@ -88,6 +54,7 @@ rules:
 - apiGroups:
   - execution.securecodebox.io
   resources:
+  - scans
   - scheduledscans
   verbs:
   - create
@@ -100,6 +67,7 @@ rules:
 - apiGroups:
   - execution.securecodebox.io
   resources:
+  - scans/status
   - scheduledscans/status
   verbs:
   - get
