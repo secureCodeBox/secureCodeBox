@@ -15,9 +15,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
-	kerrors "k8s.io/apimachinery/pkg/api/errors"
+	errors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -112,7 +111,7 @@ func uploadFile(path, url string) error {
 	// Dump response for debugging purposes
 	resultBytes, err := httputil.DumpResponse(res, true)
 	if err != nil {
-		log.Fatal(errors.Wrap(err, "Failed to dump out failed requests to upload scan report to the s3 bucket"))
+		log.Fatal(fmt.Errorf("failed to dump out failed requests to upload scan report to the s3 bucket: %w", err))
 	}
 
 	log.Println("Response of Failed Request:")
@@ -141,9 +140,9 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 
 func keepWaitingForMainContainerToExit(context context.Context, container string, podName string, namespace string, clientset *kubernetes.Clientset) bool {
 	pod, err := clientset.CoreV1().Pods(namespace).Get(context, podName, metav1.GetOptions{})
-	if kerrors.IsNotFound(err) {
+	if errors.IsNotFound(err) {
 		log.Printf("Pod %s not found in namespace %s", pod, namespace)
-	} else if statusError, isStatus := err.(*kerrors.StatusError); isStatus {
+	} else if statusError, isStatus := err.(*errors.StatusError); isStatus {
 		log.Printf("Error getting pod %v", statusError.ErrStatus.Message)
 	} else if err != nil {
 		panic(err.Error())
