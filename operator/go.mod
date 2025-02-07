@@ -4,9 +4,7 @@
 
 module github.com/secureCodeBox/secureCodeBox/operator
 
-go 1.23.0
-
-toolchain go1.23.5
+go 1.23.6
 
 require (
 	github.com/go-logr/logr v1.4.2
