@@ -25,7 +25,6 @@ PACKAGE_JSON_LIST=$(find "$PROJECT_DIR" \( \
   -name .github -o \
   -name .idea -o \
   -name .reuse -o \
-  -name .vagrant -o \
   -name .vscode -o \
   -name bin -o \
   -name docs -o \
