@@ -17,6 +17,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/prometheus/client_golang/prometheus"
 	batch "k8s.io/api/batch/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -263,8 +264,17 @@ func (r *ScanReconciler) updateScanStatus(ctx context.Context, scan *executionv1
 	}
 
 	if err := r.Status().Update(ctx, scan); err != nil {
-		r.Log.Error(err, "unable to update Scan status")
-		return err
+		if apierrors.IsConflict(err) {
+			r.Log.V(4).Info(
+				"Conflict while updating Scan status",
+				"scan", scan.Name,
+				"namespace", scan.Namespace,
+			)
+		} else {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
+
 	}
 	return nil
 }
