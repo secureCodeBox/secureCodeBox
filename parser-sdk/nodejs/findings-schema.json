@@ -78,6 +78,35 @@
           "description": "Full URL with protocol, port, and path if existing.",
           "type": "string",
           "nullable": true
+        },
+        "scan": {
+          "description": "Contains information about the scan that identified the finding. This will always be present",
+          "type": "object",
+          "properties": {
+            "created_at": {
+              "description": "Date-Time when the scan was created according to ISO8601",
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": {
+              "description": "Name of the scan.",
+              "type": "string"
+            },
+            "namespace": {
+              "description": "Namespace in which the scan was run.",
+              "type": "string"
+            },
+            "scan_type": {
+              "description": "Type of the scan.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "created_at",
+            "name",
+            "namespace",
+            "scan_type"
+          ]
         }
       },
       "required": [
