@@ -129,8 +129,19 @@ async function extractParseDefinition(scan) {
   }
 }
 
+function addScanMetadata(findings, scan) {
+  const scanMetadata = {
+    created_at: scan.metadata.creationTimestamp,
+    name: scan.metadata.name,
+    namespace: scan.metadata.namespace,
+    scan_type: scan.spec.scanType,
+  };
 
-
+  return findings.map((finding) => ({
+    ...finding,
+    scan: scanMetadata,
+  }));
+}
 
 async function main() {
   console.log("Starting Parser");
@@ -162,11 +173,13 @@ async function main() {
 
   console.log("Adding UUIDs and Dates to the findings");
   const findingsWithIdsAndDates = addIdsAndDates(findings);
+  console.log("Adding scan metadata to the findings");
+  const findingsWithMetadata = addScanMetadata(findingsWithIdsAndDates, scan);
 
   const crash_on_failed_validation = process.env["CRASH_ON_FAILED_VALIDATION"] === "true"
   console.log("Validating Findings. Environment variable CRASH_ON_FAILED_VALIDATION is set to %s", crash_on_failed_validation);
   try {
-    await validate(findingsWithIdsAndDates);
+    await validate(findingsWithMetadata);
     console.log("The Findings were successfully validated")
   } catch (error) {
     console.error("The Findings Validation failed with error(s):");
@@ -182,7 +195,7 @@ async function main() {
 
   await uploadResultToFileStorageService(
     resultUploadUrl,
-    findingsWithIdsAndDates
+    findingsWithMetadata
   );
 
   console.log(`Completed parser`);
