@@ -154,7 +154,7 @@ This is fine because the other parameters are not needed.
 
 :::info
 Maybe you notice that in line 5 ENVs are used.
-If you also need ENVs or Volumes see INSERT-LINK-HERE.
+If you also need ENVs or Volumes see [Define Environment Variables for a Container | Kubernetes](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
 :::
 
 :::info
