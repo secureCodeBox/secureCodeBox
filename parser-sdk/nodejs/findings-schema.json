@@ -114,7 +114,8 @@
         "parsed_at",
         "severity",
         "category",
-        "name"
+        "name",
+        "scan"
       ]
     }
   }
