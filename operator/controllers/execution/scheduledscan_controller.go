@@ -14,6 +14,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/robfig/cron"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -76,8 +77,17 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 			log.V(4).Info("Updating ScheduledScans Findings as they appear to have changed")
 			scheduledScan.Status.Findings = *lastFindings.DeepCopy()
 			if err := r.Status().Update(ctx, &scheduledScan); err != nil {
-				log.Error(err, "unable to update ScheduledScan status")
-				return ctrl.Result{}, err
+				if apierrors.IsConflict(err) {
+					r.Log.V(4).Info(
+						"Conflict while updating ScheduledScan status, retrying",
+						"scheduledScan", scheduledScan.Name,
+						"namespace", scheduledScan.Namespace,
+					)
+					return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
+				} else {
+					log.Error(err, "unable to update ScheduledScan status")
+					return ctrl.Result{}, err
+				}
 			}
 		}
 	}
@@ -178,8 +188,17 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		var now metav1.Time = metav1.Now()
 		scheduledScan.Status.LastScheduleTime = &now
 		if err := r.Status().Update(ctx, &scheduledScan); err != nil {
-			log.Error(err, "Unable to update ScheduledScan status")
-			return ctrl.Result{}, err
+			if apierrors.IsConflict(err) {
+				r.Log.V(4).Info(
+					"Conflict while updating ScheduledScan status, retrying",
+					"scheduledScan", scheduledScan.Name,
+					"namespace", scheduledScan.Namespace,
+				)
+				return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
+			} else {
+				log.Error(err, "Unable to update ScheduledScan status")
+				return ctrl.Result{}, err
+			}
 		}
 
 		// Recalculate next schedule
