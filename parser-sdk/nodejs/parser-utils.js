@@ -21,6 +21,20 @@ function addIdsAndDates(findings) {
   });
 }
 
+function addScanMetadata(findings, scan) {
+  const scanMetadata = {
+    created_at: scan.metadata.creationTimestamp,
+    name: scan.metadata.name,
+    namespace: scan.metadata.namespace,
+    scan_type: scan.spec.scanType,
+  };
+
+  return findings.map((finding) => ({
+    ...finding,
+    scan: scanMetadata,
+  }));
+}
+
 async function validateAgainstJsonSchema(jsonData) {
   const jsonSchemaString = await readFile(
     __dirname + "/findings-schema.json",
@@ -36,8 +50,18 @@ async function validateAgainstJsonSchema(jsonData) {
 }
 
 async function addSampleIdsAndDatesAndValidate(jsonData) {
+  const sampleScan = {
+    metadata: {
+      creationTimestamp: new Date().toISOString(),
+      name: "sample-scan-name",
+      namespace: "sample-namespace",
+    },
+    spec: {
+      scanType: "sample-scan-type",
+    },
+  }
   // add sample IDs and Dates only if the jsonData Array is not empty
-    const extendedData = addIdsAndDates(jsonData);
+    const extendedData = addScanMetadata(addIdsAndDates(jsonData),sampleScan);
     return validateAgainstJsonSchema(extendedData);
 }
 
@@ -52,5 +76,6 @@ function generateErrorMessage(errors, jsonData) {
 }
 
 module.exports.addIdsAndDates = addIdsAndDates;
+module.exports.addScanMetadata = addScanMetadata;
 module.exports.validate = validateAgainstJsonSchema;
 module.exports.validateParser = addSampleIdsAndDatesAndValidate;

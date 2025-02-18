@@ -129,20 +129,6 @@ async function extractParseDefinition(scan) {
   }
 }
 
-function addScanMetadata(findings, scan) {
-  const scanMetadata = {
-    created_at: scan.metadata.creationTimestamp,
-    name: scan.metadata.name,
-    namespace: scan.metadata.namespace,
-    scan_type: scan.spec.scanType,
-  };
-
-  return findings.map((finding) => ({
-    ...finding,
-    scan: scanMetadata,
-  }));
-}
-
 async function main() {
   console.log("Starting Parser");
   let scan = await extractScan();
