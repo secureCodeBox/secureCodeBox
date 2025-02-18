@@ -4,7 +4,7 @@
 
 const axios = require("axios");
 const { parse } = require("./parser/parser");
-const { validate, addIdsAndDates } = require("./parser-utils");
+const { validate, addIdsAndDates, addScanMetadata } = require("./parser-utils");
 const k8s = require("@kubernetes/client-node");
 
 const kc = new k8s.KubeConfig();
@@ -190,3 +190,4 @@ async function main() {
 main();
 
 module.exports.addIdsAndDates = addIdsAndDates;
+module.exports.addScanMetadata = addScanMetadata;
