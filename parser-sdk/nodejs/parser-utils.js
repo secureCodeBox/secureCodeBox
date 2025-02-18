@@ -35,21 +35,21 @@ function addScanMetadata(findings, scan) {
   }));
 }
 
-async function validateAgainstJsonSchema(jsonData) {
+async function validateAgainstJsonSchema(findings) {
   const jsonSchemaString = await readFile(
     __dirname + "/findings-schema.json",
     "utf8"
   );
   const jsonSchema = JSON.parse(jsonSchemaString);
   const validator = ajv.compile(jsonSchema);
-  const valid = validator(jsonData);
+  const valid = validator(findings);
   if (!valid) {
-    const errorMessage = generateErrorMessage(validator.errors, jsonData);
+    const errorMessage = generateErrorMessage(validator.errors, findings);
     throw new Error(errorMessage);
   }
 }
 
-async function addSampleIdsAndDatesAndValidate(jsonData) {
+async function addSampleIdsAndDatesAndValidate(findings) {
   const sampleScan = {
     metadata: {
       creationTimestamp: new Date().toISOString(),
@@ -60,16 +60,16 @@ async function addSampleIdsAndDatesAndValidate(jsonData) {
       scanType: "sample-scan-type",
     },
   }
-  // add sample IDs and Dates only if the jsonData Array is not empty
-    const extendedData = addScanMetadata(addIdsAndDates(jsonData),sampleScan);
+  // add sample IDs and Dates only if the findings Array is not empty
+    const extendedData = addScanMetadata(addIdsAndDates(findings),sampleScan);
     return validateAgainstJsonSchema(extendedData);
 }
 
-function generateErrorMessage(errors, jsonData) {
+function generateErrorMessage(errors, findings) {
   errors = errors.map((error) => {
     return { 
       ...error,
-      invalidValue: jsonpointer.get(jsonData, error.instancePath),
+      invalidValue: jsonpointer.get(findings, error.instancePath),
     };
   });
   return JSON.stringify(errors, null, 2);
