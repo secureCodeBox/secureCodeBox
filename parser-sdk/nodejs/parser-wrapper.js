@@ -4,7 +4,7 @@
 
 const axios = require("axios");
 const { parse } = require("./parser/parser");
-const { validate, addIdsAndDates } = require("./parser-utils");
+const { validate, addIdsAndDates, addScanMetadata } = require("./parser-utils");
 const k8s = require("@kubernetes/client-node");
 
 const kc = new k8s.KubeConfig();
@@ -129,9 +129,6 @@ async function extractParseDefinition(scan) {
   }
 }
 
-
-
-
 async function main() {
   console.log("Starting Parser");
   let scan = await extractScan();
@@ -162,11 +159,13 @@ async function main() {
 
   console.log("Adding UUIDs and Dates to the findings");
   const findingsWithIdsAndDates = addIdsAndDates(findings);
+  console.log("Adding scan metadata to the findings");
+  const findingsWithMetadata = addScanMetadata(findingsWithIdsAndDates, scan);
 
   const crash_on_failed_validation = process.env["CRASH_ON_FAILED_VALIDATION"] === "true"
   console.log("Validating Findings. Environment variable CRASH_ON_FAILED_VALIDATION is set to %s", crash_on_failed_validation);
   try {
-    await validate(findingsWithIdsAndDates);
+    await validate(findingsWithMetadata);
     console.log("The Findings were successfully validated")
   } catch (error) {
     console.error("The Findings Validation failed with error(s):");
@@ -182,7 +181,7 @@ async function main() {
 
   await uploadResultToFileStorageService(
     resultUploadUrl,
-    findingsWithIdsAndDates
+    findingsWithMetadata
   );
 
   console.log(`Completed parser`);
@@ -191,3 +190,4 @@ async function main() {
 main();
 
 module.exports.addIdsAndDates = addIdsAndDates;
+module.exports.addScanMetadata = addScanMetadata;
