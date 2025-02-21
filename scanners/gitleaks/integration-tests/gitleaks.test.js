@@ -37,7 +37,13 @@ test(
                       // Bash script to create a git repo with a demo file
                       `cd /repo && \\
                       git init && \\
-                      echo '-----BEGIN PRIVATE KEY----------END PRIVATE KEY-----' > secret.pem && \\
+                      echo '-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+QyNTUxOQAAACBRQBYv0zGpMgMubh1XmkIZOrzi0WYXu8a1WMt3dBVJhgAAAKDyr4Ls8q+C
+7AAAAAtzc2gtZWQyNTUxOQAAACBRQBYv0zGpMgMubh1XmkIZOrzi0WYXu8a1WMt3dBVJhg
+AAAECvUx42+sMhjrgkMBXvanXL7LsJHj/QUX6NBSLN8hRj/FFAFi/TMakyAy5uHVeaQhk6
+vOLRZhe7xrVYy3d0FUmGAAAAFnlvdXJfZW1haWxAZXhhbXBsZS5jb20BAgMEBQYH
+-----END OPENSSH PRIVATE KEY-----' > secret.pem && \\
                       git config --global user.name test && \\
                       git config --global user.email user@example.com && \\
                       git add secret.pem && \\
