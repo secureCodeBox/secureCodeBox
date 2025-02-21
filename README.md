@@ -73,7 +73,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Upgrading
 
-For the steps required for upgrading your secureCodeBox installation, see [Upgrading](./UPGRADING.md).
+For the steps required for upgrading your secureCodeBox installation, see [Upgrading](https://www.securecodebox.io/docs/getting-started/upgrading).
 
 ## License
 
