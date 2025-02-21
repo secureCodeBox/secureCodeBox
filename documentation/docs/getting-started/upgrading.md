@@ -1,11 +1,15 @@
-<!--
-SPDX-FileCopyrightText: the secureCodeBox authors
+---
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
 
-SPDX-License-Identifier: Apache-2.0
--->
 
-# Upgrading
+title: "Upgrading secureCodeBox"
+sidebar_label: Upgrading
+path: "docs/getting-started/uninstallation"
+sidebar_position: 3
 
+---
 ## From 2.X to 3.X
 
 ### Upgraded Kubebuilder Version to v3
@@ -81,7 +85,7 @@ scanner:
 ➡️  [Reference: #484](https://github.com/secureCodeBox/secureCodeBox/pull/484)
 
 ### Added scanner.appendName to chart values
-Using {{ .Release.name }} in the `nmap` HelmChart Name for `scanTypes` causes issues when using this chart as a dependency of another chart. All scanners HelmCharts already used a fixed name for the `scanType` they introduce, with one exception: the `nmap` scanner HelmChart. 
+Using `{{ .Release.name }}` in the `nmap` HelmChart Name for `scanTypes` causes issues when using this chart as a dependency of another chart. All scanners HelmCharts already used a fixed name for the `scanType` they introduce, with one exception: the `nmap` scanner HelmChart. 
 
 The nmap exception was originally introduced to make it possible configure yourself an `nmap-privilidged` scanType, which is capable of running operating system scans which requires some higher privileges: https://www.securecodebox.io/docs/scanners/nmap#operating-system-scans
 
