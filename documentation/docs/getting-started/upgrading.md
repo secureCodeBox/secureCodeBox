@@ -6,7 +6,7 @@
 
 title: "Upgrading secureCodeBox"
 sidebar_label: Upgrading
-path: "docs/getting-started/uninstallation"
+path: "docs/getting-started/upgrading"
 sidebar_position: 3
 
 ---
