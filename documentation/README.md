@@ -6,22 +6,29 @@ SPDX-License-Identifier: Apache-2.0
 
 # Documentation secureCodeBox
 
-This repository sources the [securecodebox.io] website. Our webpage is meant to provide an extensive documentation about our [secureCodeBox] and many helpful guides on how to start and operate it. The website is build with the [Docusaurus] Framework and hosted through [Netlify]. All important decisions about this website are documented in our `/docs/architecture` folder in the [secureCodeBox] repo. If you want to contribute to our website, please follow the Style Guide down below.
+This repository sources the [SecureCodeBox website](https://securecodebox.io). The webpage provides extensive documentation on [Secure CodeBox](https://github.com/secureCodeBox/secureCodeBox), including guides on installation, configuration, and operation. The website is built with the [Docusaurus](https://docusaurus.io/) framework and hosted on [Netlify](https://www.netlify.com/).
+All important decisions regarding the website structure and documentation are recorded in the `/docs/architecture` folder in the [Secure CodeBox repository](https://github.com/secureCodeBox/secureCodeBox). If you want to contribute to the documentation, please follow the Style Guide below.
 
 ## How the Documentation is Structured and Organized
 
 Here we describe where which type of documentation goes:
 
-- We have two main documentation types:
-  1. Documentation for end users and
-  2. documentation for contributing developers.
-- The end user documentation provides groups of documents which are top level in the sidebar in this order:
-  - "Getting Started"
-  - "HowTos"
-  - "Scanners"
-  - "Hooks"
-- The second type of documentation for contributing is below the group "Contributing".
+### Main Documentation Types
 
+1. **End User Documentation** – Focused on installation, usage, and troubleshooting.
+2. **Developer Documentation** – Guidelines for contributing developers.
+
+### Sidebar Structure
+
+- **Getting Started** – Basic setup, installation, and first-time usage guides.
+
+- **Scanners** – Detailed documentation on different security scanners integrated with Secure CodeBox.
+
+- **Hooks** – Explanation of available hooks, their use cases, and how to develop custom hooks.
+
+- **How-Tos** – Step-by-step guides on specific use cases (e.g., configuring integrations, customizing scans).
+
+> **Note:** The second type of documentation for contributing is below the group "Contributing".
 We do not use the terms "guide" nor "tutorial" at the moment.
 
 ## Build and Run
@@ -106,7 +113,25 @@ Recommended websites for free icons or images:
 
 ## Documentation Guide
 
-Since we work with various different tools, it is even more important to keep a clean and well structured Documentation. Our website's purpose is to provide a comfortable navigation and clear overview. But since no one is going to update the documentation if it's untraceable, it is also very important to keep the documentation's location clear and as less spread as possible throughout our project. So no single-page documentation hidden in the deep structure of a remote repository! In general we keep specific documentation in the respective directory (e.g. the Amass documentation is a README.md in the Amass directory). Documentation can also be housed in this repository, if it is not specifically categorized to something, but follows the guidelines of the documentation build scripts. One key feature our documentations share in order to be put on the website is a frontmatter in each documentation. It is mandatory since at least a title (and for integrations also a description) are required. But it also can provide helpful other information very easily, for a documentation see [frontmatter]. Don't be afraid to use it for including important information, which you can't get/provide otherwise very well, but don't overuse it! For more detailed examples see the following sections.
+Since we work with various different tools, it is even more important to keep a clean and well-structured documentation. Our website's purpose is to provide a comfortable navigation and clear overview. But since no one is going to update the documentation if it's untraceable, it is also very important to keep the documentation's location clear and as less spread as possible throughout our project. So no single-page documentation hidden in the deep structure of a remote repository!
+
+In general, we keep specific documentation in the respective directory (e.g., the Amass documentation is a README.md in the Amass directory). Documentation can also be housed in this repository if it is not specifically categorized to something but follows the guidelines of the documentation build scripts.
+
+### Contributing Documentation
+
+The documentation related to **contributing to SecureCodeBox** is grouped under the **"Contributing"** section in the sidebar. This section provides guidelines on how contributors can get involved, including setting up the development environment, submitting pull requests, and understanding the code structure.
+
+> **Note:** We do not use the terms "Guide" or "Tutorial" for these documents. The contributing documentation follows a structured format to ensure clarity and accessibility.
+
+#### How to Contribute to Documentation
+
+- Follow the project's [Contribution Guidelines](https://github.com/secureCodeBox/secureCodeBox/blob/main/CONTRIBUTING.md).  
+- Ensure all links and references are up-to-date.  
+- Use clear, concise language for all documentation updates.  
+
+For any questions, refer to the [Secure CodeBox Community Discussions](https://github.com/secureCodeBox/secureCodeBox/discussions).  
+
+One key feature our documentations share in order to be put on the website is a frontmatter in each documentation. It is mandatory since at least a title (and for integrations also a description) are required. But it also can provide helpful other information very easily, for a documentation see [frontmatter]. Don't be afraid to use it for including important information, which you can't get/provide otherwise very well, but don't overuse it! For more detailed examples, see the following sections.
 
 ### Adding a Scanner or Hook
 
