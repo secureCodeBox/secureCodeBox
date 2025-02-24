@@ -87,6 +87,9 @@ minio:
   auth:
     rootUser: "admin" # placeholder user
     rootPassword: "password" # placeholder password
+  image:
+    repository: "bitnami/minio"
+    tag: "RELEASE.2024-02-15T00-21-19Z"  # Set the correct image version
 
 # Config for external s3 systems
 s3:
