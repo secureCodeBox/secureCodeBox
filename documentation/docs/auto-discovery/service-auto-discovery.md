@@ -18,7 +18,7 @@ By default the Service AutoDiscovery creates [ZAP Advanced](../scanners/zap-adva
 
 ### Setup
 
-By default the Service AutoDiscovery creates ScheduledScans using the [ZAP Advanced](/docs/scanners/zap-advanced) ScanType. It has to be installed in the same namespace as the containers that you wish to scan. The following steps will install zap-advanced in the `default` namespace:
+By default the Service AutoDiscovery creates ScheduledScans using the [ZAP Advanced](/docs/scanners/zap-advanced) `ScanType`. It must be installed in the same namespace as the containers you wish to scan. The following steps will install `zap-advanced` in the `default` namespace:
 
 ```bash
 helm upgrade --install zap-advanced oci://ghcr.io/securecodebox/helm/zap-advanced

@@ -9,7 +9,7 @@ path: "docs/auto-discovery/container-auto-discovery"
 sidebar_position: 3
 ---
 
-The Container AutoDiscovery will create a scheduled scan with the given parameters (see [readme](https://github.com/secureCodeBox/secureCodeBox/blob/main/auto-discovery/kubernetes/README.md) for config options) for each unique container image in a Kubernetes namespace. Currently it is only possible to scan public container images.
+The Container AutoDiscovery will create a `ScheduledScan` with the given parameters (see [readme](https://github.com/secureCodeBox/secureCodeBox/blob/main/auto-discovery/kubernetes/README.md) for config options) for each unique container image in a Kubernetes namespace. Currently it is only possible to scan public container images.
 It is currently disabled by default and must be enabled manually.
 
 Assume that a namespace contains two pods that run a `nginx v1.5` container. The Container AutoDiscovery will only create a single scheduled scan for the _nginx_ containers, as both are identical.
@@ -22,15 +22,15 @@ If a pod consists of multiple containers, the above described logic will be appl
 
 ### Setup
 
-[Trivy](/docs/scanners/trivy) is a container image scanner that is used by the Container AutoDiscovery. It has to be installed in the same namespace as the containers that you wish to scan. The following steps will install trivy in the `default` namespace:
+[Trivy](/docs/scanners/trivy) is a container image scanner that is used by the Container AutoDiscovery. It must be installed in the same namespace as the containers you wish to scan. It also uses a special `ScanType` called `trivy-image-autodiscovery` that should be set manually by installing. The following steps will install `Trivy` with the corresponding `ScanType` in the `default` namespace:
 ```bash
-helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
+helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy --set createAutoDiscoveryScanType=true
 ```
 
-#### Deactivation
+#### Activation
 
-The Container AutoDiscovery is enabled by default but can be disabled manually.
+The Container AutoDiscovery is disabled by default and must be enabled manually.
 
 ```bash
-helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes oci://ghcr.io/securecodebox/helm/auto-discovery-kubernetes --set config.containerAutoDiscovery.enabled=false
+helm upgrade --namespace securecodebox-system --install auto-discovery-kubernetes oci://ghcr.io/securecodebox/helm/auto-discovery-kubernetes --set config.containerAutoDiscovery.enabled=true
 ```
