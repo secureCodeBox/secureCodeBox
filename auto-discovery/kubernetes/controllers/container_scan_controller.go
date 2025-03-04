@@ -180,6 +180,8 @@ func getScanName(imageID string, scanConfig config.ScanConfig) string {
 
 	result = strings.ReplaceAll(result, ".", "-")
 	result = strings.ReplaceAll(result, "/", "-")
+	result = strings.ReplaceAll(result, "_", "-")
+
 
 	//limit scan name length to kubernetes limits
 	return result[:62]
