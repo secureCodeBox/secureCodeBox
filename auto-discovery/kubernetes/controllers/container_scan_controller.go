@@ -114,6 +114,10 @@ func podNotReady(pod corev1.Pod) bool {
 func (r *ContainerScanReconciler) checkIfNewScansNeedToBeCreated(ctx context.Context, pod corev1.Pod) {
 	r.Log.V(8).Info("Pod is running", "pod", pod.Name, "namespace", pod.Namespace)
 	nonScannedImageIDs := r.getNonScannedImageIDs(ctx, pod)
+	//log if there are any unscanned containers
+	if len(nonScannedImageIDs) > 0 {
+		r.Log.Info("Discovered one or more new unscanned containers; scanning them now", "pod", pod.Name, "namespace", pod.Namespace)
+	}
 	r.createScheduledScans(ctx, pod, nonScannedImageIDs)
 }
 
@@ -413,6 +417,10 @@ func (r *ContainerScanReconciler) checkIfScansNeedToBeDeleted(ctx context.Contex
 	r.Log.V(8).Info("Pod will be deleted", "pod", pod.Name, "namespace", pod.Namespace, "timestamp", pod.DeletionTimestamp)
 	allImageIDs := getImageIDsForPod(pod)
 	imageIDsToBeDeleted := r.getOrphanedScanImageIDs(ctx, pod, allImageIDs)
+	//log if there are any orphaned scans
+	if len(imageIDsToBeDeleted) > 0 {
+		r.Log.Info("Discovered one or more 'Trivy' scans related to a non-active container; deleting them now", "pod", pod.Name, "namespace", pod.Namespace)
+	}
 	r.deleteScans(ctx, pod, imageIDsToBeDeleted)
 }
 
@@ -428,9 +436,7 @@ func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, p
 			var scan executionv1.ScheduledScan
 			err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 			if err != nil {
-				if k8sErrors.IsNotFound(err) {
-					r.Log.Info("Scan was already deleted, nothing to do", "name", scanName)
-				} else {
+				if !k8sErrors.IsNotFound(err) {
 					r.Log.Error(err, "Unable to fetch scan", "name", scanName)
 				}
 			} else if !r.containerIDInUse(ctx, pod, imageID) {
