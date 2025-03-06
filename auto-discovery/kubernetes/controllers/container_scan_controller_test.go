@@ -141,6 +141,30 @@ var _ = Describe("ContainerScan controller", func() {
 					!checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
+
+		It("Should create a scan for an image with underscores", func() {
+			fakeDeployment2 := map[string]string{"test_image": "1237b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
+
+			createPodWithMultipleContainers(ctx, "fake-deployment-pod3", namespace, fakeDeployment2)
+			testScanName1 := "test-image-test-scan-at-1237b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+			testScanName1 = testScanName1[:62]
+
+			testScanGoTemplate := scanGoTemplate{
+				map[string]string{"testAnnotation": namespace},
+				map[string]string{
+					"testLabel":                    namespace,
+					"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
+				},
+				[]string{"-p", namespace},
+				nil,
+				nil,
+				nil,
+			}
+			Eventually(func() bool {
+				return checkIfScanExists(ctx, testScanName1, namespace, testScanGoTemplate)
+			}, timeout, interval).Should(BeTrue())
+		})
+
 	})
 	Context("Container autodiscovery with imagePullSecrets", func() {
 		namespace := "container-autodiscovery-imagepullsecrets"
