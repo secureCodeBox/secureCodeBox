@@ -94,7 +94,7 @@ matches the snapshot:
                     - /zap/zap-entrypoint.bash
                   env: []
                   envFrom: []
-                  image: softwaresecurityproject/zap-stable:0.0.0
+                  image: docker.io/zaproxy/zap-stable:0.0.0
                   imagePullPolicy: IfNotPresent
                   name: zap-automation-framework
                   resources:
