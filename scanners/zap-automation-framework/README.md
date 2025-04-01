@@ -495,7 +495,7 @@ Alternatively, have a look at the [official documentation](https://www.zaproxy.o
 | scanner.extraVolumeMounts | list | `[{"mountPath":"/zap/wrk","name":"zap-workdir"},{"mountPath":"/zap/zap-entrypoint.bash","name":"zap-automation-framework-entrypoint","readOnly":true,"subPath":"zap-entrypoint.bash"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scanner.extraVolumes | list | `[{"emptyDir":{},"name":"zap-workdir"},{"configMap":{"name":"zap-automation-framework-entrypoint"},"name":"zap-automation-framework-entrypoint"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scanner.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| scanner.image.repository | string | `"softwaresecurityproject/zap-stable"` | Container Image to run the scan |
+| scanner.image.repository | string | `"docker.io/zaproxy/zap-stable"` | Container Image to run the scan |
 | scanner.image.tag | string | `nil` | defaults to the charts appVersion |
 | scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
 | scanner.nodeSelector | object | `{}` | Optional nodeSelector settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/) |
