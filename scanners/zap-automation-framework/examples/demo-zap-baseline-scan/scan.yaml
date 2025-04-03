@@ -13,7 +13,7 @@ data:
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
         - name: zap-baseline-automation-scan # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://juiceshop.demo-targets.svc:3000/"] # A mandatory list of top level urls, everything under each url will be included
+          urls: ["http://juice-shop.demo-targets.svc:3000/"] # A mandatory list of top level urls, everything under each url will be included
     jobs:
       - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
         parameters:
