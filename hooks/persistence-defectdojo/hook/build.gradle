@@ -13,7 +13,6 @@ plugins {
 
 group = "io.securecodebox"
 version = "1.0.0-SNAPSHOT"
-sourceCompatibility = "17"
 
 repositories {
   mavenCentral()
@@ -41,6 +40,10 @@ dependencies {
   testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.15.2"
   testImplementation group: 'org.hamcrest', name: 'java-hamcrest', version: '2.0.0.0'
   testImplementation group: 'uk.org.webcompere', name: 'system-stubs-jupiter', version: '2.1.7'
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
 }
 
 test {
