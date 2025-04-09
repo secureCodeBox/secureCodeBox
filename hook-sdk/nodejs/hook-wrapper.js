@@ -39,6 +39,14 @@ async function uploadFile(url, fileContents) {
       method: "PUT",
       headers: { "content-type": "" },
     });
+
+    if (!response.ok) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      const error = new Error(`HTTP error! status: ${response.status}`);
+      error.response = response;
+      throw error;
+    }
   } catch (error) {
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -46,15 +54,11 @@ async function uploadFile(url, fileContents) {
       console.error(
         `File Upload Failed with Response Code: ${error.response.status}`,
       );
-      console.error(`Error Response Body: ${error.response.data}`);
-    } else if (error.request) {
-      console.error(
-        "No response received from FileStorage when uploading finding",
-      );
-      console.error(error);
+      const errorBody = await error.response.text();
+      console.error(`Error Response Body: ${errorBody}`);
     } else {
       // Something happened in setting up the request that triggered an Error
-      console.log("Error", error.message);
+      console.error("Error uploading findings from hook", error.message);
     }
     process.exit(1);
   }
