@@ -20,33 +20,36 @@ function downloadFile(url) {
 
 async function getRawResults() {
   const rawResultUrl = process.argv[2];
-  const response = await downloadFile(rawResultUrl)
+  const response = await downloadFile(rawResultUrl);
   console.log(`Fetched raw result file contents from the file storage`);
-  return await response.text()
+  return await response.text();
 }
 
 async function getFindings() {
   const findingsUrl = process.argv[3];
-  const response = await downloadFile(findingsUrl)
-  const findings = await response.json()
+  const response = await downloadFile(findingsUrl);
+  const findings = await response.json();
   console.log(`Fetched ${findings.length} findings from the file storage`);
   return findings;
 }
 
 async function uploadFile(url, fileContents) {
   try {
-    const response = await fetch(url, { method: "PUT", headers: { "content-type": "" } })
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: { "content-type": "" },
+    });
   } catch (error) {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
       console.error(
-        `File Upload Failed with Response Code: ${error.response.status}`
+        `File Upload Failed with Response Code: ${error.response.status}`,
       );
       console.error(`Error Response Body: ${error.response.data}`);
     } else if (error.request) {
       console.error(
-        "No response received from FileStorage when uploading finding"
+        "No response received from FileStorage when uploading finding",
       );
       console.error(error);
     } else {
@@ -61,11 +64,11 @@ function updateRawResults(fileContents) {
   const rawResultUploadUrl = process.argv[4];
   if (rawResultUploadUrl === undefined) {
     console.error(
-      "Tried to upload RawResults but didn't find a valid URL to upload the findings to."
+      "Tried to upload RawResults but didn't find a valid URL to upload the findings to.",
     );
     console.error("This probably means that this hook is a ReadOnly hook.");
     console.error(
-      "If you want to change RawResults you'll need to use a ReadAndWrite Hook."
+      "If you want to change RawResults you'll need to use a ReadAndWrite Hook.",
     );
   }
   return uploadFile(rawResultUploadUrl, fileContents);
@@ -74,7 +77,7 @@ function updateRawResults(fileContents) {
 function severityCount(findings, severity) {
   return findings.filter(
     ({ severity: findingSeverity }) =>
-      findingSeverity.toUpperCase() === severity
+      findingSeverity.toUpperCase() === severity,
   ).length;
 }
 
@@ -82,11 +85,11 @@ async function updateFindings(findings) {
   const findingsUploadUrl = process.argv[5];
   if (findingsUploadUrl === undefined) {
     console.error(
-      "Tried to upload Findings but didn't find a valid URL to upload the findings to."
+      "Tried to upload Findings but didn't find a valid URL to upload the findings to.",
     );
     console.error("This probably means that this hook is a ReadOnly hook.");
     console.error(
-      "If you want to change Findings you'll need to use a ReadAndWrite Hook."
+      "If you want to change Findings you'll need to use a ReadAndWrite Hook.",
     );
   }
   await uploadFile(findingsUploadUrl, JSON.stringify(findings));
@@ -124,7 +127,7 @@ async function updateFindings(findings) {
     undefined,
     undefined,
     undefined,
-    { headers: { "content-type": "application/merge-patch+json" } }
+    { headers: { "content-type": "application/merge-patch+json" } },
   );
   console.log("Updated status successfully");
 }
@@ -137,7 +140,7 @@ async function main() {
       "v1",
       namespace,
       "scans",
-      scanName
+      scanName,
     );
     scan = body;
   } catch (err) {
