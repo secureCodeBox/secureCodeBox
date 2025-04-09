@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const axios = require("axios");
 const { handle } = require("./hook/hook");
 const k8s = require("@kubernetes/client-node");
 
@@ -16,49 +15,46 @@ kc.loadFromCluster();
 const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
 
 function downloadFile(url) {
-  return axios.get(url);
+  return fetch(url);
 }
 
-function getRawResults() {
+async function getRawResults() {
   const rawResultUrl = process.argv[2];
-  return downloadFile(rawResultUrl).then(({ data }) => {
-    console.log(`Fetched raw result file contents from the file storage`);
-    return data;
-  });
+  const response = await downloadFile(rawResultUrl)
+  console.log(`Fetched raw result file contents from the file storage`);
+  return await response.text()
 }
 
-function getFindings() {
+async function getFindings() {
   const findingsUrl = process.argv[3];
-  return downloadFile(findingsUrl).then(({ data: findings }) => {
-    console.log(`Fetched ${findings.length} findings from the file storage`);
-    return findings;
-  });
+  const response = await downloadFile(findingsUrl)
+  const findings = await response.json()
+  console.log(`Fetched ${findings.length} findings from the file storage`);
+  return findings;
 }
 
-function uploadFile(url, fileContents) {
-  return axios
-    .put(url, fileContents, {
-      headers: { "content-type": "" },
-    })
-    .catch(function(error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error(
-          `File Upload Failed with Response Code: ${error.response.status}`
-        );
-        console.error(`Error Response Body: ${error.response.data}`);
-      } else if (error.request) {
-        console.error(
-          "No response received from FileStorage when uploading finding"
-        );
-        console.error(error);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-      }
-      process.exit(1);
-    });
+async function uploadFile(url, fileContents) {
+  try {
+    const response = await fetch(url, { method: "PUT", headers: { "content-type": "" } })
+  } catch (error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error(
+        `File Upload Failed with Response Code: ${error.response.status}`
+      );
+      console.error(`Error Response Body: ${error.response.data}`);
+    } else if (error.request) {
+      console.error(
+        "No response received from FileStorage when uploading finding"
+      );
+      console.error(error);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error", error.message);
+    }
+    process.exit(1);
+  }
 }
 
 function updateRawResults(fileContents) {
