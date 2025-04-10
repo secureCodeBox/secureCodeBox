@@ -10,7 +10,7 @@ require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
 	github.com/go-logr/logr v1.4.2
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.36.2
+	github.com/onsi/gomega v1.37.0
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20250409151104-b2c7b64c9589
 	github.com/spf13/viper v1.20.1
 	k8s.io/api v0.32.3
