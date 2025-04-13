@@ -81,7 +81,7 @@ var _ = Describe("gotemplate helper util", func() {
 			}
 
 			scanConfig := config.ScanConfig{
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
@@ -151,7 +151,7 @@ var _ = Describe("gotemplate helper util", func() {
 
 			It("should work with empty list of matchExpression", func() {
 				scanConfig := config.ScanConfig{
-					RepeatInterval: time.Hour,
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
@@ -194,7 +194,7 @@ var _ = Describe("gotemplate helper util", func() {
 
 			It("should work a a list of multiple matchExpressions", func() {
 				scanConfig := config.ScanConfig{
-					RepeatInterval: time.Hour,
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
@@ -212,7 +212,7 @@ var _ = Describe("gotemplate helper util", func() {
 
 			It("should template with matchLabels", func() {
 				scanConfig := config.ScanConfig{
-					RepeatInterval: time.Hour,
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
@@ -257,7 +257,7 @@ var _ = Describe("gotemplate helper util", func() {
 					},
 				}
 				scanConfig := config.ScanConfig{
-					RepeatInterval: time.Hour,
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
 					Parameters:     []string{"example.com"},

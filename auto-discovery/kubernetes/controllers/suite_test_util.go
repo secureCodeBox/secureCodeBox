@@ -16,11 +16,11 @@ var Config = config.AutoDiscoveryConfig{
 		Name: "test-cluster",
 	},
 	ServiceAutoDiscovery: config.ServiceAutoDiscoveryConfig{
-		PassiveReconcileInterval: 1 * time.Second,
+		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
 		ScanConfigs: []config.ScanConfig{
 			{
 				Name:           "test-scan-0",
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -33,7 +33,7 @@ var Config = config.AutoDiscoveryConfig{
 			},
 			{
 				Name:           "test-scan-1",
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -47,11 +47,11 @@ var Config = config.AutoDiscoveryConfig{
 		},
 	},
 	ContainerAutoDiscovery: config.ContainerAutoDiscoveryConfig{
-		PassiveReconcileInterval: 1 * time.Second,
+		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
 		ScanConfigs: []config.ScanConfig{
 			{
 				Name:           "test-scan",
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -72,7 +72,7 @@ var Config = config.AutoDiscoveryConfig{
 			},
 			{
 				Name:           "test-scan-two",
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -104,11 +104,11 @@ var BrokenConfig = config.AutoDiscoveryConfig{
 		Name: "test-cluster",
 	},
 	ServiceAutoDiscovery: config.ServiceAutoDiscoveryConfig{
-		PassiveReconcileInterval: 1 * time.Second,
+		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
 		ScanConfigs: []config.ScanConfig{
 			{
 				Name:           "test-scan",
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -121,7 +121,7 @@ var BrokenConfig = config.AutoDiscoveryConfig{
 			},
 			{
 				Name:           "test-scan",
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
@@ -135,11 +135,11 @@ var BrokenConfig = config.AutoDiscoveryConfig{
 		},
 	},
 	ContainerAutoDiscovery: config.ContainerAutoDiscoveryConfig{
-		PassiveReconcileInterval: 1 * time.Second,
+		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
 		ScanConfigs: []config.ScanConfig{
 			{
 				Name:           "test-scan",
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
@@ -160,7 +160,7 @@ var BrokenConfig = config.AutoDiscoveryConfig{
 			},
 			{
 				Name:           "test-scan",
-				RepeatInterval: time.Hour,
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
