@@ -10,7 +10,6 @@ import (
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
-	"github.com/spf13/viper"
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
@@ -24,7 +23,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers"
-	config "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -53,15 +52,9 @@ func main() {
 
 	ctrl.SetLogger(zap.New(zap.UseFlagOptions(&opts)))
 
-	viper.SetConfigFile(configFile)
-	if err := viper.ReadInConfig(); err != nil { // Handle errors reading the config file
+	ctrlConfig, err := util.LoadAutoDiscoveryConfig(configFile)
+	if err != nil {
 		setupLog.Error(err, "unable to load the config file")
-		os.Exit(1)
-	}
-
-	var ctrlConfig config.AutoDiscoveryConfig
-	if err := viper.Unmarshal(&ctrlConfig); err != nil {
-		setupLog.Error(err, "unable to decode into struct")
 		os.Exit(1)
 	}
 

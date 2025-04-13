@@ -5,8 +5,6 @@
 package config
 
 import (
-	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -38,15 +36,15 @@ type LeaderElectionConfig struct {
 }
 
 type ServiceAutoDiscoveryConfig struct {
-	Enabled                  bool          `json:"enabled"`
-	PassiveReconcileInterval time.Duration `json:"passiveReconcileInterval"`
-	ScanConfigs              []ScanConfig  `json:"scanConfigs"`
+	Enabled                  bool            `json:"enabled"`
+	PassiveReconcileInterval metav1.Duration `json:"passiveReconcileInterval"`
+	ScanConfigs              []ScanConfig    `json:"scanConfigs"`
 }
 
 type ContainerAutoDiscoveryConfig struct {
 	Enabled                  bool                  `json:"enabled"`
 	ImagePullSecretConfig    ImagePullSecretConfig `json:"imagePullSecretConfig"`
-	PassiveReconcileInterval time.Duration         `json:"passiveReconcileInterval"`
+	PassiveReconcileInterval metav1.Duration       `json:"passiveReconcileInterval"`
 	ScanConfigs              []ScanConfig          `json:"scanConfigs"`
 }
 
@@ -75,7 +73,7 @@ type ResourceInclusionConfig struct {
 
 type ScanConfig struct {
 	Name           string               `json:"name"`
-	RepeatInterval time.Duration        `json:"repeatInterval"`
+	RepeatInterval metav1.Duration      `json:"repeatInterval"`
 	Annotations    map[string]string    `json:"annotations"`
 	Labels         map[string]string    `json:"labels"`
 	ScanType       string               `json:"scanType"`

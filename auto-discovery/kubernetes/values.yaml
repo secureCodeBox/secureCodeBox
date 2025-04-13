@@ -94,7 +94,7 @@ config:
         # -- allows to overwrite the env var list of the scan job.
         # the value field supports templating.
         env: []
-  imagePullSecretConfig:
+    imagePullSecretConfig:
       mapImagePullSecretsToEnvironmentVariables: true
       usernameEnvironmentVariableName: "TRIVY_USERNAME"
       passwordEnvironmentVariableName: "TRIVY_PASSWORD"

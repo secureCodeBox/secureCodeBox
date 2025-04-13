@@ -1,0 +1,167 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# This yaml file should only be used for yaml.Marshal() testing
+apiVersion: config.securecodebox.io/v1
+kind: AutoDiscoveryConfig
+
+cluster:
+  name: docker-desktop
+resourceInclusion:
+  mode: enabled-per-namespace
+
+serviceAutoDiscovery:
+  enabled: true
+  passiveReconcileInterval: 1m
+  scanConfigs:
+    - scanType: zap-advanced-scan
+      name: "zap"
+      parameters:
+        - "-t"
+        - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+      repeatInterval: "168h"
+      labels: {}
+      annotations:
+        defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+        defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+        defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+        defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
+      volumes:
+        - name: zap-advanced-scan-config
+          configMap:
+            name: zap-advanced-scan-config
+            optional: true
+            defaultMode: 420
+            items:
+              - key: "2-zap-advanced-scan.yaml"
+                path: "2-zap-advanced-scan.yaml"
+                mode: 420
+              - key: "extra-config.yaml"
+                path: "extra-config.yaml"
+                mode: 511
+      volumeMounts:
+        - name: zap-advanced-scan-config
+          readOnly: true
+          recursiveReadOnly: "Enabled"
+          mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml
+          subPath: 2-zap-advanced-scan.yaml
+          mountPropagation: "Bidirectional"
+          subPathExpr: "$(CONFIG_FILE_NAME)"
+      hookSelector:
+        matchLabels:
+          hook: zap-scan
+        matchExpressions:
+          - key: environment
+            operator: In
+            values:
+              - prod
+              - staging
+          - key: tier
+            operator: NotIn
+            values:
+              - frontend
+      env:
+        - name: ZAP_TARGET
+          value: "http://example.com"
+        - name: COMPLEX_ENV
+          value: "http://example.com"
+          valueFrom:
+            fieldRef:
+              apiVersion: "v1"
+              fieldPath: "metadata.name"
+            resourceFieldRef:
+              containerName: "my-container"
+              resource: "limits.cpu"
+              divisor: "10"
+            configMapKeyRef:
+              name: "my-configmap"
+              key: "my-key"
+              optional: false
+            secretKeyRef:
+              name: "my-secret"
+              key: "my-secret-key"
+              optional: true
+
+containerAutoDiscovery:
+  enabled: false
+  passiveReconcileInterval: 1m
+  scanConfigs:
+    - scanType: trivy-image-autodiscovery
+      name: "trivy"
+      parameters:
+        - "{{ .ImageID }}"
+      repeatInterval: "168h"
+      labels: {}
+      annotations:
+        defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+        defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+        defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+        defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
+      volumes:
+        - name: zap-advanced-scan-config
+          configMap:
+            name: zap-advanced-scan-config
+            optional: true
+            defaultMode: 420
+            items:
+              - key: "2-zap-advanced-scan.yaml"
+                path: "2-zap-advanced-scan.yaml"
+                mode: 420
+              - key: "extra-config.yaml"
+                path: "extra-config.yaml"
+                mode: 511
+      volumeMounts:
+        - name: zap-advanced-scan-config
+          readOnly: true
+          recursiveReadOnly: "Enabled"
+          mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml
+          subPath: 2-zap-advanced-scan.yaml
+          mountPropagation: "Bidirectional"
+          subPathExpr: "$(CONFIG_FILE_NAME)"
+      hookSelector:
+        matchLabels:
+          hook: zap-scan
+        matchExpressions:
+          - key: environment
+            operator: In
+            values:
+              - prod
+              - staging
+          - key: tier
+            operator: NotIn
+            values:
+              - frontend
+      env:
+        - name: ZAP_TARGET
+          value: "http://example.com"
+        - name: COMPLEX_ENV
+          value: "http://example.com"
+          valueFrom:
+            fieldRef:
+              apiVersion: "v1"
+              fieldPath: "metadata.name"
+            resourceFieldRef:
+              containerName: "my-container"
+              resource: "limits.cpu"
+              divisor: "10"
+            configMapKeyRef:
+              name: "my-configmap"
+              key: "my-key"
+              optional: false
+            secretKeyRef:
+              name: "my-secret"
+              key: "my-secret-key"
+              optional: true
+  imagePullSecretConfig:
+    mapImagePullSecretsToEnvironmentVariables: true
+    usernameEnvironmentVariableName: "TRIVY_USERNAME"
+    passwordEnvironmentVariableName: "TRIVY_PASSWORD"
+
+health:
+  healthProbeBindAddress: :8081
+metrics:
+  bindAddress: 127.0.0.1:8080
+leaderElection:
+  leaderElect: true
+  resourceName: 0e41a1f4.securecodebox.io

@@ -153,7 +153,7 @@ func GenerateScanSpec(scanConfig config.ScanConfig, templateArgs interface{}) ex
 	envVars := generateEnvVars(scanConfig, templateArgs)
 
 	scheduledScanSpec := executionv1.ScheduledScanSpec{
-		Interval: metav1.Duration{Duration: scanConfig.RepeatInterval},
+		Interval: scanConfig.RepeatInterval,
 		ScanSpec: &executionv1.ScanSpec{
 			ScanType:     scanConfig.ScanType,
 			Parameters:   params,
