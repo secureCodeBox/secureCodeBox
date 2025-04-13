@@ -10,6 +10,11 @@ matches the snapshot:
           },
           "containerAutoDiscovery": {
             "enabled": false,
+            "imagePullSecretConfig": {
+              "mapImagePullSecretsToEnvironmentVariables": true,
+              "passwordEnvironmentVariableName": "TRIVY_PASSWORD",
+              "usernameEnvironmentVariableName": "TRIVY_USERNAME"
+            },
             "passiveReconcileInterval": "1m",
             "scanConfigs": [
               {
@@ -35,11 +40,6 @@ matches the snapshot:
           },
           "health": {
             "healthProbeBindAddress": ":8081"
-          },
-          "imagePullSecretConfig": {
-            "mapImagePullSecretsToEnvironmentVariables": true,
-            "passwordEnvironmentVariableName": "TRIVY_PASSWORD",
-            "usernameEnvironmentVariableName": "TRIVY_USERNAME"
           },
           "kind": "AutoDiscoveryConfig",
           "leaderElection": {
