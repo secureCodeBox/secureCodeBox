@@ -187,7 +187,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 					// Requeue to allow scan to be created when the user installs the scanType
 					return ctrl.Result{
 						Requeue:      true,
-						RequeueAfter: Config.ServiceAutoDiscovery.PassiveReconcileInterval.Duration,
+						RequeueAfter: r.Config.ServiceAutoDiscovery.PassiveReconcileInterval.Duration,
 					}, nil
 				} else if err != nil {
 					return ctrl.Result{
