@@ -135,6 +135,9 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | config.apiVersion | string | `"config.securecodebox.io/v1"` |  |
 | config.cluster.name | string | `"docker-desktop"` |  |
 | config.containerAutoDiscovery.enabled | bool | `false` |  |
+| config.containerAutoDiscovery.imagePullSecretConfig.mapImagePullSecretsToEnvironmentVariables | bool | `true` |  |
+| config.containerAutoDiscovery.imagePullSecretConfig.passwordEnvironmentVariableName | string | `"TRIVY_PASSWORD"` |  |
+| config.containerAutoDiscovery.imagePullSecretConfig.usernameEnvironmentVariableName | string | `"TRIVY_USERNAME"` |  |
 | config.containerAutoDiscovery.passiveReconcileInterval | string | `"1m"` | interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod |
 | config.containerAutoDiscovery.scanConfigs[0].annotations | object | `{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"}` | annotations to be added to the scans started by the auto-discovery, all annotation values support templating |
 | config.containerAutoDiscovery.scanConfigs[0].env | list | `[]` | allows to overwrite the env var list of the scan job. the value field supports templating. |
@@ -147,9 +150,6 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | config.containerAutoDiscovery.scanConfigs[0].volumeMounts | list | `[]` | volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1 the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating |
 | config.containerAutoDiscovery.scanConfigs[0].volumes | list | `[]` | volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating |
 | config.health.healthProbeBindAddress | string | `":8081"` |  |
-| config.imagePullSecretConfig.mapImagePullSecretsToEnvironmentVariables | bool | `true` |  |
-| config.imagePullSecretConfig.passwordEnvironmentVariableName | string | `"TRIVY_PASSWORD"` |  |
-| config.imagePullSecretConfig.usernameEnvironmentVariableName | string | `"TRIVY_USERNAME"` |  |
 | config.kind | string | `"AutoDiscoveryConfig"` |  |
 | config.leaderElection.leaderElect | bool | `true` |  |
 | config.leaderElection.resourceName | string | `"0e41a1f4.securecodebox.io"` |  |
