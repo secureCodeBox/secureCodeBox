@@ -53,7 +53,7 @@ Starting from secureCodeBox v4.0, it is also necessary to set `cascadingRules.en
 
 ```bash
 cat <<EOF | helm upgrade --install ncrack oci://ghcr.io/securecodebox/helm/ncrack --values -
-scannerJob:
+scanner:
   extraVolumes:
     - name: ncrack-lists
       secret:
