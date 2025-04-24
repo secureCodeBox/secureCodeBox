@@ -271,7 +271,7 @@ matches the snapshot:
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
-      name: manager-role
+      name: securecodebox-manager-role
     rules:
       - apiGroups:
           - ""
@@ -370,11 +370,11 @@ matches the snapshot:
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
-      name: manager-rolebinding
+      name: securecodebox-manager-rolebinding
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: ClusterRole
-      name: manager-role
+      name: securecodebox-manager-role
     subjects:
       - kind: ServiceAccount
         name: securecodebox-operator
@@ -848,7 +848,7 @@ properly-renders-the-service-monitor-when-enabled:
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
-      name: manager-role
+      name: securecodebox-manager-role
     rules:
       - apiGroups:
           - ""
@@ -947,11 +947,11 @@ properly-renders-the-service-monitor-when-enabled:
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
-      name: manager-rolebinding
+      name: securecodebox-manager-rolebinding
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: ClusterRole
-      name: manager-role
+      name: securecodebox-manager-role
     subjects:
       - kind: ServiceAccount
         name: securecodebox-operator

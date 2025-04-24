@@ -46802,10 +46802,10 @@
     },
     {
       "Kind": "ClusterRole",
-      "Name": "manager-role",
+      "Name": "securecodebox-manager-role",
       "Results": [
         {
-          "Target": "ClusterRole/manager-role",
+          "Target": "ClusterRole/securecodebox-manager-role",
           "Class": "config",
           "Type": "kubernetes",
           "Packages": [],
@@ -46940,7 +46940,7 @@
               "AVDID": "AVD-KSV-0050",
               "Title": "Do not allow management of RBAC resources",
               "Description": "An effective level of access equivalent to cluster-admin should not be provided.",
-              "Message": "ClusterRole 'manager-role' should not have access to resources [\"roles\", \"rolebindings\"] for verbs [\"create\", \"update\", \"delete\", \"deletecollection\", \"impersonate\", \"*\"]",
+              "Message": "ClusterRole 'securecodebox-manager-role' should not have access to resources [\"roles\", \"rolebindings\"] for verbs [\"create\", \"update\", \"delete\", \"deletecollection\", \"impersonate\", \"*\"]",
               "Namespace": "builtin.kubernetes.KSV050",
               "Query": "data.builtin.kubernetes.KSV050.deny",
               "Resolution": "Remove write permission verbs for resource 'roles' and 'rolebindings'",
@@ -47050,7 +47050,7 @@
               "AVDID": "AVD-KSV-0050",
               "Title": "Do not allow management of RBAC resources",
               "Description": "An effective level of access equivalent to cluster-admin should not be provided.",
-              "Message": "ClusterRole 'manager-role' should not have access to resources [\"roles\", \"rolebindings\"] for verbs [\"create\", \"update\", \"delete\", \"deletecollection\", \"impersonate\", \"*\"]",
+              "Message": "ClusterRole 'securecodebox-manager-role' should not have access to resources [\"roles\", \"rolebindings\"] for verbs [\"create\", \"update\", \"delete\", \"deletecollection\", \"impersonate\", \"*\"]",
               "Namespace": "builtin.kubernetes.KSV050",
               "Query": "data.builtin.kubernetes.KSV050.deny",
               "Resolution": "Remove write permission verbs for resource 'roles' and 'rolebindings'",
@@ -65501,10 +65501,10 @@
     },
     {
       "Kind": "ClusterRoleBinding",
-      "Name": "manager-rolebinding",
+      "Name": "securecodebox-manager-rolebinding",
       "Results": [
         {
-          "Target": "ClusterRoleBinding/manager-rolebinding",
+          "Target": "ClusterRoleBinding/securecodebox-manager-rolebinding",
           "Class": "config",
           "Type": "kubernetes",
           "Packages": [],
