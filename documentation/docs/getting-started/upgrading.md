@@ -10,6 +10,15 @@ path: "docs/getting-started/upgrading"
 sidebar_position: 3
 
 ---
+## From 4.X to 5.X
+
+### Renamed ClusterRole and ClusterRoleBinding
+To avoid naming collisions with other cluster‑scoped resources, the operator's ClusterRole formerly called `manager-role` has been renamed to `securecodebox‑manager-role`, and the corresponding ClusterRoleBinding `manager-rolebinding` is now `securecodebox‑manager-rolebinding`. The official Helm chart will automatically create and reference these new names when you update the operator.
+
+If you maintain a custom deployment that directly references `manager-role` or `manager-rolebinding`, be sure to update those references to `securecodebox‑manager-role` and `securecodebox‑manager-rolebinding` respectively.
+
+➡️  [Reference: #3002](https://github.com/secureCodeBox/secureCodeBox/pull/3002)
+
 ## From 3.X to 4.X
 
 ### Renamed the docker images of demo-targets to include a "demo-target-" prefix
