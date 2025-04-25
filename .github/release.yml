@@ -36,6 +36,9 @@ changelog:
     - title: 📌 Dependencies
       labels:
         - dependencies
+    - title: ⛩️ DefectDojo
+      labels:
+        - defectdojo
     - title: Other Changes
       labels:
         - "*"
