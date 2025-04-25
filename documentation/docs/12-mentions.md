@@ -17,6 +17,7 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 
 ## Talks and Presentations
 
+- [OWASP Stammtisch Hamburg](https://owasp.org/www-chapter-germany/stammtische/hamburg/#72-stammtisch-2442025) 🇬🇧 by [Jannik Hollenbach][jannik] at [OWASP Stammtisch Hamburg][owasp-stammtisch-hamburg]
 - [Orquestando un ambiente DevSecOps con Secure Code Box](https://www.youtube.com/watch?v=upjbzQTM7Bo) 🇪🇸 by Sergio Correa at [Ekoparty 2024][ekoparty]
 - [Быстрый старт в DevSecOps через SecureCodeBox](https://www.youtube.com/watch?v=upjbzQTM7Bo) 🇷🇺 by Bulat Gafurov at [UFADEVCONF 2024][ufa-coder]
 - [Continuous Security Testing with OWASP secureCodeBox in Kubernetes](https://www.youtube.com/watch?v=M3zbRGASlJc) 🇬🇧 by [Jannik Hollenbach][jannik] at [ContainerDays 2024 in Hamburg](https://www.containerdays.io/containerdays-conference-2024/)
@@ -44,3 +45,4 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 [vksi]:             https://vksi.de/
 [ufa-coder]:        http://dc.ufacoder.com/
 [ekoparty]:         https://ekoparty.org/
+[owasp-stammtisch-hamburg]: https://owasp.org/www-chapter-germany/stammtische/hamburg/
