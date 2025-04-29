@@ -43,11 +43,11 @@ When specified, as with the `ttlSecondsAfterFinished` parameter, the values from
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "typo3scan"
+  name: "nmap"
 spec:
   extractResults:
-    type: typo3scan-json
-    location: "/home/securecodebox/typo3scan.json"
+    type: nmap-xml
+    location: "/home/securecodebox/nmap-results.json"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
@@ -58,15 +58,13 @@ spec:
         spec:
           restartPolicy: Never
           containers:
-            - name: typo3scan
+            - name: nmap
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
-                - "python3"
-                - "/home/typo3scan/typo3scan.py"
-                # Remove any user-interation
-                - "--no-interaction"
-                # Output in json format
-                - "--json"
+                - "nmap"
+                - "-oX"
+                - "/home/securecodebox/nmap-results.xml"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
