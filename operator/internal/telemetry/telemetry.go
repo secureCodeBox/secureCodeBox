@@ -45,7 +45,7 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"trivy-filesystem":         true,
 	"trivy-repo":               true,
 	"trivy-sbom-image":         true,
-	"typo3scan":                true,
+	"typo3scan":                true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"whatweb":                  true,
 	"wpscan":                   true,
 	"zap-baseline-scan":        true,

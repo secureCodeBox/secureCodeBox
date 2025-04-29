@@ -12,7 +12,14 @@ sidebar_position: 3
 ---
 ## From 4.X to 5.X
 
+### Removed / Replaced ScanTypes
+
+* `typo3scan` was removed as the scanner itself [isn't maintaned anymore](https://github.com/whoot/Typo3Scan?tab=readme-ov-file#unsupported). Most security aspects of typo3 are now hard to verify from the outside as it requires authentication (which is really good). Some typo3 security aspects (e.g. a incomplete installation) can be verified by [nuclei](https://www.securecodebox.io/docs/scanners/nuclei).
+
+➡️  [Reference: #2670](https://github.com/secureCodeBox/secureCodeBox/issues/2670)
+
 ### Renamed ClusterRole and ClusterRoleBinding
+
 To avoid naming collisions with other cluster‑scoped resources, the operator's ClusterRole formerly called `manager-role` has been renamed to `securecodebox‑manager-role`, and the corresponding ClusterRoleBinding `manager-rolebinding` is now `securecodebox‑manager-rolebinding`. The official Helm chart will automatically create and reference these new names when you update the operator.
 
 If you maintain a custom deployment that directly references `manager-role` or `manager-rolebinding`, be sure to update those references to `securecodebox‑manager-role` and `securecodebox‑manager-rolebinding` respectively.

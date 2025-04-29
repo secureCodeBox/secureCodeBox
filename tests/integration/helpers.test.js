@@ -41,8 +41,8 @@ describe("Kubernetes interaction tests", () => {
       const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
 
       const findings = await scan(
-        "typo3scan-old-typo3",
-        "typo3scan",
+        "nmap-example",
+        "nmap",
         [],
         180,
         [],
@@ -86,8 +86,8 @@ describe("Kubernetes interaction tests", () => {
       const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
 
       return expect(scan(
-        "typo3scan-old-typo3",
-        "typo3scan",
+        "nmap-example",
+        "nmap",
         [],
         180,
         [],

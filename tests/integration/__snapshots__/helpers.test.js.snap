@@ -36,12 +36,12 @@ exports[`Kubernetes interaction tests scan function should create a scan and ret
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
         "metadata": {
-          "generateName": "typo3scan-old-typo3-",
+          "generateName": "nmap-example-",
         },
         "spec": {
           "initContainers": [],
           "parameters": [],
-          "scanType": "typo3scan",
+          "scanType": "nmap",
           "volumeMounts": [],
           "volumes": [],
         },
@@ -65,14 +65,14 @@ exports[`Kubernetes interaction tests scan function should create a scan and ret
       "v1",
       "integration-tests",
       "scans",
-      "typo3scan-old-typo3-pw8vt",
+      "nmap-example-pw8vt",
     ],
     [
       "execution.securecodebox.io",
       "v1",
       "integration-tests",
       "scans",
-      "typo3scan-old-typo3-pw8vt",
+      "nmap-example-pw8vt",
     ],
   ],
   "results": [

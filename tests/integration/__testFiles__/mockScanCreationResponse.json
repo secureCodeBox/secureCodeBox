@@ -4,7 +4,7 @@
     "kind": "Scan",
     "metadata": {
       "creationTimestamp": "2024-01-16T14:40:59Z",
-      "generateName": "typo3scan-old-typo3-",
+      "generateName": "nmap-example-",
       "generation": 1,
       "managedFields": [
         {
@@ -29,7 +29,7 @@
           "time": "2024-01-16T14:40:59Z"
         }
       ],
-      "name": "typo3scan-old-typo3-pw8vt",
+      "name": "nmap-example-pw8vt",
       "namespace": "integration-tests",
       "resourceVersion": "1867",
       "uid": "4ebccf10-ac84-4e85-91bc-1e4d60b45697"
@@ -37,12 +37,11 @@
     "spec": {
       "initContainers": [],
       "parameters": [
-        "-d",
-        "http://old-typo3.demo-targets.svc",
-        "--vuln"
+        "-p80",
+        "old-wordpress.demo-targets.svc"
       ],
       "resourceMode": "namespaceLocal",
-      "scanType": "typo3scan",
+      "scanType": "nmap",
       "volumeMounts": [],
       "volumes": []
     }

@@ -41,7 +41,6 @@ jobs:
           - sslyze
           - trivy
           - trivy-sbom
-          - typo3scan
           - whatweb
           - wpscan
           - zap
