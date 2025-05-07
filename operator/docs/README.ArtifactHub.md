@@ -59,7 +59,7 @@ Kubernetes: `>=v1.11.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | minio | 15.0.2 |
+| https://charts.bitnami.com/bitnami | minio | 16.0.8 |
 
 ## Deployment
 

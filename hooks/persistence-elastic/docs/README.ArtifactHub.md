@@ -59,8 +59,8 @@ Kubernetes: `>=v1.11.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://helm.elastic.co | elasticsearch | 7.17.3 |
-| https://helm.elastic.co | kibana | 7.17.3 |
+| https://helm.elastic.co | elasticsearch | 8.5.1 |
+| https://helm.elastic.co | kibana | 8.5.1 |
 
 ## Additional Chart Configurations
 
