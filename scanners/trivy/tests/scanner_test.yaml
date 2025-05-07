@@ -28,3 +28,11 @@ tests:
         tolerations: [{foo: bar}]
     asserts:
       - matchSnapshot: {}
+  - it: works properly in k8sScanScope=cluster
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      k8sScanScope: cluster
+    asserts:
+      - matchSnapshot: {}
