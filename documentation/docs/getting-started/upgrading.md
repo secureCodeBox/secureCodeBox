@@ -26,6 +26,13 @@ If you maintain a custom deployment that directly references `manager-role` or `
 
 ➡️  [Reference: #3002](https://github.com/secureCodeBox/secureCodeBox/pull/3002)
 
+### Changes to trivy k8s scope (namespace / cluster)
+
+The `kubeauditScope` on the `trivy` ScanType chart was renamed to `k8sScanScope` Scope. The previous name was used for consistency with the `kubeaudit` ScanType, but it never really made sense and was confusing.
+The default `k8sScanScope` scope was also changed from `cluster` to `namespace`, The cluster mode needs cluster wide permissions, which makes the trivy chart hard to install in properly locked down RBAC setups.
+
+➡️  [Reference: #3025](https://github.com/secureCodeBox/secureCodeBox/pull/3025)
+
 ## From 3.X to 4.X
 
 ### Renamed the docker images of demo-targets to include a "demo-target-" prefix
