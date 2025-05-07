@@ -31,7 +31,7 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"git-repo-scanner":         true,
 	"gitleaks":                 true,
 	"kube-hunter":              true,
-	"kubeaudit":                true,
+	"kubeaudit":                true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"ncrack":                   true,
 	"nikto":                    true,
 	"nmap":                     true,

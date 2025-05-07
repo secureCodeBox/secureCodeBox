@@ -30,11 +30,6 @@ SPDX-License-Identifier: Apache-2.0
   <evidence>24710355</evidence>
   </instance>
   <instance>
-  <uri>https://docs.securecodebox.io/docs/scanners/kubeaudit</uri>
-  <method>GET</method>
-  <evidence>24656292</evidence>
-  </instance>
-  <instance>
   <uri>https://docs.securecodebox.io/3.f6078885.js</uri>
   <method>GET</method>
   <evidence>2147483647</evidence>
@@ -88,11 +83,6 @@ SPDX-License-Identifier: Apache-2.0
   <uri>https://docs.securecodebox.io/docs/api/crds/scan-type/</uri>
   <method>GET</method>
   <evidence>14356247</evidence>
-  </instance>
-  <instance>
-  <uri>https://docs.securecodebox.io/img/integrationIcons/kubeaudit.svg</uri>
-  <method>GET</method>
-  <evidence>24668827</evidence>
   </instance>
   <instance>
   <uri>https://docs.securecodebox.io/docs/scanners/wpscan</uri>
@@ -1097,11 +1087,6 @@ SPDX-License-Identifier: Apache-2.0
   </instance>
   <instance>
   <uri>https://docs.securecodebox.io/blog/</uri>
-  <method>GET</method>
-  <param>X-Frame-Options</param>
-  </instance>
-  <instance>
-  <uri>https://docs.securecodebox.io/docs/scanners/kubeaudit/</uri>
   <method>GET</method>
   <param>X-Frame-Options</param>
   </instance>

@@ -33,7 +33,6 @@ jobs:
           - ffuf
           - gitleaks
           - kube-hunter
-          - kubeaudit
           - ncrack
           - nuclei
           - semgrep

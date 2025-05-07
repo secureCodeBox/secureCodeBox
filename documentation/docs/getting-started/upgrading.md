@@ -15,6 +15,7 @@ sidebar_position: 3
 ### Removed / Replaced ScanTypes
 
 * `typo3scan` was removed as the scanner itself [isn't maintaned anymore](https://github.com/whoot/Typo3Scan?tab=readme-ov-file#unsupported). Most security aspects of typo3 are now hard to verify from the outside as it requires authentication (which is really good). Some typo3 security aspects (e.g. a incomplete installation) can be verified by [nuclei](https://www.securecodebox.io/docs/scanners/nuclei).
+* `kubeaudit` was removed as the scanner itself [isn't maintaned anymore](https://github.com/Shopify/kubeaudit?tab=readme-ov-file#-deprecation-notice-). As a replacement you can use the `trivy` with it's `k8s` scanning mode, see [trivy ScanType k8s example](https://www.securecodebox.io/docs/scanners/trivy#k8s).
 
 ➡️  [Reference: #2670](https://github.com/secureCodeBox/secureCodeBox/issues/2670)
 

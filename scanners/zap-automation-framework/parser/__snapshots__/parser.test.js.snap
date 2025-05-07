@@ -2206,11 +2206,6 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
           "uri": "https://docs.securecodebox.io/4465cfb6.2dca36b4.js",
         },
         {
-          "evidence": "24656292",
-          "method": "GET",
-          "uri": "https://docs.securecodebox.io/docs/scanners/kubeaudit",
-        },
-        {
           "evidence": "2147483647",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/3.f6078885.js",
@@ -2264,11 +2259,6 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-type/",
-        },
-        {
-          "evidence": "24668827",
-          "method": "GET",
-          "uri": "https://docs.securecodebox.io/img/integrationIcons/kubeaudit.svg",
         },
         {
           "evidence": "14356247",
@@ -3490,11 +3480,6 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/blog/",
-        },
-        {
-          "method": "GET",
-          "param": "X-Frame-Options",
-          "uri": "https://docs.securecodebox.io/docs/scanners/kubeaudit/",
         },
         {
           "method": "GET",
