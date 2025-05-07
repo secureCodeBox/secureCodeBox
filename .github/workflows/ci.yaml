@@ -424,7 +424,6 @@ jobs:
           - ffuf
           - git-repo-scanner
           - gitleaks
-          - kubeaudit
           - kube-hunter
           - ncrack
           - nikto

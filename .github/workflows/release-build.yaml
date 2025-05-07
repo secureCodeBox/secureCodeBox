@@ -329,7 +329,6 @@ jobs:
           - git-repo-scanner
           - gitleaks
           - kube-hunter
-          - kubeaudit
           - ncrack
           - nikto
           - nmap
@@ -415,7 +414,6 @@ jobs:
           - cmseek
           - ffuf
           - kube-hunter
-          - kubeaudit
           - ncrack
           - nmap
           - nikto
