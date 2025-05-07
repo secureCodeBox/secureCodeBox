@@ -554,24 +554,6 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
-          "created_at": "2020-10-12T09:58:26Z",
-          "full_name": "secureCodeBox/kubeaudit",
-          "id": 303349727,
-          "last_activity_at": "2020-10-12T09:58:28Z",
-          "owner_id": 34573705,
-          "owner_name": "secureCodeBox",
-          "owner_type": "Organization",
-          "visibility": "public",
-          "web_url": "https://github.com/secureCodeBox/kubeaudit",
-        },
-        "category": "Git Repository",
-        "description": "A GitHub repository",
-        "name": "GitHub Repo",
-        "osi_layer": "APPLICATION",
-        "severity": "INFORMATIONAL",
-      },
     ]
   `);
 });

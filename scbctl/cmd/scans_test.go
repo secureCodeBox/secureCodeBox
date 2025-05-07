@@ -91,11 +91,11 @@ func TestScanCommand(t *testing.T) {
 		},
 		{
 			name:          "Flags provided after the `--` seperator should be passed as parameters, not flags",
-			args:          []string{"scan", "--namespace", "foobar", "kubeaudit", "--", "--namespace", "some-other-namespace"},
+			args:          []string{"scan", "--namespace", "foobar", "kubehunter", "--", "--namespace", "some-other-namespace"},
 			expectedError: nil,
 			expectedScan: &expectedScan{
-				name:       "kubeaudit",
-				scanType:   "kubeaudit",
+				name:       "kubehunter",
+				scanType:   "kubehunter",
 				namespace:  "foobar",
 				parameters: []string{"--namespace", "some-other-namespace"},
 			},

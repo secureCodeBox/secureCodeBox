@@ -13,7 +13,6 @@ Example Usage: `pbpaste | release-version-grouper.js`
 
 E.g. turn this:
 ```md
-    [SCB-Bot] Upgraded kubeaudit from 0.22.0 to 0.22.1 @secureCodeBoxBot (#2111)
     [SCB-Bot] Upgraded semgrep from 1.50.0 to 1.51.0 @secureCodeBoxBot (#2112)
     [SCB-Bot] Upgraded nuclei from v3.0.4 to v3.1.0 @secureCodeBoxBot (#2114)
     [SCB-Bot] Upgraded gitleaks from v8.18.0 to v8.18.1 @secureCodeBoxBot (#2103)
@@ -23,7 +22,6 @@ E.g. turn this:
 into this:
 ```md
  - Upgraded gitleaks from v8.18.0 to v8.18.1 @secureCodeBoxBot (#2103)
- - Upgraded kubeaudit from 0.22.0 to 0.22.1 @secureCodeBoxBot (#2111)
  - Upgraded nuclei from v3.0.3 to v3.1.0 @secureCodeBoxBot (#2114, #2104)
  - Upgraded semgrep from 1.48.0 to 1.51.0 @secureCodeBoxBot (#2112, #2101)
 ```

@@ -495,27 +495,6 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "id": "303349727",
-        "web_url": "https://github.com/secureCodeBox/kubeaudit",
-        "full_name": "secureCodeBox/kubeaudit",
-        "owner_type": "Organization",
-        "owner_id": "34573705",
-        "topics": [],
-        "owner_name": "secureCodeBox",
-        "created_at": "2020-10-12T09:58:26Z",
-        "last_activity_at": "2020-10-12T09:58:28Z",
-        "visibility": "public",
-        "archived": false,
-      },
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes":
-      {
         "id": "357207085",
         "web_url": "https://github.com/secureCodeBox/django-DefectDojo",
         "full_name": "secureCodeBox/django-DefectDojo",
