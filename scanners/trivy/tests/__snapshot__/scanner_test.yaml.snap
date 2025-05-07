@@ -107,9 +107,10 @@ matches the snapshot:
         namespace: NAMESPACE
   6: |
     apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRole
+    kind: Role
     metadata:
       name: trivy-k8s
+      namespace: NAMESPACE
     rules:
       - apiGroups:
           - ""
@@ -117,7 +118,11 @@ matches the snapshot:
           - pods
           - podtemplates
           - replicationcontrollers
-          - namespaces
+          - serviceaccounts
+          - services
+          - configmaps
+          - resourcequotas
+          - limitranges
         verbs:
           - get
           - list
@@ -131,28 +136,39 @@ matches the snapshot:
           - get
           - list
       - apiGroups:
+          - rbac.authorization.k8s.io
+        resources:
+          - rolebindings
+          - roles
+        verbs:
+          - get
+          - list
+      - apiGroups:
           - batch
         resources:
+          - jobs
           - cronjobs
         verbs:
           - get
           - list
       - apiGroups:
-          - networking
+          - networking.k8s.io
         resources:
+          - ingresses
           - networkpolicies
         verbs:
           - get
           - list
   7: |
     apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
+    kind: RoleBinding
     metadata:
       name: trivy-k8s
+      namespace: NAMESPACE
     roleRef:
       apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: cluster-admin
+      kind: Role
+      name: trivy-k8s
     subjects:
       - kind: ServiceAccount
         name: trivy-k8s
