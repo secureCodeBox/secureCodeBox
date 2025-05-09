@@ -70,7 +70,7 @@ roleRef:
   kind: Role
   name: lurker
 ---
-  {{- if eq .Values.kubeauditScope "namespace" }}
+{{- if eq .Values.k8sScanScope "namespace" }}
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -82,7 +82,11 @@ rules:
       - pods
       - podtemplates
       - replicationcontrollers
-      - namespaces
+      - serviceaccounts
+      - services
+      - configmaps
+      - resourcequotas
+      - limitranges
     verbs: ["get", "list"]
   - apiGroups: ["apps"]
     resources:
@@ -90,12 +94,19 @@ rules:
       - statefulsets
       - deployments
     verbs: ["get", "list"]
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources:
+      - rolebindings
+      - roles
+    verbs: ["get", "list"]
   - apiGroups: ["batch"]
     resources:
+      - jobs
       - cronjobs
     verbs: ["get", "list"]
-  - apiGroups: ["networking"]
+  - apiGroups: ["networking.k8s.io"]
     resources:
+      - ingresses
       - networkpolicies
     verbs: ["get", "list"]
 ---
@@ -112,8 +123,8 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: trivy-k8s
-  {{- end }}
-  {{- if eq .Values.kubeauditScope "cluster" }}
+{{- end }}
+{{- if eq .Values.k8sScanScope "cluster" }}
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -121,10 +132,15 @@ metadata:
 rules:
   - apiGroups: [""]
     resources:
+      - namespaces
       - pods
       - podtemplates
       - replicationcontrollers
-      - namespaces
+      - serviceaccounts
+      - services
+      - configmaps
+      - resourcequotas
+      - limitranges
     verbs: ["get", "list"]
   - apiGroups: ["apps"]
     resources:
@@ -132,13 +148,20 @@ rules:
       - statefulsets
       - deployments
     verbs: ["get", "list"]
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources:
+      - rolebindings
+      - roles
+    verbs: ["get", "list"]
   - apiGroups: ["batch"]
     resources:
+      - jobs
       - cronjobs
     verbs: ["get", "list"]
-  - apiGroups: ["networking"]
+  - apiGroups: ["networking.k8s.io"]
     resources:
       - networkpolicies
+      - ingresses
     verbs: ["get", "list"]
 ---
 kind: ClusterRoleBinding
@@ -153,4 +176,4 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
-  {{- end }}
+{{- end }}

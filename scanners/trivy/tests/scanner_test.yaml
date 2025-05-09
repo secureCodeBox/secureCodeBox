@@ -8,7 +8,7 @@ tests:
   - it: matches the snapshot
     chart:
       version: 0.0.0
-      appVersion: 0.0.0      
+      appVersion: 0.0.0
     set:
       cascadingRules.enabled: true
       imagePullSecrets: [{name: foo}]
@@ -26,5 +26,13 @@ tests:
         podSecurityContext: {fsGroup: 1234}
         affinity: {foo: bar}
         tolerations: [{foo: bar}]
+    asserts:
+      - matchSnapshot: {}
+  - it: works properly in k8sScanScope=cluster
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      k8sScanScope: cluster
     asserts:
       - matchSnapshot: {}
