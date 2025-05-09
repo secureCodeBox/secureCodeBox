@@ -3,7 +3,7 @@ title: "Nuclei"
 category: "scanner"
 type: "Website"
 state: "released"
-appVersion: "v3.4.2"
+appVersion: "v3.4.3"
 usecase: "Nuclei is a fast, template based vulnerability scanner."
 ---
 
