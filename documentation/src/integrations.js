@@ -127,13 +127,6 @@ export const Scanners = [
     imageUrl: "img/integrationIcons/Default.svg",
   },
   {
-    title: "Kubeaudit",
-    type: "Kubernetes",
-    usecase: "Kubernetes Configuration Scanner",
-    path: "docs/scanners/kubeaudit",
-    imageUrl: "img/integrationIcons/Kubeaudit.svg",
-  },
-  {
     title: "Ncrack",
     type: "Authentication",
     usecase: "Network authentication bruteforcing",
