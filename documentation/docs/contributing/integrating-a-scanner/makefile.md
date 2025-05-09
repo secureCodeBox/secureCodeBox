@@ -56,7 +56,7 @@ This adds the old-wordpress demo-target to your integration tests. You can find 
 ```makefile
 #!/usr/bin/make -f
 include_guard = set
-scanner = kubeaudit
+scanner = nmap
 custom_scanner = set
 
 include ../../scanners.mk
@@ -67,18 +67,16 @@ deploy-with-scanner:
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-$(scanner)" \
 		--set="parser.image.tag=$(IMG_TAG)" \
 		--set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-$(scanner)" \
-		--set="scanner.image.tag=$(IMG_TAG)" \
-		--set="kubeauditScope=cluster"
+		--set="scanner.image.tag=$(IMG_TAG)"
 
 deploy-test-deps:
 	# If not exists create namespace where the tests will be executed
-	kubectl create namespace kubeaudit-tests --dry-run=client -o yaml | kubectl apply -f -
-	# Install jshop in kubeaudit-tests namespace
-	helm -n kubeaudit-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
+	kubectl create namespace nmap-tests --dry-run=client -o yaml | kubectl apply -f -
+	# Install jshop in nmap-tests namespace
+	helm -n nmap-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
 ```
 
-This makefile overrides the deploy-with-scanner target such that the `kubeauditScope` can be overwritten.
-Furthermore, it overrides the deploy-test-deps target such that juice-shop is installed in the correct namespace (kubeaudit-tests).
+Furthermore, it overrides the deploy-test-deps target such that juice-shop is installed in the correct namespace (nmap-tests).
 
 ### Reusing components from other scanners
 
