@@ -170,7 +170,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         working-directory: hooks/${{ matrix.unit }}/hook
-        run: ./gradlew build --info
+        run: ./gradlew build --info --warning-mode all
 
   # ---- Build Stage ----
 
