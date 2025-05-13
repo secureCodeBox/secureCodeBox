@@ -23,14 +23,20 @@ const scan = {
   },
 };
 
-const testDate = new Date('2020-11-11');
+const testDate = new Date("2020-11-11");
 
 test("should only send scan summary document if no findings are passing in", async () => {
   const findings = [];
 
   const getFindings = async () => findings;
 
-  await handle({ getFindings, scan, now: testDate, tenant: "default", appendNamespace: true });
+  await handle({
+    getFindings,
+    scan,
+    now: testDate,
+    tenant: "default",
+    appendNamespace: true,
+  });
 
   expect(elasticClient.index).toBeCalledTimes(1);
   expect(elasticClient.index).toBeCalledWith({
@@ -61,7 +67,14 @@ test("should send findings to elasticsearch with given prefix", async () => {
 
   const getFindings = async () => findings;
 
-  await handle({ getFindings, scan, now: testDate, tenant: "default", indexPrefix: "myPrefix", appendNamespace: true });
+  await handle({
+    getFindings,
+    scan,
+    now: testDate,
+    tenant: "default",
+    indexPrefix: "myPrefix",
+    appendNamespace: true,
+  });
 
   expect(elasticClient.index).toBeCalledTimes(1);
   expect(elasticClient.index).toBeCalledWith({
@@ -134,7 +147,13 @@ test("should append date format yyyy", async () => {
 
   const getFindings = async () => findings;
 
-  await handle({ getFindings, scan, now: testDate, tenant: "default", indexSuffix: "yyyy" });
+  await handle({
+    getFindings,
+    scan,
+    now: testDate,
+    tenant: "default",
+    indexSuffix: "yyyy",
+  });
 
   expect(elasticClient.index).toBeCalledTimes(1);
   expect(elasticClient.index).toBeCalledWith({
@@ -158,7 +177,13 @@ test("should append week format like yyyy/'W'W -> 2020/W46", async () => {
 
   const getFindings = async () => findings;
 
-  await handle({ getFindings, scan, now: testDate, tenant: "default", indexSuffix: "yyyy/'W'W" });
+  await handle({
+    getFindings,
+    scan,
+    now: testDate,
+    tenant: "default",
+    indexSuffix: "yyyy/'W'W",
+  });
 
   expect(elasticClient.index).toBeCalledTimes(1);
   expect(elasticClient.index).toBeCalledWith({
