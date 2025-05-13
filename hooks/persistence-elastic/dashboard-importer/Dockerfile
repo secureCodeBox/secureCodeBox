@@ -11,7 +11,7 @@ USER app
 
 WORKDIR /home/dashboard-importer/
 
-COPY dashboards/ ./dashboards/
-COPY import-dashboards.sh ./
+COPY --chown=root:root --chmod=755 dashboards/ ./dashboards/
+COPY --chown=root:root --chmod=755 import-dashboards.sh ./
 
 CMD [ "bash", "import-dashboards.sh" ]
