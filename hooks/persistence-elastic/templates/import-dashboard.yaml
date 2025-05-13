@@ -13,9 +13,25 @@ spec:
   ttlSecondsAfterFinished: 3600 # 1 hour
   template:
     spec:
+      securityContext:
+        runAsNonRoot: true
       restartPolicy: 'OnFailure'
+      automountServiceAccountToken: false
       containers:
         - name: dasboard-importer
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "0.1"
+            requests:
+              memory: "256Mi"
+              cpu: "0.1"
           image: "{{ .Values.dashboardImporter.image.repository }}:{{ .Values.dashboardImporter.image.tag | default .Chart.Version }}"
           imagePullPolicy: IfNotPresent
           env:
