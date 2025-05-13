@@ -76,7 +76,6 @@ The Elastic hook requires an existing Elasticsearch instance to store findings. 
 
    ```yaml
    externalElasticStack:
-     enabled: true
      elasticsearchAddress: "https://quickstart-es-http:9200" # these are the default values for the ECK quickstart, change them to match your setup
      kibanaAddress: "https://quickstart-kb-http:5601"
 
@@ -84,10 +83,6 @@ The Elastic hook requires an existing Elasticsearch instance to store findings. 
      userSecret: "elasticsearch-credentials-secret"
      # Alternatively, use an API key:
      # apiKeySecret: "elasticsearch-api-key-secret"
-
-   indexPrefix: "custom-prefix"
-   indexSuffix: "yyyy-MM-dd"
-   indexAppendNamespace: true
    ```
 
 3. **Create Kubernetes Secrets for Elasticsearch Credentials**:
@@ -131,7 +126,6 @@ the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.
 | authentication.apiKeySecret | string | `nil` | Link a pre-existing generic secret with `id` and `key` key / value pairs |
 | authentication.userSecret | string | `nil` | Link a pre-existing generic secret with `username` and `password` key / value pairs |
 | externalElasticStack.elasticsearchAddress | string | `"https://elasticsearch.example.com"` | The URL of the elasticsearch service to persists all findings to. |
-| externalElasticStack.enabled | bool | `false` | Enable this when you already have an Elastic Stack running to which you want to send your results |
 | externalElasticStack.kibanaAddress | string | `"https://kibana.example.com"` | The URL of the kibana service used to visualize all findings. |
 | fullnameOverride | string | `""` |  |
 | hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |

@@ -24,13 +24,8 @@ spec:
       value: {{ .Values.indexSuffix | quote }}
     - name: ELASTICSEARCH_INDEX_APPEND_NAMESPACE
       value: {{ .Values.indexAppendNamespace | quote }}
-{{- if .Values.externalElasticStack.enabled }}
     - name: ELASTICSEARCH_ADDRESS
       value: {{ .Values.externalElasticStack.elasticsearchAddress | quote }}
-{{- else }}
-    - name: ELASTICSEARCH_ADDRESS
-      value: "http://elasticsearch-master.{{ .Release.Namespace }}.svc.cluster.local:9200"
-{{- end }}
 {{- if .Values.authentication.userSecret }}
     - name: ELASTICSEARCH_USERNAME
       valueFrom:
