@@ -41,9 +41,13 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is "Persistence ElasticSearch" Hook about?
-The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index. This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit [elastic.io].
+
+The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index.
+This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit [elastic.io].
 
 Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
+
+This hook supports both Elasticsearch as well as OpenSearch. The configuration is the same for both.
 
 ## Deployment
 The persistence-elastic chart can be deployed via helm:
@@ -57,12 +61,60 @@ helm upgrade --install persistence-elastic oci://ghcr.io/securecodebox/helm/pers
 
 Kubernetes: `>=v1.11.0-0`
 
-| Repository | Name | Version |
-|------------|------|---------|
-| https://helm.elastic.co | elasticsearch | 8.5.1 |
-| https://helm.elastic.co | kibana | 8.5.1 |
-
 ## Additional Chart Configurations
+
+### Connecting the hook an Elasticsearch Cluster
+
+The Elastic hook requires an existing Elasticsearch instance to store findings. To set up the hook, follow these steps:
+
+1. **Deploy an Elasticsearch Cluster**:
+   You can deploy an Elasticsearch cluster using various methods, such as using the official Elastic Cloud, self-hosting, or using a managed service. For Kubernetes environments, we recommend using the [Elastic Cloud on Kubernetes (ECK)](https://www.elastic.co/elastic-cloud-kubernetes) operator.
+   See the [ECK documentation](https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s) for instructions on deploying Elasticsearch.
+
+2. **Create a Custom Values File**:
+   Create a new `custom-values.yaml` file with the following content to configure the hook to connect to your Elasticsearch instance:
+
+   ```yaml
+   externalElasticStack:
+     enabled: true
+     elasticsearchAddress: "https://quickstart-es-http:9200" # these are the default values for the ECK quickstart, change them to match your setup
+     kibanaAddress: "https://quickstart-kb-http:5601"
+
+   authentication:
+     userSecret: "elasticsearch-credentials-secret"
+     # Alternatively, use an API key:
+     # apiKeySecret: "elasticsearch-api-key-secret"
+
+   indexPrefix: "custom-prefix"
+   indexSuffix: "yyyy-MM-dd"
+   indexAppendNamespace: true
+   ```
+
+3. **Create Kubernetes Secrets for Elasticsearch Credentials**:
+   Use the following `kubectl` command to create a secret for Elasticsearch credentials:
+
+   ```bash
+   kubectl create secret generic elasticsearch-credentials-secret \
+     --from-literal=username=your-username \
+     --from-literal=password=your-password
+   ```
+
+   If using an API key, create the secret as follows:
+
+   ```bash
+   kubectl create secret generic elasticsearch-api-key-secret \
+     --from-literal=id=your-api-key-id \
+     --from-literal=key=your-api-key
+   ```
+
+4. **Deploy the Hook**:
+   Install the persistence-elastic chart using Helm with the custom values file:
+
+   ```bash
+   helm upgrade --install persistence-elastic oci://ghcr.io/securecodebox/helm/persistence-elastic --values custom-values.yaml
+   ```
+
+Ensure that the `userSecret` or `apiKeySecret` is created in your Kubernetes cluster with the appropriate credentials for accessing your Elasticsearch instance.
 
 ### Elasticsearch Indexing
 
@@ -78,13 +130,6 @@ the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.
 | authentication | object | `{"apiKeySecret":null,"userSecret":null}` | Configure authentication schema and credentials the persistence provider should use to connect to elasticsearch user and apikey are mutually exclusive, only set one! |
 | authentication.apiKeySecret | string | `nil` | Link a pre-existing generic secret with `id` and `key` key / value pairs |
 | authentication.userSecret | string | `nil` | Link a pre-existing generic secret with `username` and `password` key / value pairs |
-| dashboardImporter.enabled | bool | `true` | Enable if you want to import some example kibana dashboards for secureCodeBox findings analytics. |
-| dashboardImporter.image.repository | string | `"securecodebox/persistence-elastic-dashboard-importer"` |  |
-| dashboardImporter.image.tag | string | `nil` |  |
-| elasticsearch | object | `{"enabled":true,"minimumMasterNodes":1,"replicas":1}` | Configures the included elasticsearch subchart (see: https://github.com/elastic/helm-charts/tree/elasticsearch) |
-| elasticsearch.enabled | bool | `true` | Enable if you want to deploy an elasticsearch service. |
-| elasticsearch.minimumMasterNodes | int | `1` | The value for discovery.zen.minimum_master_nodes. Should be set to (master_eligible_nodes / 2) + 1. Ignored in Elasticsearch versions >= 7 |
-| elasticsearch.replicas | int | `1` | Kubernetes replica count for the StatefulSet (i.e. how many pods) |
 | externalElasticStack.elasticsearchAddress | string | `"https://elasticsearch.example.com"` | The URL of the elasticsearch service to persists all findings to. |
 | externalElasticStack.enabled | bool | `false` | Enable this when you already have an Elastic Stack running to which you want to send your results |
 | externalElasticStack.kibanaAddress | string | `"https://kibana.example.com"` | The URL of the kibana service used to visualize all findings. |
@@ -102,10 +147,8 @@ the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | indexAppendNamespace | bool | `true` | Define if the name of the namespace where this hook is deployed to must be added to the index name. The namespace can be used to separate index by tenants (namespaces). |
-| indexPrefix | string | `"scbv2"` | Define a specific index prefix used for all elasticsearch indices. |
-| indexSuffix | string | `"“yyyy-MM-dd”"` | Define a specific index suffix based on date pattern (YEAR (yyyy), MONTH (yyyy-MM), WEEK (yyyy-'W'W), DATE (yyyy-MM-dd)). We use Luxon for date formatting (https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens) |
-| kibana | object | `{"enabled":true}` | Configures included Elasticsearch subchart |
-| kibana.enabled | bool | `true` | Enable if you want to deploy an kibana service (see: https://github.com/elastic/helm-charts/tree/master/kibana) |
+| indexPrefix | string | `"scb"` | Define a specific index prefix used for all elasticsearch indices. |
+| indexSuffix | string | `"yyyy-MM-dd"` | Define a specific index suffix based on date pattern (YEAR (yyyy), MONTH (yyyy-MM), WEEK (yyyy-'W'W), DATE (yyyy-MM-dd)). We use Luxon for date formatting (https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens) |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |

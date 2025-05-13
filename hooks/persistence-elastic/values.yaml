@@ -12,7 +12,7 @@ imagePullSecrets: []
 # indexPrefix -- Define a specific index prefix used for all elasticsearch indices.
 indexPrefix: "scbv2"
 # indexSuffix -- Define a specific index suffix based on date pattern (YEAR (yyyy), MONTH (yyyy-MM), WEEK (yyyy-'W'W), DATE (yyyy-MM-dd)). We use Luxon for date formatting (https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens)
-indexSuffix: “yyyy-MM-dd”
+indexSuffix: "yyyy-MM-dd"
 # indexAppendNamespace -- Define if the name of the namespace where this hook is deployed to must be added to the index name. The namespace can be used to separate index by tenants (namespaces).
 indexAppendNamespace: true
 
@@ -31,22 +31,6 @@ authentication:
   userSecret: null
   # authentication.apiKeySecret -- Link a pre-existing generic secret with `id` and `key` key / value pairs
   apiKeySecret: null
-
-# elasticsearch -- Configures the included elasticsearch subchart (see: https://github.com/elastic/helm-charts/tree/elasticsearch)
-elasticsearch:
-  # elasticsearch.enabled -- Enable if you want to deploy an elasticsearch service.
-  enabled: true
-  # elasticsearch.replicas -- Kubernetes replica count for the StatefulSet (i.e. how many pods)
-  replicas: 1
-  # elasticsearch.minimumMasterNodes -- The value for discovery.zen.minimum_master_nodes. Should be set to (master_eligible_nodes / 2) + 1. Ignored in Elasticsearch versions >= 7
-  minimumMasterNodes: 1
-  # image: docker.elastic.co/elasticsearch/elasticsearch-oss
-
-# -- Configures included Elasticsearch subchart
-kibana:
-  # -- Enable if you want to deploy an kibana service (see: https://github.com/elastic/helm-charts/tree/master/kibana)
-  enabled: true
-  # image: docker.elastic.co/kibana/kibana-oss
 
 dashboardImporter:
   # -- Enable if you want to import some example kibana dashboards for secureCodeBox findings analytics.

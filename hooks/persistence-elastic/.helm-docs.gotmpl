@@ -22,9 +22,13 @@ usecase: "Publishes all Scan Findings to Elasticsearch."
 
 {{- define "extra.chartAboutSection" -}}
 ## What is "Persistence ElasticSearch" Hook about?
-The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index. This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit [elastic.io].
+
+The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index.
+This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit [elastic.io].
 
 Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
+
+This hook supports both Elasticsearch as well as OpenSearch. The configuration is the same for both.
 {{- end }}
 
 {{- define "extra.scannerConfigurationSection" -}}{{- end }}
@@ -32,12 +36,64 @@ Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_
 {{- define "extra.chartConfigurationSection" -}}
 ## Additional Chart Configurations
 
+### Connecting the hook an Elasticsearch Cluster
+
+The Elastic hook requires an existing Elasticsearch instance to store findings. To set up the hook, follow these steps:
+
+1. **Deploy an Elasticsearch Cluster**:
+   You can deploy an Elasticsearch cluster using various methods, such as using the official Elastic Cloud, self-hosting, or using a managed service. For Kubernetes environments, we recommend using the [Elastic Cloud on Kubernetes (ECK)](https://www.elastic.co/elastic-cloud-kubernetes) operator.
+   See the [ECK documentation](https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s) for instructions on deploying Elasticsearch.
+
+2. **Create a Custom Values File**:
+   Create a new `custom-values.yaml` file with the following content to configure the hook to connect to your Elasticsearch instance:
+
+   ```yaml
+   externalElasticStack:
+     enabled: true
+     elasticsearchAddress: "https://quickstart-es-http:9200" # these are the default values for the ECK quickstart, change them to match your setup
+     kibanaAddress: "https://quickstart-kb-http:5601"
+
+   authentication:
+     userSecret: "elasticsearch-credentials-secret"
+     # Alternatively, use an API key:
+     # apiKeySecret: "elasticsearch-api-key-secret"
+
+   indexPrefix: "custom-prefix"
+   indexSuffix: "yyyy-MM-dd"
+   indexAppendNamespace: true
+   ```
+
+3. **Create Kubernetes Secrets for Elasticsearch Credentials**:
+   Use the following `kubectl` command to create a secret for Elasticsearch credentials:
+
+   ```bash
+   kubectl create secret generic elasticsearch-credentials-secret \
+     --from-literal=username=your-username \
+     --from-literal=password=your-password
+   ```
+
+   If using an API key, create the secret as follows:
+
+   ```bash
+   kubectl create secret generic elasticsearch-api-key-secret \
+     --from-literal=id=your-api-key-id \
+     --from-literal=key=your-api-key
+   ```
+
+4. **Deploy the Hook**:
+   Install the persistence-elastic chart using Helm with the custom values file:
+
+   ```bash
+   helm upgrade --install persistence-elastic oci://ghcr.io/securecodebox/helm/persistence-elastic --values custom-values.yaml
+   ```
+
+Ensure that the `userSecret` or `apiKeySecret` is created in your Kubernetes cluster with the appropriate credentials for accessing your Elasticsearch instance.
+
 ### Elasticsearch Indexing
 
 For the elasticsearch `indexSuffix` you can provide a date format pattern. We use [Luxon](https://moment.github.io/luxon/) to format the date. So checkout
 the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens) to see what kind of format patterns you can use for the
 `indexSuffix`. Default pattern is `yyyy-MM-dd`
-
 {{- end }}
 
 {{- define "extra.scannerLinksSection" -}}

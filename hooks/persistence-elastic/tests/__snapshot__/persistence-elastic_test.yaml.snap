@@ -46,7 +46,7 @@ matches the snapshot:
                       - baz
       env:
         - name: ELASTICSEARCH_INDEX_PREFIX
-          value: scbv2
+          value: scb
         - name: ELASTICSEARCH_INDEX_SUFFIX
           value: “yyyy-MM-dd”
         - name: ELASTICSEARCH_INDEX_APPEND_NAMESPACE
