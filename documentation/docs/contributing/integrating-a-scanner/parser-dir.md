@@ -24,8 +24,8 @@ RUN npm ci --production
 
 FROM securecodebox/parser-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/parser-wrapper/parser/
-COPY --from=build --chown=app:app /home/app/node_modules/ ./node_modules/
-COPY --chown=app:app ./parser.js ./parser.js
+COPY --from=build --chown=root:root --chmod=755 /home/app/node_modules/ ./node_modules/
+COPY --chown=root:root --chmod=755 ./parser.js ./parser.js
 ```
 
 If your parser does not require any external dependencies, A multi-stage build is not needed.  
@@ -36,7 +36,7 @@ ARG namespace
 ARG baseImageTag
 FROM securecodebox/parser-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/parser-wrapper/parser/
-COPY --chown=app:app ./parser.js ./parser.js
+COPY --chown=root:root --chmod=755 ./parser.js ./parser.js
 ```
 
 See [Local Deployment](/docs/contributing/local-deployment) for instructions on how to build your parser.

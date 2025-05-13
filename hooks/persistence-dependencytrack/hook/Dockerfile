@@ -12,4 +12,4 @@ RUN npm ci --production
 
 FROM ${namespace:-securecodebox}/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/
-COPY --chown=app:app ./hook.js ./hook.js
+COPY --chown=root:root --chmod=755 ./hook.js ./hook.js
