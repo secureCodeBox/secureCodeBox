@@ -51,7 +51,7 @@ test("should only send scan summary document if no findings are passing in", asy
       scan_type: "Nmap",
       type: "scan",
     },
-    index: `scbv2_default_2020-11-11`,
+    index: `scb_default_2020-11-11`,
   });
   expect(elasticClient.bulk).not.toBeCalled();
 });
@@ -138,7 +138,7 @@ test("should not append namespace if 'appendNamespace' is null", async () => {
       scan_type: "Nmap",
       type: "scan",
     },
-    index: `scbv2_2020-11-11`,
+    index: `scb_2020-11-11`,
   });
 });
 
@@ -168,7 +168,7 @@ test("should append date format yyyy", async () => {
       scan_type: "Nmap",
       type: "scan",
     },
-    index: `scbv2_2020`,
+    index: `scb_2020`,
   });
 });
 
@@ -198,6 +198,6 @@ test("should append week format like yyyy/'W'W -> 2020/W46", async () => {
       scan_type: "Nmap",
       type: "scan",
     },
-    index: `scbv2_2020/W46`,
+    index: `scb_2020/W46`,
   });
 });

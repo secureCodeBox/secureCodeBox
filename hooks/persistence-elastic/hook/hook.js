@@ -46,7 +46,7 @@ async function handle({
   scan,
   now = new Date(),
   tenant = process.env["NAMESPACE"],
-  indexPrefix = process.env["ELASTICSEARCH_INDEX_PREFIX"] || "scbv2",
+  indexPrefix = process.env["ELASTICSEARCH_INDEX_PREFIX"] || "scb",
   indexSuffix = process.env["ELASTICSEARCH_INDEX_SUFFIX"] || defaultDateFormat,
   appendNamespace = process.env["ELASTICSEARCH_INDEX_APPEND_NAMESPACE"] ||
     false,
