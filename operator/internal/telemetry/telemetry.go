@@ -26,7 +26,7 @@ var telemetryInterval = 24 * time.Hour
 var officialScanTypes map[string]bool = map[string]bool{
 	"amass":                    true,
 	"cmseek":                   true,
-	"doggo":                    true,
+	"doggo":                    true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"ffuf":                     true,
 	"git-repo-scanner":         true,
 	"gitleaks":                 true,

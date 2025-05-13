@@ -92,13 +92,6 @@ export const Scanners = [
     imageUrl: "img/integrationIcons/Default.svg",
   },
   {
-    title: "doggo",
-    type: "Network",
-    usecase: "DNS client (like dig)",
-    path: "docs/scanners/doggo",
-    imageUrl: "img/integrationIcons/doggo.svg",
-  },
-  {
     title: "ffuf",
     type: "Webserver",
     usecase: "Webserver and WebApplication Elements and Content Discovery",
