@@ -49,7 +49,6 @@ The Elastic hook requires an existing Elasticsearch instance to store findings. 
 
    ```yaml
    externalElasticStack:
-     enabled: true
      elasticsearchAddress: "https://quickstart-es-http:9200" # these are the default values for the ECK quickstart, change them to match your setup
      kibanaAddress: "https://quickstart-kb-http:5601"
 
@@ -57,10 +56,6 @@ The Elastic hook requires an existing Elasticsearch instance to store findings. 
      userSecret: "elasticsearch-credentials-secret"
      # Alternatively, use an API key:
      # apiKeySecret: "elasticsearch-api-key-secret"
-
-   indexPrefix: "custom-prefix"
-   indexSuffix: "yyyy-MM-dd"
-   indexAppendNamespace: true
    ```
 
 3. **Create Kubernetes Secrets for Elasticsearch Credentials**:
