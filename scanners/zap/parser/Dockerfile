@@ -12,5 +12,5 @@ RUN npm ci --production
 
 FROM ${namespace:-securecodebox}/parser-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/parser-wrapper/parser/
-COPY --from=build --chown=app:app /home/app/node_modules/ ./node_modules/
-COPY --chown=app:app ./parser.js ./parser.js
+COPY --from=build --chown=root:root --chmod=755 /home/app/node_modules/ ./node_modules/
+COPY --chown=root:root --chmod=755 ./parser.js ./parser.js
