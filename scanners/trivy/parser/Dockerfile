@@ -6,4 +6,4 @@ ARG namespace
 ARG baseImageTag
 FROM ${namespace:-securecodebox}/parser-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/parser-wrapper/parser/
-COPY --chown=app:app ./parser.js ./parser.js
+COPY --chown=root:root --chmod=755 ./parser.js ./parser.js
