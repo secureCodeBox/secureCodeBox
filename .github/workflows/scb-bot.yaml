@@ -29,7 +29,6 @@ jobs:
         scanner:
           - amass
           - cmseek
-          - doggo
           - ffuf
           - gitleaks
           - kube-hunter

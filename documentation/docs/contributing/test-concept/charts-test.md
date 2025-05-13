@@ -72,7 +72,7 @@ matches the snapshot:
       labels:
         securecodebox.io/intensive: light
         securecodebox.io/invasive: non-invasive
-      name: doggo-dnsscan
+      name: nmap-hostscan
     spec:
       matches:
         anyOf:
@@ -80,27 +80,52 @@ matches the snapshot:
             osi_layer: NETWORK
       scanSpec:
         parameters:
+          - -Pn
           - '{{location}}'
-          - A
-          - AAAA
-          - NS
-          - CNAME
-          - TXT
-          - MX
-          - SRV
-        scanType: doggo
+        scanType: nmap
   2: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: nmap-smb
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 445
+              state: open
+            category: Open Port
+          - attributes:
+              service: microsoft-ds
+              state: open
+            category: Open Port
+          - attributes:
+              service: netbios-ssn
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -Pn
+          - -p{{attributes.port}}
+          - --script
+          - smb-protocols
+          - '{{$.hostOrIP}}'
+        scanType: nmap
+  3: |
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition
     metadata:
-      name: doggo-json
+      name: nmap-xml
     spec:
       affinity:
         foo: bar
       env:
         - name: foo
           value: bar
-      image: docker.io/securecodebox/parser-doggo:0.0.0
+      image: docker.io/securecodebox/parser-nmap:0.0.0
       imagePullPolicy: IfNotPresent
       imagePullSecrets:
         - name: foo
@@ -111,15 +136,15 @@ matches the snapshot:
       tolerations:
         - foo: bar
       ttlSecondsAfterFinished: null
-  3: |
+  4: |
     apiVersion: execution.securecodebox.io/v1
     kind: ScanType
     metadata:
-      name: doggofoo
+      name: nmapfoo
     spec:
       extractResults:
-        location: /home/securecodebox/doggo-results.json
-        type: doggo-json
+        location: /home/securecodebox/nmap-results.xml
+        type: nmap-xml
       jobTemplate:
         spec:
           backoffLimit: 3
@@ -130,14 +155,15 @@ matches the snapshot:
                 foo: bar
               containers:
                 - command:
-                    - sh
-                    - /wrapper.sh
+                    - nmap
+                    - -oX
+                    - /home/securecodebox/nmap-results.xml
                   env:
                     - name: foo
                       value: bar
-                  image: docker.io/securecodebox/scanner-doggo:0.0.0
+                  image: docker.io/securecodebox/scanner-nmap:0.0.0
                   imagePullPolicy: IfNotPresent
-                  name: doggo
+                  name: nmap
                   resources:
                     foo: bar
                   securityContext:
@@ -151,6 +177,8 @@ matches the snapshot:
                   volumeMounts: []
                 - image: bar
                   name: foo
+              imagePullSecrets:
+                - name: foo
               restartPolicy: OnFailure
               securityContext:
                 fsGroup: 1234
