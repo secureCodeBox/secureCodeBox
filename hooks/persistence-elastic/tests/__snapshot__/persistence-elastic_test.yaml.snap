@@ -11,6 +11,7 @@ matches the snapshot:
       backoffLimit: 3
       template:
         spec:
+          automountServiceAccountToken: false
           containers:
             - env:
                 - name: KIBANA_URL
@@ -18,7 +19,22 @@ matches the snapshot:
               image: securecodebox/persistence-elastic-dashboard-importer:0.0.0
               imagePullPolicy: IfNotPresent
               name: dasboard-importer
+              resources:
+                limits:
+                  cpu: "0.1"
+                  memory: 256Mi
+                requests:
+                  cpu: "0.1"
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
       ttlSecondsAfterFinished: 3600
   3: |
     apiVersion: execution.securecodebox.io/v1
@@ -48,11 +64,11 @@ matches the snapshot:
         - name: ELASTICSEARCH_INDEX_PREFIX
           value: scb
         - name: ELASTICSEARCH_INDEX_SUFFIX
-          value: “yyyy-MM-dd”
+          value: yyyy-MM-dd
         - name: ELASTICSEARCH_INDEX_APPEND_NAMESPACE
           value: "true"
         - name: ELASTICSEARCH_ADDRESS
-          value: http://elasticsearch-master.NAMESPACE.svc.cluster.local:9200
+          value: https://elasticsearch.example.com
         - name: foo
           value: bar
       image: docker.io/securecodebox/hook-persistence-elastic:0.0.0
