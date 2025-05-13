@@ -125,6 +125,9 @@ the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.
 | authentication | object | `{"apiKeySecret":null,"userSecret":null}` | Configure authentication schema and credentials the persistence provider should use to connect to elasticsearch user and apikey are mutually exclusive, only set one! |
 | authentication.apiKeySecret | string | `nil` | Link a pre-existing generic secret with `id` and `key` key / value pairs |
 | authentication.userSecret | string | `nil` | Link a pre-existing generic secret with `username` and `password` key / value pairs |
+| dashboardImporter.enabled | bool | `true` | Enable if you want to import some example kibana dashboards for secureCodeBox findings analytics. |
+| dashboardImporter.image.repository | string | `"securecodebox/persistence-elastic-dashboard-importer"` |  |
+| dashboardImporter.image.tag | string | `nil` |  |
 | externalElasticStack.elasticsearchAddress | string | `"https://elasticsearch.example.com"` | The URL of the elasticsearch service to persists all findings to. |
 | externalElasticStack.kibanaAddress | string | `"https://kibana.example.com"` | The URL of the kibana service used to visualize all findings. |
 | fullnameOverride | string | `""` |  |
