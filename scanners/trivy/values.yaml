@@ -121,7 +121,7 @@ trivyDatabaseCache:
   resources: {}
   # -- Optional securityContext set on database cache pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   podSecurityContext:
-    {}
+    runAsUser: 10001
 
   # -- Optional securityContext set on database cache container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
