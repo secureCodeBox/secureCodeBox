@@ -117,6 +117,8 @@ trivyDatabaseCache:
   enabled: true
   # -- amount of replicas to configure for the Deployment
   replicas: 1
+  # -- Optional resource limits/requests for the trivy database cache container
+  resources: {}
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner

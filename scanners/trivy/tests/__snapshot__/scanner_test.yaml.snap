@@ -61,6 +61,7 @@ matches the snapshot:
                 initialDelaySeconds: 5
                 periodSeconds: 10
                 successThreshold: 1
+              resources: {}
           imagePullSecrets:
             - name: foo
   3: |
@@ -449,6 +450,7 @@ works properly in k8sScanScope=cluster:
                 initialDelaySeconds: 5
                 periodSeconds: 10
                 successThreshold: 1
+              resources: {}
   3: |
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition
