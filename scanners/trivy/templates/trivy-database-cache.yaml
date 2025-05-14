@@ -45,6 +45,8 @@ spec:
       - name: trivy-database
         image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: IfNotPresent
+        resources:
+          {{- toYaml .Values.trivyDatabaseCache.resources | nindent 10 }}
         args:
         - "server"
         - "--listen"
