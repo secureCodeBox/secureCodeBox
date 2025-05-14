@@ -123,6 +123,9 @@ trivyDatabaseCache:
   podSecurityContext:
     runAsUser: 10001
 
+  # -- storage limit for the trivy db cache emptyDir volumes. (applied to two volumes)
+  cacheStorageLimit: 1Gi
+
   # -- Optional securityContext set on database cache container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
     runAsNonRoot: true

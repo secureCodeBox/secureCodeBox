@@ -81,9 +81,11 @@ matches the snapshot:
           securityContext:
             runAsUser: 10001
           volumes:
-            - emptyDir: {}
+            - emptyDir:
+                sizeLimit: 1Gi
               name: cache-dir
-            - emptyDir: {}
+            - emptyDir:
+                sizeLimit: 1Gi
               name: tmp-dir
   3: |
     apiVersion: execution.securecodebox.io/v1
@@ -489,9 +491,11 @@ works properly in k8sScanScope=cluster:
           securityContext:
             runAsUser: 10001
           volumes:
-            - emptyDir: {}
+            - emptyDir:
+                sizeLimit: 1Gi
               name: cache-dir
-            - emptyDir: {}
+            - emptyDir:
+                sizeLimit: 1Gi
               name: tmp-dir
   3: |
     apiVersion: execution.securecodebox.io/v1
