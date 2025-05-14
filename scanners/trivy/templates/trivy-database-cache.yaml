@@ -48,9 +48,11 @@ spec:
       {{- end }}
       volumes:
       - name: cache-dir
-        emptyDir: {}
+        emptyDir:
+          sizeLimit: {{ .Values.trivyDatabaseCache.cacheStorageLimit }}
       - name: tmp-dir
-        emptyDir: {}
+        emptyDir:
+          sizeLimit: {{ .Values.trivyDatabaseCache.cacheStorageLimit }}
       containers:
       - name: trivy-database
         image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
