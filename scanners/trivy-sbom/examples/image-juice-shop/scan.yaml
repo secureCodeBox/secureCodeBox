@@ -9,4 +9,4 @@ metadata:
 spec:
   scanType: "trivy-sbom-image"
   parameters:
-    - "bkimminich/juice-shop:v15.0.0"
+    - "bkimminich/juice-shop:v17.3.0"
