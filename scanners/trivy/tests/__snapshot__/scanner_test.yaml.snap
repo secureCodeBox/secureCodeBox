@@ -69,10 +69,22 @@ matches the snapshot:
                   drop:
                     - ALL
                 privileged: false
-                readOnlyRootFilesystem: false
+                readOnlyRootFilesystem: true
                 runAsNonRoot: true
+              volumeMounts:
+                - mountPath: /.cache
+                  name: cache-dir
+                - mountPath: /tmp
+                  name: tmp-dir
           imagePullSecrets:
             - name: foo
+          securityContext:
+            runAsUser: 10001
+          volumes:
+            - emptyDir: {}
+              name: cache-dir
+            - emptyDir: {}
+              name: tmp-dir
   3: |
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition
@@ -467,8 +479,20 @@ works properly in k8sScanScope=cluster:
                   drop:
                     - ALL
                 privileged: false
-                readOnlyRootFilesystem: false
+                readOnlyRootFilesystem: true
                 runAsNonRoot: true
+              volumeMounts:
+                - mountPath: /.cache
+                  name: cache-dir
+                - mountPath: /tmp
+                  name: tmp-dir
+          securityContext:
+            runAsUser: 10001
+          volumes:
+            - emptyDir: {}
+              name: cache-dir
+            - emptyDir: {}
+              name: tmp-dir
   3: |
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition
