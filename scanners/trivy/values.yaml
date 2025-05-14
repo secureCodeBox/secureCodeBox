@@ -126,8 +126,7 @@ trivyDatabaseCache:
   # -- Optional securityContext set on database cache container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
     runAsNonRoot: true
-    # -- trivy db cache needs fs access to write the cache
-    readOnlyRootFilesystem: false
+    readOnlyRootFilesystem: true
     allowPrivilegeEscalation: false
     privileged: false
     capabilities:
