@@ -31,6 +31,7 @@ matches the snapshot:
           labels:
             app: trivy-database
         spec:
+          automountServiceAccountToken: false
           containers:
             - args:
                 - server
@@ -61,8 +62,31 @@ matches the snapshot:
                 initialDelaySeconds: 5
                 periodSeconds: 10
                 successThreshold: 1
+              resources: {}
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                privileged: false
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+              volumeMounts:
+                - mountPath: /.cache
+                  name: cache-dir
+                - mountPath: /tmp
+                  name: tmp-dir
           imagePullSecrets:
             - name: foo
+          securityContext:
+            runAsUser: 10001
+          volumes:
+            - emptyDir:
+                sizeLimit: 1Gi
+              name: cache-dir
+            - emptyDir:
+                sizeLimit: 1Gi
+              name: tmp-dir
   3: |
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition
@@ -419,6 +443,7 @@ works properly in k8sScanScope=cluster:
           labels:
             app: trivy-database
         spec:
+          automountServiceAccountToken: false
           containers:
             - args:
                 - server
@@ -449,6 +474,29 @@ works properly in k8sScanScope=cluster:
                 initialDelaySeconds: 5
                 periodSeconds: 10
                 successThreshold: 1
+              resources: {}
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                privileged: false
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+              volumeMounts:
+                - mountPath: /.cache
+                  name: cache-dir
+                - mountPath: /tmp
+                  name: tmp-dir
+          securityContext:
+            runAsUser: 10001
+          volumes:
+            - emptyDir:
+                sizeLimit: 1Gi
+              name: cache-dir
+            - emptyDir:
+                sizeLimit: 1Gi
+              name: tmp-dir
   3: |
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition

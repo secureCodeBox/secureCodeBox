@@ -37,14 +37,37 @@ spec:
       labels:
         app: trivy-database
     spec:
+      automountServiceAccountToken: false
+      {{- with .Values.trivyDatabaseCache.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+      - name: cache-dir
+        emptyDir:
+          sizeLimit: {{ .Values.trivyDatabaseCache.cacheStorageLimit }}
+      - name: tmp-dir
+        emptyDir:
+          sizeLimit: {{ .Values.trivyDatabaseCache.cacheStorageLimit }}
       containers:
       - name: trivy-database
         image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+        volumeMounts:
+        - name: cache-dir
+          mountPath: /.cache
+        - name: tmp-dir
+          mountPath: /tmp
         imagePullPolicy: IfNotPresent
+        {{- with .Values.trivyDatabaseCache.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        resources:
+          {{- toYaml .Values.trivyDatabaseCache.resources | nindent 10 }}
         args:
         - "server"
         - "--listen"
