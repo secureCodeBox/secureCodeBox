@@ -35,6 +35,19 @@ The default `k8sScanScope` scope was also changed from `cluster` to `namespace`,
 
 ➡️  [Reference: #3025](https://github.com/secureCodeBox/secureCodeBox/pull/3025)
 
+### Removed Integrated Elasticsearch and Kibana Helm Charts
+
+The integrated Elasticsearch and Kibana Helm charts have been dropped from the Persistence ElasticSearch Hook. These charts were intended as a quick-start option, but since Elastic no longer provides their own Helm charts, they have been removed. The documentation has been updated with guidance on setting up an Elasticsearch cluster using the [ECK operator](https://www.elastic.co/elastic-cloud-kubernetes).
+
+➡️  [Reference: #2892](https://github.com/secureCodeBox/secureCodeBox/issues/2892)
+
+### Changed Default Elasticsearch Index
+
+The default Elasticsearch index has been updated from `scbv2` to `scb`. The inclusion of `v2` was a confusing oversight that has been outdated since the release of secureCodeBox v3.
+If you had previously ingested finding using the scbv2 index prefix you can keep using it by setting the `indexPrefix` helm value back to `scbv2` or by migrating your existing indexes to match the new naming scheme.
+
+➡️  [Reference: #2892](https://github.com/secureCodeBox/secureCodeBox/issues/2892)
+
 ## From 3.X to 4.X
 
 ### Renamed the docker images of demo-targets to include a "demo-target-" prefix

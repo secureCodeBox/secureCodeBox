@@ -52,9 +52,13 @@ docker pull securecodebox/hook-persistence-elastic
 ```
 
 ## What is "Persistence ElasticSearch" Hook about?
-The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index. This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit [elastic.io].
+
+The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index.
+This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit [elastic.io].
 
 Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
+
+This hook supports both Elasticsearch as well as OpenSearch. The configuration is the same for both.
 
 ## Community
 
