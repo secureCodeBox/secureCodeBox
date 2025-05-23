@@ -167,8 +167,12 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.suspend | bool | `false` | if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue |
 | scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| trivyDatabaseCache.cacheStorageLimit | string | `"1Gi"` | storage limit for the trivy db cache emptyDir volumes. (applied to two volumes) |
 | trivyDatabaseCache.enabled | bool | `true` | Enables or disables the use of trivy server in another pod to cache the vulnerability database for all scans. |
+| trivyDatabaseCache.podSecurityContext | object | `{"runAsUser":10001}` | Optional securityContext set on database cache pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | trivyDatabaseCache.replicas | int | `1` | amount of replicas to configure for the Deployment |
+| trivyDatabaseCache.resources | object | `{}` | Optional resource limits/requests for the trivy database cache container |
+| trivyDatabaseCache.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Optional securityContext set on database cache container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
