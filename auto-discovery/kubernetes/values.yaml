@@ -27,14 +27,13 @@ config:
     passiveReconcileInterval: 1m
     scanConfigs:
       # -- scanType used for the scans created by the serviceAutoDiscovery
-      - scanType: zap-advanced-scan
+      - scanType: "zap-automation-framework"
         # -- unique name to distinguish scans
         name: "zap"
         # -- parameters used for the scans created by the serviceAutoDiscovery, all parameters support templating
         parameters:
-          - "-t"
-          - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
-        # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+          - "-autorun"
+          - "/home/securecodebox/scb-automation/automation.yaml"
         repeatInterval: "168h"
         # -- labels to be added to the scans started by the auto-discovery, all label values support templating
         labels: {}
@@ -46,10 +45,17 @@ config:
           defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
         # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes
         # the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating
-        volumes: []
+        volumes: 
+          - name: zap-automation-framework-baseline-config
+            configMap:
+              name: "zap-automation-framework-baseline-config"
+
         # -- volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
         # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
-        volumeMounts: []
+        volumeMounts: 
+          - name: zap-automation-framework-baseline-config
+            mountPath: /home/securecodebox/scb-automation/automation.yaml
+            subPath: automation.yaml
         # -- HookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
         # Both matchLabels and matchExpressions are supported.
         # All values in the matchLabels map support templating.
@@ -57,7 +63,10 @@ config:
         hookSelector: {}
         # -- allows to overwrite the env var list of the scan job.
         # the value field supports templating.
-        env: []
+        env: 
+          - name: TARGET_URL
+            value: "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+          
 
   containerAutoDiscovery:
     enabled: false
