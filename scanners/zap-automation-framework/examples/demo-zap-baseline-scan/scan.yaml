@@ -12,8 +12,8 @@ data:
 
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
-        - name: zap-baseline-automation-scan # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://juice-shop.demo-targets.svc:3000/"] # A mandatory list of top level urls, everything under each url will be included
+        - name: baseline-config            # Name to be used to refer to this context in other jobs, mandatory
+          urls: ["${TARGET_URL}"]          # A mandatory list of top level urls, everything under each url will be included
     jobs:
       - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
         parameters:
@@ -24,9 +24,9 @@ data:
           maxDuration: 5                   # Int: The max time to wait for the passive scanner, default: 0 unlimited
       - type: report                       # Report generation
         parameters:
-          template: traditional-xml                        # String: The template id, default : modern
-          reportDir: /home/securecodebox/               # String: The directory into which the report will be written
-          reportFile: zap-results                     # String: The report file name pattern, default: {{yyyy-MM-dd}}-ZAP-Report-[[site]]
+          template: traditional-xml        # String: The template id, default : modern
+          reportDir: /home/securecodebox/  # String: The directory into which the report will be written
+          reportFile: zap-results          # String: The report file name pattern, default: {{yyyy-MM-dd}}-ZAP-Report-[[site]]
         risks:                             # List: The risks to include in this report, default all
           - high
           - medium
@@ -52,3 +52,6 @@ spec:
     - name: zap-baseline-automation-framework-config
       configMap:
         name: zap-baseline-automation-framework-config
+  env: 
+    - name: TARGET_URL
+      value: "http://juice-shop.demo-targets.svc:3000/"
