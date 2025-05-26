@@ -45,11 +45,11 @@ var _ = Describe("LoadAutoDiscoveryConfig", func() {
 
 			sc := sad.ScanConfigs[0]
 			Expect(sc.Name).To(Equal("zap"))
-			Expect(sc.ScanType).To(Equal("zap-advanced-scan"))
+			Expect(sc.ScanType).To(Equal("zap-automation-framework"))
 			Expect(sc.RepeatInterval.Duration).To(Equal(168 * time.Hour))
 			Expect(sc.Parameters).To(Equal([]string{
-				"-t",
-				"{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}",
+				"-autorun",
+				"/home/securecodebox/scb-automation/automation.yaml",
 			}))
 			Expect(sc.Labels).To(BeEmpty())
 			Expect(sc.Annotations).To(HaveKeyWithValue("defectdojo.securecodebox.io/product-name", "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"))
@@ -60,19 +60,19 @@ var _ = Describe("LoadAutoDiscoveryConfig", func() {
 			// Validate volumes of the service scan config.
 			Expect(sc.Volumes).To(HaveLen(1))
 			vol := sc.Volumes[0]
-			Expect(vol.Name).To(Equal("zap-advanced-scan-config"))
+			Expect(vol.Name).To(Equal("zap-automation-framework-baseline-config"))
 			Expect(vol.ConfigMap).NotTo(BeNil())
 			cm := vol.ConfigMap
 			// The ConfigMap volume source.
-			Expect(cm.Name).To(Equal("zap-advanced-scan-config"))
+			Expect(cm.Name).To(Equal("zap-automation-framework-baseline-config"))
 			// Optional is a pointer.
 			Expect(*cm.Optional).To(BeTrue())
 			Expect(*cm.DefaultMode).To(Equal(int32(420)))
 			Expect(cm.Items).To(HaveLen(2))
 			// First key-to-path mapping.
 			firstItem := cm.Items[0]
-			Expect(firstItem.Key).To(Equal("2-zap-advanced-scan.yaml"))
-			Expect(firstItem.Path).To(Equal("2-zap-advanced-scan.yaml"))
+			Expect(firstItem.Key).To(Equal("automation.yaml"))
+			Expect(firstItem.Path).To(Equal("automation.yaml"))
 			Expect(*firstItem.Mode).To(Equal(int32(420)))
 			// Second key-to-path mapping.
 			secondItem := cm.Items[1]
@@ -83,12 +83,12 @@ var _ = Describe("LoadAutoDiscoveryConfig", func() {
 			// Validate volumeMounts of the service scan config.
 			Expect(sc.VolumeMounts).To(HaveLen(1))
 			vm := sc.VolumeMounts[0]
-			Expect(vm.Name).To(Equal("zap-advanced-scan-config"))
+			Expect(vm.Name).To(Equal("zap-automation-framework-baseline-config"))
 			Expect(vm.ReadOnly).To(BeTrue())
 			// recursiveReadOnly is a pointer to a string in the struct.
 			Expect(*vm.RecursiveReadOnly).To(Equal(corev1.RecursiveReadOnlyEnabled))
-			Expect(vm.MountPath).To(Equal("/home/securecodebox/configs/2-zap-advanced-scan.yaml"))
-			Expect(vm.SubPath).To(Equal("2-zap-advanced-scan.yaml"))
+			Expect(vm.MountPath).To(Equal("/home/securecodebox/configs/automation.yaml"))
+			Expect(vm.SubPath).To(Equal("automation.yaml"))
 			// mountPropagation is also a pointer.
 			Expect(*vm.MountPropagation).To(Equal(corev1.MountPropagationBidirectional))
 			Expect(vm.SubPathExpr).To(Equal("$(CONFIG_FILE_NAME)"))
@@ -179,16 +179,16 @@ var _ = Describe("LoadAutoDiscoveryConfig", func() {
 			// Validate volumes of the container scan config.
 			Expect(sc2.Volumes).To(HaveLen(1))
 			vol2 := sc2.Volumes[0]
-			Expect(vol2.Name).To(Equal("zap-advanced-scan-config"))
+			Expect(vol2.Name).To(Equal("zap-automation-framework-baseline-config"))
 			Expect(vol2.ConfigMap).NotTo(BeNil())
 			cm2 := vol2.ConfigMap
-			Expect(cm2.Name).To(Equal("zap-advanced-scan-config"))
+			Expect(cm2.Name).To(Equal("zap-automation-framework-baseline-config"))
 			Expect(*cm2.Optional).To(BeTrue())
 			Expect(*cm2.DefaultMode).To(Equal(int32(420)))
 			Expect(cm2.Items).To(HaveLen(2))
 			firstItem = cm2.Items[0]
-			Expect(firstItem.Key).To(Equal("2-zap-advanced-scan.yaml"))
-			Expect(firstItem.Path).To(Equal("2-zap-advanced-scan.yaml"))
+			Expect(firstItem.Key).To(Equal("automation.yaml"))
+			Expect(firstItem.Path).To(Equal("automation.yaml"))
 			Expect(*firstItem.Mode).To(Equal(int32(420)))
 			secondItem = cm2.Items[1]
 			Expect(secondItem.Key).To(Equal("extra-config.yaml"))
@@ -198,11 +198,11 @@ var _ = Describe("LoadAutoDiscoveryConfig", func() {
 			// Validate volumeMounts of the container scan config.
 			Expect(sc2.VolumeMounts).To(HaveLen(1))
 			vm = sc2.VolumeMounts[0]
-			Expect(vm.Name).To(Equal("zap-advanced-scan-config"))
+			Expect(vm.Name).To(Equal("zap-automation-framework-baseline-config"))
 			Expect(vm.ReadOnly).To(BeTrue())
 			Expect(*vm.RecursiveReadOnly).To(Equal(corev1.RecursiveReadOnlyEnabled))
-			Expect(vm.MountPath).To(Equal("/home/securecodebox/configs/2-zap-advanced-scan.yaml"))
-			Expect(vm.SubPath).To(Equal("2-zap-advanced-scan.yaml"))
+			Expect(vm.MountPath).To(Equal("/home/securecodebox/configs/automation.yaml"))
+			Expect(vm.SubPath).To(Equal("automation.yaml"))
 			Expect(*vm.MountPropagation).To(Equal(corev1.MountPropagationBidirectional))
 			Expect(vm.SubPathExpr).To(Equal("$(CONFIG_FILE_NAME)"))
 

@@ -15,11 +15,11 @@ serviceAutoDiscovery:
   enabled: true
   passiveReconcileInterval: 1m
   scanConfigs:
-    - scanType: zap-advanced-scan
+    - scanType: zap-automation-framework
       name: "zap"
       parameters:
-        - "-t"
-        - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+        - "-autorun"
+        - "/home/securecodebox/scb-automation/automation.yaml"
       repeatInterval: "168h"
       labels: {}
       annotations:
@@ -28,24 +28,24 @@ serviceAutoDiscovery:
         defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
         defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
       volumes:
-        - name: zap-advanced-scan-config
+        - name: zap-automation-framework-baseline-config
           configMap:
-            name: zap-advanced-scan-config
+            name: zap-automation-framework-baseline-config
             optional: true
             defaultMode: 420
             items:
-              - key: "2-zap-advanced-scan.yaml"
-                path: "2-zap-advanced-scan.yaml"
+              - key: "automation.yaml"
+                path: "automation.yaml"
                 mode: 420
               - key: "extra-config.yaml"
                 path: "extra-config.yaml"
                 mode: 511
       volumeMounts:
-        - name: zap-advanced-scan-config
+        - name: zap-automation-framework-baseline-config
           readOnly: true
           recursiveReadOnly: "Enabled"
-          mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml
-          subPath: 2-zap-advanced-scan.yaml
+          mountPath: /home/securecodebox/configs/automation.yaml
+          subPath: automation.yaml
           mountPropagation: "Bidirectional"
           subPathExpr: "$(CONFIG_FILE_NAME)"
       hookSelector:
@@ -99,24 +99,24 @@ containerAutoDiscovery:
         defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
         defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
       volumes:
-        - name: zap-advanced-scan-config
+        - name: zap-automation-framework-baseline-config
           configMap:
-            name: zap-advanced-scan-config
+            name: zap-automation-framework-baseline-config
             optional: true
             defaultMode: 420
             items:
-              - key: "2-zap-advanced-scan.yaml"
-                path: "2-zap-advanced-scan.yaml"
+              - key: "automation.yaml"
+                path: "automation.yaml"
                 mode: 420
               - key: "extra-config.yaml"
                 path: "extra-config.yaml"
                 mode: 511
       volumeMounts:
-        - name: zap-advanced-scan-config
+        - name: zap-automation-framework-baseline-config
           readOnly: true
           recursiveReadOnly: "Enabled"
-          mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml
-          subPath: 2-zap-advanced-scan.yaml
+          mountPath: /home/securecodebox/configs/automation.yaml
+          subPath: automation.yaml
           mountPropagation: "Bidirectional"
           subPathExpr: "$(CONFIG_FILE_NAME)"
       hookSelector:
