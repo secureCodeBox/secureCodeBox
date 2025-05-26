@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zap-automation-framework-baseline-config
+data:
+  automation.yaml: |-
+    env:                                   # The environment, mandatory
+      contexts :                           # List of 1 or more contexts, mandatory
+        - name: baseline-config            # Name to be used to refer to this context in other jobs, mandatory
+          urls: ["${TARGET_URL}"]          # A mandatory list of top level urls, everything under each url will be included
+    jobs:
+      - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
+        parameters:
+          context: baseline-config         # String: Name of the context to spider, default: first context
+          maxDuration: 1                   # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+      - type: passiveScan-wait             # Passive scan wait for the passive scanner to finish
+        parameters:
+          maxDuration: 5                   # Int: The max time to wait for the passive scanner, default: 0 unlimited
+      - type: activeScan                   # The active scanner - this actively attacks the target so should only be used with permission
+        parameters:
+          context: baseline-config         # String: Name of the context to attack, default: first context
+          maxRuleDurationInMins: 3         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+          maxScanDurationInMins: 10        # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml        # String: The template id, default : modern
+          reportDir: /home/securecodebox/  # String: The directory into which the report will be written
+          reportFile: zap-results          # String: The report file name pattern
