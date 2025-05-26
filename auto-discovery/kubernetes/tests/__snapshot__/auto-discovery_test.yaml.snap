@@ -63,18 +63,36 @@ matches the snapshot:
                   "defectdojo.securecodebox.io/product-name": "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}",
                   "defectdojo.securecodebox.io/product-tags": "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
                 },
-                "env": [],
+                "env": [
+                  {
+                    "name": "TARGET_URL",
+                    "value": "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+                  }
+                ],
                 "hookSelector": {},
                 "labels": {},
                 "name": "zap",
                 "parameters": [
-                  "-t",
-                  "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+                  "-autorun",
+                  "/home/securecodebox/scb-automation/automation.yaml"
                 ],
                 "repeatInterval": "168h",
-                "scanType": "zap-advanced-scan",
-                "volumeMounts": [],
-                "volumes": []
+                "scanType": "zap-automation-framework",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
+                    "name": "zap-automation-framework-baseline-config",
+                    "subPath": "automation.yaml"
+                  }
+                ],
+                "volumes": [
+                  {
+                    "configMap": {
+                      "name": "zap-automation-framework-baseline-config"
+                    },
+                    "name": "zap-automation-framework-baseline-config"
+                  }
+                ]
               }
             ]
           }
