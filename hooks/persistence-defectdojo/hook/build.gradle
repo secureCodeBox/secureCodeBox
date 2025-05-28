@@ -40,6 +40,8 @@ dependencies {
   testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.17.0"
   testImplementation group: 'org.hamcrest', name: 'java-hamcrest', version: '2.0.0.0'
   testImplementation group: 'uk.org.webcompere', name: 'system-stubs-jupiter', version: '2.1.8'
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 java {
