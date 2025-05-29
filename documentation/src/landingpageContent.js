@@ -100,19 +100,24 @@ const content = {
     },
     roles: [
       {
-        imageSrc: "/img/roles/rfe_hoch_cropped.jpg",
+        imageSrc: "/img/roles/robert.jpg",
         name: "Robert Felber",
-        role: "Inventor",
+        role: "Project Lead",
       },
       {
-        imageSrc: "/img/roles/sst_hoodie_hoch_cropped.jpg",
+        imageSrc: "/img/roles/sven.jpg",
         name: "Sven Strittmatter",
-        role: "Core Team",
+        role: "Project Lead",
       },
       {
-        imageSrc: "/img/roles/jh_small.jpg",
+        imageSrc: "/img/roles/jannik.jpg",
         name: "Jannik Hollenbach",
-        role: "Core Team",
+        role: "Project Lead",
+      },
+      {
+        imageSrc: "/img/roles/ilyes.jpg",
+        name: "Ilyes Ben Dlala",
+        role: "Project Lead",
       },
     ],
   },
