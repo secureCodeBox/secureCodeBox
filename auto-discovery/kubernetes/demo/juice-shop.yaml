@@ -61,10 +61,10 @@ spec:
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: zap-advanced
+  name: zap-automation-framework
   namespace: juice-shop
 spec:
   chart:
     repository: https://charts.securecodebox.io
     version: 3.2.0
-    name: zap-advanced
+    name: zap-automation-framework
