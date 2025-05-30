@@ -29,7 +29,7 @@ If a pod consists of multiple containers, the above described logic will be appl
 
 ### Service AutoDiscovery
 
-The Service AutoDiscovery will create a scheduled scan with the given parameters (see [readme](https://github.com/secureCodeBox/secureCodeBox/blob/main/auto-discovery/kubernetes/README.md) for config options) for each Kubernetes service it detects. (It is possible to scan APIs that require authentication, see the [ZAP Advanced](../scanners/zap-advanced.md) documentation).
+The Service AutoDiscovery will create a scheduled scan with the given parameters (see [readme](https://github.com/secureCodeBox/secureCodeBox/blob/main/auto-discovery/kubernetes/README.md) for config options) for each Kubernetes service it detects. (It is possible to scan APIs that require authentication, see the [ZAP Automation Framework ](../scanners/zap-automation-framework.md) documentation).
 The Service AutoDiscovery is enabled by default but can be disabled manually.
 
 The Service AutoDiscovery will ignore services where the underlying pods do not serve http(s). It does this by checking for open ports `80, 443, 3000, 5000, 8000, 8443, 8080`. It is also sufficient to name the ports `http` or `https` when a different port is used than the ports specified above.
@@ -40,10 +40,10 @@ Services without a matching port number or name are currently ignored.
 For the sake of the tutorial, it will be assumed that a Kubernetes cluster and the SCB operator is already up and running. If not, check out the [installation](/docs/getting-started/installation/) tutorial for more information.
 This tutorial will use the `default` and `securecodebox-system` namespaces.
 
-First install the `zap-advanced` (for service AutoDiscovery) and `trivy` (for Container AutoDiscovery) scan types:
+First install the `zap-automation-framework` (for service AutoDiscovery) and `trivy` (for Container AutoDiscovery) scan types:
 
 ```bash
-helm upgrade --install zap-advanced oci://ghcr.io/securecodebox/helm/zap-advanced
+helm upgrade --install zap-automation-framework oci://ghcr.io/securecodebox/helm/zap-automation-framework
 helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
 ```
 
@@ -73,13 +73,13 @@ Then install juice-shop as a demo target:
 helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop
 ```
 
-The AutoDiscovery will create two scheduled scans after some time. One for the juice-shop service using `zap`, and one for the juice-shop container using `trivy`:
+The AutoDiscovery will create two scheduled scans after some time. One for the juice-shop service using `zap-automation-framework`, and one for the juice-shop container using `trivy`:
 
 ```bash
 $ kubectl get scheduledscans
-NAME                                                             TYPE                INTERVAL   FINDINGS
-juice-shop-service-port-3000                                     zap-advanced-scan   168h0m0s
-scan-juice-shop-at-350cf9a6ea37138b987a3968d046e61bcd3bb18d2ec   trivy               168h0m0s
+NAME                                                             TYPE                       INTERVAL   FINDINGS
+juice-shop-service-port-3000                                     zap-automation-framework   168h0m0s
+scan-juice-shop-at-350cf9a6ea37138b987a3968d046e61bcd3bb18d2ec   trivy                      168h0m0s
 ```
 
 Install a second juice-shop into the namespace:
@@ -88,14 +88,14 @@ Install a second juice-shop into the namespace:
 helm upgrade --install juice-shop2 oci://ghcr.io/securecodebox/helm/juice-shop
 ```
 
-The AutoDiscovery will then create a second `zap` scan for the service, but no additional `trivy` container scan, as the juice-shop container is already being scanned.
+The AutoDiscovery will then create a second `zap-automation-framework` scan for the service, but no additional `trivy` container scan, as the juice-shop container is already being scanned.
 
 ```bash
 $ kubectl get scheduledscans
-NAME                                                             TYPE                INTERVAL   FINDINGS
-juice-shop-service-port-3000                                     zap-advanced-scan   168h0m0s
-juice-shop2-service-port-3000                                    zap-advanced-scan   168h0m0s
-scan-juice-shop-at-350cf9a6ea37138b987a3968d046e61bcd3bb18d2ec   trivy               168h0m0s
+NAME                                                             TYPE                       INTERVAL   FINDINGS
+juice-shop-service-port-3000                                     zap-automation-framework   168h0m0s
+juice-shop2-service-port-3000                                    zap-automation-framework   168h0m0s
+scan-juice-shop-at-350cf9a6ea37138b987a3968d046e61bcd3bb18d2ec   trivy                      168h0m0s
 ```
 
 Delete both juice-shop deployments.
