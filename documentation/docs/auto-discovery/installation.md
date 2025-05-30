@@ -32,9 +32,9 @@ To ease the rollout of the auto-discovery in already existing clusters the auto-
 This behavior can be configured using one of the following `resourceInclusion` modes:
 
 - enabled-per-namespace (default) : scans discovered resources in namespaces marked as enabled by an annotation
-- enabled-per-resource :  only scans resources marked as enabled by an annotation
+- enabled-per-resource : only scans resources marked as enabled by an annotation
 - all (scans every resource in the whole cluster!)
-  
+
 These modes can be set via the `config.resourceInclusion` parameter in the helm chart:
 
 ```bash
@@ -52,6 +52,7 @@ Annotating a namespace can be done as follows. Here the default namespace is ann
 ```bash
 kubectl annotate namespace default auto-discovery.securecodebox.io/enabled=true
 ```
+
 Annotating a individual resource is done as follows. Here the deployment `juice-shop` in the namespace `default` is annotated.
 
 It is done by adding the annotation to the chart values, which is then passed to the deployment template. This results into the pod containing the service/deployment always having the annotation. The process may be different in your case:
@@ -60,10 +61,10 @@ It is done by adding the annotation to the chart values, which is then passed to
 helm upgrade --install juice-shop oci://ghcr.io/securecodebox/helm/juice-shop  --set-json='annotations={"auto-discovery.securecodebox.io/enabled":"true"}'
 ```
 
-You should now see a ZAP-advanced [ScheduledScan](/docs/api/crds/scheduled-scan) created for juice-shop or any other service that you have annotated.
+You should now see a ZAP Automation Framework [ScheduledScan](/docs/api/crds/scheduled-scan) created for juice-shop or any other service that you have annotated.
 
 ```bash
-$ kubectl get scheduledscans.execution.securecodebox.io 
+$ kubectl get scheduledscans.execution.securecodebox.io
 NAME                                                             TYPE                INTERVAL   FINDINGS
-juice-shop-service-port-3000                                     zap-advanced-scan   168h0m0s   5
+juice-shop-service-port-3000                                     zap-automation-framework   168h0m0s   5
 ```
