@@ -15,7 +15,7 @@ Since sequence diagrams are hard to maintain and tend to be very complicated we 
 
 ## Runtime Scenario 1: Basic Scan with kubectl {#__runtime_scenario_1}
 
-This scenario describes a simple [ZAP](/docs/scanners/zap) scan which is initialized by a _Developer_ actor and which persists the _findings_ in [Elastic][elastic] and [DefectDojo][defectdojo]. 
+This scenario describes a simple [ZAP](/docs/scanners/zap-automation-framework) scan which is initialized by a _Developer_ actor and which persists the _findings_ in [Elastic][elastic] and [DefectDojo][defectdojo]. 
 
 ![Runtime view diagram](/img/docs/architecture/runtime-basic-scan-via-kubectl.png)
 

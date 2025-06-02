@@ -65,6 +65,6 @@ You should now see a ZAP Automation Framework [ScheduledScan](/docs/api/crds/sch
 
 ```bash
 $ kubectl get scheduledscans.execution.securecodebox.io
-NAME                                                             TYPE                INTERVAL   FINDINGS
-juice-shop-service-port-3000                                     zap-automation-framework   168h0m0s   5
+NAME                                                    TYPE                       INTERVAL   FINDINGS
+juice-shop-service-port-3000                            zap-automation-framework   168h0m0s   5
 ```
