@@ -8,7 +8,7 @@ plugins {
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.52.0"
-  id "org.sonarqube" version "6.1.0.5360"
+  id "org.sonarqube" version "6.2.0.5505"
 }
 
 group = "io.securecodebox"
@@ -24,20 +24,20 @@ repositories {
 dependencies {
   implementation group: "io.securecodebox", name: "defectdojo-client", version: "2.0.1"
   implementation group: "io.kubernetes", name: "client-java", version: "20.0.1"
-  implementation group: "org.springframework", name: "spring-web", version: "6.2.5"
-  implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.18.3"
-  implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.18.3"
-  implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.18.3"
-  implementation group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-jsr310", version: "2.18.3"
+  implementation group: "org.springframework", name: "spring-web", version: "6.2.7"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.19.0"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.19.0"
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.19.0"
+  implementation group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-jsr310", version: "2.19.0"
   implementation group: "org.slf4j", name: "slf4j-api", version: "2.0.17"
   implementation group: "org.slf4j", name: "slf4j-log4j12", version: "2.0.17"
   // If I try to notate this like the others (with separate strings) I got errors. No idea why sh... Gradle
   // want it like this. It is the official documented example:
   // https://github.com/junit-team/junit5-samples/blob/r5.10.0/junit5-jupiter-starter-gradle/build.gradle
-  testImplementation(platform("org.junit:junit-bom:5.12.1"))
+  testImplementation(platform("org.junit:junit-bom:5.13.0"))
   testImplementation("org.junit.jupiter:junit-jupiter")
-  testImplementation group: "org.mockito", name: "mockito-core", version: "5.17.0"
-  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.17.0"
+  testImplementation group: "org.mockito", name: "mockito-core", version: "5.18.0"
+  testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.18.0"
   testImplementation group: 'org.hamcrest', name: 'java-hamcrest', version: '2.0.0.0'
   testImplementation group: 'uk.org.webcompere', name: 'system-stubs-jupiter', version: '2.1.8'
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
