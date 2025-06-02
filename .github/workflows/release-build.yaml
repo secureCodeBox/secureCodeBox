@@ -341,7 +341,6 @@ jobs:
           - trivy-sbom
           - whatweb
           - wpscan
-          - zap
           - zap-automation-framework
 
     steps:
@@ -491,7 +490,6 @@ jobs:
           - git-repo-scanner
           - screenshooter
           - test-scan
-          - zap-advanced
     steps:
       - name: Checkout
         uses: actions/checkout@v4

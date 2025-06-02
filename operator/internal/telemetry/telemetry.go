@@ -48,12 +48,12 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"typo3scan":                true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"whatweb":                  true,
 	"wpscan":                   true,
-	"zap-baseline-scan":        true,
+	"zap-baseline-scan":        true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"zap-api-scan":             true,
 	"zap-full-scan":            true,
 	"zap-automation-scan":      true,
 	"zap-automation-framework": true,
-	"zap-advanced-scan":        true,
+	"zap-advanced-scan":        true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 }
 
 // telemetryData submitted by operator

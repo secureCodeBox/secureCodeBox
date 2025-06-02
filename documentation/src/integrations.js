@@ -203,27 +203,13 @@ export const Scanners = [
     path: "docs/scanners/wpscan",
     imageUrl: "img/integrationIcons/WPScan.svg",
   },
-  {
-    title: "ZAP Advanced",
-    type: "WebApplication",
-    usecase:
-      "WebApp & OpenAPI Vulnerability Scanner extend with authentication features",
-    path: "docs/scanners/zap-advanced",
-    imageUrl: "img/integrationIcons/Default.svg",
-  },
+
   {
     title: "ZAP Automation Framework",
     type: "WebApplication",
     usecase: "WebApp & OpenAPI Vulnerability Scanner",
     path: "docs/scanners/zap-automation-framework",
     imageUrl: "img/integrationIcons/Default.svg",
-  },
-  {
-    title: "ZAP",
-    type: "WebApplication",
-    usecase: "WebApp & OpenAPI Vulnerability Scanner",
-    path: "docs/scanners/zap",
-    imageUrl: "img/integrationIcons/ZAP.svg",
   },
 ];
 export default { Hooks, Scanners };

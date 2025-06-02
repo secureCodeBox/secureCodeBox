@@ -436,8 +436,6 @@ jobs:
           - trivy-sbom
           - whatweb
           - wpscan
-          - zap
-          - zap-advanced
           - zap-automation-framework
     steps:
       - name: Checkout
