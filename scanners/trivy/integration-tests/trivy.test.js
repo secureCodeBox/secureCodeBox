@@ -117,9 +117,10 @@ test.concurrent(
     expect(categoryNames.includes("Misconfiguration")).toBeTruthy();
 
     const severityNames = Object.keys(severities);
-    expect(severityNames).toHaveLength(2);
+    expect(severityNames).toHaveLength(3);
     expect(severityNames.includes("low")).toBeTruthy();
     expect(severityNames.includes("medium")).toBeTruthy();
+    expect(severityNames.includes("high")).toBeTruthy();
   },
   10 * 60 * 1000
 );
