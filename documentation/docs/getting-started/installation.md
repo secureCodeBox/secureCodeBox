@@ -129,7 +129,7 @@ helm upgrade --install ssh-audit oci://ghcr.io/securecodebox/helm/ssh-audit
 helm upgrade --install sslyze oci://ghcr.io/securecodebox/helm/sslyze
 helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
 helm upgrade --install wpscan oci://ghcr.io/securecodebox/helm/wpscan
-helm upgrade --install zap oci://ghcr.io/securecodebox/helm/zap
+helm upgrade --install zap-automation-framework oci://ghcr.io/securecodebox/helm/zap-automation-framework
 ```
 
 ## Install some demo targets

@@ -14,7 +14,7 @@ The secureCodeBox Operator collects and submits anonymized data to give the deve
 The total number of datapoints collected is extremely small, and they are individually evaluated to ensure that the submitted data is as anonymous as possible.
 
 - Installed version of the secureCodeBox Operator (e.g. `v2.0.0`)
-- List of installed ScanTypes across all kubernetes Namespaces: (e.g. `['nmap', 'zap-baseline']`). Unofficial ScanTypes are reported as `other`, to avoid submission of confidential data.
+- List of installed ScanTypes across all kubernetes Namespaces: (e.g. `['nmap', 'zap-automation-framework']`). Unofficial ScanTypes are reported as `other`, to avoid submission of confidential data.
 
 ## Collection Interval
 

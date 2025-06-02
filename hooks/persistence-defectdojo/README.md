@@ -197,35 +197,37 @@ It has come to our attention, that _DefectDojo_ become slow when handling a lot 
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScheduledScan
 metadata:
-  name: "zap-juiceshop"
+  name: "nmap-juice-shop-cluster-internal"
   annotations:
-      defectdojo.securecodebox.io/minimum_severity: "Low"
+    defectdojo.securecodebox.io/minimum_severity: "Low"
 spec:
   interval: 24h
   scanSpec:
-    scanType: "zap-full-scan"
+    scanType: "nmap"
     parameters:
-      - "-t"
-      - "http://juice-shop.demo-targets.svc:3000"
+      - "-Pn"
+      - "-sV"
+      - juice-shop.demo-targets.svc.cluster.local
 ```
 In this example only for scan findings with a severity of "Low" or higher there are findings in _DefectDojo_ created.
 
 ### Simple Example Scans
 
-This will run a daily scan using ZAP on a demo target. The results will be imported using the name "zap-juiceshop-$UNIX_TIMESTAMP" (Name of the Scan created by the ScheduledScan), in a product called "zap-juiceshop" in the default _DefectDojo_ product type.
+This will run a daily scan using Nmap on a demo target. The results will be imported using the name "nmap-juiceshop-$UNIX_TIMESTAMP" (Name of the Scan created by the ScheduledScan), in a product called "nmap-juiceshop" in the default _DefectDojo_ product type.
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScheduledScan
 metadata:
-  name: "zap-juiceshop"
+  name: "nmap-juice-shop"
 spec:
   interval: 24h
   scanSpec:
-    scanType: "zap-full-scan"
+    scanType: "nmap"
     parameters:
-      - "-t"
-      - "http://juice-shop.demo-targets.svc:3000"
+      - "-Pn"
+      - "-sV"
+      - juice-shop.demo-targets.svc.cluster.local
 ```
 
 ### Complete Example Scan
@@ -236,7 +238,7 @@ This will import the results into engagement, product and product type following
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScheduledScan
 metadata:
-  name: "zap-full-scan-juiceshop"
+  name: "nmap-juiceshop"
   annotations:
     defectdojo.securecodebox.io/product-type-name: "OWASP"
     defectdojo.securecodebox.io/product-name: "Juice Shop"
@@ -246,17 +248,18 @@ metadata:
       Juice Shop encompasses vulnerabilities from the entire OWASP Top Ten along with many other security flaws found in real-world applications!
     defectdojo.securecodebox.io/product-tags: vulnerable,appsec,owasp-top-ten,vulnapp
     defectdojo.securecodebox.io/engagement-name: "Juice Shop"
-    defectdojo.securecodebox.io/engagement-version: "v12.6.1"
+    defectdojo.securecodebox.io/engagement-version: "v13.0.3"
     defectdojo.securecodebox.io/engagement-tags: "automated,daily"
     defectdojo.securecodebox.io/engagement-deduplicate-on-engagement: "true"
-    defectdojo.securecodebox.io/test-title: "Juice Shop - v12.6.1"
+    defectdojo.securecodebox.io/test-title: "Juice Shop - v13.0.3"
 spec:
   interval: 24h
   scanSpec:
-    scanType: "zap-full-scan"
+    scanType: "nmap"
     parameters:
-      - "-t"
-      - "http://juice-shop.demo-targets.svc:3000"
+      - "-Pn"
+      - "-sV"
+      - juice-shop.demo-targets.svc.cluster.local
 ```
 
 ## Assinging more resources (CPU/Memory) to the Hook

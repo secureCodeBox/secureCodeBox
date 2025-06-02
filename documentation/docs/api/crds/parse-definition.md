@@ -85,21 +85,22 @@ resources:
 apiVersion: execution.securecodebox.io/v1
 kind: ParseDefinition
 metadata:
-  name: zap-json
+  name: zap-xml
 spec:
-  image: docker.io/securecodebox/parser-zap
+  affinity:
+    foo: bar
+  env: []
+  image: docker.io/securecodebox/parser-zap-automation-framework:0.0.0
+  imagePullPolicy: IfNotPresent
   imagePullSecrets:
-    - name: dockerhub-token
-  ttlSecondsAfterFinished: 60
-  scopeLimiterAliases:
-    domain: "{{attributes.host}}"
+    - name: foo
   resources:
-    requests:
-      cpu: 42mi
-      memory: 256Mi
-    limits:
-      cpu: 4
-      memory: 4Gi
+    foo: bar
+  scopeLimiterAliases:
+    foo: bar
+  tolerations:
+    - foo: bar
+  ttlSecondsAfterFinished: null
 ```
 
 The Parse definition is different when integrating a new scanner. We use specific conventions when adding new ParseDefinitions to the secureCodeBox repository.

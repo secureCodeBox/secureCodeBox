@@ -52,29 +52,20 @@ This helper object has the following attributes:
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "zap-http"
+  name: "nmap-hostscan"
   labels:
     securecodebox.io/invasive: non-invasive
-    securecodebox.io/intensive: medium
+    securecodebox.io/intensive: light
 spec:
   matches:
     anyOf:
-      - category: "Open Port"
-        attributes:
-          service: http
-          state: open
-      - category: "Open Port"
-        attributes:
-          service: https
-          state: open
-  scanLabels:
-    mynewlabel: {{ metadata.name }}
-  scanAnnotations:
-    defectdojo.securecodebox.io/product-name: "{{$.hostOrIP}}"
-    defectdojo.securecodebox.io/product-type-name: "{{metadata.labels.organization}}"
-    defectdojo.securecodebox.io/engagement-name: "{{metadata.name}}"
-    mynewannotation: "{{category}}"
+      - category: "Subdomain"
+        osi_layer: "NETWORK"
   scanSpec:
-    scanType: "zap-baseline"
-    parameters: ["-t", "{{attributes.service}}://{{$.hostOrIP}}"]
+    scanType: "nmap"
+    parameters:
+      # Treat all hosts as online -- skip host discovery
+      - "-Pn"
+      # Target Port of the finding
+      - "{{location}}"
 ```
