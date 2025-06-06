@@ -48,10 +48,21 @@ matches the snapshot:
               state: open
             category: Open Port
       scanSpec:
+        env:
+          - name: TARGET_URL
+            value: http://{{$.hostOrIP}}:{{attributes.port}}
         parameters:
-          - -t
-          - http://{{$.hostOrIP}}:{{attributes.port}}
+          - -autorun
+          - /home/securecodebox/scb-automation/automation.yaml
         scanType: zap-automation-framework
+        volumeMounts:
+          - mountPath: /home/securecodebox/scb-automation/automation.yaml
+            name: zap-automation-framework-baseline-config
+            subPath: automation.yaml
+        volumes:
+          - configMap:
+              name: zap-automation-framework-baseline-config
+            name: zap-automation-framework-baseline-config
   3: |
     apiVersion: cascading.securecodebox.io/v1
     kind: CascadingRule
@@ -68,10 +79,21 @@ matches the snapshot:
               state: open
             category: Open Port
       scanSpec:
+        env:
+          - name: TARGET_URL
+            value: https://{{$.hostOrIP}}:{{attributes.port}}
         parameters:
-          - -t
-          - https://{{$.hostOrIP}}:{{attributes.port}}
+          - -autorun
+          - /home/securecodebox/scb-automation/automation.yaml
         scanType: zap-automation-framework
+        volumeMounts:
+          - mountPath: /home/securecodebox/scb-automation/automation.yaml
+            name: zap-automation-framework-baseline-config
+            subPath: automation.yaml
+        volumes:
+          - configMap:
+              name: zap-automation-framework-baseline-config
+            name: zap-automation-framework-baseline-config
   4: |
     apiVersion: v1
     data:
