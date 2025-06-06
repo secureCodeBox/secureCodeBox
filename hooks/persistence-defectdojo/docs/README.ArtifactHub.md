@@ -49,8 +49,7 @@ like deduplication. These scan types are (see up-to-date list in [Java source][d
 
 - Nmap
 - Nikto
-- ZAP (Baseline, API Scan and Full Scan)
-- ZAP Advanced
+- ZAP Automation Scan
 - SSLyze
 - Trivy
 - Gitleaks
