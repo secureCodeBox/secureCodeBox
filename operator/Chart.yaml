@@ -133,24 +133,20 @@ annotations:
     - apiVersion: "cascading.securecodebox.io/v1"
       kind: CascadingRule
       metadata:
-        name: "zap-http"
+        name: "nmap-hostscan"
         labels:
           securecodebox.io/invasive: non-invasive
-          securecodebox.io/intensive: medium
+          securecodebox.io/intensive: light
       spec:
         matches:
           anyOf:
-            - category: "Open Port"
-              attributes:
-                service: http
-                state: open
-            - category: "Open Port"
-              attributes:
-                service: https
-                state: open
+            - category: "Subdomain"
+              osi_layer: "NETWORK"
         scanSpec:
-          scanType: "zap-baseline-scan"
-          parameters: ["-t", "{{attributes.service}}://{{$.hostOrIP}}"]
+          scanType: "nmap"
+          parameters:
+            - "-Pn"
+            - "{{location}}"
   artifacthub.io/license: Apache-2.0
   artifacthub.io/links: |
     - name: Documentation
