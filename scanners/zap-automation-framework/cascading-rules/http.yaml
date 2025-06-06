@@ -22,4 +22,17 @@ spec:
           state: open
   scanSpec:
     scanType: "zap-automation-framework"
-    parameters: ["-t", "http://{{$.hostOrIP}}:{{attributes.port}}"]
+    parameters:
+      - "-autorun"
+      - "/home/securecodebox/scb-automation/automation.yaml"
+    volumeMounts:
+      - name: zap-automation-framework-baseline-config  
+        mountPath: /home/securecodebox/scb-automation/automation.yaml
+        subPath: automation.yaml
+    volumes:
+      - name: zap-automation-framework-baseline-config  
+        configMap:
+          name: zap-automation-framework-baseline-config  
+    env: 
+      - name: TARGET_URL
+        value: "http://{{$.hostOrIP}}:{{attributes.port}}"
