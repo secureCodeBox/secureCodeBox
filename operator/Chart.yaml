@@ -26,7 +26,7 @@ maintainers:
 
 dependencies:
   - name: minio
-    version: 16.0.10
+    version: 17.0.3
     repository: https://charts.bitnami.com/bitnami
     condition: minio.enabled
 
