@@ -21,6 +21,7 @@ compatible with the latest release. You have to use them on your own responsibil
 ## Scanners
 
 * [Grype by RealAlphaMan](https://github.com/RealAlphaMan/grype-scantype-scb) - Added 16.05.2022
+* [SecureCodeBox Rust Security Scanner by Aureylzz](https://github.com/Aureylzz/securecodebox-scanner-rust) – Added 12.06.2025
 
 ## Hooks
 
