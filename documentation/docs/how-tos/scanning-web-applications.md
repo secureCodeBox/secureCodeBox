@@ -41,9 +41,17 @@ data:
   automation.yaml: |-
 
     env:                                   # The environment, mandatory
-      contexts :                           # List of 1 or more contexts, mandatory
+      contexts:                            # List of 1 or more contexts, mandatory
         - name: baseline-config            # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://juice-shop.demo-targets.svc:3000/"]          # A mandatory list of top level urls, everything under each url will be included
+          # A mandatory list of top level urls, everything under each url will be included
+          urls: ["http://juice-shop.demo-targets.svc:3000/"]
+    jobs:
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml        # String: The template id, default : modern
+          reportDir: /home/securecodebox/  # String: The directory into which the report will be written
+          reportFile: zap-results          # String: The report file name pattern, default: {{yyyy-MM-dd}}-ZAP-Report-[[site]]
+
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
@@ -67,6 +75,7 @@ spec:
 ```
 
 We use `volumeMounts` and `volumes` to attach the configMap to our scan in `scan.yaml`. We also set up a context for our `zap-automation-framework` scan. This is where we can input ZAP related parameters.
+The field `jobs.type: report` describes the output format and directory of the result file. This is a mendadory field. 
 
 We can do a test run via:
 
@@ -89,9 +98,10 @@ data:
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
         - name: baseline-config            # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://juice-shop.demo-targets.svc:3000/"]          # A mandatory list of top level urls, everything under each url will be included
+          # A mandatory list of top level urls, everything under each url will be included
+          urls: ["http://juice-shop.demo-targets.svc:3000/"]
 
-        # An optional list of regexes to include     
+          # An optional list of regexes to include     
           includePaths:
             - "http://juice-shop.default.svc:3000.*"
           # An optional list of regexes to exclude
@@ -104,9 +114,17 @@ data:
             - ".*\\.woff2"
             - ".*\\.ttf"
             - ".*\\.ico"
+    jobs:
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml        # String: The template id, default : modern
+          reportDir: /home/securecodebox/  # String: The directory into which the report will be written
+          reportFile: zap-results          # String: The report file name pattern, default: {{yyyy-MM-dd}}-ZAP-Report-[[site]]
 ```
 
-ZAP uses a [Spider-Tool](https://www.zaproxy.org/docs/desktop/start/features/spider/) to automatically discover new resources (URLs) on a particular site. We can configure its mode of operation through the parameter `spiders`. A possible configuration can look like this:
+ZAP uses a [Spider-Tool](https://www.zaproxy.org/docs/desktop/start/features/spider/) to automatically discover new resources (URLs) on a particular site. We can configure its mode of operation through `jobs.type`. Here we use the Ajax scanner as it is more suitable for modern web-applications. For a faster run you can use the default spider with `type: spider`.
+
+A possible configuration can look like this:
 
 ```yaml
 apiVersion: v1
@@ -119,7 +137,8 @@ data:
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
         - name: baseline-config            # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://juice-shop.demo-targets.svc:3000/"]          # A mandatory list of top level urls, everything under each url will be included
+          # A mandatory list of top level urls, everything under each url will be included
+          urls: ["http://juice-shop.demo-targets.svc:3000/"]
 
           # An optional list of regexes to include     
           includePaths:
@@ -135,61 +154,66 @@ data:
             - ".*\\.ttf"
             - ".*\\.ico"
     # ZAP Spiders Configuration 
-      spiders:
-        - name: scb-juiceshop-spider
+    jobs:                                  
+      - type: spiderAjax                   # We use a modern spider since the juice-shop is a modern web-application  
+        parameters:
           # String: Name of the context to spider, default: first context
           context: scb-juiceshop-context
           # String: Name of the user to authenticate with and used to spider
-          user: juiceshop-user-1
+          user: "admin@juice-sh.op"
           # String: Url to start spidering from, default: first context URL
-          url: "http://juice-shop.demo-targets.svc:3000/"
-          # zapConfiguration.spiders[0].ajax -- Bool: Whether to use the ZAP ajax spider, default: false
-          ajax: true
-          # Int: Fail if spider finds less than the specified number of URLs, default: 0
-          failIfFoundUrlsLessThan: 0
-          # Int: Warn if spider finds less than the specified number of URLs, default: 0
-          warnIfFoundUrlsLessThan: 0
+          url: http://juice-shop.default.svc:3000/
+          browserId: firefox-headless
+          # Elemets to exclude from the spider
+          excludedElements:
+          - description: Logout
+            element: span
+            text: Logout
           # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
           maxDuration: 5
-          # Int: The maximum tree depth to explore, default 5
-          maxDepth: 10
+
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml        # String: The template id, default : modern
+          reportDir: /home/securecodebox/  # String: The directory into which the report will be written
+          reportFile: zap-results 
 ```
 
 ZAP also has the option for an [Active Scan](https://www.zaproxy.org/docs/desktop/start/features/ascan/).  
-Active scanning attempts to find potential vulnerabilities by using known attacks against the selected targets. Its rules can be modified in the `scanners` parameter. An example for that would be:
+Active scanning attempts to find potential vulnerabilities by using known attacks against the selected targets. Its rules can be modified in the `jobs.types: activeScan` parameter. An example for that would be:
 
 ```yaml
 # ZAP ActiveScans Configuration
-scanners:
-  - name: scb-juiceshop-scan
-    # String: Name of the context to attack, default: first context
-    context: scb-juiceshop-context
-    # String: Name of the user to authenticate with and used to spider
-    user: juiceshop-user-1
-    # String: Url to start scaning from, default: first context URL
-    url: http://juice-shop.default.svc:3000/
-    # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
-    maxRuleDurationInMins: 1
-    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
-    maxScanDurationInMins: 10
-    # Int: The max number of threads per host, default: 2
-    threadPerHost: 5
-    # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
-    delayInMs: 0
-    # Bool: If set will add an extra query parameter to requests that do not have one, default: false
-    addQueryParam: false
-    # Bool: If set then automatically handle anti CSRF tokens, default: false
-    handleAntiCSRFTokens: false
-    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
-    injectPluginIdInHeader: false
-    # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
-    scanHeadersAllRequests: false
+jobs:
+  # The active scanner - this actively attacks the target so should only be used with permission
+  type: activeScan                         
+    parameters:
+      name: scb-juiceshop-scan
+      # String: Name of the context to attack, default: first context
+      context: scb-juiceshop-context
+      # String: Name of the user to authenticate with and used to spider
+      user: "test@test.com"
+      # String: Url to start scaning from, default: first context URL
+      url: http://juice-shop.default.svc:3000/
+      # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+      maxRuleDurationInMins: 1
+      # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
+      maxScanDurationInMins: 10
+      # Int: The max number of threads per host, default: 2
+      threadPerHost: 5
+      # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+      delayInMs: 0
+      # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+      addQueryParam: false
+      # Bool: If set then automatically handle anti CSRF tokens, default: false
+      handleAntiCSRFTokens: false
+      # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
+      injectPluginIdInHeader: false
+      # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+      scanHeadersAllRequests: false
 ```
 
-Some URLs may not be reachable without privileged user rights. In this case, it makes sense to provide authentications credentials. This is done through the `authentication`, `users` and `session` parameters in our ConfigMap context. In our case here, we use custom zap scripts to authenticate into juice-shop. The scripts used can be found [here](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/zap-advanced/scanner/scripts/).  
-:::note
-It can be required to configure your own scripts to fit your scan target: more information on how these scripts integrate into ZAP can be found [here](https://www.zaproxy.org/docs/desktop/start/features/scripts/).
-:::
+Some URLs may not be reachable without privileged user rights. In this case, it makes sense to provide authentications credentials. This is done through the `authentication`, `users` and `session` parameters in our ConfigMap context. For the Juice Shop there is an example for authentication on the [ZAP website](https://www.zaproxy.org/docs/testapps/juiceshop/) 
 Our `contexts` parameter in our scan would then look something like this:
 
 ```yaml
@@ -201,10 +225,11 @@ data:
   automation.yaml: |-
 
     env:                                   # The environment, mandatory
-      contexts :                           # List of 1 or more contexts, mandatory
-        - name: baseline-config            # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://juice-shop.demo-targets.svc:3000/"]          # A mandatory list of top level urls, everything under each url will be included
-        # An optional list of regexes to include
+      contexts:                            # List of 1 or more contexts, mandatory
+        - name: scb-juiceshop-context      # Name to be used to refer to this context in other jobs, mandatory
+          # A mandatory list of top level urls, everything under each url will be included
+          urls: ["http://juice-shop.demo-targets.svc:3000/"]
+          # An optional list of regexes to include
           includePaths:
             - "http://juice-shop.default.svc:3000.*"
           # An optional list of regexes to exclude
@@ -218,40 +243,70 @@ data:
             - ".*\\.ttf"
             - ".*\\.ico"
           # Auth Credentials for the scanner to access the application
-          # Can be either basicAuth or a oidc token.
-          # If both are set, the oidc token takes precedent
           authentication:
-            # Currently supports "basic-auth", "form-based", "json-based", "script-based"
-            type: "json-based"
-            # json-based requires no further configuration
-            # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
-            json-based:
-              loginUrl: "http://juice-shop.default.svc:3000/rest/user/login"
-              # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
-              loginRequestData: '{"email":"admin@juice-sh.op","password":"admin123"}'
-            # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
+            method: "browser"
+            parameters:
+              loginPageUrl: "http://juice-shop.demo-targets.svc:3000/#/login"
+              browserId: "firefox-headless"
+              loginPageWait: 5
             verification:
-              # isLoggedInIndicator: "\Q<a href="password.jsp">\E"
-              isLoggedOutIndicator: '\Q{"user":{}}\E'
+              method: "poll"
+              loggedInRegex: "\\Qadmin@juice-sh.op\\E"
+              loggedOutRegex: ""
+              pollFrequency: 60
+              pollUnits: "requests"
+              pollUrl: "http://juice-shop.demo-targets.svc:3000/rest/user/whoami"
+              pollPostData: ""
+          sessionManagement:
+            method: headers
+            parameters:
+              Authorization: "Bearer {%json:authentication.token%}"
+              cookie: "token={%json:authentication.token%}"
           users:
-            - name: juiceshop-user-1
-              username: admin@juice-sh.op
-              password: admin123
-              forced: true
-          session:
-            # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
-            type: "scriptBasedSessionManagement"
-            # scriptBasedSessionManagement configuration details
-            scriptBasedSessionManagement:
-              name: "juiceshop-session-management.js"
-              # -- Enables the script if true, otherwise false
-              enabled: true
-              # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
-              engine: "Oracle Nashorn"
-              # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-              filePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
-              # A short description for the script.
-              description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
+          - name: "admin@juice-sh.op"
+            credentials:
+              password: "admin123"
+              username: "admin@juice-sh.op"
+    # ZAP Spiders Configuration 
+    jobs:
+      - type: spiderAjax                   # We use a modern spider since the juice-shop is a modern web-application  
+        parameters:
+          # String: Name of the context to spider, default: first context
+          context: scb-juiceshop-context
+          # String: Name of the user to authenticate with and used to spider
+          user: "admin@juice-sh.op"
+          # String: Url to start spidering from, default: first context URL
+          url: http://juice-shop.default.svc:3000/
+          browserId: firefox-headless
+          # Elemets to exclude from the spider
+          excludedElements:
+          - description: Logout
+            element: span
+            text: Logout
+          # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+          maxDuration: 5
+
+      # ZAP ActiveScans Configuration
+      - type: activeScan                   # The active scanner - this actively attacks the target so should only be used with permission
+        parameters:
+          # String: Name of the context to attack, default: first context
+          context: scb-juiceshop-context
+          # String: Name of the user to authenticate with and used to spider
+          user: "admin@juice-sh.op"
+          # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+          maxRuleDurationInMins: 3         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+          maxScanDurationInMins: 10        # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
+          addQueryParam: false             # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+          delayInMs: 0                     # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+          handleAntiCSRFTokens: false      # Bool: If set then automatically handle anti CSRF tokens, default: false
+          injectPluginIdInHeader: false    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
+          scanHeadersAllRequests: false    # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+          threadPerHost: 2                 # Int: The max number of threads per host, default: 2
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml        # String: The template id, default : modern
+          reportDir: /home/securecodebox/  # String: The directory into which the report will be written
+          reportFile: zap-results
 ```
 
 :::note
@@ -270,12 +325,13 @@ data:
 
     env:                                   # The environment, mandatory
       contexts :                           # List of 1 or more contexts, mandatory
-        - name: baseline-config            # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://juice-shop.demo-targets.svc:3000/"]          # A mandatory list of top level urls, everything under each url will be included
-        # An optional list of regexes to include
+        - name: scb-juiceshop-context      # Name to be used to refer to this context in other jobs, mandatory
+          # A mandatory list of top level urls, everything under each url will be included
+          urls: ["http://juice-shop.demo-targets.svc:3000/"]
+          # An optional list of regexes to include
           includePaths:
             - "http://juice-shop.default.svc:3000.*"
-        # An optional list of regexes to exclude
+          # An optional list of regexes to exclude
           excludePaths:
             - ".*socket\\.io.*"
             - ".*\\.png"
@@ -286,87 +342,70 @@ data:
             - ".*\\.ttf"
             - ".*\\.ico"
           # Auth Credentials for the scanner to access the application
-          # Can be either basicAuth or a oidc token.
-          # If both are set, the oidc token takes precedent
           authentication:
-            # Currently supports "basic-auth", "form-based", "json-based", "script-based"
-            type: "json-based"
-            # json-based requires no further configuration
-            # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
-            json-based:
-              loginUrl: "http://juice-shop.default.svc:3000/rest/user/login"
-              # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
-              loginRequestData: '{"email":"admin@juice-sh.op","password":"admin123"}'
-            # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
+            method: "browser"
+            parameters:
+              loginPageUrl: "http://juice-shop.demo-targets.svc:3000/#/login"
+              browserId: "firefox-headless"
+              loginPageWait: 5
             verification:
-              # isLoggedInIndicator: "\Q<a href="password.jsp">\E"
-              isLoggedOutIndicator: '\Q{"user":{}}\E'
+              method: "poll"
+              loggedInRegex: "\\Qadmin@juice-sh.op\\E"
+              loggedOutRegex: ""
+              pollFrequency: 60
+              pollUnits: "requests"
+              pollUrl: "http://juice-shop.demo-targets.svc:3000/rest/user/whoami"
+              pollPostData: ""
+          sessionManagement:
+            method: headers
+            parameters:
+              Authorization: "Bearer {%json:authentication.token%}"
+              cookie: "token={%json:authentication.token%}"
           users:
-            - name: juiceshop-user-1
-              username: admin@juice-sh.op
-              password: admin123
-              forced: true
-          session:
-            # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
-            type: "scriptBasedSessionManagement"
-            # scriptBasedSessionManagement configuration details
-            scriptBasedSessionManagement:
-              name: "juiceshop-session-management.js"
-              # -- Enables the script if true, otherwise false
-              enabled: true
-              # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
-              engine: "Oracle Nashorn"
-              # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-              filePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
-              # A short description for the script.
-              description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
-
+          - name: "admin@juice-sh.op"
+            credentials:
+              password: "admin123"
+              username: "admin@juice-sh.op"
     # ZAP Spiders Configuration 
-      spiders:
-        - name: scb-juiceshop-spider
+    jobs:
+      - type: spiderAjax                   # We use a modern spider since the juice-shop is a modern web-application  
+        parameters:
           # String: Name of the context to spider, default: first context
           context: scb-juiceshop-context
           # String: Name of the user to authenticate with and used to spider
-          user: juiceshop-user-1
+          user: "admin@juice-sh.op"
           # String: Url to start spidering from, default: first context URL
           url: http://juice-shop.default.svc:3000/
-          # zapConfiguration.spiders[0].ajax -- Bool: Whether to use the ZAP ajax spider, default: false
-          ajax: true
-          # Int: Fail if spider finds less than the specified number of URLs, default: 0
-          failIfFoundUrlsLessThan: 0
-          # Int: Warn if spider finds less than the specified number of URLs, default: 0
-          warnIfFoundUrlsLessThan: 0
+          browserId: firefox-headless
+          # Elemets to exclude from the spider
+          excludedElements:
+          - description: Logout
+            element: span
+            text: Logout
           # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
           maxDuration: 5
-          # Int: The maximum tree depth to explore, default 5
-          maxDepth: 10
 
       # ZAP ActiveScans Configuration 
-      scanners:
-        - name: scb-juiceshop-scan
+      - type: activeScan                   # The active scanner - this actively attacks the target so should only be used with permission
+        parameters:
           # String: Name of the context to attack, default: first context
           context: scb-juiceshop-context
           # String: Name of the user to authenticate with and used to spider
-          user: juiceshop-user-1
-          # String: Url to start scaning from, default: first context URL
-          url: http://juice-shop.default.svc:3000/
+          user: "admin@juice-sh.op"
           # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
-          maxRuleDurationInMins: 1
-          # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
-          maxScanDurationInMins: 10
-          # Int: The max number of threads per host, default: 2
-          threadPerHost: 5
-          # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
-          delayInMs: 0
-          # Bool: If set will add an extra query parameter to requests that do not have one, default: false
-          addQueryParam: false
-          # Bool: If set then automatically handle anti CSRF tokens, default: false
-          handleAntiCSRFTokens: false
-          # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
-          injectPluginIdInHeader: false
-          # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
-          scanHeadersAllRequests: false
-
+          maxRuleDurationInMins: 3         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+          maxScanDurationInMins: 10        # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
+          addQueryParam: false             # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+          delayInMs: 0                     # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+          handleAntiCSRFTokens: false      # Bool: If set then automatically handle anti CSRF tokens, default: false
+          injectPluginIdInHeader: false    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
+          scanHeadersAllRequests: false    # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+          threadPerHost: 2                 # Int: The max number of threads per host, default: 2
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml        # String: The template id, default : modern
+          reportDir: /home/securecodebox/  # String: The directory into which the report will be written
+          reportFile: zap-results   
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
