@@ -17,7 +17,7 @@ data:
     jobs:
       - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
         parameters:
-          context: zap-baseline-automation-scan # String: Name of the context to spider, default: first context
+          context: baseline-config         # String: Name of the context to spider, default: first context
           maxDuration: 1                   # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
       - type: passiveScan-wait             # Passive scan wait for the passive scanner to finish
         parameters:
