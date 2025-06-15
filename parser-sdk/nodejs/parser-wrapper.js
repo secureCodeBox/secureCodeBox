@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import axios from "axios";
+import { Buffer } from "node:buffer";
 import {
   KubeConfig,
   CustomObjectsApi,
@@ -31,30 +31,34 @@ async function uploadResultToFileStorageService(
   resultUploadUrl,
   findingsWithIdsAndDates,
 ) {
-  return axios
-    .put(resultUploadUrl, findingsWithIdsAndDates, {
+  try {
+    const res = await fetch(resultUploadUrl, {
+      method: "PUT",
       headers: { "content-type": "" },
-      maxBodyLength: Infinity,
-    })
-    .catch(function (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error(
-          `Finding Upload Failed with Response Code: ${error.response.status}`,
-        );
-        console.error(`Error Response Body: ${error.response.data}`);
-      } else if (error.request) {
-        console.error(
-          "No response received from FileStorage when uploading finding",
-        );
-        console.error(error);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-      }
-      process.exit(1);
+      body: JSON.stringify(findingsWithIdsAndDates),
     });
+    if (!res.ok) {
+      const text = await res.text();
+      console.error(`Finding Upload Failed with Response Code: ${res.status}`);
+      console.error(`Error Response Body: ${text}`);
+      process.exit(1);
+    }
+  } catch (error) {
+    if (error.response) {
+      console.error(
+        `Finding Upload Failed with Response Code: ${error.response.status}`,
+      );
+      console.error(`Error Response Body: ${error.response.data}`);
+    } else if (error.request) {
+      console.error(
+        "No response received from FileStorage when uploading finding",
+      );
+      console.error(error);
+    } else {
+      console.log("Error", error.message);
+    }
+    process.exit(1);
+  }
 }
 
 async function updateScanStatus(findings) {
@@ -132,6 +136,26 @@ async function extractParseDefinition(scan) {
   }
 }
 
+async function fetchResultFile(resultFileUrl, contentType) {
+  try {
+    const response = await fetch(resultFileUrl, { method: "GET" });
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch result file: ${response.status} ${response.statusText}`,
+      );
+    }
+    if (contentType === "Binary") {
+      return Buffer.from(await response.arrayBuffer());
+    } else {
+      return await response.text();
+    }
+  } catch (err) {
+    throw new Error(
+      `Failed to fetch result file from ${resultFileUrl}: ${err.message}`,
+    );
+  }
+}
+
 async function main() {
   console.log("Starting Parser");
   let scan = await extractScan();
@@ -140,18 +164,23 @@ async function main() {
   const resultUploadUrl = process.argv[3];
 
   console.log("Fetching result file");
-  let response;
-  if (parseDefinition.spec.contentType === "Binary") {
-    response = await axios.get(resultFileUrl, { responseType: "arraybuffer" });
-  } else {
-    response = await axios.get(resultFileUrl);
+  let data = null;
+  try {
+    data = await fetchResultFile(
+      resultFileUrl,
+      parseDefinition.spec.contentType,
+    );
+  } catch (error) {
+    console.error("Failed to fetch scan result file for parser:");
+    console.error(error);
+    process.exit(1);
   }
 
   console.log("Fetched result file");
 
   let findings = [];
   try {
-    findings = await parse(response.data, scan);
+    findings = await parse(data, scan);
   } catch (error) {
     console.error("Parser failed with error:");
     console.error(error);
