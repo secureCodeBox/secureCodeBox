@@ -2,19 +2,17 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const {parse} = require("./parser");
+import { parse } from "./parser";
 
 test("should properly parse nmap xml file", async () => {
   const xmlContent = await readFile(
-    __dirname + "/__testFiles__/localhost.xml",
+    import.meta.dirname + "/__testFiles__/localhost.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(xmlContent);
   // validate findings
@@ -141,9 +139,12 @@ test("should properly parse nmap xml file", async () => {
 });
 
 test("should properly parse a nmap xml without any ports", async () => {
-  const xmlContent = await readFile(__dirname + "/__testFiles__/no-ports.xml", {
-    encoding: "utf8",
-  });
+  const xmlContent = await readFile(
+    import.meta.dirname + "/__testFiles__/no-ports.xml",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -169,9 +170,12 @@ test("should properly parse a nmap xml without any ports", async () => {
 });
 
 test("should properly parse a nmap xml without any host", async () => {
-  const xmlContent = await readFile(__dirname + "/__testFiles__/no-host.xml", {
-    encoding: "utf8",
-  });
+  const xmlContent = await readFile(
+    import.meta.dirname + "/__testFiles__/no-host.xml",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -180,10 +184,10 @@ test("should properly parse a nmap xml without any host", async () => {
 
 test("should properly parse a nmap xml with missing service information", async () => {
   const xmlContent = await readFile(
-    __dirname + "/__testFiles__/no-service.xml",
+    import.meta.dirname + "/__testFiles__/no-service.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(xmlContent);
@@ -236,10 +240,10 @@ test("should properly parse a nmap xml with missing service information", async 
 
 test("Should properly parse a nmap xml with script specific SMB findings", async () => {
   const xmlContent = await readFile(
-    __dirname + "/__testFiles__/localhost-smb-script.xml",
+    import.meta.dirname + "/__testFiles__/localhost-smb-script.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(xmlContent);
@@ -441,9 +445,12 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
 });
 
 test("should properly parse a script finding for ftp in an xml file", async () => {
-  const xmlContent = await readFile(__dirname + "/__testFiles__/ftp.xml", {
-    encoding: "utf8",
-  });
+  const xmlContent = await readFile(
+    import.meta.dirname + "/__testFiles__/ftp.xml",
+    {
+      encoding: "utf8",
+    },
+  );
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
@@ -460,11 +467,15 @@ test("should properly parse a script finding for ftp in an xml file", async () =
           "port": 21,
           "protocol": "tcp",
           "scripts": {
-            "banner": "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\x
+            "banner": 
+    "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\x
     0D\\x0A220-You are user number 2 of 30 allowed.\\x0D\\x0A220-Local time...
-    ",
-            "ftp-anon": "Anonymous FTP login allowed (FTP code 230)
-    Can't get directory listing: PASV IP 127.0.0.1 is not the same as 10.103.42.74",
+    "
+    ,
+            "ftp-anon": 
+    "Anonymous FTP login allowed (FTP code 230)
+    Can't get directory listing: PASV IP 127.0.0.1 is not the same as 10.103.42.74"
+    ,
           },
           "service": "ftp",
           "serviceProduct": null,
@@ -496,9 +507,11 @@ test("should properly parse a script finding for ftp in an xml file", async () =
       },
       {
         "attributes": {
-          "banner": "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\x
+          "banner": 
+    "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\x
     0D\\x0A220-You are user number 2 of 30 allowed.\\x0D\\x0A220-Local time...
-    ",
+    "
+    ,
           "script": "banner",
         },
         "category": "FTP",
@@ -525,10 +538,10 @@ test("should properly parse a script finding for ftp in an xml file", async () =
 
 test("should parse scanme.nmap.org results properly", async () => {
   const xmlContent = await readFile(
-    __dirname + "/__testFiles__/scanme.nmap.org-ipv6.xml",
+    import.meta.dirname + "/__testFiles__/scanme.nmap.org-ipv6.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -630,13 +643,13 @@ test("should parse scanme.nmap.org results properly", async () => {
 
 test("should parse output of runs run --verbose properly", async () => {
   const xmlContent = await readFile(
-    __dirname + "/__testFiles__/local-network-verbose.xml",
+    import.meta.dirname + "/__testFiles__/local-network-verbose.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(xmlContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  await validateParser(findings);
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
     [
       {

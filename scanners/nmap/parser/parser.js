@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const xml2js = require('xml2js');
-const { get, merge } = require('lodash');
+import { parseString } from 'xml2js';
+import { get, merge } from 'lodash-es';
 
-
-async function parse(fileContent) {
+export async function parse(fileContent) {
   const hosts = await parseResultFile(fileContent);
   return transformToFindings(hosts);
 }
@@ -244,7 +243,7 @@ function parseSmbProtocols(host, script) {
  */
 function parseResultFile(fileContent) {
   return new Promise((resolve, reject) => {
-    xml2js.parseString(fileContent, (err, xmlInput) => {
+    parseString(fileContent, (err, xmlInput) => {
       if (err) {
         reject(new Error('Error converting XML to JSON in xml2js: ' + err));
       } else {
@@ -371,5 +370,3 @@ function parseResultFile(fileContent) {
     });
   });
 }
-
-module.exports.parse = parse;
