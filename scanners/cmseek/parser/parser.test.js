@@ -2,20 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const fs = require("fs");
-const util = require("util");
+import { readFile } from "fs/promises";
 
-const readFile = util.promisify(fs.readFile);
+import { parse } from "./parser";
 
-const { parse } = require("./parser");
-
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
 test("parser parses result of Joomla scan with core vulnerabilities successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/joomla_with_core_vulns.json",
+    import.meta.dirname + "/__testFiles__/joomla_with_core_vulns.json",
     {
       encoding: "utf8",
     },
@@ -28,7 +23,7 @@ test("parser parses result of Joomla scan with core vulnerabilities successfully
 
 test("parser parses result of Joomla scan without core vulnerabilities successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/joomla_without_core_vulns.json",
+    import.meta.dirname + "/__testFiles__/joomla_without_core_vulns.json",
     {
       encoding: "utf8",
     },
@@ -41,7 +36,7 @@ test("parser parses result of Joomla scan without core vulnerabilities successfu
 
 test("parser parses result of non-Joomla scan successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/not_joomla.json",
+    import.meta.dirname + "/__testFiles__/not_joomla.json",
     {
       encoding: "utf8",
     },
@@ -54,7 +49,7 @@ test("parser parses result of non-Joomla scan successfully", async () => {
 
 test("should properly parse empty cmseek json file", async () => {
   const jsonContent = await readFile(
-    __dirname + "/__testFiles__/test-empty-report.json",
+    import.meta.dirname + "/__testFiles__/test-empty-report.json",
     {
       encoding: "utf8",
     },
