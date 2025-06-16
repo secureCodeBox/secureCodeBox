@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse(fileContent) {
+export async function parse(fileContent) {
   // Only 0 when the target wasn't reachable
   if (fileContent.length === 0) {
     return [];
@@ -133,5 +133,3 @@ function readJsonLines(jsonl) {
     return [];
   }
 }
-
-module.exports.parse = parse;
