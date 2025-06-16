@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
+import { scan } from "../../../tests/integration/helpers.js";
 
 test.concurrent(
   "zap automation scan without config against 'bodgeit' should only find couple findings",
@@ -31,7 +31,10 @@ test.concurrent(
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 8 * 1000,
+  {
+    timeout: 60 * 8 * 1000,
+    retry: 3,
+  },
 );
 
 test.concurrent(
@@ -61,7 +64,10 @@ test.concurrent(
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 8 * 1000,
+  {
+    timeout: 60 * 8 * 1000,
+    retry: 3,
+  },
 );
 
 test.concurrent(
@@ -91,7 +97,10 @@ test.concurrent(
 
     expect(count).toBeGreaterThanOrEqual(4);
   },
-  60 * 8 * 1000,
+  {
+    timeout: 60 * 8 * 1000,
+    retry: 3,
+  },
 );
 
 test.concurrent(
@@ -121,5 +130,8 @@ test.concurrent(
 
     expect(count).toBeGreaterThanOrEqual(4);
   },
-  60 * 8 * 1000,
+  {
+    timeout: 60 * 8 * 1000,
+    retry: 3,
+  },
 );
