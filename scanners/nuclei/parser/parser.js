@@ -12,43 +12,45 @@ async function parse(fileContent) {
 
   return jsonResult.map((finding) => {
     const hostname = parseHostname(finding.host);
-   // Add reference URLs to the references array
-    const urlReferences = finding.info.reference ? finding.info.reference.flatMap(url => ({
-      type: "URL",
-      value: url
-    })) : [];
+    // Add reference URLs to the references array
+    const urlReferences = finding.info.reference
+      ? finding.info.reference.flatMap((url) => ({
+          type: "URL",
+          value: url,
+        }))
+      : [];
 
     // Add CWE reference to the references array
     const cweIds = finding?.info?.classification?.["cwe-id"] ?? [];
-    const cweReferences = cweIds.flatMap(cweId => [
+    const cweReferences = cweIds.flatMap((cweId) => [
       {
         type: "CWE",
-        value: cweId.toUpperCase()
+        value: cweId.toUpperCase(),
       },
       {
         type: "URL",
-        value: `https://cwe.mitre.org/data/definitions/${cweId}.html`
-      }
+        value: `https://cwe.mitre.org/data/definitions/${cweId}.html`,
+      },
     ]);
-    
+
     // Add CVE reference to the references array
     const cveIds = finding?.info?.classification?.["cve-id"] ?? [];
-    const cveReferences = cveIds.flatMap(cveId => [
+    const cveReferences = cveIds.flatMap((cveId) => [
       {
         type: "CVE",
-        value: cveId.toUpperCase()
+        value: cveId.toUpperCase(),
       },
       {
         type: "URL",
-        value: `https://nvd.nist.gov/vuln/detail/${cveId}`
-      }
+        value: `https://nvd.nist.gov/vuln/detail/${cveId}`,
+      },
     ]);
-  
-      
-  
+
     const references = [...urlReferences, ...cweReferences, ...cveReferences];
 
-    const timestamp = finding.timestamp ? new Date(finding.timestamp).toISOString() : null;
+    const timestamp = finding.timestamp
+      ? new Date(finding.timestamp).toISOString()
+      : null;
 
     return {
       name: finding.info.name,
@@ -59,7 +61,7 @@ async function parse(fileContent) {
       location: finding.host,
       severity: getAdjustedSeverity(finding?.info?.severity.toUpperCase()),
       category: finding["template-id"],
-      references: references.length > 0 ? references : null, 
+      references: references.length > 0 ? references : null,
       attributes: {
         ip_addresses: finding.ip ? [finding.ip] : [],
         type: finding.type || null,
