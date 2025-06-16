@@ -481,7 +481,7 @@ jobs:
       - name: Install Dependencies
         working-directory: ./scanners/${{ matrix.unit }}/
         #install dependencies for the parser if the directory has a package.json
-        if: exists('./scanners/${{ matrix.unit }}/package.json')
+        if: exists('./scanners/${{ matrix.unit }}/parser/package.json')
         run: bun install
 
       - name: Unit Tests
