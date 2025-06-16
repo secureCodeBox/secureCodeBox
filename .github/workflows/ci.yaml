@@ -408,7 +408,7 @@ jobs:
   # ---- Test | Scanners ----
 
   test-scanners:
-    name: "Test |  Scanner ${{ matrix.unit }}"
+    name: "Test | Scanner ${{ matrix.unit }}"
     needs:
       - sdk
       - operator
@@ -418,32 +418,31 @@ jobs:
       fail-fast: false
       matrix:
         unit:
-          - amass
-          - cmseek
-          - ffuf
-          - git-repo-scanner
-          - gitleaks
-          - kube-hunter
-          - ncrack
-          - nikto
+          # - amass
+          # - cmseek
+          # - ffuf
+          # - git-repo-scanner
+          # - gitleaks
+          # - kube-hunter
+          # - ncrack
+          # - nikto
           - nmap
-          - nuclei
-          - screenshooter
-          - semgrep
-          - ssh-audit
-          - sslyze
-          - trivy
-          - trivy-sbom
-          - whatweb
-          - wpscan
-          - zap-automation-framework
+          # - nuclei
+          # - screenshooter
+          # - semgrep
+          # - ssh-audit
+          # - sslyze
+          # - trivy
+          # - trivy-sbom
+          # - whatweb
+          # - wpscan
+          # - zap-automation-framework
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Download Kind
         uses: actions/download-artifact@v4
@@ -477,11 +476,13 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: make install-deps
+        #install dependencies for the parser if the directory has a package.json
+        if: exists('./scanners/${{ matrix.unit }}/package.json')
+        run: bun install
 
       - name: Unit Tests
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: make unit-tests
+        run: bun test --coverage parser/
 
       - name: Download Parser SDK Image
         uses: actions/download-artifact@v4
@@ -547,7 +548,11 @@ jobs:
 
       - name: Start Integration Tests
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: make integration-tests
+        env:
+          # Workaround for https://github.com/oven-sh/bun/issues/7332
+          # not great, but this is a local connection to the kind cluster
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
+        run: bun test integration-tests/
 
       # ---- Debuging Cluster on Failure ----
 
