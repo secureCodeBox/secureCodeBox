@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse(findings) {
+export async function parse(findings) {
   let results = [];
   // Making sure the CMS is Joomla
   if (findings.cms_id != "joom") {
@@ -109,5 +109,3 @@ function fetchCVE(references) {
   }
   return null;
 }
-
-module.exports.parse = parse;
