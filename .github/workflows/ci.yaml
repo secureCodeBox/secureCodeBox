@@ -482,6 +482,10 @@ jobs:
         working-directory: ./scanners/
         run: bun install
 
+      - name: Install integration test helper dependencies
+        working-directory: ./tests/integration/
+        run: bun install
+
       - name: Install Dependencies
         working-directory: ./scanners/${{ matrix.unit }}/parser/
         #install dependencies for the parser if the directory has a package.json
