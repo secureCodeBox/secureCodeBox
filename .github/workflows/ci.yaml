@@ -474,6 +474,10 @@ jobs:
           kubectl version || true
           helm version
 
+      - name: Install ParserSDK Dependencies
+        working-directory: ./parser-sdk/nodejs/
+        run: bun install
+
       - name: Install Dependencies
         working-directory: ./scanners/${{ matrix.unit }}/
         #install dependencies for the parser if the directory has a package.json
