@@ -10,13 +10,12 @@ const {
 const { parse } = require("./parser");
 
 test("parses empty result correctly", async () => {
-  const fileContent = 
-    await readFile(
-      __dirname + "/__testFiles__/empty-test.jsonl",
-      {
-        encoding: "utf8",
-      }
-    )
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/empty-test.jsonl",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -24,13 +23,12 @@ test("parses empty result correctly", async () => {
 });
 
 test("parses the example.com result correctly", async () => {
-  const fileContent = 
-    await readFile(
-      __dirname + "/__testFiles__/example-com-test.jsonl",
-      {
-        encoding: "utf8",
-      }
-    )
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/example-com-test.jsonl",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -38,13 +36,12 @@ test("parses the example.com result correctly", async () => {
 });
 
 test.skip("parses ftp result correctly", async () => {
-  const fileContent = 
-    await readFile(
-      __dirname + "/__testFiles__/ftp-test.jsonl",
-      {
-        encoding: "utf8",
-      }
-    )
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/ftp-test.jsonl",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -52,13 +49,12 @@ test.skip("parses ftp result correctly", async () => {
 });
 
 test("parses secureCodeBox.io result correctly", async () => {
-  const fileContent = 
-    await readFile(
-      __dirname + "/__testFiles__/secureCodeBox-test.jsonl",
-      {
-        encoding: "utf8",
-      }
-    )
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/secureCodeBox-test.jsonl",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -66,13 +62,12 @@ test("parses secureCodeBox.io result correctly", async () => {
 });
 
 test("parses log4shell result correctly", async () => {
-  const fileContent = 
-    await readFile(
-      __dirname + "/__testFiles__/log4shell.jsonl",
-      {
-        encoding: "utf8",
-      }
-    )
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/log4shell.jsonl",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(JSON.parse(fileContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -80,13 +75,13 @@ test("parses log4shell result correctly", async () => {
 });
 
 test("parses results with requests & responses correctly", async () => {
-  const fileContent = 
-    await readFile(
-      __dirname + "/__testFiles__/example-com-only-misc-tags-with-incluce-rr.jsonl",
-      {
-        encoding: "utf8",
-      }
-    )
+  const fileContent = await readFile(
+    __dirname +
+      "/__testFiles__/example-com-only-misc-tags-with-incluce-rr.jsonl",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(JSON.parse(fileContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
