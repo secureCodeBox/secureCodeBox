@@ -13,7 +13,7 @@ test(
       "ssh-audit-dummy-ssh",
       "ssh-audit",
       ["dummy-ssh.demo-targets.svc"],
-      90
+      90,
     );
     expect(count).toBe(7);
     expect(categories).toMatchInlineSnapshot(`
@@ -30,7 +30,7 @@ test(
     }
     `);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );
 
 test(
@@ -41,11 +41,11 @@ test(
         "ssh-audit-non-existing",
         "ssh-audit",
         ["this-target-doesnt-exist.demo-targets.svc"],
-        180
-      )
+        180,
+      ),
     ).rejects.toThrow(
-      'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"'
+      'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"',
     );
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );

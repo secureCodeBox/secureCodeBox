@@ -18,7 +18,7 @@ test("parser parses result of Joomla scan with core vulnerabilities successfully
     __dirname + "/__testFiles__/joomla_with_core_vulns.json",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(JSON.parse(fileContent));
@@ -31,7 +31,7 @@ test("parser parses result of Joomla scan without core vulnerabilities successfu
     __dirname + "/__testFiles__/joomla_without_core_vulns.json",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(JSON.parse(fileContent));
@@ -44,7 +44,7 @@ test("parser parses result of non-Joomla scan successfully", async () => {
     __dirname + "/__testFiles__/not_joomla.json",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(JSON.parse(fileContent));
@@ -57,7 +57,7 @@ test("should properly parse empty cmseek json file", async () => {
     __dirname + "/__testFiles__/test-empty-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();

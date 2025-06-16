@@ -16,7 +16,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
   const hosts = JSON.parse(
     await readFile(__dirname + "/__testFiles__/dummy-ssh.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(hosts);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -464,7 +464,7 @@ test("should properly parse empty json file", async () => {
     __dirname + "/__testFiles__/test-empty-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -475,7 +475,7 @@ test("ssh-audit parser parses a result into proper findings for an example with 
   const hosts = JSON.parse(
     await readFile(__dirname + "/__testFiles__/portExample.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(hosts);
   await expect(validateParser(findings)).resolves.toBeUndefined();

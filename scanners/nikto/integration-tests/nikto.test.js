@@ -18,7 +18,7 @@ test(
         "-Tuning",
         "1,2,3,5,7,b",
       ], // See nikto bodgeit example
-      90
+      90,
     );
 
     expect(categories).toMatchInlineSnapshot(`
@@ -36,5 +36,5 @@ test(
       }
     `);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );

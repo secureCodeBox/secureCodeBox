@@ -14,7 +14,7 @@ test("should properly parse file from inline semgrep usage", async () => {
     __dirname + "/__testFiles__/minimal-metadata.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent));
   // validate findings
@@ -43,7 +43,7 @@ test("should properly parse file with a single result", async () => {
     __dirname + "/__testFiles__/python-injection.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent));
   // validate findings
@@ -85,7 +85,7 @@ test("should properly parse file with multiple results", async () => {
     __dirname + "/__testFiles__/python-injection-multiresult.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent));
   // validate findings
