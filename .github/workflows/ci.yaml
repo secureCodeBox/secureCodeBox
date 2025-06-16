@@ -427,7 +427,7 @@ jobs:
           # - ncrack
           # - nikto
           - nmap
-          # - nuclei
+          - nuclei
           # - screenshooter
           # - semgrep
           # - ssh-audit

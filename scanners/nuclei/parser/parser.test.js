@@ -2,16 +2,14 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("parses empty result correctly", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/empty-test.jsonl",
+    import.meta.dirname + "/__testFiles__/empty-test.jsonl",
     {
       encoding: "utf8",
     },
@@ -24,7 +22,7 @@ test("parses empty result correctly", async () => {
 
 test("parses the example.com result correctly", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/example-com-test.jsonl",
+    import.meta.dirname + "/__testFiles__/example-com-test.jsonl",
     {
       encoding: "utf8",
     },
@@ -37,7 +35,7 @@ test("parses the example.com result correctly", async () => {
 
 test.skip("parses ftp result correctly", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/ftp-test.jsonl",
+    import.meta.dirname + "/__testFiles__/ftp-test.jsonl",
     {
       encoding: "utf8",
     },
@@ -50,7 +48,7 @@ test.skip("parses ftp result correctly", async () => {
 
 test("parses secureCodeBox.io result correctly", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/secureCodeBox-test.jsonl",
+    import.meta.dirname + "/__testFiles__/secureCodeBox-test.jsonl",
     {
       encoding: "utf8",
     },
@@ -63,7 +61,7 @@ test("parses secureCodeBox.io result correctly", async () => {
 
 test("parses log4shell result correctly", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/log4shell.jsonl",
+    import.meta.dirname + "/__testFiles__/log4shell.jsonl",
     {
       encoding: "utf8",
     },
@@ -76,7 +74,7 @@ test("parses log4shell result correctly", async () => {
 
 test("parses results with requests & responses correctly", async () => {
   const fileContent = await readFile(
-    __dirname +
+    import.meta.dirname +
       "/__testFiles__/example-com-only-misc-tags-with-incluce-rr.jsonl",
     {
       encoding: "utf8",
