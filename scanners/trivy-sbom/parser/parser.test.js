@@ -32,9 +32,9 @@ test("should create finding correctly", async () => {
     bomFormat: "CycloneDX",
     metadata: {
       component: {
-        name: "hello-world:latest"
-      }
-    }
+        name: "hello-world:latest",
+      },
+    },
   };
 
   const findings = await parse(JSON.stringify(result), scan);
@@ -59,7 +59,7 @@ test("should properly parse cyclonedx json sbom file", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/hello-world-cyclonedx.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent, scan);
   // validate findings

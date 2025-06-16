@@ -175,7 +175,7 @@ const templates = {
 function transformRecommendationToFinding(
   recommendationSeverityLevel,
   value,
-  destination
+  destination,
 ) {
   // SSH audit has critical and warnings as recommendations.
   // These are HIGH and MEDIUM severities, respectively
@@ -189,7 +189,7 @@ function transformRecommendationToFinding(
     //algorithmType = kex/ key/ mac, , algorithmNames = {name+note}
     Object.entries(algorithms).map(([algorithmType, algorithmData]) => {
       const algorithmNames = Object.entries(algorithmData).map(
-        ([keyNames, content]) => Object.values(content)
+        ([keyNames, content]) => Object.values(content),
       );
 
       const findingTemplate =
@@ -204,7 +204,7 @@ function transformRecommendationToFinding(
         findingTemplate["attributes"] = {};
         findingTemplate["attributes"]["algorithms"] = algorithmNames.flatMap(
           ([algName, note]) =>
-            note == "" ? algName : `${algName} (Note: ${note})`
+            note == "" ? algName : `${algName} (Note: ${note})`,
         );
 
         policyViolationFindings.push(findingTemplate);
@@ -214,7 +214,6 @@ function transformRecommendationToFinding(
 
   return policyViolationFindings;
 }
-
 
 function isIPaddress(target) {
   if (/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(target))
@@ -244,8 +243,8 @@ async function parse(fileContent) {
       transformRecommendationToFinding(
         recommendationSeverityLevel,
         value,
-        location
-      )
+        location,
+      ),
   );
 
   // informational findings

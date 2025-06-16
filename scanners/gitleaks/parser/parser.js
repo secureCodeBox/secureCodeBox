@@ -5,29 +5,28 @@
 const HIGH_TAGS = ["HIGH"];
 const LOW_TAGS = ["LOW"];
 
-const repoUrlAnnotationKey = "metadata.scan.securecodebox.io/git-repo-url"
+const repoUrlAnnotationKey = "metadata.scan.securecodebox.io/git-repo-url";
 
-async function parse (fileContent, scan) {
-
+async function parse(fileContent, scan) {
   if (fileContent) {
     const commitUrlBase = prepareCommitUrl(scan);
 
-    return fileContent.map(finding => {
-  
-      let severity = 'MEDIUM';
-  
+    return fileContent.map((finding) => {
+      let severity = "MEDIUM";
+
       if (containsTag(finding.Tags, HIGH_TAGS)) {
-        severity = 'HIGH'
+        severity = "HIGH";
       } else if (containsTag(finding.Tags, LOW_TAGS)) {
-        severity = 'LOW'
+        severity = "LOW";
       }
-  
+
       return {
         name: finding.RuleID,
-        description: 'The name of the rule which triggered the finding: ' + finding.RuleID,
-        osi_layer: 'APPLICATION',
+        description:
+          "The name of the rule which triggered the finding: " + finding.RuleID,
+        osi_layer: "APPLICATION",
         severity: severity,
-        category: 'Potential Secret',
+        category: "Potential Secret",
         attributes: {
           commit: commitUrlBase + finding.Commit,
           description: finding.Description,
@@ -38,32 +37,34 @@ async function parse (fileContent, scan) {
           file: finding.File,
           line_number: finding.StartLine,
           tags: finding.Tags,
-          line: finding.Match
-        }
-      }
+          line: finding.Match,
+        },
+      };
     });
-  }
-  else
-  {
+  } else {
     return [];
   }
 }
 
-function containsTag (tag, tags) {
-  let result = tags.filter(longTag => tag.includes(longTag));
+function containsTag(tag, tags) {
+  let result = tags.filter((longTag) => tag.includes(longTag));
   return result.length > 0;
 }
 
-function prepareCommitUrl (scan) {
-  if (!scan || !scan.metadata.annotations || !scan.metadata.annotations[repoUrlAnnotationKey]) {
-    return '';
+function prepareCommitUrl(scan) {
+  if (
+    !scan ||
+    !scan.metadata.annotations ||
+    !scan.metadata.annotations[repoUrlAnnotationKey]
+  ) {
+    return "";
   }
 
   var repositoryUrl = scan.metadata.annotations[repoUrlAnnotationKey];
 
-  return repositoryUrl.endsWith('/') ?
-    repositoryUrl + 'commit/'
-    : repositoryUrl + '/commit/'
+  return repositoryUrl.endsWith("/")
+    ? repositoryUrl + "commit/"
+    : repositoryUrl + "/commit/";
 }
 
 module.exports.parse = parse;

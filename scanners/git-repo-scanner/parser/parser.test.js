@@ -14,7 +14,7 @@ test("should properly parse empty json file", async () => {
     __dirname + "/__testFiles__/empty-findings.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(fileContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -26,7 +26,7 @@ test("should properly parse git-scanner json file", async () => {
     __dirname + "/__testFiles__/git-scanner-test-findings.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(fileContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();

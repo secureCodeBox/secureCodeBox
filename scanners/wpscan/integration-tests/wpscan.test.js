@@ -13,9 +13,9 @@ test(
       "wpscan-scanner-dummy-scan",
       "wpscan",
       ["--url", "old-wordpress.demo-targets.svc"],
-      90
+      90,
     );
     expect(count).toBeGreaterThanOrEqual(0);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );

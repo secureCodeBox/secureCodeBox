@@ -4,15 +4,18 @@
 
 function parse(fileContent) {
   // Only 0 when the target wasn't reachable
-  if (!fileContent.server_scan_results || fileContent.server_scan_results.length === 0) {
+  if (
+    !fileContent.server_scan_results ||
+    fileContent.server_scan_results.length === 0
+  ) {
     return [];
   }
 
   const serverScanResult = fileContent.server_scan_results[0];
-  
-  if (serverScanResult.connectivity_status == "ERROR"){
+
+  if (serverScanResult.connectivity_status == "ERROR") {
     console.error(
-      "Cannot parse the result file, as some of the scan parts failed."
+      "Cannot parse the result file, as some of the scan parts failed.",
     );
     return [];
   }
@@ -21,9 +24,11 @@ function parse(fileContent) {
     console.log("Parsing Result File");
     console.log(JSON.stringify(fileContent));
   }
-  
+
   if (fileContent.date_scans_completed) {
-    serverScanResult.identified_at = new Date(fileContent.date_scans_completed).toISOString();
+    serverScanResult.identified_at = new Date(
+      fileContent.date_scans_completed,
+    ).toISOString();
   }
 
   const partialFindings = [
@@ -146,10 +151,14 @@ function generateVulnerableTLSVersionFindings(serverScanResult) {
 }
 
 function analyseCertificateDeployments(serverScanResult) {
-  if (serverScanResult?.scan_result?.certificate_info?.result?.certificate_deployments) {
-    const certificateInfos = serverScanResult.scan_result.certificate_info.result.certificate_deployments.map(
-      analyseCertificateDeployment
-    );
+  if (
+    serverScanResult?.scan_result?.certificate_info?.result
+      ?.certificate_deployments
+  ) {
+    const certificateInfos =
+      serverScanResult.scan_result.certificate_info.result.certificate_deployments.map(
+        analyseCertificateDeployment,
+      );
     // If at least one cert is totally trusted no finding should be created
     if (certificateInfos.every((certInfo) => certInfo.trusted)) {
       return [];
@@ -197,16 +206,19 @@ function analyseCertificateDeployments(serverScanResult) {
     });
   } else {
     // No certificate info found
-    return [{
-      name: "ASN.1 Parsing Error",
-      category: "Invalid Certificate",
-      description: "An error occurred while parsing the ASN.1 value in the certificate. This may be due to a corrupted certificate, improper formatting, or incompatibility with the cryptography library.",
-      identified_at: serverScanResult.identified_at,
-      severity: "MEDIUM",
-      mitigation: "Verify the integrity of the certificate, or inspect the certificate for custom or non-standard extensions.",
-      attributes: {},
-    }
-  ];
+    return [
+      {
+        name: "ASN.1 Parsing Error",
+        category: "Invalid Certificate",
+        description:
+          "An error occurred while parsing the ASN.1 value in the certificate. This may be due to a corrupted certificate, improper formatting, or incompatibility with the cryptography library.",
+        identified_at: serverScanResult.identified_at,
+        severity: "MEDIUM",
+        mitigation:
+          "Verify the integrity of the certificate, or inspect the certificate for custom or non-standard extensions.",
+        attributes: {},
+      },
+    ];
   }
 }
 
@@ -225,21 +237,25 @@ function analyseCertificateDeployment(certificateDeployment) {
   const leafCertificate = certificateDeployment.received_certificate_chain[0];
 
   // Check if the certificate is self-signed by comparing subject and issuer
-  const isSelfSigned = leafCertificate.subject.rfc4514_string === leafCertificate.issuer.rfc4514_string;
+  const isSelfSigned =
+    leafCertificate.subject.rfc4514_string ===
+    leafCertificate.issuer.rfc4514_string;
 
   // Determine if the certificate is missing required extension
   const hasMissingRequiredExtension = errorsAcrossAllTruststores.has(
-    "validation failed: Other(\"Certificate is missing required extension\")"
+    'validation failed: Other("Certificate is missing required extension")',
   );
 
   return {
     // To be trusted no openssl errors should have occurred and should match hostname
     trusted: errorsAcrossAllTruststores.size === 0,
     matchesHostname: !errorsAcrossAllTruststores.has(
-      "validation failed: Other(\"leaf certificate has no matching subjectAltName\")"
+      'validation failed: Other("leaf certificate has no matching subjectAltName")',
     ),
     selfSigned: isSelfSigned,
-    expired: errorsAcrossAllTruststores.has("validation failed: Other(\"cert is not valid at validation time\")"),
+    expired: errorsAcrossAllTruststores.has(
+      'validation failed: Other("cert is not valid at validation time")',
+    ),
     untrustedRoot: hasMissingRequiredExtension && !isSelfSigned,
   };
 }

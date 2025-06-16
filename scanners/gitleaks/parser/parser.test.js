@@ -14,7 +14,7 @@ test("should properly parse empty gitleaks json file", async () => {
     __dirname + "/__testFiles__/test-empty-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -26,7 +26,7 @@ test("should properly parse gitleaks json file with null result", async () => {
     __dirname + "/__testFiles__/test-null-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -38,7 +38,7 @@ test("should properly parse gitleaks json file", async () => {
     __dirname + "/__testFiles__/test-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -131,7 +131,7 @@ test("should define severity based on tags in result file", async () => {
     __dirname + "/__testFiles__/test-report-tags.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -221,7 +221,7 @@ test("should properly construct commit URL if given in scan annotation without t
     __dirname + "/__testFiles__/test-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent), scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -328,7 +328,7 @@ test("should properly construct commit URL if given in scan annotation with trai
     __dirname + "/__testFiles__/test-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(JSON.parse(jsonContent), scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();

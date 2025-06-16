@@ -9,11 +9,11 @@ jest.retryTimes(3);
 test(
   "Whatweb scans example.com",
   async () => {
-    const {categories, severities, count} = await scan(
+    const { categories, severities, count } = await scan(
       "whatweb-example",
       "whatweb",
       ["example.com"],
-      90
+      90,
     );
 
     expect(count).toBe(1);
@@ -28,15 +28,20 @@ test(
       }
     `);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );
 
 test(
   "Invalid argument should be marked as errored",
   async () => {
     await expect(
-      scan("whatweb-invalidArg", "whatweb", ["--invalidArg", "example.com"], 90)
+      scan(
+        "whatweb-invalidArg",
+        "whatweb",
+        ["--invalidArg", "example.com"],
+        90,
+      ),
     ).rejects.toThrow("HTTP request failed");
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );

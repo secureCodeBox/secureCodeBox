@@ -7,13 +7,13 @@ const {
   validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
-const {parse} = require("./parser");
+const { parse } = require("./parser");
 
 test("should properly parse ffuf json file", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/ffuf-results.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -78,8 +78,8 @@ test("should properly parse ffuf json file wih multiple fuzz keyword inputs", as
       __dirname + "/__testFiles__/ffuf-results-multiple-fuzz-keywords.json",
       {
         encoding: "utf8",
-      }
-    )
+      },
+    ),
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -119,7 +119,7 @@ test("should properly parse ffuf json file with postdata", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/ffuf-results-postdata.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -161,7 +161,7 @@ test("should properly parse empty json file", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/empty.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -173,7 +173,7 @@ test("should properly parse zero findings json file", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/zeroFindings.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings

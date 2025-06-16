@@ -3,19 +3,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 async function parse(fileContent) {
-
   if (!fileContent || !fileContent.results || fileContent.results.length == 0) {
     return [];
   }
-  return fileContent.results.map(result => {
+  return fileContent.results.map((result) => {
     const time = new Date(fileContent.time).toISOString();
     return {
-      name: 'Webserver Content',
+      name: "Webserver Content",
       description: `Content [${result.input ? Object.values(result.input) : ""}] was found on the webserver ${result.host}.`, // todo rn: what if no FUZZ keyword is used??
       identified_at: time,
-      osi_layer: 'APPLICATION',
-      severity: 'INFORMATIONAL',
-      category: 'Webserver Content',
+      osi_layer: "APPLICATION",
+      severity: "INFORMATIONAL",
+      category: "Webserver Content",
       attributes: {
         httpStatus: result.status,
         length: result.length,
@@ -35,7 +34,7 @@ async function parse(fileContent) {
         headers: fileContent?.config?.headers,
       },
       location: result.url,
-    }
+    };
   });
 }
 

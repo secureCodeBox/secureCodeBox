@@ -7,13 +7,13 @@ const {
   validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
-const {parse} = require("./parser");
+const { parse } = require("./parser");
 
 test("should properly parse whatweb json file", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/example.com.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -45,7 +45,7 @@ test("should properly parse empty whatweb json file", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/no-address.com.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -57,7 +57,7 @@ test("should properly parse securecodebox.io whatweb json file with higher aggre
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/securecodebox.io.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -134,7 +134,7 @@ test("should properly parse whatweb json file with two domains", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/two-domains.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { parseString } from 'xml2js';
-import { get, merge } from 'lodash-es';
+import { parseString } from "xml2js";
+import { get, merge } from "lodash-es";
 
 export async function parse(fileContent) {
   const hosts = await parseResultFile(fileContent);
@@ -11,22 +11,23 @@ export async function parse(fileContent) {
 }
 
 function transformToFindings(hosts) {
-
   const scriptFindings = transformNMAPScripts(hosts);
 
   const portFindings = hosts.flatMap(({ openPorts = [], ...hostInfo }) => {
-    if(openPorts === null){
+    if (openPorts === null) {
       return [];
     }
 
-    return openPorts.map(openPort => {
+    return openPorts.map((openPort) => {
       return {
-        name: openPort.service ? `Open Port: ${openPort.port} (${openPort.service})`: `Open Port: ${openPort.port}`,
+        name: openPort.service
+          ? `Open Port: ${openPort.port} (${openPort.service})`
+          : `Open Port: ${openPort.port}`,
         description: `Port ${openPort.port} is ${openPort.state} using ${openPort.protocol} protocol.`,
-        category: 'Open Port',
+        category: "Open Port",
         location: `${openPort.protocol}://${getHostOrIp(hostInfo)}:${openPort.port}`,
-        osi_layer: 'NETWORK',
-        severity: 'INFORMATIONAL',
+        osi_layer: "NETWORK",
+        severity: "INFORMATIONAL",
         attributes: {
           port: openPort.port,
           state: openPort.state,
@@ -48,12 +49,12 @@ function transformToFindings(hosts) {
 
   const hostFindings = hosts.map(({ hostname, ips, osNmap }) => {
     return {
-      name: `Host: ${getHostOrIp({ hostname, ips})}`,
-      category: 'Host',
-      description: 'Found a host',
+      name: `Host: ${getHostOrIp({ hostname, ips })}`,
+      category: "Host",
+      description: "Found a host",
       location: hostname,
-      severity: 'INFORMATIONAL',
-      osi_layer: 'NETWORK',
+      severity: "INFORMATIONAL",
+      osi_layer: "NETWORK",
       attributes: {
         ip_addresses: ips,
         hostname: hostname,
@@ -78,10 +79,9 @@ function getHostOrIp(hostInfo) {
 function transformNMAPScripts(hosts) {
   let scriptFindings = [];
 
-  for(const host of hosts) {
-
-    if(host.scripts) {
-      for(const script of host.scripts) {
+  for (const host of hosts) {
+    if (host.scripts) {
+      for (const script of host.scripts) {
         // Parse Script Results
         const parseFunction = scriptParser[script.$.id];
         if (parseFunction) {
@@ -96,137 +96,147 @@ function transformNMAPScripts(hosts) {
 
 const scriptParser = {
   "ftp-anon": parseFtpAnon,
-  "banner": parseBanner,
+  banner: parseBanner,
   "smb-protocols": parseSmbProtocols,
-}
+};
 
 function parseFtpAnon(host, script) {
-  return [merge(
-    {
-    name: "Anonymous FTP Login possible",
-    description: `Port ${host.openPorts[0].port} allows anonymous FTP login`,
-    severity: 'MEDIUM',
-  },
-    parseFtpCommon(host, script)
-  )]
+  return [
+    merge(
+      {
+        name: "Anonymous FTP Login possible",
+        description: `Port ${host.openPorts[0].port} allows anonymous FTP login`,
+        severity: "MEDIUM",
+      },
+      parseFtpCommon(host, script),
+    ),
+  ];
 }
 
 function parseBanner(host, script) {
-  return [merge(
-    {
-      name: "Server banner found",
-      description: `Port ${host.openPorts[0].port} displays banner`,
-      severity: 'INFORMATIONAL',
-      attributes: {
-        banner: script.$.output || null,
+  return [
+    merge(
+      {
+        name: "Server banner found",
+        description: `Port ${host.openPorts[0].port} displays banner`,
+        severity: "INFORMATIONAL",
+        attributes: {
+          banner: script.$.output || null,
+        },
       },
-    },
-    host.openPorts[0].port === 21 ? parseFtpCommon(host, script) : parseCommon(host,script)
-  )]
+      host.openPorts[0].port === 21
+        ? parseFtpCommon(host, script)
+        : parseCommon(host, script),
+    ),
+  ];
 }
 
 function parseFtpCommon(host, script) {
   return {
-    category: 'FTP',
+    category: "FTP",
     location: `ftp://${getHostOrIp(host)}:${host.openPorts[0].port}`,
-    osi_layer: 'NETWORK',
+    osi_layer: "NETWORK",
     attributes: {
       script: script.$.id || null,
     },
-  }
+  };
 }
 
 function parseCommon(host, script) {
   return {
-    category: 'TCP',
+    category: "TCP",
     location: `tcp://${getHostOrIp(host)}:${host.openPorts[0].port}`,
-    osi_layer: 'NETWORK',
+    osi_layer: "NETWORK",
     attributes: {
       script: script.$.id || null,
     },
-  }
+  };
 }
 
 function parseSmbProtocols(host, script) {
   // Parse SMB Script Results
-  console.log ("Found SMB Script Result: " + script.$.output);
+  console.log("Found SMB Script Result: " + script.$.output);
   //console.log (script);
 
   var scriptFindings = [];
 
-  if(script.table && script.table[0] && script.table[0].elem) {
-
-    for(const elem of script.table[0].elem) {
-      console.log ("Found SMB SMB Protocol: " + elem);
+  if (script.table && script.table[0] && script.table[0].elem) {
+    for (const elem of script.table[0].elem) {
+      console.log("Found SMB SMB Protocol: " + elem);
       //console.log (elem);
 
-      const smbVersion = elem.toString().includes("SMBv1") ? 1 : parseFloat(elem);
+      const smbVersion = elem.toString().includes("SMBv1")
+        ? 1
+        : parseFloat(elem);
 
       const attributes = {
-              hostname: host.hostname,
-              mac_address: host.mac || null,
-              ip_addresses: host.ips,
-              port: host.openPorts[0].port,
-              state: host.openPorts[0].state,
-              protocol: host.openPorts[0].protocol,
-              method: host.openPorts[0].method,
-              operating_system: host.osNmap || null,
-              service: host.openPorts[0].service,
-              serviceProduct: host.openPorts[0].serviceProduct || null,
-              serviceVersion: host.openPorts[0].serviceVersion || null,
-              scripts: elem || null,
-              smb_protocol_version: smbVersion,
-            }
+        hostname: host.hostname,
+        mac_address: host.mac || null,
+        ip_addresses: host.ips,
+        port: host.openPorts[0].port,
+        state: host.openPorts[0].state,
+        protocol: host.openPorts[0].protocol,
+        method: host.openPorts[0].method,
+        operating_system: host.osNmap || null,
+        service: host.openPorts[0].service,
+        serviceProduct: host.openPorts[0].serviceProduct || null,
+        serviceVersion: host.openPorts[0].serviceVersion || null,
+        scripts: elem || null,
+        smb_protocol_version: smbVersion,
+      };
 
-      if(elem.toString().includes("SMBv1")) {
+      if (elem.toString().includes("SMBv1")) {
         scriptFindings.push({
           name: "SMB Dangerous Protocol Version Finding SMBv1",
           description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: SMBv1`,
-          category: 'SMB',
+          category: "SMB",
           location: `${host.openPorts[0].protocol}://${getHostOrIp(host)}:${host.openPorts[0].port}`,
-          osi_layer: 'NETWORK',
-          severity: 'HIGH',
-          attributes: attributes
+          osi_layer: "NETWORK",
+          severity: "HIGH",
+          attributes: attributes,
         });
-      }
-      else if(!isNaN(smbVersion)) {
-        if(smbVersion > 0 && smbVersion < 2) {
+      } else if (!isNaN(smbVersion)) {
+        if (smbVersion > 0 && smbVersion < 2) {
           scriptFindings.push({
-            name: "SMB Dangerous Protocol Version Finding v"+smbVersion,
-            description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: ` + smbVersion,
-            category: 'SMB',
+            name: "SMB Dangerous Protocol Version Finding v" + smbVersion,
+            description:
+              `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: ` +
+              smbVersion,
+            category: "SMB",
             location: `${host.openPorts[0].protocol}://${getHostOrIp(host)}:${host.openPorts[0].port}`,
-            osi_layer: 'NETWORK',
-            severity: 'MEDIUM',
-            attributes: attributes
+            osi_layer: "NETWORK",
+            severity: "MEDIUM",
+            attributes: attributes,
           });
-        }
-        else if(smbVersion >= 2 && smbVersion < 3) {
+        } else if (smbVersion >= 2 && smbVersion < 3) {
           scriptFindings.push({
-            name: "SMB Protocol Version Finding v"+smbVersion,
-            description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: `+ smbVersion,
-            category: 'SMB',
+            name: "SMB Protocol Version Finding v" + smbVersion,
+            description:
+              `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: ` +
+              smbVersion,
+            category: "SMB",
             location: `${host.openPorts[0].protocol}://${getHostOrIp(host)}:${host.openPorts[0].port}`,
-            osi_layer: 'NETWORK',
-            severity: 'LOW',
-            attributes: attributes
+            osi_layer: "NETWORK",
+            severity: "LOW",
+            attributes: attributes,
           });
-        }
-        else if(smbVersion >= 3) {
+        } else if (smbVersion >= 3) {
           scriptFindings.push({
-            name: "SMB Protocol Version Finding v"+smbVersion,
-            description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with version: ` + smbVersion,
-            category: 'SMB',
+            name: "SMB Protocol Version Finding v" + smbVersion,
+            description:
+              `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with version: ` +
+              smbVersion,
+            category: "SMB",
             location: `${host.openPorts[0].protocol}://${getHostOrIp(host)}:${host.openPorts[0].port}`,
-            osi_layer: 'NETWORK',
-            severity: 'INFORMATIONAL',
-            attributes: attributes
+            osi_layer: "NETWORK",
+            severity: "INFORMATIONAL",
+            attributes: attributes,
           });
         }
       }
     }
   }
-  return scriptFindings
+  return scriptFindings;
 }
 
 /**
@@ -239,13 +249,13 @@ function parseSmbProtocols(host, script) {
  *   osNmap: null,
  *   scripts: null
  * }
- * @param {*} fileContent 
+ * @param {*} fileContent
  */
 function parseResultFile(fileContent) {
   return new Promise((resolve, reject) => {
     parseString(fileContent, (err, xmlInput) => {
       if (err) {
-        reject(new Error('Error converting XML to JSON in xml2js: ' + err));
+        reject(new Error("Error converting XML to JSON in xml2js: " + err));
       } else {
         let tempHostList = [];
         if (!xmlInput.nmaprun.host) {
@@ -255,115 +265,129 @@ function parseResultFile(fileContent) {
 
         xmlInput = xmlInput.nmaprun.host;
 
-        tempHostList = xmlInput.map(host => {
-          const newHost = {
-            hostname: null,
-            ip: null,
-            mac: null,
-            openPorts: null,
-            osNmap: null,
-            scripts: null
-          };
-
-          if (host.status && host.status?.[0]?.$?.state === 'down') {
-            return null;
-          }
-
-          // Get hostname
-          if (
-            host.hostnames &&
-            host.hostnames[0] !== '\r\n' &&
-            host.hostnames[0] !== '\n'
-          ) {
-            newHost.hostname = host.hostnames[0].hostname[0].$.name;
-          }
-
-          const cleanAddresses = host.address.map(address => {
-            return {
-              type: address.$.addrtype,
-              address: address.$.addr,
-              vendor: address.$.vendor
+        tempHostList = xmlInput
+          .map((host) => {
+            const newHost = {
+              hostname: null,
+              ip: null,
+              mac: null,
+              openPorts: null,
+              osNmap: null,
+              scripts: null,
             };
-          });
 
-          newHost.mac = cleanAddresses.find((address) => address.type === "mac")?.address;
+            if (host.status && host.status?.[0]?.$?.state === "down") {
+              return null;
+            }
 
-          newHost.ips = cleanAddresses
-            .filter((address) => address.type.startsWith("ip"))
-            .map((address) => address.address);
+            // Get hostname
+            if (
+              host.hostnames &&
+              host.hostnames[0] !== "\r\n" &&
+              host.hostnames[0] !== "\n"
+            ) {
+              newHost.hostname = host.hostnames[0].hostname[0].$.name;
+            }
 
-          // Get ports
-          if (host.ports && host.ports[0].port) {
-            const portList = host.ports[0].port;
-
-            const openPorts = portList.filter(port => {
-              return port.state[0].$.state !== 'closed';
+            const cleanAddresses = host.address.map((address) => {
+              return {
+                type: address.$.addrtype,
+                address: address.$.addr,
+                vendor: address.$.vendor,
+              };
             });
 
-            newHost.openPorts = openPorts.map(portItem => {
-              // console.log(JSON.stringify(portItem, null, 4))
+            newHost.mac = cleanAddresses.find(
+              (address) => address.type === "mac",
+            )?.address;
 
-              const port = parseInt(portItem.$.portid, 10);
-              const protocol = portItem.$.protocol;
-              const service = get(portItem, ["service",0,"$","name"]);
-              const serviceProduct = get(portItem, ["service",0,"$","product"]);
-              const serviceVersion = get(portItem, ["service",0,"$","version"]);
+            newHost.ips = cleanAddresses
+              .filter((address) => address.type.startsWith("ip"))
+              .map((address) => address.address);
 
-              const tunnel = get(portItem, ["service",0,"$","tunnel"]);
-              const method = get(portItem, ["service",0,"$","method"]);
-              const product = get(portItem, ["service",0,"$","tunnel"]);
+            // Get ports
+            if (host.ports && host.ports[0].port) {
+              const portList = host.ports[0].port;
 
-              const state = portItem.state[0].$.state;
+              const openPorts = portList.filter((port) => {
+                return port.state[0].$.state !== "closed";
+              });
 
-              let scriptOutputs = null;
+              newHost.openPorts = openPorts.map((portItem) => {
+                // console.log(JSON.stringify(portItem, null, 4))
 
-              if (portItem.script) {
-                scriptOutputs = portItem.script.reduce(
-                  (carry, { $: scriptRes }) => {
-                    carry[scriptRes.id] = scriptRes.output;
-                    return carry;
-                  },
-                  {}
-                );
-              }
+                const port = parseInt(portItem.$.portid, 10);
+                const protocol = portItem.$.protocol;
+                const service = get(portItem, ["service", 0, "$", "name"]);
+                const serviceProduct = get(portItem, [
+                  "service",
+                  0,
+                  "$",
+                  "product",
+                ]);
+                const serviceVersion = get(portItem, [
+                  "service",
+                  0,
+                  "$",
+                  "version",
+                ]);
 
-              let portObject = {};
-              if (port) portObject.port = port;
-              if (protocol) portObject.protocol = protocol;
-              if (service) portObject.service = service;
-              if (serviceProduct) portObject.serviceProduct = serviceProduct;
-              if (serviceVersion) portObject.serviceVersion = serviceVersion;
+                const tunnel = get(portItem, ["service", 0, "$", "tunnel"]);
+                const method = get(portItem, ["service", 0, "$", "method"]);
+                const product = get(portItem, ["service", 0, "$", "tunnel"]);
 
-              if (tunnel) portObject.tunnel = tunnel;
-              if (method) portObject.method = method;
-              if (product) portObject.product = product;
+                const state = portItem.state[0].$.state;
 
-              if (state) portObject.state = state;
+                let scriptOutputs = null;
 
-              if (scriptOutputs) portObject.scriptOutputs = scriptOutputs;
+                if (portItem.script) {
+                  scriptOutputs = portItem.script.reduce(
+                    (carry, { $: scriptRes }) => {
+                      carry[scriptRes.id] = scriptRes.output;
+                      return carry;
+                    },
+                    {},
+                  );
+                }
 
-              return portObject;
-            });
-          }
+                let portObject = {};
+                if (port) portObject.port = port;
+                if (protocol) portObject.protocol = protocol;
+                if (service) portObject.service = service;
+                if (serviceProduct) portObject.serviceProduct = serviceProduct;
+                if (serviceVersion) portObject.serviceVersion = serviceVersion;
 
-          // Get Script Content
-          if(host.hostscript && host.hostscript[0].script) {
-            newHost.scripts = host.hostscript[0].script
-          }
-          // Get Script Content in case the script is of the port-rule type,
-          // and thus has the script under 'port' instead of 'hostscript'.
-          else if(host.ports && host.ports[0].port){
-            for (let i=0; i < host.ports[0].port.length; i++){
-              if ((host.ports[0].port)[i].script) {
-                newHost.scripts = host.ports[0].port[i].script
+                if (tunnel) portObject.tunnel = tunnel;
+                if (method) portObject.method = method;
+                if (product) portObject.product = product;
+
+                if (state) portObject.state = state;
+
+                if (scriptOutputs) portObject.scriptOutputs = scriptOutputs;
+
+                return portObject;
+              });
+            }
+
+            // Get Script Content
+            if (host.hostscript && host.hostscript[0].script) {
+              newHost.scripts = host.hostscript[0].script;
+            }
+            // Get Script Content in case the script is of the port-rule type,
+            // and thus has the script under 'port' instead of 'hostscript'.
+            else if (host.ports && host.ports[0].port) {
+              for (let i = 0; i < host.ports[0].port.length; i++) {
+                if (host.ports[0].port[i].script) {
+                  newHost.scripts = host.ports[0].port[i].script;
+                }
               }
             }
-          }
-          if (host.os && host.os[0].osmatch && host.os[0].osmatch[0].$.name) {
-            newHost.osNmap = host.os[0].osmatch[0].$.name;
-          }
-          return newHost;
-        }).filter(Boolean);
+            if (host.os && host.os[0].osmatch && host.os[0].osmatch[0].$.name) {
+              newHost.osNmap = host.os[0].osmatch[0].$.name;
+            }
+            return newHost;
+          })
+          .filter(Boolean);
 
         resolve(tempHostList);
       }

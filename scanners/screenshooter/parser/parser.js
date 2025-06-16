@@ -3,9 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 async function parse(image, scan) {
-
   if (image.length === 0) {
-    return []
+    return [];
   }
 
   const websiteUrl = scan.spec.parameters[0];

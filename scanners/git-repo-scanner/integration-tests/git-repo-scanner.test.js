@@ -15,10 +15,10 @@ test(
       "git-repo-scanner-dummy-scan",
       "git-repo-scanner",
       ["--git-type", "github", "--organization", "secureCodeBox"],
-      90
+      90,
     );
     // There must be >= 28 Repositories found in the GitHub secureCodeBox organisation.
     expect(count).toBeGreaterThanOrEqual(28);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );

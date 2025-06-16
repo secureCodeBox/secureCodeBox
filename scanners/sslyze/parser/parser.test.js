@@ -7,13 +7,13 @@ const {
   validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
-const {parse} = require("./parser");
+const { parse } = require("./parser");
 
 test("parses result file for www.securecodebox.io correctly", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/www.securecodebox.io.json", {
       encoding: "utf8",
-    })
+    }),
   );
 
   const findings = await parse(fileContent);
@@ -60,7 +60,7 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/tls-v1-0.badssl.com_1010.json", {
       encoding: "utf8",
-    })
+    }),
   );
 
   const findings = await parse(fileContent);
@@ -165,7 +165,7 @@ test("parses result file for expired.badssl.com correctly", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/expired.badssl.com.json", {
       encoding: "utf8",
-    })
+    }),
   );
 
   const findings = await parse(fileContent);
@@ -287,7 +287,7 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/wrong.host.badssl.com.json", {
       encoding: "utf8",
-    })
+    }),
   );
 
   const findings = await parse(fileContent);
@@ -410,8 +410,8 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
       __dirname + "/__testFiles__/untrusted-root.badssl.com.json",
       {
         encoding: "utf8",
-      }
-    )
+      },
+    ),
   );
 
   const findings = await parse(fileContent);
@@ -532,7 +532,7 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/self-signed.badssl.com.json", {
       encoding: "utf8",
-    })
+    }),
   );
 
   const findings = await parse(fileContent);
@@ -655,8 +655,8 @@ test("parses result file for target without certificate_deployments correctly", 
       __dirname + "/__testFiles__/no-certificate_deployments.json",
       {
         encoding: "utf8",
-      }
-    )
+      },
+    ),
   );
 
   const findings = await parse(fileContent);
@@ -726,7 +726,7 @@ test("parses an empty result file correctly", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/unavailable-host.json", {
       encoding: "utf8",
-    })
+    }),
   );
 
   const findings = await parse(fileContent);
@@ -739,7 +739,7 @@ test("should properly parse empty json file", async () => {
     __dirname + "/__testFiles__/test-empty-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
