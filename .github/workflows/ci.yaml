@@ -436,7 +436,7 @@ jobs:
           # - trivy-sbom
           # - whatweb
           # - wpscan
-          # - zap-automation-framework
+          - zap-automation-framework
     steps:
       - name: Checkout
         uses: actions/checkout@v4

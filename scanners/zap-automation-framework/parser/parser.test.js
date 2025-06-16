@@ -2,16 +2,14 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("Parsing the juice-shop results.", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/juice-shop.xml",
+    import.meta.dirname + "/__testFiles__/juice-shop.xml",
     {
       encoding: "utf8",
     },
@@ -24,7 +22,7 @@ test("Parsing the juice-shop results.", async () => {
 
 test("Parsing the example.com results.", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/example.com.xml",
+    import.meta.dirname + "/__testFiles__/example.com.xml",
     {
       encoding: "utf8",
     },
@@ -37,7 +35,7 @@ test("Parsing the example.com results.", async () => {
 
 test("Parsing the docs.securecodebox.io results.", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/docs.securecodebox.io.xml",
+    import.meta.dirname + "/__testFiles__/docs.securecodebox.io.xml",
     {
       encoding: "utf8",
     },
@@ -50,7 +48,7 @@ test("Parsing the docs.securecodebox.io results.", async () => {
 
 test("Parsing an empty result.", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/not-found.xml",
+    import.meta.dirname + "/__testFiles__/not-found.xml",
     {
       encoding: "utf8",
     },
@@ -62,9 +60,12 @@ test("Parsing an empty result.", async () => {
 });
 
 test("Parsing a nginx result.", async () => {
-  const fileContent = await readFile(__dirname + "/__testFiles__/nginx.xml", {
-    encoding: "utf8",
-  });
+  const fileContent = await readFile(
+    import.meta.dirname + "/__testFiles__/nginx.xml",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -72,9 +73,12 @@ test("Parsing a nginx result.", async () => {
 });
 
 test("Parsing a bodgeit result.", async () => {
-  const fileContent = await readFile(__dirname + "/__testFiles__/bodgeit.xml", {
-    encoding: "utf8",
-  });
+  const fileContent = await readFile(
+    import.meta.dirname + "/__testFiles__/bodgeit.xml",
+    {
+      encoding: "utf8",
+    },
+  );
 
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
