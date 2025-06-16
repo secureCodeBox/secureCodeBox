@@ -39,7 +39,7 @@ async function openDatabase(fileContent) {
           reject(err.message);
           return;
         }
-      }
+      },
     );
     resolve(db);
   });

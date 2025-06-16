@@ -8,9 +8,7 @@
     "author": "iteratec GmbH",
     "license": "Apache-2.0",
     "dependencies": {
-        "sqlite3": "^5.1.6"
+        "sqlite3": "^5.1.7"
     },
     "devDependencies": {}
-  }
-  
-
+}

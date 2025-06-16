@@ -12,9 +12,9 @@ test(
       "amass-scanner-dummy-scan",
       "amass",
       ["-norecursive", "-timeout", "1", "-d", "owasp.org"],
-      180
+      180,
     );
     expect(count).toBeGreaterThanOrEqual(100); // The scan is passive, so we can expect a lot of subdomains
   },
-  10 * 60 * 1000
+  10 * 60 * 1000,
 );

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {readFile} = require("node:fs/promises");
+const { readFile } = require("node:fs/promises");
 
-const {parse} = require("./parser");
+const { parse } = require("./parser");
 
 const {
   validateParser,
@@ -12,7 +12,7 @@ const {
 
 test("parser parses example.com sqlite results database successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/example.com.sqlite"
+    __dirname + "/__testFiles__/example.com.sqlite",
   );
 
   const findings = await parse(fileContent);
@@ -22,7 +22,7 @@ test("parser parses example.com sqlite results database successfully", async () 
 
 test("parser parses sqlite results database with empty tables successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/emptyTables.sqlite"
+    __dirname + "/__testFiles__/emptyTables.sqlite",
   );
 
   const findings = await parse(fileContent);
@@ -32,7 +32,7 @@ test("parser parses sqlite results database with empty tables successfully", asy
 
 test("parser parses sqlite results database with no tables successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/noTables.sqlite"
+    __dirname + "/__testFiles__/noTables.sqlite",
   );
 
   const findings = await parse(fileContent);
@@ -42,7 +42,7 @@ test("parser parses sqlite results database with no tables successfully", async 
 
 test("parser parses sqlite results database with empty relations table successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/emptyRelations.sqlite"
+    __dirname + "/__testFiles__/emptyRelations.sqlite",
   );
 
   const findings = await parse(fileContent);
