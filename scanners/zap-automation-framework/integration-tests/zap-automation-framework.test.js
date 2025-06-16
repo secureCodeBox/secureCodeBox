@@ -13,21 +13,25 @@ test.concurrent(
       ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 30,
       // volumes
-      [{
-        "name": "zap-automation-framework-bodgeit",
-        "configMap": {"name": "zap-automation-framework-bodgeit"}
-      }],
+      [
+        {
+          name: "zap-automation-framework-bodgeit",
+          configMap: { name: "zap-automation-framework-bodgeit" },
+        },
+      ],
       // volumeMounts
-      [{
-          "name": "zap-automation-framework-bodgeit",
-          "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
-          "subPath": "automation.yaml"
-      }],
+      [
+        {
+          name: "zap-automation-framework-bodgeit",
+          mountPath: "/home/securecodebox/scb-automation/automation.yaml",
+          subPath: "automation.yaml",
+        },
+      ],
     );
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 8 * 1000
+  60 * 8 * 1000,
 );
 
 test.concurrent(
@@ -39,21 +43,25 @@ test.concurrent(
       ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 30,
       // volumes
-      [{
-        "name": "zap-automation-framework-petstore",
-        "configMap": {"name": "zap-automation-framework-petstore"}
-      }],
+      [
+        {
+          name: "zap-automation-framework-petstore",
+          configMap: { name: "zap-automation-framework-petstore" },
+        },
+      ],
       // volumeMounts
-      [{
-          "name": "zap-automation-framework-petstore",
-          "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
-          "subPath": "automation.yaml"
-      }],
+      [
+        {
+          name: "zap-automation-framework-petstore",
+          mountPath: "/home/securecodebox/scb-automation/automation.yaml",
+          subPath: "automation.yaml",
+        },
+      ],
     );
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 8 * 1000
+  60 * 8 * 1000,
 );
 
 test.concurrent(
@@ -65,21 +73,25 @@ test.concurrent(
       ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 31 * 1000,
       // volumes
-      [{
-        "name": "zap-automation-framework-nginx",
-        "configMap": {"name": "zap-automation-framework-nginx"}
-      }],
+      [
+        {
+          name: "zap-automation-framework-nginx",
+          configMap: { name: "zap-automation-framework-nginx" },
+        },
+      ],
       // volumeMounts
-      [{
-          "name": "zap-automation-framework-nginx",
-          "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
-          "subPath": "automation.yaml"
-      }],
+      [
+        {
+          name: "zap-automation-framework-nginx",
+          mountPath: "/home/securecodebox/scb-automation/automation.yaml",
+          subPath: "automation.yaml",
+        },
+      ],
     );
 
     expect(count).toBeGreaterThanOrEqual(4);
   },
-  60 * 8 * 1000
+  60 * 8 * 1000,
 );
 
 test.concurrent(
@@ -91,19 +103,23 @@ test.concurrent(
       ["-autorun", "/home/securecodebox/scb-automation/automation.yaml"],
       60 * 31 * 1000,
       // volumes
-      [{
-        "name": "zap-automation-framework-juicehop",
-        "configMap": {"name": "zap-automation-framework-juicehop"}
-      }],
+      [
+        {
+          name: "zap-automation-framework-juicehop",
+          configMap: { name: "zap-automation-framework-juicehop" },
+        },
+      ],
       // volumeMounts
-      [{
-          "name": "zap-automation-framework-juicehop",
-          "mountPath": "/home/securecodebox/scb-automation/automation.yaml",
-          "subPath": "automation.yaml"
-      }],
+      [
+        {
+          name: "zap-automation-framework-juicehop",
+          mountPath: "/home/securecodebox/scb-automation/automation.yaml",
+          subPath: "automation.yaml",
+        },
+      ],
     );
 
     expect(count).toBeGreaterThanOrEqual(4);
   },
-  60 * 8 * 1000
+  60 * 8 * 1000,
 );

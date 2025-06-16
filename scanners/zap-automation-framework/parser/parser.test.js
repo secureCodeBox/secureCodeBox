@@ -14,7 +14,7 @@ test("Parsing the juice-shop results.", async () => {
     __dirname + "/__testFiles__/juice-shop.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(fileContent);
@@ -27,7 +27,7 @@ test("Parsing the example.com results.", async () => {
     __dirname + "/__testFiles__/example.com.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(fileContent);
@@ -40,7 +40,7 @@ test("Parsing the docs.securecodebox.io results.", async () => {
     __dirname + "/__testFiles__/docs.securecodebox.io.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(fileContent);
@@ -53,7 +53,7 @@ test("Parsing an empty result.", async () => {
     __dirname + "/__testFiles__/not-found.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
 
   const findings = await parse(fileContent);
