@@ -478,6 +478,10 @@ jobs:
         working-directory: ./parser-sdk/nodejs/
         run: bun install
 
+      - name: Setup parser-sdk for unit tests
+        working-directory: ./scanners/
+        run: bun install
+
       - name: Install Dependencies
         working-directory: ./scanners/${{ matrix.unit }}/parser/
         #install dependencies for the parser if the directory has a package.json
