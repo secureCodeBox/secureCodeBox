@@ -33,19 +33,6 @@ test("parses the example.com result correctly", async () => {
   expect(findings).toMatchSnapshot();
 });
 
-test.skip("parses ftp result correctly", async () => {
-  const fileContent = await readFile(
-    import.meta.dirname + "/__testFiles__/ftp-test.jsonl",
-    {
-      encoding: "utf8",
-    },
-  );
-
-  const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchSnapshot();
-});
-
 test("parses secureCodeBox.io result correctly", async () => {
   const fileContent = await readFile(
     import.meta.dirname + "/__testFiles__/secureCodeBox-test.jsonl",
