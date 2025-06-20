@@ -1,0 +1,8 @@
+{"host":"releases.example.com","input":"example.com","source":"alienvault"}
+{"host":"myap.example.com","input":"example.com","source":"alienvault"}
+{"host":"not-exist.example.com","input":"example.com","source":"alienvault"}
+{"host":"new-client.example.com","input":"example.com","source":"alienvault"}
+{"host":"op.example.com","input":"example.com","source":"alienvault"}
+{"host":"mall.example.com","input":"example.com","source":"alienvault"}
+{"host":"cdn1.example.com","input":"example.com","source":"alienvault"}
+{"host":"xn--rksmrgs-5wao1o.example.com","input":"example.com","source":"alienvault"}

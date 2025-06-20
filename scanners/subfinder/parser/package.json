@@ -1,0 +1,7 @@
+{
+  "name": "subfinder-parser",
+  "version": "1.0.0",
+  "description": "Parses result files for subfinder",
+  "license": "Apache-2.0",
+  "author": "iteratec GmbH"
+}
