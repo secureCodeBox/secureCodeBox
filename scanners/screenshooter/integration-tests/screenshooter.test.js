@@ -11,10 +11,11 @@ test(
       "demo-target-screenshot",
       "screenshooter",
       ["http://nginx.demo-targets.svc"],
-      60 * 4
+      60 * 4,
     );
 
-    expect(categories).toEqual({"Screenshot":1});
-  }, 60*1000
+    expect(categories).toEqual({ Screenshot: 1 });
+  },
+  60 * 1000,
 );
-2
+2;

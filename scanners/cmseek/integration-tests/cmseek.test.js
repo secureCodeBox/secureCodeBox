@@ -2,18 +2,16 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "cmseek scans old-joomla for vulnerabilities without redirection",
   async () => {
-    const {categories, severities, count} = await scan(
+    const { categories, severities, count } = await scan(
       "cmseek-old-joomla",
       "cmseek",
       ["-u", "old-joomla.demo-targets.svc", "--no-redirect"],
-      90
+      90,
     );
 
     expect(count).toBe(3);
@@ -30,17 +28,20 @@ test(
       }
     `);
   },
-  3 * 60 * 1000
+  {
+    timeout: 3 * 60 * 1000,
+    retries: 3,
+  },
 );
 
 test(
   "cmseek scans old-joomla for vulnerabilities with redirection",
   async () => {
-    const {categories, severities, count} = await scan(
+    const { categories, severities, count } = await scan(
       "cmseek-old-joomla",
       "cmseek",
       ["-u", "old-joomla.demo-targets.svc", "--follow-redirect"],
-      90
+      90,
     );
 
     expect(count).toBe(1);
@@ -55,15 +56,21 @@ test(
       }
     `);
   },
-  3 * 60 * 1000
+  {
+    timeout: 3 * 60 * 1000,
+    retries: 3,
+  },
 );
 
 test(
   "Invalid argument should be marked as errored",
   async () => {
     await expect(
-      scan("cmseek-invalidArg", "cmseek", ["--invalidArg", "example.com"], 90)
+      scan("cmseek-invalidArg", "cmseek", ["--invalidArg", "example.com"], 90),
     ).rejects.toThrow("HTTP request failed");
   },
-  3 * 60 * 1000
+  {
+    timeout: 3 * 60 * 1000,
+    retries: 3,
+  },
 );

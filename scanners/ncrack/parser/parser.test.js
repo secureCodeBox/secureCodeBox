@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {parse} = require("./parser");
+const { parse } = require("./parser");
 const fs = require("fs");
 const crypto = require("crypto");
 const {
@@ -15,7 +15,7 @@ it("should return no findings when ncrack has not found credentials", async () =
     __dirname + "/__testFiles__/ncrack_no_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -28,7 +28,7 @@ it("should return findings when ncrack found credentials", async () => {
     __dirname + "/__testFiles__/ncrack_with_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -63,7 +63,7 @@ it("should return no findings when ncrack has not found credentials scanning two
     __dirname + "/__testFiles__/ncrack_two_services_no_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -77,7 +77,7 @@ it("should return findings when ncrack found two credentials scanning two servic
     __dirname + "/__testFiles__/ncrack_two_services_with_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -131,12 +131,12 @@ it("should encrypt findings when a public key is set", async () => {
     __dirname + "/__testFiles__/ncrack_with_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const [finding] = await parse(
     ncrackXML,
     null,
-    __dirname + "/__testFiles__/public_key.pem"
+    __dirname + "/__testFiles__/public_key.pem",
   );
 
   let decryptedData = crypto.privateDecrypt(
@@ -144,7 +144,7 @@ it("should encrypt findings when a public key is set", async () => {
       key: privateKey,
       padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
     },
-    Buffer.from(finding.attributes.password, "base64")
+    Buffer.from(finding.attributes.password, "base64"),
   );
 
   expect(finding.attributes.password.length).toBe(172);

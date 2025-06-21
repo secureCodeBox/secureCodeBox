@@ -13,14 +13,14 @@ test(
       "trivy-juice-test",
       "trivy-sbom-image",
       ["bkimminich/juice-shop:v15.0.0"],
-      90
+      90,
     );
 
     expect(count).toEqual(1);
     expect(categories["SBOM"]).toEqual(1);
     expect(severities["informational"]).toEqual(1);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );
 
 test(
@@ -31,9 +31,9 @@ test(
         "trivy-invalidArg",
         "trivy-sbom-image",
         ["--invalidArg", "not/a-valid-image:v0.0.0"],
-        90
-      )
+        90,
+      ),
     ).rejects.toThrow("HTTP request failed");
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );
