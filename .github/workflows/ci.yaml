@@ -421,7 +421,7 @@ jobs:
           - amass
           - cmseek
           - ffuf
-          # - git-repo-scanner
+          - git-repo-scanner
           # - gitleaks
           # - kube-hunter
           # - ncrack
