@@ -2,14 +2,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Write your dockerfile for the scanner ffuf here
-# Alternatively, you can use an existing image from docker-hub
-FROM golang:1.24-alpine
+FROM --platform=$BUILDPLATFORM golang:1.24-alpine AS builder
 ARG scannerVersion
-RUN go install github.com/ffuf/ffuf/v2@$scannerVersion
-RUN addgroup --system --gid 1001 ffuf && adduser ffuf --system --uid 1001 --ingroup ffuf
-RUN mkdir -p /home/ffuf/.config/ffuf && chown -R ffuf:ffuf /home/ffuf/.config/ffuf
-RUN mkdir -p /home/ffuf/.config/ffuf/scraper && chown -R ffuf:ffuf /home/ffuf/.config/ffuf/scraper
-USER 1001
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 go install github.com/ffuf/ffuf/v2@$scannerVersion
 
-CMD ["ffuf"]
+FROM gcr.io/distroless/static-debian12:nonroot
+COPY --from=builder --chown=root:root --chmod=755 /go/bin/ffuf /usr/local/bin/ffuf
+
+WORKDIR /home/nonroot
+
+ENTRYPOINT ["/usr/local/bin/ffuf"]
