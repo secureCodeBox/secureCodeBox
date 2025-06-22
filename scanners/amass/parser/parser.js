@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { Database, OPEN_READONLY } from "sqlite3";
+import * as sqlite from "sqlite3";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
@@ -31,12 +31,16 @@ async function openDatabase(fileContent) {
   await writeFile(tempFilePath, fileContent);
 
   return await new Promise((resolve, reject) => {
-    const db = new Database(tempFilePath, OPEN_READONLY, (err) => {
-      if (err) {
-        reject(err.message);
-        return;
-      }
-    });
+    const db = new sqlite.Database(
+      tempFilePath,
+      sqlite.OPEN_READONLY,
+      (err) => {
+        if (err) {
+          reject(err.message);
+          return;
+        }
+      },
+    );
     resolve(db);
   });
 }
