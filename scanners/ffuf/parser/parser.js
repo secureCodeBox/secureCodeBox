@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse(fileContent) {
+export async function parse(fileContent) {
   if (!fileContent || !fileContent.results || fileContent.results.length == 0) {
     return [];
   }
@@ -37,5 +37,3 @@ async function parse(fileContent) {
     };
   });
 }
-
-module.exports.parse = parse;
