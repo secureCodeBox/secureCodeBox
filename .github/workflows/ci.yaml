@@ -420,7 +420,7 @@ jobs:
         unit:
           - amass
           - cmseek
-          # - ffuf
+          - ffuf
           # - git-repo-scanner
           # - gitleaks
           # - kube-hunter
