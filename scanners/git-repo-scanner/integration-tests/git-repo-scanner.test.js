@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "gitleaks should find at least 1 repository in the GitHub secureCodeBox organisation",
@@ -20,5 +18,7 @@ test(
     // There must be >= 28 Repositories found in the GitHub secureCodeBox organisation.
     expect(count).toBeGreaterThanOrEqual(28);
   },
-  3 * 60 * 1000,
+  {
+    timeout: 3 * 60 * 1000,
+  },
 );
