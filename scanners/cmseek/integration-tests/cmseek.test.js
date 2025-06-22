@@ -30,7 +30,6 @@ test(
   },
   {
     timeout: 3 * 60 * 1000,
-    retries: 3,
   },
 );
 
@@ -58,7 +57,6 @@ test(
   },
   {
     timeout: 3 * 60 * 1000,
-    retries: 3,
   },
 );
 
@@ -71,6 +69,5 @@ test(
   },
   {
     timeout: 3 * 60 * 1000,
-    retries: 3,
   },
 );
