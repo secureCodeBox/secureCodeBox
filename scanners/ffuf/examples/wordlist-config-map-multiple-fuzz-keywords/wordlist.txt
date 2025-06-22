@@ -1,6 +1,0 @@
-blog
-404
-exampleHopefullyNotFound
-img/Logo_Black.svg
-docs
-architecture
