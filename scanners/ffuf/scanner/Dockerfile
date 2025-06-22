@@ -4,7 +4,7 @@
 
 # Write your dockerfile for the scanner ffuf here
 # Alternatively, you can use an existing image from docker-hub
-FROM golang:1.19-alpine
+FROM golang:1.24-alpine
 ARG scannerVersion
 RUN go install github.com/ffuf/ffuf/v2@$scannerVersion
 RUN addgroup --system --gid 1001 ffuf && adduser ffuf --system --uid 1001 --ingroup ffuf
