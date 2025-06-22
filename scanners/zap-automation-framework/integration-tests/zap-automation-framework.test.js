@@ -4,7 +4,7 @@
 
 import { scan } from "../../../tests/integration/helpers.js";
 
-test.concurrent(
+test(
   "zap automation scan without config against 'bodgeit' should only find couple findings",
   async () => {
     const { count } = await scan(
@@ -36,7 +36,7 @@ test.concurrent(
   },
 );
 
-test.concurrent(
+test(
   "zap automation scan without config against 'swagger-petstore' should only find couple findings",
   async () => {
     const { count } = await scan(
@@ -68,7 +68,7 @@ test.concurrent(
   },
 );
 
-test.concurrent(
+test(
   "zap automation scan against a plain nginx container should only find a couple of findings",
   async () => {
     const { count } = await scan(
@@ -100,7 +100,7 @@ test.concurrent(
   },
 );
 
-test.concurrent(
+test(
   "authenticated zap automation scan with little spider time against a juice shop container should find some findings",
   async () => {
     const { count } = await scan(
