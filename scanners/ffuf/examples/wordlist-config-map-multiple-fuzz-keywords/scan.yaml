@@ -2,6 +2,20 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+apiVersion: "v1"
+kind: ConfigMap
+metadata:
+  name: "ffuf-config"
+data:
+  wordlist.txt: |
+    blog
+    404
+    exampleHopefullyNotFound
+    img/Logo_Black.svg
+    docs
+    architecture
+
+---
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
@@ -24,4 +38,3 @@ spec:
   volumeMounts:
     - name: "ffuf-config"
       mountPath: "/config/"
-

@@ -1,2 +1,0 @@
-user@example.com
-user2@example.com

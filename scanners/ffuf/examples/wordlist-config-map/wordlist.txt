@@ -1,3 +1,0 @@
-blog
-404
-exampleHopefullyNotFound
