@@ -33,7 +33,6 @@ test.concurrent(
   },
   {
     timeout: 60 * 8 * 1000,
-    retry: 3,
   },
 );
 
@@ -66,7 +65,6 @@ test.concurrent(
   },
   {
     timeout: 60 * 8 * 1000,
-    retry: 3,
   },
 );
 
@@ -99,7 +97,6 @@ test.concurrent(
   },
   {
     timeout: 60 * 8 * 1000,
-    retry: 3,
   },
 );
 
@@ -132,6 +129,5 @@ test.concurrent(
   },
   {
     timeout: 60 * 8 * 1000,
-    retry: 3,
   },
 );
