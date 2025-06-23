@@ -15,11 +15,3 @@ include ../../scanners.mk
 unit-tests:
 	@$(MAKE) -s unit-test-py
 
-.PHONY: integration-tests
-integration-tests:
-	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
-	@echo "Disabled due to performance."
-	#kubectl -n integration-tests delete scans --all
-	#cd ../../tests/integration/ && npm ci
-	#cd ../../scanners/${scanner}
-	#npm run test:integration -- ${scanner}/integration-tests
