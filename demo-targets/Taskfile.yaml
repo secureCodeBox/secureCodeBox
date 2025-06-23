@@ -1,0 +1,67 @@
+version: "3"
+
+tasks:
+  deploy:app:
+    internal: true
+    cmds:
+      - helm --namespace demo-targets upgrade --create-namespace --install {{ .app }} {{ .TASKFILE_DIR }}/{{ .app }}/ --wait
+
+  deploy:bodgeit:
+    cmd:
+      task: deploy:app
+      vars:
+        app: bodgeit
+
+  deploy:dummy-ssh:
+    cmd:
+      task: deploy:app
+      vars:
+        app: dummy-ssh
+
+  deploy:http-webhook:
+    cmd:
+      task: deploy:app
+      vars:
+        app: http-webhook
+
+  deploy:juice-shop:
+    cmd:
+      task: deploy:app
+      vars:
+        app: juice-shop
+
+  deploy:old-joomla:
+    cmd:
+      task: deploy:app
+      vars:
+        app: old-joomla
+
+  deploy:old-typo3:
+    cmd:
+      task: deploy:app
+      vars:
+        app: old-typo3
+
+  deploy:old-wordpress:
+    cmd:
+      task: deploy:app
+      vars:
+        app: old-wordpress
+
+  deploy:swagger-petstore:
+    cmd:
+      task: deploy:app
+      vars:
+        app: swagger-petstore
+
+  deploy:unsafe-https:
+    cmd:
+      task: deploy:app
+      vars:
+        app: unsafe-https
+
+  deploy:vulnerable-log4j:
+    cmd:
+      task: deploy:app
+      vars:
+        app: vulnerable-log4j

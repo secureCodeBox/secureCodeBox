@@ -1,0 +1,113 @@
+version: "3"
+
+includes:
+  demo-apps:
+    taskfile: ../demo-targets/Taskfile.yaml
+    internal: true
+
+vars:
+  demoAppsRequiredForIntegrationTests: '{{ .demoAppsRequiredForIntegrationTests | default "" }}'
+  hasCustomScanner:
+    sh: 'if [ -d "{{ .ROOT_DIR }}/scanner/" ]; then echo "true"; else echo "false"; fi'
+env:
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+
+tasks:
+  build:
+    desc: Build the Docker image for the {{ .scannerName }} scanner
+    cmds:
+      - |
+        # if the folder has a scanner/ dir assuming it is a custom scanner
+        if [ -d "{{ .ROOT_DIR }}/scanner/" ]; then
+          echo "Building custom scanner image for {{ .scannerName }} with tag ${IMG_TAG}"
+          docker build -t docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG} \
+            --build-arg=scannerVersion=$(yq eval .appVersion {{ .ROOT_DIR }}/Chart.yaml) \
+            --build-arg=baseImageTag=${IMG_TAG} \
+            {{ .ROOT_DIR }}/scanner/
+          kind load docker-image --name testing-env docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG}
+        else
+          echo "No custom scanner image defined, assuming scanner doen't need to be build"
+        fi
+      - |
+        echo "Building parser image for {{ .scannerName }} with tag ${IMG_TAG}"
+        docker build -t docker.io/securecodebox/parser-{{ .scannerName }}:${IMG_TAG} \
+          --build-arg=baseImageTag=${IMG_TAG} \
+          {{ .ROOT_DIR }}/parser/
+        kind load docker-image --name testing-env docker.io/securecodebox/parser-{{ .scannerName }}:${IMG_TAG}
+  deploy:
+    desc: Deploy the {{ .scannerName }} scanner to the testing environment
+    cmds:
+      - 'echo "Deploying {{ .scannerName }} to the testing environment"'
+      - |
+        helm upgrade --install {{ .scannerName }} {{ .ROOT_DIR }} --namespace integration-tests \
+          {{ if eq "true" .hasCustomScanner -}}
+          --set="scanner.image.tag=${IMG_TAG}" \
+          --set="scanner.image.pullPolicy=Never" \
+          {{ else -}}
+          --set="scanner.image.repository=securecodebox/scanner-nuclei-precooked" \
+          --set="scanner.image.tag=v3.4.2-2025-06-02" \
+          --set="scanner.image.pullPolicy=IfNotPresent" \
+          {{ end -}}
+          --set="parser.image.tag=${IMG_TAG}" \
+          --set="parser.image.pullPolicy=Never" \
+          --set="nucleiTemplateCache.enabled=false" \
+          --wait
+  test:setup:
+    desc: Installs all the various dependencies needed to run the tests for the {{ .scannerName }} scanner
+    cmds:
+      - cd {{ .ROOT_DIR }}/../../parser-sdk/nodejs/ && bun install
+      - cd {{ .ROOT_DIR }}/../ && bun install
+      - cd {{ .ROOT_DIR }}/../../tests/integration/ && bun install
+      - |
+        if [ -f {{ .ROOT_DIR }}/parser/package.json ]; then
+          echo "Installing parser dependencies for {{ .scannerName }}"
+          cd {{ .ROOT_DIR }}/parser/ && bun install
+        else
+          echo "No parser dependencies found for {{ .scannerName }}"
+        fi
+    silent: true
+  test:unit:
+    desc: Run unit tests for the {{ .scannerName }} scanner
+    preconditions:
+      - msg: "parser-sdk dependencies are not installed, run 'task test:setup' first"
+        sh: "[ -d {{ .ROOT_DIR }}/../../parser-sdk/nodejs/node_modules ]"
+      - msg: "integration-tests dependencies are not installed, run 'task test:setup' first"
+        sh: "[ -d {{ .ROOT_DIR }}/../../tests/integration/node_modules ]"
+      - msg: "scanner dependencies are not installed, run 'task test:setup' first"
+        sh: "[ -d {{ .ROOT_DIR }}/../node_modules ]"
+    cmds:
+      - |
+        echo "Running integration tests for {{ .scannerName }}"
+        bun test {{ .ROOT_DIR }}/parser/
+  test:integration:
+    desc: Run integration tests for the {{ .scannerName }} scanner
+    preconditions:
+      - msg: "parser-sdk dependencies are not installed, run 'task test:setup' first"
+        sh: "[ -d {{ .ROOT_DIR }}/../../parser-sdk/nodejs/node_modules ]"
+      - msg: "integration-tests dependencies are not installed, run 'task test:setup' first"
+        sh: "[ -d {{ .ROOT_DIR }}/../../tests/integration/node_modules ]"
+      - msg: "scanner dependencies are not installed, run 'task test:setup' first"
+        sh: "[ -d {{ .ROOT_DIR }}/../node_modules ]"
+      - msg: "kind cluster is not running, run 'task prepare-testing-env' from project root dir first"
+        sh: "kubectl config get-contexts | grep -q 'kind-testing-env' || false"
+      - msg: "secureCodeBox operator is not deployed, run 'task prepare-testing-env' from project root dir first"
+        sh: "kubectl get pods -n securecodebox-system | grep -q 'securecodebox-operator' || false"
+      - msg: "{{ .scannerName }} scan type is not deployed, run 'task build deploy' from scanner dir first"
+        sh: "kubectl get scantypes {{ .scannerName }} -n integration-tests | grep -q '{{ .scannerName }}' || false"
+    env:
+      # Workaround for https://github.com/oven-sh/bun/issues/7332
+      # not great, but this is a local connection to the kind cluster
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+    cmds:
+      - 'echo "Deploying demo applications required for integration tests for {{ .scannerName }}: {{ .demoAppsRequiredForIntegrationTests }}"'
+      - for:
+          var: demoAppsRequiredForIntegrationTests
+        task: demo-apps:deploy:{{ .ITEM }}
+      - echo "Running integration tests for {{ .scannerName }}"
+      - bun test {{ .ROOT_DIR }}/integration-tests/
+  test:
+    desc: Run all tests for the {{ .scannerName }} scanner
+    cmds:
+      - task test:unit
+      - task test:integration

@@ -71,3 +71,6 @@ documentation/static/findings
 documentation/.author_meta
 
 **/node_modules/
+
+# we still use package-lock.json from node as we still use node for our acutal production containers
+bun.lock
