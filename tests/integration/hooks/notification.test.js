@@ -46,7 +46,7 @@ test(
 
     expect(result).toBe(true);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );
 
 async function isHookTriggered(params) {
@@ -55,7 +55,7 @@ async function isHookTriggered(params) {
     params.podName,
     params.namespace,
     params.containerName,
-    false
+    false,
   );
   return containerLog.body.includes("/slack-notification");
 }
@@ -67,7 +67,7 @@ async function delayedRepeat(
   fun,
   functionParamObject,
   intervalInMs,
-  maxRetries
+  maxRetries,
 ) {
   for (let i = 0; i < maxRetries; i++) {
     const condition = await fun(functionParamObject);

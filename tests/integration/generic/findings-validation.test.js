@@ -11,10 +11,10 @@ test(
   async () => {
     await expect(
       // passing hello-world as args, as at least one parameter is required
-      scan("invalid-findings-test-scan", "test-scan", ["hello-world"], 90)
+      scan("invalid-findings-test-scan", "test-scan", ["hello-world"], 90),
     ).rejects.toThrow(
-      `Scan failed with description "Failed to run the Parser. This is likely a Bug, we would like to know about. Please open up a Issue on GitHub."`
+      `Scan failed with description "Failed to run the Parser. This is likely a Bug, we would like to know about. Please open up a Issue on GitHub."`,
     );
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );
