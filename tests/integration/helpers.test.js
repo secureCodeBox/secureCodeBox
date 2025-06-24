@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {scan, cascadingScan} = require("./helpers");
+const { scan, cascadingScan } = require("./helpers");
 
 jest.setTimeout(10 * 1000);
 
@@ -33,12 +33,16 @@ describe("Kubernetes interaction tests", () => {
       const mockScanStatusResponse = require("./__testFiles__/mockScanStatusResponse.json");
 
       mockK8sCRDApi.createNamespacedCustomObject.mockResolvedValue(
-        mockScanCreationResponse
+        mockScanCreationResponse,
       );
       mockK8sCRDApi.getNamespacedCustomObjectStatus.mockResolvedValue(
-        mockScanStatusResponse
+        mockScanStatusResponse,
       );
-      const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
+      const k8sApi = {
+        k8sCRDApi: mockK8sCRDApi,
+        k8sBatchApi: mockK8sBatchApi,
+        k8sPodsApi: mockPodsApi,
+      };
 
       const findings = await scan(
         "nmap-example",
@@ -48,7 +52,7 @@ describe("Kubernetes interaction tests", () => {
         [],
         [],
         [],
-        k8sApi
+        k8sApi,
       );
 
       expect(findings).toBeDefined();
@@ -67,35 +71,30 @@ describe("Kubernetes interaction tests", () => {
       const mockReadNamespacedPodLogResponse = require("./__testFiles__/mockReadNamespacedPodLogResponse.json");
 
       mockK8sCRDApi.createNamespacedCustomObject.mockResolvedValue(
-        mockScanCreationResponse
+        mockScanCreationResponse,
       );
       mockK8sCRDApi.getNamespacedCustomObjectStatus.mockResolvedValue(
-        mockScanStatusResponse_Errored
+        mockScanStatusResponse_Errored,
       );
       mockK8sBatchApi.listNamespacedJob.mockResolvedValue(
-        mockListNamespacedJobResponse
+        mockListNamespacedJobResponse,
       );
       mockPodsApi.listNamespacedPod.mockResolvedValue(
-        mockListNamespacedPodResponse
+        mockListNamespacedPodResponse,
       );
       mockPodsApi.readNamespacedPodLog.mockResolvedValue(
-        mockReadNamespacedPodLogResponse
+        mockReadNamespacedPodLogResponse,
       );
 
+      const k8sApi = {
+        k8sCRDApi: mockK8sCRDApi,
+        k8sBatchApi: mockK8sBatchApi,
+        k8sPodsApi: mockPodsApi,
+      };
 
-      const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
-
-      return expect(scan(
-        "nmap-example",
-        "nmap",
-        [],
-        180,
-        [],
-        [],
-        [],
-        k8sApi
-      )).rejects.toThrow('Scan failed with description "Mocked Error"');
-      
+      return expect(
+        scan("nmap-example", "nmap", [], 180, [], [], [], k8sApi),
+      ).rejects.toThrow('Scan failed with description "Mocked Error"');
     });
   });
 
@@ -106,17 +105,21 @@ describe("Kubernetes interaction tests", () => {
       const mockListNamespacedCustomObjectResponse = require("./__testFiles__/mockCascadingListNamespacedCustomObject.json");
 
       mockK8sCRDApi.createNamespacedCustomObject.mockResolvedValue(
-        mockScanCreationResponse
+        mockScanCreationResponse,
       );
       mockK8sCRDApi.getNamespacedCustomObjectStatus.mockResolvedValue(
-        mockScanStatusResponse
+        mockScanStatusResponse,
       );
 
       mockK8sCRDApi.listNamespacedCustomObject.mockResolvedValue(
-        mockListNamespacedCustomObjectResponse
+        mockListNamespacedCustomObjectResponse,
       );
 
-      const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
+      const k8sApi = {
+        k8sCRDApi: mockK8sCRDApi,
+        k8sBatchApi: mockK8sBatchApi,
+        k8sPodsApi: mockPodsApi,
+      };
 
       const findings = await cascadingScan(
         "nmap-dummy-ssh",
@@ -130,7 +133,7 @@ describe("Kubernetes interaction tests", () => {
           },
         },
         180,
-        k8sApi
+        k8sApi,
       );
 
       expect(findings).toBeDefined();
@@ -146,36 +149,42 @@ describe("Kubernetes interaction tests", () => {
       const mockReadNamespacedPodLogResponse = require("./__testFiles__/mockReadNamespacedPodLogResponse.json");
 
       mockK8sCRDApi.createNamespacedCustomObject.mockResolvedValue(
-        mockScanCreationResponse
+        mockScanCreationResponse,
       );
       mockK8sCRDApi.getNamespacedCustomObjectStatus.mockResolvedValue(
-        mockScanStatusResponse_Errored
+        mockScanStatusResponse_Errored,
       );
       mockK8sBatchApi.listNamespacedJob.mockResolvedValue(
-        mockListNamespacedJobResponse
+        mockListNamespacedJobResponse,
       );
       mockPodsApi.listNamespacedPod.mockResolvedValue(
-        mockListNamespacedPodResponse
+        mockListNamespacedPodResponse,
       );
       mockPodsApi.readNamespacedPodLog.mockResolvedValue(
-        mockReadNamespacedPodLogResponse
+        mockReadNamespacedPodLogResponse,
       );
-      const k8sApi = { k8sCRDApi:mockK8sCRDApi, k8sBatchApi:mockK8sBatchApi, k8sPodsApi:mockPodsApi }
+      const k8sApi = {
+        k8sCRDApi: mockK8sCRDApi,
+        k8sBatchApi: mockK8sBatchApi,
+        k8sPodsApi: mockPodsApi,
+      };
 
-      return expect(cascadingScan(
-        "nmap-dummy-ssh",
-        "nmap",
-        ["-Pn", "-sV", "dummy-ssh.demo-targets.svc"],
-        {
-          nameCascade: "ncrack-ssh",
-          matchLabels: {
-            "securecodebox.io/invasive": "invasive",
-            "securecodebox.io/intensive": "high",
+      return expect(
+        cascadingScan(
+          "nmap-dummy-ssh",
+          "nmap",
+          ["-Pn", "-sV", "dummy-ssh.demo-targets.svc"],
+          {
+            nameCascade: "ncrack-ssh",
+            matchLabels: {
+              "securecodebox.io/invasive": "invasive",
+              "securecodebox.io/intensive": "high",
+            },
           },
-        },
-        180,
-        k8sApi
-      )).rejects.toThrow('Initial Scan failed with description "Mocked Error"'); 
+          180,
+          k8sApi,
+        ),
+      ).rejects.toThrow('Initial Scan failed with description "Mocked Error"');
     });
   });
 });
