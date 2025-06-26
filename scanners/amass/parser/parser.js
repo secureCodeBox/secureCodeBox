@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const sqlite3 = require("sqlite3").verbose();
-const fs = require("node:fs/promises");
-const path = require("node:path");
-const os = require("node:os");
+import * as sqlite from "sqlite3";
+import { writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 
 async function checkIfTableExists(db) {
   const query = `select count(*) from sqlite_master m where m.name="assets" OR m.name="relations"`;
@@ -26,20 +26,20 @@ function queryAll(db, query) {
 }
 
 async function openDatabase(fileContent) {
-  const tempFilePath = path.join(os.tmpdir(), "temp-sqlite" + ".sqlite");
+  const tempFilePath = join(tmpdir(), "temp-sqlite" + ".sqlite");
   // Write the content to a temporary file
-  await fs.writeFile(tempFilePath, fileContent);
+  await writeFile(tempFilePath, fileContent);
 
   return await new Promise((resolve, reject) => {
-    const db = new sqlite3.Database(
+    const db = new sqlite.Database(
       tempFilePath,
-      sqlite3.OPEN_READONLY,
+      sqlite.OPEN_READONLY,
       (err) => {
         if (err) {
           reject(err.message);
           return;
         }
-      }
+      },
     );
     resolve(db);
   });
@@ -56,7 +56,7 @@ function closeDatabase(db) {
   });
 }
 
-async function parse(fileContent) {
+export async function parse(fileContent) {
   const db = await openDatabase(fileContent);
   const tableExists = await checkIfTableExists(db);
   if (!tableExists) return [];
@@ -128,5 +128,3 @@ async function parse(fileContent) {
     };
   });
 }
-
-module.exports.parse = parse;

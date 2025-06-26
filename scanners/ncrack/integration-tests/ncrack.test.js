@@ -18,7 +18,7 @@ test(
         "--pass=THEPASSWORDYOUCREATED,12345",
         "ssh://dummy-ssh.demo-targets.svc",
       ],
-      90
+      90,
     );
 
     expect(count).toBe(1);
@@ -29,5 +29,5 @@ test(
       high: 1,
     });
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );

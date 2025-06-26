@@ -36,13 +36,13 @@ test(
 
     expect(count).toBe(3);
     expect(categories).toEqual({
-      "security": 3,
+      security: 3,
     });
     expect(severities).toEqual({
       high: 3,
     });
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );
 
 /* Disable this rule as it requires access to the Internet and clones a public GitHub repo
