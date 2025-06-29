@@ -7,6 +7,9 @@ import {
   CustomObjectsApi,
   BatchV1Api,
   CoreV1Api,
+  V1Volume,
+  V1VolumeMount,
+  V1Container,
 } from "@kubernetes/client-node";
 
 const kc = new KubeConfig();
@@ -158,13 +161,13 @@ async function disasterRecovery(scanName, k8sApis) {
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
 export async function scan(
-  name,
-  scanType,
-  parameters = [],
-  timeout = 180,
-  volumes = [],
-  volumeMounts = [],
-  initContainers = [],
+  name: string,
+  scanType: string,
+  parameters: string[] = [],
+  timeout: number = 180,
+  volumes: V1Volume[] = [],
+  volumeMounts: V1VolumeMount[] = [],
+  initContainers: V1Container[] = [],
   k8sApis = getKubernetesAPIs(),
 ) {
   namespace = "integration-tests";
