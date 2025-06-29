@@ -95,15 +95,23 @@ tasks:
         sh: "kubectl get pods -n securecodebox-system | grep -q 'securecodebox-operator' || false"
       - msg: "{{ .scannerName }} scan type is not deployed, run 'task build deploy' from scanner dir first"
         sh: "kubectl get scantypes {{ .scannerName }} -n integration-tests | grep -q '{{ .scannerName }}' || false"
-    env:
-      # Workaround for https://github.com/oven-sh/bun/issues/7332
-      # not great, but this is a local connection to the kind cluster
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
+
     cmds:
       - 'echo "Deploying demo applications required for integration tests for {{ .scannerName }}: {{ .demoAppsRequiredForIntegrationTests }}"'
       - for:
           var: demoAppsRequiredForIntegrationTests
         task: demo-apps:deploy:{{ .ITEM }}
+
+      # Workaround for https://github.com/oven-sh/bun/issues/7332
+      - 'echo "Forwarding the Kubernetes API to localhost"'
+      - kubectl proxy >/dev/null 2>&1 &
+      - sleep 1 # Wait a bit to ensure the proxy is up
+
+      - defer: |
+          # kill pid with command "kubectl proxy"
+          echo "Killing kubectl proxy"
+          pkill -f "kubectl proxy"
+
       - echo "Running integration tests for {{ .scannerName }}"
       - bun test {{ .ROOT_DIR }}/integration-tests/
   test:

@@ -27,6 +27,7 @@ describe("Kubernetes interaction tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
   describe("scan function", () => {
     it("should create a scan and return findings on successful completion", async () => {
       const mockScanCreationResponse = require("./__testFiles__/mockScanCreationResponse.json");
@@ -55,10 +56,67 @@ describe("Kubernetes interaction tests", () => {
         k8sApi,
       );
 
-      expect(findings).toBeDefined();
-      expect(findings).toMatchSnapshot();
-      expect(mockK8sCRDApi.createNamespacedCustomObject).toMatchSnapshot();
-      expect(mockK8sCRDApi.getNamespacedCustomObjectStatus).toMatchSnapshot();
+      expect(findings).toMatchInlineSnapshot(`
+        {
+          "categories": {
+            "Vulnerability": 24,
+          },
+          "count": 24,
+          "severities": {
+            "high": 24,
+          },
+        }
+      `);
+      expect(mockK8sCRDApi.createNamespacedCustomObject.mock.calls)
+        .toMatchInlineSnapshot(`
+        [
+          [
+            {
+              "body": {
+                "apiVersion": "execution.securecodebox.io/v1",
+                "kind": "Scan",
+                "metadata": {
+                  "generateName": "nmap-example-",
+                },
+                "spec": {
+                  "initContainers": [],
+                  "parameters": [],
+                  "scanType": "nmap",
+                  "volumeMounts": [],
+                  "volumes": [],
+                },
+              },
+              "group": "execution.securecodebox.io",
+              "namespace": "integration-tests",
+              "plural": "scans",
+              "version": "v1",
+            },
+          ],
+        ]
+      `);
+      expect(mockK8sCRDApi.getNamespacedCustomObjectStatus.mock.calls)
+        .toMatchInlineSnapshot(`
+        [
+          [
+            {
+              "group": "execution.securecodebox.io",
+              "name": "nmap-example-pw8vt",
+              "namespace": "integration-tests",
+              "plural": "scans",
+              "version": "v1",
+            },
+          ],
+          [
+            {
+              "group": "execution.securecodebox.io",
+              "name": "nmap-example-pw8vt",
+              "namespace": "integration-tests",
+              "plural": "scans",
+              "version": "v1",
+            },
+          ],
+        ]
+      `);
     });
 
     it("should throw an error if the scan fails", async () => {
@@ -136,9 +194,19 @@ describe("Kubernetes interaction tests", () => {
         k8sApi,
       );
 
-      expect(findings).toBeDefined();
-      expect(findings).toMatchSnapshot();
+      expect(findings).toMatchInlineSnapshot(`
+        {
+          "categories": {
+            "Discovered Credentials": 1,
+          },
+          "count": 1,
+          "severities": {
+            "high": 1,
+          },
+        }
+      `);
     });
+
     it("should throw an error if the scan fails", async () => {
       const mockScanCreationResponse = require("./__testFiles__/mockCascadingScanCreationResponse.json");
       const mockScanStatusResponse_Errored = require("./__testFiles__/mockCascadingScanStatusResponse_Errored.json");

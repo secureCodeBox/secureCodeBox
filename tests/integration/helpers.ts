@@ -2,22 +2,55 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const k8s = require("@kubernetes/client-node");
+import {
+  KubeConfig,
+  CustomObjectsApi,
+  BatchV1Api,
+  CoreV1Api,
+} from "@kubernetes/client-node";
 
-const kc = new k8s.KubeConfig();
-kc.loadFromDefault();
+const kc = new KubeConfig();
 
-let k8sCRDApi, k8sBatchApi, k8sPodsApi;
+// connect to localhost cluster forwarded via kubectl proxy to workaround auth issues in bun: https://github.com/oven-sh/bun/issues/7332
+kc.loadFromOptions({
+  clusters: [
+    {
+      name: "localhost",
+      cluster: {
+        server: "http://localhost:8001",
+        skipTLSVerify: true, // no tls on proxy
+      },
+    },
+  ],
+  users: [
+    {
+      name: "default",
+    },
+  ],
+  contexts: [
+    {
+      name: "default",
+      context: {
+        cluster: "localhost",
+        user: "default",
+        namespace: "integration-tests",
+      },
+    },
+  ],
+  currentContext: "default",
+});
+
+let k8sCRDApi: CustomObjectsApi, k8sBatchApi: BatchV1Api, k8sPodsApi: CoreV1Api;
 
 function getKubernetesAPIs() {
   if (!k8sCRDApi) {
-    k8sCRDApi = kc.makeApiClient(k8s.CustomObjectsApi);
+    k8sCRDApi = kc.makeApiClient(CustomObjectsApi);
   }
   if (!k8sBatchApi) {
-    k8sBatchApi = kc.makeApiClient(k8s.BatchV1Api);
+    k8sBatchApi = kc.makeApiClient(BatchV1Api);
   }
   if (!k8sPodsApi) {
-    k8sPodsApi = kc.makeApiClient(k8s.CoreV1Api);
+    k8sPodsApi = kc.makeApiClient(CoreV1Api);
   }
 
   return { k8sCRDApi, k8sBatchApi, k8sPodsApi };
@@ -27,62 +60,54 @@ let namespace = "integration-tests";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms * 1000));
 
 async function deleteScan(name, k8sApis = getKubernetesAPIs()) {
-  await k8sApis.k8sCRDApi.deleteNamespacedCustomObject(
-    "execution.securecodebox.io",
-    "v1",
+  await k8sApis.k8sCRDApi.deleteNamespacedCustomObject({
+    group: "execution.securecodebox.io",
+    version: "v1",
+    plural: "scans",
+    name: name,
     namespace,
-    "scans",
-    name,
-    {},
-  );
+  });
 }
 
 async function getScan(name, k8sApis = getKubernetesAPIs()) {
-  const { body: scan } =
-    await k8sApis.k8sCRDApi.getNamespacedCustomObjectStatus(
-      "execution.securecodebox.io",
-      "v1",
-      namespace,
-      "scans",
-      name,
-    );
-  return scan;
+  return await k8sApis.k8sCRDApi.getNamespacedCustomObjectStatus({
+    group: "execution.securecodebox.io",
+    version: "v1",
+    plural: "scans",
+    name,
+    namespace,
+  });
 }
 
 async function displayAllLogsForJob(jobName, k8sApis = getKubernetesAPIs()) {
   console.log(`Listing logs for Job '${jobName}':`);
-  const {
-    body: { items: pods },
-  } = await k8sApis.k8sPodsApi.listNamespacedPod(
+  const pods = await k8sApis.k8sPodsApi.listNamespacedPod({
+    labelSelector: `job-name=${jobName}`,
     namespace,
-    true,
-    undefined,
-    undefined,
-    undefined,
-    `job-name=${jobName}`,
-  );
+  });
 
-  if (pods.length === 0) {
+  if (pods.items.length === 0) {
     console.log(`No Pods found for Job '${jobName}'`);
   }
 
-  for (const pod of pods) {
+  for (const pod of pods.items) {
     console.log(
-      `Listing logs for Job '${jobName}' > Pod '${pod.metadata.name}':`,
+      `Listing logs for Job '${jobName}' > Pod '${pod.metadata?.name}':`,
     );
 
-    for (const container of pod.spec.containers) {
+    for (const container of pod.spec?.containers || []) {
       try {
-        const response = await k8sApis.k8sPodsApi.readNamespacedPodLog(
-          pod.metadata.name,
+        if (!pod.metadata?.name) throw new Error("pod name is undefined");
+        const logs = await k8sApis.k8sPodsApi.readNamespacedPodLog({
+          name: pod.metadata.name,
           namespace,
-          container.name,
-        );
+          container: container.name,
+        });
         console.log(`Container ${container.name}:`);
-        console.log(response.body);
+        console.log(logs);
       } catch (exception) {
         console.error(
-          `Failed to display logs of container ${container.name}: ${exception.body.message}`,
+          `Failed to display logs of container ${container.name}: ${exception}`,
         );
       }
     }
@@ -91,18 +116,19 @@ async function displayAllLogsForJob(jobName, k8sApis = getKubernetesAPIs()) {
 
 async function logJobs(k8sApis = getKubernetesAPIs()) {
   try {
-    const { body: jobs } =
-      await k8sApis.k8sBatchApi.listNamespacedJob(namespace);
+    const jobs = await k8sApis.k8sBatchApi.listNamespacedJob({
+      namespace,
+    });
 
     console.log("Logging spec & status of jobs in namespace");
 
     for (const job of jobs.items) {
-      console.log(`Job: '${job.metadata.name}' Spec:`);
+      console.log(`Job: '${job.metadata?.name}' Spec:`);
       console.log(JSON.stringify(job.spec, null, 2));
-      console.log(`Job: '${job.metadata.name}' Status:`);
+      console.log(`Job: '${job.metadata?.name}' Status:`);
       console.log(JSON.stringify(job.status, null, 2));
 
-      await displayAllLogsForJob(job.metadata.name, k8sApis);
+      await displayAllLogsForJob(job.metadata?.name, k8sApis);
     }
   } catch (error) {
     console.error("Failed to list Jobs");
@@ -131,7 +157,7 @@ async function disasterRecovery(scanName, k8sApis) {
  * @param {PodsApi} PodsApi kubernetes api client for CoreV1Api. Optional, will be created if not provided.
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
-async function scan(
+export async function scan(
   name,
   scanType,
   parameters = [],
@@ -157,15 +183,15 @@ async function scan(
       initContainers,
     },
   };
-  const { body } = await k8sApis.k8sCRDApi.createNamespacedCustomObject(
-    "execution.securecodebox.io",
-    "v1",
+  const scan = await k8sApis.k8sCRDApi.createNamespacedCustomObject({
+    group: "execution.securecodebox.io",
+    version: "v1",
+    plural: "scans",
     namespace,
-    "scans",
-    scanDefinition,
-  );
+    body: scanDefinition,
+  });
 
-  const actualName = body.metadata.name;
+  const actualName = scan.metadata.name;
 
   for (let i = 0; i < timeout; i++) {
     await sleep(1);
@@ -206,7 +232,7 @@ async function scan(
  *
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
-async function cascadingScan(
+export async function cascadingScan(
   name,
   scanType,
   parameters = [],
@@ -230,15 +256,15 @@ async function cascadingScan(
     },
   };
 
-  const { body } = await k8sApis.k8sCRDApi.createNamespacedCustomObject(
-    "execution.securecodebox.io",
-    "v1",
+  const scan = await k8sApis.k8sCRDApi.createNamespacedCustomObject({
+    group: "execution.securecodebox.io",
+    version: "v1",
+    plural: "scans",
     namespace,
-    "scans",
-    scanDefinition,
-  );
+    body: scanDefinition,
+  });
 
-  const actualName = body.metadata.name;
+  const actualName: string = scan.metadata.name;
 
   for (let i = 0; i < timeout; i++) {
     await sleep(1);
@@ -264,33 +290,27 @@ async function cascadingScan(
     }
   }
 
-  const { body: scans } = await k8sApis.k8sCRDApi.listNamespacedCustomObject(
-    "execution.securecodebox.io",
-    "v1",
+  const scans = await k8sApis.k8sCRDApi.listNamespacedCustomObject({
+    group: "execution.securecodebox.io/v1",
+    version: "v1",
+    plural: "Scan",
     namespace,
-    "scans",
-  );
+  });
 
-  let cascadedScan = null;
-
-  for (const scan of scans.items) {
-    if (
+  const cascadedScan = scans.items.find((scan) => {
+    return (
       scan.metadata.annotations &&
       scan.metadata.annotations["cascading.securecodebox.io/chain"] ===
         nameCascade
-    ) {
-      cascadedScan = scan;
-      break;
-    }
-  }
-
+    );
+  });
   if (cascadedScan === null) {
     console.warn(
       `Didn't find matching cascaded scan in available scans: ${JSON.stringify(scans.items, undefined, 2)}`,
     );
     throw new Error(`Didn't find cascaded Scan for ${nameCascade}`);
   }
-  const actualNameCascade = cascadedScan.metadata.name;
+  const actualNameCascade = cascadedScan.metadata?.name;
 
   for (let j = 0; j < timeout; j++) {
     await sleep(1);
@@ -321,6 +341,3 @@ async function cascadingScan(
 
   throw new Error("timed out while waiting for scan results");
 }
-
-module.exports.scan = scan;
-module.exports.cascadingScan = cascadingScan;
