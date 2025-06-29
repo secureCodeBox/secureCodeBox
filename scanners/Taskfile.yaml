@@ -6,9 +6,13 @@ includes:
     internal: true
 
 vars:
+  # demo apps required for integration tests, e.g. "bodgeit juice-shop", etc. reference the demo apps in the demo-targets/Taskfile.yaml
   demoAppsRequiredForIntegrationTests: '{{ .demoAppsRequiredForIntegrationTests | default "" }}'
+  # if the scanner uses a custom scanner container image which needs to be built. Usually false as we prefer to reference the official scanner container images
   hasCustomScanner:
     sh: 'if [ -d "{{ .ROOT_DIR }}/scanner/" ]; then echo "true"; else echo "false"; fi'
+  # addtional cli args to pass to the helm install command which installs the scanner into the testing environment
+  additionalHelmInstallArgsForScanner: '{{ .additionalHelmInstallArgsForScanner | default "" }}'
 env:
   IMG_TAG:
     sh: 'echo "sha-$(git rev-parse --short HEAD)"'
@@ -35,23 +39,26 @@ tasks:
           --build-arg=baseImageTag=${IMG_TAG} \
           {{ .ROOT_DIR }}/parser/
         kind load docker-image --name testing-env docker.io/securecodebox/parser-{{ .scannerName }}:${IMG_TAG}
+  predeploy:
+    desc: Can be overwritten by the scanner to perform any pre-deployment steps
+    cmds: []
+    silent: true
   deploy:
     desc: Deploy the {{ .scannerName }} scanner to the testing environment
     cmds:
       - 'echo "Deploying {{ .scannerName }} to the testing environment"'
+      - task: predeploy
       - |
         helm upgrade --install {{ .scannerName }} {{ .ROOT_DIR }} --namespace integration-tests \
           {{ if eq "true" .hasCustomScanner -}}
           --set="scanner.image.tag=${IMG_TAG}" \
           --set="scanner.image.pullPolicy=Never" \
-          {{ else -}}
-          --set="scanner.image.repository=securecodebox/scanner-nuclei-precooked" \
-          --set="scanner.image.tag=v3.4.2-2025-06-02" \
-          --set="scanner.image.pullPolicy=IfNotPresent" \
+          {{ end -}}
+          {{ if ne "" .additionalHelmInstallArgsForScanner -}}
+          {{ .additionalHelmInstallArgsForScanner -}}
           {{ end -}}
           --set="parser.image.tag=${IMG_TAG}" \
           --set="parser.image.pullPolicy=Never" \
-          --set="nucleiTemplateCache.enabled=false" \
           --wait
   test:setup:
     desc: Installs all the various dependencies needed to run the tests for the {{ .scannerName }} scanner
