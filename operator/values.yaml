@@ -51,6 +51,9 @@ securityContext:
     drop:
       # securityContext.capabilities.drop[0] -- This drops all linux privileges from the operator container. They are not required
       - ALL
+  seccompProfile:
+    # securityContext.seccompProfile.type -- one of RuntimeDefault, Unconfined, Localhost
+    type: Unconfined
 
 # -- Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
 podSecurityContext: {}

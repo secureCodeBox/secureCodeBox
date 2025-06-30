@@ -68,6 +68,8 @@ matches the snapshot:
                   value: docker.io/securecodebox/lurker:0.0.0
                 - name: LURKER_PULL_POLICY
                   value: IfNotPresent
+                - name: LURKER_SECCOMP_PROFILE
+                  value: Unconfined
                 - name: CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
                   value: foo
                 - name: CUSTOM_CA_CERTIFICATE_NAME
@@ -115,6 +117,8 @@ matches the snapshot:
                 privileged: false
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
+                seccompProfile:
+                  type: Unconfined
               volumeMounts:
                 - mountPath: /etc/ssl/certs/public.crt
                   name: ca-certificate
@@ -645,6 +649,8 @@ properly-renders-the-service-monitor-when-enabled:
                   value: docker.io/securecodebox/lurker:0.0.0
                 - name: LURKER_PULL_POLICY
                   value: IfNotPresent
+                - name: LURKER_SECCOMP_PROFILE
+                  value: Unconfined
                 - name: CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
                   value: foo
                 - name: CUSTOM_CA_CERTIFICATE_NAME
@@ -692,6 +698,8 @@ properly-renders-the-service-monitor-when-enabled:
                 privileged: false
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
+                seccompProfile:
+                  type: Unconfined
               volumeMounts:
                 - mountPath: /etc/ssl/certs/public.crt
                   name: ca-certificate

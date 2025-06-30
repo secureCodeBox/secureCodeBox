@@ -123,6 +123,8 @@ spec:
               value: "{{ .Values.lurker.image.repository }}:{{ .Values.lurker.image.tag | default .Chart.Version }}"
             - name: LURKER_PULL_POLICY
               value: {{ .Values.lurker.image.pullPolicy }}
+            - name: LURKER_SECCOMP_PROFILE
+              value: {{ .Values.securityContext.seccompProfile.type }}
             {{- if .Values.customCACertificate.existingCertificate }}
             - name: CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
               value: {{ .Values.customCACertificate.existingCertificate | quote }}

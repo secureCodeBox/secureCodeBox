@@ -288,6 +288,27 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 		return nil, fmt.Errorf("unknown imagePull Policy for lurker: %s", lurkerPullPolicyRaw)
 	}
 
+	seccompProfileRaw := os.Getenv("LURKER_SECCOMP_PROFILE")
+	var seccompProfile corev1.SeccompProfile
+	switch seccompProfileRaw {
+	case "Localhost":
+		seccompProfile = corev1.SeccompProfile{
+			Type: corev1.SeccompProfileTypeLocalhost,}
+	case "RuntimeDefault":
+		seccompProfile = corev1.SeccompProfile{
+			Type: corev1.SeccompProfileTypeRuntimeDefault,}
+	case "Unconfined": 
+		seccompProfile = corev1.SeccompProfile{
+			Type: corev1.SeccompProfileTypeUnconfined,}
+	case "":
+		seccompProfile = corev1.SeccompProfile{
+			Type: corev1.SeccompProfileTypeRuntimeDefault,
+		}
+	default:
+		return nil, fmt.Errorf("unknown seccompProfile for lurker: %s", seccompProfileRaw)
+	}
+
+	r.Log.Info("Using Lurker Image", "seccompProfile", seccompProfileRaw)
 	falsePointer := false
 	truePointer := true
 
@@ -337,6 +358,9 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 			Privileged:               &falsePointer,
 			Capabilities: &corev1.Capabilities{
 				Drop: []corev1.Capability{"ALL"},
+			},
+			SeccompProfile: &corev1.SeccompProfile{
+				Type: seccompProfile.Type,
 			},
 		},
 	}
