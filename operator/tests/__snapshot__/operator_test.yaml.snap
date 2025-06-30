@@ -111,7 +111,7 @@ matches the snapshot:
                 allowPrivilegeEscalation: false
                 capabilities:
                   drop:
-                    - all
+                    - ALL
                 privileged: false
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
@@ -688,7 +688,7 @@ properly-renders-the-service-monitor-when-enabled:
                 allowPrivilegeEscalation: false
                 capabilities:
                   drop:
-                    - all
+                    - ALL
                 privileged: false
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
