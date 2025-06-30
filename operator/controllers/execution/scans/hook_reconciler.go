@@ -388,7 +388,7 @@ func generateJobForHook(hookName string, hookSpec *executionv1.ScanCompletionHoo
 								ReadOnlyRootFilesystem:   &truePointer,
 								Privileged:               &falsePointer,
 								Capabilities: &corev1.Capabilities{
-									Drop: []corev1.Capability{"all"},
+									Drop: []corev1.Capability{"ALL"},
 								},
 							},
 						},

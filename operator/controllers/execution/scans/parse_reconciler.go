@@ -191,7 +191,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								ReadOnlyRootFilesystem:   &truePointer,
 								Privileged:               &falsePointer,
 								Capabilities: &corev1.Capabilities{
-									Drop: []corev1.Capability{"all"},
+									Drop: []corev1.Capability{"ALL"},
 								},
 							},
 						},

@@ -336,7 +336,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 			ReadOnlyRootFilesystem:   &truePointer,
 			Privileged:               &falsePointer,
 			Capabilities: &corev1.Capabilities{
-				Drop: []corev1.Capability{"all"},
+				Drop: []corev1.Capability{"ALL"},
 			},
 		},
 	}
