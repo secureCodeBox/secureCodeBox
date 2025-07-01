@@ -481,7 +481,7 @@ jobs:
 
       - name: Unit Tests
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: bun test --coverage parser/
+        run: task test:unit
 
       - name: Download Parser SDK Image
         uses: actions/download-artifact@v4
