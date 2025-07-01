@@ -14,6 +14,8 @@ vars:
   # if the scanner uses a custom scanner container image which needs to be built. Usually false as we prefer to reference the official scanner container images
   hasCustomScanner:
     sh: 'if [ -d "{{ .ROOT_DIR }}/scanner/" ]; then echo "true"; else echo "false"; fi'
+  parserUsesNpmDependencies:
+    sh: 'if [ -f "{{ .ROOT_DIR }}/parser/package.json" ]; then echo "true"; else echo "false"; fi'
   # addtional cli args to pass to the helm install command which installs the scanner into the testing environment
   additionalHelmInstallArgsForScanner: '{{ .additionalHelmInstallArgsForScanner | default "" }}'
 env:
@@ -75,22 +77,43 @@ tasks:
           --set="parser.image.tag=${IMG_TAG}" \
           --set="parser.image.pullPolicy=Never" \
           --wait
-  test:setup:
-    desc: Installs all the various dependencies needed to run the tests for the {{ .scannerName }} scanner
+
+  # test:setup tasks
+  test:setup:parser-sdk:
+    internal: true
+    status:
+      - "[ -d {{ .ROOT_DIR }}/../../parser-sdk/nodejs/node_modules ] || false"
     cmds:
       - cd {{ .ROOT_DIR }}/../../parser-sdk/nodejs/ && bun install
+  test:setup:scanner-dir:
+    internal: true
+    status:
+      - "[ -d {{ .ROOT_DIR }}/../node_modules ] || false"
+    cmds:
       - cd {{ .ROOT_DIR }}/../ && bun install
-      - cd {{ .ROOT_DIR }}/../../tests/integration/ && bun install
-      - |
-        if [ -f {{ .ROOT_DIR }}/parser/package.json ]; then
-          echo "Installing parser dependencies for {{ .scannerName }}"
-          cd {{ .ROOT_DIR }}/parser/ && bun install
-        else
-          echo "No parser dependencies found for {{ .scannerName }}"
-        fi
-    silent: true
+  test:setup:test-helpers:
+    internal: true
+    status:
+      - "[ -d {{ .ROOT_DIR }}/../../tests/integration/node_modules ] || false"
+    cmds:
+      - cd {{ .ROOT_DIR }}/../../tests/integration && bun install
+  test:setup:parser-deps:
+    internal: true
+    status:
+      - '{{ if eq "true" .parserUsesNpmDependencies -}}[ -d {{ .ROOT_DIR }}/parser/node_modules ] || false{{ else -}}true{{ end -}}'
+    cmds:
+      - cd {{ .ROOT_DIR }}/parser/ && bun install
+  test:setup:
+    cmds:
+      - task: test:setup:parser-sdk
+      - task: test:setup:scanner-dir
+      - task: test:setup:test-helpers
+      - task: test:setup:parser-deps
+
   test:unit:
     desc: Run unit tests for the {{ .scannerName }} scanner
+    deps:
+      - test:setup
     preconditions:
       - msg: "parser-sdk dependencies are not installed, run 'task test:setup' first"
         sh: "[ -d {{ .ROOT_DIR }}/../../parser-sdk/nodejs/node_modules ]"
@@ -105,6 +128,7 @@ tasks:
   test:integration:
     desc: Run integration tests for the {{ .scannerName }} scanner
     deps:
+      - test:setup
       - deploy
     preconditions:
       - msg: "parser-sdk dependencies are not installed, run 'task test:setup' first"
@@ -119,7 +143,6 @@ tasks:
         sh: "kubectl get pods -n securecodebox-system | grep -q 'securecodebox-operator' || false"
       - msg: "{{ .scannerName }} scan type is not deployed, run 'task build deploy' from scanner dir first"
         sh: "kubectl get scantypes {{ .scannerName }} -n integration-tests | grep -q '{{ .scannerName }}' || false"
-
     cmds:
       - |
         {{ if eq "" .demoAppsRequiredForIntegrationTests -}}
