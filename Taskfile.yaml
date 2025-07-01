@@ -2,37 +2,86 @@ version: "3"
 
 env:
   IMG_NS: securecodebox
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
 
 tasks:
-  prepare-testing-env:
-    env:
-      IMG_TAG:
-        sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+  create-kind-cluster:
     cmds:
-      - 'echo "Deleting existing kind cluster for testing environment"'
-      - kind delete cluster --name testing-env || true
       - 'echo "Starting kind cluster for testing environment"'
       - kind create cluster --name testing-env
-      - 'echo "Building images for operator and lurker with tag ${IMG_TAG}"'
-      - cd operator/ && docker build -t ${IMG_NS}/operator:${IMG_TAG} .
-      - cd lurker/ && docker build -t ${IMG_NS}/lurker:${IMG_TAG} .
+    status:
+      - kind get clusters | grep testing-env || exit 1
+
+  build-operator-image:
+    cmds:
+      - 'echo "Building operator image with tag ${IMG_TAG}"'
+      - docker build -t ${IMG_NS}/operator:${IMG_TAG} {{ .TASKFILE_DIR }}/operator
+    status:
+      - docker images | grep "${IMG_NS}/operator" | grep "${IMG_TAG}"
+
+  build-lurker-image:
+    cmds:
+      - 'echo "Building lurker image with tag ${IMG_TAG}"'
+      - docker build -t ${IMG_NS}/lurker:${IMG_TAG} {{ .TASKFILE_DIR }}/lurker
+    status:
+      - docker images | grep "${IMG_NS}/lurker" | grep "${IMG_TAG}"
+
+  load-operator-image:
+    deps: [build-operator-image]
+    cmds:
       - kind load docker-image ${IMG_NS}/operator:${IMG_TAG} --name testing-env
+    status:
+      - kind get images --name testing-env | grep "${IMG_NS}/operator:${IMG_TAG}" || exit 1
+
+  load-lurker-image:
+    deps: [build-lurker-image]
+    cmds:
       - kind load docker-image ${IMG_NS}/lurker:${IMG_TAG} --name testing-env
+    status:
+      - kind get images --name testing-env | grep "${IMG_NS}/lurker:${IMG_TAG}" || exit 1
+
+  deploy-operator:
+    deps: [load-operator-image, load-lurker-image]
+    cmds:
       - 'echo "Deploying secureCodeBox operator to the testing environment"'
       - kubectl config use-context kind-testing-env
       - kubectl create namespace integration-tests || true
-      - kubectl create namespace securecodebox-system || true
       - |
-        helm -n securecodebox-system upgrade --install securecodebox-operator ./operator --wait \
+        helm -n securecodebox-system upgrade --create-namespace --install securecodebox-operator {{ .TASKFILE_DIR }}/operator --wait \
           --set="image.repository=docker.io/${IMG_NS}/operator" \
           --set="image.tag=${IMG_TAG}" \
           --set="image.pullPolicy=IfNotPresent" \
           --set="lurker.image.repository=docker.io/${IMG_NS}/lurker" \
           --set="lurker.image.tag=${IMG_TAG}" \
           --set="lurker.image.pullPolicy=IfNotPresent"
-      - |
-        echo "Building parser-sdk images with tag ${IMG_TAG}"
-        docker build -t securecodebox/parser-sdk-nodejs:${IMG_TAG} ./parser-sdk/nodejs
-      - |
-        echo "Building hook-sdk images with tag ${IMG_TAG}"
-        docker build -t securecodebox/hook-sdk-nodejs:${IMG_TAG} ./hook-sdk/nodejs
+    status:
+      - kubectl get deployment -n securecodebox-system securecodebox-operator | grep "1/1" || exit 1
+
+  build-parser-sdk-image:
+    cmds:
+      - 'echo "Building parser-sdk images with tag ${IMG_TAG}"'
+      - docker build -t securecodebox/parser-sdk-nodejs:${IMG_TAG} {{ .TASKFILE_DIR }}/parser-sdk/nodejs
+    status:
+      - docker images | grep "securecodebox/parser-sdk-nodejs" | grep "${IMG_TAG}"
+
+  build-hook-sdk-image:
+    cmds:
+      - 'echo "Building hook-sdk images with tag ${IMG_TAG}"'
+      - docker build -t securecodebox/hook-sdk-nodejs:${IMG_TAG} {{ .TASKFILE_DIR }}/hook-sdk/nodejs
+    status:
+      - docker images | grep "securecodebox/hook-sdk-nodejs" | grep "${IMG_TAG}"
+
+  prepare-testing-env:
+    desc: "Prepare the testing environment by running all required tasks"
+    cmds:
+      - task: create-kind-cluster
+      - task: deploy-operator
+
+  cleanup-testing-env:
+    desc: "Cleanup the testing environment by deleting the kind cluster"
+    cmds:
+      - 'echo "Cleaning up testing environment"'
+      - kind delete cluster --name testing-env
+    status:
+      - kind get clusters | grep -q 'testing-env' || exit 0
