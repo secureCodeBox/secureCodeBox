@@ -4,6 +4,9 @@ includes:
   demo-apps:
     taskfile: ../demo-targets/Taskfile.yaml
     internal: true
+  core:
+    taskfile: ../Taskfile.yaml
+    internal: true
 
 vars:
   # demo apps required for integration tests, e.g. "bodgeit juice-shop", etc. reference the demo apps in the demo-targets/Taskfile.yaml
@@ -20,19 +23,26 @@ env:
 tasks:
   build:
     desc: Build the Docker image for the {{ .scannerName }} scanner
+    status:
+      - docker images | grep -q "docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG}" || false
+      - docker images | grep -q "docker.io/securecodebox/parser-{{ .scannerName }}:${IMG_TAG}" || false
+    preconditions:
+      - msg: "Docker is not running, please start Docker first"
+        sh: "docker info >/dev/null 2>&1 || false"
+    deps:
+      - core:build-parser-sdk-image
     cmds:
       - |
-        # if the folder has a scanner/ dir assuming it is a custom scanner
-        if [ -d "{{ .ROOT_DIR }}/scanner/" ]; then
-          echo "Building custom scanner image for {{ .scannerName }} with tag ${IMG_TAG}"
-          docker build -t docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG} \
-            --build-arg=scannerVersion=$(yq eval .appVersion {{ .ROOT_DIR }}/Chart.yaml) \
-            --build-arg=baseImageTag=${IMG_TAG} \
-            {{ .ROOT_DIR }}/scanner/
-          kind load docker-image --name testing-env docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG}
-        else
+        {{ if eq "true" .hasCustomScanner -}}
+        echo "Building custom scanner image for {{ .scannerName }} with tag ${IMG_TAG}"
+        docker build -t docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG} \
+          --build-arg=scannerVersion=$(yq eval .appVersion {{ .ROOT_DIR }}/Chart.yaml) \
+          --build-arg=baseImageTag=${IMG_TAG} \
+          {{ .ROOT_DIR }}/scanner/
+        kind load docker-image --name testing-env docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG}
+        {{ else -}}
           echo "No custom scanner image defined, assuming scanner doen't need to be build"
-        fi
+        {{ end -}}
       - |
         echo "Building parser image for {{ .scannerName }} with tag ${IMG_TAG}"
         docker build -t docker.io/securecodebox/parser-{{ .scannerName }}:${IMG_TAG} \
@@ -45,6 +55,11 @@ tasks:
     silent: true
   deploy:
     desc: Deploy the {{ .scannerName }} scanner to the testing environment
+    deps:
+      - core:prepare-testing-env
+      - build
+    status:
+      - helm ls {{ .scannerName }} -n integration-tests | grep -q '{{ .scannerName }}' || false
     cmds:
       - 'echo "Deploying {{ .scannerName }} to the testing environment"'
       - task: predeploy
@@ -89,6 +104,8 @@ tasks:
         bun test {{ .ROOT_DIR }}/parser/
   test:integration:
     desc: Run integration tests for the {{ .scannerName }} scanner
+    deps:
+      - deploy
     preconditions:
       - msg: "parser-sdk dependencies are not installed, run 'task test:setup' first"
         sh: "[ -d {{ .ROOT_DIR }}/../../parser-sdk/nodejs/node_modules ]"
@@ -104,7 +121,12 @@ tasks:
         sh: "kubectl get scantypes {{ .scannerName }} -n integration-tests | grep -q '{{ .scannerName }}' || false"
 
     cmds:
-      - 'echo "Deploying demo applications required for integration tests for {{ .scannerName }}: {{ .demoAppsRequiredForIntegrationTests }}"'
+      - |
+        {{ if eq "" .demoAppsRequiredForIntegrationTests -}}
+        echo "No demo applications required for integration tests for {{ .scannerName }}"
+        {{ else -}}
+        echo "Deploying demo applications required for integration tests for {{ .scannerName }}: {{ .demoAppsRequiredForIntegrationTests }}"
+        {{ end -}}
       - for:
           var: demoAppsRequiredForIntegrationTests
         task: demo-apps:deploy:{{ .ITEM }}
