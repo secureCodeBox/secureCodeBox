@@ -444,6 +444,11 @@ jobs:
       - name: Install bun
         uses: oven-sh/setup-bun@v2
 
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+
       - name: Download Kind
         uses: actions/download-artifact@v4
         with:
@@ -474,24 +479,6 @@ jobs:
           kubectl version || true
           helm version
 
-      - name: Install ParserSDK Dependencies
-        working-directory: ./parser-sdk/nodejs/
-        run: bun install
-
-      - name: Setup parser-sdk for unit tests
-        working-directory: ./scanners/
-        run: bun install
-
-      - name: Install integration test helper dependencies
-        working-directory: ./tests/integration/
-        run: bun install
-
-      - name: Install Dependencies
-        working-directory: ./scanners/${{ matrix.unit }}/parser/
-        #install dependencies for the parser if the directory has a package.json
-        if: exists('./scanners/${{ matrix.unit }}/parser/package.json')
-        run: bun install
-
       - name: Unit Tests
         working-directory: ./scanners/${{ matrix.unit }}/
         run: bun test --coverage parser/
@@ -507,29 +494,16 @@ jobs:
           docker load --input /tmp/parser-sdk.tar
           docker images | grep sdk
 
-      - name: Build Images
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make docker-build
-
-      - name: Export Docker Images
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make docker-export
-
-      - name: "Start kind cluster"
-        run: |
-          kind version
-          kind create cluster --wait 3m --image "$KIND_NODE_IMAGE"
-
-      - name: "Inspect kind cluster"
-        run: |
-          kubectl config current-context
-          kubectl get node
-
       - name: Download Operator Image
         uses: actions/download-artifact@v4
         with:
           name: operator-image
           path: ./operator
+
+      - name: Load Operator Image
+        run: |
+          docker load --input ./operator/operator.tar
+          docker images | grep operator
 
       - name: Download Lurker Image
         uses: actions/download-artifact@v4
@@ -537,37 +511,29 @@ jobs:
           name: lurker-image
           path: ./operator
 
-      - name: Import Operator & Lurker Image to kind cluster
-        working-directory: ./operator
-        run: make kind-import
-
-      - name: Kind Import ${{ matrix.unit }} Image to kind cluster
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make kind-import
-
-      - name: Deploy Operator Chart to kind cluster
-        working-directory: ./operator
+      - name: Load Lurker Image
         run: |
-          make helm-deploy
+          docker load --input ./operator/lurker.tar
+          docker images | grep lurker
 
-      - name: Deploy ${{ matrix.unit }} Chart to kind cluster
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make deploy
+      - name: "Start kind cluster"
+        run: |
+          task prepare-testing-env
 
-      - name: Deploy Test Dependencies
+      - name: ${{ matrix.unit }} Build Scanner / Parser Images
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: make deploy-test-deps
+        run: task build
+
+      - name: ${{ matrix.unit }} Load and Deploy Scanner / Parser Images to kind Cluster
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: task deploy
 
       - name: Start Integration Tests
         uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
         with:
           timeout_minutes: 15
           max_attempts: 3
-          command: cd ./scanners/${{ matrix.unit }}/ && bun test integration-tests/
-        env:
-          # Workaround for https://github.com/oven-sh/bun/issues/7332
-          # not great, but this is a local connection to the kind cluster
-          NODE_TLS_REJECT_UNAUTHORIZED: 0
+          command: cd ./scanners/${{ matrix.unit }}/ && task test:integration
 
       # ---- Debuging Cluster on Failure ----
 
