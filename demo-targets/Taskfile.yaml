@@ -3,6 +3,8 @@ version: "3"
 tasks:
   deploy:app:
     internal: true
+    status:
+      - helm --namespace demo-targets get all {{ .app }}
     cmds:
       - helm --namespace demo-targets upgrade --create-namespace --install {{ .app }} {{ .TASKFILE_DIR }}/{{ .app }}/ --wait
 
