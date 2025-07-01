@@ -5,7 +5,7 @@
 FROM node:22-alpine AS build
 WORKDIR /home/app
 COPY package.json package-lock.json ./
-RUN npm ci --production
+RUN npm ci --omit=dev
 
 FROM node:22-alpine
 ARG NODE_ENV

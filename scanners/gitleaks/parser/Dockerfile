@@ -11,7 +11,7 @@ ARG baseImageTag
 # RUN mkdir -p /home/app
 # WORKDIR /home/app
 # COPY package.json package-lock.json ./
-# RUN npm ci --production
+# RUN npm ci --omit=dev
 
 FROM ${namespace:-securecodebox}/parser-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/parser-wrapper/parser/
