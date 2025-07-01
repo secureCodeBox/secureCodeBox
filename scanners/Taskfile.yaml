@@ -143,8 +143,16 @@ tasks:
 
       - echo "Running integration tests for {{ .scannerName }}"
       - bun test {{ .ROOT_DIR }}/integration-tests/
+  test:helm:
+    desc: Run helm tests for the {{ .scannerName }} scanner
+    preconditions:
+      - msg: "Helm unittest plugin is not installed, you need to install it first. See: https://github.com/helm-unittest/helm-unittest/"
+        sh: "helm plugin list | grep -q 'unittest' || false"
+    cmds:
+      - helm unittest {{ .ROOT_DIR }}
   test:
     desc: Run all tests for the {{ .scannerName }} scanner
     cmds:
       - task test:unit
+      - task test:helm
       - task test:integration
