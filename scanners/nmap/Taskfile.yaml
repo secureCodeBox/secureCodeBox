@@ -7,9 +7,4 @@ includes:
     vars:
       scannerName: nmap
 
-tasks:
-  default:
-    desc: Build the Docker image for the Nmap scanner
-    cmds:
-      - docker build -t securecodebox/nmap:${IMG_TAG} .
-    silent: true
+tasks: {}
