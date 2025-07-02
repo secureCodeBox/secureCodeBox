@@ -10,18 +10,26 @@ async function handle({
   webhookPassword = process.env["WEBHOOK_PASSWORD"],
   webhookApikeyHeaderName = process.env["WEBHOOK_APIKEY_HEADER_NAME"],
   webhookApikeyHeaderValue = process.env["WEBHOOK_APIKEY_HEADER_VALUE"],
-  axios = require('axios')
+  axios = require("axios"),
 }) {
   const findings = await getFindings();
 
   console.log(`Sending ${findings.length} findings to ${webhookUrl}`);
 
-  if (webhookApikeyHeaderName && webhookApikeyHeaderValue){
-    await axios.post(webhookUrl, {scan, findings }, {headers: { [webhookApikeyHeaderName]: webhookApikeyHeaderValue}});
-  } else if (webhookUser && webhookPassword){
-    await axios.post(webhookUrl, {scan, findings }, {auth: {username: webhookUser, password: webhookPassword}});
+  if (webhookApikeyHeaderName && webhookApikeyHeaderValue) {
+    await axios.post(
+      webhookUrl,
+      { scan, findings },
+      { headers: { [webhookApikeyHeaderName]: webhookApikeyHeaderValue } },
+    );
+  } else if (webhookUser && webhookPassword) {
+    await axios.post(
+      webhookUrl,
+      { scan, findings },
+      { auth: { username: webhookUser, password: webhookPassword } },
+    );
   } else {
-    await axios.post(webhookUrl, {scan, findings });
+    await axios.post(webhookUrl, { scan, findings });
   }
 }
 module.exports.handle = handle;

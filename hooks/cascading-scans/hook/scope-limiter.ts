@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import {Finding, ScopeLimiter, ScopeLimiterAliases} from "./scan-helpers";
-import {V1ObjectMeta} from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
+import { Finding, ScopeLimiter, ScopeLimiterAliases } from "./scan-helpers";
+import { V1ObjectMeta } from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
 import Mustache from "mustache";
-import {Address4, Address6} from "ip-address";
-import {fromUrl, parseDomain, ParseResultType} from "parse-domain";
-import {flatten, isEqual, takeRight} from "lodash";
+import { Address4, Address6 } from "ip-address";
+import { fromUrl, parseDomain, ParseResultType } from "parse-domain";
+import { flatten, isEqual, takeRight } from "lodash";
 
 export enum ScopeLimiterRequirementOperator {
   In = "In",
@@ -32,7 +32,7 @@ export function isInScope(
   scopeLimiter: ScopeLimiter,
   scanAnnotations: V1ObjectMeta["annotations"],
   finding: Finding,
-  scopeLimiterAliases: ScopeLimiterAliases
+  scopeLimiterAliases: ScopeLimiterAliases,
 ) {
   if (scopeLimiter === undefined) return true;
 
@@ -44,12 +44,12 @@ export function isInScope(
   }: ScopeLimiterRequirement): boolean {
     if (!key.startsWith(`${scopeDomain}`)) {
       throw new Error(
-        `key '${key}' is invalid: key does not start with '${scopeDomain}'`
+        `key '${key}' is invalid: key does not start with '${scopeDomain}'`,
       );
     }
 
     // Retrieve operator and validator functions from user operator input
-    const {operator: operatorFunction, validator: validatorFunction} =
+    const { operator: operatorFunction, validator: validatorFunction } =
       operatorFunctions[operator];
     if (operatorFunction === undefined) {
       throw new Error(`Unknown operator '${operator}'`);
@@ -83,7 +83,10 @@ export function isInScope(
     return operatorFunction(props);
   }
 
-  function templateValue(value: string): {values: string[]; rendered: boolean} {
+  function templateValue(value: string): {
+    values: string[];
+    rendered: boolean;
+  } {
     if (value === undefined)
       return {
         values: [],
@@ -110,13 +113,13 @@ export function isInScope(
           const path = text.split(".");
           if (path.length < 3) {
             throw new Error(
-              `Invalid list key '${text}'. List key must be at least 3 levels deep. E.g. 'attributes.addresses.ip'`
+              `Invalid list key '${text}'. List key must be at least 3 levels deep. E.g. 'attributes.addresses.ip'`,
             );
           }
           const listKey = path.slice(0, path.length - 1).join(".");
           const objectKey = path.pop();
           return render(
-            `{{#${listKey}}}{{${objectKey}}}${delimiter}{{/${listKey}}}`
+            `{{#${listKey}}}{{${objectKey}}}${delimiter}{{/${listKey}}}`,
           );
         };
       },
@@ -127,7 +130,7 @@ export function isInScope(
           const path = text.split(".");
           if (path.length < 2) {
             throw new Error(
-              `Invalid list key '${text}'. List key must be at least 2 levels deep. E.g. 'attributes.addresses'`
+              `Invalid list key '${text}'. List key must be at least 2 levels deep. E.g. 'attributes.addresses'`,
             );
           }
           return render(`{{#${text}}}{{.}}${delimiter}{{/${text}}}`);
@@ -237,8 +240,8 @@ const operatorFunctions: {
 };
 
 function validate(
-  {scopeAnnotationValue, findingValues}: Operands,
-  scopeAnnotationValueUndefinedAllowed
+  { scopeAnnotationValue, findingValues }: Operands,
+  scopeAnnotationValueUndefinedAllowed,
 ) {
   if (
     !scopeAnnotationValueUndefinedAllowed &&
@@ -254,7 +257,10 @@ function validate(
  * scopeAnnotationValue: "example.com"
  * findingValues: ["example.com", "subdomain.example.com"]
  */
-function operatorIn({scopeAnnotationValue, findingValues}: Operands): boolean {
+function operatorIn({
+  scopeAnnotationValue,
+  findingValues,
+}: Operands): boolean {
   return findingValues.includes(scopeAnnotationValue);
 }
 
@@ -270,7 +276,7 @@ function operatorContains({
 }: Operands): boolean {
   const scopeAnnotationValues = scopeAnnotationValue.split(",");
   return findingValues.every((findingValue) =>
-    scopeAnnotationValues.includes(findingValue)
+    scopeAnnotationValues.includes(findingValue),
   );
 }
 
@@ -341,7 +347,7 @@ function operatorSubdomainOf({
         // Check if last part of domain is equal
         return isEqual(
           scopeAnnotationDomain.labels,
-          takeRight(findingDomain.labels, scopeAnnotationDomain.labels.length)
+          takeRight(findingDomain.labels, scopeAnnotationDomain.labels.length),
         );
       }
       throw new Error(`${findingValue} is an invalid domain name`);

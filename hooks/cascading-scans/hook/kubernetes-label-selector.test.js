@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {generateSelectorString} = require("./kubernetes-label-selector");
+const { generateSelectorString } = require("./kubernetes-label-selector");
 
 test("should generate a empty string if passed an empty object", () => {
   expect(generateSelectorString({})).toBe("");
@@ -11,14 +11,14 @@ test("should generate a empty string if passed an empty object", () => {
 test("should generate basic label string for key values selector", () => {
   expect(
     generateSelectorString({
-      matchLabels: {environment: "production"},
-    })
+      matchLabels: { environment: "production" },
+    }),
   ).toBe("environment=production");
 
   expect(
     generateSelectorString({
-      matchLabels: {environment: "testing"},
-    })
+      matchLabels: { environment: "testing" },
+    }),
   ).toBe("environment=testing");
 });
 
@@ -29,7 +29,7 @@ test("should generate basic label string for multiple key values selector", () =
         environment: "production",
         team: "search",
       },
-    })
+    }),
   ).toBe("environment=production,team=search");
 
   expect(
@@ -38,7 +38,7 @@ test("should generate basic label string for multiple key values selector", () =
         environment: "testing",
         team: "payment",
       },
-    })
+    }),
   ).toBe("environment=testing,team=payment");
 });
 
@@ -52,7 +52,7 @@ test("should generate label string for set based expressions", () => {
           values: ["testing", "development"],
         },
       ],
-    })
+    }),
   ).toBe("environment in (testing,development)");
 
   expect(
@@ -64,7 +64,7 @@ test("should generate label string for set based expressions", () => {
           values: ["development"],
         },
       ],
-    })
+    }),
   ).toBe("environment in (development)");
 });
 
@@ -83,7 +83,7 @@ test("should generate label string for set based expressions with multiple entri
           values: ["search", "payment"],
         },
       ],
-    })
+    }),
   ).toBe("environment notin (production),team in (search,payment)");
 });
 
@@ -100,7 +100,7 @@ test("should generate label string for set based Exists and DoesNotExist operato
           operator: "DoesNotExist",
         },
       ],
-    })
+    }),
   ).toBe("environment,!team");
 });
 
@@ -130,9 +130,9 @@ test("should generate selectors with both expression and labelMatching", () => {
       matchLabels: {
         critical: "true",
       },
-    })
+    }),
   ).toBe(
-    "critical=true,environment notin (production),team in (search,payment),foobar,!barfoo"
+    "critical=true,environment notin (production),team in (search,payment),foobar,!barfoo",
   );
 });
 
@@ -146,8 +146,8 @@ test("should throw a exception when passed a unknown operator", () => {
           values: ["production"],
         },
       ],
-    })
+    }),
   ).toThrowErrorMatchingInlineSnapshot(
-    `"Unknown LabelSelector Operator "FooBar". Supported are (In, NotIn, Exists, DoesNotExist). If this is an official label selector operator in kubernetes please open up a issue in the secureCodeBox Repo."`
+    `"Unknown LabelSelector Operator "FooBar". Supported are (In, NotIn, Exists, DoesNotExist). If this is an official label selector operator in kubernetes please open up a issue in the secureCodeBox Repo."`,
   );
 });

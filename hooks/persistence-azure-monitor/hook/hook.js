@@ -17,7 +17,7 @@ async function handle({
 }) {
   if (!(workspaceId && sharedKey)) {
     console.error(
-      "Missing Workspace ID or shared key. Please provide them in the MONITOR_WORKSPACE_ID and MONITOR_SHARED_KEY environment variables"
+      "Missing Workspace ID or shared key. Please provide them in the MONITOR_WORKSPACE_ID and MONITOR_SHARED_KEY environment variables",
     );
     process.exit(1);
   }
@@ -39,7 +39,7 @@ async function handle({
       scan_type: scan.spec.scanType,
       scan_parameters: scan.spec.parameters,
       scan_labels: scan.metadata.labels || {},
-    }))
+    })),
   );
 
   // Derive the LogType from the logTypePrefix and the scan type.
@@ -101,9 +101,9 @@ async function handle({
       }
       const { Error: errorCode, Message: errorMsg } = response.json();
       console.error(
-        `An error occurred. Status Code: ${response.status}, status text: ${response.statusText}, Error: ${errorCode}, ErrorMsg: ${errorMsg}`
+        `An error occurred. Status Code: ${response.status}, status text: ${response.statusText}, Error: ${errorCode}, ErrorMsg: ${errorMsg}`,
       );
-    }
+    },
   );
 }
 module.exports.handle = handle;

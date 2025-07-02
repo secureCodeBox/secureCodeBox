@@ -29,11 +29,11 @@ export function generateSelectorString({
   matchLabels = new Map(),
 }: LabelSelector): string {
   const matchLabelsSelector = Array.from(Object.entries(matchLabels)).map(
-    generateLabelsSelectorString
+    generateLabelsSelectorString,
   );
 
   const matchExpressionsSelector = matchExpressions.map(
-    generateExpressionsSelectorString
+    generateExpressionsSelectorString,
   );
 
   return [...matchLabelsSelector, ...matchExpressionsSelector].join(",");
@@ -61,11 +61,11 @@ function generateExpressionsSelectorString({
 
     default:
       const supportedOperators = Object.values(
-        LabelSelectorRequirementOperator
+        LabelSelectorRequirementOperator,
       ).join(", ");
 
       throw new Error(
-        `Unknown LabelSelector Operator "${operator}". Supported are (${supportedOperators}). If this is an official label selector operator in kubernetes please open up a issue in the secureCodeBox Repo.`
+        `Unknown LabelSelector Operator "${operator}". Supported are (${supportedOperators}). If this is an official label selector operator in kubernetes please open up a issue in the secureCodeBox Repo.`,
       );
   }
 }

@@ -10,7 +10,7 @@ const { handle } = require("./hook");
 
 // Mock the fetch function
 const fetch = jest.fn(
-  (x) => new Promise((resolve, reject) => resolve({ status: 200 }))
+  (x) => new Promise((resolve, reject) => resolve({ status: 200 })),
 );
 
 beforeEach(() => {
