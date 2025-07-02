@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(1);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "ssh-audit should find a couple of findings for a dummy ssh service",
@@ -30,7 +28,7 @@ test(
     }
     `);
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
 
 test(
@@ -47,5 +45,5 @@ test(
       'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"',
     );
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );

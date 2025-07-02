@@ -2,22 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const fs = require("fs");
-const util = require("util");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "node:fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const readFile = util.promisify(fs.readFile);
-
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("ssh-audit parser parses a result into proper findings for dummy-ssh", async () => {
-  const hosts = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/dummy-ssh.json", {
-      encoding: "utf8",
-    }),
-  );
+  const hosts = await readFile(__dirname + "/__testFiles__/dummy-ssh.json", {
+    encoding: "utf8",
+  });
   const findings = await parse(hosts);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
@@ -472,11 +465,9 @@ test("should properly parse empty json file", async () => {
 });
 
 test("ssh-audit parser parses a result into proper findings for an example with given port", async () => {
-  const hosts = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/portExample.json", {
-      encoding: "utf8",
-    }),
-  );
+  const hosts = await readFile(__dirname + "/__testFiles__/portExample.json", {
+    encoding: "utf8",
+  });
   const findings = await parse(hosts);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
