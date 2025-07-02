@@ -1,0 +1,16 @@
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    excludes:
+      - predeploy
+    vars:
+      scannerName: cmseek
+
+tasks:
+  predeploy:
+    deps:
+      - demo-targets:deploy:old-joomla
+    cmds: []
