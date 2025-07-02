@@ -6,10 +6,7 @@ import argparse
 import json
 import logging
 import sys
-from datetime import datetime
-
-# https://docs.python.org/3/library/datetime.html
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import github
@@ -27,7 +24,7 @@ log_format = "%(asctime)s - %(levelname)-7s - %(name)s - %(message)s"
 logging.basicConfig(level=logging.INFO, format=log_format)
 logger = logging.getLogger("git_repo_scanner")
 
-now_utc = pytz.utc.localize(datetime.utcnow())
+now_utc = datetime.now(timezone.utc)
 
 
 def main():
