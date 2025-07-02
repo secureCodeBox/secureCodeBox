@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Base Image
-ARG scannerVersion  
+ARG scannerVersion
 FROM positronsecurity/ssh-audit:${scannerVersion}
 
 COPY wrapper.sh /wrapper.sh

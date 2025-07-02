@@ -430,7 +430,7 @@ jobs:
           - nuclei
           - screenshooter
           - semgrep
-          # - ssh-audit
+          - ssh-audit
           # - sslyze
           # - trivy
           # - trivy-sbom

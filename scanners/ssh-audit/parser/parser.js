@@ -225,11 +225,17 @@ function isIPaddress(target) {
  *
  * Parses the raw results from the ssh-audit scanner into Findings
  */
-async function parse(fileContent) {
-  const host = fileContent;
-  if (typeof host === "string") return [];
+export async function parse(fileContent) {
+  if (!fileContent) {
+    return [];
+  }
 
-  const destination = host.target.split(":");
+  const report = JSON.parse(fileContent);
+  if (!report || !report.target) {
+    return [];
+  }
+
+  const destination = report.target.split(":");
   const location = "ssh://" + destination[0];
   let ipAddress = null;
   let hostname = null;
@@ -237,7 +243,7 @@ async function parse(fileContent) {
     ? (ipAddress = destination[0])
     : (hostname = destination[0]);
 
-  const recommendationsArray = Object.entries(host.recommendations);
+  const recommendationsArray = Object.entries(report.recommendations);
   const policyViolationFindings = recommendationsArray.flatMap(
     ([recommendationSeverityLevel, value]) =>
       transformRecommendationToFinding(
@@ -260,18 +266,16 @@ async function parse(fileContent) {
     attributes: {
       hostname: hostname || null,
       ip_address: ipAddress || null,
-      server_banner: host.banner?.raw || null,
-      ssh_version: host.banner?.protocol || null,
-      ssh_lib_cpe: host.banner?.software,
-      key_algorithms: host.key,
-      encryption_algorithms: host.enc,
-      mac_algorithms: host.mac,
-      compression_algorithms: host.compression,
-      key_exchange_algorithms: host.kex,
-      fingerprints: host.fingerprints,
+      server_banner: report.banner?.raw || null,
+      ssh_version: report.banner?.protocol || null,
+      ssh_lib_cpe: report.banner?.software,
+      key_algorithms: report.key,
+      encryption_algorithms: report.enc,
+      mac_algorithms: report.mac,
+      compression_algorithms: report.compression,
+      key_exchange_algorithms: report.kex,
+      fingerprints: report.fingerprints,
     },
   };
   return [serviceFinding, ...policyViolationFindings];
 }
-
-module.exports.parse = parse;
