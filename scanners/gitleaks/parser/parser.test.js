@@ -16,7 +16,7 @@ test("should properly parse empty gitleaks json file", async () => {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchObject([]);
 });
@@ -28,7 +28,7 @@ test("should properly parse gitleaks json file with null result", async () => {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchObject([]);
 });
@@ -40,7 +40,7 @@ test("should properly parse gitleaks json file", async () => {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
@@ -133,7 +133,7 @@ test("should define severity based on tags in result file", async () => {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
@@ -223,7 +223,7 @@ test("should properly construct commit URL if given in scan annotation without t
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent), scan);
+  const findings = await parse(jsonContent, scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
@@ -330,7 +330,7 @@ test("should properly construct commit URL if given in scan annotation with trai
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent), scan);
+  const findings = await parse(jsonContent, scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
