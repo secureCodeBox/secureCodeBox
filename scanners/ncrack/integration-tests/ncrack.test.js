@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "ncrack should find 1 credential in vulnerable ssh service",
@@ -29,5 +27,5 @@ test(
       high: 1,
     });
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
