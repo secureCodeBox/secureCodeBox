@@ -2,16 +2,19 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-function parse(fileContent) {
-  // Only 0 when the target wasn't reachable
-  if (
-    !fileContent.server_scan_results ||
-    fileContent.server_scan_results.length === 0
-  ) {
+export function parse(fileContent) {
+  if (!fileContent) {
     return [];
   }
 
-  const serverScanResult = fileContent.server_scan_results[0];
+  const report = JSON.parse(fileContent);
+
+  // Only 0 when the target wasn't reachable
+  if (!report.server_scan_results || report.server_scan_results.length === 0) {
+    return [];
+  }
+
+  const serverScanResult = report.server_scan_results[0];
 
   if (serverScanResult.connectivity_status == "ERROR") {
     console.error(
@@ -22,12 +25,12 @@ function parse(fileContent) {
 
   if (process.env["DEBUG"] === "true") {
     console.log("Parsing Result File");
-    console.log(JSON.stringify(fileContent));
+    console.log(fileContent);
   }
 
-  if (fileContent.date_scans_completed) {
+  if (report.date_scans_completed) {
     serverScanResult.identified_at = new Date(
-      fileContent.date_scans_completed,
+      report.date_scans_completed,
     ).toISOString();
   }
 
@@ -58,8 +61,6 @@ function parse(fileContent) {
 
   return findings;
 }
-
-module.exports.parse = parse;
 
 // Returns the Scan Result for the individual TLS Versions as array
 function getTlsScanResultsAsArray(serverScanResult) {
