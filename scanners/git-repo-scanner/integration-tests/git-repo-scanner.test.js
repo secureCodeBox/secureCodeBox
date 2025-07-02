@@ -4,7 +4,7 @@
 
 import { scan } from "../../../tests/integration/helpers.js";
 
-test.sjip(
+test.skip(
   "git-repo-scanner should find at least 1 repository in the GitHub secureCodeBox organisation",
   async () => {
     // This integration tests runs about 30min because of the GitHub Public API call rate limit.
