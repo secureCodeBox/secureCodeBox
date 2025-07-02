@@ -2,18 +2,17 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("parses www.securecodebox.io result file into findings", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/docs.securecodebox.io.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/docs.securecodebox.io.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -21,10 +20,11 @@ test("parses www.securecodebox.io result file into findings", async () => {
 });
 
 test("parses OWASP Juice Shop result file into findings", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/juice-shop.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/juice-shop.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -32,10 +32,11 @@ test("parses OWASP Juice Shop result file into findings", async () => {
 });
 
 test("should properly parse empty json file", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/empty-report.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/empty-report.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -43,10 +44,11 @@ test("should properly parse empty json file", async () => {
 });
 
 test("parses 'no web server found' finding correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/unresolvable-host.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/unresolvable-host.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();

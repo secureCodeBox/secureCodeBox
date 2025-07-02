@@ -425,7 +425,7 @@ jobs:
           - gitleaks
           - kube-hunter
           - ncrack
-          # - nikto
+          - nikto
           - nmap
           - nuclei
           # - screenshooter
