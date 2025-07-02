@@ -14,9 +14,9 @@ test("should properly parse empty json file", async () => {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(fileContent));
+  const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse git-scanner json file", async () => {
@@ -26,12 +26,12 @@ test("should properly parse git-scanner json file", async () => {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(fileContent));
+  const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "attributes": Object {
+    [
+      {
+        "attributes": {
           "created_at": "2017-02-02T09:48:05Z",
           "full_name": "secureCodeBox/secureCodeBox",
           "id": 80711933,
@@ -48,8 +48,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-03-01T10:50:05Z",
           "full_name": "secureCodeBox/engine",
           "id": 123422137,
@@ -66,8 +66,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-03-08T14:20:36Z",
           "full_name": "secureCodeBox/scanner-infrastructure-nmap",
           "id": 124402117,
@@ -84,8 +84,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-03-20T15:48:39Z",
           "full_name": "secureCodeBox/nodejs-scanner-scaffolding",
           "id": 126042943,
@@ -102,8 +102,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-04-06T13:13:14Z",
           "full_name": "secureCodeBox/scanner-webserver-nikto",
           "id": 128396681,
@@ -120,8 +120,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-04-10T11:17:29Z",
           "full_name": "secureCodeBox/scanner-webapplication-zap",
           "id": 128920739,
@@ -138,8 +138,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-05-15T11:43:11Z",
           "full_name": "secureCodeBox/scanner-infrastructure-sslyze",
           "id": 133507929,
@@ -156,8 +156,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-05-24T06:47:00Z",
           "full_name": "secureCodeBox/scanner-webapplication-arachni",
           "id": 134673181,
@@ -174,8 +174,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-07-18T16:38:18Z",
           "full_name": "secureCodeBox/scanner-infrastructure-amass",
           "id": 141462466,
@@ -192,8 +192,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-07-30T12:13:41Z",
           "full_name": "secureCodeBox/integration-pipeline-jenkins-examples",
           "id": 142870794,
@@ -210,8 +210,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-08-16T08:11:15Z",
           "full_name": "secureCodeBox/ansible-role-securecodebox-openshift",
           "id": 144957631,
@@ -228,8 +228,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2018-12-12T15:21:02Z",
           "full_name": "secureCodeBox/django-DefectDojo",
           "id": 161506648,
@@ -246,8 +246,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-02-18T14:23:57Z",
           "full_name": "secureCodeBox/scanner-infrastructure-ssh",
           "id": 171298120,
@@ -264,8 +264,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-04-10T09:03:38Z",
           "full_name": "secureCodeBox/scanner-cms-wpscan",
           "id": 180543766,
@@ -282,8 +282,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-04-10T11:39:04Z",
           "full_name": "secureCodeBox/ruby-scanner-scaffolding",
           "id": 180568880,
@@ -300,8 +300,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-08-21T13:21:09Z",
           "full_name": "secureCodeBox/securecodebox.github.io",
           "id": 203588805,
@@ -318,8 +318,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-08-26T14:11:02Z",
           "full_name": "secureCodeBox/gatsby-gh-pages-action",
           "id": 204489733,
@@ -336,8 +336,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-08-27T12:46:48Z",
           "full_name": "secureCodeBox/ssh_scan",
           "id": 204701677,
@@ -354,8 +354,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-10-11T11:28:15Z",
           "full_name": "secureCodeBox/swagger-petstore-openshift",
           "id": 214418800,
@@ -372,8 +372,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-11-19T11:25:21Z",
           "full_name": "secureCodeBox/nikto",
           "id": 222679857,
@@ -390,8 +390,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2019-11-25T13:34:16Z",
           "full_name": "secureCodeBox/scanner-infrastructure-ncrack",
           "id": 223956455,
@@ -408,8 +408,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2020-03-24T14:33:08Z",
           "full_name": "secureCodeBox/secureCodeBox-v2",
           "id": 249731346,
@@ -426,8 +426,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2020-03-29T10:40:12Z",
           "full_name": "secureCodeBox/zap-extensions",
           "id": 251007807,
@@ -444,8 +444,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2020-07-07T14:14:16Z",
           "full_name": "secureCodeBox/zaproxy",
           "id": 277835641,
@@ -462,8 +462,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2020-08-07T17:58:52Z",
           "full_name": "secureCodeBox/static-export",
           "id": 285890805,
@@ -480,8 +480,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2020-08-17T15:09:19Z",
           "full_name": "secureCodeBox/telemetry",
           "id": 288212154,
@@ -498,8 +498,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2020-09-02T13:39:10Z",
           "full_name": "secureCodeBox/documentation",
           "id": 292293538,
@@ -516,8 +516,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2020-09-03T13:08:22Z",
           "full_name": "secureCodeBox/ui",
           "id": 292573194,
@@ -534,8 +534,8 @@ test("should properly parse git-scanner json file", async () => {
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
       },
-      Object {
-        "attributes": Object {
+      {
+        "attributes": {
           "created_at": "2020-09-28T08:58:53Z",
           "full_name": "secureCodeBox/internal",
           "id": 299249650,
