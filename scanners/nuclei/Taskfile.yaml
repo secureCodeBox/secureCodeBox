@@ -8,14 +8,14 @@ includes:
       - predeploy
     vars:
       scannerName: nuclei
-      demoAppsRequiredForIntegrationTests: "bodgeit"
       additionalHelmInstallArgsForScanner: |
         --set="scanner.image.pullPolicy=IfNotPresent" \
         --set="nucleiTemplateCache.enabled=false" \
 
 tasks:
   predeploy:
-    desc: This is a dummy task to ensure the scanner Taskfile is included correctly
+    deps:
+      - demo-targets:deploy:bodgeit
     cmds:
       - |
         # create a nuclei template configmap from inline definition

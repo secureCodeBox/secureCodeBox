@@ -1,7 +1,7 @@
 version: "3"
 
 includes:
-  demo-apps:
+  demo-targets:
     taskfile: ../demo-targets/Taskfile.yaml
     internal: true
   core:
@@ -9,8 +9,6 @@ includes:
     internal: true
 
 vars:
-  # demo apps required for integration tests, e.g. "bodgeit juice-shop", etc. reference the demo apps in the demo-targets/Taskfile.yaml
-  demoAppsRequiredForIntegrationTests: '{{ .demoAppsRequiredForIntegrationTests | default "" }}'
   # if the scanner uses a custom scanner container image which needs to be built. Usually false as we prefer to reference the official scanner container images
   hasCustomScanner:
     sh: 'if [ -d "{{ .ROOT_DIR }}/scanner/" ]; then echo "true"; else echo "false"; fi'
@@ -144,16 +142,6 @@ tasks:
       - msg: "{{ .scannerName }} scan type is not deployed, run 'task build deploy' from scanner dir first"
         sh: "kubectl get scantypes {{ .scannerName }} -n integration-tests | grep -q '{{ .scannerName }}' || false"
     cmds:
-      - |
-        {{ if eq "" .demoAppsRequiredForIntegrationTests -}}
-        echo "No demo applications required for integration tests for {{ .scannerName }}"
-        {{ else -}}
-        echo "Deploying demo applications required for integration tests for {{ .scannerName }}: {{ .demoAppsRequiredForIntegrationTests }}"
-        {{ end -}}
-      - for:
-          var: demoAppsRequiredForIntegrationTests
-        task: demo-apps:deploy:{{ .ITEM }}
-
       # Workaround for https://github.com/oven-sh/bun/issues/7332
       - 'echo "Forwarding the Kubernetes API to localhost"'
       - kubectl proxy >/dev/null 2>&1 &
