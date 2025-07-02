@@ -53,7 +53,7 @@ data:
       - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
         parameters:
           context: test-config             # String: Name of the context to spider, default: first context
-          user: juiceshop-user-1           # String: An optional user to use for authentication, must be defined in the env
+          user: juice-shop-user-1           # String: An optional user to use for authentication, must be defined in the env
           maxDuration: 2                   # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
       - type: spiderAjax                   # The ajax spider - slower than the spider but handles modern apps well
         parameters:
