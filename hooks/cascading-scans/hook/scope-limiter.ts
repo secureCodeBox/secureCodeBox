@@ -4,7 +4,7 @@
 
 import {Finding, ScopeLimiter, ScopeLimiterAliases} from "./scan-helpers";
 import {V1ObjectMeta} from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
-import * as Mustache from "mustache";
+import Mustache from "mustache";
 import {Address4, Address6} from "ip-address";
 import {fromUrl, parseDomain, ParseResultType} from "parse-domain";
 import {flatten, isEqual, takeRight} from "lodash";

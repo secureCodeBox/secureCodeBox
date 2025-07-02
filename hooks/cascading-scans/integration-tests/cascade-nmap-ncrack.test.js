@@ -2,18 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {cascadingScan} = require("../../../../tests/integration/helpers");
-var {jest} = require("@jest/globals");
-
-jest.retryTimes(3);
+import { cascadingScan } from "../../../tests/integration/helpers";
 
 test(
   "Cascading Scan nmap -> ncrack on dummy-ssh",
   async () => {
-    const {categories, severities, count} = await cascadingScan(
+    const { categories, severities, count } = await cascadingScan(
       "nmap-dummy-ssh",
       "nmap",
-      ["-Pn", "-sV", "dummy-ssh.demo-targets.svc"],
+      ["-Pn", "-p22", "-sV", "dummy-ssh.demo-targets.svc"],
       {
         nameCascade: "ncrack-ssh",
         matchLabels: {
@@ -21,7 +18,7 @@ test(
           "securecodebox.io/intensive": "high",
         },
       },
-      120
+      120,
     );
 
     expect(count).toBe(1);
@@ -32,5 +29,5 @@ test(
       high: 1,
     });
   },
-  3 * 60 * 1000
+  { timeout: 3 * 60 * 1000 },
 );

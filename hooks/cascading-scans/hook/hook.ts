@@ -13,7 +13,7 @@ import {
   isArray,
 } from "lodash";
 import {isMatch as wildcardIsMatch} from "matcher";
-import * as Mustache from "mustache";
+import Mustache from "mustache";
 
 import {
   startSubsequentSecureCodeBoxScan,
