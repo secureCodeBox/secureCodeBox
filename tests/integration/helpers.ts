@@ -294,9 +294,9 @@ export async function cascadingScan(
   }
 
   const scans = await k8sApis.k8sCRDApi.listNamespacedCustomObject({
-    group: "execution.securecodebox.io/v1",
+    group: "execution.securecodebox.io",
     version: "v1",
-    plural: "Scan",
+    plural: "scans",
     namespace,
   });
 

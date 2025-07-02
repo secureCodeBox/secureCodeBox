@@ -1,0 +1,128 @@
+version: "3"
+
+includes:
+  demo-targets:
+    taskfile: ../demo-targets/Taskfile.yaml
+    internal: true
+  core:
+    taskfile: ../Taskfile.yaml
+    internal: true
+
+vars:
+  # addtional cli args to pass to the helm install command which installs the hook into the testing environment
+  additionalHelmInstallArgsForHook: '{{ .additionalHelmInstallArgsForHook | default "" }}'
+env:
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+
+tasks:
+  build:
+    desc: Build the Docker image for the {{ .hookName }} hook
+    status:
+      - docker images | grep -q "docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG}" || false
+    preconditions:
+      - msg: "Docker is not running, please start Docker first"
+        sh: "docker info >/dev/null 2>&1 || false"
+    deps:
+      - core:build-hook-sdk-image
+    cmds:
+      - |
+        echo "Building custom hook image for {{ .hookName }} with tag ${IMG_TAG}"
+        docker build -t docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG} \
+          --build-arg=baseImageTag=${IMG_TAG} \
+          {{ .ROOT_DIR }}/hook/
+        kind load docker-image --name testing-env docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG}
+  predeploy:
+    desc: Can be overwritten by the hook to perform any pre-deployment steps
+    cmds: []
+    silent: true
+  deploy:
+    desc: Deploy the {{ .hookName }} hook to the testing environment
+    deps:
+      - core:prepare-testing-env
+      - build
+    status:
+      - helm ls {{ .hookName }} -n integration-tests | grep -q '{{ .hookName }}' || false
+    cmds:
+      - 'echo "Deploying {{ .hookName }} to the testing environment"'
+      - task: predeploy
+      - |
+        helm upgrade --install {{ .hookName }} {{ .ROOT_DIR }} --namespace integration-tests \
+          --set="hook.image.tag=${IMG_TAG}" \
+          --set="hook.image.pullPolicy=Never" \
+          {{ if ne "" .additionalHelmInstallArgsForHook -}}
+          {{ .additionalHelmInstallArgsForHook -}}
+          {{ end -}}
+          --wait
+
+  # test:setup tasks
+  test:setup:hook-sdk:
+    internal: true
+    status:
+      - "[ -d {{ .ROOT_DIR }}/../../hook-sdk/nodejs/node_modules ] || false"
+    cmds:
+      - cd {{ .ROOT_DIR }}/../../hook-sdk/nodejs/ && bun install
+  test:setup:test-helpers:
+    internal: true
+    status:
+      - "[ -d {{ .ROOT_DIR }}/../../tests/integration/node_modules ] || false"
+    cmds:
+      - cd {{ .ROOT_DIR }}/../../tests/integration && bun install
+  test:setup:hook-deps:
+    internal: true
+    status:
+      - "[ -d {{ .ROOT_DIR }}/hook/node_modules ] || false"
+    cmds:
+      - cd {{ .ROOT_DIR }}/hook/ && bun install
+  test:setup:
+    cmds:
+      - task: test:setup:hook-sdk
+      - task: test:setup:test-helpers
+      - task: test:setup:hook-deps
+
+  test:unit:
+    desc: Run unit tests for the {{ .hookName }} hook
+    deps:
+      - test:setup
+    cmds:
+      - |
+        echo "Running unit tests for {{ .hookName }}"
+        bun test {{ .ROOT_DIR }}/hook/
+  test:integration:
+    desc: Run integration tests for the {{ .hookName }} hook
+    deps:
+      - test:setup
+      - deploy
+    preconditions:
+      - msg: "kind cluster is not running, run 'task prepare-testing-env' from project root dir first"
+        sh: "kubectl config get-contexts | grep -q 'kind-testing-env' || false"
+      - msg: "secureCodeBox operator is not deployed, run 'task prepare-testing-env' from project root dir first"
+        sh: "kubectl get pods -n securecodebox-system | grep -q 'securecodebox-operator' || false"
+      - msg: "{{ .hookName }} hook is not deployed, run 'task build deploy' from hook dir first"
+        sh: "helm -n integration-tests ls | grep -q '{{ .hookName }}' || false"
+    cmds:
+      # Workaround for https://github.com/oven-sh/bun/issues/7332
+      - 'echo "Forwarding the Kubernetes API to localhost"'
+      - kubectl proxy >/dev/null 2>&1 &
+      - sleep 1 # Wait a bit to ensure the proxy is up
+
+      - defer: |
+          # kill pid with command "kubectl proxy"
+          echo "Killing kubectl proxy"
+          pkill -f "kubectl proxy"
+
+      - echo "Running integration tests for {{ .hookName }}"
+      - bun test {{ .ROOT_DIR }}/integration-tests/
+  test:helm:
+    desc: Run helm tests for the {{ .hookName }} hook
+    preconditions:
+      - msg: "Helm unittest plugin is not installed, you need to install it first. See: https://github.com/helm-unittest/helm-unittest/"
+        sh: "helm plugin list | grep -q 'unittest' || false"
+    cmds:
+      - helm unittest {{ .ROOT_DIR }}
+  test:
+    desc: Run all tests for the {{ .hookName }} hook
+    cmds:
+      - task test:unit
+      - task test:helm
+      - task test:integration

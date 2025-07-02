@@ -1,0 +1,35 @@
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    excludes:
+      - predeploy
+    vars:
+      hookName: cascading-scans
+      additionalHelmInstallArgsForScanner: |
+        --set="scanner.image.pullPolicy=IfNotPresent" \
+        --set="nucleiTemplateCache.enabled=false" \
+
+tasks:
+  predeploy:
+    deps:
+      - demo-targets:deploy:dummy-ssh
+    cmds:
+      - |
+        # install nmap
+        helm -n integration-tests upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap \
+          --set="cascadingRules.enabled=true"
+      - |
+        # install ncrack
+        printf "root\nadmin\n" > users.txt
+        printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
+        kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n integration-tests --dry-run=client -o yaml | kubectl apply -f -
+
+        helm -n integration-tests upgrade --install ncrack oci://ghcr.io/securecodebox/helm/ncrack \
+          --set="scanner.extraVolumes[0].name=ncrack-lists" \
+          --set="scanner.extraVolumes[0].secret.secretName=ncrack-lists" \
+          --set="scanner.extraVolumeMounts[0].name=ncrack-lists" \
+          --set="scanner.extraVolumeMounts[0].mountPath=/ncrack/" \
+          --set="cascadingRules.enabled=true"
