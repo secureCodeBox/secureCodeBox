@@ -85,3 +85,15 @@ tasks:
       - kind delete cluster --name testing-env
     status:
       - kind get clusters | grep -q 'testing-env' || exit 0
+
+  minio-port-forward:
+    desc: "Port forward the MinIO service to access it locally"
+    cmds:
+      - 'echo "Port forwarding MinIO service to localhost:9001"'
+      - 'echo "You can access MinIO at http://localhost:9001"'
+      - 'echo "Use the credentials from the secureCodeBox operator to log in:"'
+      - 'echo "Access Key: $(kubectl get secret -n securecodebox-system securecodebox-operator-minio -o jsonpath="{.data.root-user}" | base64 --decode)"'
+      - 'echo "Secret Key: $(kubectl get secret -n securecodebox-system securecodebox-operator-minio -o jsonpath="{.data.root-password}" | base64 --decode)"'
+      - 'echo "Press Ctrl+C to stop port forwarding"'
+      - kubectl port-forward -n securecodebox-system svc/securecodebox-operator-minio 9001:9001
+    interactive: true
