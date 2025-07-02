@@ -38,6 +38,12 @@ spec:
             - name: ssh
               containerPort: 22
               protocol: TCP
+          startupProbe:
+            tcpSocket:
+              port: 22
+            periodSeconds: 3
+            failureThreshold: 30
+            successThreshold: 1
           livenessProbe:
             tcpSocket:
               port: 22

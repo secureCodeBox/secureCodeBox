@@ -68,6 +68,12 @@ matches the snapshot:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1234
+              startupProbe:
+                failureThreshold: 30
+                periodSeconds: 3
+                successThreshold: 1
+                tcpSocket:
+                  port: 22
           nodeSelector:
             foo: bar
           securityContext:

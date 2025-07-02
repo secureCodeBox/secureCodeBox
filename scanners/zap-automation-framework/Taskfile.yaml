@@ -1,0 +1,20 @@
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    excludes:
+      - predeploy
+    vars:
+      scannerName: zap-automation-framework
+
+tasks:
+  predeploy:
+    deps:
+      - demo-targets:deploy:juice-shop
+      - demo-targets:deploy:bodgeit
+      - demo-targets:deploy:nginx
+      - demo-targets:deploy:swagger-petstore
+    cmds:
+      - kubectl apply -f ./integration-tests/automation-framework-configMap.yaml -n integration-tests

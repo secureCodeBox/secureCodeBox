@@ -14,11 +14,11 @@ test(
         "scan-type-not-found",
         "this-type-does-not-exists",
         ["hello-world"],
-        30
-      )
+        30,
+      ),
     ).rejects.toThrow(
-      `Scan failed with description "Configured ScanType 'this-type-does-not-exists' not found in 'integration-tests' namespace. You'll likely need to deploy the ScanType."`
+      `Scan failed with description "Configured ScanType 'this-type-does-not-exists' not found in 'integration-tests' namespace. You'll likely need to deploy the ScanType."`,
     );
   },
-  1 * 60 * 1000
+  1 * 60 * 1000,
 );

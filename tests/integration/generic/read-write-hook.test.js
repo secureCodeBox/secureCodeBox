@@ -13,7 +13,7 @@ test(
       "test-scan-read-write-hook",
       "test-scan",
       ["hello-world"],
-      90
+      90,
     );
 
     expect(count).toBe(2);
@@ -30,5 +30,5 @@ test(
       }
     `);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );

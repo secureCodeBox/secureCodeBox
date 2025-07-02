@@ -50,7 +50,6 @@ matches the snapshot:
                 httpGet:
                   path: /
                   port: http
-                initialDelaySeconds: 60
               name: old-wordpress
               ports:
                 - containerPort: 80
@@ -61,7 +60,6 @@ matches the snapshot:
                 httpGet:
                   path: /
                   port: http
-                initialDelaySeconds: 60
                 periodSeconds: 10
                 successThreshold: 1
                 timeoutSeconds: 60
@@ -76,6 +74,13 @@ matches the snapshot:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1234
+              startupProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /
+                  port: http
+                periodSeconds: 3
+                successThreshold: 1
           nodeSelector:
             foo: bar
           securityContext:

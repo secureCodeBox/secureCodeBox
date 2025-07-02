@@ -16,7 +16,7 @@ FROM node:22-alpine as build
 RUN mkdir -p /home/app
 WORKDIR /home/app
 COPY package.json package-lock.json ./
-RUN npm ci --production
+RUN npm ci --omit=dev
 
 FROM securecodebox/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/

@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse (fileContent) {
-  return fileContent
+export async function parse(fileContent) {
+  return JSON.parse(fileContent) || [];
 }
-
-module.exports.parse = parse;

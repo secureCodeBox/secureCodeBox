@@ -95,6 +95,13 @@ matches the snapshot:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1234
+              startupProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /
+                  port: http
+                periodSeconds: 3
+                successThreshold: 1
               volumeMounts:
                 - mountPath: /juice-shop/config
                   name: custom-config

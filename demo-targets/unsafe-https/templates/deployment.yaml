@@ -38,6 +38,12 @@ spec:
             - name: https
               containerPort: 443
               protocol: TCP
+          startupProbe:
+            tcpSocket:
+              port: 443
+            periodSeconds: 3
+            failureThreshold: 30
+            successThreshold: 1
           livenessProbe:
             tcpSocket:
               port: 443
