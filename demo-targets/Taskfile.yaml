@@ -70,6 +70,6 @@ tasks:
 
   deploy:nginx:
     cmds:
-      # Delete leftover nginx's. Unfortunately can't create deployment only if not exists (like namespaces)
+      - kubectl create namespace demo-targets --dry-run=client -o yaml | kubectl apply -f -
       - kubectl create deployment --image nginx:alpine nginx --namespace demo-targets --dry-run=client -o yaml | kubectl apply -f -
       - kubectl expose deployment nginx --port 80 --namespace demo-targets --dry-run=client -o yaml | kubectl apply -f -
