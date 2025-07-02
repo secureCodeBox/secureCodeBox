@@ -112,13 +112,6 @@ tasks:
     desc: Run unit tests for the {{ .scannerName }} scanner
     deps:
       - test:setup
-    preconditions:
-      - msg: "parser-sdk dependencies are not installed, run 'task test:setup' first"
-        sh: "[ -d {{ .ROOT_DIR }}/../../parser-sdk/nodejs/node_modules ]"
-      - msg: "integration-tests dependencies are not installed, run 'task test:setup' first"
-        sh: "[ -d {{ .ROOT_DIR }}/../../tests/integration/node_modules ]"
-      - msg: "scanner dependencies are not installed, run 'task test:setup' first"
-        sh: "[ -d {{ .ROOT_DIR }}/../node_modules ]"
     cmds:
       - |
         echo "Running integration tests for {{ .scannerName }}"
@@ -129,12 +122,6 @@ tasks:
       - test:setup
       - deploy
     preconditions:
-      - msg: "parser-sdk dependencies are not installed, run 'task test:setup' first"
-        sh: "[ -d {{ .ROOT_DIR }}/../../parser-sdk/nodejs/node_modules ]"
-      - msg: "integration-tests dependencies are not installed, run 'task test:setup' first"
-        sh: "[ -d {{ .ROOT_DIR }}/../../tests/integration/node_modules ]"
-      - msg: "scanner dependencies are not installed, run 'task test:setup' first"
-        sh: "[ -d {{ .ROOT_DIR }}/../node_modules ]"
       - msg: "kind cluster is not running, run 'task prepare-testing-env' from project root dir first"
         sh: "kubectl config get-contexts | grep -q 'kind-testing-env' || false"
       - msg: "secureCodeBox operator is not deployed, run 'task prepare-testing-env' from project root dir first"
