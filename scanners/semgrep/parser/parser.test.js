@@ -2,21 +2,19 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "node:fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("should properly parse file from inline semgrep usage", async () => {
-  const jsonContent = await readFile(
+  const fileContent = await readFile(
     __dirname + "/__testFiles__/minimal-metadata.json",
     {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(fileContent);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
@@ -39,13 +37,13 @@ test("should properly parse file from inline semgrep usage", async () => {
 });
 
 test("should properly parse file with a single result", async () => {
-  const jsonContent = await readFile(
+  const fileContent = await readFile(
     __dirname + "/__testFiles__/python-injection.json",
     {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(fileContent);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
@@ -81,13 +79,13 @@ test("should properly parse file with a single result", async () => {
 });
 
 test("should properly parse file with multiple results", async () => {
-  const jsonContent = await readFile(
+  const fileContent = await readFile(
     __dirname + "/__testFiles__/python-injection-multiresult.json",
     {
       encoding: "utf8",
     },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(fileContent);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`

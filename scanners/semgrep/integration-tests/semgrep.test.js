@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(0);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "semgrep should find 3 issues in the test file",
@@ -42,7 +40,7 @@ test(
       high: 3,
     });
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
 
 /* Disable this rule as it requires access to the Internet and clones a public GitHub repo
