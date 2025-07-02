@@ -12,4 +12,3 @@ RUN groupadd -g 1001 ncrack \
     && useradd -M -u 1001 -g 1001 ncrack
 USER 1001
 CMD [ "ncrack" ]
-

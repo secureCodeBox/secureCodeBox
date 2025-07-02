@@ -424,7 +424,7 @@ jobs:
           - git-repo-scanner
           - gitleaks
           - kube-hunter
-          # - ncrack
+          - ncrack
           # - nikto
           - nmap
           - nuclei
