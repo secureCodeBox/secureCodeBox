@@ -41,10 +41,15 @@ function categorize({ id }) {
   return ["Nikto Finding", INFORMATIONAL];
 }
 
-async function parse(niktoReport) {
-  if (!niktoReport) return [];
+export async function parse(fileContent) {
+  if (!fileContent) return [];
 
-  return niktoReport.flatMap(
+  const report = JSON.parse(fileContent);
+  if (!report || !report.length) {
+    return [];
+  }
+
+  return report.flatMap(
     ({ host, ip, port: portString, banner, vulnerabilities }) => {
       const port = parseInt(portString, 10);
 
@@ -104,5 +109,3 @@ async function parse(niktoReport) {
     },
   );
 }
-
-module.exports.parse = parse;
