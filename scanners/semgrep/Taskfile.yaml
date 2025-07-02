@@ -12,4 +12,4 @@ includes:
 tasks:
   predeploy:
     cmds:
-      - kubectl -n integration-tests create configmap semgrep-test-file --from-file=integration-tests/testfile.py
+      - kubectl -n integration-tests create configmap semgrep-test-file --from-file=integration-tests/testfile.py --dry-run=client -o yaml | kubectl apply -f -
