@@ -2,8 +2,20 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse(fileContent) {
-  const targets = await parseResultFile(fileContent);
+export async function parse(fileContent) {
+  if (!fileContent) {
+    return [];
+  }
+  if (fileContent === "[\n") {
+    throw new Error(
+      "Parser received an invalid report file. This can happen when whatweb is passed invalid arguments. Check the scan configuration.",
+    );
+  }
+  const report = JSON.parse(fileContent);
+  if (!report || !Array.isArray(report)) {
+    return [];
+  }
+  const targets = await parseResultFile(report);
   return transformToFindings(targets);
 }
 
@@ -88,5 +100,3 @@ function parseResultFile(fileContent) {
   }
   return targetList;
 }
-
-module.exports.parse = parse;

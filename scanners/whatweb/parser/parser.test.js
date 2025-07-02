@@ -2,18 +2,17 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "node:fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("should properly parse whatweb json file", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/example.com.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/example.com.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -42,10 +41,11 @@ test("should properly parse whatweb json file", async () => {
 });
 
 test("should properly parse empty whatweb json file", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/no-address.com.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/no-address.com.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -54,10 +54,11 @@ test("should properly parse empty whatweb json file", async () => {
 });
 
 test("should properly parse securecodebox.io whatweb json file with higher aggression level(3)", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/securecodebox.io.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/securecodebox.io.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -131,10 +132,11 @@ test("should properly parse securecodebox.io whatweb json file with higher aggre
 });
 
 test("should properly parse whatweb json file with two domains", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/two-domains.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/two-domains.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent);
   // validate findings
@@ -179,4 +181,18 @@ test("should properly parse whatweb json file with two domains", async () => {
       },
     ]
   `);
+});
+
+test("should throw a clear error when the parser recieves a invalid report due to scanner missconfig", async () => {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/invalid-args.json",
+    {
+      encoding: "utf8",
+    },
+  );
+
+  // validate findings
+  await expect(parse(fileContent)).rejects.toThrow(
+    "Parser received an invalid report file. This can happen when whatweb is passed invalid arguments. Check the scan configuration.",
+  );
 });
