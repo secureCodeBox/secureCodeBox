@@ -2,10 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { parse } = require("./parser");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { parse } from "./parser";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
 let scan;
 

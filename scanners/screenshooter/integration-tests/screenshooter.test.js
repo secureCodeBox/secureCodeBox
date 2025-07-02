@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "make screenshot of nginx demo target",
@@ -16,6 +16,5 @@ test(
 
     expect(categories).toEqual({ Screenshot: 1 });
   },
-  60 * 1000,
+  { timeout: 60 * 1000 },
 );
-2;
