@@ -25,7 +25,7 @@ function applyRules(rules, findings) {
     let newFinding = finding;
     for (const rule of rules) {
       const isRuleMatching = rule.matches.anyOf.some((condition) =>
-        isMatch(finding, condition)
+        isMatch(finding, condition),
       );
       if (isRuleMatching) {
         hasChanged = true;

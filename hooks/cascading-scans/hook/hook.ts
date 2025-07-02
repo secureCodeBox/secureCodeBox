@@ -12,7 +12,7 @@ import {
   forEach,
   isArray,
 } from "lodash";
-import {isMatch as wildcardIsMatch} from "matcher";
+import { isMatch as wildcardIsMatch } from "matcher";
 import Mustache from "mustache";
 
 import {
@@ -30,14 +30,14 @@ import {
   mergeInheritedArray,
   mergeInheritedSelector,
 } from "./scan-helpers";
-import {isInScope, scopeDomain} from "./scope-limiter";
+import { isInScope, scopeDomain } from "./scope-limiter";
 
 interface HandleArgs {
   scan: Scan;
   getFindings: () => Array<Finding>;
 }
 
-export async function handle({scan, getFindings}: HandleArgs) {
+export async function handle({ scan, getFindings }: HandleArgs) {
   const findings = await getFindings();
   const cascadingRules = await getCascadingRules(scan);
   const cascadedRuleUsedForParentScan = await getCascadedRuleForScan(scan);
@@ -48,7 +48,7 @@ export async function handle({scan, getFindings}: HandleArgs) {
     findings,
     cascadingRules,
     cascadedRuleUsedForParentScan,
-    parseDefinition
+    parseDefinition,
   );
 
   for (const cascadingScan of cascadingScans) {
@@ -75,14 +75,14 @@ export function getCascadingScans(
   findings: Array<Finding>,
   cascadingRules: Array<CascadingRule>,
   cascadedRuleUsedForParentScan: CascadingRule,
-  parseDefinition: ParseDefinition
+  parseDefinition: ParseDefinition,
 ): Array<Scan> {
   let cascadingScans: Array<Scan> = [];
   const cascadingRuleChain = getScanChain(parentScan);
 
   parentScan = purgeCascadedRuleFromScan(
     parentScan,
-    cascadedRuleUsedForParentScan
+    cascadedRuleUsedForParentScan,
   );
 
   for (const cascadingRule of cascadingRules) {
@@ -90,7 +90,7 @@ export function getCascadingScans(
     // If it has already been used skip this rule as it could potentially lead to loops
     if (cascadingRuleChain.includes(cascadingRule.metadata.name)) {
       console.log(
-        `Skipping Rule "${cascadingRule.metadata.name}" as it was already applied in this chain.`
+        `Skipping Rule "${cascadingRule.metadata.name}" as it was already applied in this chain.`,
       );
       continue;
     }
@@ -99,13 +99,18 @@ export function getCascadingScans(
     forEach(cascadingRule.spec.scanAnnotations, (value, key) => {
       if (key.startsWith(scopeDomain)) {
         throw new Error(
-          `may not add scope annotation '${key}':'${value}' in Cascading Rule spec`
+          `may not add scope annotation '${key}':'${value}' in Cascading Rule spec`,
         );
       }
     });
 
     cascadingScans = cascadingScans.concat(
-      getScansMatchingRule(parentScan, findings, cascadingRule, parseDefinition)
+      getScansMatchingRule(
+        parentScan,
+        findings,
+        cascadingRule,
+        parseDefinition,
+      ),
     );
   }
 
@@ -129,7 +134,7 @@ function getScansMatchingRule(
   parentScan: Scan,
   findings: Array<Finding>,
   cascadingRule: CascadingRule,
-  parseDefinition: ParseDefinition
+  parseDefinition: ParseDefinition,
 ) {
   const cascadingScans: Array<Scan> = [];
   for (const finding of findings) {
@@ -138,23 +143,23 @@ function getScansMatchingRule(
       parentScan.spec.cascades.scopeLimiter,
       parentScan.metadata.annotations,
       finding,
-      parseDefinition.spec.scopeLimiterAliases
+      parseDefinition.spec.scopeLimiterAliases,
     );
 
     if (!inScope) {
       console.log(
-        `Cascading Rule ${cascadingRule.metadata.name} not triggered as scope limiter did not pass`
+        `Cascading Rule ${cascadingRule.metadata.name} not triggered as scope limiter did not pass`,
       );
       console.log(
-        `Scan annotations ${JSON.stringify(parentScan.metadata.annotations)}`
+        `Scan annotations ${JSON.stringify(parentScan.metadata.annotations)}`,
       );
       console.log(
-        `Scope limiter ${JSON.stringify(parentScan.spec.cascades.scopeLimiter)}`
+        `Scope limiter ${JSON.stringify(parentScan.spec.cascades.scopeLimiter)}`,
       );
       console.log(
         `Scope limiter aliases ${JSON.stringify(
-          parseDefinition.spec.scopeLimiterAliases
-        )}`
+          parseDefinition.spec.scopeLimiterAliases,
+        )}`,
       );
       console.log(`Finding ${JSON.stringify(finding)}`);
       continue;
@@ -164,7 +169,7 @@ function getScansMatchingRule(
     const matches = cascadingRule.spec.matches.anyOf.some(
       (matchesRule) =>
         isMatch(finding, matchesRule) ||
-        isMatchWith(finding, matchesRule, wildcardMatcher)
+        isMatchWith(finding, matchesRule, wildcardMatcher),
     );
 
     if (matches) {
@@ -177,16 +182,16 @@ function getScansMatchingRule(
 function getCascadingScan(
   parentScan: Scan,
   finding: Finding,
-  cascadingRule: CascadingRule
+  cascadingRule: CascadingRule,
 ) {
   // Make a deep copy of the original cascading rule so that we can template it again with different findings.
   cascadingRule = templateCascadingRule(
     parentScan,
     finding,
-    cloneDeep(cascadingRule)
+    cloneDeep(cascadingRule),
   );
 
-  let {scanType, parameters} = cascadingRule.spec.scanSpec;
+  let { scanType, parameters } = cascadingRule.spec.scanSpec;
 
   let {
     annotations,
@@ -218,7 +223,7 @@ function getCascadingScan(
           cascadingRule.metadata.name,
         ].join(","),
         ...pickBy(parentScan.metadata.annotations, (value, key) =>
-          key.startsWith(scopeDomain)
+          key.startsWith(scopeDomain),
         ),
       },
       ownerReferences: [
@@ -249,7 +254,7 @@ function getCascadingScan(
 }
 
 function mergeCascadingRuleWithScan(scan: Scan, cascadingRule: CascadingRule) {
-  const {scanAnnotations, scanLabels} = cascadingRule.spec;
+  const { scanAnnotations, scanLabels } = cascadingRule.spec;
   let {
     env = [],
     volumes = [],
@@ -280,7 +285,7 @@ function mergeCascadingRuleWithScan(scan: Scan, cascadingRule: CascadingRule) {
     selectedTolerations = mergeInheritedArray(
       scan.spec.tolerations,
       tolerations,
-      inheritTolerations
+      inheritTolerations,
     );
   } else if (inheritTolerations) {
     selectedTolerations = scan.spec.tolerations;
@@ -297,7 +302,7 @@ function mergeCascadingRuleWithScan(scan: Scan, cascadingRule: CascadingRule) {
     annotations: mergeInheritedMap(
       scan.metadata.annotations,
       scanAnnotations,
-      inheritAnnotations
+      inheritAnnotations,
     ),
     labels: mergeInheritedMap(scan.metadata.labels, scanLabels, inheritLabels),
     env: mergeInheritedArray(scan.spec.env, env, inheritEnv),
@@ -305,17 +310,17 @@ function mergeCascadingRuleWithScan(scan: Scan, cascadingRule: CascadingRule) {
     volumeMounts: mergeInheritedArray(
       scan.spec.volumeMounts,
       volumeMounts,
-      inheritVolumes
+      inheritVolumes,
     ),
     initContainers: mergeInheritedArray(
       scan.spec.initContainers,
       initContainers,
-      inheritInitContainers
+      inheritInitContainers,
     ),
     hookSelector: mergeInheritedSelector(
       scan.spec.hookSelector,
       hookSelector,
-      inheritHookSelector
+      inheritHookSelector,
     ),
     affinity: selectedAffinity,
     tolerations: selectedTolerations,
@@ -339,7 +344,7 @@ function hostOrIP(finding: Finding): string {
 function templateCascadingRule(
   parentScan: Scan,
   finding: Finding,
-  cascadingRule: CascadingRule
+  cascadingRule: CascadingRule,
 ): CascadingRule {
   const templateArgs = {
     ...finding,
@@ -350,17 +355,17 @@ function templateCascadingRule(
     },
   };
 
-  const {scanSpec, scanAnnotations, scanLabels} = cascadingRule.spec;
-  const {scanType, parameters, initContainers} = scanSpec;
+  const { scanSpec, scanAnnotations, scanLabels } = cascadingRule.spec;
+  const { scanType, parameters, initContainers } = scanSpec;
 
   // Templating for scanType
   cascadingRule.spec.scanSpec.scanType = Mustache.render(
     scanType,
-    templateArgs
+    templateArgs,
   );
   // Templating for scan parameters
   cascadingRule.spec.scanSpec.parameters = parameters.map((parameter) =>
-    Mustache.render(parameter, templateArgs)
+    Mustache.render(parameter, templateArgs),
   );
   // Templating for environmental variables
   if (cascadingRule.spec.scanSpec.env !== undefined) {
@@ -379,7 +384,7 @@ function templateCascadingRule(
     cascadingRule.spec.scanSpec.initContainers.forEach((container) => {
       // Templating for the command
       container.command = container.command.map((parameter) =>
-        Mustache.render(parameter, templateArgs)
+        Mustache.render(parameter, templateArgs),
       );
       // Templating for env variables, similar to above.
       if (container.env !== undefined) {
@@ -396,7 +401,7 @@ function templateCascadingRule(
     scanAnnotations === undefined
       ? {}
       : mapValues(scanAnnotations, (value) =>
-          Mustache.render(value, templateArgs)
+          Mustache.render(value, templateArgs),
         );
   // Templating for scan labels
   cascadingRule.spec.scanLabels =
@@ -409,7 +414,7 @@ function templateCascadingRule(
 
 function generateCascadingScanName(
   parentScan: Scan,
-  cascadingRule: CascadingRule
+  cascadingRule: CascadingRule,
 ): string {
   let namePrefix = parentScan.metadata.name;
 
@@ -418,7 +423,7 @@ function generateCascadingScanName(
   if (namePrefix.startsWith(parentScan.spec.scanType)) {
     namePrefix = namePrefix.replace(
       parentScan.spec.scanType,
-      cascadingRule.spec.scanSpec.scanType
+      cascadingRule.spec.scanSpec.scanType,
     );
   }
   return `${namePrefix}-${cascadingRule.metadata.name}`;
@@ -430,7 +435,7 @@ function wildcardMatcher(findingValue: any, matchesRuleValue: any): boolean {
       return wildcardIsMatch(
         findingValue.toString(),
         matchesRuleValue.toString(),
-        {caseSensitive: true}
+        { caseSensitive: true },
       );
       // return new RegExp('^' + new String(matchesRuleValue).replace(/\*/g, '.*') + '$').test(findingValue);
     } catch (error) {

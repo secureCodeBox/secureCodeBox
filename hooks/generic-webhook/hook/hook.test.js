@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const { handle } = require("./hook");
-const axios = jest.createMockFromModule('axios')
+const axios = jest.createMockFromModule("axios");
 
 beforeEach(() => {
   jest.clearAllMocks();

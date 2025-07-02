@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { handle } = require("./hook")
+const { handle } = require("./hook");
 
 test("Should Add High Severity and Description", async () => {
   const findings = [
@@ -11,28 +11,30 @@ test("Should Add High Severity and Description", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 23,
-        state: "open"
+        state: "open",
       },
     },
   ];
 
-  const rules = [{
-    matches: {
-      anyOf: [
-        {
-          category: "Open Port",
-          attributes: {
-            port: 23,
-            state: "open"
-          }
-        },
-      ]
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              port: 23,
+              state: "open",
+            },
+          },
+        ],
+      },
+      override: {
+        severity: "high",
+        description: "Telnet is bad",
+      },
     },
-    override: {
-      severity: "high",
-      description: "Telnet is bad"
-    }
-  }]
+  ];
 
   const getFindings = async () => findings;
 
@@ -50,11 +52,11 @@ test("Should Add High Severity and Description", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 23,
-        state: "open"
+        state: "open",
       },
       severity: "high",
-      description: "Telnet is bad"
-    }
+      description: "Telnet is bad",
+    },
   ]);
 });
 
@@ -65,35 +67,37 @@ test("Should Check Multiple 'anyOf'", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 23,
-        state: "open"
+        state: "open",
       },
     },
   ];
 
-  const rules = [{
-    matches: {
-      anyOf: [
-        {
-          category: "Open Port",
-          attributes: {
-            port: 22,
-            state: "open"
-          }
-        },
-        {
-          category: "Open Port",
-          attributes: {
-            port: 23,
-            state: "open"
-          }
-        },
-      ]
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              port: 22,
+              state: "open",
+            },
+          },
+          {
+            category: "Open Port",
+            attributes: {
+              port: 23,
+              state: "open",
+            },
+          },
+        ],
+      },
+      override: {
+        severity: "high",
+        description: "Telnet is bad",
+      },
     },
-    override: {
-      severity: "high",
-      description: "Telnet is bad"
-    }
-  }]
+  ];
 
   const getFindings = async () => findings;
 
@@ -111,11 +115,11 @@ test("Should Check Multiple 'anyOf'", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 23,
-        state: "open"
+        state: "open",
       },
       severity: "high",
-      description: "Telnet is bad"
-    }
+      description: "Telnet is bad",
+    },
   ]);
 });
 
@@ -126,35 +130,37 @@ test("Should Ignore Rule Without Matching Conditions", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 23,
-        state: "open"
+        state: "open",
       },
     },
   ];
 
-  const rules = [{
-    matches: {
-      anyOf: [
-        {
-          category: "Open Port",
-          attributes: {
-            port: 22,
-            state: "open"
-          }
-        },
-        {
-          category: "Open Port",
-          attributes: {
-            port: 24,
-            state: "open"
-          }
-        },
-      ]
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              port: 22,
+              state: "open",
+            },
+          },
+          {
+            category: "Open Port",
+            attributes: {
+              port: 24,
+              state: "open",
+            },
+          },
+        ],
+      },
+      override: {
+        severity: "high",
+        description: "Telnet is bad",
+      },
     },
-    override: {
-      severity: "high",
-      description: "Telnet is bad"
-    }
-  }]
+  ];
 
   const getFindings = async () => findings;
 
@@ -176,7 +182,7 @@ test("Should Not Duplicate Findings For Multiple Matching Rules", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 23,
-        state: "open"
+        state: "open",
       },
     },
   ];
@@ -189,15 +195,15 @@ test("Should Not Duplicate Findings For Multiple Matching Rules", async () => {
             category: "Open Port",
             attributes: {
               port: 23,
-              state: "open"
-            }
+              state: "open",
+            },
           },
-        ]
+        ],
       },
       override: {
         severity: "high",
-        description: "Telnet is bad"
-      }
+        description: "Telnet is bad",
+      },
     },
     {
       matches: {
@@ -205,18 +211,18 @@ test("Should Not Duplicate Findings For Multiple Matching Rules", async () => {
           {
             category: "Open Port",
             attributes: {
-              state: "open"
-            }
+              state: "open",
+            },
           },
-        ]
+        ],
       },
       override: {
         severity: "high",
         description: "Telnet is bad",
-        ticket: "Issue #33"
-      }
-    }
-  ]
+        ticket: "Issue #33",
+      },
+    },
+  ];
 
   const getFindings = async () => findings;
 
@@ -228,20 +234,21 @@ test("Should Not Duplicate Findings For Multiple Matching Rules", async () => {
     rules: rules,
   });
 
-  const expected = [{
-    category: "Open Port",
-    attributes: {
-      port: 23,
-      hostname: "foobar.com",
-      state: "open"
+  const expected = [
+    {
+      category: "Open Port",
+      attributes: {
+        port: 23,
+        hostname: "foobar.com",
+        state: "open",
+      },
+      severity: "high",
+      description: "Telnet is bad",
+      ticket: "Issue #33",
     },
-    severity: "high",
-    description: "Telnet is bad",
-    ticket: "Issue #33"
-  }]
+  ];
 
   expect(updateFindings).toBeCalledWith(expected);
-
 });
 
 test("Should Update Nested Attributes", async () => {
@@ -251,32 +258,34 @@ test("Should Update Nested Attributes", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 23,
-        state: "open"
+        state: "open",
       },
     },
   ];
 
-  const rules = [{
-    matches: {
-      anyOf: [
-        {
-          category: "Open Port",
-          attributes: {
-            port: 23,
-            state: "open"
-          }
-        },
-      ]
-    },
-    override: {
-      severity: "high",
-      attributes: {
-        hostname: "foo.bar",
-        port: 42,
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              port: 23,
+              state: "open",
+            },
+          },
+        ],
       },
-      description: "Telnet is bad"
-    }
-  }]
+      override: {
+        severity: "high",
+        attributes: {
+          hostname: "foo.bar",
+          port: 42,
+        },
+        description: "Telnet is bad",
+      },
+    },
+  ];
 
   const getFindings = async () => findings;
 
@@ -294,13 +303,12 @@ test("Should Update Nested Attributes", async () => {
       attributes: {
         hostname: "foo.bar",
         port: 42,
-        state: "open"
+        state: "open",
       },
       severity: "high",
-      description: "Telnet is bad"
-    }
+      description: "Telnet is bad",
+    },
   ]);
-
 });
 
 test("Should Not Update Findings If No Rule Matches", async () => {
@@ -310,32 +318,34 @@ test("Should Not Update Findings If No Rule Matches", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 22,
-        state: "open"
+        state: "open",
       },
     },
   ];
 
-  const rules = [{
-    matches: {
-      anyOf: [
-        {
-          category: "Open Port",
-          attributes: {
-            port: 23,
-            state: "open"
-          }
-        },
-      ]
-    },
-    override: {
-      severity: "high",
-      attributes: {
-        hostname: "foo.bar",
-        port: 42,
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              port: 23,
+              state: "open",
+            },
+          },
+        ],
       },
-      description: "Telnet is bad"
-    }
-  }]
+      override: {
+        severity: "high",
+        attributes: {
+          hostname: "foo.bar",
+          port: 42,
+        },
+        description: "Telnet is bad",
+      },
+    },
+  ];
 
   const getFindings = async () => findings;
 
@@ -357,7 +367,7 @@ test("Should Ignore Findings That Don't Match The Rule", async () => {
       attributes: {
         hostname: "foo.com",
         port: 22,
-        state: "open"
+        state: "open",
       },
     },
     {
@@ -365,7 +375,7 @@ test("Should Ignore Findings That Don't Match The Rule", async () => {
       attributes: {
         hostname: "bar.com",
         port: 22,
-        state: "open"
+        state: "open",
       },
     },
     {
@@ -373,32 +383,34 @@ test("Should Ignore Findings That Don't Match The Rule", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 22,
-        state: "open"
+        state: "open",
       },
     },
   ];
 
-  const rules = [{
-    matches: {
-      anyOf: [
-        {
-          category: "Open Port",
-          attributes: {
-            hostname: "foobar.com",
-            port: 22,
-            state: "open"
-          }
-        },
-      ]
-    },
-    override: {
-      severity: "high",
-      attributes: {
-        port: 42,
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              hostname: "foobar.com",
+              port: 22,
+              state: "open",
+            },
+          },
+        ],
       },
-      description: "Foobar"
-    }
-  }]
+      override: {
+        severity: "high",
+        attributes: {
+          port: 42,
+        },
+        description: "Foobar",
+      },
+    },
+  ];
 
   const getFindings = async () => findings;
 
@@ -416,7 +428,7 @@ test("Should Ignore Findings That Don't Match The Rule", async () => {
       attributes: {
         hostname: "foo.com",
         port: 22,
-        state: "open"
+        state: "open",
       },
     },
     {
@@ -424,7 +436,7 @@ test("Should Ignore Findings That Don't Match The Rule", async () => {
       attributes: {
         hostname: "bar.com",
         port: 22,
-        state: "open"
+        state: "open",
       },
     },
     {
@@ -432,11 +444,10 @@ test("Should Ignore Findings That Don't Match The Rule", async () => {
       attributes: {
         hostname: "foobar.com",
         port: 42,
-        state: "open"
+        state: "open",
       },
       severity: "high",
       description: "Foobar",
-    }
+    },
   ]);
-
-})
+});
