@@ -46,11 +46,19 @@ matches the snapshot:
           containers:
             - image: ghcr.io/christophetd/log4shell-vulnerable-app:0.0.0
               imagePullPolicy: IfNotPresent
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: http
               name: vulnerable-log4j
               ports:
                 - containerPort: 8080
                   name: http
                   protocol: TCP
+              readinessProbe:
+                httpGet:
+                  path: /
+                  port: http
               resources:
                 requests:
                   cpu: 123m
@@ -62,6 +70,13 @@ matches the snapshot:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1234
+              startupProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /
+                  port: http
+                periodSeconds: 3
+                successThreshold: 1
           nodeSelector:
             foo: bar
           securityContext:

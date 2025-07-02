@@ -42,11 +42,22 @@ matches the snapshot:
           containers:
             - image: docker.io/mendhak/http-https-echo:latest
               imagePullPolicy: IfNotPresent
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: http
               name: http-webhook
               ports:
                 - containerPort: 8080
                   name: http
                   protocol: TCP
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /
+                  port: http
+                periodSeconds: 10
+                successThreshold: 1
               resources:
                 requests:
                   cpu: 123m
@@ -58,6 +69,13 @@ matches the snapshot:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1234
+              startupProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /
+                  port: http
+                periodSeconds: 3
+                successThreshold: 1
           nodeSelector:
             foo: bar
           securityContext:
