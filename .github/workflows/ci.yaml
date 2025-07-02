@@ -422,7 +422,7 @@ jobs:
           - cmseek
           - ffuf
           - git-repo-scanner
-          # - gitleaks
+          - gitleaks
           # - kube-hunter
           # - ncrack
           # - nikto
