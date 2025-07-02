@@ -31,18 +31,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
         working-directory: tests/integration
-        run: |
-          npm ci
+        run: bun install
+
       - name: Test Node.js Scanner Test Helpers
         working-directory: tests/integration
-        run: |
-          npm run test:helpers
+        run: bun test helpers.test.js
   k8s-setup:
     name: "Setup Kind & Kubectl & Helm"
     runs-on: ubuntu-22.04
