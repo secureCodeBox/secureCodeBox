@@ -4,9 +4,8 @@
   "description": "Integration Tests running on a real k8s cluster",
   "main": "helpers",
   "scripts": {
-    "test:unit": "jest --verbose --testPathIgnorePatterns /integration-tests/ --ci --colors --coverage --passWithNoTests",
     "test:integration": "jest --verbose --ci --colors --coverage --passWithNoTests",
-    "test:helpers": "jest helpers.test.js --verbose --ci --colors --coverage --passWithNoTests"
+    "test:helpers": "bun test helpers.test.js"
   },
   "keywords": [],
   "author": "iteratec GmbH",
