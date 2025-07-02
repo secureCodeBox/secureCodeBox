@@ -428,7 +428,7 @@ jobs:
           - nikto
           - nmap
           - nuclei
-          # - screenshooter
+          - screenshooter
           # - semgrep
           # - ssh-audit
           # - sslyze
