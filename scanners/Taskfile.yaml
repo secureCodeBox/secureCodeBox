@@ -140,7 +140,7 @@ tasks:
       - msg: "secureCodeBox operator is not deployed, run 'task prepare-testing-env' from project root dir first"
         sh: "kubectl get pods -n securecodebox-system | grep -q 'securecodebox-operator' || false"
       - msg: "{{ .scannerName }} scan type is not deployed, run 'task build deploy' from scanner dir first"
-        sh: "kubectl get scantypes {{ .scannerName }} -n integration-tests | grep -q '{{ .scannerName }}' || false"
+        sh: "helm -n integration-tests ls | grep -q '{{ .scannerName }}' || false"
     cmds:
       # Workaround for https://github.com/oven-sh/bun/issues/7332
       - 'echo "Forwarding the Kubernetes API to localhost"'

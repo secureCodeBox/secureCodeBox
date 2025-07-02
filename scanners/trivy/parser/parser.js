@@ -2,18 +2,13 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse(fileContent) {
+export async function parse(fileContent) {
+  if (!fileContent) {
+    return [];
+  }
   // The first scan always contains the image id a similar format to: "bkimminich/juice-shop:v10.2.0 (alpine 3.11.5)"
 
-  let scanResults = fileContent;
-  if (typeof fileContent === "string") {
-    if (fileContent.includes("{") && fileContent.includes("}")) {
-      scanResults = JSON.parse(fileContent);
-    } else {
-      // empty file
-      return [];
-    }
-  }
+  const scanResults = JSON.parse(fileContent);
 
   if (Object.prototype.hasOwnProperty.call(scanResults, "ClusterName")) {
     // Results of k8s-scans always contain an attribute 'ClusterName' at first position of the JSON document.
@@ -131,7 +126,7 @@ function parseK8sScanResults(clusterName, scanResults) {
     }
 
     if (!scanResults.Resources || scanResults.Resources.length === 0) {
-      reject(new Error("No resources listet in scan-result document"));
+      reject(new Error("No resources listed in scan-result document"));
     }
 
     const findings = scanResults.Resources.flatMap((resourceItem) =>
@@ -322,5 +317,3 @@ function getAdjustedSeverity(severity) {
       ? "INFORMATIONAL"
       : severity;
 }
-
-module.exports.parse = parse;

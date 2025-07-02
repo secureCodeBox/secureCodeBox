@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse(_fileContent, scan) {
+export async function parse(_fileContent, scan) {
   const imageId = scan.spec.parameters[0];
   const downloadLink = scan.status.rawResultDownloadLink;
 
@@ -21,5 +21,3 @@ async function parse(_fileContent, scan) {
     },
   ];
 }
-
-module.exports.parse = parse;

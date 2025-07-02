@@ -1,0 +1,12 @@
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    vars:
+      scannerName: trivy
+      additionalHelmInstallArgsForScanner: |
+        --set="k8sScanScope=cluster" \
+
+tasks: {}
