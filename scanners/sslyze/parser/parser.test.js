@@ -2,18 +2,17 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "node:fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("parses result file for www.securecodebox.io correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/www.securecodebox.io.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/www.securecodebox.io.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
 
   const findings = await parse(fileContent);
@@ -57,10 +56,11 @@ test("parses result file for www.securecodebox.io correctly", async () => {
 });
 
 test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/tls-v1-0.badssl.com_1010.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/tls-v1-0.badssl.com_1010.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
 
   const findings = await parse(fileContent);
@@ -162,10 +162,11 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
 });
 
 test("parses result file for expired.badssl.com correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/expired.badssl.com.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/expired.badssl.com.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
 
   const findings = await parse(fileContent);
@@ -284,10 +285,11 @@ test("parses result file for expired.badssl.com correctly", async () => {
 });
 
 test("parses result file for wrong.host.badssl.com correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/wrong.host.badssl.com.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/wrong.host.badssl.com.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
 
   const findings = await parse(fileContent);
@@ -405,13 +407,11 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
 });
 
 test("parses result file for untrusted-root.badssl.com correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(
-      __dirname + "/__testFiles__/untrusted-root.badssl.com.json",
-      {
-        encoding: "utf8",
-      },
-    ),
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/untrusted-root.badssl.com.json",
+    {
+      encoding: "utf8",
+    },
   );
 
   const findings = await parse(fileContent);
@@ -529,10 +529,11 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
 });
 
 test("parses result file for self-signed.badssl.com correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/self-signed.badssl.com.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/self-signed.badssl.com.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
 
   const findings = await parse(fileContent);
@@ -650,13 +651,11 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
 });
 
 test("parses result file for target without certificate_deployments correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(
-      __dirname + "/__testFiles__/no-certificate_deployments.json",
-      {
-        encoding: "utf8",
-      },
-    ),
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/no-certificate_deployments.json",
+    {
+      encoding: "utf8",
+    },
   );
 
   const findings = await parse(fileContent);
@@ -723,10 +722,11 @@ test("parses result file for target without certificate_deployments correctly", 
 });
 
 test("parses an empty result file correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/unavailable-host.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/unavailable-host.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
 
   const findings = await parse(fileContent);
