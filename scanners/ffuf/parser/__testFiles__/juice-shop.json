@@ -1,0 +1,126 @@
+{
+    "commandline": "ffuf -o /home/securecodebox/ffuf-results.json -u http://juice-shop.demo-targets.svc:3000/FUZZ -w /config/wordlist.txt",
+    "time": "2025-07-02T08:55:43Z",
+    "results": [
+        {
+            "input": {
+                "FFUFHASH": "1",
+                "FUZZ": "metrics"
+            },
+            "position": 1,
+            "status": 200,
+            "length": 22968,
+            "words": 901,
+            "lines": 346,
+            "content-type": "text/plain; version=0.0.4; charset=utf-8",
+            "redirectlocation": "",
+            "scraper": {},
+            "duration": 2797417,
+            "resultfile": "",
+            "url": "http://juice-shop.demo-targets.svc:3000/metrics",
+            "host": "juice-shop.demo-targets.svc:3000"
+        },
+        {
+            "input": {
+                "FFUFHASH": "2",
+                "FUZZ": "ftp"
+            },
+            "position": 2,
+            "status": 200,
+            "length": 11070,
+            "words": 1568,
+            "lines": 357,
+            "content-type": "text/html; charset=utf-8",
+            "redirectlocation": "",
+            "scraper": {},
+            "duration": 5022084,
+            "resultfile": "",
+            "url": "http://juice-shop.demo-targets.svc:3000/ftp",
+            "host": "juice-shop.demo-targets.svc:3000"
+        }
+    ],
+    "config": {
+        "autocalibration": false,
+        "autocalibration_keyword": "FUZZ",
+        "autocalibration_perhost": false,
+        "autocalibration_strategies": [
+            "basic"
+        ],
+        "autocalibration_strings": [],
+        "colors": false,
+        "cmdline": "ffuf -o /home/securecodebox/ffuf-results.json -u http://juice-shop.demo-targets.svc:3000/FUZZ -w /config/wordlist.txt",
+        "configfile": "",
+        "postdata": "",
+        "debuglog": "",
+        "delay": {
+            "value": "0.00"
+        },
+        "dirsearch_compatibility": false,
+        "encoders": [],
+        "extensions": [],
+        "fmode": "or",
+        "follow_redirects": false,
+        "headers": {},
+        "ignorebody": false,
+        "ignore_wordlist_comments": false,
+        "inputmode": "clusterbomb",
+        "cmd_inputnum": 100,
+        "inputproviders": [
+            {
+                "name": "wordlist",
+                "keyword": "FUZZ",
+                "value": "/config/wordlist.txt",
+                "encoders": "",
+                "template": ""
+            }
+        ],
+        "inputshell": "",
+        "json": false,
+        "matchers": {
+            "IsCalibrated": false,
+            "Mutex": {},
+            "Matchers": {
+                "status": {
+                    "value": "200-299,301,302,307,401,403,405,500"
+                }
+            },
+            "Filters": {},
+            "PerDomainFilters": {}
+        },
+        "mmode": "or",
+        "maxtime": 0,
+        "maxtime_job": 0,
+        "method": "GET",
+        "noninteractive": false,
+        "outputdirectory": "",
+        "outputfile": "/home/securecodebox/ffuf-results.json",
+        "outputformat": "json",
+        "OutputSkipEmptyFile": false,
+        "proxyurl": "",
+        "quiet": false,
+        "rate": 0,
+        "raw": false,
+        "recursion": false,
+        "recursion_depth": 0,
+        "recursion_strategy": "default",
+        "replayproxyurl": "",
+        "requestfile": "",
+        "requestproto": "https",
+        "scraperfile": "",
+        "scrapers": "all",
+        "sni": "",
+        "stop_403": false,
+        "stop_all": false,
+        "stop_errors": false,
+        "threads": 40,
+        "timeout": 10,
+        "url": "http://juice-shop.demo-targets.svc:3000/FUZZ",
+        "verbose": false,
+        "wordlists": [
+            "/config/wordlist.txt"
+        ],
+        "http2": false,
+        "client-cert": "",
+        "client-key": ""
+    }
+}

@@ -1,0 +1,17 @@
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    excludes:
+      - predeploy
+    vars:
+      scannerName: ffuf
+
+tasks:
+  predeploy:
+    deps:
+      - demo-targets:deploy:juice-shop
+    cmds:
+      - kubectl apply -f ./integration-tests/configmap-wordlist.yaml -n integration-tests

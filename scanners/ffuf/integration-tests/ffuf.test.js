@@ -5,14 +5,14 @@
 import { scan } from "../../../tests/integration/helpers.js";
 
 test(
-  "FFuf scan with config YAML against 'juiceshop'",
+  "FFuf scan with config YAML against 'juice-shop'",
   async () => {
     const { categories, severities, count } = await scan(
-      "ffuf-scan-juiceshop-demo",
+      "ffuf-scan-juice-shop-demo",
       "ffuf",
       [
         "-u",
-        "http://juiceshop.demo-targets.svc:3000/FUZZ",
+        "http://juice-shop.demo-targets.svc:3000/FUZZ",
         "-w",
         "/config/wordlist.txt",
       ],
