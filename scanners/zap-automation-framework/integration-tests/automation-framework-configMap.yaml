@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -14,9 +13,9 @@ data:
     env:                                   # The environment, mandatory
       contexts:                           # List of 1 or more contexts, mandatory
         - name: test-config                  # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://juiceshop.demo-targets.svc:3000"]                           # A mandatory list of top level urls, everything under each url will be included
+          urls: ["http://juice-shop.demo-targets.svc:3000"]                           # A mandatory list of top level urls, everything under each url will be included
           includePaths: 
-            - "http://juiceshop.demo-targets.svc:3000/.*"                   # An optional list of regexes to include
+            - "http://juice-shop.demo-targets.svc:3000/.*"                   # An optional list of regexes to include
           excludePaths:
             - ".*socket\\.io.*"
             - ".*\\.png"
@@ -29,20 +28,20 @@ data:
           authentication:
             method: "json"
             parameters:
-              loginPageUrl: "http://juiceshop.demo-targets.svc:3000/rest/user"
-              loginRequestUrl: "http://juiceshop.demo-targets.svc:3000/rest/user/login"
+              loginPageUrl: "http://juice-shop.demo-targets.svc:3000/rest/user"
+              loginRequestUrl: "http://juice-shop.demo-targets.svc:3000/rest/user/login"
               loginRequestBody: '{"email":"admin@juice-sh.op","password":"admin123"}'
             verification:
               method: "response"
               loggedOutRegex: '\Q{"user":{}}\E'
               loggedInRegex: '\Q<a href="password.jsp">\E'
           users:
-          - name: "juiceshop-user-1"
+          - name: "juice-shop-user-1"
             credentials:
               username: "admin@juice-sh.op"
               password: "admin123"
       parameters:
-        failOnError: true                  # If set exit on an error         
+        failOnError: true                  # If set exit on an error
         failOnWarning: false               # If set exit on a warning
         progressToStdout: true             # If set will write job progress to stdout
 
@@ -96,7 +95,7 @@ data:
             - ".*\\.ttf"
             - ".*\\.ico"                   # An optional list of regexes to exclude
       parameters:
-        failOnError: true                  # If set exit on an error         
+        failOnError: true                  # If set exit on an error
         failOnWarning: false               # If set exit on a warning
         progressToStdout: true             # If set will write job progress to stdout
 
@@ -149,7 +148,7 @@ data:
             - ".*\\.ttf"
             - ".*\\.ico"                   # An optional list of regexes to exclude
       parameters:
-        failOnError: true                  # If set exit on an error         
+        failOnError: true                  # If set exit on an error
         failOnWarning: false               # If set exit on a warning
         progressToStdout: true             # If set will write job progress to stdout
 
@@ -182,9 +181,9 @@ data:
     env:                                   # The environment, mandatory
       contexts:                           # List of 1 or more contexts, mandatory
         - name: test-config                  # Name to be used to refer to this context in other jobs, mandatory
-          urls: ["http://petstore.demo-targets.svc"]                           # A mandatory list of top level urls, everything under each url will be included
+          urls: ["http://swagger-petstore.demo-targets.svc"]                           # A mandatory list of top level urls, everything under each url will be included
           includePaths: 
-            - "http://petstore.demo-targets.svc/.*"                   # An optional list of regexes to include
+            - "http://swagger-petstore.demo-targets.svc/.*"                   # An optional list of regexes to include
           excludePaths:
             - ".*socket\\.io.*"
             - ".*\\.png"
@@ -195,7 +194,7 @@ data:
             - ".*\\.ttf"
             - ".*\\.ico"                   # An optional list of regexes to exclude
       parameters:
-        failOnError: true                  # If set exit on an error         
+        failOnError: true                  # If set exit on an error
         failOnWarning: false               # If set exit on a warning
         progressToStdout: true             # If set will write job progress to stdout
 
