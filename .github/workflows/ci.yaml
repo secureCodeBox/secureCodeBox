@@ -429,7 +429,7 @@ jobs:
           - nmap
           - nuclei
           - screenshooter
-          # - semgrep
+          - semgrep
           # - ssh-audit
           # - sslyze
           # - trivy
