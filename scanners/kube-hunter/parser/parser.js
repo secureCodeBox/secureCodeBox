@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse({ vulnerabilities = [], nodes = [] }) {
+export async function parse({ vulnerabilities = [], nodes = [] }) {
   return vulnerabilities.map((vulnerability) => {
     const reference = {};
 
@@ -43,5 +43,3 @@ async function parse({ vulnerabilities = [], nodes = [] }) {
 function toValidUrl(location) {
   return "tcp://" + location;
 }
-
-module.exports.parse = parse;

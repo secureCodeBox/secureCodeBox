@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "kube-hunter should find a fixed number of findings for the kind cluster",
@@ -20,5 +18,5 @@ test(
     // as the number of findings will depend on the cluster, we just check if it is defined at all
     expect(true).toBe(true);
   },
-  5 * 60 * 1000,
+  { timeout: 5 * 60 * 1000 },
 );
