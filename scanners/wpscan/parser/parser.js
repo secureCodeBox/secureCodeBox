@@ -5,18 +5,23 @@
 /**
  * Convert the WPScan file / json into secureCodeBox Findings
  */
-async function parse(scanResults) {
-  if (typeof scanResults === "string")
-    // empty file
+export async function parse(scanResults) {
+  if (!scanResults) {
     return [];
+  }
 
-  const wpscanVersion = scanResults.banner.version;
-  const wpscanRequestsDone = scanResults.requests_done;
+  const report = JSON.parse(scanResults);
+  if (!report || !report.target_url) {
+    return [];
+  }
 
-  const targetUrl = scanResults.target_url;
-  const targetIp = scanResults.target_ip;
+  const wpscanVersion = report.banner?.version;
+  const wpscanRequestsDone = report.requests_done;
+
+  const targetUrl = report.target_url;
+  const targetIp = report.target_ip;
   // convert unix timestamp to ISO date string, multiply by 1000 because JS uses milliseconds
-  const identified_at = new Date(scanResults.stop_time * 1000).toISOString();
+  const identified_at = new Date(report.stop_time * 1000).toISOString();
 
   // Add a general INFORMATIONAL summary finding
   const summaryFinding = {
@@ -28,24 +33,24 @@ async function parse(scanResults) {
     osi_layer: "APPLICATION",
     severity: "INFORMATIONAL",
     references: null,
-    confidence: scanResults.version?.confidence,
+    confidence: report.version?.confidence,
     attributes: {
       hostname: targetUrl,
       ip_addresses: [targetIp],
       wpscan_version: wpscanVersion,
       wpscan_requests: wpscanRequestsDone,
-      wp_version: scanResults.version?.number,
-      wp_release_date: scanResults.version?.release_date,
-      wp_release_status: scanResults.version?.status,
-      wp_interesting_entries: scanResults.version?.interesting_entries,
-      wp_found_by: scanResults.version?.found_by,
-      wp_confirmed_by: scanResults.version?.confirmed_by,
-      wp_vulnerabilities: scanResults.version?.vulnerabilities,
+      wp_version: report.version?.number,
+      wp_release_date: report.version?.release_date,
+      wp_release_status: report.version?.status,
+      wp_interesting_entries: report.version?.interesting_entries,
+      wp_found_by: report.version?.found_by,
+      wp_confirmed_by: report.version?.confirmed_by,
+      wp_vulnerabilities: report.version?.vulnerabilities,
     },
   };
 
   // Add all interesting findings as INFORMATIONAL
-  const interestingFindings = scanResults.interesting_findings.map(
+  const interestingFindings = report.interesting_findings.map(
     (interestingFinding) => {
       // Create a flattened array of references with their types
       const references = Object.entries(interestingFinding.references).flatMap(
@@ -77,7 +82,7 @@ async function parse(scanResults) {
   );
 
   // Add plugin vulnerabilities as HIGH
-  const pluginVulnerabilities = Object.values(scanResults.plugins).flatMap(
+  const pluginVulnerabilities = Object.values(report.plugins).flatMap(
     (plugin) =>
       plugin.vulnerabilities.map((vulnerability) => {
         // Create a flattened array of references with their types
@@ -111,4 +116,3 @@ async function parse(scanResults) {
   // Combine all findings and return
   return [summaryFinding, ...interestingFindings, ...pluginVulnerabilities];
 }
-module.exports.parse = parse;
