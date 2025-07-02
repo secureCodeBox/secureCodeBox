@@ -64,8 +64,10 @@ test(
   "Invalid argument should be marked as errored",
   async () => {
     await expect(
-      scan("cmseek-invalidArg", "cmseek", ["--invalidArg", "example.com"], 90),
-    ).rejects.toThrow("HTTP request failed");
+      scan("cmseek-invalid-arg", "cmseek", ["--invalidArg", "example.com"], 90),
+    ).rejects.toThrow(
+      'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"',
+    );
   },
   {
     timeout: 3 * 60 * 1000,
