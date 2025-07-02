@@ -434,7 +434,7 @@ jobs:
           - sslyze
           - trivy
           - trivy-sbom
-          # - whatweb
+          - whatweb
           # - wpscan
           - zap-automation-framework
     steps:

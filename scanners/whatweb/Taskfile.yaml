@@ -1,0 +1,16 @@
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    excludes:
+      - predeploy
+    vars:
+      scannerName: whatweb
+
+tasks:
+  predeploy:
+    deps:
+      - demo-targets:deploy:nginx
+    cmds: []

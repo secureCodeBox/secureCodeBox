@@ -2,17 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
-  "Whatweb scans example.com",
+  "Whatweb scans static nginx",
   async () => {
     const { categories, severities, count } = await scan(
       "whatweb-example",
       "whatweb",
-      ["example.com"],
+      ["nginx.demo-targets.svc"],
       90,
     );
 
@@ -28,7 +26,7 @@ test(
       }
     `);
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
 
 test(
@@ -36,12 +34,14 @@ test(
   async () => {
     await expect(
       scan(
-        "whatweb-invalidArg",
+        "whatweb-invalid-arg",
         "whatweb",
         ["--invalidArg", "example.com"],
         90,
       ),
-    ).rejects.toThrow("HTTP request failed");
+    ).rejects.toThrow(
+      'Scan failed with description "Failed to run the Parser. This is likely a Bug, we would like to know about. Please open up a Issue on GitHub."',
+    );
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
