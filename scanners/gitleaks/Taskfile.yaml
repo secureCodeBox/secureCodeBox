@@ -1,0 +1,10 @@
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    vars:
+      scannerName: gitleaks
+
+tasks: {}

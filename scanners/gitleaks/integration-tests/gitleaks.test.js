@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(0);
+import { time } from "console";
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "Gitleaks should find one secret in a demo target",
@@ -69,5 +68,7 @@ vOLRZhe7xrVYy3d0FUmGAAAAFnlvdXJfZW1haWxAZXhhbXBsZS5jb20BAgMEBQYH
       medium: 1,
     });
   },
-  3 * 60 * 1000,
+  {
+    timeout: 3 * 60 * 1000,
+  },
 );
