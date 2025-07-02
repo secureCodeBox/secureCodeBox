@@ -432,8 +432,8 @@ jobs:
           - semgrep
           - ssh-audit
           - sslyze
-          # - trivy
-          # - trivy-sbom
+          - trivy
+          - trivy-sbom
           # - whatweb
           # - wpscan
           - zap-automation-framework

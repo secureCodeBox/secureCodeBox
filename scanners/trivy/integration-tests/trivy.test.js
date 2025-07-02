@@ -2,17 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
+import { scan } from "../../../tests/integration/helpers.js";
 
-jest.retryTimes(3);
-
-test.concurrent(
+test(
   "trivy image scan for a vulnerable juiceshop demo target",
   async () => {
     const { categories, severities, count } = await scan(
       "trivy-juice-test",
       "trivy-image",
-      ["bkimminich/juice-shop:v10.2.0"],
+      ["bkimminich/juice-shop:v18.0.0"],
       90,
     );
 
@@ -23,10 +21,10 @@ test.concurrent(
     expect(severities["medium"]).toBeGreaterThanOrEqual(10);
     expect(severities["low"]).toBeGreaterThanOrEqual(1);
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
 
-test.concurrent(
+test(
   "trivy filesystem scan with exiting files should not fail",
   async () => {
     const { categories, severities, count } = await scan(
@@ -74,10 +72,10 @@ test.concurrent(
     expect(severities["high"]).toBeGreaterThanOrEqual(2);
     expect(severities["medium"]).toBeGreaterThanOrEqual(1);
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
 
-test.concurrent(
+test(
   "trivy repo scan with exiting repo should not fail",
   async () => {
     const { categories, severities, count } = await scan(
@@ -91,24 +89,26 @@ test.concurrent(
     expect(severities["high"]).toBeGreaterThanOrEqual(2);
     expect(severities["medium"]).toBeGreaterThanOrEqual(1);
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
 
-test.concurrent(
+test(
   "Invalid argument should be marked as errored",
   async () => {
     await expect(
       scan(
-        "trivy-invalidArg",
-        "trivy",
+        "trivy-invalid-arg",
+        "trivy-image",
         ["--invalidArg", "not/a-valid-image:v0.0.0"],
         90,
       ),
-    ).rejects.toThrow("HTTP request failed");
+    ).rejects.toThrow(
+      'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"',
+    );
   },
-  3 * 60 * 1000,
+  { timeout: 3 * 60 * 1000 },
 );
-test.concurrent(
+test(
   "trivy k8s scan should not fail",
   async () => {
     const { categories, severities, count } = await scan(
@@ -138,5 +138,5 @@ test.concurrent(
     expect(severityNames.includes("medium")).toBeTruthy();
     expect(severityNames.includes("high")).toBeTruthy();
   },
-  10 * 60 * 1000,
+  { timeout: 10 * 60 * 1000 },
 );

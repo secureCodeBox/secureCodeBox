@@ -2,12 +2,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "node:fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 let scan;
 
@@ -56,10 +54,11 @@ test("should create finding correctly", async () => {
 });
 
 test("should properly parse cyclonedx json sbom file", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/hello-world-cyclonedx.json", {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/hello-world-cyclonedx.json",
+    {
       encoding: "utf8",
-    }),
+    },
   );
   const findings = await parse(fileContent, scan);
   // validate findings
