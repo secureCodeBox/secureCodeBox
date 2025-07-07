@@ -6,11 +6,11 @@ import { isEqual } from "lodash";
 import {
   CustomObjectsApi,
   KubeConfig,
-  V1Container,
-  V1EnvVar,
-  V1Toleration,
-  V1Volume,
-  V1VolumeMount,
+  type V1Container,
+  type V1EnvVar,
+  type V1Toleration,
+  type V1Volume,
+  type V1VolumeMount,
   type V1ObjectMeta,
 } from "@kubernetes/client-node";
 
@@ -24,8 +24,7 @@ import {
 // configure k8s client
 const kc = new KubeConfig();
 kc.loadFromDefault();
-
-const k8sApiCRD = kc.makeApiClient(CustomObjectsApi);
+const k8sApi = kc.makeApiClient(CustomObjectsApi);
 
 const namespace = process.env["NAMESPACE"];
 
@@ -169,7 +168,7 @@ export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
 
   try {
     // Submitting the Scan to the kubernetes api
-    const createdScan = await k8sApiCRD.createNamespacedCustomObject({
+    const createdScan = await k8sApi.createNamespacedCustomObject({
       version: "v1",
       group: "execution.securecodebox.io",
       plural: "scans",
@@ -196,7 +195,7 @@ export async function getCascadingRulesForScan(scan: Scan) {
       `Fetching CascadingScans using LabelSelector: "${labelSelector}"`,
     );
 
-    const response: any = await k8sApiCRD.listNamespacedCustomObject({
+    const response: any = await k8sApi.listNamespacedCustomObject({
       group: "cascading.securecodebox.io",
       version: "v1",
       namespace: namespace,
@@ -215,15 +214,13 @@ export async function getCascadingRulesForScan(scan: Scan) {
 
 export async function getParseDefinitionForScan(scan: Scan) {
   try {
-    const response: ParseDefinition = await k8sApiCRD.getNamespacedCustomObject(
-      {
-        group: "execution.securecodebox.io",
-        version: "v1",
-        namespace: namespace,
-        plural: "parsedefinitions",
-        name: scan.status.rawResultType,
-      },
-    );
+    const response: ParseDefinition = await k8sApi.getNamespacedCustomObject({
+      group: "execution.securecodebox.io",
+      version: "v1",
+      namespace: namespace,
+      plural: "parsedefinitions",
+      name: scan.status.rawResultType,
+    });
 
     return response;
   } catch (err) {
@@ -322,7 +319,7 @@ export async function getCascadedRuleForScan(scan: Scan) {
 
 async function getCascadingRule(ruleName) {
   try {
-    const response: CascadingRule = await k8sApiCRD.getNamespacedCustomObject({
+    const response: CascadingRule = await k8sApi.getNamespacedCustomObject({
       group: "cascading.securecodebox.io",
       version: "v1",
       namespace: namespace,

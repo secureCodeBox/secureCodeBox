@@ -5,20 +5,18 @@
 import {
   KubeConfig,
   CustomObjectsApi,
+  setHeaderOptions,
   PatchStrategy,
 } from "@kubernetes/client-node";
 
 import { handle } from "./hook/hook.js";
 
-const scanName = process.env["SCAN_NAME"];
-const namespace = process.env["NAMESPACE"];
-
-console.log(`Starting hook for Scan "${scanName}"`);
-
 const kc = new KubeConfig();
 kc.loadFromCluster();
-
 const k8sApi = kc.makeApiClient(CustomObjectsApi);
+
+const scanName = process.env["SCAN_NAME"];
+const namespace = process.env["NAMESPACE"];
 
 function downloadFile(url) {
   return fetch(url);
@@ -143,6 +141,8 @@ async function updateFindings(findings) {
 }
 
 async function main() {
+  console.log(`Starting hook for Scan "${scanName}"`);
+
   let scan;
   try {
     scan = await k8sApi.getNamespacedCustomObject({
