@@ -11,7 +11,7 @@ import {
   pickBy,
   forEach,
   isArray,
-} from "lodash";
+} from "lodash-es";
 import { isMatch as wildcardIsMatch } from "matcher";
 import Mustache from "mustache/mustache.mjs";
 
