@@ -2,17 +2,23 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { handle } = require("./hook/hook");
-const k8s = require("@kubernetes/client-node");
+import {
+  KubeConfig,
+  CustomObjectsApi,
+  PatchStrategy,
+} from "@kubernetes/client-node";
+
+import { handle } from "./hook/hook.js";
 
 const scanName = process.env["SCAN_NAME"];
 const namespace = process.env["NAMESPACE"];
+
 console.log(`Starting hook for Scan "${scanName}"`);
 
-const kc = new k8s.KubeConfig();
+const kc = new KubeConfig();
 kc.loadFromCluster();
 
-const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
+const k8sApi = kc.makeApiClient(CustomObjectsApi);
 
 function downloadFile(url) {
   return fetch(url);
@@ -38,6 +44,7 @@ async function uploadFile(url, fileContents) {
     const response = await fetch(url, {
       method: "PUT",
       headers: { "content-type": "" },
+      body: fileContents,
     });
 
     if (!response.ok) {
@@ -109,29 +116,28 @@ async function updateFindings(findings) {
   }
 
   await k8sApi.patchNamespacedCustomObjectStatus(
-    "execution.securecodebox.io",
-    "v1",
-    namespace,
-    "scans",
-    scanName,
     {
-      status: {
-        findings: {
-          count: findings.length,
-          severities: {
-            informational: severityCount(findings, "INFORMATIONAL"),
-            low: severityCount(findings, "LOW"),
-            medium: severityCount(findings, "MEDIUM"),
-            high: severityCount(findings, "HIGH"),
+      group: "execution.securecodebox.io",
+      version: "v1",
+      namespace,
+      plural: "scans",
+      name: scanName,
+      body: {
+        status: {
+          findings: {
+            count: findings.length,
+            severities: {
+              informational: severityCount(findings, "INFORMATIONAL"),
+              low: severityCount(findings, "LOW"),
+              medium: severityCount(findings, "MEDIUM"),
+              high: severityCount(findings, "HIGH"),
+            },
+            categories: Object.fromEntries(findingCategories.entries()),
           },
-          categories: Object.fromEntries(findingCategories.entries()),
         },
       },
     },
-    undefined,
-    undefined,
-    undefined,
-    { headers: { "content-type": "application/merge-patch+json" } },
+    setHeaderOptions("Content-Type", PatchStrategy.MergePatch),
   );
   console.log("Updated status successfully");
 }
@@ -139,14 +145,13 @@ async function updateFindings(findings) {
 async function main() {
   let scan;
   try {
-    const { body } = await k8sApi.getNamespacedCustomObject(
-      "execution.securecodebox.io",
-      "v1",
-      namespace,
-      "scans",
-      scanName,
-    );
-    scan = body;
+    scan = await k8sApi.getNamespacedCustomObject({
+      group: "execution.securecodebox.io",
+      version: "v1",
+      namespace: namespace,
+      plural: "scans",
+      name: scanName,
+    });
   } catch (err) {
     console.error("Failed to get Scan from the kubernetes api");
     console.error(err);
