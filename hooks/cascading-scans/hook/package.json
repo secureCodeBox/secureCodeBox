@@ -1,6 +1,7 @@
 {
   "name": "@securecodebox/hook-cascading-scans",
   "version": "1.0.0",
+  "type": "module",
   "description": "secureCodeBox Hook to cascade scan in an declarative manner.",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
