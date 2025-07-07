@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { isEqual } from "lodash";
+import { isEqual } from "lodash-es";
 import { CustomObjectsApi, KubeConfig } from "@kubernetes/client-node";
 import type {
   V1Container,

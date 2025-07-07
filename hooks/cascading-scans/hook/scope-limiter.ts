@@ -6,7 +6,7 @@ import { type V1ObjectMeta } from "@kubernetes/client-node";
 import Mustache from "mustache/mustache.mjs";
 import { Address4, Address6 } from "ip-address";
 import { fromUrl, parseDomain, ParseResultType } from "parse-domain";
-import { flatten, isEqual, takeRight } from "lodash";
+import { flatten, isEqual, takeRight } from "lodash-es";
 
 import { Finding, ScopeLimiter, ScopeLimiterAliases } from "./scan-helpers.js";
 
