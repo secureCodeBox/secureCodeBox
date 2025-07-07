@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { V1ObjectMeta } from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
+import { type V1ObjectMeta } from "@kubernetes/client-node";
 import Mustache from "mustache/mustache.mjs";
 import { Address4, Address6 } from "ip-address";
 import { fromUrl, parseDomain, ParseResultType } from "parse-domain";
