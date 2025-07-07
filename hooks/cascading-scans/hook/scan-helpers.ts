@@ -194,7 +194,7 @@ export async function getCascadingRulesForScan(scan: Scan) {
       `Fetching CascadingScans using LabelSelector: "${labelSelector}"`,
     );
 
-    const response: any = await k8sApi.listNamespacedCustomObject({
+    const { items: cascadingRules } = await k8sApi.listNamespacedCustomObject({
       group: "cascading.securecodebox.io",
       version: "v1",
       namespace: namespace,
@@ -202,8 +202,8 @@ export async function getCascadingRulesForScan(scan: Scan) {
       labelSelector: labelSelector,
     });
 
-    console.log(`Fetched ${response.body.items.length} CascadingRules`);
-    return response.body.items;
+    console.log(`Fetched ${cascadingRules.length} CascadingRules`);
+    return cascadingRules;
   } catch (err) {
     console.error("Failed to get CascadingRules from the kubernetes api");
     console.error(err);
