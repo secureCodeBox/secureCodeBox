@@ -1,6 +1,7 @@
 {
   "name": "@securecodebox/hook-sdk-nodejs",
   "version": "1.0.0",
+  "type": "module",
   "description": "Handles external communication required for all secureCodeBox Hooks",
   "main": "hook-wrapper.js",
   "scripts": {},
