@@ -2,13 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import {
-  generateSelectorString,
-  LabelSelector,
-} from "./kubernetes-label-selector";
 import { isEqual } from "lodash";
-import { getScanChain } from "./hook";
-import { ScopeLimiterRequirement } from "./scope-limiter";
 import {
   CustomObjectsApi,
   KubeConfig,
@@ -19,6 +13,13 @@ import {
   V1VolumeMount,
   type V1ObjectMeta,
 } from "@kubernetes/client-node";
+
+import { getScanChain } from "./hook.js";
+import { ScopeLimiterRequirement } from "./scope-limiter.js";
+import {
+  generateSelectorString,
+  LabelSelector,
+} from "./kubernetes-label-selector.js";
 
 // configure k8s client
 const kc = new KubeConfig();

@@ -29,8 +29,8 @@ import {
   mergeInheritedMap,
   mergeInheritedArray,
   mergeInheritedSelector,
-} from "./scan-helpers";
-import { isInScope, scopeDomain } from "./scope-limiter";
+} from "./scan-helpers.js";
+import { isInScope, scopeDomain } from "./scope-limiter.js";
 
 interface HandleArgs {
   scan: Scan;
