@@ -3,14 +3,11 @@
   "version": "1.0.0",
   "description": "Handles external communication required for all secureCodeBox Hooks",
   "main": "hook-wrapper.js",
-  "scripts": {
-    "test": "jest"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.22.3",
-    "ws": "^8.13.0"
+    "@kubernetes/client-node": "^1.3.0"
   }
 }

@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import * as k8s from "@kubernetes/client-node";
-
 import {
   generateSelectorString,
   LabelSelector,
@@ -11,12 +9,22 @@ import {
 import { isEqual } from "lodash";
 import { getScanChain } from "./hook";
 import { ScopeLimiterRequirement } from "./scope-limiter";
+import {
+  CustomObjectsApi,
+  KubeConfig,
+  V1Container,
+  V1EnvVar,
+  V1Toleration,
+  V1Volume,
+  V1VolumeMount,
+  type V1ObjectMeta,
+} from "@kubernetes/client-node";
 
 // configure k8s client
-const kc = new k8s.KubeConfig();
+const kc = new KubeConfig();
 kc.loadFromDefault();
 
-const k8sApiCRD = kc.makeApiClient(k8s.CustomObjectsApi);
+const k8sApiCRD = kc.makeApiClient(CustomObjectsApi);
 
 const namespace = process.env["NAMESPACE"];
 
@@ -31,7 +39,7 @@ export interface Finding {
 }
 
 export interface CascadingRule {
-  metadata: k8s.V1ObjectMeta;
+  metadata: V1ObjectMeta;
   spec: CascadingRuleSpec;
 }
 
@@ -51,7 +59,7 @@ export interface Matches {
 }
 
 export interface Scan {
-  metadata: k8s.V1ObjectMeta;
+  metadata: V1ObjectMeta;
   spec: ScanSpec;
   status?: ScanStatus;
 }
@@ -60,13 +68,13 @@ export interface ScanSpec {
   scanType: string;
   parameters: Array<string>;
   cascades: LabelSelector & CascadingInheritance;
-  env?: Array<k8s.V1EnvVar>;
-  volumes?: Array<k8s.V1Volume>;
-  volumeMounts?: Array<k8s.V1VolumeMount>;
-  initContainers?: Array<k8s.V1Container>;
+  env?: Array<V1EnvVar>;
+  volumes?: Array<V1Volume>;
+  volumeMounts?: Array<V1VolumeMount>;
+  initContainers?: Array<V1Container>;
   hookSelector?: LabelSelector;
-  tolerations?: Array<k8s.V1Toleration>;
-  affinity?: k8s.V1Toleration;
+  tolerations?: Array<V1Toleration>;
+  affinity?: V1Toleration;
   resourceMode: "clusterWide" | "namespaceLocal";
 }
 
@@ -94,7 +102,7 @@ export interface ScanStatus {
 }
 
 export interface ParseDefinition {
-  metadata: k8s.V1ObjectMeta;
+  metadata: V1ObjectMeta;
   spec: ParseDefinitionSpec;
 }
 
@@ -160,15 +168,14 @@ export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
 
   try {
     // Submitting the Scan to the kubernetes api
-    const createdScan = await k8sApiCRD.createNamespacedCustomObject(
-      "execution.securecodebox.io",
-      "v1",
-      namespace,
-      "scans",
-      scan,
-      "false",
-    );
-    console.log(`-> Created scan ${createdScan.body["metadata"].name}`);
+    const createdScan = await k8sApiCRD.createNamespacedCustomObject({
+      version: "v1",
+      group: "execution.securecodebox.io",
+      plural: "scans",
+      namespace: namespace,
+      body: scan,
+    });
+    console.log(`-> Created scan ${createdScan.metadata.name}`);
   } catch (error) {
     console.error(`Failed to start Scan ${scan.metadata.generateName}`);
     console.error(error);
@@ -188,17 +195,13 @@ export async function getCascadingRulesForScan(scan: Scan) {
       `Fetching CascadingScans using LabelSelector: "${labelSelector}"`,
     );
 
-    const response: any = await k8sApiCRD.listNamespacedCustomObject(
-      "cascading.securecodebox.io",
-      "v1",
-      namespace,
-      "cascadingrules",
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      labelSelector,
-    );
+    const response: any = await k8sApiCRD.listNamespacedCustomObject({
+      group: "cascading.securecodebox.io",
+      version: "v1",
+      namespace: namespace,
+      plural: "cascadingrules",
+      labelSelector: labelSelector,
+    });
 
     console.log(`Fetched ${response.body.items.length} CascadingRules`);
     return response.body.items;
@@ -211,15 +214,17 @@ export async function getCascadingRulesForScan(scan: Scan) {
 
 export async function getParseDefinitionForScan(scan: Scan) {
   try {
-    const response: any = await k8sApiCRD.getNamespacedCustomObject(
-      "execution.securecodebox.io",
-      "v1",
-      namespace,
-      "parsedefinitions",
-      scan.status.rawResultType,
+    const response: ParseDefinition = await k8sApiCRD.getNamespacedCustomObject(
+      {
+        group: "execution.securecodebox.io",
+        version: "v1",
+        namespace: namespace,
+        plural: "parsedefinitions",
+        name: scan.status.rawResultType,
+      },
     );
 
-    return response.body;
+    return response;
   } catch (err) {
     console.error(
       `Failed to get ParseDefinition ${scan.status.rawResultType} from the kubernetes api`,
@@ -316,18 +321,18 @@ export async function getCascadedRuleForScan(scan: Scan) {
 
 async function getCascadingRule(ruleName) {
   try {
-    const response: any = await k8sApiCRD.getNamespacedCustomObject(
-      "cascading.securecodebox.io",
-      "v1",
-      namespace,
-      "cascadingrules",
-      ruleName,
-    );
+    const response: CascadingRule = await k8sApiCRD.getNamespacedCustomObject({
+      group: "cascading.securecodebox.io",
+      version: "v1",
+      namespace: namespace,
+      plural: "cascadingrules",
+      name: ruleName,
+    });
 
     console.log(
       `Fetched CascadingRule "${ruleName}" that triggered parent scan`,
     );
-    return response.body;
+    return response;
   } catch (err) {
     console.error(
       `Failed to get CascadingRule "${ruleName}" from the kubernetes api`,
