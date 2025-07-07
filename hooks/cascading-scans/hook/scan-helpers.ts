@@ -23,7 +23,7 @@ import {
 
 // configure k8s client
 const kc = new KubeConfig();
-kc.loadFromDefault();
+kc.loadFromCluster();
 const k8sApi = kc.makeApiClient(CustomObjectsApi);
 
 const namespace = process.env["NAMESPACE"];
