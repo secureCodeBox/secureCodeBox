@@ -3,15 +3,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { isEqual } from "lodash";
-import {
-  CustomObjectsApi,
-  KubeConfig,
-  type V1Container,
-  type V1EnvVar,
-  type V1Toleration,
-  type V1Volume,
-  type V1VolumeMount,
-  type V1ObjectMeta,
+import { CustomObjectsApi, KubeConfig } from "@kubernetes/client-node";
+import type {
+  V1Container,
+  V1EnvVar,
+  V1Toleration,
+  V1Volume,
+  V1VolumeMount,
+  V1ObjectMeta,
 } from "@kubernetes/client-node";
 
 import { getScanChain } from "./hook.js";
