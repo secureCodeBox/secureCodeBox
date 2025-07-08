@@ -69,7 +69,7 @@ matches the snapshot:
                 - name: LURKER_PULL_POLICY
                   value: IfNotPresent
                 - name: LURKER_SECCOMP_PROFILE
-                  value: Unconfined
+                  value: RuntimeDefault
                 - name: CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
                   value: foo
                 - name: CUSTOM_CA_CERTIFICATE_NAME
@@ -118,7 +118,7 @@ matches the snapshot:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 seccompProfile:
-                  type: Unconfined
+                  type: RuntimeDefault
               volumeMounts:
                 - mountPath: /etc/ssl/certs/public.crt
                   name: ca-certificate
@@ -650,7 +650,7 @@ properly-renders-the-service-monitor-when-enabled:
                 - name: LURKER_PULL_POLICY
                   value: IfNotPresent
                 - name: LURKER_SECCOMP_PROFILE
-                  value: Unconfined
+                  value: RuntimeDefault
                 - name: CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
                   value: foo
                 - name: CUSTOM_CA_CERTIFICATE_NAME
@@ -699,7 +699,7 @@ properly-renders-the-service-monitor-when-enabled:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 seccompProfile:
-                  type: Unconfined
+                  type: RuntimeDefault
               volumeMounts:
                 - mountPath: /etc/ssl/certs/public.crt
                   name: ca-certificate
