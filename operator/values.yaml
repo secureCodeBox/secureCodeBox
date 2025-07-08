@@ -53,7 +53,8 @@ securityContext:
       - ALL
   seccompProfile:
     # securityContext.seccompProfile.type -- one of RuntimeDefault, Unconfined, Localhost
-    type: Unconfined
+    # To disable seccompProfile, set to Unconfined. See: https://kubernetes.io/docs/tutorials/security/seccomp/
+    type: RuntimeDefault
 
 # -- Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
 podSecurityContext: {}
