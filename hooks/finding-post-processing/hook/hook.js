@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { isMatch, merge } = require("lodash");
-async function handle({
+import { isMatch, merge } from "lodash-es";
+
+export async function handle({
   getFindings,
   updateFindings,
   rules = JSON.parse(process.env["RULES"]),
@@ -14,7 +15,7 @@ async function handle({
     await updateFindings(res.findings);
   }
 }
-module.exports.handle = handle;
+
 /**
  * Goes through the Findings and the Finding Post Processing Rules
  * and applies the changes to the findings defined in the rules if matching

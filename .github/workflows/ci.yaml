@@ -579,7 +579,7 @@ jobs:
           # - persistence-elastic # Fails on the CI due to insufficient cpu as mentioned in issue #1165
           # - persistence-dependencytrack
           # - update-field-hook
-          # - finding-post-processing
+          - finding-post-processing
           # - notification
           # - persistence-static-report (WIP)
     steps:

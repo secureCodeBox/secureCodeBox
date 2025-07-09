@@ -1,0 +1,21 @@
+version: "3"
+
+includes:
+  hook:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    excludes:
+      - predeploy
+    vars:
+      hookName: finding-post-processing
+      additionalHelmInstallArgsForHook: |
+        --set="rules[0].matches.anyOf[0].category=Host" \
+        --set="rules[0].override.severity=high" \
+  test-scan:
+    taskfile: ../../scanners/test-scan/Taskfile.yaml
+
+tasks:
+  predeploy:
+    cmds:
+      - task: test-scan:build
+      - task: test-scan:deploy
