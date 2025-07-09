@@ -108,12 +108,13 @@ helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 | s3.secretAttributeNames.secretkey | string | `"secretkey"` |  |
 | s3.tls.enabled | bool | `true` |  |
 | s3.urlTemplate | string | scan-{{ .Scan.UID }}/{{ .Filename }} | Go Template that generates the path used to store raw result file and findings.json file in the s3 bucket. Can be used to store the files in a subfolder of the s3 bucket |
-| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
+| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true,"seccompProfile":{"type":"RuntimeDefault"}}` | Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
-| securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the operator container. They are not required |
+| securityContext.capabilities.drop[0] | string | `"ALL"` | This drops all linux privileges from the operator container. They are not required |
 | securityContext.privileged | bool | `false` | Ensures that the operator container is not run in privileged mode |
 | securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
 | securityContext.runAsNonRoot | bool | `true` | Enforces that the Operator image is run as a non root user |
+| securityContext.seccompProfile.type | string | `"RuntimeDefault"` | one of RuntimeDefault, Unconfined, Localhost To disable seccompProfile, set to Unconfined. See: https://kubernetes.io/docs/tutorials/security/seccomp/ |
 | serviceAccount.annotations | object | `{}` | Annotations of the serviceAccount the operator uses to talk to the k8s api |
 | serviceAccount.labels | object | `{}` | Labels of the serviceAccount the operator uses to talk to the k8s api |
 | serviceAccount.name | string | `"securecodebox-operator"` | Name of the serviceAccount the operator uses to talk to the k8s api |
