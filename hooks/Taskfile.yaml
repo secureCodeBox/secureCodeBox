@@ -11,6 +11,8 @@ includes:
 vars:
   # addtional cli args to pass to the helm install command which installs the hook into the testing environment
   additionalHelmInstallArgsForHook: '{{ .additionalHelmInstallArgsForHook | default "" }}'
+  hasIntegrationTests:
+    sh: 'if [ -d "{{ .TASKFILE_DIR }}/{{ .hookName }}/integration-tests" ]; then echo "true"; else echo "false"; fi'
 env:
   IMG_TAG:
     sh: 'echo "sha-$(git rev-parse --short HEAD)"'
@@ -111,7 +113,13 @@ tasks:
           pkill -f "kubectl proxy"
 
       - echo "Running integration tests for {{ .hookName }}"
-      - bun test {{ .TASKFILE_DIR }}/{{ .hookName }}/integration-tests/
+      - |-
+        {{ if eq "true" .hasIntegrationTests -}}
+          bun test {{ .TASKFILE_DIR }}/{{ .hookName }}/integration-tests/
+        {{ else -}}
+          echo "Hook has no integration-tests. Skipping."
+        {{ end -}}
+
   test:helm:
     desc: Run helm tests for the {{ .hookName }} hook
     preconditions:
