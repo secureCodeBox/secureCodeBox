@@ -85,9 +85,9 @@ tasks:
   test:setup:scanner-dir:
     internal: true
     status:
-      - "[ -d {{ .TASKFILE_DIR }}/../node_modules ] || false"
+      - "[ -d {{ .TASKFILE_DIR }}/node_modules ] || false"
     cmds:
-      - cd {{ .TASKFILE_DIR }}/../ && bun install
+      - cd {{ .TASKFILE_DIR }}/ && bun install
   test:setup:test-helpers:
     internal: true
     status:
