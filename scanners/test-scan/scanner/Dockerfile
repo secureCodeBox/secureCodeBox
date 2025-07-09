@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM alpine:3.11
+FROM alpine:3.22
 RUN addgroup --system --gid 1001 test && adduser test --system --uid 1001 --ingroup test
 WORKDIR /home/securecodebox/
 USER 1001
