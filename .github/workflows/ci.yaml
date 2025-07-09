@@ -574,7 +574,7 @@ jobs:
       matrix:
         hook:
           - cascading-scans
-          # - generic-webhook
+          - generic-webhook
           # - persistence-azure-monitor
           # - persistence-elastic # Fails on the CI due to insufficient cpu as mentioned in issue #1165
           # - persistence-dependencytrack
