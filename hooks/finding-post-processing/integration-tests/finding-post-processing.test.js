@@ -2,17 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../helpers");
-
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers";
 
 test(
-  "Finding Post Processing after test-scan",
+  "finding-post-processing after test-scan",
   async () => {
     const { severities, count } = await scan(
       "finding-post-processing",
       "test-scan",
-      [],
+      ["placeholder"],
       90,
     );
 
