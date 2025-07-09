@@ -11,9 +11,9 @@ includes:
 vars:
   # if the scanner uses a custom scanner container image which needs to be built. Usually false as we prefer to reference the official scanner container images
   hasCustomScanner:
-    sh: 'if [ -d "{{ .ROOT_DIR }}/scanner/" ]; then echo "true"; else echo "false"; fi'
+    sh: 'if [ -d "{{ .TASKFILE_DIR }}/{{ .scannerName }}/scanner/" ]; then echo "true"; else echo "false"; fi'
   parserUsesNpmDependencies:
-    sh: 'if [ -f "{{ .ROOT_DIR }}/parser/package.json" ]; then echo "true"; else echo "false"; fi'
+    sh: 'if [ -f "{{ .TASKFILE_DIR }}/{{ .scannerName }}/parser/package.json" ]; then echo "true"; else echo "false"; fi'
   # addtional cli args to pass to the helm install command which installs the scanner into the testing environment
   additionalHelmInstallArgsForScanner: '{{ .additionalHelmInstallArgsForScanner | default "" }}'
 env:
@@ -36,9 +36,9 @@ tasks:
         {{ if eq "true" .hasCustomScanner -}}
         echo "Building custom scanner image for {{ .scannerName }} with tag ${IMG_TAG}"
         docker build -t docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG} \
-          --build-arg=scannerVersion=$(yq eval .appVersion {{ .ROOT_DIR }}/Chart.yaml) \
+          --build-arg=scannerVersion=$(yq eval .appVersion {{ .TASKFILE_DIR }}/{{ .scannerName }}/Chart.yaml) \
           --build-arg=baseImageTag=${IMG_TAG} \
-          {{ .ROOT_DIR }}/scanner/
+          {{ .TASKFILE_DIR }}/{{ .scannerName }}/scanner/
         kind load docker-image --name testing-env docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG}
         {{ else -}}
           echo "No custom scanner image defined, assuming scanner doen't need to be build"
@@ -47,7 +47,7 @@ tasks:
         echo "Building parser image for {{ .scannerName }} with tag ${IMG_TAG}"
         docker build -t docker.io/securecodebox/parser-{{ .scannerName }}:${IMG_TAG} \
           --build-arg=baseImageTag=${IMG_TAG} \
-          {{ .ROOT_DIR }}/parser/
+          {{ .TASKFILE_DIR }}/{{ .scannerName }}/parser/
         kind load docker-image --name testing-env docker.io/securecodebox/parser-{{ .scannerName }}:${IMG_TAG}
   predeploy:
     desc: Can be overwritten by the scanner to perform any pre-deployment steps
@@ -63,7 +63,7 @@ tasks:
       - 'echo "Deploying {{ .scannerName }} to the testing environment"'
       - task: predeploy
       - |
-        helm upgrade --install {{ .scannerName }} {{ .ROOT_DIR }} --namespace integration-tests \
+        helm upgrade --install {{ .scannerName }} {{ .TASKFILE_DIR }}/{{ .scannerName }} --namespace integration-tests \
           {{ if eq "true" .hasCustomScanner -}}
           --set="scanner.image.tag=${IMG_TAG}" \
           --set="scanner.image.pullPolicy=Never" \
@@ -79,27 +79,27 @@ tasks:
   test:setup:parser-sdk:
     internal: true
     status:
-      - "[ -d {{ .ROOT_DIR }}/../../parser-sdk/nodejs/node_modules ] || false"
+      - "[ -d {{ .TASKFILE_DIR }}/../parser-sdk/nodejs/node_modules ] || false"
     cmds:
-      - cd {{ .ROOT_DIR }}/../../parser-sdk/nodejs/ && bun install
+      - cd {{ .TASKFILE_DIR }}/../parser-sdk/nodejs/ && bun install
   test:setup:scanner-dir:
     internal: true
     status:
-      - "[ -d {{ .ROOT_DIR }}/../node_modules ] || false"
+      - "[ -d {{ .TASKFILE_DIR }}/../node_modules ] || false"
     cmds:
-      - cd {{ .ROOT_DIR }}/../ && bun install
+      - cd {{ .TASKFILE_DIR }}/../ && bun install
   test:setup:test-helpers:
     internal: true
     status:
-      - "[ -d {{ .ROOT_DIR }}/../../tests/integration/node_modules ] || false"
+      - "[ -d {{ .TASKFILE_DIR }}/../tests/integration/node_modules ] || false"
     cmds:
-      - cd {{ .ROOT_DIR }}/../../tests/integration && bun install
+      - cd {{ .TASKFILE_DIR }}/../tests/integration && bun install
   test:setup:parser-deps:
     internal: true
     status:
-      - '{{ if eq "true" .parserUsesNpmDependencies -}}[ -d {{ .ROOT_DIR }}/parser/node_modules ] || false{{ else -}}true{{ end -}}'
+      - '{{ if eq "true" .parserUsesNpmDependencies -}}[ -d {{ .TASKFILE_DIR }}/{{ .scannerName }}/parser/node_modules ] || false{{ else -}}true{{ end -}}'
     cmds:
-      - cd {{ .ROOT_DIR }}/parser/ && bun install
+      - cd {{ .TASKFILE_DIR }}/{{ .scannerName }}/parser/ && bun install
   test:setup:
     cmds:
       - task: test:setup:parser-sdk
@@ -114,7 +114,7 @@ tasks:
     cmds:
       - |
         echo "Running integration tests for {{ .scannerName }}"
-        bun test {{ .ROOT_DIR }}/parser/
+        bun test {{ .TASKFILE_DIR }}/{{ .scannerName }}/parser/
   test:integration:
     desc: Run integration tests for the {{ .scannerName }} scanner
     deps:
@@ -139,14 +139,14 @@ tasks:
           pkill -f "kubectl proxy"
 
       - echo "Running integration tests for {{ .scannerName }}"
-      - bun test {{ .ROOT_DIR }}/integration-tests/
+      - bun test {{ .TASKFILE_DIR }}/{{ .scannerName }}/integration-tests/
   test:helm:
     desc: Run helm tests for the {{ .scannerName }} scanner
     preconditions:
       - msg: "Helm unittest plugin is not installed, you need to install it first. See: https://github.com/helm-unittest/helm-unittest/"
         sh: "helm plugin list | grep -q 'unittest' || false"
     cmds:
-      - helm unittest {{ .ROOT_DIR }}
+      - helm unittest {{ .TASKFILE_DIR }}/{{ .scannerName }}
   test:
     desc: Run all tests for the {{ .scannerName }} scanner
     cmds:
