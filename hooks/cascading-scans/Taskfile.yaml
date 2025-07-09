@@ -8,9 +8,6 @@ includes:
       - predeploy
     vars:
       hookName: cascading-scans
-      additionalHelmInstallArgsForScanner: |
-        --set="scanner.image.pullPolicy=IfNotPresent" \
-        --set="nucleiTemplateCache.enabled=false" \
 
 tasks:
   predeploy:
