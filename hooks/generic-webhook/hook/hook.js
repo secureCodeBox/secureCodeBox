@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function handle({
+export async function handle({
   getFindings,
   scan,
   webhookUrl = process.env["WEBHOOK_URL"],
@@ -10,26 +10,30 @@ async function handle({
   webhookPassword = process.env["WEBHOOK_PASSWORD"],
   webhookApikeyHeaderName = process.env["WEBHOOK_APIKEY_HEADER_NAME"],
   webhookApikeyHeaderValue = process.env["WEBHOOK_APIKEY_HEADER_VALUE"],
-  axios = require("axios"),
 }) {
   const findings = await getFindings();
 
   console.log(`Sending ${findings.length} findings to ${webhookUrl}`);
 
+  const body = JSON.stringify({ scan, findings });
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
   if (webhookApikeyHeaderName && webhookApikeyHeaderValue) {
-    await axios.post(
-      webhookUrl,
-      { scan, findings },
-      { headers: { [webhookApikeyHeaderName]: webhookApikeyHeaderValue } },
-    );
+    headers[webhookApikeyHeaderName] = webhookApikeyHeaderValue;
   } else if (webhookUser && webhookPassword) {
-    await axios.post(
-      webhookUrl,
-      { scan, findings },
-      { auth: { username: webhookUser, password: webhookPassword } },
-    );
-  } else {
-    await axios.post(webhookUrl, { scan, findings });
+    const credentials = Buffer.from(`${webhookUser}:${webhookPassword}`).toString('base64');
+    headers['Authorization'] = `Basic ${credentials}`;
+  }
+
+  const response = await fetch(webhookUrl, {
+    method: 'POST',
+    headers,
+    body,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Webhook request failed with status ${response.status}: ${await response.text()}`);
   }
 }
-module.exports.handle = handle;
