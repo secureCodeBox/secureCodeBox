@@ -30,7 +30,7 @@ tasks:
         echo "Building custom hook image for {{ .hookName }} with tag ${IMG_TAG}"
         docker build -t docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG} \
           --build-arg=baseImageTag=${IMG_TAG} \
-          {{ .ROOT_DIR }}/hook/
+          {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/
         kind load docker-image --name testing-env docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG}
   predeploy:
     desc: Can be overwritten by the hook to perform any pre-deployment steps
@@ -46,7 +46,7 @@ tasks:
       - 'echo "Deploying {{ .hookName }} to the testing environment"'
       - task: predeploy
       - |
-        helm upgrade --install {{ .hookName }} {{ .ROOT_DIR }} --namespace integration-tests \
+        helm upgrade --install {{ .hookName }} {{ .TASKFILE_DIR }}/{{ .hookName }} --namespace integration-tests \
           --set="hook.image.tag=${IMG_TAG}" \
           --set="hook.image.pullPolicy=Never" \
           {{ if ne "" .additionalHelmInstallArgsForHook -}}
@@ -58,21 +58,21 @@ tasks:
   test:setup:hook-sdk:
     internal: true
     status:
-      - "[ -d {{ .ROOT_DIR }}/../../hook-sdk/nodejs/node_modules ] || false"
+      - "[ -d {{ .TASKFILE_DIR }}/../hook-sdk/nodejs/node_modules ] || false"
     cmds:
-      - cd {{ .ROOT_DIR }}/../../hook-sdk/nodejs/ && bun install
+      - cd {{ .TASKFILE_DIR }}/../hook-sdk/nodejs/ && bun install
   test:setup:test-helpers:
     internal: true
     status:
-      - "[ -d {{ .ROOT_DIR }}/../../tests/integration/node_modules ] || false"
+      - "[ -d {{ .TASKFILE_DIR }}/../tests/integration/node_modules ] || false"
     cmds:
-      - cd {{ .ROOT_DIR }}/../../tests/integration && bun install
+      - cd {{ .TASKFILE_DIR }}/../tests/integration && bun install
   test:setup:hook-deps:
     internal: true
     status:
-      - "[ -d {{ .ROOT_DIR }}/hook/node_modules ] || false"
+      - "[ -d {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/node_modules ] || false"
     cmds:
-      - cd {{ .ROOT_DIR }}/hook/ && bun install
+      - cd {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/ && bun install
   test:setup:
     cmds:
       - task: test:setup:hook-sdk
@@ -86,7 +86,7 @@ tasks:
     cmds:
       - |
         echo "Running unit tests for {{ .hookName }}"
-        bun test {{ .ROOT_DIR }}/hook/
+        bun test {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/
   test:integration:
     desc: Run integration tests for the {{ .hookName }} hook
     deps:
@@ -111,14 +111,14 @@ tasks:
           pkill -f "kubectl proxy"
 
       - echo "Running integration tests for {{ .hookName }}"
-      - bun test {{ .ROOT_DIR }}/integration-tests/
+      - bun test {{ .TASKFILE_DIR }}/{{ .hookName }}/integration-tests/
   test:helm:
     desc: Run helm tests for the {{ .hookName }} hook
     preconditions:
       - msg: "Helm unittest plugin is not installed, you need to install it first. See: https://github.com/helm-unittest/helm-unittest/"
         sh: "helm plugin list | grep -q 'unittest' || false"
     cmds:
-      - helm unittest {{ .ROOT_DIR }}
+      - helm unittest {{ .TASKFILE_DIR }}/{{ .hookName }}
   test:
     desc: Run all tests for the {{ .hookName }} hook
     cmds:
