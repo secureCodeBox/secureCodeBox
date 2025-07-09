@@ -38,12 +38,11 @@ tasks:
     silent: true
   deploy:
     desc: Deploy the {{ .hookName }} hook to the testing environment
-    deps:
-      - core:prepare-testing-env
-      - build
     status:
       - helm ls {{ .hookName }} -n integration-tests | grep -q '{{ .hookName }}' || false
     cmds:
+      - task: core:prepare-testing-env
+      - task: build
       - 'echo "Deploying {{ .hookName }} to the testing environment"'
       - task: predeploy
       - |

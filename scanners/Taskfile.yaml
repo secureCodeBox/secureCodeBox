@@ -55,12 +55,11 @@ tasks:
     silent: true
   deploy:
     desc: Deploy the {{ .scannerName }} scanner to the testing environment
-    deps:
-      - core:prepare-testing-env
-      - build
     status:
       - helm ls {{ .scannerName }} -n integration-tests | grep -q '{{ .scannerName }}' || false
     cmds:
+      - task: core:prepare-testing-env
+      - task: build
       - 'echo "Deploying {{ .scannerName }} to the testing environment"'
       - task: predeploy
       - |
