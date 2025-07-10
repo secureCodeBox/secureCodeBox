@@ -22,3 +22,4 @@ FROM ${namespace:-securecodebox}/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/
 COPY --from=install --chown=root:root --chmod=755 /home/app/node_modules/ ./node_modules/
 COPY --from=build --chown=root:root --chmod=755 /home/app/build/ ./
+COPY --chown=root:root --chmod=755 notification-templates/ ./notification-templates/

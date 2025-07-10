@@ -2,14 +2,31 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { NotifierType } from "../NotifierType";
-import { AbstractNotifier } from "./AbstractNotifier";
-import { createTransport } from "nodemailer";
+import { NotifierType } from "../NotifierType.js";
+import { AbstractNotifier } from "./AbstractNotifier.js";
+
+import type { NotificationChannel } from "../model/NotificationChannel";
+import type { Finding } from "../model/Finding";
+import type { Scan } from "../model/Scan";
+
+import type { createTransport as createTransportType } from "nodemailer";
 
 export class EMailNotifier extends AbstractNotifier {
   public static readonly SMTP_CONFIG = "SMTP_CONFIG";
   public static readonly EMAIL_FROM = "EMAIL_FROM";
   protected type: NotifierType.EMAIL;
+  protected createTransport: typeof createTransportType;
+
+  constructor(
+    channel: NotificationChannel,
+    scan: Scan,
+    findings: Finding[],
+    args: Object,
+    createTransport: typeof createTransportType,
+  ) {
+    super(channel, scan, findings, args);
+    this.createTransport = createTransport;
+  }
 
   /**
    * Emails endPoints are not considered sensitive as they are just the receiver of the email.
@@ -29,7 +46,7 @@ export class EMailNotifier extends AbstractNotifier {
   }
 
   protected async sendMail(message: any, smtpConfig: any) {
-    const transporter = createTransport(smtpConfig);
+    const transporter = this.createTransport(smtpConfig);
     try {
       const info = await transporter.sendMail(message);
       console.log(info);

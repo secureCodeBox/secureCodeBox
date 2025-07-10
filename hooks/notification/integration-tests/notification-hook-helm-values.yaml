@@ -11,4 +11,4 @@ notificationChannels:
 
 env:
   - name: SLACK_ENDPOINT
-    value: "http://http-webhook.integration-tests.svc.cluster.local/slack-notification"
+    value: "http://http-webhook.demo-targets.svc.cluster.local/slack-notification"

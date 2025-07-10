@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { NotifierType } from "../NotifierType";
-import { AbstractWebHookNotifier } from "./AbstractWebHookNotifier";
-import { Finding } from "../model/Finding";
-import { matches } from "../hook";
-import axios from "axios";
-import { NotificationChannel } from "../model/NotificationChannel";
-import { Scan } from "../model/Scan";
+import { AbstractWebHookNotifier } from "./AbstractWebHookNotifier.js";
+import { NotifierType } from "../NotifierType.js";
+
+import type { Finding } from "../model/Finding";
+import type { NotificationChannel } from "../model/NotificationChannel";
+import type { Scan } from "../model/Scan";
 
 export class TrelloNotifier extends AbstractWebHookNotifier {
   public static readonly TRELLO_CARDS_ENDPOINT = "TRELLO_CARDS_ENDPOINT";
@@ -63,7 +62,17 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
 
   protected async sendJSONPostRequest(jsonData) {
     try {
-      await axios.post(this.resolveEndPoint(), jsonData);
+      const response = await fetch(this.resolveEndPoint(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonData),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
     } catch (e) {
       console.log(
         `There was an Error sending the Message for the "${this.type}": "${this.channel.name}"`,
@@ -73,21 +82,21 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
   }
 
   private getTrelloKey(): string {
-    return process.env[TrelloNotifier.TRELLO_KEY];
+    return process.env[TrelloNotifier.TRELLO_KEY] ?? '';
   }
 
   private getTrelloToken(): string {
-    return process.env[TrelloNotifier.TRELLO_TOKEN];
+    return process.env[TrelloNotifier.TRELLO_TOKEN] ?? '';
   }
 
   private getTrelloList(): string {
-    return process.env[TrelloNotifier.TRELLO_LIST];
+    return process.env[TrelloNotifier.TRELLO_LIST] ?? '';
   }
 
   // If labels env not defined return empty string
   private getTrelloLabels(): string {
     if (TrelloNotifier.TRELLO_LABELS in process.env) {
-      return process.env[TrelloNotifier.TRELLO_LABELS];
+      return process.env[TrelloNotifier.TRELLO_LABELS] ?? '';
     }
     return "";
   }
@@ -95,7 +104,7 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
   // If card pos env not defined return top
   private getTrelloPos(): string {
     if (TrelloNotifier.TRELLO_POS in process.env) {
-      return process.env[TrelloNotifier.TRELLO_POS];
+      return process.env[TrelloNotifier.TRELLO_POS] ?? '';
     }
     return "top";
   }
@@ -103,7 +112,7 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
   // Any user defined prefix to add to the card title
   private getTrelloTitlePrefix(): string {
     if (TrelloNotifier.TRELLO_TITLE_PREFIX in process.env) {
-      return process.env[TrelloNotifier.TRELLO_TITLE_PREFIX];
+      return process.env[TrelloNotifier.TRELLO_TITLE_PREFIX] ?? '';
     }
     return "";
   }

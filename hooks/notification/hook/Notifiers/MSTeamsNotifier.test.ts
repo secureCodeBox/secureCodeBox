@@ -3,15 +3,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { MSTeamsNotifier } from "./MSTeamsNotifier";
-import axios from "axios";
 import { NotificationChannel } from "../model/NotificationChannel";
 import { NotifierType } from "../NotifierType";
 import { Scan } from "../model/Scan";
 
-jest.mock("axios");
+const originalFetch = global.fetch;
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  global.fetch = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ ok: true })
+    })
+  );
+});
+
+afterEach(() => {
+  global.fetch = originalFetch;
 });
 
 const TEAMS_ENDPOINT =
@@ -68,10 +77,17 @@ test("Should Send Message With Findings And Severities", async () => {
   };
 
   const teamsNotifier = new MSTeamsNotifier(channel, scan, [], []);
-  teamsNotifier.sendMessage();
-  expect(axios.post).toHaveBeenCalledWith(TEAMS_ENDPOINT, expect.any(String), {
-    headers: { "Content-Type": "application/json" },
-  });
+  await teamsNotifier.sendMessage();
+  expect(global.fetch).toHaveBeenCalledWith(
+    TEAMS_ENDPOINT,
+    expect.objectContaining({
+      method: 'POST',
+      headers: expect.objectContaining({
+        "Content-Type": "application/json"
+      }),
+      body: expect.any(String)
+    })
+  );
 });
 
 test("Should Send Minimal Template For Empty Findings", async () => {
@@ -104,8 +120,15 @@ test("Should Send Minimal Template For Empty Findings", async () => {
   };
 
   const n = new MSTeamsNotifier(channel, scan, [], []);
-  n.sendMessage();
-  expect(axios.post).toHaveBeenCalledWith(TEAMS_ENDPOINT, expect.any(String), {
-    headers: { "Content-Type": "application/json" },
-  });
+  await n.sendMessage();
+  expect(global.fetch).toHaveBeenCalledWith(
+    TEAMS_ENDPOINT,
+    expect.objectContaining({
+      method: 'POST',
+      headers: expect.objectContaining({
+        "Content-Type": "application/json"
+      }),
+      body: expect.any(String)
+    })
+  );
 });

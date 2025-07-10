@@ -3,16 +3,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TrelloNotifier } from "./TrelloNotifier";
-import axios from "axios";
 import { Finding } from "../model/Finding";
 import { NotificationChannel } from "../model/NotificationChannel";
 import { NotifierType } from "../NotifierType";
 import { Scan } from "../model/Scan";
 
-jest.mock("axios");
+const originalFetch = global.fetch;
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  global.fetch = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ ok: true })
+    })
+  );
+});
+
+afterEach(() => {
+  global.fetch = originalFetch;
 });
 
 const finding: Finding = {
@@ -79,8 +88,8 @@ test("Should Create Cards With Findings And Severities", async () => {
   findings.push(finding);
 
   const trelloNotifier = new TrelloNotifier(channel, scan, findings, []);
-  trelloNotifier.sendMessage();
-  expect(axios.post).toHaveBeenCalled();
+  await trelloNotifier.sendMessage();
+  expect(global.fetch).toHaveBeenCalled();
 });
 
 test("Should Send Minimal Template For Empty Findings", async () => {
@@ -116,6 +125,6 @@ test("Should Send Minimal Template For Empty Findings", async () => {
   findings.push(finding);
 
   const trelloNotifier = new TrelloNotifier(channel, scan, findings, []);
-  trelloNotifier.sendMessage();
-  expect(axios.post).toHaveBeenCalled();
+  await trelloNotifier.sendMessage();
+  expect(global.fetch).toHaveBeenCalled();
 });

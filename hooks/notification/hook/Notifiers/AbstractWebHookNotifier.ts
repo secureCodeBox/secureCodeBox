@@ -1,13 +1,18 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
-import axios from "axios";
-import { Scan } from "../model/Scan";
-import { Finding } from "../model/Finding";
-import { NotifierType } from "../NotifierType";
-import type { AxiosRequestConfig } from "axios";
-import { AbstractNotifier } from "./AbstractNotifier";
-import { NotificationChannel } from "../model/NotificationChannel";
+import { NotifierType } from "../NotifierType.js";
+import { AbstractNotifier } from "./AbstractNotifier.js";
+
+import type { Scan } from "../model/Scan";
+import type { Finding } from "../model/Finding";
+import type { NotificationChannel } from "../model/NotificationChannel";
+
+export interface FetchRequestOptions {
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string;
+}
 
 export abstract class AbstractWebHookNotifier extends AbstractNotifier {
   protected abstract type: NotifierType;
@@ -27,13 +32,20 @@ export abstract class AbstractWebHookNotifier extends AbstractNotifier {
 
   protected async sendPostRequest(
     message: string,
-    options?: AxiosRequestConfig,
+    options?: FetchRequestOptions,
   ) {
     try {
-      const response = await axios.post(
+      const response = await fetch(
         this.resolveEndPoint(),
-        message,
-        options,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(options?.headers || {})
+          },
+          body: message,
+          ...options
+        }
       );
       console.log(
         `Notifier sent out request for notification, got response code: ${response.status}`,
