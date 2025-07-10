@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { handle } = require("./hook");
+import { handle } from "./hook";
 
 test("should send a post request to the url when fired", async () => {
   const findings = [
