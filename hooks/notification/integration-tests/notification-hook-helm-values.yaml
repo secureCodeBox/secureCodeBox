@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+notificationChannels:
+  - name: slack
+    type: slack
+    template: slack-messageCard
+    rules: []
+    endPoint: SLACK_ENDPOINT
+
+env:
+  - name: SLACK_ENDPOINT
+    value: "http://http-webhook.integration-tests.svc.cluster.local/slack-notification"

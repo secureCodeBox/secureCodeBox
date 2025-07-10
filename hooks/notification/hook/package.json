@@ -4,8 +4,8 @@
   "description": "secureCodeBox Hook for Notification",
   "main": "hook.js",
   "scripts": {
-    "build": "npx tsc hook.ts --sourceMap --esModuleInterop",
-    "test": "npm run build && npx ts-jest config:init && jest --verbose --ci --colors --coverage --passWithNoTests"
+    "lint": "npx tsc hook.ts --noEmit --skipLibCheck",
+    "build": "esbuild --platform=node --target=node22 --format=esm --outdir=./build/ --sourcemap *.ts"
   },
   "repository": {
     "type": "git",
@@ -23,23 +23,21 @@
   },
   "homepage": "https://github.com/secureCodeBox/secureCodeBox#readme",
   "devDependencies": {
-    "@types/jest": "^29.4.0",
+    "@types/jest": "^30.0.0",
     "@types/lodash": "^4.14.171",
     "@types/mustache": "^4.1.2",
-    "@types/node": "^16.0.0",
+    "@types/node": "^22.16.2",
     "@types/nodemailer": "^6.4.4",
-    "jest": "^29.3.1",
-    "typescript": "^4.3.5",
-    "@types/nunjucks": "^3.1.5",
-    "ts-jest": "^29.0.5"
+    "typescript": "^5.8.3",
+    "@kubernetes/client-node": "^1.3.0",
+    "@types/nunjucks": "^3.1.5"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.18.1",
     "@types/js-yaml": "^4.0.2",
     "axios": "^1.6.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "nodemailer": "^6.9.9",
+    "nodemailer": "^6.10.1",
     "nunjucks": "^3.2.4"
   }
 }
