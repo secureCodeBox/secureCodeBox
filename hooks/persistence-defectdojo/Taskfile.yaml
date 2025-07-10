@@ -1,0 +1,16 @@
+version: "3"
+
+includes:
+  hook:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    vars:
+      hookName: persistence-defectdojo
+    excludes:
+      - test:unit
+
+tasks:
+  test:unit:
+    cmds:
+      - ./gradlew test
+    dir: hook
