@@ -45,7 +45,7 @@ kc.loadFromOptions({
 
 let k8sCRDApi: CustomObjectsApi, k8sBatchApi: BatchV1Api, k8sPodsApi: CoreV1Api;
 
-function getKubernetesAPIs() {
+export function getKubernetesAPIs() {
   if (!k8sCRDApi) {
     k8sCRDApi = kc.makeApiClient(CustomObjectsApi);
   }
