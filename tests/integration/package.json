@@ -4,19 +4,14 @@
   "description": "Integration Tests running on a real k8s cluster",
   "main": "helpers",
   "scripts": {
-    "test:integration": "jest --verbose --ci --colors --coverage --passWithNoTests",
     "test:helpers": "bun test helpers.test.js"
   },
   "keywords": [],
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "devDependencies": {
-    "jest": "^29.7.0",
-    "prettier": "^3.6.0",
     "@kubernetes/client-node": "^1.3.0",
-    "@securecodebox/parser-sdk-nodejs": "file:../../parser-sdk/nodejs",
-    "@types/jest": "^29.5.14",
-    "ts-jest": "^29.2.5"
+    "@securecodebox/parser-sdk-nodejs": "file:../../parser-sdk/nodejs"
   },
   "dependencies": {}
 }
