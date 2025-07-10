@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { handle } = require("./hook");
+import { handle } from "./hook";
+
 const fetch = jest.fn(() =>
   Promise.resolve({
     ok: true,

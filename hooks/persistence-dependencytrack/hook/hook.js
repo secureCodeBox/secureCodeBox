@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function handle({
+export async function handle({
   getRawResults,
   scan,
   apiKey = process.env["DEPENDENCYTRACK_APIKEY"],
@@ -122,5 +122,3 @@ async function handle({
     `Successfully uploaded SBOM to Dependency-Track. Response-token to check the status: ${content.token}`,
   );
 }
-
-module.exports.handle = handle;
