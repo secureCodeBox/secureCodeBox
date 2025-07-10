@@ -2,11 +2,18 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { handle, elasticClient } = require("./hook");
+import { handle } from "./hook";
+
+let elasticClient;
 
 beforeEach(() => {
-  elasticClient.index.mockClear();
-  elasticClient.bulk.mockClear();
+  elasticClient = {
+    indices: {
+      create: jest.fn(),
+    },
+    index: jest.fn(),
+    bulk: jest.fn(() => ({ body: {} })),
+  };
 });
 
 const scan = {
@@ -36,10 +43,11 @@ test("should only send scan summary document if no findings are passing in", asy
     now: testDate,
     tenant: "default",
     appendNamespace: true,
+    client: elasticClient,
   });
 
-  expect(elasticClient.index).toBeCalledTimes(1);
-  expect(elasticClient.index).toBeCalledWith({
+  expect(elasticClient.index).toHaveBeenCalledTimes(1);
+  expect(elasticClient.index).toHaveBeenCalledWith({
     body: {
       "@timestamp": testDate,
       id: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
@@ -53,7 +61,7 @@ test("should only send scan summary document if no findings are passing in", asy
     },
     index: `scb_default_2020-11-11`,
   });
-  expect(elasticClient.bulk).not.toBeCalled();
+  expect(elasticClient.bulk).not.toHaveBeenCalled();
 });
 
 test("should send findings to elasticsearch with given prefix", async () => {
@@ -74,10 +82,11 @@ test("should send findings to elasticsearch with given prefix", async () => {
     tenant: "default",
     indexPrefix: "myPrefix",
     appendNamespace: true,
+    client: elasticClient,
   });
 
-  expect(elasticClient.index).toBeCalledTimes(1);
-  expect(elasticClient.index).toBeCalledWith({
+  expect(elasticClient.index).toHaveBeenCalledTimes(1);
+  expect(elasticClient.index).toHaveBeenCalledWith({
     body: {
       "@timestamp": testDate,
       id: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
@@ -92,8 +101,8 @@ test("should send findings to elasticsearch with given prefix", async () => {
     index: `myPrefix_default_2020-11-11`,
   });
 
-  expect(elasticClient.bulk).toBeCalledTimes(1);
-  expect(elasticClient.bulk).toBeCalledWith({
+  expect(elasticClient.bulk).toHaveBeenCalledTimes(1);
+  expect(elasticClient.bulk).toHaveBeenCalledWith({
     refresh: true,
     body: [
       {
@@ -123,7 +132,13 @@ test("should not append namespace if 'appendNamespace' is null", async () => {
 
   const getFindings = async () => findings;
 
-  await handle({ getFindings, scan, now: testDate, tenant: "default" });
+  await handle({
+    getFindings,
+    scan,
+    now: testDate,
+    tenant: "default",
+    client: elasticClient,
+  });
 
   expect(elasticClient.index).toBeCalledTimes(1);
   expect(elasticClient.index).toBeCalledWith({
@@ -153,6 +168,7 @@ test("should append date format yyyy", async () => {
     now: testDate,
     tenant: "default",
     indexSuffix: "yyyy",
+    client: elasticClient,
   });
 
   expect(elasticClient.index).toBeCalledTimes(1);
@@ -183,6 +199,7 @@ test("should append week format like yyyy/'W'W -> 2020/W46", async () => {
     now: testDate,
     tenant: "default",
     indexSuffix: "yyyy/'W'W",
+    client: elasticClient,
   });
 
   expect(elasticClient.index).toBeCalledTimes(1);
