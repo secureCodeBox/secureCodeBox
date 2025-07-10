@@ -2,12 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { Client } = require("@elastic/elasticsearch");
-
-const flatMap = require("lodash.flatmap");
-const chunk = require("lodash.chunk");
-
-const { DateTime } = require("luxon");
+import { Client } from "@elastic/elasticsearch";
+import { flatMap, chunk } from "lodash-es";
+import { DateTime } from "luxon";
 
 const authParams = {};
 
@@ -36,12 +33,7 @@ if (apiKeyId && apiKey) {
   );
 }
 
-const client = new Client({
-  node: process.env["ELASTICSEARCH_ADDRESS"],
-  ...authParams,
-});
-
-async function handle({
+export async function handle({
   getFindings,
   scan,
   now = new Date(),
@@ -50,6 +42,10 @@ async function handle({
   indexSuffix = process.env["ELASTICSEARCH_INDEX_SUFFIX"] || defaultDateFormat,
   appendNamespace = process.env["ELASTICSEARCH_INDEX_APPEND_NAMESPACE"] ||
     false,
+  client = new Client({
+    node: process.env["ELASTICSEARCH_ADDRESS"],
+    ...authParams,
+  }),
 }) {
   const findings = await getFindings();
 
@@ -117,5 +113,3 @@ async function handle({
     }
   }
 }
-module.exports.elasticClient = client;
-module.exports.handle = handle;
