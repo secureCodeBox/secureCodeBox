@@ -580,7 +580,7 @@ jobs:
           # - persistence-dependencytrack
           # - update-field-hook
           - finding-post-processing
-          # - notification
+          - notification
           # - persistence-static-report (WIP)
     steps:
       - name: Checkout

@@ -1,13 +1,14 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
-import { isMatch } from "lodash";
-import { Finding } from "./model/Finding";
-import { NotificationChannel } from "./model/NotificationChannel";
-import { Notifier } from "./Notifier";
-import { NotifierFactory } from "./NotifierFactory";
+import { isMatch } from "lodash-es";
 import { readFileSync } from "fs";
 import * as jsyaml from "js-yaml";
+
+import { NotificationChannel } from "./model/NotificationChannel.js";
+import { NotifierFactory } from "./NotifierFactory.js";
+import { Finding } from "./model/Finding.js";
+import { Notifier } from "./Notifier.js";
 
 const BASE_PATH = "/home/app/config";
 const CHANNEL_FILE = `${BASE_PATH}/notification-channel.yaml`;

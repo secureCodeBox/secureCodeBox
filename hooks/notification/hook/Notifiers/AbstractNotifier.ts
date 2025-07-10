@@ -2,18 +2,20 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { Notifier } from "../Notifier";
-import { NotifierType } from "../NotifierType";
-import { Finding } from "../model/Finding";
-import { NotificationChannel } from "../model/NotificationChannel";
 import * as jsyaml from "js-yaml";
-import { Scan } from "../model/Scan";
 import * as path from "path";
-import * as nunjucks from "nunjucks";
+import nunjucks from "nunjucks";
+
+import { Notifier } from "../Notifier.js";
+import { NotifierType } from "../NotifierType.js";
+
+import type { Finding } from "../model/Finding";
+import type { NotificationChannel } from "../model/NotificationChannel";
+import type { Scan } from "../model/Scan";
 
 export abstract class AbstractNotifier implements Notifier {
   private static readonly TEMPLATE_DIR: string = path.join(
-    __dirname,
+    import.meta.dirname,
     "../notification-templates",
   );
   private static readonly TEMPLATE_FILE_TYPE = "njk";

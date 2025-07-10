@@ -3,15 +3,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { SlackNotifier } from "./SlackNotifier";
-import axios from "axios";
 import { NotificationChannel } from "../model/NotificationChannel";
 import { NotifierType } from "../NotifierType";
 import { Scan } from "../model/Scan";
 
-jest.mock("axios");
+const originalFetch = global.fetch;
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  global.fetch = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ ok: true })
+    })
+  );
+});
+
+afterEach(() => {
+  global.fetch = originalFetch;
 });
 
 const channel: NotificationChannel = {
@@ -65,8 +74,8 @@ test("Should Send Message With Findings And Severities", async () => {
   };
 
   const slackNotifier = new SlackNotifier(channel, scan, [], []);
-  slackNotifier.sendMessage();
-  expect(axios.post).toHaveBeenCalled();
+  await slackNotifier.sendMessage();
+  expect(global.fetch).toHaveBeenCalled();
 });
 
 test("Should Send Minimal Template For Empty Findings", async () => {
@@ -99,6 +108,6 @@ test("Should Send Minimal Template For Empty Findings", async () => {
   };
 
   const n = new SlackNotifier(channel, scan, [], []);
-  n.sendMessage();
-  expect(axios.post).toHaveBeenCalled();
+  await n.sendMessage();
+  expect(global.fetch).toHaveBeenCalled();
 });

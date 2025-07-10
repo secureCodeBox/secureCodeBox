@@ -2,16 +2,26 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { SlackAppNotifier } from "./SlackAppNotifier";
-import axios from "axios";
-import { NotificationChannel } from "../model/NotificationChannel";
-import { NotifierType } from "../NotifierType";
-import { Scan } from "../model/Scan";
+import { SlackAppNotifier } from "./SlackAppNotifier.js";
+import { NotifierType } from "../NotifierType.js";
 
-jest.mock("axios");
+import type { NotificationChannel } from "../model/NotificationChannel";
+import type { Scan } from "../model/Scan";
+
+const originalFetch = global.fetch;
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  global.fetch = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ ok: true })
+    })
+  );
+});
+
+afterEach(() => {
+  global.fetch = originalFetch;
 });
 
 const channel: NotificationChannel = {
@@ -67,6 +77,15 @@ test("Should Send Message With Findings And Severities", async () => {
   };
 
   const slackNotifier = new SlackAppNotifier(channel, scan, [], []);
-  slackNotifier.sendMessage();
-  expect(axios.post).toHaveBeenCalled();
+  await slackNotifier.sendMessage();
+  expect(global.fetch).toHaveBeenCalledWith(
+    "https://slack.com/api/chat.postMessage",
+    expect.objectContaining({
+      method: 'POST',
+      headers: expect.objectContaining({
+        'Content-Type': 'application/json',
+        'Authorization': expect.any(String)
+      })
+    })
+  );
 });

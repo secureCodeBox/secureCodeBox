@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { NotifierType } from "../NotifierType";
-import { AbstractNotifier } from "./AbstractNotifier";
-import { Finding } from "../model/Finding";
-import axios from "axios";
-import { NotificationChannel } from "../model/NotificationChannel";
-import { Scan } from "../model/Scan";
+import { NotifierType } from "../NotifierType.js";
+import { AbstractNotifier } from "./AbstractNotifier.js";
+
+import type { Finding } from "../model/Finding";
+import type { NotificationChannel } from "../model/NotificationChannel";
+import type { Scan } from "../model/Scan";
 
 interface SlackApiResponse {
   ok: boolean;
@@ -50,21 +50,25 @@ export class SlackAppNotifier extends AbstractNotifier {
         `Sending notification to Slack Channel: ${this.slackChannel}`,
       );
 
-      const { data: response } = await axios.post<SlackApiResponse>(
+      const response = await fetch(
         "https://slack.com/api/chat.postMessage",
         {
-          ...message,
-          channel: this.slackChannel,
-        },
-        {
+          method: 'POST',
           headers: {
-            Authorization: `Bearer ${process.env["SLACK_APP_TOKEN"]}`,
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env["SLACK_APP_TOKEN"]}`,
           },
-        },
+          body: JSON.stringify({
+            ...message,
+            channel: this.slackChannel,
+          }),
+        }
       );
 
-      if (!response.ok) {
-        throw new Error(`Slack API Call Failed: ${response.error}`);
+      const responseData = await response.json() as SlackApiResponse;
+
+      if (!responseData.ok) {
+        throw new Error(`Slack API Call Failed: ${responseData.error}`);
       }
     } catch (e) {
       console.log(
