@@ -4,5 +4,6 @@
 
 node_modules
 **.js
+!integration-tests/*.js
 **.js.map
 *.tar
