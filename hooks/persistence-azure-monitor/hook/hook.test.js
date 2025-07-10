@@ -6,7 +6,7 @@ process.env["MONITOR_WORKSPACE_ID"] = "123123";
 process.env["MONITOR_SHARED_KEY"] = "aGVsbG8taS1hbS1hLXRlc3Qta2V5";
 process.env["MONITOR_LOGTYPE_PREFIX"] = "SCB";
 
-const { handle } = require("./hook");
+import { handle } from "./hook";
 
 // Mock the fetch function
 const fetch = jest.fn(

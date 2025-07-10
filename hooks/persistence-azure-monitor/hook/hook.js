@@ -5,7 +5,7 @@
 // Fixed settings for the script
 const monitorApiVersion = "2016-04-01";
 
-async function handle({
+export async function handle({
   getFindings,
   scan,
   workspaceId = process.env["MONITOR_WORKSPACE_ID"],
@@ -106,4 +106,3 @@ async function handle({
     },
   );
 }
-module.exports.handle = handle;
