@@ -578,7 +578,7 @@ jobs:
           - persistence-azure-monitor
           - persistence-elastic
           - persistence-dependencytrack
-          # - update-field-hook
+          - update-field-hook
           - finding-post-processing
           - notification
           # - persistence-static-report (WIP)
