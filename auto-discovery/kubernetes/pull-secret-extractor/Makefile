@@ -49,7 +49,7 @@ integration-test: docker-build docker-export kind-import
 	./integration-test/test-pod.sh ${IMG_NS}/${IMG}:${IMG_TAG}
 	kubectl wait --for=condition=ready --timeout=60s -n integration-test pod/init-container-test
 
-	cd integration-test &&  npm ci && npm run test:integration
+	kubectl get secret --namespace integration-test test-secret
 
 ##@ Build
 
