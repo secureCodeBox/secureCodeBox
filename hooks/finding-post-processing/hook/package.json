@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "secureCodeBox Finding Post Processing Hook",
   "main": "hook.js",
-  "scripts": {
-    "test": "jest --verbose --ci --colors --coverage --passWithNoTests"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
