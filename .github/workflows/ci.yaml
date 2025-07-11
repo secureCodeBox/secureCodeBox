@@ -110,29 +110,13 @@ jobs:
         run: |
           helm plugin install https://github.com/helm-unittest/helm-unittest.git --version ${{ env.HELM_PLUGIN_UNITTEST }}
 
-      - name: Helm-Chart Unit Tests | Operator
-        working-directory: ./operator
-        run: make helm-unit-tests
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
 
-      - name: Helm-Chart Unit Tests | AutoDiscovery Cloud AWS
-        working-directory: ./auto-discovery/cloud-aws
-        run: make helm-unit-tests
-
-      - name: Helm-Chart Unit Tests | AutoDiscovery Kubernetes
-        working-directory: ./auto-discovery/kubernetes
-        run: make helm-unit-tests
-
-      - name: Helm-Chart Unit Tests | Hooks
-        working-directory: ./hooks
-        run: make helm-unit-tests
-
-      - name: Helm-Chart Unit Tests | Scanners
-        working-directory: ./scanners
-        run: make helm-unit-tests
-
-      - name: Helm-Chart Unit Tests | Demo-Targets
-        working-directory: ./demo-targets
-        run: make helm-unit-tests
+      - name: Helm-Chart Unit Tests
+        run: task test:helm:all
 
   unit-java:
     name: "Unit-Test | Java"
