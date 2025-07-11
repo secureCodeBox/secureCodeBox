@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    vars:
+      scannerName: new-scanner
+
+tasks: {}

@@ -26,6 +26,8 @@ scanners/nmap
 │   │   ├── nmap-results.xml
 │   │   └── scan.yaml
 │   └── ...
+├── integration-tests
+│   ├── nmap.test.js
 ├── parser
 │   ├── Dockerfile
 │   ├── package.json
@@ -42,7 +44,7 @@ scanners/nmap
 │   └── Dockerfile
 ├── Chart.yaml
 ├── values.yaml
-├── Makefile
+├── Taskfile.yaml
 ├── README.md
 ├── .helm-docs.gotmpl
 ├── .helmignore

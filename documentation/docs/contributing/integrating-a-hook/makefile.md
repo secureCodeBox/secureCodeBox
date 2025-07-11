@@ -3,9 +3,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-title: Makefile
-sidebar_position: 4
+title: Makefile (Deprecated)
+sidebar_position: 5
 ---
+
+:::caution Deprecated
+Makefiles have been deprecated in favor of Taskfiles. Please refer to the [Taskfile](./taskfile.md) documentation for the current approach.
+:::
 
 To test your hook locally, you may use the following makefile.
 

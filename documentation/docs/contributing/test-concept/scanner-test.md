@@ -34,7 +34,7 @@ This test for example expects a test file, i.e a raw scanner output, to be found
 
 To run a unit-test it suffices to run
 ```bash
-make unit-tests
+task test:unit
 ```
 in the scanner directory.
 
@@ -64,12 +64,12 @@ For this test to be considered successful, it has to match the expected conditio
 
 To run the test it suffices to run:
 ```bash
-make test
+task test
 ```
 All previous tests will be deleted and the current test will be run on a clean slate.
 
 If no clean install is needed before running the test, it is possible to run only the tests themselves through:
 
 ```bash
-make integration-tests
+task test:integration
 ```

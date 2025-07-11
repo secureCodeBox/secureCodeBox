@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse(fileContent) {
+export async function parse(fileContent) {
   const targets = parseResultFile(fileContent);
   return transformToFindings(targets);
 }
@@ -29,5 +29,3 @@ function parseResultFile(fileContent) {
   }
   return targetList;
 }
-
-module.exports.parse = parse;

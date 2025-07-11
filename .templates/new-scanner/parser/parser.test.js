@@ -2,18 +2,14 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const util = require("util");
+import { readFile } from "node:fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
-
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("should properly parse new-scanner json file", async () => {
   const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/example.com.json", {
+    await readFile(import.meta.dirname + "/__testFiles__/example.com.json", {
       encoding: "utf8",
     })
   );
@@ -25,7 +21,7 @@ test("should properly parse new-scanner json file", async () => {
 
 test("should properly parse empty json file", async () => {
   const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/empty.json", {
+    await readFile(import.meta.dirname + "/__testFiles__/empty.json", {
       encoding: "utf8",
     })
   );

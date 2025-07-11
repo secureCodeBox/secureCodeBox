@@ -55,6 +55,9 @@ task test:unit
 # Run only integration tests
 task test:integration
 
+# Run only helm unit tests
+task test:helm
+
 # Run all tests (unit, helm, and integration)
 task test
 ```
@@ -64,6 +67,8 @@ task test
 ### Adding Custom Tasks
 
 You can add custom tasks specific to your scanner by defining them in the `tasks` section:
+
+Generally we try to keep all the tasks for scanner and hooks standardized for easier maintenance.
 
 ```yaml
 tasks:
@@ -82,21 +87,21 @@ tasks:
   predeploy:
     desc: "Prepare environment for scanner deployment"
     cmds:
-      - kubectl create namespace my-scanner-tests --dry-run=client -o yaml | kubectl apply -f -
-      - helm -n my-scanner-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
+      - kubectl apply -f ./integration-tests/configmap-wordlist.yaml -n integration-tests
 ```
 
 ### Adding Test Dependencies
 
-To add test dependencies (demo-targets), you can create a custom task that runs before the integration tests:
+To add test dependencies (demo-targets), you can call the demo-target deploy tasks which are automatically available.
 
 ```yaml
 tasks:
-  deploy-test-deps:
-    desc: "Deploy test dependencies for my scanner"
-    cmds:
-      - kubectl create namespace my-scanner-tests --dry-run=client -o yaml | kubectl apply -f -
-      - helm -n my-scanner-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
+  predeploy:
+    desc: "Prepare environment for scanner deployment"
+    deps:
+      - demo-targets:deploy:bodgeit
+      - demo-targets:deploy:juice-shop
+      # see demo-targets/Taskfile.yaml for all available demo targets. (the task needs to be prefixed here with the `demo-target:` namespace)
 ```
 
 ### Overriding Helm Deploy Configurations
@@ -110,7 +115,8 @@ includes:
     flatten: true
     vars:
       scannerName: my-scanner
-      additionalHelmInstallArgsForScanner: "--set=scanner.env.MY_VAR=my-value"
+      additionalHelmInstallArgsForScanner: |
+        --set="helmValue.enabled=false" \ # needs to end in a backslash as its inserted into a multi line bash 
 ```
 
 ## Testing Environment Setup
