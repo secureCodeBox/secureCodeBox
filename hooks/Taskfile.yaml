@@ -17,6 +17,8 @@ vars:
   additionalHelmInstallArgsForHook: '{{ .additionalHelmInstallArgsForHook | default "" }}'
   hasIntegrationTests:
     sh: 'if [ -d "{{ .TASKFILE_DIR }}/{{ .hookName }}/integration-tests" ]; then echo "true"; else echo "false"; fi'
+  hookUsesNpmDependencies:
+    sh: 'if [ -f "{{ .TASKFILE_DIR }}/{{ .scannerName }}/hook/package.json" ]; then echo "true"; else echo "false"; fi'
 env:
   IMG_TAG:
     sh: 'echo "sha-$(git rev-parse --short HEAD)"'
@@ -78,7 +80,12 @@ tasks:
     status:
       - "[ -d {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/node_modules ] || false"
     cmds:
-      - cd {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/ && bun install
+      - |
+        {{ if eq "true" .hookUsesNpmDependencies }}
+        cd {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/ && bun install
+        {{ else }}
+        echo "Hook has no custom dependencies. Skipping."
+        {{ end }}
   test:setup:
     cmds:
       - task: test:setup:hook-sdk
