@@ -118,3 +118,22 @@ updates:
         applies-to: version-updates
         patterns:
           - "*"
+  
+  # Go dependancies Updae
+  - package-ecosystem: "gomod"
+    directories: 
+      - "/auto-discovery/kubernetes"
+      - "/auto-discovery/cloud-aws"
+      - "/operator/go.mod"
+      - "/lurker/go.mod"
+    schedule:
+      interval: "weekly"
+    groups:
+      go-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      go-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
