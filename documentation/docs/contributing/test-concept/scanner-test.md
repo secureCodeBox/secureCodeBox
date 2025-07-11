@@ -56,7 +56,7 @@ test(
     );
     expect(count).toBeGreaterThanOrEqual(20);
   },
-  6 * 60 * 1000
+  { timeout: 6 * 60 * 1000 },
 );
 ```
 For this test to be considered successful, it has to match the expected condition. In this case, the condition is that the count of the findings is greater or equal to 20.
