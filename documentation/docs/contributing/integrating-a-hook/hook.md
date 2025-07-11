@@ -35,13 +35,12 @@ When the rawResults are in form of a json file, getRawResults will return the pa
 :::
 
 ```js
-async function handle({ getRawResults }) {
+export async function handle({ getRawResults }) {
   const result = await getRawResults();
   // outputs string representation of the scan result file
   // e.g. the nmap xml output
   console.log(result);
 }
-module.exports.handle = handle;
 ```
 
 ### getFindings()
@@ -51,12 +50,11 @@ This callback function will provide all findings to the hook as an array of find
 Example:
 
 ```js
-async function handle({ getFindings }) {
+export async function handle({ getFindings }) {
   const findings = await getFindings();
   // logs the findings returned by the parser of the scantype
   console.log(findings);
 }
-module.exports.handle = handle;
 ```
 
 ### updateRawResults()
@@ -76,7 +74,7 @@ If you want to perform actions on all findings consider using the `updateFinding
 Example
 
 ```js
-async function handle({ updateRawResults }) {
+export async function handle({ updateRawResults }) {
   // Overrides the raw results with a fixed nmap report
   await updateRawResults(`
 <?xml version="1.0" encoding="UTF-8"?>
@@ -94,7 +92,6 @@ WARNING: No targets were specified, so 0 hosts scanned.
 </nmaprun>
 `);
 }
-module.exports.handle = handle;
 ```
 
 ### updateFindings()
@@ -112,7 +109,7 @@ If you make changes to some findings you will have to call `updateFindings()` wi
 Example:
 
 ```js
-async function handle({
+export async function handle({
   updateFindings,
 }) {
     // Overrides the findings with a fixed nmap finding
@@ -162,7 +159,7 @@ Notice that the `handle()` function has to be exported to use in the _hook-sdk_
 :::
 
 ```js
-async function handle({
+export async function handle({
   getFindings,
   scan,
   webhookUrl = process.env["WEBHOOK_URL"],
@@ -177,7 +174,6 @@ async function handle({
     body: JSON.stringify({ scan, findings })
   });;
 }
-module.exports.handle = handle;
 ```
 
 ## hook.test.js
