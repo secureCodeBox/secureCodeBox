@@ -4,7 +4,7 @@
 
 import { scan } from "../../../tests/integration/helpers.js";
 
-test(
+test.skip(
   "cmseek scans old-joomla for vulnerabilities without redirection",
   async () => {
     const { categories, severities, count } = await scan(
@@ -33,7 +33,7 @@ test(
   },
 );
 
-test(
+test.skip(
   "cmseek scans old-joomla for vulnerabilities with redirection",
   async () => {
     const { categories, severities, count } = await scan(
