@@ -18,7 +18,7 @@ to test your hook is by running it after test-scan or against a scan of a `demo-
 Let's have a look at the [read-write-hook](https://github.com/secureCodeBox/secureCodeBox/blob/main/tests/integration/generic/read-write-hook.test.js) test to understand all the steps required:
 
 ```javascript
-const { scan } = require("../helpers");
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "localhost port scan should only find a host finding",
@@ -64,7 +64,7 @@ higher than the timeout provided above.
 
 ## Run your integration tests locally
 
-Before pushing them to the repository, make sure your tests run successfully in your local cluster. You may use the [makefile](/docs/contributing/integrating-a-hook/makefile) to run your integration tests locally.
+Before pushing them to the repository, make sure your tests run successfully in your local cluster. You may use the [Taskfile](/docs/contributing/integrating-a-hook/taskfile) to run your integration tests locally.
 
 ## Integrate in ci.yaml
 

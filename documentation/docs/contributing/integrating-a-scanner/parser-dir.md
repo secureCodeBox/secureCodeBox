@@ -45,7 +45,7 @@ See [Local Deployment](/docs/contributing/local-deployment) for instructions on 
 
 To create a parser for your scanner you will have to execute the following steps in the parser directory:
 
-### Create a new package.json (using `npm init`)
+### Create a new package.json (using `npm init`) (if you require external dependencies)
 
 Your `package.json` should look something like this:
 
@@ -67,7 +67,10 @@ Your `package.json` should look something like this:
 }
 ```
 
-### Install The Dependencies
+Note: you only need this if you require dependencies (e.g. a XML parser) which aren't build into node.js.
+If you do not need dependencies you should not create a package.json and remove the build step from the Dockerfile. It's unended overhead.
+
+#### Install The Dependencies
 
 If you need additional dependencies you can install them via `npm install`.
 
@@ -76,11 +79,9 @@ If you need additional dependencies you can install them via `npm install`.
 Create a `parser.js` file and update the parser function of the Parser SDK. A starting point would be:
 
 ```javascript
-async function parse(fileContent) {
+export async function parse(fileContent) {
   return [];
 }
-
-module.exports.parse = parse;
 ```
 
 After your scanner has finished, the Parser SDK will retrieve the output results and call your custom parse function `parse`. The SDK expects a finding object as specified in [Finding | secureCodeBox](/docs/api/finding). The `id`, `parsed_at` and `identified_at` fields can be omitted, as they will be added by the Parser SDK.
@@ -90,9 +91,7 @@ After your scanner has finished, the Parser SDK will retrieve the output results
 Please provide some tests for your parser in the `parser.test.js` file. To make sure that the output complies with the format specified in [Finding | secureCodeBox](/docs/api/finding) you should call the method `validateParser(parseResult)` from the ParserSDK and assert that it must resolve (not throw errors). You can do so e.g. by calling the following code. See the already existing parsers for reference.
 
 ```javascript
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
 const findings = await parse(fileContent);
 await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -100,4 +99,4 @@ await expect(validateParser(findings)).resolves.toBeUndefined();
 
 If you need additional files for your test please save these in the `__testFiles__` directory. Please take a look at [Integration Tests | secureCodeBox](/docs/contributing/integrating-a-scanner/integration-tests) for more information.
 
-Assuming you've set up the scanner [makefile](/docs/contributing/integrating-a-scanner/makefile), you can run your unit test with `make unit-tests`.
+Assuming you've set up the scanner [Taskfile](/docs/contributing/integrating-a-scanner/taskfile), you can run your unit test with `task test:unit`.

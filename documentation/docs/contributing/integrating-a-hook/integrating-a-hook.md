@@ -30,7 +30,7 @@ The directory structure of a hook Helm Chart will look something like this:
 │   └── NOTES.txt
 ├── Chart.yaml
 ├── values.yaml
-├── Makefile
+├── Taskfile.yaml
 ├── README.md
 ├── .helm-docs.gotmpl
 ├── .helmignore

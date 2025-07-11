@@ -24,5 +24,5 @@ The following articles describe how each module implements its unit and integrat
 * [Scanner](/docs/contributing/test-concept/scanner-test)
 * [Hook](/docs/contributing/test-concept/hook-test)
   
-We use Make as a basis for our testing framework. The Makefiles expect additional software to be installed:  
-git, node + npm, docker, kind, kubectl, helm and [yq](https://github.com/mikefarah/yq/).
+We use [Task](https://taskfile.dev/) as a basis for our testing framework. The Taskfiles expect additional software to be installed:
+git, node + npm, bun, docker, kind, kubectl, helm and [yq](https://github.com/mikefarah/yq/).
