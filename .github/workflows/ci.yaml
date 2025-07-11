@@ -23,6 +23,7 @@ env:
   KIND_BINARY_VERSION: "v0.27.0"
   HELM_VERSION: "v3.17.3"
   HELM_PLUGIN_UNITTEST: "0.5.1"
+  TASK_VERSION: "v3.44.0"
 
 jobs:
   test-nodejs-scanner-test-helpers:
@@ -42,7 +43,7 @@ jobs:
         working-directory: tests/integration
         run: bun test helpers.test.js
   k8s-setup:
-    name: "Setup Kind & Kubectl & Helm"
+    name: "Setup Kind & Kubectl & Helm & Task"
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -62,6 +63,12 @@ jobs:
           curl -Lo ./helm.tar.gz https://get.helm.sh/helm-${{ env.HELM_VERSION }}-linux-amd64.tar.gz
           tar -xzf ./helm.tar.gz
           chmod +x ./linux-amd64/helm
+          
+      - name: Install Task
+        run: |
+          curl -Lo ./task.tar.gz https://github.com/go-task/task/releases/download/${{ env.TASK_VERSION }}/task_darwin_amd64.tar.gz
+          tar -xzf ./task.tar.gz
+          chmod +x ./task
 
       - name: Archive Kind
         uses: actions/upload-artifact@v4
@@ -80,6 +87,12 @@ jobs:
         with:
           name: helm
           path: ./linux-amd64/helm
+          
+      - name: Archive Task
+        uses: actions/upload-artifact@v4
+        with:
+          name: task
+          path: ./task
 
   # ---- Unit-Test ----
 
@@ -110,10 +123,15 @@ jobs:
         run: |
           helm plugin install https://github.com/helm-unittest/helm-unittest.git --version ${{ env.HELM_PLUGIN_UNITTEST }}
 
-      - name: Install Task
-        uses: arduino/setup-task@v2
+      - name: Download Task
+        uses: actions/download-artifact@v4
         with:
-          version: 3.x
+          name: task
+          path: ./task
+
+      - name: Make Task globally available
+        run: |
+          chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Helm-Chart Unit Tests
         run: task test:helm:all
@@ -426,10 +444,15 @@ jobs:
       - name: Install bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Install Task
-        uses: arduino/setup-task@v2
+      - name: Download Task
+        uses: actions/download-artifact@v4
         with:
-          version: 3.x
+          name: task
+          path: ./task
+
+      - name: Make Task globally available
+        run: |
+          chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
         uses: actions/download-artifact@v4
@@ -573,10 +596,15 @@ jobs:
       - name: Install bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Install Task
-        uses: arduino/setup-task@v2
+      - name: Download Task
+        uses: actions/download-artifact@v4
         with:
-          version: 3.x
+          name: task
+          path: ./task
+
+      - name: Make Task globally available
+        run: |
+          chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
         uses: actions/download-artifact@v4
