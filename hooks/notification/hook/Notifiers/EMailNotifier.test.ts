@@ -6,20 +6,17 @@ import { NotifierType } from "../NotifierType";
 import { EMailNotifier } from "./EMailNotifier";
 import { NotificationChannel } from "../model/NotificationChannel";
 import { Scan } from "../model/Scan";
+import type { createTransport as createTransportType } from "nodemailer";
 
 const sendMail = jest.fn();
 const close = jest.fn();
 
-jest.mock("nodemailer", () => {
+let createTransport = jest.fn(() => {
   return {
-    createTransport: () => {
-      return {
-        sendMail,
-        close,
-      };
-    },
+    sendMail,
+    close,
   };
-});
+}) as unknown as typeof createTransportType;
 
 const creationTimestamp = new Date("2021-01-01T14:29:25Z");
 
@@ -82,13 +79,14 @@ test("Should Send Mail", async () => {
   const args = new Array();
   args[EMailNotifier.EMAIL_FROM] = from;
 
-  const notifier = new EMailNotifier(channel, scan, [], args);
+  const notifier = new EMailNotifier(channel, scan, [], args, createTransport);
 
   await notifier.sendMessage();
 
-  expect(sendMail).toHaveBeenCalledWith({
-    from: "secureCodeBox",
-    html: `<strong>Scan demo-scan-1601086432</strong><br>
+  expect(sendMail).toHaveBeenCalledWith(
+    expect.objectContaining({
+      from: "secureCodeBox",
+      html: `<strong>Scan demo-scan-1601086432</strong><br>
 Created at ${creationTimestamp.toString()}
 <br>
 <br>
@@ -104,8 +102,8 @@ A Client Error response code was returned by the server: 1<br>
 Information Disclosure - Sensitive Information in URL: 1<br>
 Strict-Transport-Security Header Not Set: 1<br>
 `,
-    subject: "New nmap security scan results are available!",
-    text: `*Scan demo-scan-1601086432*
+      subject: "New nmap security scan results are available!",
+      text: `*Scan demo-scan-1601086432*
 Created at ${creationTimestamp.toString()}
 
 *Findings Severity Overview*:
@@ -119,8 +117,9 @@ A Client Error response code was returned by the server: 1
 Information Disclosure - Sensitive Information in URL: 1
 Strict-Transport-Security Header Not Set: 1
 `,
-    to: "mail@example.com",
-  });
+      to: "mail@example.com",
+    }),
+  );
   expect(close).toHaveBeenCalled();
 });
 
@@ -143,13 +142,14 @@ test("should send mail to recipient overwritten in scan annotation", async () =>
   const args = new Array();
   args[EMailNotifier.EMAIL_FROM] = from;
 
-  const notifier = new EMailNotifier(channel, scan, [], args);
+  const notifier = new EMailNotifier(channel, scan, [], args, createTransport);
 
   await notifier.sendMessage();
 
-  expect(sendMail).toHaveBeenCalledWith({
-    from: "secureCodeBox",
-    html: `<strong>Scan demo-scan-1601086432</strong><br>
+  expect(sendMail).toHaveBeenCalledWith(
+    expect.objectContaining({
+      from: "secureCodeBox",
+      html: `<strong>Scan demo-scan-1601086432</strong><br>
 Created at ${creationTimestamp.toString()}
 <br>
 <br>
@@ -165,8 +165,8 @@ A Client Error response code was returned by the server: 1<br>
 Information Disclosure - Sensitive Information in URL: 1<br>
 Strict-Transport-Security Header Not Set: 1<br>
 `,
-    subject: "New nmap security scan results are available!",
-    text: `*Scan demo-scan-1601086432*
+      subject: "New nmap security scan results are available!",
+      text: `*Scan demo-scan-1601086432*
 Created at ${creationTimestamp.toString()}
 
 *Findings Severity Overview*:
@@ -180,7 +180,8 @@ A Client Error response code was returned by the server: 1
 Information Disclosure - Sensitive Information in URL: 1
 Strict-Transport-Security Header Not Set: 1
 `,
-    to: "foo@example.com",
-  });
+      to: "foo@example.com",
+    }),
+  );
   expect(close).toHaveBeenCalled();
 });

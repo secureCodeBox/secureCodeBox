@@ -2,10 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { parse } = require("./parser");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { parse } from "./parser";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
 let scan;
 
@@ -47,7 +45,7 @@ test("should create finding correctly", async () => {
 
 test("should not create finding if image is empty", async () => {
   scan.spec.parameters = ["https://www.iteratec.de"];
-  const findings = await parse("", scan)
+  const findings = await parse("", scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });

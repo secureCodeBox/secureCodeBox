@@ -2,20 +2,18 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {parse} = require("./parser");
-const fs = require("fs");
-const crypto = require("crypto");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFileSync } from "node:fs";
+import { privateDecrypt, constants } from "node:crypto";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
+
+import { parse } from "./parser";
 
 it("should return no findings when ncrack has not found credentials", async () => {
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const ncrackXML = fs.readFileSync(
+  const ncrackXML = readFileSync(
     __dirname + "/__testFiles__/ncrack_no_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -24,11 +22,11 @@ it("should return no findings when ncrack has not found credentials", async () =
 
 it("should return findings when ncrack found credentials", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const ncrackXML = fs.readFileSync(
+  const ncrackXML = readFileSync(
     __dirname + "/__testFiles__/ncrack_with_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -59,11 +57,11 @@ it("should return findings when ncrack found credentials", async () => {
 
 it("should return no findings when ncrack has not found credentials scanning two services", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const ncrackXML = fs.readFileSync(
+  const ncrackXML = readFileSync(
     __dirname + "/__testFiles__/ncrack_two_services_no_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -73,11 +71,11 @@ it("should return no findings when ncrack has not found credentials scanning two
 
 it("should return findings when ncrack found two credentials scanning two services", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const ncrackXML = fs.readFileSync(
+  const ncrackXML = readFileSync(
     __dirname + "/__testFiles__/ncrack_two_services_with_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
@@ -127,24 +125,24 @@ it("should return findings when ncrack found two credentials scanning two servic
 
 it("should encrypt findings when a public key is set", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const ncrackXML = fs.readFileSync(
+  const ncrackXML = readFileSync(
     __dirname + "/__testFiles__/ncrack_with_results.xml",
     {
       encoding: "utf8",
-    }
+    },
   );
   const [finding] = await parse(
     ncrackXML,
     null,
-    __dirname + "/__testFiles__/public_key.pem"
+    __dirname + "/__testFiles__/public_key.pem",
   );
 
-  let decryptedData = crypto.privateDecrypt(
+  let decryptedData = privateDecrypt(
     {
       key: privateKey,
-      padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+      padding: constants.RSA_PKCS1_OAEP_PADDING,
     },
-    Buffer.from(finding.attributes.password, "base64")
+    Buffer.from(finding.attributes.password, "base64"),
   );
 
   expect(finding.attributes.password.length).toBe(172);

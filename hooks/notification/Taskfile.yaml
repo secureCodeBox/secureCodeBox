@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    excludes:
+      - predeploy
+    vars:
+      hookName: notification
+      additionalHelmInstallArgsForHook: |
+        --values={{ .TASKFILE_DIR }}/notification/integration-tests/notification-hook-helm-values.yaml \
+  test-scan:
+    taskfile: ../../scanners/test-scan/Taskfile.yaml
+
+tasks:
+  predeploy:
+    deps:
+      - demo-targets:deploy:http-webhook
+    cmds:
+      - task: test-scan:build
+      - task: test-scan:deploy

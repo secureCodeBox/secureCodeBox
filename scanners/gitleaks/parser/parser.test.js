@@ -2,21 +2,19 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "node:fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const { parse } = require("./parser");
+import { parse } from "./parser";
 
 test("should properly parse empty gitleaks json file", async () => {
   const jsonContent = await readFile(
     __dirname + "/__testFiles__/test-empty-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchObject([]);
 });
@@ -26,9 +24,9 @@ test("should properly parse gitleaks json file with null result", async () => {
     __dirname + "/__testFiles__/test-null-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchObject([]);
 });
@@ -38,9 +36,9 @@ test("should properly parse gitleaks json file", async () => {
     __dirname + "/__testFiles__/test-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
@@ -131,9 +129,9 @@ test("should define severity based on tags in result file", async () => {
     __dirname + "/__testFiles__/test-report-tags.json",
     {
       encoding: "utf8",
-    }
+    },
   );
-  const findings = await parse(JSON.parse(jsonContent));
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
@@ -221,9 +219,9 @@ test("should properly construct commit URL if given in scan annotation without t
     __dirname + "/__testFiles__/test-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
-  const findings = await parse(JSON.parse(jsonContent), scan);
+  const findings = await parse(jsonContent, scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
@@ -328,9 +326,9 @@ test("should properly construct commit URL if given in scan annotation with trai
     __dirname + "/__testFiles__/test-report.json",
     {
       encoding: "utf8",
-    }
+    },
   );
-  const findings = await parse(JSON.parse(jsonContent), scan);
+  const findings = await parse(jsonContent, scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`

@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "nikto scan against bodgeit demo-target",
@@ -18,7 +16,7 @@ test(
         "-Tuning",
         "1,2,3,5,7,b",
       ], // See nikto bodgeit example
-      90
+      90,
     );
 
     expect(categories).toMatchInlineSnapshot(`
@@ -36,5 +34,5 @@ test(
       }
     `);
   },
-  3 * 60 * 1000
+  3 * 60 * 1000,
 );

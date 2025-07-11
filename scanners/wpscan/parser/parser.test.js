@@ -2,18 +2,17 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { readFile } = require("fs/promises");
-const {
-  validateParser,
-} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+import { readFile } from "node:fs/promises";
+import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
-const {parse} = require("./parser");
+import { parse } from "./parser";
 
 test("WPScan parser parses a successfully scan result with at least one informational finding", async () => {
-  const scanResults = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/example-latest.json", {
+  const scanResults = await readFile(
+    __dirname + "/__testFiles__/example-latest.json",
+    {
       encoding: "utf8",
-    })
+    },
   );
 
   const findings = await parse(scanResults);
@@ -188,10 +187,11 @@ test("WPScan parser parses a successfully scan result with at least one informat
 });
 
 test("WPScan parser parses a scan result file without a detected wp version correctly", async () => {
-  const scanResults = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/no-version-detected.json", {
+  const scanResults = await readFile(
+    __dirname + "/__testFiles__/no-version-detected.json",
+    {
       encoding: "utf8",
-    })
+    },
   );
 
   const findings = await parse(scanResults);
@@ -333,7 +333,7 @@ test("should properly parse empty json file", async () => {
     __dirname + "/__testFiles__/empty-localhost.json",
     {
       encoding: "utf8",
-    }
+    },
   );
   const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const set = require("lodash.set");
+import { set } from "lodash-es";
 
-async function handle({
+export async function handle({
   getFindings,
   updateFindings,
   attributeName = process.env["ATTRIBUTE_NAME"],
@@ -21,4 +21,3 @@ async function handle({
 
   await updateFindings(newFindings);
 }
-module.exports.handle = handle;

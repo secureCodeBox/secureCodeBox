@@ -2,17 +2,27 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import axios from "axios";
-import { Scan } from "../model/Scan";
-import { Finding } from "../model/Finding";
-import { NotifierType } from "../NotifierType";
-import { RocketChatNotifier } from "./RocketChat";
-import { NotificationChannel } from "../model/NotificationChannel";
+import { Scan } from "../model/Scan.js";
+import { NotifierType } from "../NotifierType.js";
 
-jest.mock("axios");
+import { NotificationChannel } from "../model/NotificationChannel";
+import { RocketChatNotifier } from "./RocketChat";
+import { Finding } from "../model/Finding";
+
+const originalFetch = global.fetch;
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  global.fetch = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ ok: true })
+    })
+  );
+});
+
+afterEach(() => {
+  global.fetch = originalFetch;
 });
 
 const channel: NotificationChannel = {
@@ -90,16 +100,17 @@ test("Should Send Message With Findings And Severities", async () => {
   });
   await rocketChatNotifier.sendMessage();
 
-  expect(axios.post).toHaveBeenCalledWith(
+  expect(global.fetch).toHaveBeenCalledWith(
     "https://rocketchat.example.com/api/v1/chat.postMessage",
-    '{"channel":"#securecodebox","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world","short":false}]}]}',
-    {
-      headers: {
+    expect.objectContaining({
+      method: 'POST',
+      headers: expect.objectContaining({
         "Content-Type": "application/json",
         "X-Auth-Token": "foobar",
         "X-User-Id": "barfoo",
-      },
-    },
+      }),
+      body: '{"channel":"#securecodebox","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world","short":false}]}]}'
+    })
   );
 });
 
@@ -116,16 +127,17 @@ test("Should use channel overwrite from annotation if set", async () => {
   });
   await rocketChatNotifier.sendMessage();
 
-  expect(axios.post).toHaveBeenCalledWith(
+  expect(global.fetch).toHaveBeenCalledWith(
     "https://rocketchat.example.com/api/v1/chat.postMessage",
-    '{"channel":"#team-42-channel","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world","short":false}]}]}',
-    {
-      headers: {
+    expect.objectContaining({
+      method: 'POST',
+      headers: expect.objectContaining({
         "Content-Type": "application/json",
         "X-Auth-Token": "foobar",
         "X-User-Id": "barfoo",
-      },
-    },
+      }),
+      body: '{"channel":"#team-42-channel","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world","short":false}]}]}'
+    })
   );
 });
 
@@ -143,15 +155,16 @@ test("Should include link back to defectdojo if set in finding", async () => {
   });
   await rocketChatNotifier.sendMessage();
 
-  expect(axios.post).toHaveBeenCalledWith(
+  expect(global.fetch).toHaveBeenCalledWith(
     "https://rocketchat.example.com/api/v1/chat.postMessage",
-    '{"channel":"#securecodebox","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world [Open in DefectDojo](https://defectdojo.example.com/finding/42)","short":false}]}]}',
-    {
-      headers: {
+    expect.objectContaining({
+      method: 'POST',
+      headers: expect.objectContaining({
         "Content-Type": "application/json",
         "X-Auth-Token": "foobar",
         "X-User-Id": "barfoo",
-      },
-    },
+      }),
+      body: '{"channel":"#securecodebox","text":"New Scan Results for demo-scan-1601086432","attachments":[{"fields":[{"title":"- foobar","value":"hello world [Open in DefectDojo](https://defectdojo.example.com/finding/42)","short":false}]}]}'
+    })
   );
 });

@@ -47,7 +47,6 @@ matches the snapshot:
                 httpGet:
                   path: /
                   port: http
-                initialDelaySeconds: 60
               name: bodgeit
               ports:
                 - containerPort: 8080
@@ -58,7 +57,6 @@ matches the snapshot:
                 httpGet:
                   path: /
                   port: http
-                initialDelaySeconds: 60
                 periodSeconds: 10
                 successThreshold: 1
                 timeoutSeconds: 60
@@ -73,6 +71,14 @@ matches the snapshot:
                 readOnlyRootFilesystem: true
                 runAsNonRoot: true
                 runAsUser: 1234
+              startupProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /
+                  port: http
+                periodSeconds: 3
+                successThreshold: 1
+                timeoutSeconds: 5
           imagePullSecrets:
             - name: foo
           nodeSelector:

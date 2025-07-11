@@ -7,8 +7,15 @@ const severityMap = new Map([
   ["warning", "MEDIUM"],
   ["error", "HIGH"],
 ]);
-async function parse(fileContent) {
-  return fileContent.results.flatMap((result) => {
+
+export async function parse(fileContent) {
+  const report = JSON.parse(fileContent);
+
+  if (!report || !report.results) {
+    return [];
+  }
+
+  return report.results.flatMap((result) => {
     // Assemble location as path to file and line range
     const location =
       result.path + ":" + result.start.line + "-" + result.end.line;
@@ -78,5 +85,3 @@ async function parse(fileContent) {
     };
   });
 }
-
-module.exports.parse = parse;

@@ -3,77 +3,123 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-title: Makefile
+title: Taskfile
 sidebar_position: 4
 ---
 
-To test your scanner locally, you may use the following makefile.
+To test your scanner locally, you'll use a Taskfile.yaml configuration. The secureCodeBox project has migrated from Makefiles to [Task](https://taskfile.dev/) for better maintainability and cross-platform support.
 
-```makefile
-#!/usr/bin/make -f
+## Basic Scanner Taskfile
 
-include_guard = set                 # Always include this line (checked in the makefile framework)
-scanner = angularjs-csti-scanner    # The name of your scanner
-custom_scanner = set                # Include this line if your scanner has a dockerfile
+Create a `Taskfile.yaml` in your scanner directory with the following content:
 
-include ../../scanners.mk           # Ensures that all the default makefile targets are included
+```yaml
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3"
+
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    vars:
+      scannerName: your-scanner-name  # Replace with your scanner's name
+
+tasks: {}
 ```
 
-See [Local Deployment](/docs/contributing/local-deployment) for examples how to use the Makefiles.
+This minimal configuration includes all the common tasks defined in the parent Taskfile and sets your scanner name as a variable.
 
-## Available makefile targets
+## Available Tasks
 
-| Target                            | Use                                                                                  |
-| --------------------------------- | ------------------------------------------------------------------------------------ |
-| reset-integration-tests-namespace | Resets the integration-tests namespace                                               |
-| unit-tests                        | Run your parser unit tests                                                           |
-| docker-build                      | Builds your parser (& scanner)                                                       |
-| docker-export                     | Exports your parser (& scanner) into a .tar file                                     |
-| kind-import                       | Loads your parser (& scanner) .tar files into your local kind cluster                |
-| deploy                            | Deploys your scanner helm chart into your local kind cluster                         |
-| deploy-test-deps                  | Deploys your scanner's test dependencies (demo-targets) into your local kind cluster |
-| integration-tests                 | Deletes all scans and runs your integration test `scanners/SCANNER_NAME.test.js`     |
+| Task                   | Description                                                                |
+|------------------------|----------------------------------------------------------------------------|
+| build                  | Builds your parser (& scanner if custom scanner is defined)                |
+| deploy                 | Deploys your scanner helm chart into your local kind cluster               |
+| predeploy              | Can be overridden to perform any pre-deployment steps                      |
+| test:unit              | Run your parser unit tests                                                 |
+| test:integration       | Run integration tests for your scanner                                     |
+| test:helm              | Run helm tests for your scanner                                            |
+| test                   | Run all tests (unit, helm, and integration)                                |
 
-## Configuring your makefile (examples)
+## Running Tests
 
-### Adding test dependencies (demo-targets)
+To run tests for your scanner, you can use the following commands:
 
-```makefile
-#!/usr/bin/make -f
+```bash
+# Run only unit tests
+task test:unit
 
-include_guard = set
-scanner = wpscan
+# Run only integration tests
+task test:integration
 
-include ../../scanners.mk
-
-deploy-test-deps: deploy-test-dep-old-wordpress
+# Run all tests (unit, helm, and integration)
+task test
 ```
 
-This adds the old-wordpress demo-target to your integration tests. You can find all available demo-targets in `common.mk`.
+## Customizing Your Taskfile
 
-### Overriding helm deploy configurations
+### Adding Custom Tasks
 
-```makefile
-#!/usr/bin/make -f
-include_guard = set
-scanner = nmap
-custom_scanner = set
+You can add custom tasks specific to your scanner by defining them in the `tasks` section:
 
-include ../../scanners.mk
-
-deploy-with-scanner:
-	@echo ".: 💾 Deploying custom '$(scanner)' scanner HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
-	helm -n integration-tests upgrade --install $(scanner) ./ --wait \
-		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-$(scanner)" \
-		--set="parser.image.tag=$(IMG_TAG)" \
-		--set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-$(scanner)" \
-		--set="scanner.image.tag=$(IMG_TAG)"
-
-deploy-test-deps:
-	# If not exists create namespace where the tests will be executed
-	kubectl create namespace nmap-tests --dry-run=client -o yaml | kubectl apply -f -
-	# Install jshop in nmap-tests namespace
-	helm -n nmap-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
+```yaml
+tasks:
+  custom-task:
+    desc: "My custom task description"
+    cmds:
+      - echo "Running custom task for my scanner"
 ```
 
-Furthermore, it overrides the deploy-test-deps target such that juice-shop is installed in the correct namespace (nmap-tests).
+### Customizing Deployment
+
+If you need to customize the deployment process, you can override the `predeploy` task:
+
+```yaml
+tasks:
+  predeploy:
+    desc: "Prepare environment for scanner deployment"
+    cmds:
+      - kubectl create namespace my-scanner-tests --dry-run=client -o yaml | kubectl apply -f -
+      - helm -n my-scanner-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
+```
+
+### Adding Test Dependencies
+
+To add test dependencies (demo-targets), you can create a custom task that runs before the integration tests:
+
+```yaml
+tasks:
+  deploy-test-deps:
+    desc: "Deploy test dependencies for my scanner"
+    cmds:
+      - kubectl create namespace my-scanner-tests --dry-run=client -o yaml | kubectl apply -f -
+      - helm -n my-scanner-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
+```
+
+### Overriding Helm Deploy Configurations
+
+You can customize the Helm deployment by setting additional variables:
+
+```yaml
+includes:
+  scanner:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    vars:
+      scannerName: my-scanner
+      additionalHelmInstallArgsForScanner: "--set=scanner.env.MY_VAR=my-value"
+```
+
+## Testing Environment Setup
+
+Before running integration tests, make sure you have set up the testing environment:
+
+```bash
+# From the project root directory
+task prepare-testing-env
+```
+
+This will create a kind cluster and deploy the secureCodeBox operator.

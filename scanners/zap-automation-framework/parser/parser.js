@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
-const xml2js = require("xml2js");
+import { parseStringPromise } from "xml2js";
 
 function riskToSeverity(risk) {
   switch (parseInt(risk, 10)) {
@@ -51,30 +51,36 @@ function normalizeXmlObject(rawAlert = {}) {
 }
 
 function createFindingFromAlert(alert, { location, host, port }) {
-  let findingUrls = []
-  if(Array.isArray(alert.instances.instance)) {
+  let findingUrls = [];
+  if (Array.isArray(alert.instances.instance)) {
     findingUrls = alert.instances.instance.map(normalizeXmlObject);
   }
 
-  const urlList = alert.reference.split('<p>').filter(item => item !== '').map(item => stripHtmlTags(item));
-  const urlReferences = urlList.map(element => ({
+  const urlList = alert.reference
+    .split("<p>")
+    .filter((item) => item !== "")
+    .map((item) => stripHtmlTags(item));
+  const urlReferences = urlList.map((element) => ({
     type: "URL",
     value: element,
   }));
-  
-  const cweReferences = (alert.cweid !== '-1' && alert.cweid !== undefined) ? [
-    {
-      type: "CWE",
-      value: "CWE-" + alert.cweid,
-    },
-    {
-      type: "URL",
-      value: "https://cwe.mitre.org/data/definitions/" + alert.cweid + ".html",
-    },
-  ] : [];
-  
+
+  const cweReferences =
+    alert.cweid !== "-1" && alert.cweid !== undefined
+      ? [
+          {
+            type: "CWE",
+            value: "CWE-" + alert.cweid,
+          },
+          {
+            type: "URL",
+            value:
+              "https://cwe.mitre.org/data/definitions/" + alert.cweid + ".html",
+          },
+        ]
+      : [];
+
   const references = [...urlReferences, ...cweReferences];
-  
 
   return {
     name: stripHtmlTags(alert.name),
@@ -94,20 +100,20 @@ function createFindingFromAlert(alert, { location, host, port }) {
       zap_solution: stripHtmlTags(alert.solution) || null,
       zap_otherinfo: truncate({
         text: stripHtmlTags(alert.otherinfo) || null,
-        maxLength: 2048
+        maxLength: 2048,
       }),
       zap_reference: stripHtmlTags(alert.reference) || null,
       zap_cweid: alert.cweid || null,
       zap_wascid: alert.wascid || null,
       zap_riskcode: alert.riskcode || null,
       zap_pluginid: alert.pluginid || null,
-      zap_finding_urls: findingUrls
-    }
+      zap_finding_urls: findingUrls,
+    },
   };
 }
 
-async function parse(fileContent) {
-  const { OWASPZAPReport } = await xml2js.parseStringPromise(fileContent);
+export async function parse(fileContent) {
+  const { OWASPZAPReport } = await parseStringPromise(fileContent);
 
   const findings = [];
 
@@ -124,5 +130,3 @@ async function parse(fileContent) {
 
   return findings;
 }
-
-module.exports.parse = parse;

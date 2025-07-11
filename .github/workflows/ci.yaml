@@ -23,6 +23,7 @@ env:
   KIND_BINARY_VERSION: "v0.27.0"
   HELM_VERSION: "v3.17.3"
   HELM_PLUGIN_UNITTEST: "0.5.1"
+  TASK_VERSION: "v3.44.0"
 
 jobs:
   test-nodejs-scanner-test-helpers:
@@ -31,20 +32,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
         working-directory: tests/integration
-        run: |
-          npm ci
+        run: bun install
+
       - name: Test Node.js Scanner Test Helpers
         working-directory: tests/integration
-        run: |
-          npm run test:helpers
+        run: bun test helpers.test.js
   k8s-setup:
-    name: "Setup Kind & Kubectl & Helm"
+    name: "Setup Kind & Kubectl & Helm & Task"
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -64,6 +63,12 @@ jobs:
           curl -Lo ./helm.tar.gz https://get.helm.sh/helm-${{ env.HELM_VERSION }}-linux-amd64.tar.gz
           tar -xzf ./helm.tar.gz
           chmod +x ./linux-amd64/helm
+          
+      - name: Install Task
+        run: |
+          curl -Lo ./task.tar.gz https://github.com/go-task/task/releases/download/${{ env.TASK_VERSION }}/task_linux_amd64.tar.gz
+          tar -xzf ./task.tar.gz
+          chmod +x ./task
 
       - name: Archive Kind
         uses: actions/upload-artifact@v4
@@ -82,6 +87,12 @@ jobs:
         with:
           name: helm
           path: ./linux-amd64/helm
+          
+      - name: Archive Task
+        uses: actions/upload-artifact@v4
+        with:
+          name: task
+          path: ./task
 
   # ---- Unit-Test ----
 
@@ -112,29 +123,18 @@ jobs:
         run: |
           helm plugin install https://github.com/helm-unittest/helm-unittest.git --version ${{ env.HELM_PLUGIN_UNITTEST }}
 
-      - name: Helm-Chart Unit Tests | Operator
-        working-directory: ./operator
-        run: make helm-unit-tests
+      - name: Download Task
+        uses: actions/download-artifact@v4
+        with:
+          name: task
+          path: ./task
 
-      - name: Helm-Chart Unit Tests | AutoDiscovery Cloud AWS
-        working-directory: ./auto-discovery/cloud-aws
-        run: make helm-unit-tests
+      - name: Make Task globally available
+        run: |
+          chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
-      - name: Helm-Chart Unit Tests | AutoDiscovery Kubernetes
-        working-directory: ./auto-discovery/kubernetes
-        run: make helm-unit-tests
-
-      - name: Helm-Chart Unit Tests | Hooks
-        working-directory: ./hooks
-        run: make helm-unit-tests
-
-      - name: Helm-Chart Unit Tests | Scanners
-        working-directory: ./scanners
-        run: make helm-unit-tests
-
-      - name: Helm-Chart Unit Tests | Demo-Targets
-        working-directory: ./demo-targets
-        run: make helm-unit-tests
+      - name: Helm-Chart Unit Tests
+        run: task test:helm:all
 
   unit-java:
     name: "Unit-Test | Java"
@@ -408,7 +408,7 @@ jobs:
   # ---- Test | Scanners ----
 
   test-scanners:
-    name: "Test |  Scanner ${{ matrix.unit }}"
+    name: "Test | Scanner ${{ matrix.unit }}"
     needs:
       - sdk
       - operator
@@ -441,9 +441,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Download Task
+        uses: actions/download-artifact@v4
         with:
-          node-version-file: ".nvmrc"
+          name: task
+          path: ./task
+
+      - name: Make Task globally available
+        run: |
+          chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
         uses: actions/download-artifact@v4
@@ -475,13 +484,9 @@ jobs:
           kubectl version || true
           helm version
 
-      - name: Install Dependencies
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make install-deps
-
       - name: Unit Tests
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: make unit-tests
+        run: task test:unit
 
       - name: Download Parser SDK Image
         uses: actions/download-artifact@v4
@@ -494,29 +499,16 @@ jobs:
           docker load --input /tmp/parser-sdk.tar
           docker images | grep sdk
 
-      - name: Build Images
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make docker-build
-
-      - name: Export Docker Images
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make docker-export
-
-      - name: "Start kind cluster"
-        run: |
-          kind version
-          kind create cluster --wait 3m --image "$KIND_NODE_IMAGE"
-
-      - name: "Inspect kind cluster"
-        run: |
-          kubectl config current-context
-          kubectl get node
-
       - name: Download Operator Image
         uses: actions/download-artifact@v4
         with:
           name: operator-image
           path: ./operator
+
+      - name: Load Operator Image
+        run: |
+          docker load --input ./operator/operator.tar
+          docker images | grep operator
 
       - name: Download Lurker Image
         uses: actions/download-artifact@v4
@@ -524,30 +516,29 @@ jobs:
           name: lurker-image
           path: ./operator
 
-      - name: Import Operator & Lurker Image to kind cluster
-        working-directory: ./operator
-        run: make kind-import
-
-      - name: Kind Import ${{ matrix.unit }} Image to kind cluster
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make kind-import
-
-      - name: Deploy Operator Chart to kind cluster
-        working-directory: ./operator
+      - name: Load Lurker Image
         run: |
-          make helm-deploy
+          docker load --input ./operator/lurker.tar
+          docker images | grep lurker
 
-      - name: Deploy ${{ matrix.unit }} Chart to kind cluster
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make deploy
+      - name: "Start kind cluster"
+        run: |
+          task prepare-testing-env
 
-      - name: Deploy Test Dependencies
+      - name: ${{ matrix.unit }} Build Scanner / Parser Images
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: make deploy-test-deps
+        run: task build
+
+      - name: ${{ matrix.unit }} Load and Deploy Scanner / Parser Images to kind Cluster
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: task deploy
 
       - name: Start Integration Tests
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: make integration-tests
+        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: cd ./scanners/${{ matrix.unit }}/ && task test:integration
 
       # ---- Debuging Cluster on Failure ----
 
@@ -582,100 +573,39 @@ jobs:
   test-hooks:
     name: Test |  Hook ${{ matrix.hook }}
     needs:
+      - sdk
       - operator
       - k8s-setup
     runs-on: ubuntu-22.04
     strategy:
+      fail-fast: false
       matrix:
         hook:
           - cascading-scans
           - generic-webhook
           - persistence-azure-monitor
-          # - persistence-elastic # Fails on the CI due to insufficient cpu as mentioned in issue #1165
+          - persistence-elastic
           - persistence-dependencytrack
           - update-field-hook
           - finding-post-processing
           - notification
           # - persistence-static-report (WIP)
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
 
-      - name: "Start kind cluster"
-        run: |
-          kind version
-          kind create cluster --wait 3m --image "$KIND_NODE_IMAGE"
-      - name: "Inspect kind cluster"
-        run: |
-          kubectl config current-context
-          kubectl get node
-
-      # ---- Install Operator & Create Namespaces ----
-
-      - name: Download Operator Image
+      - name: Download Task
         uses: actions/download-artifact@v4
         with:
-          name: operator-image
-          path: ./operator
+          name: task
+          path: ./task
 
-      - name: Download Lurker Image
-        uses: actions/download-artifact@v4
-        with:
-          name: lurker-image
-          path: ./operator
-
-      - name: Import Operator & Lurker Image
-        working-directory: ./operator
-        run: make kind-import
-
-      - name: "Install Operator"
-        working-directory: ./operator
-        run: make helm-deploy
-
-      # ---- Operator Health Check ----
-
-      - name: "Inspect Operator"
+      - name: Make Task globally available
         run: |
-          echo "Deployment in namespace 'securecodebox-system'"
-          kubectl -n securecodebox-system get deployments
-          echo "Pods in namespace 'securecodebox-system'"
-          kubectl -n securecodebox-system get pods
-          echo "Operator Startup Logs"
-          kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
-
-      - name: "Create 'demo-targets' namespace"
-        run: "kubectl create namespace demo-targets"
-
-      # ---- Import Parser SDK Artifact
-
-      - name: Download Parser SDK Image
-        uses: actions/download-artifact@v4
-        with:
-          name: parser-sdk-image
-          path: /tmp
-
-      - name: Load Parser SDK Image
-        run: |
-          docker load --input /tmp/parser-sdk.tar
-          docker images | grep sdk
-
-      # ---- Import Hook SDK Artifact
-
-      - name: Download Hook SDK Image
-        uses: actions/download-artifact@v4
-        with:
-          name: hook-sdk-image
-          path: /tmp
-
-      - name: Load Parser SDK Image
-        run: |
-          docker load --input /tmp/hook-sdk.tar
-          docker images | grep sdk
-
-      # ---- K8s Cluster Setup ---- #
+          chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
         uses: actions/download-artifact@v4
@@ -707,61 +637,61 @@ jobs:
           kubectl version || true
           helm version
 
-      # ----- Build Test-Scan ScanType Image ----
+      - name: Unit Tests
+        working-directory: ./hooks/${{ matrix.hook }}/
+        run: task test:unit
 
-      - name: Build Images
-        working-directory: ./scanners/test-scan/
-        run: make docker-build
+      - name: Download Parser SDK Image
+        uses: actions/download-artifact@v4
+        with:
+          name: hook-sdk-image
+          path: /tmp
 
-      - name: Export Docker Images
-        working-directory: ./scanners/test-scan/
-        run: make docker-export
+      - name: Load Hook SDK Image
+        run: |
+          docker load --input /tmp/hook-sdk.tar
+          docker images | grep sdk
 
-      - name: Kind import
-        working-directory: ./scanners/test-scan/
-        run: make kind-import
+      - name: Download Operator Image
+        uses: actions/download-artifact@v4
+        with:
+          name: operator-image
+          path: ./operator
 
-      - name: Test-scan deploy
-        working-directory: ./scanners/test-scan/
-        run: make deploy
+      - name: Load Operator Image
+        run: |
+          docker load --input ./operator/operator.tar
+          docker images | grep operator
 
-      # ----- Build Hook Image ----
+      - name: Download Lurker Image
+        uses: actions/download-artifact@v4
+        with:
+          name: lurker-image
+          path: ./operator
 
-      - name: Build Images
-        working-directory: ./hooks/${{ matrix.hook }}
-        run: make docker-build
+      - name: Load Lurker Image
+        run: |
+          docker load --input ./operator/lurker.tar
+          docker images | grep lurker
 
-      - name: Export Docker Images
-        working-directory: ./hooks/${{ matrix.hook }}
-        run: make docker-export
+      - name: "Start kind cluster"
+        run: |
+          task prepare-testing-env
 
-      - name: Kind import
-        working-directory: ./hooks/${{ matrix.hook }}
-        run: make kind-import
+      - name: ${{ matrix.hook }} Build Scanner / Parser Images
+        working-directory: ./hooks/${{ matrix.hook }}/
+        run: task build
 
-      - name: "Install Test Dependencies"
-        working-directory: ./hooks
-        run: npm ci
+      - name: ${{ matrix.hook }} Load and Deploy Scanner / Parser Images to kind Cluster
+        working-directory: ./hooks/${{ matrix.hook }}/
+        run: task deploy
 
-      # ---- Unit-Test ----
-
-      - name: "Run Unit Tests"
-        working-directory: ./hooks/${{ matrix.hook }}
-        run: make unit-tests
-
-      # ---- Integration-Test ----
-
-      - name: Deploy ${{ matrix.hook }}
-        working-directory: ./hooks/${{ matrix.hook }}
-        run: make deploy
-
-      - name: Deploy Test Dependencies
-        working-directory: ./hooks/${{ matrix.hook }}
-        run: make deploy-test-deps
-
-      - name: "Run Integration Test"
-        working-directory: ./hooks/${{ matrix.hook }}
-        run: make integration-tests
+      - name: Start Integration Tests
+        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: cd ./hooks/${{ matrix.hook }}/ && task test:integration
 
       # ---- Debuging Cluster on Failure ----
 
@@ -790,26 +720,6 @@ jobs:
           kubectl -n securecodebox-system get pods
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
-
-      - name: Test-scan integration-tests
-        working-directory: ./scanners/test-scan/
-        run: |
-          helm -n integration-tests upgrade --install test-scan . \
-            --set="scanner.image.repository=docker.io/securecodebox/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/securecodebox/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"  \
-            --set="parser.env[1].name=PRODUCE_INVALID_FINDINGS" \
-            --set-string="parser.env[1].value=true"
-          make integration-tests
-
-      # ---- Clean UP ----
-
-      - name: "Delete kind cluster"
-        run: |
-          kind delete cluster
 
   sbctcl-tests:
     name: "Run sbctcl Tests"

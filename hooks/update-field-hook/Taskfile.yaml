@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+includes:
+  hook:
+    taskfile: ../Taskfile.yaml
+    flatten: true
+    vars:
+      hookName: update-field-hook

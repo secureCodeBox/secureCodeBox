@@ -2,21 +2,28 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import * as k8s from "@kubernetes/client-node";
+import { isEqual } from "lodash-es";
+import { CustomObjectsApi, KubeConfig } from "@kubernetes/client-node";
+import type {
+  V1Container,
+  V1EnvVar,
+  V1Toleration,
+  V1Volume,
+  V1VolumeMount,
+  V1ObjectMeta,
+} from "@kubernetes/client-node";
 
+import { getScanChain } from "./hook.js";
+import { ScopeLimiterRequirement } from "./scope-limiter.js";
 import {
   generateSelectorString,
   LabelSelector,
-} from "./kubernetes-label-selector";
-import {isEqual} from "lodash";
-import {getScanChain} from "./hook";
-import {ScopeLimiterRequirement} from "./scope-limiter";
+} from "./kubernetes-label-selector.js";
 
 // configure k8s client
-const kc = new k8s.KubeConfig();
-kc.loadFromDefault();
-
-const k8sApiCRD = kc.makeApiClient(k8s.CustomObjectsApi);
+const kc = new KubeConfig();
+kc.loadFromCluster();
+const k8sApi = kc.makeApiClient(CustomObjectsApi);
 
 const namespace = process.env["NAMESPACE"];
 
@@ -31,7 +38,7 @@ export interface Finding {
 }
 
 export interface CascadingRule {
-  metadata: k8s.V1ObjectMeta;
+  metadata: V1ObjectMeta;
   spec: CascadingRuleSpec;
 }
 
@@ -51,7 +58,7 @@ export interface Matches {
 }
 
 export interface Scan {
-  metadata: k8s.V1ObjectMeta;
+  metadata: V1ObjectMeta;
   spec: ScanSpec;
   status?: ScanStatus;
 }
@@ -60,13 +67,13 @@ export interface ScanSpec {
   scanType: string;
   parameters: Array<string>;
   cascades: LabelSelector & CascadingInheritance;
-  env?: Array<k8s.V1EnvVar>;
-  volumes?: Array<k8s.V1Volume>;
-  volumeMounts?: Array<k8s.V1VolumeMount>;
-  initContainers?: Array<k8s.V1Container>;
+  env?: Array<V1EnvVar>;
+  volumes?: Array<V1Volume>;
+  volumeMounts?: Array<V1VolumeMount>;
+  initContainers?: Array<V1Container>;
   hookSelector?: LabelSelector;
-  tolerations?: Array<k8s.V1Toleration>;
-  affinity?: k8s.V1Toleration;
+  tolerations?: Array<V1Toleration>;
+  affinity?: V1Toleration;
   resourceMode: "clusterWide" | "namespaceLocal";
 }
 
@@ -94,7 +101,7 @@ export interface ScanStatus {
 }
 
 export interface ParseDefinition {
-  metadata: k8s.V1ObjectMeta;
+  metadata: V1ObjectMeta;
   spec: ParseDefinitionSpec;
 }
 
@@ -102,12 +109,12 @@ export interface ParseDefinitionSpec {
   scopeLimiterAliases: ScopeLimiterAliases;
 }
 
-export type ScopeLimiterAliases = {[key: string]: string};
+export type ScopeLimiterAliases = { [key: string]: string };
 
 export function mergeInheritedMap(
   parentProps,
   ruleProps,
-  inherit: boolean = true
+  inherit: boolean = true,
 ) {
   if (!inherit) {
     parentProps = {};
@@ -124,7 +131,7 @@ export function mergeInheritedMap(
 export function mergeInheritedArray(
   parentArray = [],
   ruleArray = [],
-  inherit: boolean = false
+  inherit: boolean = false,
 ) {
   if (!inherit) {
     parentArray = [];
@@ -135,21 +142,21 @@ export function mergeInheritedArray(
 export function mergeInheritedSelector(
   parentSelector: LabelSelector = {},
   ruleSelector: LabelSelector = {},
-  inherit: boolean = false
+  inherit: boolean = false,
 ): LabelSelector {
   let labelSelector: LabelSelector = {};
   if (parentSelector.matchExpressions || ruleSelector.matchExpressions) {
     labelSelector.matchExpressions = mergeInheritedArray(
       parentSelector.matchExpressions,
       ruleSelector.matchExpressions,
-      inherit
+      inherit,
     );
   }
   if (parentSelector.matchLabels || ruleSelector.matchLabels) {
     labelSelector.matchLabels = mergeInheritedMap(
       parentSelector.matchLabels,
       ruleSelector.matchLabels,
-      inherit
+      inherit,
     );
   }
   return labelSelector;
@@ -160,15 +167,14 @@ export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
 
   try {
     // Submitting the Scan to the kubernetes api
-    const createdScan = await k8sApiCRD.createNamespacedCustomObject(
-      "execution.securecodebox.io",
-      "v1",
-      namespace,
-      "scans",
-      scan,
-      "false"
-    );
-    console.log(`-> Created scan ${createdScan.body["metadata"].name}`);
+    const createdScan = await k8sApi.createNamespacedCustomObject({
+      version: "v1",
+      group: "execution.securecodebox.io",
+      plural: "scans",
+      namespace: namespace,
+      body: scan,
+    });
+    console.log(`-> Created scan ${createdScan.metadata.name}`);
   } catch (error) {
     console.error(`Failed to start Scan ${scan.metadata.generateName}`);
     console.error(error);
@@ -185,23 +191,19 @@ export async function getCascadingRulesForScan(scan: Scan) {
     const labelSelector = generateSelectorString(scan.spec.cascades);
 
     console.log(
-      `Fetching CascadingScans using LabelSelector: "${labelSelector}"`
+      `Fetching CascadingScans using LabelSelector: "${labelSelector}"`,
     );
 
-    const response: any = await k8sApiCRD.listNamespacedCustomObject(
-      "cascading.securecodebox.io",
-      "v1",
-      namespace,
-      "cascadingrules",
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      labelSelector
-    );
+    const { items: cascadingRules } = await k8sApi.listNamespacedCustomObject({
+      group: "cascading.securecodebox.io",
+      version: "v1",
+      namespace: namespace,
+      plural: "cascadingrules",
+      labelSelector: labelSelector,
+    });
 
-    console.log(`Fetched ${response.body.items.length} CascadingRules`);
-    return response.body.items;
+    console.log(`Fetched ${cascadingRules.length} CascadingRules`);
+    return cascadingRules;
   } catch (err) {
     console.error("Failed to get CascadingRules from the kubernetes api");
     console.error(err);
@@ -211,18 +213,18 @@ export async function getCascadingRulesForScan(scan: Scan) {
 
 export async function getParseDefinitionForScan(scan: Scan) {
   try {
-    const response: any = await k8sApiCRD.getNamespacedCustomObject(
-      "execution.securecodebox.io",
-      "v1",
-      namespace,
-      "parsedefinitions",
-      scan.status.rawResultType
-    );
+    const response: ParseDefinition = await k8sApi.getNamespacedCustomObject({
+      group: "execution.securecodebox.io",
+      version: "v1",
+      namespace: namespace,
+      plural: "parsedefinitions",
+      name: scan.status.rawResultType,
+    });
 
-    return response.body;
+    return response;
   } catch (err) {
     console.error(
-      `Failed to get ParseDefinition ${scan.status.rawResultType} from the kubernetes api`
+      `Failed to get ParseDefinition ${scan.status.rawResultType} from the kubernetes api`,
     );
     console.error(err);
     process.exit(1);
@@ -233,7 +235,7 @@ export async function getParseDefinitionForScan(scan: Scan) {
 // (and not its children), this function purges the cascading rule spec from the parent scan when inheriting them.
 export function purgeCascadedRuleFromScan(
   scan: Scan,
-  cascadedRuleUsedForParentScan?: CascadingRule
+  cascadedRuleUsedForParentScan?: CascadingRule,
 ): Scan {
   // If there was no cascading rule applied to the parent scan, then ignore no purging is necessary.
   if (cascadedRuleUsedForParentScan === undefined) return scan;
@@ -245,8 +247,8 @@ export function purgeCascadedRuleFromScan(
     scan.spec.env = scan.spec.env.filter(
       (scanEnv) =>
         !cascadedRuleUsedForParentScan.spec.scanSpec.env.some((ruleEnv) =>
-          isEqual(scanEnv, ruleEnv)
-        )
+          isEqual(scanEnv, ruleEnv),
+        ),
     );
   }
 
@@ -257,8 +259,8 @@ export function purgeCascadedRuleFromScan(
     scan.spec.volumes = scan.spec.volumes.filter(
       (scanVolume) =>
         !cascadedRuleUsedForParentScan.spec.scanSpec.volumes.some(
-          (ruleVolume) => isEqual(scanVolume, ruleVolume)
-        )
+          (ruleVolume) => isEqual(scanVolume, ruleVolume),
+        ),
     );
   }
 
@@ -269,8 +271,8 @@ export function purgeCascadedRuleFromScan(
     scan.spec.volumeMounts = scan.spec.volumeMounts.filter(
       (scanVolumeMount) =>
         !cascadedRuleUsedForParentScan.spec.scanSpec.volumeMounts.some(
-          (ruleVolumeMount) => isEqual(scanVolumeMount, ruleVolumeMount)
-        )
+          (ruleVolumeMount) => isEqual(scanVolumeMount, ruleVolumeMount),
+        ),
     );
   }
 
@@ -287,8 +289,8 @@ export function purgeCascadedRuleFromScan(
         scan.spec.hookSelector.matchExpressions.filter(
           (scanHookSelector) =>
             !cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchExpressions.some(
-              (ruleHookSelector) => isEqual(scanHookSelector, ruleHookSelector)
-            )
+              (ruleHookSelector) => isEqual(scanHookSelector, ruleHookSelector),
+            ),
         );
     }
     if (
@@ -316,21 +318,21 @@ export async function getCascadedRuleForScan(scan: Scan) {
 
 async function getCascadingRule(ruleName) {
   try {
-    const response: any = await k8sApiCRD.getNamespacedCustomObject(
-      "cascading.securecodebox.io",
-      "v1",
-      namespace,
-      "cascadingrules",
-      ruleName
-    );
+    const response: CascadingRule = await k8sApi.getNamespacedCustomObject({
+      group: "cascading.securecodebox.io",
+      version: "v1",
+      namespace: namespace,
+      plural: "cascadingrules",
+      name: ruleName,
+    });
 
     console.log(
-      `Fetched CascadingRule "${ruleName}" that triggered parent scan`
+      `Fetched CascadingRule "${ruleName}" that triggered parent scan`,
     );
-    return response.body;
+    return response;
   } catch (err) {
     console.error(
-      `Failed to get CascadingRule "${ruleName}" from the kubernetes api`
+      `Failed to get CascadingRule "${ruleName}" from the kubernetes api`,
     );
     console.error(err);
     process.exit(1);

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {getCascadingScans} = require("./hook");
+const { getCascadingScans } = require("./hook");
 const {
   LabelSelectorRequirementOperator,
 } = require("./kubernetes-label-selector");
-const {ScopeLimiterRequirementOperator} = require("./scope-limiter");
+const { ScopeLimiterRequirementOperator } = require("./scope-limiter");
 
 let parentScan = undefined;
 let sslyzeCascadingRules = undefined;
@@ -86,7 +86,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -156,7 +156,7 @@ test("Should create no subsequent scans if there are no rules", () => {
     findings,
     cascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`[]`);
@@ -184,11 +184,11 @@ test("Should not try to do magic to the scan name if its something random", () =
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans[0].metadata.generateName).toEqual(
-    "foobar.com-tls-scans-"
+    "foobar.com-tls-scans-",
   );
 });
 
@@ -214,7 +214,7 @@ test("Should not start a new scan when the corresponding cascadingRule is alread
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`[]`);
@@ -241,7 +241,7 @@ test("Should not crash when the annotations are not set", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -294,7 +294,7 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
   sslyzeCascadingRules[0].spec.scanSpec.env = [
     {
       name: "FOOBAR",
-      valueFrom: {secretKeyRef: {name: "foobar-token", key: "token"}},
+      valueFrom: { secretKeyRef: { name: "foobar-token", key: "token" } },
     },
   ];
 
@@ -316,7 +316,7 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans[0].spec.env).toMatchInlineSnapshot(`
@@ -380,7 +380,7 @@ test("Should allow wildcards in cascadingRules", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -455,14 +455,14 @@ test("should not copy labels if inheritLabels is set to false", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
     expect(
       Object.entries(parentScan.metadata.labels).every(
-        ([label, value]) => cascadedScan.metadata.labels[label] === value
-      )
+        ([label, value]) => cascadedScan.metadata.labels[label] === value,
+      ),
     ).toBe(false);
   }
 });
@@ -492,14 +492,14 @@ test("should copy labels if inheritLabels is not set", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
     expect(
       Object.entries(parentScan.metadata.labels).every(
-        ([label, value]) => cascadedScan.metadata.labels[label] === value
-      )
+        ([label, value]) => cascadedScan.metadata.labels[label] === value,
+      ),
     ).toBe(true);
   }
 });
@@ -531,14 +531,14 @@ test("should copy labels if inheritLabels is set to true", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
     expect(
       Object.entries(parentScan.metadata.labels).every(
-        ([label, value]) => cascadedScan.metadata.labels[label] === value
-      )
+        ([label, value]) => cascadedScan.metadata.labels[label] === value,
+      ),
     ).toBe(true);
   }
 });
@@ -568,14 +568,14 @@ test("should not copy annotations if inheritAnnotations is set to false", () => 
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
     expect(
       Object.entries(parentScan.metadata.annotations).every(
-        ([label, value]) => cascadedScan.metadata.annotations[label] === value
-      )
+        ([label, value]) => cascadedScan.metadata.annotations[label] === value,
+      ),
     ).toBe(false);
   }
 });
@@ -604,14 +604,14 @@ test("should copy annotations if inheritAnnotations is not set", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
     expect(
       Object.entries(parentScan.metadata.annotations).every(
-        ([label, value]) => cascadedScan.metadata.annotations[label] === value
-      )
+        ([label, value]) => cascadedScan.metadata.annotations[label] === value,
+      ),
     ).toBe(true);
   }
 });
@@ -641,14 +641,14 @@ test("should copy annotations if inheritAnnotations is set to true", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
     expect(
       Object.entries(parentScan.metadata.annotations).every(
-        ([label, value]) => cascadedScan.metadata.annotations[label] === value
-      )
+        ([label, value]) => cascadedScan.metadata.annotations[label] === value,
+      ),
     ).toBe(true);
   }
 });
@@ -677,14 +677,14 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
   expect(
     Object.entries(sslyzeCascadingRules[0].spec.scanLabels).every(
-      ([label, value]) => cascadedScan.metadata.labels[label] === value
-    )
+      ([label, value]) => cascadedScan.metadata.labels[label] === value,
+    ),
   ).toBe(true);
 });
 
@@ -712,14 +712,14 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
   expect(
     Object.entries(sslyzeCascadingRules[0].spec.scanAnnotations).every(
-      ([label, value]) => cascadedScan.metadata.annotations[label] === value
-    )
+      ([label, value]) => cascadedScan.metadata.annotations[label] === value,
+    ),
   ).toBe(true);
 });
 
@@ -764,7 +764,7 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
     findings,
     sslyzeCascadingRules,
     sslyzeCascadingRules[0],
-    parseDefinition
+    parseDefinition,
   );
 
   expect(sslyzeCascadingRules[0].spec.scanSpec.parameters).toEqual([
@@ -772,7 +772,7 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
     "{{$.hostOrIP}}:{{attributes.port}}",
   ]);
 
-  const {labels, annotations} = cascadedScans[0].metadata;
+  const { labels, annotations } = cascadedScans[0].metadata;
 
   // No snapshots as scanLabels/scanAnnotations can be in any order
   const labelResults = {
@@ -827,7 +827,7 @@ test("should copy proper finding ID into annotations", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -837,8 +837,8 @@ test("should copy proper finding ID into annotations", () => {
         if (label === "cascading.securecodebox.io/matched-finding") {
           return value === "f0c718bd-9987-42c8-2259-73794e61dd5a";
         } else return true;
-      }
-    )
+      },
+    ),
   ).toBe(true);
 });
 
@@ -876,7 +876,7 @@ test("should merge environment variables into cascaded scan", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -932,7 +932,7 @@ test("should merge volumeMounts into cascaded scan", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -992,7 +992,7 @@ test("should merge volumes into cascaded scan", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1051,7 +1051,7 @@ test("should merge initContainers into cascaded scan", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1112,7 +1112,7 @@ test("should not merge initContainers into cascaded scan if not instructed", () 
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1173,9 +1173,9 @@ test("Templating should apply to environment variables", () => {
         scanSpec: {
           scanType: "sslyze",
           parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"],
-          volumes: [{name: "test-volume", emptyDir: {}}],
-          volumeMounts: [{name: "test-volume", mountPath: "/test"}],
-          env: [{name: "HostOrIp", value: "{{$.hostOrIP}}"}],
+          volumes: [{ name: "test-volume", emptyDir: {} }],
+          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+          env: [{ name: "HostOrIp", value: "{{$.hostOrIP}}" }],
         },
       },
     },
@@ -1186,7 +1186,7 @@ test("Templating should apply to environment variables", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -1292,14 +1292,14 @@ test("Templating should apply to initContainer commands", () => {
         scanSpec: {
           scanType: "sslyze",
           parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"],
-          volumes: [{name: "test-volume", emptyDir: {}}],
-          volumeMounts: [{name: "test-volume", mountPath: "/test"}],
+          volumes: [{ name: "test-volume", emptyDir: {} }],
+          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
           initContainers: [
             {
               name: "ping-it-again",
               image: "busybox",
               command: ["ping", "-c", "1", "{{$.hostOrIP}}"],
-              volumeMounts: [{name: "test-volume", mountPath: "/test"}],
+              volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
             },
           ],
         },
@@ -1312,7 +1312,7 @@ test("Templating should apply to initContainer commands", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -1430,15 +1430,15 @@ test("Templating should apply to initContainer environment variables", () => {
         scanSpec: {
           scanType: "sslyze",
           parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"],
-          volumes: [{name: "test-volume", emptyDir: {}}],
-          volumeMounts: [{name: "test-volume", mountPath: "/test"}],
+          volumes: [{ name: "test-volume", emptyDir: {} }],
+          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
           initContainers: [
             {
               name: "ping-it-again",
               image: "busybox",
               command: ["whoami"],
-              volumeMounts: [{name: "test-volume", mountPath: "/test"}],
-              env: [{name: "HostOrIp", value: "{{$.hostOrIP}}"}],
+              volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+              env: [{ name: "HostOrIp", value: "{{$.hostOrIP}}" }],
             },
           ],
         },
@@ -1451,7 +1451,7 @@ test("Templating should apply to initContainer environment variables", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -1572,14 +1572,14 @@ test("Templating should not break special encoding (http://...) when using tripl
         scanSpec: {
           scanType: "sslyze",
           parameters: ["--regular", "{{{attributes.hostname}}}"],
-          volumes: [{name: "test-volume", emptyDir: {}}],
-          volumeMounts: [{name: "test-volume", mountPath: "/test"}],
+          volumes: [{ name: "test-volume", emptyDir: {} }],
+          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
           initContainers: [
             {
               name: "ping-it-again",
               image: "busybox",
               command: ["ping", "-c", "1", "{{{attributes.hostname}}}"],
-              volumeMounts: [{name: "test-volume", mountPath: "/test"}],
+              volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
             },
           ],
         },
@@ -1592,7 +1592,7 @@ test("Templating should not break special encoding (http://...) when using tripl
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -1713,7 +1713,7 @@ test("should merge hookSelector into cascaded scan if inheritHookSelector is ena
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1788,7 +1788,7 @@ test("should not merge hookSelector into cascaded scan if inheritHookSelector is
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1857,7 +1857,7 @@ test("should copy tolerations and affinity into cascaded scan if one is set and 
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1944,7 +1944,7 @@ test("should not copy tolerations and affinity into cascaded scan if label disab
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2027,7 +2027,7 @@ test("should merge tolerations and replace affinity in cascaded scan if cascadin
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2096,7 +2096,7 @@ test("should not set affinity or tolerations to undefined if they are defined to
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2130,7 +2130,7 @@ test("Should not set affinity or tolerations to undefined if they are defined to
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2216,7 +2216,7 @@ test("should only use tolerations and affinity of cascaded scan if inheritance i
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2352,7 +2352,7 @@ test("should purge cascaded scan spec from parent scan", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2396,7 +2396,7 @@ test("should purge cascaded scan spec from parent scan", () => {
     findings,
     sslyzeCascadingRules,
     sslyzeCascadingRules[0], // cascaded rule on parent
-    parseDefinition
+    parseDefinition,
   );
 
   const secondCascadedScan = secondCascadedScans[0];
@@ -2445,7 +2445,7 @@ test("should purge cascaded scan spec from parent scan", () => {
     ]
   `);
   expect(
-    secondCascadedScan.spec.hookSelector.matchLabels
+    secondCascadedScan.spec.hookSelector.matchLabels,
   ).toMatchInlineSnapshot(`{}`);
 });
 
@@ -2518,7 +2518,7 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2561,7 +2561,7 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
     findings,
     sslyzeCascadingRules,
     sslyzeCascadingRules[0], // cascaded rule on parent
-    parseDefinition
+    parseDefinition,
   );
 
   const secondCascadedScan = secondCascadedScans[0];
@@ -2592,7 +2592,7 @@ test("should append cascading rule to further cascading scan chains", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2635,13 +2635,13 @@ test("should append cascading rule to further cascading scan chains", () => {
     findings,
     sslyzeCascadingRules,
     sslyzeCascadingRules[0], // cascaded rule on parent
-    parseDefinition
+    parseDefinition,
   );
 
   const secondCascadedScan = secondCascadedScans[0];
 
   expect(
-    secondCascadedScan.metadata.annotations["cascading.securecodebox.io/chain"]
+    secondCascadedScan.metadata.annotations["cascading.securecodebox.io/chain"],
   ).toEqual("tls-scans,tls-scans-second");
 });
 
@@ -2688,7 +2688,7 @@ test("should not cascade if scope limiter does not pass", () => {
     findings,
     sslyzeCascadingRules,
     undefined,
-    parseDefinition
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -2778,11 +2778,11 @@ test("scope annotations should be completely immutable", () => {
       findings,
       sslyzeCascadingRules,
       undefined,
-      parseDefinition
+      parseDefinition,
     );
 
   expect(cascadedScans).toThrowError(
-    "may not add scope annotation 'scope.cascading.securecodebox.io/domains':'malicious.example.com' in Cascading Rule spec"
+    "may not add scope annotation 'scope.cascading.securecodebox.io/domains':'malicious.example.com' in Cascading Rule spec",
   );
 
   delete sslyzeCascadingRules[0].spec.scanAnnotations[

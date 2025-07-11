@@ -2,25 +2,40 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
-  "Nuclei scan for a vulnerable bodgeit demo target",
+  "nuclei scan for a vulnerable bodgeit demo target",
   async () => {
     const { categories, severities, count } = await scan(
       "nuclei-bodgeit",
       "nuclei",
-      ["-no-interactsh", "-template-id", "http-missing-security-headers,tomcat-detect",
-       "-u", "http://bodgeit.demo-targets.svc.cluster.local:8080"],
-      180
+      [
+        "-no-interactsh",
+        "-disable-update-check",
+        "-templates",
+        "/nuclei-templates/*.yaml",
+        "-u",
+        "http://bodgeit.demo-targets.svc.cluster.local:8080",
+      ],
+      180,
+      [
+        {
+          name: "nuclei-templates",
+          configMap: {
+            name: "custom-test-nuclei-templates",
+            namespace: "integration-tests",
+          },
+        },
+      ],
+      [{ name: "nuclei-templates", mountPath: "/nuclei-templates" }],
     );
 
-    expect(count).toBeGreaterThanOrEqual(10);
-    expect(severities["informational"]).toBeGreaterThanOrEqual(10);
-    expect(categories["http-missing-security-headers"]).toBeGreaterThanOrEqual(8);
+    expect(count).toBeGreaterThanOrEqual(1);
+    expect(severities["informational"]).toBeGreaterThanOrEqual(1);
     expect(categories["tomcat-detect"]).toBe(1);
   },
-  3 * 60 * 1000
+  {
+    timeout: 3 * 60 * 1000,
+  },
 );

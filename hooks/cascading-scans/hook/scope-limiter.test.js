@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const {isInScope: isInScopeInternal} = require("./scope-limiter");
+const { isInScope: isInScopeInternal } = require("./scope-limiter");
 
 let scopeLimiter = undefined;
 let annotations = undefined;
@@ -40,7 +40,7 @@ it("Requirement key must start with 'scope.cascading.securecodebox.io/'", () => 
     },
   ];
   expect(isInScope).toThrowError(
-    "key 'engagement.scope/domains' is invalid: key does not start with 'scope.cascading.securecodebox.io/'"
+    "key 'engagement.scope/domains' is invalid: key does not start with 'scope.cascading.securecodebox.io/'",
   );
 });
 
@@ -60,7 +60,7 @@ it("Requirement key must map to an annotation", () => {
   };
 
   expect(isInScope).toThrowError(
-    "using operator 'In': the referenced annotation may not be undefined"
+    "using operator 'In': the referenced annotation may not be undefined",
   );
 });
 
@@ -90,7 +90,7 @@ describe("Templating", function () {
       },
     ];
     expect(isInScope).toThrowError(
-      "using operator 'Contains': the referenced annotation may not be undefined"
+      "using operator 'Contains': the referenced annotation may not be undefined",
     );
   });
 
@@ -229,7 +229,7 @@ describe("Templating", function () {
         finding = {};
 
         expect(isInScope).toThrowError(
-          "Invalid list key 'attributes'. List key must be at least 2 levels deep. E.g. 'attributes.addresses'"
+          "Invalid list key 'attributes'. List key must be at least 2 levels deep. E.g. 'attributes.addresses'",
         );
       });
     });
@@ -540,7 +540,7 @@ describe("Templating", function () {
         };
 
         expect(isInScope).toThrowError(
-          "Invalid list key 'attributes.addresses'. List key must be at least 3 levels deep. E.g. 'attributes.addresses.ip'"
+          "Invalid list key 'attributes.addresses'. List key must be at least 3 levels deep. E.g. 'attributes.addresses.ip'",
         );
       });
 
@@ -827,7 +827,7 @@ describe("Operator", function () {
         },
       ];
       expect(isInScope).toThrowError(
-        "I am not a domain is an invalid domain name"
+        "I am not a domain is an invalid domain name",
       );
     });
 
@@ -843,7 +843,7 @@ describe("Operator", function () {
         },
       ];
       expect(isInScope).toThrowError(
-        "I am not a domain is an invalid domain name"
+        "I am not a domain is an invalid domain name",
       );
     });
 

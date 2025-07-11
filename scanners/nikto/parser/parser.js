@@ -11,7 +11,7 @@ const HIGH = "HIGH";
  *
  * @param {string} category
  */
-function categorize({id}) {
+function categorize({ id }) {
   if (id === 999957) {
     return ["X-Frame-Options Header", LOW];
   } else if (id === 999102) {
@@ -41,11 +41,16 @@ function categorize({id}) {
   return ["Nikto Finding", INFORMATIONAL];
 }
 
-async function parse(niktoReport) {
-  if (!niktoReport) return [];
+export async function parse(fileContent) {
+  if (!fileContent) return [];
 
-  return niktoReport.flatMap(
-    ({host, ip, port: portString, banner, vulnerabilities}) => {
+  const report = JSON.parse(fileContent);
+  if (!report || !report.length) {
+    return [];
+  }
+
+  return report.flatMap(
+    ({ host, ip, port: portString, banner, vulnerabilities }) => {
       const port = parseInt(portString, 10);
 
       if (!vulnerabilities)
@@ -54,10 +59,10 @@ async function parse(niktoReport) {
 
       return vulnerabilities
         .filter(Boolean)
-        .map(({id, method, url, msg, references}) => {
+        .map(({ id, method, url, msg, references }) => {
           const niktoId = parseInt(id, 10);
 
-          const [category, severity] = categorize({id: niktoId});
+          const [category, severity] = categorize({ id: niktoId });
 
           // We can only guess at this point. Nikto doesn't tell use anymore :(
           const protocol = port === 443 || port === 8443 ? "https" : "http";
@@ -101,8 +106,6 @@ async function parse(niktoReport) {
             },
           };
         });
-    }
+    },
   );
 }
-
-module.exports.parse = parse;
