@@ -101,3 +101,12 @@ tasks:
       - 'echo "Press Ctrl+C to stop port forwarding"'
       - kubectl port-forward -n securecodebox-system svc/securecodebox-operator-minio 9001:9001
     interactive: true
+
+  test:helm:all:
+    cmds:
+      - |
+        find . -name "Chart.yaml" | while read -r chart_file; do
+            chart_dir=$(dirname "$chart_file")
+            echo "Running tests for helm chart: $chart_dir"
+            helm unittest $chart_dir
+        done
