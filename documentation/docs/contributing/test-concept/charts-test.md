@@ -194,16 +194,29 @@ matches the snapshot:
 ### Running Tests
 
 In the helm-chart folder, run tests with:
+
 ```bash
-make helm-unit-tests
+task test:helm
 ```
-or 
+
+or
+
 ```bash
 helm unittest .
 ```
+
 And review the output for any failures.
 
-The `make` command will also run inside the Operator, AutoDiscovery, Scanners, Hooks or Demo-Targets root folders and tests all the Helm Charts in the corresponding folder. 
+To run all helm unit tests in the secureCodeBox you can use `task test:helm:all`.
+
+### Updating snapshots
+
+You can have helm unittest update the snapshots to the current values.
+Handy to quickly update them an checking the results in the git diff.
+
+```bash
+helm unittest . --update-snapshot
+```
 
 ## CI/CD Integration
 
