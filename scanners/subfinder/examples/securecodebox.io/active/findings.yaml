@@ -1,0 +1,158 @@
+[
+  {
+    "name": "www.securecodebox.io",
+    "identified_at": null,
+    "description": "Found subdomain www.securecodebox.io",
+    "category": "Subdomain",
+    "location": "www.securecodebox.io",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "addresses": {"ip": "63.176.8.218"},
+        "domain": "securecodebox.io",
+        "hostname": "www.securecodebox.io",
+        "ip_address": "63.176.8.218",
+        "source": "crtsh",
+      },
+    "id": "3e111a3b-3cea-4787-919c-a918582672dd",
+    "parsed_at": "2025-07-14T07:47:34.992Z",
+    "scan":
+      {
+        "created_at": "2025-07-14T07:47:16Z",
+        "name": "subfinder-active-securecodebox.io",
+        "namespace": "integration-tests",
+        "scan_type": "subfinder",
+      },
+  },
+  {
+    "name": "sky.securecodebox.io",
+    "identified_at": null,
+    "description": "Found subdomain sky.securecodebox.io",
+    "category": "Subdomain",
+    "location": "sky.securecodebox.io",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "addresses": {"ip": "88.99.30.123"},
+        "domain": "securecodebox.io",
+        "hostname": "sky.securecodebox.io",
+        "ip_address": "88.99.30.123",
+        "source": "hackertarget",
+      },
+    "id": "162dd928-9fb1-4f4c-9880-6b0faf5f0821",
+    "parsed_at": "2025-07-14T07:47:34.992Z",
+    "scan":
+      {
+        "created_at": "2025-07-14T07:47:16Z",
+        "name": "subfinder-active-securecodebox.io",
+        "namespace": "integration-tests",
+        "scan_type": "subfinder",
+      },
+  },
+  {
+    "name": "charts.securecodebox.io",
+    "identified_at": null,
+    "description": "Found subdomain charts.securecodebox.io",
+    "category": "Subdomain",
+    "location": "charts.securecodebox.io",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "addresses": {"ip": "88.99.30.123"},
+        "domain": "securecodebox.io",
+        "hostname": "charts.securecodebox.io",
+        "ip_address": "88.99.30.123",
+        "source": "crtsh",
+      },
+    "id": "5d0692eb-807a-4022-8a18-08a4e97c6390",
+    "parsed_at": "2025-07-14T07:47:34.992Z",
+    "scan":
+      {
+        "created_at": "2025-07-14T07:47:16Z",
+        "name": "subfinder-active-securecodebox.io",
+        "namespace": "integration-tests",
+        "scan_type": "subfinder",
+      },
+  },
+  {
+    "name": "telemetry.securecodebox.io",
+    "identified_at": null,
+    "description": "Found subdomain telemetry.securecodebox.io",
+    "category": "Subdomain",
+    "location": "telemetry.securecodebox.io",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "addresses": {"ip": "88.99.30.123"},
+        "domain": "securecodebox.io",
+        "hostname": "telemetry.securecodebox.io",
+        "ip_address": "88.99.30.123",
+        "source": "crtsh",
+      },
+    "id": "f216b10e-d911-41b0-86f0-d1549fdb28d0",
+    "parsed_at": "2025-07-14T07:47:34.992Z",
+    "scan":
+      {
+        "created_at": "2025-07-14T07:47:16Z",
+        "name": "subfinder-active-securecodebox.io",
+        "namespace": "integration-tests",
+        "scan_type": "subfinder",
+      },
+  },
+  {
+    "name": "telemetry.chase.securecodebox.io",
+    "identified_at": null,
+    "description": "Found subdomain telemetry.chase.securecodebox.io",
+    "category": "Subdomain",
+    "location": "telemetry.chase.securecodebox.io",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "addresses": {"ip": "88.99.30.123"},
+        "domain": "securecodebox.io",
+        "hostname": "telemetry.chase.securecodebox.io",
+        "ip_address": "88.99.30.123",
+        "source": "crtsh",
+      },
+    "id": "af39f7d9-e52e-4e03-8a00-9cda769fb1a8",
+    "parsed_at": "2025-07-14T07:47:34.992Z",
+    "scan":
+      {
+        "created_at": "2025-07-14T07:47:16Z",
+        "name": "subfinder-active-securecodebox.io",
+        "namespace": "integration-tests",
+        "scan_type": "subfinder",
+      },
+  },
+  {
+    "name": "docs.securecodebox.io",
+    "identified_at": null,
+    "description": "Found subdomain docs.securecodebox.io",
+    "category": "Subdomain",
+    "location": "docs.securecodebox.io",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "addresses": {"ip": "35.157.26.135"},
+        "domain": "securecodebox.io",
+        "hostname": "docs.securecodebox.io",
+        "ip_address": "35.157.26.135",
+        "source": "crtsh",
+      },
+    "id": "58b47a99-8f1d-40e8-95af-933c98ba9c82",
+    "parsed_at": "2025-07-14T07:47:34.992Z",
+    "scan":
+      {
+        "created_at": "2025-07-14T07:47:16Z",
+        "name": "subfinder-active-securecodebox.io",
+        "namespace": "integration-tests",
+        "scan_type": "subfinder",
+      },
+  },
+]

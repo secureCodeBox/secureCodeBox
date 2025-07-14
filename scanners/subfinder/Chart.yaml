@@ -23,7 +23,7 @@ keywords:
   - subdomain
   - discovery
 home: https://github.com/projectdiscovery/subfinder
-icon: https://www.securecodebox.io/img/integrationIcons/subfinder.svg # TODO: Muss ich hier ein eigenes bild "uploaden"
+icon: https://www.securecodebox.io/img/integrationIcons/subfinder.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

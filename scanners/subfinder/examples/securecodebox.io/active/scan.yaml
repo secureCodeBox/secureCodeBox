@@ -5,10 +5,11 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "subfinder-localhost"
+  name: "subfinder-active-securecodebox.io"
 spec:
   scanType: "subfinder"
   parameters:
-    # Note: Localhost here isn't "your" localhost, but the scanner container.
-    # This container doesn't have any ports open...
-    - localhost
+    - "-active"
+    - "-oI"
+    - "-d"
+    - "securecodebox.io"
