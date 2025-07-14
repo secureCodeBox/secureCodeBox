@@ -9,7 +9,7 @@ metadata:
 spec:
   extractResults:
     type: subfinder-json
-    location: "/home/securecodebox/subfinder-results.json"
+    location: "/home/securecodebox/subfinder-results.jsonl"
   jobTemplate:
     spec:
       suspend: {{ .Values.scanner.suspend | default false }}
@@ -38,7 +38,7 @@ spec:
                 - "subfinder"
                 - "-json"
                 - "-output"
-                - "/home/securecodebox/subfinder-results.json" # Replace output command
+                - "/home/securecodebox/subfinder-results.jsonl" # Replace output command
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
