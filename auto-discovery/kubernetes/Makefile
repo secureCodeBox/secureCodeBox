@@ -13,7 +13,7 @@ IMG ?= auto-discovery-kubernetes
 IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
 
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
-ENVTEST_K8S_VERSION = 1.32.0
+ENVTEST_K8S_VERSION = 1.33.0
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set).
 # IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
@@ -145,8 +145,8 @@ CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen-$(CONTROLLER_TOOLS_VERSION)
 ENVTEST ?= $(LOCALBIN)/setup-envtest-$(ENVTEST_VERSION)
 
 ## Tool Versions
-CONTROLLER_TOOLS_VERSION ?= v0.17.1
-ENVTEST_VERSION ?= release-0.20
+CONTROLLER_TOOLS_VERSION ?= v0.18.0
+ENVTEST_VERSION ?= release-0.21
 
 .PHONY: controller-gen
 controller-gen: $(CONTROLLER_GEN) ## Download controller-gen locally if necessary.
