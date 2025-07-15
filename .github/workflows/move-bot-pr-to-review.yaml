@@ -11,7 +11,7 @@ on:
 
 jobs:
   move-bot-pr-to-review:   
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     # only run if the branch starts with 'dependabot/' or 'dependencies/upgrading' 
     if: startsWith(github.head_ref, 'dependabot/') || startsWith(github.head_ref, 'dependencies/upgrading')
     steps:
