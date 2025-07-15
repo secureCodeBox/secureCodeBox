@@ -293,13 +293,13 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 	switch seccompProfileRaw {
 	case "Localhost":
 		seccompProfile = corev1.SeccompProfile{
-			Type: corev1.SeccompProfileTypeLocalhost,}
+			Type: corev1.SeccompProfileTypeLocalhost}
 	case "RuntimeDefault":
 		seccompProfile = corev1.SeccompProfile{
-			Type: corev1.SeccompProfileTypeRuntimeDefault,}
-	case "Unconfined": 
+			Type: corev1.SeccompProfileTypeRuntimeDefault}
+	case "Unconfined":
 		seccompProfile = corev1.SeccompProfile{
-			Type: corev1.SeccompProfileTypeUnconfined,}
+			Type: corev1.SeccompProfileTypeUnconfined}
 	case "":
 		seccompProfile = corev1.SeccompProfile{
 			Type: corev1.SeccompProfileTypeRuntimeDefault,
