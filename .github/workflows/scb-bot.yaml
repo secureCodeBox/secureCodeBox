@@ -28,7 +28,6 @@ jobs:
       matrix:
         scanner:
           - amass
-          - cmseek
           - ffuf
           - gitleaks
           - kube-hunter

@@ -84,14 +84,6 @@ export const Scanners = [
     imageUrl: "img/integrationIcons/Amass.svg",
   },
   {
-    title: "CMSeeK",
-    type: "CMS",
-    usecase:
-      "Automation of the process of detecting the Joomla CMS and its core vulnerabilities",
-    path: "docs/scanners/cmseek",
-    imageUrl: "img/integrationIcons/Default.svg",
-  },
-  {
     title: "ffuf",
     type: "Webserver",
     usecase: "Webserver and WebApplication Elements and Content Discovery",
@@ -203,7 +195,6 @@ export const Scanners = [
     path: "docs/scanners/wpscan",
     imageUrl: "img/integrationIcons/WPScan.svg",
   },
-
   {
     title: "ZAP Automation Framework",
     type: "WebApplication",

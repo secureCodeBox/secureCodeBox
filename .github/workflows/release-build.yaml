@@ -323,7 +323,6 @@ jobs:
       matrix:
         parser:
           - amass
-          - cmseek
           - ffuf
           - git-repo-scanner
           - gitleaks
@@ -409,7 +408,6 @@ jobs:
       matrix:
         scanner:
           - amass
-          - cmseek
           - ffuf
           - kube-hunter
           - ncrack
