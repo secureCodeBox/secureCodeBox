@@ -6,7 +6,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.17.1
+    controller-gen.kubebuilder.io/version: v0.18.0
   name: clusterscantypes.execution.securecodebox.io
 spec:
   group: execution.securecodebox.io
@@ -1371,7 +1371,7 @@ spec:
                                         will be reported as an event when the container is starting.
                                       items:
                                         description: EnvFromSource represents the
-                                          source of a set of ConfigMaps
+                                          source of a set of ConfigMaps or Secrets
                                         properties:
                                           configMapRef:
                                             description: The ConfigMap to select from
@@ -1392,8 +1392,8 @@ spec:
                                             type: object
                                             x-kubernetes-map-type: atomic
                                           prefix:
-                                            description: An optional identifier to
-                                              prepend to each key in the ConfigMap.
+                                            description: Optional text to prepend
+                                              to the name of each environment variable.
                                               Must be a C_IDENTIFIER.
                                             type: string
                                           secretRef:
@@ -1657,6 +1657,12 @@ spec:
                                               - port
                                               type: object
                                           type: object
+                                        stopSignal:
+                                          description: |-
+                                            StopSignal defines which signal will be sent to a container when it is being stopped.
+                                            If not specified, the default is defined by the container runtime in use.
+                                            StopSignal can only be set for Pods with a non-empty .spec.os.name
+                                          type: string
                                       type: object
                                     livenessProbe:
                                       description: |-
@@ -2780,7 +2786,7 @@ spec:
                                         will be reported as an event when the container is starting.
                                       items:
                                         description: EnvFromSource represents the
-                                          source of a set of ConfigMaps
+                                          source of a set of ConfigMaps or Secrets
                                         properties:
                                           configMapRef:
                                             description: The ConfigMap to select from
@@ -2801,8 +2807,8 @@ spec:
                                             type: object
                                             x-kubernetes-map-type: atomic
                                           prefix:
-                                            description: An optional identifier to
-                                              prepend to each key in the ConfigMap.
+                                            description: Optional text to prepend
+                                              to the name of each environment variable.
                                               Must be a C_IDENTIFIER.
                                             type: string
                                           secretRef:
@@ -3063,6 +3069,12 @@ spec:
                                               - port
                                               type: object
                                           type: object
+                                        stopSignal:
+                                          description: |-
+                                            StopSignal defines which signal will be sent to a container when it is being stopped.
+                                            If not specified, the default is defined by the container runtime in use.
+                                            StopSignal can only be set for Pods with a non-empty .spec.os.name
+                                          type: string
                                       type: object
                                     livenessProbe:
                                       description: Probes are not allowed for ephemeral
@@ -4194,7 +4206,7 @@ spec:
                                         will be reported as an event when the container is starting.
                                       items:
                                         description: EnvFromSource represents the
-                                          source of a set of ConfigMaps
+                                          source of a set of ConfigMaps or Secrets
                                         properties:
                                           configMapRef:
                                             description: The ConfigMap to select from
@@ -4215,8 +4227,8 @@ spec:
                                             type: object
                                             x-kubernetes-map-type: atomic
                                           prefix:
-                                            description: An optional identifier to
-                                              prepend to each key in the ConfigMap.
+                                            description: Optional text to prepend
+                                              to the name of each environment variable.
                                               Must be a C_IDENTIFIER.
                                             type: string
                                           secretRef:
@@ -4480,6 +4492,12 @@ spec:
                                               - port
                                               type: object
                                           type: object
+                                        stopSignal:
+                                          description: |-
+                                            StopSignal defines which signal will be sent to a container when it is being stopped.
+                                            If not specified, the default is defined by the container runtime in use.
+                                            StopSignal can only be set for Pods with a non-empty .spec.os.name
+                                          type: string
                                       type: object
                                     livenessProbe:
                                       description: |-
