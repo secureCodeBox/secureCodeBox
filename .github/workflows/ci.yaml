@@ -10,7 +10,7 @@ on:
       - v[0-9]+.x
   pull_request:
 
-# The CI runs on ubuntu-22.04; More info about the installed software is found here:
+# The CI runs on ubuntu-24.04; More info about the installed software is found here:
 # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 
 env:
@@ -28,7 +28,7 @@ env:
 jobs:
   test-nodejs-scanner-test-helpers:
     name: "Unit Test | Node.js Scanner Test Helpers"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -44,7 +44,7 @@ jobs:
         run: bun test helpers.test.js
   k8s-setup:
     name: "Setup Kind & Kubectl & Helm & Task"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -100,7 +100,7 @@ jobs:
 
   helm-unit-test:
     name: "Unit-Test | Helm"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - k8s-setup
     steps:
@@ -138,7 +138,7 @@ jobs:
 
   unit-java:
     name: "Unit-Test | Java"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         unit: ["persistence-defectdojo"]
@@ -178,7 +178,7 @@ jobs:
 
   operator:
     name: "Build | Operator"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         component: ["operator", "lurker"]
@@ -220,7 +220,7 @@ jobs:
 
   auto-discovery-kubernetes:
     name: "AutoDiscovery | Kubernetes"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -258,7 +258,7 @@ jobs:
   # ---- Build Stage | AutoDiscovery | Kubernetes | PullSecretExtractor ----
   auto-discovery-kubernetes-secret-extraction-container:
     name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - k8s-setup
     steps:
@@ -341,7 +341,7 @@ jobs:
   # ---- Build Stage | AutoDiscovery | Cloud | AWS ----
   auto-discovery-cloud-aws:
     name: "AutoDiscovery | Cloud | AWS"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -380,7 +380,7 @@ jobs:
 
   sdk:
     name: "Build | SDKs"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         sdk:
@@ -413,7 +413,7 @@ jobs:
       - sdk
       - operator
       - k8s-setup
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -576,7 +576,7 @@ jobs:
       - sdk
       - operator
       - k8s-setup
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -723,7 +723,7 @@ jobs:
 
   sbctcl-tests:
     name: "Run sbctcl Tests"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
