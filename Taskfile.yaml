@@ -87,8 +87,6 @@ tasks:
     cmds:
       - 'echo "Cleaning up testing environment"'
       - kind delete cluster --name testing-env
-    status:
-      - kind get clusters | grep -q 'testing-env' || exit 0
 
   minio-port-forward:
     desc: "Port forward the MinIO service to access it locally"
