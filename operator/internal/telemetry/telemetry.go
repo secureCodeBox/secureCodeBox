@@ -25,7 +25,7 @@ var telemetryInterval = 24 * time.Hour
 // Unofficial Scan Types should be reported as "other" to avoid leakage of confidential data via the scan-types name
 var officialScanTypes map[string]bool = map[string]bool{
 	"amass":                    true,
-	"cmseek":                   true,
+	"cmseek":                   true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"doggo":                    true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"ffuf":                     true,
 	"git-repo-scanner":         true,

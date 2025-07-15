@@ -419,7 +419,6 @@ jobs:
       matrix:
         unit:
           - amass
-          - cmseek
           - ffuf
           - git-repo-scanner
           - gitleaks
