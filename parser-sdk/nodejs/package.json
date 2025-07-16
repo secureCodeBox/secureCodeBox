@@ -7,11 +7,15 @@
   "keywords": [],
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
+  "scripts": {
+    "build": "bun build --production --target=node --outdir=build/ --external=./parser/parser.js --sourcemap=external --minify ./parser-wrapper.js"
+  },
   "dependencies": {
     "@kubernetes/client-node": "^1.3.0",
     "ajv": "^8.17.1",
     "ajv-draft-04": "^1.0.0",
     "ajv-formats": "^3.0.1",
     "jsonpointer": "^5.0.1"
-  }
+  },
+  "devDependencies": {}
 }
