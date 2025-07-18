@@ -9,7 +9,7 @@ metadata:
 spec:
   scanType: "subfinder"
   parameters:
-    - "-active"
-    - "-ip"
+    - "-active" # Active Scans resolve the identified subdomains and filter out inactive subdomains.
+    - "-ip" # Only possible for active scans.
     - "-d"
     - "securecodebox.io"
