@@ -11,7 +11,7 @@ FROM alpine:3.22
 
 ENV PATH=${PATH}:/nikto
 
-COPY wrapper.sh /wrapper.sh
+COPY --chown=root:root --chmod=755 wrapper.sh /wrapper.sh
 
 RUN apk add --update --no-cache --virtual .build-deps \
      perl \
@@ -19,7 +19,7 @@ RUN apk add --update --no-cache --virtual .build-deps \
   && addgroup -g 1001 nikto \
   && adduser -G nikto -s /bin/sh -D -u 1001 nikto
 
-COPY --from=build --chown=nikto:nikto /nikto/program /nikto
+COPY --from=build --chown=root:root --chmod=755 /nikto/program /nikto
 
 USER 1001
 
