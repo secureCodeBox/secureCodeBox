@@ -159,6 +159,7 @@ matches the snapshot:
         spec:
           template:
             spec:
+              automountServiceAccountToken: false
               containers:
                 - command:
                     - nuclei
@@ -201,6 +202,7 @@ matches the snapshot:
     spec:
       template:
         spec:
+          automountServiceAccountToken: false
           containers:
             - command:
                 - nuclei
