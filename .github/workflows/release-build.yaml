@@ -335,6 +335,7 @@ jobs:
           - semgrep
           - ssh-audit
           - sslyze
+          - subfinder
           - test-scan
           - trivy
           - trivy-sbom
