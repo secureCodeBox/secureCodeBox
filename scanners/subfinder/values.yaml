@@ -71,18 +71,24 @@ scanner:
   env: []
 
   # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumes: []
+  extraVolumes:
+    - name: subfinder-config
+      emptyDir: {}
+
 
   # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumeMounts: []
+  extraVolumeMounts:
+    - name: subfinder-config
+      mountPath: /.config/subfinder/
 
   # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
 
   # scanner.podSecurityContext -- Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   podSecurityContext:
-    {}
-    # fsGroup: 2000
+    {
+      runAsUser: 10001
+    }
 
   # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
