@@ -5,7 +5,7 @@
 FROM node:22-alpine AS build
 WORKDIR /home/app
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --ignore-scripts
 
 FROM node:22-alpine
 ARG NODE_ENV
