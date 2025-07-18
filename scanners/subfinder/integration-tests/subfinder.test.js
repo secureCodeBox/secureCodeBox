@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-jest.retryTimes(3);
+import { scan } from "../../../tests/integration/helpers.js";
 
 test(
   "subfinder should find at least 10 subdomains",
@@ -16,5 +15,5 @@ test(
     );
     expect(count).toBeGreaterThanOrEqual(10); // The scan is passive, so we can expect a lot of subdomains
   },
-  10 * 60 * 1000
+  {timeout: 10 * 60 * 1000}
 );
