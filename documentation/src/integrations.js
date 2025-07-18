@@ -168,6 +168,13 @@ export const Scanners = [
     imageUrl: "img/integrationIcons/SSLyze.svg",
   },
   {
+    title: "subfinder",
+    type: "Network",
+    usecase: "Subdomain Enumeration Scanner",
+    path: "docs/scanners/subfinder",
+    imageUrl: "img/integrationIcons/Default.svg",
+  },
+  {
     title: "Trivy SBOM",
     type: "Container",
     usecase: "Container Dependency Scanner",

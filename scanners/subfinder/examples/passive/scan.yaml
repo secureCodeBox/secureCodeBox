@@ -5,9 +5,9 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "subfinder-passive-securecodebox.io"
+  name: "subfinder-passive-example.com"
 spec:
   scanType: "subfinder"
   parameters:
     - "-d"
-    - "securecodebox.io"
+    - "example.com"

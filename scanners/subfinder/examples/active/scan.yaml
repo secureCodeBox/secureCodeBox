@@ -5,11 +5,11 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "subfinder-active-securecodebox.io"
+  name: "subfinder-active-example.com"
 spec:
   scanType: "subfinder"
   parameters:
     - "-active" # Active Scans resolve the identified subdomains and filter out inactive subdomains.
     - "-ip" # Only possible for active scans.
     - "-d"
-    - "securecodebox.io"
+    - "example.com"
