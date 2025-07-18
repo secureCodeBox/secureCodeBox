@@ -239,9 +239,11 @@ export async function parse(fileContent) {
   const location = "ssh://" + destination[0];
   let ipAddress = null;
   let hostname = null;
-  isIPaddress(destination[0])
-    ? (ipAddress = destination[0])
-    : (hostname = destination[0]);
+  if (isIPaddress(destination[0])) {
+    ipAddress = destination[0]
+  } else {
+    hostname = destination[0]
+  }
 
   const recommendationsArray = Object.entries(report.recommendations);
   const policyViolationFindings = recommendationsArray.flatMap(
