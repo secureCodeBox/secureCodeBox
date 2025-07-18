@@ -20,12 +20,10 @@ function transformToFindings(targets) {
       "osi_layer": "NETWORK",
       "severity": "INFORMATIONAL",
       "attributes": {
-        "addresses": {
-          "ip": item?.ip || null
-        },
         "domain": item.input,
         "hostname": item.host,
         "ip_address": item?.ip || null,
+        "ip_addresses": [item?.ip || null].filter(Boolean),
         "source": item.source,
       }
     }

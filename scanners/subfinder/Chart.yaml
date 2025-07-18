@@ -12,7 +12,7 @@ version: v3.1.0-alpha1
 appVersion: "v2.7.0"
 kubeVersion: ">=v1.11.0-0"
 annotations:
-  #versionApi: https://api.github.com/repos/REPONAME/REPO/releases/latest
+  versionApi: https://api.github.com/repos/projectdiscovery/subfinder/releases/latest
   # supported cpu architectures for which docker images for the scanner should be build, e.g. "linux/amd64,linux/arm64"
   supported-platforms: linux/amd64
 keywords:
