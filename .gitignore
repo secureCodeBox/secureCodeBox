@@ -59,6 +59,7 @@ report
 
 # Documentation
 ## Documentation build files
+documentation/build/
 documentation/.docusaurus
 documentation/.cache-loader
 ## Documentation generated files
@@ -74,3 +75,4 @@ documentation/.author_meta
 
 # we still use package-lock.json from node as we still use node for our acutal production containers
 bun.lock
+
