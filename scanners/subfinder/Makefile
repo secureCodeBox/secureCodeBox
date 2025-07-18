@@ -7,6 +7,5 @@
 
 include_guard = set
 scanner = subfinder
-custom_scanner = set
 
 include ../../scanners.mk
