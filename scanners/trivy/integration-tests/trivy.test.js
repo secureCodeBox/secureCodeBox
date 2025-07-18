@@ -27,7 +27,7 @@ test(
 test(
   "trivy filesystem scan with exiting files should not fail",
   async () => {
-    const { categories, severities, count } = await scan(
+    const { severities, count } = await scan(
       "trivy-filesystem-test",
       "trivy-filesystem",
       ["/repo/"],
@@ -78,7 +78,7 @@ test(
 test(
   "trivy repo scan with exiting repo should not fail",
   async () => {
-    const { categories, severities, count } = await scan(
+    const { severities, count } = await scan(
       "trivy-repo-test",
       "trivy-repo",
       ["https://github.com/knqyf263/trivy-ci-test"],
