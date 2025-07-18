@@ -4,7 +4,9 @@
   "type": "module",
   "description": "Handles external communication required for all secureCodeBox Hooks",
   "main": "hook-wrapper.js",
-  "scripts": {},
+  "scripts": {
+    "build": "bun build --production --target=node --outdir=build/ --external=./hook/hook.js --sourcemap=external --minify ./hook-wrapper.js"
+  },
   "keywords": [],
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
