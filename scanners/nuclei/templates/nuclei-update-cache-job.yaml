@@ -21,6 +21,7 @@ spec:
     spec:
       template:
         spec:
+          automountServiceAccountToken: false
           restartPolicy: OnFailure
           containers:
             - name: nuclei
@@ -61,6 +62,7 @@ metadata:
 spec:
   template:
     spec:
+      automountServiceAccountToken: false
       restartPolicy: OnFailure
       containers:
         - name: nuclei
