@@ -5,7 +5,7 @@
 FROM oven/bun:1.2 AS build
 WORKDIR /home/app/
 COPY package.json package-lock.json ./
-RUN bun install
+RUN bun install --ignore-scripts
 COPY *.js ./
 RUN bun run build
 
