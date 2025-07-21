@@ -7,7 +7,7 @@
       "updated_at": "2020-10-07T06:45:26.362Z",
       "version": "WzcxLDFd",
       "attributes": {
-        "title": "Subdomain (Amass) Overview",
+        "title": "Subdomain (Subfinder) Overview",
         "hits": 0,
         "description": "",
         "panelsJSON": "[{\"version\":\"7.8.0\",\"gridData\":{\"x\":0,\"y\":0,\"w\":10,\"h\":8,\"i\":\"3733ddef-b40f-4217-a0b2-8ba0b33bda55\"},\"panelIndex\":\"3733ddef-b40f-4217-a0b2-8ba0b33bda55\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":10,\"y\":0,\"w\":7,\"h\":8,\"i\":\"641856dc-33f7-448f-8b1d-d5650e36ee5b\"},\"panelIndex\":\"641856dc-33f7-448f-8b1d-d5650e36ee5b\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":17,\"y\":0,\"w\":7,\"h\":8,\"i\":\"65a2dafa-4d83-4a82-a8c8-d29f78c5de07\"},\"panelIndex\":\"65a2dafa-4d83-4a82-a8c8-d29f78c5de07\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":24,\"y\":0,\"w\":24,\"h\":23,\"i\":\"d331a001-f70b-4991-a050-a4347db862f2\"},\"panelIndex\":\"d331a001-f70b-4991-a050-a4347db862f2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":0,\"y\":8,\"w\":24,\"h\":15,\"i\":\"dceb4446-16c3-4cb8-b1df-0062d56bac3f\"},\"panelIndex\":\"dceb4446-16c3-4cb8-b1df-0062d56bac3f\",\"embeddableConfig\":{},\"panelRefName\":\"panel_4\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":0,\"y\":23,\"w\":48,\"h\":16,\"i\":\"2569f9de-cacd-4747-89ae-73bf6d336d9e\"},\"panelIndex\":\"2569f9de-cacd-4747-89ae-73bf6d336d9e\",\"embeddableConfig\":{},\"panelRefName\":\"panel_5\"}]",
@@ -201,10 +201,10 @@
         "description": "",
         "hits": 0,
         "kibanaSavedObjectMeta": {
-          "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"query\":\"*\",\"language\":\"kuery\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"scan_type\",\"params\":{\"query\":\"amass\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"scan_type\":\"amass\"}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"type\",\"params\":{\"query\":\"finding\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index\"},\"query\":{\"match_phrase\":{\"type\":\"finding\"}},\"$state\":{\"store\":\"appState\"}}]}"
+          "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"query\":\"*\",\"language\":\"kuery\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"scan_type\",\"params\":{\"query\":\"subfinder\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"scan_type\":\"subfinder\"}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"type\",\"params\":{\"query\":\"finding\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index\"},\"query\":{\"match_phrase\":{\"type\":\"finding\"}},\"$state\":{\"store\":\"appState\"}}]}"
         },
         "sort": [],
-        "title": "AMASS Findings",
+        "title": "Subfinder Findings",
         "version": 1
       },
       "references": [

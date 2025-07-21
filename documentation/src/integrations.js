@@ -77,13 +77,6 @@ export const Hooks = [
 
 export const Scanners = [
   {
-    title: "Amass",
-    type: "Network",
-    usecase: "Subdomain Enumeration Scanner",
-    path: "docs/scanners/amass",
-    imageUrl: "img/integrationIcons/Amass.svg",
-  },
-  {
     title: "ffuf",
     type: "Webserver",
     usecase: "Webserver and WebApplication Elements and Content Discovery",

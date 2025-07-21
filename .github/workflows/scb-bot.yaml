@@ -27,7 +27,6 @@ jobs:
       fail-fast: false
       matrix:
         scanner:
-          - amass
           - ffuf
           - gitleaks
           - kube-hunter
@@ -61,7 +60,7 @@ jobs:
           cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
       # Fetching scanner version API from local chart .annotations.versionApi attribute
-      # This would look like https://api.github.com/repos/OWASP/Amass/releases/latest
+      # This would look like https://api.github.com/repos/projectdiscovery/nuclei/releases/latest
       - name: Fetch scanner's version API
         uses: mikefarah/yq@v4.46.1
         with:
@@ -130,7 +129,7 @@ jobs:
         # Reformats the versionApi to have an HTML view of the release changelog
         # sed command is divided into three parts s/api.//g; , s/\/repos//g; and s/latest//g
         # "api." and "/repos" and "latest" are replaced with nothing (a.k.a removed)
-        # example: https://api.github.com/repos/OWASP/Amass/releases/latest --> https://github.com/OWASP/Amass/releases/
+        # example: https://api.github.com/repos/projectdiscovery/nuclei/releases/latest --> https://github.com/projectdiscovery/nuclei/releases/
         # the next command then appends the link  with the new release version as it is in Github.
         run: |
           changelog=$(echo ${{env.versionApi}} | sed -e 's/api.//g;s/\/repos//g;s/latest//g')

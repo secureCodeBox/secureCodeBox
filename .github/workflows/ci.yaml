@@ -418,7 +418,6 @@ jobs:
       fail-fast: false
       matrix:
         unit:
-          - amass
           - ffuf
           - git-repo-scanner
           - gitleaks

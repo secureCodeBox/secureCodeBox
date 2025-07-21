@@ -120,13 +120,13 @@ You can optionally deploy SCB scanner charts for each security scanner you want 
 ```bash
 # The following chart will be installed in the `default` namespace by you can choose the namespace of your choice by
 # adding `--namespace YOURNAMESPACE` to each line
-helm upgrade --install amass oci://ghcr.io/securecodebox/helm/amass
 helm upgrade --install gitleaks oci://ghcr.io/securecodebox/helm/gitleaks
 helm upgrade --install kube-hunter oci://ghcr.io/securecodebox/helm/kube-hunter
 helm upgrade --install nikto oci://ghcr.io/securecodebox/helm/nikto
 helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
 helm upgrade --install ssh-audit oci://ghcr.io/securecodebox/helm/ssh-audit
 helm upgrade --install sslyze oci://ghcr.io/securecodebox/helm/sslyze
+helm upgrade --install subfinder oci://ghcr.io/securecodebox/helm/subfinder
 helm upgrade --install trivy oci://ghcr.io/securecodebox/helm/trivy
 helm upgrade --install wpscan oci://ghcr.io/securecodebox/helm/wpscan
 helm upgrade --install zap-automation-framework oci://ghcr.io/securecodebox/helm/zap-automation-framework
