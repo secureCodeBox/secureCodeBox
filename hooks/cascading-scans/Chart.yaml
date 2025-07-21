@@ -4,7 +4,7 @@
 
 apiVersion: v2
 name: cascading-scans
-description: Starts possible subsequent security scans based on findings (e.g. open ports found by NMAP or subdomains found by AMASS).
+description: Starts possible subsequent security scans based on findings (e.g. open ports found by Nmap or subdomains found by Subfinder).
 
 type: application
 

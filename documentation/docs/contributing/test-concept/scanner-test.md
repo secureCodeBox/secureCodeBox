@@ -42,24 +42,27 @@ in the scanner directory.
 
 Each scanner has a folder with integration tests. For the integration tests we check the results of the `scan` function. This function runs an actual SCB scan in the Kind Cluster (Through the [Scan CRD](/docs/api/crds/scan)). It expects the following parameters: Name of the scan, scanType, scanner-specific parameters for the scan and the allowed timeout.
 
-An integration test for, for example, the amass scanner looks like this:
+An integration test for, for example, the nmap scanner looks like this:
 
 ```js
 test(
-  "amass should find at least 20 subdomains",
+  "nmap should identify open ports of bodgeit",
   async () => {
-    const { count } = await scan(
-      "amass-scanner-dummy-scan",
-      "amass",
-      ["-passive", "-noalts", "-norecursive", "-d", "owasp.org"],
+    const { count, categories } = await scan(
+      "nmap-scanner-dummy-scan",
+      "nmap",
+      ["bodgeit.demo-targets.svc"],
       180
     );
-    expect(count).toBeGreaterThanOrEqual(20);
+    expect(count).toBe(2);
+    expect(categories["Host"]).toBe(1);
+    expect(categories["Open Port"]).toBe(1);
   },
-  { timeout: 6 * 60 * 1000 },
+  { timeout: 3 * 60 * 1000 },
 );
 ```
-For this test to be considered successful, it has to match the expected condition. In this case, the condition is that the count of the findings is greater or equal to 20.
+For this test to be considered successful, it has to match the expected condition.
+
 ### How to Run an Integration Test
 
 To run the test it suffices to run:

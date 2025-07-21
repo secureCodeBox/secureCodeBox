@@ -11,7 +11,7 @@ sidebar_position: 7
 ## Introduction
 
 In this step-by-step tutorial, we will go through all the required stages to set up engagement scope enforcement with secureCodeBox.
-In this example, we are going to set up Amass and Nmap and run a scan with rules set-up so that we don't scan domains which are out-of-scope.
+In this example, we are going to set up subfinder and Nmap and run a scan with rules set-up so that we don't scan domains which are out-of-scope.
 
 ## Setup
 
@@ -19,11 +19,11 @@ For the sake of the tutorial, we assume that you have your Kubernetes cluster al
 If not, check out the [installation](/docs/getting-started/installation/) for more information.
 We also assume that you have the latest version of cascading scans installed.
 
-We will start by installing Amass and Nmap:
+We will start by installing subfinder and Nmap:
 
 ```bash
-helm upgrade --install amass oci://ghcr.io/securecodebox/helm/amass
-Release "amass" does not exist. Installing it now.
+helm upgrade --install subfinder oci://ghcr.io/securecodebox/helm/subfinder
+Release "subfinder" does not exist. Installing it now.
 [...]
 helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap
 Release "nmap" does not exist. Installing it now.
@@ -33,14 +33,14 @@ Release "nmap" does not exist. Installing it now.
 ## Start Scan With Scope Limit
 
 Next, we can start creating our scan definition.
-Let's assume that we would like amass to scan `nmap.org` for subdomains, but we would only like to run nmap on `scanme.nmap.org`.
+Let's assume that we would like subfinder to scan `nmap.org` for subdomains, but we would only like to run nmap on `scanme.nmap.org`.
 In the example below, we only cascade if our `scope.cascading.securecodebox.io/domain` equals `{{attributes.name}}`.
 
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "amass-scan"
+  name: "subdomain-scan"
   annotations:
     scope.cascading.securecodebox.io/domain: "scanme.nmap.org"
 spec:
@@ -50,7 +50,7 @@ spec:
         - key: "scope.cascading.securecodebox.io/domain"
           operator: "In"
           values: ["{{attributes.name}}"]
-  scanType: "amass"
+  scanType: "subfinder"
   parameters:
     - "-d"
     - "nmap.org"
@@ -64,23 +64,23 @@ Running this scan results in the following state:
 
 ```shell
 $ kubectl get scans
-amass-scan                      amass   Done    65
-nmap-scan-nmap-hostscan-86f2m   nmap    Done    6
+subdomain-scan                  subfinder   Done    65
+nmap-scan-nmap-hostscan-86f2m   nmap        Done    6
 $ kubectl get pods
-cascading-scans-amass-scan-8cssx--1-hh2w6                      0/1     Completed   0          2m51s
-cascading-scans-nmap-scan-nmap-hostscan-86f2m-4mljv--1-7zgm2   0/1     Completed   0          2m23s
-parse-amass-scan-zfhxg--1-shwkj                                0/1     Completed   0          2m54s
-parse-nmap-scan-nmap-hostscan-86f2m-d6jh6--1-ztgls             0/1     Completed   0          2m26s
-scan-amass-scan-79h5f--1-vk7v5                                 0/2     Completed   0          4m22s
-scan-nmap-scan-nmap-hostscan-86f2m-54pkd--1-pfpp6              0/2     Completed   0          2m48s
+cascading-scans-subdomain-scan-8cssx--1-hh2w6                      0/1     Completed   0          2m51s
+cascading-scans-nmap-scan-nmap-hostscan-86f2m-4mljv--1-7zgm2       0/1     Completed   0          2m23s
+parse-subdomain-scan-zfhxg--1-shwkj                                0/1     Completed   0          2m54s
+parse-nmap-scan-nmap-hostscan-86f2m-d6jh6--1-ztgls                 0/1     Completed   0          2m26s
+scan-subdomain-scan-79h5f--1-vk7v5                                 0/2     Completed   0          4m22s
+scan-nmap-scan-nmap-hostscan-86f2m-54pkd--1-pfpp6                  0/2     Completed   0          2m48s
 ```
 
-As you can see, amass found 65 domain names, but only a single nmap scan was created.
+As you can see, subfinder found 65 domain names, but only a single nmap scan was created.
 In the cascading scans logs, you will see that lots of rules were not triggered as the domain was out of scope.
 
 ```shell
-$ kubectl logs cascading-scans-amass-scan-8cssx--1-hh2w6
-Starting hook for Scan "amass-scan"
+$ kubectl logs cascading-scans-subfinder-scan-8cssx--1-hh2w6
+Starting hook for Scan "subfinder-scan"
 Fetched 65 findings from the file storage
 Fetching CascadingScans using LabelSelector: ""
 Fetched 2 CascadingRules
@@ -97,7 +97,7 @@ As an example, let's say you want to set up Nikto as a scanner.
 This scanner cascades on Nmap's open port finding and uses `$.hostOrIp` to start the scan.
 In some cases, nmap can return a hostname different to the original hostname, thus with scope rules we want to check for this.
 Preferably, we would like to use the same rule as above.
-Unfortunately, nmap gives its hostname in `attributes.hostname` instead of the defined `attributes.name` (Amass finding).
+Unfortunately, nmap gives its hostname in `attributes.hostname` instead of the defined `attributes.name` (subfinder finding).
 This results in the scope rule failing, and prevents Nikto from getting cascaded.
 
 To solve this situation, you have two options:
@@ -112,7 +112,7 @@ Example:
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "amass-scan"
+  name: "subfinder-scan"
   annotations:
     scope.cascading.securecodebox.io/domain: "scanme.nmap.org"
 spec:
@@ -124,7 +124,7 @@ spec:
         - key: "scope.cascading.securecodebox.io/domain"
           operator: "In"
           values: ["{{attributes.name}}"]
-  scanType: "amass"
+  scanType: "subfinder"
   parameters:
     - "-d"
     - "nmap.org"
@@ -136,9 +136,9 @@ A more fool-proof solution is to ensure that the hostname field is available in 
 When deploying your scanner, you can define `scopeLimiterAliases`.
 
 ```shell
-$ helm upgrade --install amass oci://ghcr.io/securecodebox/helm/amass \
+$ helm upgrade --install subfinder oci://ghcr.io/securecodebox/helm/subfinder \
  --set="parser.scopeLimiterAliases.hostname=\{\{attributes.name\}\}"
-Release "amass" has been upgraded. Happy Helming!
+Release "subfinder" has been upgraded. Happy Helming!
 [...]
 $ helm upgrade --install nmap oci://ghcr.io/securecodebox/helm/nmap \
  --set="parser.scopeLimiterAliases.hostname=\{\{attributes.hostname\}\}"
@@ -152,11 +152,11 @@ The aliases are added to the scanner's parse definition:
 apiVersion: execution.securecodebox.io/v1
 kind: ParseDefinition
 metadata:
-  name: amass-jsonl
+  name: subfinder-jsonl
   namespace: default
 spec:
   env: []
-  image: docker.io/securecodebox/parser-amass:3.5.0
+  image: docker.io/securecodebox/parser-subfinder:3.16.0
   imagePullPolicy: IfNotPresent
   scopeLimiterAliases:
     hostname: "{{attributes.name}}"
@@ -173,14 +173,14 @@ scopeLimiter:
       values: ["{{$.hostname}}"]
 ```
 
-Running this scan inside the cluster runs Amass, Nmap, and Nikto as expected.
+Running this scan inside the cluster runs subfinder, Nmap, and Nikto as expected.
 
 ```shell
 $ kubectl get scans
-NAME                                              TYPE    STATE   FINDINGS
-amass-scan                                        amass   Done    65
-nikto-scan-nmap-hostscan-rhhqz-nikto-http-ps8cl   nikto   Done    6
-nmap-scan-nmap-hostscan-rhhqz                     nmap    Done    6
+NAME                                                  TYPE        STATE   FINDINGS
+subdomain-scan                                        subfinder   Done    65
+nikto-scan-nmap-hostscan-rhhqz-nikto-http-ps8cl       nikto       Done    6
+nmap-scan-nmap-hostscan-rhhqz                         nmap        Done    6
 ```
 
 :::caution

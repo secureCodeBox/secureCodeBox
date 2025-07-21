@@ -24,7 +24,7 @@ var telemetryInterval = 24 * time.Hour
 // officialScanTypes contains the list of official secureCodeBox Scan Types.
 // Unofficial Scan Types should be reported as "other" to avoid leakage of confidential data via the scan-types name
 var officialScanTypes map[string]bool = map[string]bool{
-	"amass":                    true,
+	"amass":                    true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"cmseek":                   true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"doggo":                    true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"ffuf":                     true,
@@ -41,17 +41,18 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"ssh-audit":                true,
 	"ssh-scan":                 true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"sslyze":                   true,
+	"subfinder":                true,
 	"trivy-image":              true,
 	"trivy-filesystem":         true,
 	"trivy-repo":               true,
 	"trivy-sbom-image":         true,
 	"typo3scan":                true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
-	"whatweb":                  true,
+	"whatweb":                  true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"wpscan":                   true,
 	"zap-baseline-scan":        true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
-	"zap-api-scan":             true,
-	"zap-full-scan":            true,
-	"zap-automation-scan":      true,
+	"zap-api-scan":             true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
+	"zap-full-scan":            true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
+	"zap-automation-scan":      true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 	"zap-automation-framework": true,
 	"zap-advanced-scan":        true, // deprecated. we'll keep it in this list to still recieve telemetry data from older versions
 }
