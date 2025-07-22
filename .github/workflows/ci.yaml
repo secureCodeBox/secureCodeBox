@@ -269,10 +269,6 @@ jobs:
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
-
       - name: Download Kind
         uses: actions/download-artifact@v4
         with:
