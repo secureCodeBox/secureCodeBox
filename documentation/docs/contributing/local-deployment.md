@@ -82,11 +82,11 @@ task: [build-operator-image] docker build -t ${IMG_NS}/operator:${IMG_TAG} /src/
  => [internal] load build definition from Dockerfile                                                                             0.0s
  => => transferring dockerfile: 966B                                                                                             0.0s
  => [internal] load metadata for gcr.io/distroless/static:nonroot                                                                0.4s
- => [internal] load metadata for docker.io/library/golang:1.24.2                                                                 1.0s
+ => [internal] load metadata for docker.io/library/golang:1.24.5                                                                 1.0s
  => [auth] library/golang:pull token for registry-1.docker.io                                                                    0.0s
  => [internal] load .dockerignore                                                                                                0.0s
  => => transferring context: 291B                                                                                                0.0s
- => [builder  1/11] FROM docker.io/library/golang:1.24.2@sha256:30baaea08c5d1e858329c50f29fe381e9b7d7bced11a0f5f1f69a1504cdfbf5  0.0s
+ => [builder  1/11] FROM docker.io/library/golang:1.24.5@sha256:30baaea08c5d1e858329c50f29fe381e9b7d7bced11a0f5f1f69a1504cdfbf5  0.0s
  => [stage-1 1/3] FROM gcr.io/distroless/static:nonroot@sha256:627d6c5a23ad24e6bdff827f16c7b60e0289029b0c79e9f7ccd54ae3279fb45f  0.0s
  => [internal] load build context                                                                                                0.0s
  => => transferring context: 2.91kB                                                                                              0.0s
@@ -105,11 +105,11 @@ task: [build-operator-image] docker build -t ${IMG_NS}/operator:${IMG_TAG} /src/
 [+] Building 1.1s (15/15) FINISHED                                                                               docker:desktop-linux
  => [internal] load build definition from Dockerfile                                                                             0.0s
  => => transferring dockerfile: 820B                                                                                             0.0s
- => [internal] load metadata for docker.io/library/golang:1.24.2                                                                 1.0s
+ => [internal] load metadata for docker.io/library/golang:1.24.5                                                                 1.0s
  => [internal] load metadata for gcr.io/distroless/static:nonroot                                                                0.4s
  => [internal] load .dockerignore                                                                                                0.0s
  => => transferring context: 171B                                                                                                0.0s
- => [builder  1/11] FROM docker.io/library/golang:1.24.2@sha256:30baaea08c5d1e858329c50f29fe381e9b7d7bced11a0f5f1f69a1504cdfbf5  0.0s
+ => [builder  1/11] FROM docker.io/library/golang:1.24.5@sha256:30baaea08c5d1e858329c50f29fe381e9b7d7bced11a0f5f1f69a1504cdfbf5  0.0s
  => [stage-1 1/3] FROM gcr.io/distroless/static:nonroot@sha256:627d6c5a23ad24e6bdff827f16c7b60e0289029b0c79e9f7ccd54ae3279fb45f  0.0s
  => [internal] load build context                                                                                                0.0s
  => => transferring context: 81B                                                                                                 0.0s
