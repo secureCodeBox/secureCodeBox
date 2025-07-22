@@ -35,6 +35,7 @@ jobs:
           - semgrep
           - ssh-audit
           - sslyze
+          - subfinder
           - trivy
           - trivy-sbom
           - whatweb
