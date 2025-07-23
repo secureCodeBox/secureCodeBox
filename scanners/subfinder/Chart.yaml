@@ -5,11 +5,10 @@
 apiVersion: v2
 name: subfinder
 description: A Helm chart for the subfinder security Scanner that integrates with the secureCodeBox.
-
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-appVersion: "v2.7.0"
+appVersion: "v2.8.0"
 kubeVersion: ">=v1.11.0-0"
 annotations:
   versionApi: https://api.github.com/repos/projectdiscovery/subfinder/releases/latest
