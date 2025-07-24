@@ -72,3 +72,24 @@ test("parses results with requests & responses correctly", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
+
+// some templates, e.g. dns ones, do not contain a port in the hostname
+test("parses findings with hostnames which do not contain a port correctly", async () => {
+  const fileContent = await readFile(
+    import.meta.dirname + "/__testFiles__/hostname-without-port.jsonl",
+    {
+      encoding: "utf8",
+    },
+  );
+
+  const findings = await parse(JSON.parse(fileContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings[0]).toEqual(
+    expect.objectContaining({
+      location: "example.com",
+      attributes: expect.objectContaining({
+        hostname: "example.com",
+      }),
+    }),
+  );
+});
