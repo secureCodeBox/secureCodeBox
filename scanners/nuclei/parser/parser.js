@@ -97,11 +97,15 @@ function parseHostname(host) {
   if (!host) {
     return null;
   }
+  // If the host doesn't have a proper protocol, add one to make URL parsing work
+  const hasValidProtocol = /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(host);
+
+  if (!hasValidProtocol) {
+    return host;
+  }
 
   try {
-    // If the host doesn't have a protocol, add one to make URL parsing work
-    const urlString = host.includes("://") ? host : `http://${host}`;
-    const url = new URL(urlString);
+    const url = new URL(host);
     return url.hostname;
   } catch (err) {
     // If URL parsing fails, check if the host is already a hostname (no protocol, no path)
