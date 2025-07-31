@@ -1,4 +1,143 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`parses www.securecodebox.io result file into findings 1`] = `
+[
+  {
+    "attributes": {
+      "banner": "",
+      "hostname": "www.securecodebox.io",
+      "ip_addresses": [
+        "3.70.101.28",
+      ],
+      "method": "GET",
+      "niktoId": 287,
+      "port": 443,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://www.netlify.com/",
+        },
+      ],
+    },
+    "category": "Potential Vulnerability",
+    "description": null,
+    "location": "https://www.securecodebox.io/",
+    "name": "Netlify was identified by the x-nf-request-id header.",
+    "osi_layer": "NETWORK",
+    "severity": "HIGH",
+  },
+  {
+    "attributes": {
+      "banner": "",
+      "hostname": "www.securecodebox.io",
+      "ip_addresses": [
+        "3.70.101.28",
+      ],
+      "method": "GET",
+      "niktoId": 999100,
+      "port": 443,
+      "references": null,
+    },
+    "category": "Uncommon Header",
+    "description": null,
+    "location": "https://www.securecodebox.io/",
+    "name": "Uncommon header 'cache-status' found, with contents: \\"Netlify Edge\\"; hit.",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  {
+    "attributes": {
+      "banner": "",
+      "hostname": "www.securecodebox.io",
+      "ip_addresses": [
+        "3.70.101.28",
+      ],
+      "method": "GET",
+      "niktoId": 999103,
+      "port": 443,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
+        },
+      ],
+    },
+    "category": "X-Content-Type-Options Header",
+    "description": null,
+    "location": "https://www.securecodebox.io/",
+    "name": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type.",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  {
+    "attributes": {
+      "banner": "",
+      "hostname": "www.securecodebox.io",
+      "ip_addresses": [
+        "3.70.101.28",
+      ],
+      "method": "GET",
+      "niktoId": 999984,
+      "port": 443,
+      "references": [
+        {
+          "type": "URL",
+          "value": "CVE-2003-1418",
+        },
+      ],
+    },
+    "category": "Nikto Finding",
+    "description": null,
+    "location": "https://www.securecodebox.io/",
+    "name": "Server may leak inodes via ETags, header found with file /, inode: 47d154f7c9e7e369b48dafb5778d36d4, size: ssl, mtime: df.",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  {
+    "attributes": {
+      "banner": "",
+      "hostname": "www.securecodebox.io",
+      "ip_addresses": [
+        "3.70.101.28",
+      ],
+      "method": "GET",
+      "niktoId": 999966,
+      "port": 443,
+      "references": [
+        {
+          "type": "URL",
+          "value": "http://breachattack.com/",
+        },
+      ],
+    },
+    "category": "Nikto Finding",
+    "description": null,
+    "location": "https://www.securecodebox.io/",
+    "name": "The Content-Encoding header is set to \\"deflate\\" which may mean that the server is vulnerable to the BREACH attack.",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  {
+    "attributes": {
+      "banner": "",
+      "hostname": "www.securecodebox.io",
+      "ip_addresses": [
+        "3.70.101.28",
+      ],
+      "method": "GET",
+      "niktoId": 1218,
+      "port": 443,
+      "references": null,
+    },
+    "category": "Potential Vulnerability",
+    "description": null,
+    "location": "https://www.securecodebox.io/sitemap.xml",
+    "name": "This gives a nice listing of the site content.",
+    "osi_layer": "NETWORK",
+    "severity": "HIGH",
+  },
+]
+`;
 
 exports[`parses OWASP Juice Shop result file into findings 1`] = `
 [
@@ -4646,145 +4785,6 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "description": null,
     "location": "http://juice-shop.demo-targets.svc/.htpasswd",
     "name": "Contains authorization information.",
-    "osi_layer": "NETWORK",
-    "severity": "HIGH",
-  },
-]
-`;
-
-exports[`parses www.securecodebox.io result file into findings 1`] = `
-[
-  {
-    "attributes": {
-      "banner": "",
-      "hostname": "www.securecodebox.io",
-      "ip_addresses": [
-        "3.70.101.28",
-      ],
-      "method": "GET",
-      "niktoId": 287,
-      "port": 443,
-      "references": [
-        {
-          "type": "URL",
-          "value": "https://www.netlify.com/",
-        },
-      ],
-    },
-    "category": "Potential Vulnerability",
-    "description": null,
-    "location": "https://www.securecodebox.io/",
-    "name": "Netlify was identified by the x-nf-request-id header.",
-    "osi_layer": "NETWORK",
-    "severity": "HIGH",
-  },
-  {
-    "attributes": {
-      "banner": "",
-      "hostname": "www.securecodebox.io",
-      "ip_addresses": [
-        "3.70.101.28",
-      ],
-      "method": "GET",
-      "niktoId": 999100,
-      "port": 443,
-      "references": null,
-    },
-    "category": "Uncommon Header",
-    "description": null,
-    "location": "https://www.securecodebox.io/",
-    "name": "Uncommon header 'cache-status' found, with contents: \\"Netlify Edge\\"; hit.",
-    "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
-  },
-  {
-    "attributes": {
-      "banner": "",
-      "hostname": "www.securecodebox.io",
-      "ip_addresses": [
-        "3.70.101.28",
-      ],
-      "method": "GET",
-      "niktoId": 999103,
-      "port": 443,
-      "references": [
-        {
-          "type": "URL",
-          "value": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
-        },
-      ],
-    },
-    "category": "X-Content-Type-Options Header",
-    "description": null,
-    "location": "https://www.securecodebox.io/",
-    "name": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type.",
-    "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
-  },
-  {
-    "attributes": {
-      "banner": "",
-      "hostname": "www.securecodebox.io",
-      "ip_addresses": [
-        "3.70.101.28",
-      ],
-      "method": "GET",
-      "niktoId": 999984,
-      "port": 443,
-      "references": [
-        {
-          "type": "URL",
-          "value": "CVE-2003-1418",
-        },
-      ],
-    },
-    "category": "Nikto Finding",
-    "description": null,
-    "location": "https://www.securecodebox.io/",
-    "name": "Server may leak inodes via ETags, header found with file /, inode: 47d154f7c9e7e369b48dafb5778d36d4, size: ssl, mtime: df.",
-    "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
-  },
-  {
-    "attributes": {
-      "banner": "",
-      "hostname": "www.securecodebox.io",
-      "ip_addresses": [
-        "3.70.101.28",
-      ],
-      "method": "GET",
-      "niktoId": 999966,
-      "port": 443,
-      "references": [
-        {
-          "type": "URL",
-          "value": "http://breachattack.com/",
-        },
-      ],
-    },
-    "category": "Nikto Finding",
-    "description": null,
-    "location": "https://www.securecodebox.io/",
-    "name": "The Content-Encoding header is set to \\"deflate\\" which may mean that the server is vulnerable to the BREACH attack.",
-    "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
-  },
-  {
-    "attributes": {
-      "banner": "",
-      "hostname": "www.securecodebox.io",
-      "ip_addresses": [
-        "3.70.101.28",
-      ],
-      "method": "GET",
-      "niktoId": 1218,
-      "port": 443,
-      "references": null,
-    },
-    "category": "Potential Vulnerability",
-    "description": null,
-    "location": "https://www.securecodebox.io/sitemap.xml",
-    "name": "This gives a nice listing of the site content.",
     "osi_layer": "NETWORK",
     "severity": "HIGH",
   },
