@@ -44,7 +44,7 @@ For convenience a helper object has been added to the mustache call under the `$
 
 This helper object has the following attributes:
 
-- `$.hostOrIP` returns either the hostname (if available) or the hostname of the current finding.
+- `$.hostOrIP` returns either the hostname (if available) or the ip address of the current finding.
 
 ## Example
 
