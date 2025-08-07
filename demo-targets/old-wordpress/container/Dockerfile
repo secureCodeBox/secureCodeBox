@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM alpine:3.13 AS base
+FROM alpine:3.22 AS base
 RUN apk add wget unzip \
     && wget https://downloads.wordpress.org/plugin/sqlite-integration.1.8.1.zip \
     && unzip sqlite-integration.1.8.1.zip \
