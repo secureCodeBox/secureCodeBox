@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM nginx:1.17-alpine
+FROM nginx:1.29-alpine
 COPY index.html /usr/share/nginx/html/index.html
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY site.crt /etc/nginx/my-site.com.crt
