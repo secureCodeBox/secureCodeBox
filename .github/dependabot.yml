@@ -69,23 +69,6 @@ updates:
         patterns:
           - "*"
 
-  # Docker Updates
-  - package-ecosystem: "docker"
-    directories:
-      - "/"
-      - "**/*"
-    schedule:
-      interval: "weekly"
-    groups:
-      docker-security-updates:
-        applies-to: security-updates
-        patterns:
-          - "*"
-      docker-version-updates:
-        applies-to: version-updates
-        patterns:
-          - "*"
-
   # GitHub Actions Updates
   - package-ecosystem: "github-actions"
     directories:
