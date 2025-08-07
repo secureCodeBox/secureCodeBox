@@ -10,5 +10,5 @@ RUN apk add wget unzip \
 && unzip Joomla_3.6.5-Stable-Full_Package.zip \
 && rm Joomla_3.6.5-Stable-Full_Package.zip
 
-FROM php:7.2-apache
+FROM php:8.4-apache
 COPY --from=base /html /var/www/html
