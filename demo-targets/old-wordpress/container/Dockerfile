@@ -11,7 +11,7 @@ RUN apk add wget unzip \
     && mv sqlite-integration/ /wp-content/plugins \
     && mv /wp-content/plugins/sqlite-integration/db.php  /wp-content/ 
 
-FROM wordpress:4
+FROM wordpress:6
 COPY --from=base --chown=33:33 /wp-content/ /var/www/html/wp-content/ 
 COPY ./wp-config.php /var/www/html/ 
 COPY ./.ht.sqlite  /var/www/html/wp-content/database/.ht.sqlite
