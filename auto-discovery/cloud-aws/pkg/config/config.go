@@ -7,7 +7,7 @@ package config
 import (
 	"os"
 
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	autoDiscoveryConfig "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/config"
 	"sigs.k8s.io/yaml"
 )
 
@@ -22,9 +22,12 @@ type AwsConfig struct {
 }
 
 type KubernetesConfig struct {
-	Namespace   string                `json:"namespace"`
-	ScanConfigs []configv1.ScanConfig `json:"scanConfigs"`
+	Namespace   string                           `json:"namespace"`
+	ScanConfigs []autoDiscoveryConfig.ScanConfig `json:"scanConfigs"`
 }
+
+// Re-export ScanConfig for convenience
+type ScanConfig = autoDiscoveryConfig.ScanConfig
 
 func GetConfig(configFile string) AutoDiscoveryConfig {
 	filecontent, err := os.ReadFile(configFile)
