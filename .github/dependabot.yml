@@ -107,8 +107,8 @@ updates:
     directories: 
       - "/auto-discovery/kubernetes"
       - "/auto-discovery/cloud-aws"
-      - "/operator/go.mod"
-      - "/lurker/go.mod"
+      - "/operator"
+      - "/lurker"
     schedule:
       interval: "weekly"
     groups:
