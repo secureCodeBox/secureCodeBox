@@ -5,7 +5,8 @@
 apiVersion: v2
 version: v3.1.0-alpha1
 type: application
-appVersion: "v1.0.0"
+# renovate: docker.io/securecodebox/dummy-ssh
+appVersion: v1.0.0
 name: dummy-ssh
 description: "SSH Server for scan testing."
 home: https://www.securecodebox.io

@@ -4,7 +4,8 @@
 
 apiVersion: v2
 version: v3.1.0-alpha3
-appVersion: "v13.0.3"
+# renovate: image=docker.io/bkimminich/juice-shop
+appVersion: v13.0.3
 name: juice-shop
 description: "OWASP Juice Shop: Probably the most modern and sophisticated insecure web application"
 type: application
