@@ -11,7 +11,6 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/config"
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -63,7 +62,7 @@ type CloudScanReconciler struct {
 // AutoDiscovery, but not all values offered there make sense here.
 type ContainerAutoDiscoveryTemplateArgs struct {
 	Config     config.AutoDiscoveryConfig
-	ScanConfig configv1.ScanConfig
+	ScanConfig config.ScanConfig
 	Target     ContainerInfo
 	Image      ImageDetails
 	ImageID    string
@@ -203,7 +202,7 @@ func (r *CloudScanReconciler) deleteScheduledScan(ctx context.Context, name stri
 }
 
 // Generate a ScheduledScan based on the config and template values for a request the Reconciler received
-func getScheduledScanForRequest(req Request, cfg *config.AutoDiscoveryConfig, scanConfig configv1.ScanConfig) *executionv1.ScheduledScan {
+func getScheduledScanForRequest(req Request, cfg *config.AutoDiscoveryConfig, scanConfig config.ScanConfig) *executionv1.ScheduledScan {
 	templateArgs := ContainerAutoDiscoveryTemplateArgs{
 		Config:     *cfg,
 		ScanConfig: scanConfig,
@@ -252,12 +251,12 @@ func getScanName(req Request, name string) string {
 }
 
 // Templating helper function taken from the kubernetes AutoDiscovery
-func getScanAnnotations(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
+func getScanAnnotations(scanConfig config.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
 	return util.ParseMapTemplate(templateArgs, scanConfig.Annotations)
 }
 
 // Templating helper function taken from the kubernetes AutoDiscovery
-func getScanLabels(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
+func getScanLabels(scanConfig config.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
 	generatedLabels := util.ParseMapTemplate(templateArgs, scanConfig.Labels)
 	generatedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 

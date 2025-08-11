@@ -19,7 +19,6 @@ import (
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/aws"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/config"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -86,7 +85,7 @@ var _ = BeforeSuite(func() {
 		},
 		Kubernetes: config.KubernetesConfig{
 			Namespace: namespace,
-			ScanConfigs: []configv1.ScanConfig{
+			ScanConfigs: []config.ScanConfig{
 				{
 					Name:           "test-scan",
 					RepeatInterval: metav1.Duration{Duration: time.Hour},
