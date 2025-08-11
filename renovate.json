@@ -5,5 +5,19 @@
     "group:recommended",
     ":disableDependencyDashboard"
   ],
-  "enabledManagers": ["dockerfile"]
+  "enabledManagers": ["dockerfile", "docker-compose"],
+
+  "ignorePaths": [
+    "demo-targets/bodgeit/**",
+    "demo-targets/dummy-ssh/**",
+    "demo-targets/http-webhook/**",
+    "demo-targets/old-typo3/**",
+    "demo-targets/old-joomla/**",
+    "demo-targets/old-wordpress/**",
+    "demo-targets/swagger-petstore/**",
+    "demo-targets/unsafe-https/**",
+    "demo-targets/vulnerable-log4j/**"
+  ]
 }
+
+
