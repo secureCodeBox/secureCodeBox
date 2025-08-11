@@ -5,7 +5,8 @@
 apiVersion: v2
 version: v3.1.0-alpha1
 type: application
-appVersion: "v1.0.0"
+# renovate: image=docker.io/securecodebox/unsafe-https
+appVersion: v1.0.0
 name: unsafe-https
 description: "Self-signed https Server for scan testing."
 home: https://www.securecodebox.io
