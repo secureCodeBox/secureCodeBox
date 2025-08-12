@@ -52,7 +52,7 @@ test(
           name: "init-git",
           image: "alpine/git",
           command: [
-            "bash",
+            "sh",
             "-c",
             // Bash script to create a git repo with a demo file
             `cd /repo && \\
