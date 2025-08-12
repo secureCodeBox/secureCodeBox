@@ -125,3 +125,32 @@ tests:
       - equal:
           path: data.root-password
           value: Y3VzdG9tcGFzc3dvcmQ=
+  - it: omits storageClassName when not specified to use default
+    templates:
+      - minio/statefulset.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: true
+        persistence:
+          storageClass: ""
+    asserts:
+      - notExists:
+          path: spec.volumeClaimTemplates[0].spec.storageClassName
+  - it: includes storageClassName when specified
+    templates:
+      - minio/statefulset.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: true
+        persistence:
+          storageClass: "fast-ssd"
+    asserts:
+      - equal:
+          path: spec.volumeClaimTemplates[0].spec.storageClassName
+          value: "fast-ssd"
