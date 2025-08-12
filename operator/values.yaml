@@ -85,6 +85,7 @@ minio:
   # -- Minio image configuration
   image:
     repository: docker.io/minio/minio
+    # renovate: image=docker.io/minio/minio
     tag: "RELEASE.2025-07-23T15-54-02Z"
     pullPolicy: IfNotPresent
 
