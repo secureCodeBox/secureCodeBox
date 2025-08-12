@@ -566,6 +566,57 @@ matches the snapshot:
       annotations: {}
       labels: {}
       name: securecodebox-operator
+  21: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scheduledscan-editor-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans/status
+        verbs:
+          - get
+  22: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scheduledscan-viewer-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans/status
+        verbs:
+          - get
+  23: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      annotations: {}
+      labels: {}
+      name: securecodebox-operator
 properly-renders-the-service-monitor-when-enabled:
   1: |
     raw: "\nsecureCodeBox Operator Deployed \U0001F680\n\nThe operator can orchestrate the execution of various security scanning tools inside of your cluster.\nYou can find a list of all officially supported scanners here: https://www.securecodebox.io/\nThe website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.\n\nThe operator send out regular telemetry pings to a central service.\nThis lets us, the secureCodeBox team, get a grasp on how much the secureCodeBox is used.\nThe submitted data is chosen to be as anonymous as possible.\nYou can find a complete report of the data submitted and links to the source-code at: https://www.securecodebox.io/docs/telemetry\nThe first ping is send one hour after the install, you can prevent this by upgrading the chart and setting `telemetryEnabled` to `false`.\n"
@@ -1141,6 +1192,57 @@ properly-renders-the-service-monitor-when-enabled:
         verbs:
           - get
   21: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      annotations: {}
+      labels: {}
+      name: securecodebox-operator
+  22: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scheduledscan-editor-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans/status
+        verbs:
+          - get
+  23: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scheduledscan-viewer-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans/status
+        verbs:
+          - get
+  24: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:

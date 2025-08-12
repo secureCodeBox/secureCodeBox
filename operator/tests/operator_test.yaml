@@ -7,6 +7,7 @@ templates:
   - NOTES.txt
   - rbac/*.yaml
   - manager/*.yaml
+  - minio/*.yaml
 tests:
   - it: matches the snapshot
     chart:
@@ -28,9 +29,99 @@ tests:
       customCACertificate.existingCertificate: foo
       serviceaccount: {create: true, annotations: {foo: bar}, name: foo}
       podSecurityContext: {fsGroup: 1234}
-
       metrics:
         serviceMonitor:
           enabled: true
     asserts:
       - matchSnapshot: {}
+  - it: renders minio resources when minio is enabled
+    templates:
+      - minio/secret.yaml
+      - minio/service.yaml
+      - minio/statefulset.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: true
+        auth:
+          rootUser: testuser
+          rootPassword: testpassword
+    asserts:
+      - hasDocuments:
+          count: 1
+  - it: does not render minio resources when minio is disabled
+    templates:
+      - minio/secret.yaml
+      - minio/service.yaml
+      - minio/statefulset.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: configures manager deployment for minio
+    templates:
+      - manager/manager.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: true
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].env[?(@.name=="S3_USE_SSL")].value
+          value: "false"
+      - equal:
+          path: spec.template.spec.containers[0].env[?(@.name=="S3_ENDPOINT")].value
+          value: "RELEASE-NAME-minio.NAMESPACE.svc.cluster.local"
+  - it: configures manager deployment for external s3
+    templates:
+      - manager/manager.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: false
+      s3:
+        enabled: true
+        endpoint: "s3.amazonaws.com"
+        bucket: "my-bucket"
+        tls:
+          enabled: true
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].env[?(@.name=="S3_USE_SSL")].value
+          value: "true"
+      - equal:
+          path: spec.template.spec.containers[0].env[?(@.name=="S3_ENDPOINT")].value
+          value: "s3.amazonaws.com"
+      - equal:
+          path: spec.template.spec.containers[0].env[?(@.name=="S3_BUCKET")].value
+          value: "my-bucket"
+  - it: renders minio secret with custom credentials
+    templates:
+      - minio/secret.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: true
+        auth:
+          rootUser: customuser
+          rootPassword: custompassword
+    asserts:
+      - equal:
+          path: data.root-user
+          value: Y3VzdG9tdXNlcg==
+      - equal:
+          path: data.root-password
+          value: Y3VzdG9tcGFzc3dvcmQ=
