@@ -28,6 +28,14 @@ The secureCodeBox supports the 4 latest Kubernetes releases (`v1.33`, `v1.32`, `
 
 ## Accessing the included MinIO Instance
 
+:::warning Development/Quickstart Only
+The included MinIO instance is intended **only for development, testing, and quickstart purposes**. For production environments, you should use either:
+- A managed S3-compatible storage service from your cloud provider (AWS S3, Google Cloud Storage, etc.)
+- An externally managed MinIO instance (e.g., via the MinIO Operator)
+
+This provides better reliability, scalability, and security compared to the embedded MinIO instance.
+:::
+
 The default secureCodeBox Operator includes a [MinIO](https://min.io/) instance, which acts as a local S3 filestorage API used by the secureCodeBox to store the results files of its scans. You can switch it out with a S3 compatible API provided by most cloud providers.
 
 You can access the MinIO instance included in the default installation like the following:
@@ -47,7 +55,9 @@ If you find yourself running these snippets regularly, you might want to check o
 
 ## Operator Configuration Options
 
-### Using a hosted S3 Buckets as storage backend
+### Using a hosted S3 Buckets as storage backend (Recommended for Production)
+
+For production environments, it is **strongly recommended** to replace the default MinIO instance with a managed S3-compatible storage service from your cloud provider. This provides better reliability, scalability, security, and backup capabilities.
 
 To change out the default MinIO instance with a S3 Bucket from a cloud provider you can update the helm values to connect the operator with you S3 bucket.
 
