@@ -24,14 +24,13 @@ spec:
         {{- include "operator.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: minio
     spec:
+      automountServiceAccountToken: false
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        {{- toYaml .Values.minio.podSecurityContext | nindent 8 }}
       containers:
         - name: minio
           image: {{ .Values.minio.image.repository }}:{{ .Values.minio.image.tag }}
@@ -99,15 +98,7 @@ spec:
             - name: data
               mountPath: /data
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            seccompProfile:
-              type: RuntimeDefault
+            {{- toYaml .Values.minio.securityContext | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -109,6 +109,7 @@ minio:
     limits:
       memory: "512Mi"
       cpu: "500m"
+      ephemeral-storage: "1Gi"
 
   # -- Persistence configuration
   persistence:
@@ -116,6 +117,24 @@ minio:
     storageClass: ""
     # -- Size of the persistent volume
     size: "10Gi"
+  
+  # -- Pod security context for minio
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+  
+  # -- Container security context for minio
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
   
   # -- TLS configuration (currently not implemented)
   tls:
