@@ -40,7 +40,21 @@ spec:
             - /bin/bash
             - -c
           args:
-            - minio server /data --console-address ":9001"
+            - |
+              set -e
+              echo "Starting minio server..."
+              minio server /data --console-address ":9001" &
+              MINIO_PID=$!
+              
+              echo "Waiting for minio to be ready..."
+              sleep 5
+              
+              echo "Creating bucket: $MINIO_DEFAULT_BUCKETS"
+              mc alias set myminio http://localhost:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD
+              mc mb myminio/$MINIO_DEFAULT_BUCKETS --ignore-existing || true
+              echo "Bucket creation completed"
+              
+              wait $MINIO_PID
           env:
             - name: MINIO_ROOT_USER
               valueFrom:
