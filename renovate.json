@@ -5,7 +5,7 @@
     "group:recommended",
     ":disableDependencyDashboard"
   ],
-  "enabledManagers": ["dockerfile"],
+  "enabledManagers": ["dockerfile", "regex"],
 
   "ignorePaths": [
     "demo-targets/http-webhook/**",
