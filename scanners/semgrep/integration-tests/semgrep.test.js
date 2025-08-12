@@ -69,7 +69,7 @@ test(
       // initContainers
       [{
           "name": "init-git",
-          "image": "bitnami/git",
+          "image": "alpine/git",
           "command": ["git", "clone", "https://github.com/we45/Vulnerable-Flask-App", "/test/flask/"],
           "volumeMounts": [{
               "mountPath": "/test/",

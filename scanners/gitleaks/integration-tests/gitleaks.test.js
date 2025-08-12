@@ -31,7 +31,7 @@ test(
       [
         {
           name: "init-git",
-          image: "bitnami/git",
+          image: "alpine/git",
           command: [
             "bash",
             "-c",
