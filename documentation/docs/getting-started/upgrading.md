@@ -51,6 +51,23 @@ If you had previously ingested finding using the scbv2 index prefix you can keep
 
 ➡️  [Reference: #2892](https://github.com/secureCodeBox/secureCodeBox/issues/2892)
 
+### Replaced Bitnami MinIO Subchart with Direct MinIO Deployment
+
+Due to upcoming deprecations in Bitnami Helm charts, the operator's MinIO integration has been changed from using the Bitnami MinIO subchart to a direct MinIO deployment using the official `docker.io/minio/minio` image.
+
+**⚠️ Important Migration Notes:**
+- **Data will NOT be migrated automatically** from the old Bitnami MinIO deployment to the new direct MinIO deployment
+- If you have important scan data stored in the old MinIO instance, you must manually backup and restore it before upgrading
+- The new MinIO deployment uses different naming conventions and storage configurations
+
+**For Production Environments:**
+The included MinIO deployment is intended **only for quickstart and development setups**. For production environments, you should:
+- Use an external S3-compatible storage service (AWS S3, Google Cloud Storage, etc.)
+- Set `minio.enabled=false` and configure the `s3` section in your values
+- Refer to the [installation documentation](installation.md) for external storage configuration
+
+If you need to continue using the embedded MinIO for development, the new deployment will create a fresh MinIO instance with the same default bucket configuration.
+
 ## From 3.X to 4.X
 
 ### Renamed the docker images of demo-targets to include a "demo-target-" prefix
