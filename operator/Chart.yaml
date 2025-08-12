@@ -24,11 +24,7 @@ maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com
 
-dependencies:
-  - name: minio
-    version: 17.0.19
-    repository: https://charts.bitnami.com/bitnami
-    condition: minio.enabled
+dependencies: []
 
 # Artifacthub.io specific annotations
 # https://artifacthub.io/docs/topics/annotations/helm/

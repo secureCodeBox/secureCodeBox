@@ -77,20 +77,48 @@ lurker:
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
-# -- Minio default config. More config options an info: https://github.com/minio/minio/blob/master/helm/minio/values.yaml
+# -- Minio configuration for direct deployment
 minio:
   # -- Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: true
-  tls:
-    enabled: false
+  
+  # -- Minio image configuration
+  image:
+    repository: docker.io/minio/minio
+    tag: "RELEASE.2025-07-23T15-54-02Z"
+    pullPolicy: IfNotPresent
+
+  # -- Default buckets to create on startup
   defaultBuckets: "securecodebox"
-  # Overwrite Minio's default 4Gi memory request
+
+  # -- Authentication configuration
+  auth:
+    # -- Root user for minio
+    rootUser: "admin"
+    # -- Root password for minio (leave empty to generate a secure random password)
+    rootPassword: ""
+    # -- Name of existing secret containing minio credentials (if set, auth.rootUser and auth.rootPassword are ignored)
+    existingSecret: ""
+
+  # -- Resource limits and requests for minio
   resources:
     requests:
       memory: "256Mi"
-  auth:
-    rootUser: "admin" # placeholder user
-    rootPassword: "password" # placeholder password
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+  # -- Persistence configuration
+  persistence:
+    # -- Storage class for minio data persistence
+    storageClass: ""
+    # -- Size of the persistent volume
+    size: "10Gi"
+  
+  # -- TLS configuration (currently not implemented)
+  tls:
+    enabled: false
 
 # Config for external s3 systems
 s3:
