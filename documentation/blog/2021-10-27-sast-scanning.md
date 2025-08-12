@@ -272,7 +272,7 @@ spec:
     initContainers:
       - name: "git-clone"
         # Use a container with the git binary
-        image: bitnami/git
+        image: alpine/git
         # We are assembling the git clone URL with HTTP authentication,
         # using the same personal access token as in the git-repo-scanner.
         # Note that using {{{triple braces}}} is important, as otherwise the

@@ -83,7 +83,7 @@ spec:
   initContainers:
     - name: "provision-git"
       # Use an image that includes git
-      image: bitnami/git
+      image: alpine/git
       # Mount the same volume we also use in the main container
       volumeMounts:
         - mountPath: "/repo/"
@@ -142,7 +142,7 @@ spec:
         mountPath: "/repo/"
     initContainers:
       - name: "git-clone"
-        image: bitnami/git
+        image: alpine/git
         # The command assumes that GITHUB_TOKEN contains a GitHub access token with access to the repository.
         # GITHUB_TOKEN is set below in the "env" section.
         # If you do not wan to use an access token, remove it from the URL below.

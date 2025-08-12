@@ -20,7 +20,7 @@ spec:
     - "/test/flask"
   initContainers:
     - name: "provision-git"
-      image: bitnami/git
+      image: alpine/git
       command:
         - git
         - clone

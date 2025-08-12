@@ -20,7 +20,7 @@ spec:
   # Define an init container to run the git clone for us
   initContainers:
     - name: "git-clone"
-      image: bitnami/git
+      image: alpine/git
       # Specify that the "repo" volume should also be mounted on the
       # initContainer
       volumeMounts:

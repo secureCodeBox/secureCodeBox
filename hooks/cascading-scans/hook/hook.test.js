@@ -1033,7 +1033,7 @@ test("should merge initContainers into cascaded scan", () => {
   parentScan.spec.initContainers = [
     {
       name: "test-init",
-      image: "bitnami/git",
+      image: "alpine/git",
       command: ["whoami"],
     },
   ];
@@ -1062,7 +1062,7 @@ test("should merge initContainers into cascaded scan", () => {
         "command": [
           "whoami",
         ],
-        "image": "bitnami/git",
+        "image": "alpine/git",
         "name": "test-init",
       },
       {
@@ -1094,7 +1094,7 @@ test("should not merge initContainers into cascaded scan if not instructed", () 
   parentScan.spec.initContainers = [
     {
       name: "test-init",
-      image: "bitnami/git",
+      image: "alpine/git",
       command: ["whoami"],
     },
   ];
