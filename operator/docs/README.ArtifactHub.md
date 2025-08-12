@@ -57,10 +57,6 @@ helm upgrade --install operator oci://ghcr.io/securecodebox/helm/operator
 
 Kubernetes: `>=v1.11.0-0`
 
-| Repository | Name | Version |
-|------------|------|---------|
-| https://charts.bitnami.com/bitnami | minio | 17.0.19 |
-
 ## Deployment
 
 The secureCodeBox Operator can be deployed via helm:
@@ -91,8 +87,19 @@ helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 | lurker.image.tag | string | defaults to the charts version | Parser image tag |
 | metrics | object | `{"serviceMonitor":{"enabled":false}}` | Configuration for the metrics the operator exports |
 | metrics.serviceMonitor.enabled | bool | `false` | Creates a prometheus operator ServiceMonitor rule to automatically scrape the operators metrics: https://github.com/prometheus-operator/prometheus-operator |
-| minio | object | `{"auth":{"rootPassword":"password","rootUser":"admin"},"defaultBuckets":"securecodebox","enabled":true,"resources":{"requests":{"memory":"256Mi"}},"tls":{"enabled":false}}` | Minio default config. More config options an info: https://github.com/minio/minio/blob/master/helm/minio/values.yaml |
+| minio | object | `{"auth":{"existingSecret":"","rootPassword":"","rootUser":"admin"},"defaultBuckets":"securecodebox","enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"docker.io/minio/minio","tag":"RELEASE.2025-07-23T15-54-02Z"},"persistence":{"size":"10Gi","storageClass":""},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}},"tls":{"enabled":false}}` | Minio configuration for direct deployment |
+| minio.auth | object | `{"existingSecret":"","rootPassword":"","rootUser":"admin"}` | Authentication configuration |
+| minio.auth.existingSecret | string | `""` | Name of existing secret containing minio credentials (if set, auth.rootUser and auth.rootPassword are ignored) |
+| minio.auth.rootPassword | string | `""` | Root password for minio (leave empty to generate a secure random password) |
+| minio.auth.rootUser | string | `"admin"` | Root user for minio |
+| minio.defaultBuckets | string | `"securecodebox"` | Default buckets to create on startup |
 | minio.enabled | bool | `true` | Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc. |
+| minio.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.io/minio/minio","tag":"RELEASE.2025-07-23T15-54-02Z"}` | Minio image configuration |
+| minio.persistence | object | `{"size":"10Gi","storageClass":""}` | Persistence configuration |
+| minio.persistence.size | string | `"10Gi"` | Size of the persistent volume |
+| minio.persistence.storageClass | string | `""` | Storage class for minio data persistence |
+| minio.resources | object | `{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}` | Resource limits and requests for minio |
+| minio.tls | object | `{"enabled":false}` | TLS configuration (currently not implemented) |
 | nodeSelector | object | `{}` |  |
 | podSecurityContext | object | `{}` | Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container |
 | presignedUrlExpirationTimes | object | `{"hooks":"1h","parsers":"1h","scanners":"12h"}` | Duration how long presigned urls are valid |
