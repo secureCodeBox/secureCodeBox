@@ -4,7 +4,7 @@
 
 FROM --platform=$BUILDPLATFORM golang:1.24-alpine AS builder
 ARG scannerVersion
-RUN GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 go install github.com/ffuf/ffuf/v2@$scannerVersion
+RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" CGO_ENABLED=0 go install github.com/ffuf/ffuf/v2@$scannerVersion
 
 RUN mkdir -p /home/ffuf/.config/ffuf
 RUN mkdir -p /home/ffuf/.config/ffuf/scraper
