@@ -19,7 +19,7 @@ COPY pkg/ pkg/
 
 # Build
 ARG TARGETOS TARGETARCH
-RUN GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 go build -a -o service cmd/service/main.go
+RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" CGO_ENABLED=0 go build -a -o service cmd/service/main.go
 
 # Use distroless as minimal base image to package the service binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
