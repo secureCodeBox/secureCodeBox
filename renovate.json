@@ -31,9 +31,15 @@
       "matchStrings": [
         "#\\s?renovate: image=(?<depName>.*?)\\s?tag:\\s?[\"']?(?<currentValue>.*?)[\"']?"
       ]
+    },
+    {
+      "customType": "regex",
+      "description": "Update GitHub releases dependencies in CI workflow",
+      "fileMatch": ["^\\.github/workflows/.*\\.ya?ml$"],
+      "matchStrings": [
+        "# renovate: datasource=github-releases depName=(?<depName>.*?)\\s*\\w+_VERSION:\\s*[\"']?(?<currentValue>[^\"'\\s]+)[\"']?"
+      ],
+      "datasourceTemplate": "github-releases"
     }
   ]
 }
-
-
-

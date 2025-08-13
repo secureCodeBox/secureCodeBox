@@ -16,11 +16,17 @@ on:
 env:
   # ---- Language Versions ----
 
+  # renovate: datasource=github-releases depName=python/cpython
   PYTHON_VERSION: "3.13.5"
+  # renovate: datasource=github-releases depName=kubernetes/kubernetes
   KUBECTL_VERSION: "v1.33.2"
+  # renovate: datasource=github-releases depName=kubernetes-sigs/kind
   KIND_BINARY_VERSION: "v0.29.0"
+  # renovate: datasource=github-releases depName=helm/helm
   HELM_VERSION: "v3.18.4"
+  # renovate: datasource=github-releases depName=helm-unittest/helm-unittest
   HELM_PLUGIN_UNITTEST: "1.0.0"
+  # renovate: datasource=github-releases depName=go-task/task
   TASK_VERSION: "v3.44.0"
 
 jobs:
