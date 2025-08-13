@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Build the service binary
-FROM golang:1.24.6 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.24.6 AS builder
 
 WORKDIR /workspace
 # Copy the Go Modules manifests
@@ -18,7 +18,8 @@ COPY cmd/ cmd/
 COPY pkg/ pkg/
 
 # Build
-RUN CGO_ENABLED=0 go build -a -o service cmd/service/main.go
+ARG TARGETOS TARGETARCH
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 go build -a -o service cmd/service/main.go
 
 # Use distroless as minimal base image to package the service binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
