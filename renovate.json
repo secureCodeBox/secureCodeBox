@@ -7,6 +7,8 @@
   ],
   "enabledManagers": ["dockerfile", "custom.regex"],
 
+  "labels": ["dependencies"],
+
   "ignorePaths": [
     "demo-targets/http-webhook/**",
     "demo-targets/old-typo3/**",
@@ -34,6 +36,3 @@
     }
   ]
 }
-
-
-
