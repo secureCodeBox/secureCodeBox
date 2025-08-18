@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-@import "./mixins";
+@use "./mixins" as *;
 
 .accordion {
   margin: 20px auto;
