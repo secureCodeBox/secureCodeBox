@@ -167,5 +167,5 @@ module.exports = {
     ],
   ],
   themes: ["@docusaurus/theme-live-codeblock"],
-  plugins: ["docusaurus-plugin-sass", "@cmfcmf/docusaurus-search-local"],
+  plugins: ["docusaurus-plugin-sass", "docusaurus-lunr-search"],
 };
