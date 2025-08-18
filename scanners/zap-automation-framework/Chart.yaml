@@ -19,7 +19,7 @@ keywords:
   - OWASP
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/docs/scanners/ZAP
+home: https://www.securecodebox.io/docs/scanners/zap-automation-framework
 icon: https://www.securecodebox.io/img/integrationIcons/ZAP.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
