@@ -34,7 +34,7 @@ jobs:
     name: "Unit Test | Node.js Scanner Test Helpers"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
@@ -50,7 +50,7 @@ jobs:
     name: "Setup Kind & Kubectl & Helm & Task"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Kind
         run: |
@@ -108,7 +108,7 @@ jobs:
     needs:
       - k8s-setup
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Download Helm
         uses: actions/download-artifact@v5
         with:
@@ -147,7 +147,7 @@ jobs:
       matrix:
         unit: ["persistence-defectdojo"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up JDK 17
@@ -188,7 +188,7 @@ jobs:
         component: ["operator", "lurker"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Go Setup
         uses: actions/setup-go@v5
@@ -227,7 +227,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Go Setup
         uses: actions/setup-go@v5
@@ -267,7 +267,7 @@ jobs:
       - k8s-setup
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Python Version
         uses: actions/setup-python@v5
@@ -344,7 +344,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Go Setup
         uses: actions/setup-go@v5
@@ -388,7 +388,7 @@ jobs:
           - hook-sdk
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Build Image
         working-directory: ./${{ matrix.sdk }}/nodejs
@@ -438,7 +438,7 @@ jobs:
           - zap-automation-framework
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
@@ -591,7 +591,7 @@ jobs:
           # - persistence-static-report (WIP)
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
@@ -725,7 +725,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Go
         uses: actions/setup-go@v5
