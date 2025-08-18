@@ -17,7 +17,7 @@ image: /img/blog/2021-01-27-drop.jpg
 
 Photo by [Levi XU](https://unsplash.com/@xusanfeng) on [Unsplash](https://unsplash.com/s/photos/drop).
 
-As [documented](/docs/getting-started/installation#version-support) we only support the latest four releases of [Kubernetes](https://kubernetes.io/). This means we **removed support** for [Kubernetes](https://kubernetes.io/) 1.16 with the _secureCodeBox_ [release 2.3.0](https://github.com/secureCodeBox/secureCodeBox/releases/tag/v2.3.0).
+As [documented](/docs/getting-started/installation#supported-kubernetes-version) we only support the latest four releases of [Kubernetes](https://kubernetes.io/). This means we **removed support** for [Kubernetes](https://kubernetes.io/) 1.16 with the _secureCodeBox_ [release 2.3.0](https://github.com/secureCodeBox/secureCodeBox/releases/tag/v2.3.0).
 
 <!-- truncate -->
 
