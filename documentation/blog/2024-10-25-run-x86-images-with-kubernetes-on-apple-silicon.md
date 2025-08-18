@@ -23,6 +23,8 @@ Cover photo by [Bill Fairs](https://unsplash.com/@moonboyz) on [Unsplash](https:
 
 Maybe you've heard from the shiny new CPUs from Apple: [Silicon](https://en.wikipedia.org/wiki/Apple_silicon). Besides the good things (low power consumption, less fan noise) they have not so shiny drawbacks. One ran into is the problem of running containers built with/for x86 architecture. Yes, the problem itself is completely solved: Multi arch images. But, not every project builds them. No, I'm not looking at you [DefectDojo](https://www.defectdojo.org/) 😉 BTW _secureCodeBox_ provides multi arch images 🤗 So, I tinkered around with my Mac to get our _secureCodeBox_ setup with DefectDojo up and running on Silicon Macs. Since there was not much help out there in the Internet I use this post to summarize the steps to get it run, for later reference.
 
+<!-- truncate -->
+
 ## Colima FTW
 
 I use [Colima](https://github.com/abiosoft/colima) since roundabout a year now as drop in replacement for Docker Desktop. Works great. It was never necessary to read docs. It runs x86 images emulated via Qemu. But running single containers is not sufficient for _secureCodeBox_. Kubernetes is mandatory. Until now, I used Minikube, but it can't run x86 images on Silicon Macs. KIND also does not support them, as my colleagues told me. Some days ago, I told a friend about Colima, and he said: "Oh, nice. It can start a Kubernetes cluster."

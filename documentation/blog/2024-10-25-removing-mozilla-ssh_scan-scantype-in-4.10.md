@@ -18,6 +18,8 @@ tags:
 We are removing the ssh-scan ScanType With release 4.10.0.
 The ssh-scan ScanType was using the [mozilla/ssh_scan](https://github.com/mozilla/ssh_scan) project.
 
+<!-- truncate -->
+
 We already had the release scheduled for the next breaking release (v5.0.0), but we can't wait until then as the Docker Hub repository (`docker.io/mozilla/ssh_scan`) which contained the scanner was already deleted by either Mozilla or DockerHub.
 This makes using the scanner in any version no longer possible.
 
