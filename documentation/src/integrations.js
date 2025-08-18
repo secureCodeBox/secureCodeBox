@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: the secureCodeBox authors
-//
-// SPDX-License-Identifier: Apache-2.0
-
 export const Hooks = [
   {
     title: "Azure Monitor",
@@ -200,7 +196,7 @@ export const Scanners = [
     type: "WebApplication",
     usecase: "WebApp & OpenAPI Vulnerability Scanner",
     path: "docs/scanners/zap-automation-framework",
-    imageUrl: "img/integrationIcons/Default.svg",
+    imageUrl: "img/integrationIcons/ZAP Automation Framework.svg",
   },
 ];
 export default { Hooks, Scanners };
