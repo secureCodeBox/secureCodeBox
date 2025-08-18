@@ -45,7 +45,7 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
 
 ## How to use this image
-This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://www.securecodebox.io/docs/scanners/ZAP.
+This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://www.securecodebox.io/docs/scanners/zap-automation-framework.
 
 ```bash
 docker pull securecodebox/parser-zap-automation-framework
