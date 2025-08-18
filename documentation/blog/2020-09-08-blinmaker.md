@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: Blinmaker
-author: Daniel Patanin
-author_title: Maintainer of securecodebox.io
-author_url: https://github.com/dpatanin
-author_image_url: https://avatars1.githubusercontent.com/u/44839597?s=400&u=df006f35797ebb585d8279513305a0bbf1f616b5&v=4
+authors: [daniel_patanin]
 tags: [cooking, blini]
 description: This is my first post on securecodebox.io.
 image: /img/blog/2020-09-08-blini.jpg

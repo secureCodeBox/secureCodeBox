@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: Introducing SAST Scanning With secureCodeBox 3.3
-author: Max Maass
-author_title: Core Developer
-author_url: https://github.com/malexmave
-author_image_url: https://avatars.githubusercontent.com/u/1688580?v=4
+authors: [max_maass]
 tags:
   - secureCodeBox
   - SAST

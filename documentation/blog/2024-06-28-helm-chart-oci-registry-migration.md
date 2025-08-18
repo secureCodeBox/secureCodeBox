@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: "Migrating our Helm Charts to OCI registries"
-author: Jannik Hollenbach
-author_title: Core Developer
-author_url: https://github.com/J12934
-author_image_url: https://avatars.githubusercontent.com/u/13718901?v=4
+authors: [jannik_hollenbach]
 tags:
   - secureCodeBox
   - helm

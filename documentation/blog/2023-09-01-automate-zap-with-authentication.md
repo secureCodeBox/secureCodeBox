@@ -4,15 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: Automate ZAP with Authentication
-authors:
-  - name: Rebecca Falke
-    title: Core Developer
-    url: https://github.com/rebeccan
-    image_url: https://avatars.githubusercontent.com/u/5824721?s=400&u=0e2d51378109239b2e5822a2c9a43b04b96c43fb&v=4
-  - name: Max Maass
-    title: Core Developer
-    url: https://github.com/malexmave
-    image_url: https://avatars.githubusercontent.com/u/1688580?v=4
+authors: [rebecca_falke, max_maass]
 tags:
 - secureCodeBox
 - ZAP automation
