@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: 'Streamlining Security Scans with secureCodeBox: My Google Summer of Code Journey'
-author: Thibaut Batale
-author_title: Gsoc'24 Contributor
-author_url: https://github.com/Freedisch
-author_image_url: https://avatars.githubusercontent.com/u/82499435?s=96&v=4
+authors: [thibaut_batale]
 tags:
   - Google summer of code
   - scbctl

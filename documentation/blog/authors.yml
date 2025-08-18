@@ -1,0 +1,57 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+sven_strittmatter:
+  name: Sven Strittmatter
+  title: Core Developer
+  url: https://github.com/Weltraumschaf
+  image_url: https://www.gravatar.com/avatar/3fe213284598b5cb69009665902c77a1
+
+daniel_patanin:
+  name: Daniel Patanin
+  title: Maintainer of securecodebox.io
+  url: https://github.com/dpatanin
+  image_url: https://avatars1.githubusercontent.com/u/44839597?s=400&u=df006f35797ebb585d8279513305a0bbf1f616b5&v=4
+
+sebastian_franz:
+  name: Sebastian Franz
+  title: Core Developer
+  url: https://github.com/SebieF
+  image_url: https://avatars.githubusercontent.com/u/32578476?v=4
+
+max_maass:
+  name: Max Maass
+  title: Core Developer
+  url: https://github.com/malexmave
+  image_url: https://avatars.githubusercontent.com/u/1688580?v=4
+
+rebecca_falke:
+  name: Rebecca Falke
+  title: Core Developer
+  url: https://github.com/rebeccan
+  image_url: https://avatars.githubusercontent.com/u/5824721?s=400&u=0e2d51378109239b2e5822a2c9a43b04b96c43fb&v=4
+
+lukas_fischer:
+  name: Lukas Fischer
+  title: Core Developer
+  url: https://github.com/o1oo11oo
+  image_url: https://avatars.githubusercontent.com/u/1590475?v=4
+
+jannik_hollenbach:
+  name: Jannik Hollenbach
+  title: Core Developer
+  url: https://github.com/J12934
+  image_url: https://avatars.githubusercontent.com/u/13718901?v=4
+
+securecodebox_team:
+  name: The secureCodeBox Team
+  title: Core Developer
+  url: https://github.com/secureCodeBox
+  image_url: https://avatars.githubusercontent.com/u/34573705?v=4
+
+thibaut_batale:
+  name: Thibaut Batale
+  title: Gsoc'24 Contributor
+  url: https://github.com/Freedisch
+  image_url: https://avatars.githubusercontent.com/u/82499435?s=96&v=4

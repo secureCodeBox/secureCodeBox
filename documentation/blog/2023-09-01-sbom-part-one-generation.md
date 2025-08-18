@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: 'Developing an SBOM Workflow – Part 1: SBOM Generation'
-author: Lukas Fischer
-author_title: Core Developer
-author_url: https://github.com/o1oo11oo
-author_image_url: https://avatars.githubusercontent.com/u/1590475?v=4
+authors: [lukas_fischer]
 tags:
   - secureCodeBox
   - comparison

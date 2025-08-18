@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: Windows Scanners and the secureCodeBox
-author: Sebastian Franz
-author_title: Contributor
-author_url: https://github.com/SebieF
-author_image_url: https://avatars.githubusercontent.com/u/32578476?v=4
+authors: [sebastian_franz]
 tags:
 - secureCodeBox
 - windows
