@@ -7,26 +7,28 @@ title: "ScheduledScan"
 sidebar_position: 3
 ---
 
-The ScheduledScan Custom Resource Definition (CRD) lets you define a [Scan](/docs/api/crds/scan-type/) which gets repeated in a specific time interval. E.g. every 24 hours or every 7 days.
+The ScheduledScan Custom Resource Definition (CRD) lets you define a [Scan](/docs/api/crds/scan-type/) that gets repeated at specific time intervals, such as every 24 hours or every 7 days.
 
 ## Specification (Spec)
 
 ### Interval
 
-The `interval` specifies the interval between two scans.
-Either [`interval`](#interval) or [`schedule`](#schedule) need to be set, they are mutually exclusive.
+The `interval` specifies the time interval between consecutive scans.
+Either [`interval`](#interval) or [`schedule`](#schedule) must be set, as they are mutually exclusive.
 
 Specified as a [golang duration string](https://golang.org/pkg/time/#ParseDuration).
 
+E.g. `24h` for 24 hours, or `1h30m` for 1 hour and 30 minutes.
+
 :::caution
-The biggest duration golang time strings support is **hours**. Longer durations e.g. days / weeks need to specified as multiples of hours.
-We plan to improve this in the future, by providing a custom format which also supports days and weeks.
+The largest duration unit that golang time strings support is **hours**. Longer durations (e.g., days or weeks) must be specified as multiples of hours.
+We plan to improve this in the future by providing a custom format that also supports days and weeks.
 :::
 
 ### Schedule
 
-Schedule let's you define a [cron expression](https://en.wikipedia.org/wiki/Cron) to control precisely when the scan is executed.
-Either [`interval`](#interval) or [`schedule`](#schedule) need to be set, they are mutually exclusive.
+The `schedule` lets you define a [cron expression](https://en.wikipedia.org/wiki/Cron) to control precisely when the scan is executed.
+Either [`interval`](#interval) or [`schedule`](#schedule) must be set, as they are mutually exclusive.
 
 ### ScanSpec (Required)
 
@@ -36,27 +38,27 @@ See the `spec` field of the [Scan CRD](/docs/api/crds/scan-type/) for all suppor
 
 ### SuccessfulJobsHistoryLimit (Optional)
 
-The `successfulJobsHistoryLimit` controls how many completed scans are supposed to be kept until the oldest one will be deleted.
+The `successfulJobsHistoryLimit` controls how many completed scans are retained before the oldest ones are deleted.
 
-Defaults to 3 if not set. When set to `0`, scans will be deleted directly after their completion.
+Defaults to 3 if not set. When set to `0`, scans are deleted immediately after completion.
 
 ### FailedJobsHistoryLimit (Optional)
 
-The `failedJobsHistoryLimit` controls how many failed scans are supposed to be kept until the oldest one will be deleted.
+The `failedJobsHistoryLimit` controls how many failed scans are retained before the oldest ones are deleted.
 
-Defaults to 3 if not set. When set to `0`, scans will be deleted directly after failure.
+Defaults to 3 if not set. When set to `0`, scans are deleted immediately after failure.
 
 ### ConcurrencyPolicy (Optional)
 
 The `concurrencyPolicy` specifies how to treat concurrent executions of a ScheduledScan. Valid values are:
 
 - `"Allow"` (default): allows scheduled scans to run concurrently
-- `"Forbid"`: forbids concurrent runs, skipping next run if previous run hasn't finished yet  
-- `"Replace"`: cancels currently running scan and replaces it with a new one
+- `"Forbid"`: forbids concurrent runs, skipping the next run if the previous run hasn't finished yet
+- `"Replace"`: cancels the currently running scan and replaces it with a new one
 
 ### RetriggerOnScanTypeChange (Optional)
 
-The `retriggerOnScanTypeChange` will automatically trigger a new scan for the scheduledScan if the referenced ScanType was updated.
+When `retriggerOnScanTypeChange` is enabled, it will automatically trigger a new scan if the referenced ScanType is updated.
 
 Defaults to `false` if not set.
 
@@ -72,7 +74,7 @@ spec:
   scanSpec:
     scanType: "nmap"
     parameters:
-      # Use nmaps service detection feature
+      # Use nmap's service detection feature
       - "-sV"
       - scanme.nmap.org
   successfulJobsHistoryLimit: 3
@@ -93,7 +95,7 @@ spec:
   scanSpec:
     scanType: "nmap"
     parameters:
-      # Use nmaps service detection feature
+      # Use nmap's service detection feature
       - "-sV"
       - scanme.nmap.org
   successfulJobsHistoryLimit: 3
