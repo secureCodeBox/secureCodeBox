@@ -18,6 +18,8 @@ description: All secureCodeBox helm charts will be provided via OCI registry bas
 
 With the secureCodeBox 4.6.0 release, we are transitioning our installation instructions from the old `https://charts.securecodebox.io` Helm registry to the new Helm registry infrastructure, which uses Open Container Initiative (`OCI`) images to store charts.
 
+<!-- truncate -->
+
 ## What Will Happen?
 
 - The existing registry (`https://charts.securecodebox.io`) will be deprecated with secureCodeBox 4.6.0 and will be shut down at the end of the year.

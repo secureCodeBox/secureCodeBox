@@ -22,4 +22,6 @@ Photo by [Levi XU](https://unsplash.com/@xusanfeng) on [Unsplash](https://unspla
 
 As [documented](/docs/getting-started/installation#version-support) we only support the latest four releases of [Kubernetes](https://kubernetes.io/). This means we **removed support** for [Kubernetes](https://kubernetes.io/) 1.16 with the _secureCodeBox_ [release 2.3.0](https://github.com/secureCodeBox/secureCodeBox/releases/tag/v2.3.0).
 
+<!-- truncate -->
+
 If you rely on that particular version of [Kubernetes](https://kubernetes.io/), we may help you with custom paid support. Please contact us via [email](mailto:securecodebox@iteratec.com) or open an [GitHub issue](https://github.com/secureCodeBox/secureCodeBox/issues).
