@@ -44,7 +44,21 @@ Defaults to 3 if not set. When set to `0`, scans will be deleted directly after 
 
 The `failedJobsHistoryLimit` controls how many failed scans are supposed to be kept until the oldest one will be deleted.
 
-Defaults to 1 if not set. When set to `0`, scans will be deleted directly after failure.
+Defaults to 3 if not set. When set to `0`, scans will be deleted directly after failure.
+
+### ConcurrencyPolicy (Optional)
+
+The `concurrencyPolicy` specifies how to treat concurrent executions of a ScheduledScan. Valid values are:
+
+- `"Allow"` (default): allows scheduled scans to run concurrently
+- `"Forbid"`: forbids concurrent runs, skipping next run if previous run hasn't finished yet  
+- `"Replace"`: cancels currently running scan and replaces it with a new one
+
+### RetriggerOnScanTypeChange (Optional)
+
+The `retriggerOnScanTypeChange` will automatically trigger a new scan for the scheduledScan if the referenced ScanType was updated.
+
+Defaults to `false` if not set.
 
 ## Example with an Interval
 
@@ -63,6 +77,8 @@ spec:
       - scanme.nmap.org
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 5
+  concurrencyPolicy: "Allow"
+  retriggerOnScanTypeChange: false
 ```
 
 ## Example with a Cron Schedule
@@ -82,4 +98,6 @@ spec:
       - scanme.nmap.org
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 5
+  concurrencyPolicy: "Forbid"
+  retriggerOnScanTypeChange: true
 ```
