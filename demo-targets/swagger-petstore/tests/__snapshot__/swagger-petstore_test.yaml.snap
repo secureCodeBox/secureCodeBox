@@ -48,7 +48,7 @@ matches the snapshot:
                   value: http://swagger-petstore.demo-targets.svc
                 - name: SWAGGER_URL
                   value: http://swagger-petstore.demo-targets.svc
-              image: docker.io/swaggerapi/petstore:0.0.0
+              image: docker.io/swaggerapi/petstore3:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
                 httpGet:

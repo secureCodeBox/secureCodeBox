@@ -4,7 +4,7 @@
 
 apiVersion: v2
 version: v3.1.0-alpha1
-# renovate: image=docker.io/swaggerapi/petstore
+# renovate: image=docker.io/swaggerapi/petstore3
 appVersion: 1.0.7
 name: swagger-petstore
 description: "This is the sample petstore application"
