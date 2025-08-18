@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-@import '../css/_mixins.scss';
+@use '../css/_mixins.scss' as *;
 
 .integrationImage {
   height: 40px;
