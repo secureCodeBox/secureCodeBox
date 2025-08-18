@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   # image.repository -- Container Image
-  repository: docker.io/swaggerapi/petstore
+  repository: docker.io/swaggerapi/petstore3
   # image.tag -- The image tag
   # @default -- defaults to the appVersion
   tag: null
