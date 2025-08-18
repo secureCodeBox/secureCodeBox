@@ -7,7 +7,7 @@ title: "ScanCompletionHook"
 sidebar_position: 6
 ---
 
-ScanCompletionHooks are Custom Resource Definitions (CRD's) used to define custom behavior which should be run after a scan has been completed.
+ScanCompletionHooks are Custom Resource Definitions (CRDs) used to define custom behavior that should be run after a scan has been completed.
 
 For more detailed explanations on how a new hook can be integrated, see the [hooks section](/docs/contributing/integrating-a-hook) in the contribution part of our docs.
 
@@ -17,9 +17,9 @@ For more detailed explanations on how a new hook can be integrated, see the [hoo
 
 The `type` field can be either `ReadOnly` or `ReadAndWrite`.
 
-`ReadOnly` hooks only have read rights on the findings and the raw scan reports (e.g. XML output from nmap). These are usually used to export the findings into a external system like "Elasticsearch" or "DefectDojo" or to send out notifications to chats like "Slack". ReadOnly hooks are executed in parallel to speed up their runtime.
+`ReadOnly` hooks only have read access to the findings and raw scan reports (e.g., XML output from nmap). These are typically used to export findings to external systems like "Elasticsearch" or "DefectDojo" or to send notifications to chat systems like "Slack". ReadOnly hooks are executed in parallel to speed up their runtime.
 
-`ReadAndWrite` hooks have the ability to update both the findings and raw scan reports. This can be used to attach additional metadata to the findings by comparing the findings to external inventory systems or APIs of cloud providers.
+`ReadAndWrite` hooks can update both findings and raw scan reports. This can be used to attach additional metadata to findings by comparing them against external inventory systems or cloud provider APIs.
 
 ### Priority (Optional)
 
@@ -48,53 +48,59 @@ The following diagram shows an example run:
 
 ### Image (Required)
 
-The `image` field contains a container image reference for the image supposed to run as the hook.
+The `image` field contains a container image reference for the image that should run as the hook.
 
 ### ImagePullSecrets (Optional)
 
-The `imagePullSecrets` field can be used to specify pull secrets used to access the hooks image from a private registry.
+The `imagePullSecrets` field can be used to specify pull secrets for accessing the hook's image from a private registry.
 
 ### ImagePullPolicy (Optional)
 
-The `imagePullPolicy` field can be used to specify under which circumstances the images should be pulled from the registry.
-One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise.
+The `imagePullPolicy` field specifies when the image should be pulled from the registry.
+Valid values are `Always`, `Never`, or `IfNotPresent`. Defaults to `Always` if the `:latest` tag is specified, otherwise `IfNotPresent`.
 See the [Kubernetes docs](https://kubernetes.io/docs/concepts/containers/images#updating-images) for more information.
 
 ### Env (Optional)
 
-The `env` field can be used to specify env variables and to mount secrets into containers.
+The `env` field can be used to specify environment variables and mount secrets into containers.
 
 ### Volumes (Optional)
 
-`volumes` lets you specify Kubernetes volumes that you want to use and make available to the hook.
-Similarly to `env`, it can be used to pass data into a container.
-It has to be combined with [`volumeMounts`](#volumemounts-optional) to be useful (see below).
+`volumes` lets you specify Kubernetes volumes to make available to the hook.
+Similar to `env`, it can be used to pass data into a container.
+It must be combined with [`volumeMounts`](#volumemounts-optional) to be useful (see below).
 
 ### VolumeMounts (Optional)
 
-`volumeMounts` let you specify where you want the previously-created volumes to be mounted inside the container.
-It has the same API as the `volumeMounts` property on Kubernetes pods.
+`volumeMounts` lets you specify where previously-created volumes should be mounted inside the container.
+It uses the same API as the `volumeMounts` property on Kubernetes Pods.
 
 ### Affinity and Tolerations (optional)
 
-[`affinity`](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) and [`tolerations`](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) can be used to control which nodes the parser is executed on.
-The values should be set via Helm values (during install) or by specifying `affinity` and/or `tolerations` in the `Scan` specification.
+### NodeSelector (Optional)
+
+[`nodeSelector`](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/) allows you to specify simple node selection constraints to control which nodes the hook runs on.
+
+### Affinity and Tolerations (Optional)
+
+[`affinity`](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) and [`tolerations`](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) can be used to control which nodes the hook is executed on with more advanced rules than nodeSelector.
+These values are typically set via Helm values during installation.
 
 ### ServiceAccountName (Optional)
 
-The `serviceAccountName` field can be used to specify a custom ServiceAccount to use for the Kubernetes Job running the hook.
-Should only be used if your hook needs specific RBAC Access. Otherwise the hook is run using a `scan-completion-hook` service account.
+The `serviceAccountName` field can be used to specify a custom ServiceAccount for the Kubernetes Job running the hook.
+This should only be used if your hook needs specific RBAC access. Otherwise, the hook runs using a `scan-completion-hook` service account.
 
-The service account should have at least `get` rights on `scans.execution.securecodebox.io`, and `get` & `patch` on `scans.execution.securecodebox.io/status` so that the hooks can work correctly.
+The service account should have at least `get` permissions on `scans.execution.securecodebox.io`, and `get` & `patch` permissions on `scans.execution.securecodebox.io/status` for hooks to work correctly.
 
 ### TTLSecondsAfterFinished (Optional)
 
-`ttlSecondsAfterFinished` can be used to automatically delete the completed Kubernetes job used to run the hook.
-This sets the `ttlSecondsAfterFinished` field on the created job. This requires your cluster to have the [TTLAfterFinished](https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) feature gate enabled in your cluster.
+`ttlSecondsAfterFinished` can be used to automatically delete the completed Kubernetes Job used to run the hook.
+This sets the `ttlSecondsAfterFinished` field on the created Job. This requires your cluster to have the [TTLAfterFinished](https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) feature gate enabled.
 
 ### Resources (Optional)
 
-`resources` lets you overwrite the resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+`resources` lets you override the resource limits and requests for the hook container. See the [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) for more details.
 
 ```yaml
 resources:
@@ -128,6 +134,10 @@ resources:
   limits: null
 ```
 
+## Status
+
+The ScanCompletionHook status is currently empty and managed entirely by Kubernetes. Future versions may include additional status information.
+
 ## Example
 
 ```yaml
@@ -139,8 +149,11 @@ spec:
   type: ReadOnly
   priority: 2
   image: docker.io/securecodebox/persistence-elastic:latest
+  imagePullPolicy: IfNotPresent
   imagePullSecrets:
     - name: image-pull-secret
+  nodeSelector:
+    kubernetes.io/arch: amd64
   serviceAccountName: elastic-persistence
   env:
     - name: ELASTICSEARCH_ADDRESS
@@ -155,12 +168,19 @@ spec:
         secretKeyRef:
           key: password
           name: elastic-persistence-credentials
+  volumes:
+    - name: config
+      configMap:
+        name: elastic-config
+  volumeMounts:
+    - name: config
+      mountPath: /etc/elastic
   ttlSecondsAfterFinished: 60
   resources:
     requests:
-      cpu: 42mi
+      cpu: 200m
       memory: 256Mi
     limits:
-      cpu: 4
-      memory: 4Gi
+      cpu: 400m
+      memory: 512Mi
 ```
