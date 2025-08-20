@@ -59,6 +59,23 @@ securityContext:
 # -- Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
 podSecurityContext: {}
 
+# -- Health and liveness probe configuration for the controller manager
+probes:
+  # -- Liveness probe configuration
+  liveness:
+    httpGet:
+      path: /healthz
+      port: healthchecks
+    initialDelaySeconds: 15
+    periodSeconds: 20
+  # -- Readiness probe configuration  
+  readiness:
+    httpGet:
+      path: /readyz
+      port: healthchecks
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
 nodeSelector: {}
 
 # -- Configuration for the metrics the operator exports
