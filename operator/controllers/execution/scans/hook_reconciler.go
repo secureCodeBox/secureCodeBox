@@ -55,7 +55,7 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 		hookStatuses = utils.MapClusterHooksToHookStatus(clusterScanCompletionHooks.Items)
 	}
 
-	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(hookStatuses))
+	r.Log.V(7).Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(hookStatuses))
 
 	orderedHookStatus := utils.FromUnorderedList(hookStatuses)
 	scan.Status.OrderedHookStatuses = orderedHookStatus
@@ -467,6 +467,8 @@ func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1
 		r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
 		return "", err
 	}
+
+	r.Log.Info("Creating hook job", "job", job.Name, "scanCompletionHook", hookName, "scan", scan.Name, "namespace", scan.Namespace)
 
 	if err := r.Create(ctx, job); err != nil {
 		return "", err
