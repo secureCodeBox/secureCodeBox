@@ -11,6 +11,7 @@ import (
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/aws"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/config"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
+	"k8s.io/klog/v2"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 )
@@ -22,13 +23,14 @@ func main() {
 			"Omit this flag to use the default configuration values. "+
 			"Environment variables override some configuration values from this file.")
 	opts := zap.Options{
-		Development: true,
+		Development: false,
 	}
 	opts.BindFlags(flag.CommandLine)
 	flag.Parse()
 
 	log := zap.New(zap.UseFlagOptions(&opts))
 	ctrl.SetLogger(log)
+	klog.SetLogger(log)
 
 	// Read config from file first, some values may be overridden by env variables
 	cfg := config.GetConfig(configFile)
