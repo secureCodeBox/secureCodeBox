@@ -52,17 +52,9 @@ spec:
             - name: healthchecks
               containerPort: 8081
           livenessProbe:
-            httpGet:
-              path: /healthz
-              port: healthchecks
-            initialDelaySeconds: 15
-            periodSeconds: 20
+            {{- toYaml .Values.probes.liveness | nindent 12 }}
           readinessProbe:
-            httpGet:
-              path: /readyz
-              port: healthchecks
-            initialDelaySeconds: 5
-            periodSeconds: 10
+            {{- toYaml .Values.probes.readiness | nindent 12 }}
           env:
             - name: TELEMETRY_ENABLED
               value: {{ .Values.telemetryEnabled | quote }}
