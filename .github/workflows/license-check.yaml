@@ -16,9 +16,9 @@ jobs:
     if: github.repository == 'secureCodeBox/secureCodeBox'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: REUSE Compliance Check
-        uses: fsfe/reuse-action@v5
+        uses: fsfe/reuse-action@bb774aa972c2a89ff34781233d275075cbddf542 # v5
         with:
           args: --include-submodules lint

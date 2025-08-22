@@ -17,7 +17,7 @@ jobs:
     if: github.repository == 'secureCodeBox/secureCodeBox'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       # Request team members with the GitHub API using their gh cli
       - name: Fetch core-team members
@@ -38,7 +38,7 @@ jobs:
           echo "MEMBER=${MEMBERS[$index]}" >> $GITHUB_ENV
 
       # Create issue and insert chosen member ({{ env.MEMBER}} in template)
-      - uses: JasonEtco/create-an-issue@v2
+      - uses: JasonEtco/create-an-issue@1b14a70e4d8dc185e5cc76d3bec9eab20257b2c5 # v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
