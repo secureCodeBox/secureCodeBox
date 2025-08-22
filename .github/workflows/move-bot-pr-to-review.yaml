@@ -15,7 +15,7 @@ jobs:
     # only run if the branch starts with 'dependabot/' or 'dependencies/upgrading' 
     if: startsWith(github.head_ref, 'dependabot/') || startsWith(github.head_ref, 'dependencies/upgrading')
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Add bot PR to project
         run: |
