@@ -11,6 +11,10 @@ on:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
+
 jobs:
   helm-docs:
     runs-on: ubuntu-24.04

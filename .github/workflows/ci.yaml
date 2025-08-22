@@ -10,6 +10,9 @@ on:
       - v[0-9]+.x
   pull_request:
 
+permissions:
+  contents: read
+
 # The CI runs on ubuntu-24.04; More info about the installed software is found here:
 # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 
