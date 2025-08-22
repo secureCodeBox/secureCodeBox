@@ -18,6 +18,11 @@ name: Check outdated scanners
 on:
   schedule:
     - cron: "15 9 * * *" # Daily at 9:15 (avoids the beginning of the hour congestion)
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   version-compare:
     runs-on: ubuntu-24.04

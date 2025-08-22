@@ -10,6 +10,9 @@ on:
       - v[0-9]+.x
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   license-check:
     runs-on: ubuntu-24.04

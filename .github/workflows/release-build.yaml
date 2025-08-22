@@ -10,6 +10,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+
 env:
   # ---- Docker Namespace ----
 
