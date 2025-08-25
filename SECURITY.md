@@ -12,10 +12,9 @@ is roughly every two weeks (we will usually make a new release after each review
 
 | Version | Security Fixes* | Supported** |
 | ------- | ------------------ | ------------------ |
-| 4.x.x | :white_check_mark: | :white_check_mark: |
-| 3.15.x | :white_check_mark: | :white_check_mark: |
-| <= 2.9.x | :x: | :x: |
-| < 2.0 | :x: | :x: |
+| 5.x.x | :white_check_mark: | :white_check_mark: |
+| 4.16.x | Critical issues only | :x: |
+| <= 3.15.x | :x: | :x: |
 
 ### Major Release (Semver)
 _Upcoming major updates_ will come with a time window in which both _major versions_ (starting with v2.x.x)
