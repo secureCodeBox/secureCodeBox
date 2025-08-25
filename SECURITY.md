@@ -39,8 +39,10 @@ please get in touch with the project team via Slack or email <secureCodeBox@iter
 
 ## Reporting a Vulnerability
 
-You have found a vulnerability in the project that shouldn't be disclosed as public issue before it's fixed?
-Please get in touch with the project team via Slack or email <secureCodeBox@iteratec.com>.
+You have found a vulnerability in the project that shouldn't be disclosed as a public issue before it's fixed?
+Please report it using GitHub Security Advisories at https://github.com/secureCodeBox/secureCodeBox/security/advisories.
+
+If you are unable to use GitHub advisories, please email the project leaders at their OWASP email addresses that can be found under https://github.com/OWASP/www-project-securecodebox/blob/master/leaders.md.
 
 You can expect a fast reaction within the next few days.
 We will keep you updated about the next steps and inform you if the vulnerability is accepted and when it's fixed or if it's declined somehow.
