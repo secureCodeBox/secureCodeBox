@@ -1,0 +1,34 @@
+name: Scorecards supply-chain security
+on:
+  push:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  analysis:
+    name: Scorecards analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        with:
+          persist-credentials: false
+
+      - name: "Run analysis"
+        uses: ossf/scorecard-action@05b42c624433fc40578a4040d5cf5e36ddca8cde # v2.4.2
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+
+      # Upload the results to GitHub's code scanning dashboard.
+      - name: "Upload to code-scanning"
+        uses: github/codeql-action/upload-sarif@181d5eefc20863364f96762470ba6f862bdef56b # v3.29.2
+        with:
+          sarif_file: results.sarif
