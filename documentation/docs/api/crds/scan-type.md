@@ -7,35 +7,39 @@ title: "ScanType"
 sidebar_position: 4
 ---
 
-The ScanType Custom Resource Definition (CRD) is used to define to the secureCodeBox how a specific scanner can be executed in Kubernetes. The main part of the ScanType is the [JobTemplate](#jobtemplate-required), which contains a Kubernetes Job definition that will be used to construct the scans Job.
+The ScanType Custom Resource Definition (CRD) defines how a specific scanner can be executed in Kubernetes. The main component is the [JobTemplate](#jobtemplate-required), which contains a Kubernetes Job definition used to construct the scan's Job.
 
 ## Specification (Spec)
 
 ### ExtractResults (Required)
 
-The `extractResults` field contains an object (fields of the object listed below) which describes what types of results this scanType produced and from where these should be extracted.
+The `extractResults` field contains an object that describes the type of results this ScanType produces and where they should be extracted from.
 
 #### ExtractResults.Type (Required)
 
-The `type` field indicates the type of the file.
-Usually a combination of the scanner name and file type. E.g. `nmap-xml`
+The `type` field indicates the format of the result file.
+This is typically a combination of the scanner name and file type, such as `nmap-xml`.
 
-The type is used to determine which parser would be used to handle this result file.
+This type determines which parser will be used to process the result file.
 
 #### ExtractResults.Location (Required)
 
-The `location` field describes from where the result file can be extracted.
-The absolute path on the containers file system.
+The `location` field specifies where the result file can be extracted from.
+This must be an absolute path on the container's filesystem.
 
-Must be located in `/home/securecodebox/` so that the result is reachable by the secureCodeBox Lurker sidecar which performs the actual extraction of the result.
-E.g. `/home/securecodebox/nmap-results.xml`
+The file must be located within `/home/securecodebox/` so that it's accessible to the secureCodeBox Lurker sidecar, which performs the actual result extraction.
+Example: `/home/securecodebox/nmap-results.xml`
 
 ### JobTemplate (Required)
 
-Template of the Kubernetes job to create when running the scan.
+Template for the Kubernetes Job to create when running the scan.
 
-For info about the JobTemplate generic parameters, see here: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/job-v1/#JobSpec
-When specified, as with the `ttlSecondsAfterFinished` parameter, the values from `values.yaml` will be used in the JobTemplate.
+For information about JobTemplate parameters, see the [Kubernetes API Reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/job-v1/#JobSpec).
+When parameters like `ttlSecondsAfterFinished` are specified, values from `values.yaml` will be used in the JobTemplate.
+
+## Status
+
+The ScanType status is currently empty and managed entirely by Kubernetes. Future versions may include additional status information.
 
 ## Example
 
@@ -47,7 +51,7 @@ metadata:
 spec:
   extractResults:
     type: nmap-xml
-    location: "/home/securecodebox/nmap-results.json"
+    location: "/home/securecodebox/nmap-results.xml"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}

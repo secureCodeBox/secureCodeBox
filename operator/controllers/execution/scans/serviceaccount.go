@@ -22,7 +22,7 @@ func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountNam
 	var serviceAccount corev1.ServiceAccount
 	err := r.Get(ctx, types.NamespacedName{Name: serviceAccountName, Namespace: namespace}, &serviceAccount)
 	if apierrors.IsNotFound(err) {
-		r.Log.Info("Service Account doesn't exist creating now")
+		r.Log.Info("Creating missing service account", "serviceAccountName", serviceAccountName, "namespace", namespace)
 		serviceAccount = corev1.ServiceAccount{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      serviceAccountName,
@@ -34,18 +34,18 @@ func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountNam
 		}
 		err := r.Create(ctx, &serviceAccount)
 		if err != nil {
-			r.Log.Error(err, "Failed to create ServiceAccount")
+			r.Log.Error(err, "Failed to create ServiceAccount", "serviceAccountName", serviceAccountName, "namespace", namespace)
 			return err
 		}
 	} else if err != nil {
-		r.Log.Error(err, "Unexpected error while checking if a ServiceAccount exists")
+		r.Log.Error(err, "Unexpected error while checking if a ServiceAccount exists", "serviceAccountName", serviceAccountName, "namespace", namespace)
 		return err
 	}
 
 	var role rbacv1.Role
 	err = r.Get(ctx, types.NamespacedName{Name: serviceAccountName, Namespace: namespace}, &role)
 	if apierrors.IsNotFound(err) {
-		r.Log.Info("Role doesn't exist creating now")
+		r.Log.Info("Creating missing Role", "roleName", serviceAccountName, "namespace", namespace)
 		role = rbacv1.Role{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      serviceAccountName,
@@ -58,7 +58,7 @@ func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountNam
 		}
 		err := r.Create(ctx, &role)
 		if err != nil {
-			r.Log.Error(err, "Failed to create Role")
+			r.Log.Error(err, "Failed to create Role", "roleName", serviceAccountName, "namespace", namespace)
 			return err
 		}
 	} else if !reflect.DeepEqual(role.Rules, policyRules) {
@@ -66,18 +66,18 @@ func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountNam
 		role.Rules = policyRules
 		err := r.Update(ctx, &role)
 		if err != nil {
-			r.Log.Error(err, "Failed to update Role")
+			r.Log.Error(err, "Failed to update Role", "roleName", serviceAccountName, "namespace", namespace)
 			return err
 		}
 	} else if err != nil {
-		r.Log.Error(err, "Unexpected error while checking if a Role exists")
+		r.Log.Error(err, "Unexpected error while checking if a Role exists", "roleName", serviceAccountName, "namespace", namespace)
 		return err
 	}
 
 	var roleBinding rbacv1.RoleBinding
 	err = r.Get(ctx, types.NamespacedName{Name: serviceAccountName, Namespace: namespace}, &roleBinding)
 	if apierrors.IsNotFound(err) {
-		r.Log.Info("RoleBinding doesn't exist creating now")
+		r.Log.Info("Creating missing RoleBinding", "roleName", serviceAccountName, "namespace", namespace)
 		roleBinding = rbacv1.RoleBinding{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      serviceAccountName,
@@ -100,11 +100,11 @@ func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountNam
 		}
 		err := r.Create(ctx, &roleBinding)
 		if err != nil {
-			r.Log.Error(err, "Failed to create RoleBinding")
+			r.Log.Error(err, "Failed to create RoleBinding", "roleName", serviceAccountName, "namespace", namespace)
 			return err
 		}
 	} else if err != nil {
-		r.Log.Error(err, "Unexpected error while checking if a RoleBinding exists")
+		r.Log.Error(err, "Unexpected error while checking if a RoleBinding exists", "roleName", serviceAccountName, "namespace", namespace)
 		return err
 	}
 

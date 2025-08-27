@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: Run x86 Images With Kubernetes on Apple Silicon
-author: Sven Strittmatter
-author_title: Core Developer
-author_url: https://github.com/Weltraumschaf
-author_image_url: https://www.gravatar.com/avatar/3fe213284598b5cb69009665902c77a1
+authors: [sven_strittmatter]
 tags:
   - secureCodeBox
   - v2
@@ -22,6 +19,8 @@ image: /img/blog/2024-10-25-a-close-up-of-a-computer-processor-chip.jpg
 Cover photo by [Bill Fairs](https://unsplash.com/@moonboyz) on [Unsplash](https://unsplash.com/photos/a-close-up-of-a-computer-processor-chip--QALfjTlhTE).
 
 Maybe you've heard from the shiny new CPUs from Apple: [Silicon](https://en.wikipedia.org/wiki/Apple_silicon). Besides the good things (low power consumption, less fan noise) they have not so shiny drawbacks. One ran into is the problem of running containers built with/for x86 architecture. Yes, the problem itself is completely solved: Multi arch images. But, not every project builds them. No, I'm not looking at you [DefectDojo](https://www.defectdojo.org/) 😉 BTW _secureCodeBox_ provides multi arch images 🤗 So, I tinkered around with my Mac to get our _secureCodeBox_ setup with DefectDojo up and running on Silicon Macs. Since there was not much help out there in the Internet I use this post to summarize the steps to get it run, for later reference.
+
+<!-- truncate -->
 
 ## Colima FTW
 

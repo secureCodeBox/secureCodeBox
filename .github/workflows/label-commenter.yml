@@ -19,11 +19,8 @@ jobs:
   comment:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       - name: Label Commenter
-        uses: peaceiris/actions-label-commenter@v1.10.0
+        uses: peaceiris/actions-label-commenter@f0dbbef043eb1b150b566db36b0bdc8b7f505579 # v1.10.0
         with:
           github_token: ${{ secrets.SCB_BOT_USER_TOKEN }}
-
-
-          

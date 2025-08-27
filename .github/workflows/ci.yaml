@@ -10,6 +10,9 @@ on:
       - v[0-9]+.x
   pull_request:
 
+permissions:
+  contents: read
+
 # The CI runs on ubuntu-24.04; More info about the installed software is found here:
 # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 
@@ -34,10 +37,10 @@ jobs:
     name: "Unit Test | Node.js Scanner Test Helpers"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Install bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
 
       - name: Install dependencies
         working-directory: tests/integration
@@ -50,7 +53,7 @@ jobs:
     name: "Setup Kind & Kubectl & Helm & Task"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Install Kind
         run: |
@@ -75,25 +78,25 @@ jobs:
           chmod +x ./task
 
       - name: Archive Kind
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: kind
           path: ./kind
 
       - name: Archive Kubectl
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Archive Helm
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: helm
           path: ./linux-amd64/helm
           
       - name: Archive Task
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: task
           path: ./task
@@ -108,9 +111,9 @@ jobs:
     needs:
       - k8s-setup
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       - name: Download Helm
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: helm
           path: ./helm
@@ -128,7 +131,7 @@ jobs:
           helm plugin install https://github.com/helm-unittest/helm-unittest.git --version ${{ env.HELM_PLUGIN_UNITTEST_VERSION }}
 
       - name: Download Task
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: task
           path: ./task
@@ -147,24 +150,24 @@ jobs:
       matrix:
         unit: ["persistence-defectdojo"]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4
         with:
           distribution: "temurin" # required Java distribution
           java-version: "17" # The JDK version to make available on the path.
           java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
           architecture: x64 # (x64 or x86) - defaults to x64
       - name: Cache SonarCloud packages
-        uses: actions/cache@v4
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache Gradle packages
-        uses: actions/cache@v4
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -188,10 +191,10 @@ jobs:
         component: ["operator", "lurker"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Go Setup
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5
         with:
           go-version-file: 'operator/go.mod'
 
@@ -214,7 +217,7 @@ jobs:
         run: make docker-export-${{ matrix.component }}
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ${{ matrix.component }}-image
           path: ./operator/${{ matrix.component }}.tar
@@ -227,10 +230,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Go Setup
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5
         with:
           go-version-file: 'auto-discovery/kubernetes/go.mod'
 
@@ -253,7 +256,7 @@ jobs:
         run: make docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: auto-discovery-image
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
@@ -267,27 +270,27 @@ jobs:
       - k8s-setup
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Setup Python Version
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
       - name: Download Kind
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: helm
           path: ./helm
@@ -317,7 +320,7 @@ jobs:
         run: make docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: auto-discovery-pull-secret-extractor
           path: ./auto-discovery/kubernetes/pull-secret-extractor/auto-discovery-secret-extractor.tar
@@ -344,10 +347,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Go Setup
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5
         with:
           go-version-file: 'auto-discovery/cloud-aws/go.mod'
 
@@ -370,7 +373,7 @@ jobs:
         run: make docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: auto-discovery-cloud-aws-image
           path: ./auto-discovery/cloud-aws/auto-discovery-cloud-aws.tar
@@ -388,7 +391,7 @@ jobs:
           - hook-sdk
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Build Image
         working-directory: ./${{ matrix.sdk }}/nodejs
@@ -399,7 +402,7 @@ jobs:
         run: make docker-export-sdk
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ${{ matrix.sdk }}-image
           path: ./${{ matrix.sdk }}/nodejs/${{ matrix.sdk }}.tar
@@ -438,13 +441,13 @@ jobs:
           - zap-automation-framework
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Install bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
 
       - name: Download Task
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: task
           path: ./task
@@ -454,19 +457,19 @@ jobs:
           chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: helm
           path: ./helm
@@ -488,7 +491,7 @@ jobs:
         run: task test:unit
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: parser-sdk-image
           path: /tmp
@@ -499,7 +502,7 @@ jobs:
           docker images | grep sdk
 
       - name: Download Operator Image
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: operator-image
           path: ./operator
@@ -510,7 +513,7 @@ jobs:
           docker images | grep operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: lurker-image
           path: ./operator
@@ -591,13 +594,13 @@ jobs:
           # - persistence-static-report (WIP)
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Install bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
 
       - name: Download Task
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: task
           path: ./task
@@ -607,19 +610,19 @@ jobs:
           chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: helm
           path: ./helm
@@ -641,7 +644,7 @@ jobs:
         run: task test:unit
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: hook-sdk-image
           path: /tmp
@@ -652,7 +655,7 @@ jobs:
           docker images | grep sdk
 
       - name: Download Operator Image
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: operator-image
           path: ./operator
@@ -663,7 +666,7 @@ jobs:
           docker images | grep operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: lurker-image
           path: ./operator
@@ -725,10 +728,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5
         with:
           go-version-file: 'scbctl/go.mod'
 

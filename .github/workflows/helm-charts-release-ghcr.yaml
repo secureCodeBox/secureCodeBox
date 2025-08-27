@@ -7,6 +7,11 @@ on:
     types: [published]
 
 name: "Publish Helm Charts to GHCR"
+
+permissions:
+  contents: read
+  packages: write
+
 env:
   CONTAINER_REGISTRY: ghcr.io/securecodebox
   HELM_VERSION: "v3.12.2"
@@ -14,11 +19,8 @@ jobs:
   GHCR-Helm-Release:
     name: "Publish Helm Charts to GHCR"
     runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-      packages: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Parse Release Version
         run: |

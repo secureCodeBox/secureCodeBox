@@ -43,7 +43,9 @@ var (
 
 // Finalizer to delete related files in s3 when the scan gets deleted
 // https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
-var s3StorageFinalizer = "s3.storage.securecodebox.io"
+var s3StorageFinalizer = "s3.storage.securecodebox.io/scan-files"
+// Legacy finalizer name for backward compatibility during migration
+var s3StorageFinalizerLegacy = "s3.storage.securecodebox.io"
 
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans/status,verbs=get;update;patch
@@ -140,28 +142,68 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 var errNotFound = "The specified key does not exist."
 
 func (r *ScanReconciler) handleFinalizer(scan *executionv1.Scan) error {
+	// Handle migration from legacy finalizer
+	if err := r.migrateFinalizer(scan); err != nil {
+		return err
+	}
+
+	// Check if we have the s3 storage finalizer
 	if containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
-		bucketName := os.Getenv("S3_BUCKET")
-		r.Log.V(3).Info("Deleting External Files from FileStorage", "ScanUID", scan.UID)
-
-		rawResultUrl := getPresignedUrlPath(*scan, scan.Status.RawResultFile)
-		err := r.MinioClient.RemoveObject(context.Background(), bucketName, rawResultUrl, minio.RemoveObjectOptions{})
-		if err != nil && err.Error() != errNotFound {
+		if err := r.cleanupS3Files(scan); err != nil {
 			return err
 		}
 
-		findingsJsonUrl := getPresignedUrlPath(*scan, "findings.json")
-		err = r.MinioClient.RemoveObject(context.Background(), bucketName, findingsJsonUrl, minio.RemoveObjectOptions{})
-
-		if err != nil && err.Error() != errNotFound {
-			return err
-		}
-
+		// Remove the s3 storage finalizer
 		scan.ObjectMeta.Finalizers = removeString(scan.ObjectMeta.Finalizers, s3StorageFinalizer)
 		if err := r.Update(context.Background(), scan); err != nil {
 			return err
 		}
 	}
+	return nil
+}
+
+// todo: remove this with v6.0.0
+// migrateFinalizer handles migration from legacy finalizer
+func (r *ScanReconciler) migrateFinalizer(scan *executionv1.Scan) error {
+	if !containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizerLegacy) {
+		return nil
+	}
+
+	r.Log.Info("Migrating legacy finalizer", "scan", scan.Name, "namespace", scan.Namespace, "legacy", s3StorageFinalizerLegacy, "current", s3StorageFinalizer)
+
+	// Clean up S3 files using legacy finalizer logic
+	if err := r.cleanupS3Files(scan); err != nil {
+		return err
+	}
+
+	// Remove legacy finalizer - no need to add current one since scan is being deleted
+	scan.ObjectMeta.Finalizers = removeString(scan.ObjectMeta.Finalizers, s3StorageFinalizerLegacy)
+	if err := r.Update(context.Background(), scan); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// cleanupS3Files removes scan-related files from S3 storage
+func (r *ScanReconciler) cleanupS3Files(scan *executionv1.Scan) error {
+	bucketName := os.Getenv("S3_BUCKET")
+	r.Log.V(3).Info("Deleting External Files from FileStorage", "ScanUID", scan.UID)
+
+	// Clean up raw results file
+	rawResultUrl := getPresignedUrlPath(*scan, scan.Status.RawResultFile)
+	err := r.MinioClient.RemoveObject(context.Background(), bucketName, rawResultUrl, minio.RemoveObjectOptions{})
+	if err != nil && err.Error() != errNotFound {
+		return err
+	}
+
+	// Clean up findings.json file
+	findingsJsonUrl := getPresignedUrlPath(*scan, "findings.json")
+	err = r.MinioClient.RemoveObject(context.Background(), bucketName, findingsJsonUrl, minio.RemoveObjectOptions{})
+	if err != nil && err.Error() != errNotFound {
+		return err
+	}
+
 	return nil
 }
 

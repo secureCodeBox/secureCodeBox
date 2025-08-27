@@ -11,7 +11,7 @@
  * and scoped locally.
  */
 
-@import "../css/_mixins.scss";
+@use "../css/_mixins.scss" as *;
 @import "../css/custom.css";
 
 .heroBanner {

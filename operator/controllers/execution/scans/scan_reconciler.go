@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
@@ -41,9 +40,25 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		return nil
 	}
 
-	// Add s3 storage finalizer to scan
+	// Add s3 storage finalizer to scan (and migrate legacy finalizer if needed)
+	updated := false
+	
+	// Migrate legacy finalizer for active scans
+	if containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizerLegacy) && !containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
+		log.Info("Migrating legacy finalizer for active scan", "legacy", s3StorageFinalizerLegacy, "current", s3StorageFinalizer)
+		scan.ObjectMeta.Finalizers = removeString(scan.ObjectMeta.Finalizers, s3StorageFinalizerLegacy)
+		scan.ObjectMeta.Finalizers = append(scan.ObjectMeta.Finalizers, s3StorageFinalizer)
+		updated = true
+	}
+	
+	// Add s3 storage finalizer if it doesn't exist
 	if !containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
 		scan.ObjectMeta.Finalizers = append(scan.ObjectMeta.Finalizers, s3StorageFinalizer)
+		updated = true
+	}
+	
+	// Update scan if finalizers were modified
+	if updated {
 		if err := r.Update(context.Background(), scan); err != nil {
 			return err
 		}
@@ -66,7 +81,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 
 			return fmt.Errorf("no ScanType of type '%s' found", scan.Spec.ScanType)
 		}
-		log.Info("Matching ScanType Found", "ScanType", scanType.Name)
+		log.V(7).Info("Matching ScanType Found", "ScanType", scanType.Name)
 		scanTypeSpec = scanType.Spec
 	} else if *scan.Spec.ResourceMode == executionv1.ClusterWide {
 		var clusterScanType executionv1.ClusterScanType
@@ -108,8 +123,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		return err
 	}
 
-	log.V(7).Info("Constructed Job object", "job args", strings.Join(job.Spec.Template.Spec.Containers[0].Args, ", "))
-
+	log.Info("Creating scan job", "job", job.Name, "scanType", scan.Spec.ScanType, "scan", scan.Name, "namespace", scan.Namespace)
 	if err := r.Create(ctx, job); err != nil {
 		log.Error(err, "unable to create Job for Scan", "job", job)
 		return err
@@ -154,7 +168,6 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 
 	r.updateScanStatus(ctx, scan)
 
-	log.V(7).Info("created Job for Scan", "job", job)
 	return nil
 }
 
@@ -308,7 +321,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 		return nil, fmt.Errorf("unknown seccompProfile for lurker: %s", seccompProfileRaw)
 	}
 
-	r.Log.Info("Using Lurker Image", "seccompProfile", seccompProfileRaw)
+	r.Log.V(8).Info("Using Lurker Image", "seccompProfile", seccompProfileRaw)
 	falsePointer := false
 	truePointer := true
 
@@ -366,7 +379,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 	}
 
 	customCACertificate, isConfigured := os.LookupEnv("CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE")
-	r.Log.Info("Configuring customCACerts for lurker", "customCACertificate", customCACertificate, "isConfigured", isConfigured)
+	r.Log.V(7).Info("Configuring customCACerts for lurker", "customCACertificate", customCACertificate, "isConfigured", isConfigured)
 	if customCACertificate != "" {
 		job.Spec.Template.Spec.Volumes = append(job.Spec.Template.Spec.Volumes, corev1.Volume{
 			Name: "ca-certificate",

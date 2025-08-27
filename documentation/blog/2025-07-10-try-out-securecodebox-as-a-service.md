@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: secureCodeBox as a Service
-author: Sven Strittmatter
-author_title: Core Developer
-author_url: https://github.com/Weltraumschaf
-author_image_url: https://www.gravatar.com/avatar/3fe213284598b5cb69009665902c77a1
+authors: [sven_strittmatter]
 tags:
   - kubernetes
   - release

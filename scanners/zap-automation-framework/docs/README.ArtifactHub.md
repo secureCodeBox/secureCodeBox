@@ -42,7 +42,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## What is ZAP?
 
-The [Zed Attack Proxy (ZAP)][zap project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
+The [Zed Attack Proxy (ZAP)[zap project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
 
 The Automation Framework is an add-on that provides a framework that allows ZAP to be automated in an easy and flexible way.
 To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).

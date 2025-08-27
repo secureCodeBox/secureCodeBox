@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: "Migrating our Helm Charts to OCI registries"
-author: Jannik Hollenbach
-author_title: Core Developer
-author_url: https://github.com/J12934
-author_image_url: https://avatars.githubusercontent.com/u/13718901?v=4
+authors: [jannik_hollenbach]
 tags:
   - secureCodeBox
   - helm
@@ -17,6 +14,8 @@ description: All secureCodeBox helm charts will be provided via OCI registry bas
 ---
 
 With the secureCodeBox 4.6.0 release, we are transitioning our installation instructions from the old `https://charts.securecodebox.io` Helm registry to the new Helm registry infrastructure, which uses Open Container Initiative (`OCI`) images to store charts.
+
+<!-- truncate -->
 
 ## What Will Happen?
 

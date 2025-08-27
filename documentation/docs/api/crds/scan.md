@@ -8,7 +8,7 @@ sidebar_position: 2
 ---
 
 The Scan Custom Resource Definition (CRD) lets you define how a specific scan should be configured.
-The secureCodeBox Operator will then use this specification to execute the scan.
+The secureCodeBox Operator uses this specification to execute the scan.
 
 ## Specification (Spec)
 
@@ -18,16 +18,16 @@ The `scanType` references the **name** of a [ScanType Custom Resource](/docs/api
 
 ### Parameters (Required)
 
-`parameters` is a string array of command line flags which are passed to the scanner.
+`parameters` is a string array of command line flags that are passed to the scanner.
 
-These usually contain scanner specific configurations and target specification.
+These typically contain scanner-specific configurations and target specifications.
 
 ### Env (Optional)
 
-`env` lets you pass in custom environment variables to the scan container.
-This can be useful to pass in secret values like login credentials scanner require without having to define them in plain text.
+`env` lets you pass custom environment variables to the scan container.
+This can be useful for passing secret values like login credentials that scanners require without defining them in plain text.
 
-Env has the same API as "env" property on Kubernetes Pods.
+The `env` field has the same API as the "env" property on Kubernetes Pods.
 
 See:
 
@@ -36,9 +36,9 @@ See:
 
 ### Volumes (Optional)
 
-`volumes` lets you specify Kubernetes volumes that you want to use and make available to the scan container.
-Similarly to `env`, it can be used to pass data into a container.
-It has to be combined with [`volumeMounts`](#volumemounts-optional) to be useful (see below).
+`volumes` lets you specify Kubernetes volumes to make available to the scan container.
+Similar to `env`, it can be used to pass data into a container.
+It must be combined with [`volumeMounts`](#volumemounts-optional) to be useful (see below).
 It can also be used in combination with `initContainers` to provision files, VCS repositories, or other content into a scanner - see [`initContainers`](#initcontainers-optional) for an example.
 
 `volumes` has the same API as the `volumes` property on Kubernetes pods.
@@ -50,7 +50,7 @@ See:
 
 ### VolumeMounts (Optional)
 
-`volumeMounts` let you specify where you want the previously-created volumes to be mounted inside the container.
+`volumeMounts` lets you specify where previously-created volumes should be mounted inside the container.
 It is used in combination with [`volumes`](#volumes-optional) (see above).
 
 `volumeMounts` has the same API as the `volumeMounts` property on Kubernetes pods.
@@ -62,10 +62,10 @@ See:
 
 ### InitContainers (Optional)
 
-`initContainers` lets you specify a (set of) container(s) that are run before the scan itself.
-You can specify arbitrary containers with any command that you desire.
-By default, init containers do not share a file system with the scan job.
-If you want to use init containers to provision files or directories for the scan job, you need to explicitly create a volume and mount it to both the init container and the scan job itself (using the [`volumeMounts`](#volumemounts-optional) discussed above).
+`initContainers` lets you specify one or more containers that run before the scan itself.
+You can specify arbitrary containers with any commands you need.
+By default, init containers do not share a filesystem with the scan job.
+To use init containers for provisioning files or directories for the scan job, you must explicitly create a volume and mount it to both the init container and the scan job using [`volumeMounts`](#volumemounts-optional).
 For example, if you want to download a file that contains a list of scan targets for nmap, you could configure the scan like this:
 
 ```yaml
@@ -112,9 +112,26 @@ See:
 - [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
 - [API Reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#containers)
 
-### Affinity and Tolerations (optional)
+### ResourceMode (Optional)
 
-[`affinity`](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) and [`tolerations`](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) can be used to control which nodes the parser is executed on.
+The `resourceMode` specifies whether the scan should use namespace-local or cluster-wide resources (ScanType vs. ClusterScanType). Valid values are:
+
+- `"namespaceLocal"` (default): Uses ScanType resources from the same namespace
+- `"clusterWide"`: Uses ClusterScanType resources available cluster-wide
+
+### NodeSelector (Optional)
+
+[`nodeSelector`](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/) allows you to specify a simple node selection constraint to control which nodes the scan can be scheduled on.
+
+```yaml
+nodeSelector:
+  kubernetes.io/arch: amd64
+  node-type: scanner
+```
+
+### Affinity and Tolerations (Optional)
+
+[`affinity`](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) and [`tolerations`](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) can be used to control which nodes the scan is executed on with more advanced rules than nodeSelector.
 
 ### Cascades (Optional)
 
@@ -122,7 +139,7 @@ See:
 
 The cascades config in the scans spec contains [Kubernetes Label Selectors](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/label-selector/) which allow you to select which [CascadingRule](https://www.securecodebox.io/docs/api/crds/cascading-rule) are allowed to be used by the cascading logic.
 
-Furthermore, in the cascade config you can specify whether cascading scan should inherit parent fields:
+Furthermore, in the cascade config you can specify whether cascading scans should inherit fields from the parent scan:
 
 - `inheritLabels`: `true`
 - `inheritAnnotations`: `true`
@@ -134,8 +151,8 @@ Furthermore, in the cascade config you can specify whether cascading scan should
 - `inheritTolerations`: `true`
 
 These fields will merge the parent's entries with entries defined in the cascading rules.
-Entries defined in cascading rules will only apply to the current scan.
-There are two exceptions to this rule: in the case of Affinity and Tolerations, entries will be replaced instead of merged, and will be used for all following scans.
+Entries defined in cascading rules apply only to the current scan.
+There are two exceptions: for Affinity and Tolerations, entries are replaced rather than merged and apply to all subsequent scans.
 
 :::caution
 Defining identical entries in both the Scan AND the Cascading Rule resource will lead to undefined behaviour.
@@ -147,9 +164,9 @@ For an example on how they can be used see the [Scanning Networks HowTo](https:/
 
 #### ScopeLimiter (Optional)
 
-`scopeLimiter` allows you to define certain rules to which cascading scans must comply before they may cascade.
-For example, you can define that you can only trigger a follow-up scan against a host if its IP address is within your predefined IP range.
-You can use Mustache templating in order to select certain properties from findings.
+`scopeLimiter` allows you to define rules that cascading scans must comply with before they may cascade.
+For example, you can define that follow-up scans against a host are only allowed if its IP address is within a predefined IP range.
+You can use Mustache templating to select specific properties from findings.
 
 Under `scopeLimiter`, you may specify `anyOf`, `noneOf`, and `allOf` with a selector to limit your scope.
 If you specify multiple fields, all the rules must pass.
@@ -171,16 +188,18 @@ These annotations can only be added on the initial scan (i.e., they cannot be mo
 
 `values` is a list of values for which the selector should pass.
 
+The `validOnMissingRender` field in scopeLimiter defines whether a condition should match when a templating variable is not present in the finding. Defaults to `false`.
+
 ##### Selecting lists
 
 A custom rendering function has been provided to select attributes in findings that are in a list. An example finding:
 
 ```json title="Finding"
 {
-  name: "Subdomains found",
-  category: "Subdomain"
-  attributes: {
-    domains: ["example.com", "subdomain.example.com"],
+  "name": "Subdomains found",
+  "category": "Subdomain",
+  "attributes": {
+    "domains": ["example.com", "subdomain.example.com"]
   }
 }
 ```
@@ -202,17 +221,17 @@ Some findings have data in lists of objects, such as the following:
 
 ```json title="Finding"
 {
-  name: "Subdomains found",
-  category: "Subdomain"
-  attributes: {
-    addresses: [
+  "name": "Subdomains found",
+  "category": "Subdomain",
+  "attributes": {
+    "addresses": [
       {
-        domain: "example.com",
-        ip: "127.0.0.1",
+        "domain": "example.com",
+        "ip": "127.0.0.1"
       },
       {
-        domain: "subdomain.example.com",
-        ip: "127.0.0.2",
+        "domain": "subdomain.example.com",
+        "ip": "127.0.0.2"
       }
     ]
   }
@@ -235,10 +254,10 @@ You can also manually split values from findings if your finding is like so:
 
 ```json title="Finding"
 {
-  name: "Subdomains found",
-  category: "Subdomain"
-  attributes: {
-    domains: "example.com,subdomain.example.com",
+  "name": "Subdomains found",
+  "category": "Subdomain",
+  "attributes": {
+    "domains": "example.com,subdomain.example.com"
   }
 }
 ```
@@ -306,9 +325,9 @@ See the [Scope HowTo](/docs/how-tos/scope) for more information.
 
 `hookSelector` allows you to select which hooks to run using [Kubernetes Label Selectors](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/label-selector/).
 
-You can only select hooks in the namespace in which the scan is running.
+You can only select hooks within the namespace where the scan is running.
 
-Leaving this field undefined will select all available hooks in this namespace.
+Leaving this field undefined selects all available hooks in the namespace.
 
 ```yaml
 hookSelector:
@@ -328,7 +347,7 @@ For more examples on how this field can be used, see the [Hook HowTo](/docs/how-
 
 ### Resources (Optional)
 
-`resources` lets you overwrite the resource limits and requests for the primary scanner container from the values defined in the [ScanType](./scan-type). See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+`resources` lets you override the resource limits and requests for the primary scanner container from the values defined in the [ScanType](./scan-type). See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 
 ```yaml
 resources:
@@ -348,7 +367,7 @@ ttlSecondsAfterFinished: 30 #deletes the scan after 30 seconds after completion
 ```
 
 :::note
-ttlSecondsAfterFinished can also be set for the scan (as part of the [jobTemplate](https://www.securecodebox.io/docs/api/crds/scan-type#jobtemplate-required)), [parser](https://www.securecodebox.io/docs/api/crds/parse-definition) and [hook](https://www.securecodebox.io/docs/api/crds/scan-completion-hook#ttlsecondsafterfinished-optional) jobs individually. Setting these will only deleted the jobs not the entire scan. 
+ttlSecondsAfterFinished can also be set for the scan (as part of the [jobTemplate](https://www.securecodebox.io/docs/api/crds/scan-type#jobtemplate-required)), [parser](https://www.securecodebox.io/docs/api/crds/parse-definition) and [hook](https://www.securecodebox.io/docs/api/crds/scan-completion-hook#ttlsecondsafterfinished-optional) jobs individually. Setting these will only delete the jobs, not the entire scan. 
 :::
 
 ## Metadata
@@ -358,7 +377,7 @@ Metadata is a standard field on Kubernetes resources. It contains multiple relev
 ## Status
 
 Defines the observed state of a Scan. This will be filled by Kubernetes.
-It contains (see: [Go Type ScanStatus](https://github.com/secureCodeBox/secureCodeBox/blob/main/operator/apis/execution/v1/scan_types.go#L49))
+It contains (see: [Go Type ScanStatus](https://github.com/secureCodeBox/secureCodeBox/blob/main/operator/apis/execution/v1/scan_types.go#L169))
 
 - `State`: State of the scan (See: [secureCodeBox | ScanControler](https://github.com/secureCodeBox/secureCodeBox/blob/main/operator/controllers/execution/scans/scan_controller.go#L105))
 - `FinishedAt`: Time when scan, parsers and hooks for this scan are marked as 'Done'
@@ -367,7 +386,7 @@ It contains (see: [Go Type ScanStatus](https://github.com/secureCodeBox/secureCo
 - `RawResultFile`: Filename of the result file of the scanner. e.g. `nmap-result.xml`
 - `FindingDownloadLink`: Link to download the finding json file from. Valid for 7 days
 - `RawResultDownloadLink`: RawResultDownloadLink link to download the raw result file from. Valid for 7 days
-- `Findings`: FindingStats (See [Go Type FindingStats](https://github.com/secureCodeBox/secureCodeBox/blob/main/operator/apis/execution/v1/scan_types.go#L89))
+- `Findings`: FindingStats (See [Go Type FindingStats](https://github.com/secureCodeBox/secureCodeBox/blob/main/operator/apis/execution/v1/scan_types.go#L218))
 - `ReadAndWriteHookStatus`: Status of the Read and Write Hooks
 
 ## Example
@@ -375,7 +394,6 @@ It contains (see: [Go Type ScanStatus](https://github.com/secureCodeBox/secureCo
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
-status: # Set during runtime. Do not edit via values.yaml etc.
 metadata:
   name: "nmap-scanme.nmap.org"
   annotations:
@@ -383,6 +401,7 @@ metadata:
     scope.cascading.securecodebox.io/domain: "example.com"
 spec:
   scanType: "nmap"
+  resourceMode: "namespaceLocal"
   parameters:
     # Use nmap's service detection feature
     - "-sV"
@@ -395,15 +414,17 @@ spec:
           name: zap-customer-credentials
     - name: GREETING
       value: "Hello from the secureCodeBox :D"
+  nodeSelector:
+    kubernetes.io/arch: amd64
   cascades:
     inheritLabels: false
     inheritAnnotations: true
     matchLabels:
       securecodebox.io/intensive: light
-    matchExpression:
-      key: "securecodebox.io/invasive"
-      operator: In
-      values: [non-invasive, invasive]
+    matchExpressions:
+      - key: "securecodebox.io/invasive"
+        operator: In
+        values: [non-invasive, invasive]
     scopeLimiter:
       validOnMissingRender: true
       allOf:
@@ -421,4 +442,5 @@ spec:
     limits:
       cpu: 4
       memory: 4Gi
+  ttlSecondsAfterFinished: 300
 ```

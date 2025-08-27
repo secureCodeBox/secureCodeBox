@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: 'Streamlining Security Scans with secureCodeBox: My Google Summer of Code Journey'
-author: Thibaut Batale
-author_title: Gsoc'24 Contributor
-author_url: https://github.com/Freedisch
-author_image_url: https://avatars.githubusercontent.com/u/82499435?s=96&v=4
+authors: [thibaut_batale]
 tags:
   - Google summer of code
   - scbctl
@@ -22,7 +19,9 @@ image: /img/blog/2024-08-20-gsoc.png
 
 ---
 
-Hey there, I’m Thibaut Batale, and I’m thrilled to share my experience as a Google Summer of Code contributor with OWASP secureCodeBox. Being selected to participate in this program was a unique opportunity, but what excited me the most was being chosen for the very first project I applied to. I wanted to spend this summer battling with Kubernetes, and I got exactly what I wished for—and more.
+Hey there, I'm Thibaut Batale, and I'm thrilled to share my experience as a Google Summer of Code contributor with OWASP secureCodeBox. Being selected to participate in this program was a unique opportunity, but what excited me the most was being chosen for the very first project I applied to. I wanted to spend this summer battling with Kubernetes, and I got exactly what I wished for—and more.
+
+<!-- truncate -->
 
 If you’re curious about my contributions during GSoC 2024, you can check out my [Pull Requests](https://github.com/secureCodeBox/secureCodeBox/pulls?q=is:pr+author:Freedisch+is:closed) on GitHub. You can also find more details about my project by visiting the [Project link](https://summerofcode.withgoogle.com/programs/2024/projects/vFuhwP9m).
 

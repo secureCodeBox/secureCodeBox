@@ -7,7 +7,6 @@ package scancontrollers
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	util "github.com/secureCodeBox/secureCodeBox/operator/utils"
@@ -53,7 +52,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 
 			return fmt.Errorf("no ParseDefinition of type '%s' found", parseType)
 		}
-		log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
+		log.V(7).Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
 		parseDefinitionSpec = parseDefinition.Spec
 	} else if *scan.Spec.ResourceMode == executionv1.ClusterWide {
 		var clusterParseDefinition executionv1.ClusterParseDefinition
@@ -243,7 +242,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		return err
 	}
 
-	log.V(7).Info("Constructed Job object", "job args", strings.Join(job.Spec.Template.Spec.Containers[0].Args, ", "))
+	log.Info("Creating parse job", "job", job.Name, "parseDefinition", parseType, "scan", scan.Name, "namespace", scan.Namespace)
 
 	if err := r.Create(ctx, job); err != nil {
 		log.Error(err, "unable to create Job for Parser", "job", job)

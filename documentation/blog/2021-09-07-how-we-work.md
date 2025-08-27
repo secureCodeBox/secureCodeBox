@@ -4,10 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 title: How Our Core Development Team Works
-author: Sebastian Franz
-author_title: Core Developer
-author_url: https://github.com/SebieF
-author_image_url: https://avatars.githubusercontent.com/u/32578476?v=4
+authors: [sebastian_franz]
 tags:
   - secureCodeBox
   - agile

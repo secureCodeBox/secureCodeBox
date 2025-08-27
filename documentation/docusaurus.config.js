@@ -9,6 +9,9 @@ module.exports = {
   url: "https://www.securecodebox.io",
   baseUrl: "/",
   onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "throw",
+  onDuplicateRoutes: "throw",
+  onBrokenAnchors: "throw",
   favicon: "img/Favicon.svg",
   organizationName: "secureCodeBox", // Usually your GitHub org/user name.
   projectName: "secureCodeBox", // Usually your repo name.
@@ -167,5 +170,5 @@ module.exports = {
     ],
   ],
   themes: ["@docusaurus/theme-live-codeblock"],
-  plugins: ["docusaurus-plugin-sass", "@cmfcmf/docusaurus-search-local"],
+  plugins: ["docusaurus-plugin-sass", "docusaurus-lunr-search"],
 };
