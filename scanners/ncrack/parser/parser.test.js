@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { readFileSync } from "node:fs";
-import { privateDecrypt, constants } from "node:crypto";
 import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
+import * as age from "age-encryption";
 
 import { parse } from "./parser";
 
@@ -134,34 +134,22 @@ it("should encrypt findings when a public key is set", async () => {
   const [finding] = await parse(
     ncrackXML,
     null,
-    __dirname + "/__testFiles__/public_key.pem",
+    __dirname + "/__testFiles__/public-key.txt",
   );
 
-  let decryptedData = privateDecrypt(
-    {
-      key: privateKey,
-      padding: constants.RSA_PKCS1_OAEP_PADDING,
-    },
-    Buffer.from(finding.attributes.password, "base64"),
-  );
+  let decryptedData = await decryptWithAGE(finding.attributes.password);
 
-  expect(finding.attributes.password.length).toBe(172);
-  expect(decryptedData.toString()).toBe("aaf076d4fe7cfb63fd1628df91");
+  expect(finding.attributes.password.length).toBe(377);
+  expect(decryptedData).toBe("aaf076d4fe7cfb63fd1628df91");
 });
 
-const privateKey =
-  "-----BEGIN RSA PRIVATE KEY-----\n" +
-  "MIICXQIBAAKBgQDftYgZ2MhLWumXTylT/nEhZ3Ulrk8xuf8EFA3ffMRgyW3n9mEp\n" +
-  "VFHVXZCaEYz55/pZqnsffUosPnHtKDV4uGPVqPJkMi5WUj6oUE9O/BXArK8pJfnc\n" +
-  "OKYqCQN45hKc/Plt7uvTCTS/oFKoowv1MyzLzbrLAI4I7JPgFA1nOp8UDQIDAQAB\n" +
-  "AoGAV5tepkiX/7KlocS1eZg+M4exf8UobF/bd3xnBmt0+DZJ3TpGSIol1fnjRAK1\n" +
-  "g7SN/QlfWDCXmIYH1YkWj6UeKvWim86OV+61QX4imLAOsi7fSA8fcNRxYVX73hhk\n" +
-  "kxt10a4l+CPAb4cyJa4Ud3UHhLtRlanJtQyAXZtQ38fRSiECQQDxIhBjkU4Sf96t\n" +
-  "wpEWr/RnOA2aHOUWH8GCB4DAcw5wrISDcvRsgKggjec2VAJPovqSri1lQS4hV28M\n" +
-  "4iTcj+ylAkEA7YB0rAebUzbFXzMrxUPxBbjze+idw1COqCXkX+N9RYVY23D8mUlR\n" +
-  "8cMru4Rauu6DluSWZCgR14+Hi0TNrUHlSQJBAJBoJgh67JaHnYPSEbHUjjmCiCLT\n" +
-  "Sx6Exg5pD+IxBWTU7EcMgPS51/YnBWCzzu6CXC2bwfPxpP6yrf65L/om90ECQQDe\n" +
-  "HGYAhFSkq/JFp+tlXrbHbUJ4PQFdqbbgVh+P9YYwQBbrkm0JReKWwLnjclIPxAPY\n" +
-  "WAq1vCuDdr2CZ2QahifRAkBd9mv+G4WO0hOsTBypeoEnL6VECzSauDwfIP/kSdBz\n" +
-  "bmkZ6DCScZa8gz1J5ZamBnP4N2dtQn/zDtNUkS+qK+s2\n" +
-  "-----END RSA PRIVATE KEY-----";
+async function decryptWithAGE(data) {
+  const d = new age.Decrypter();
+  d.addIdentity(ageSecretKey);
+  const decoded = age.armor.decode(data);
+  const out = await d.decrypt(decoded, "text");
+  return out;
+}
+
+const ageSecretKey =
+  "AGE-SECRET-KEY-1JRMTLELHHAUZ6U7SJ7HTZKUU0QX9A09PSXDVW9TVG704G9PVANXQS94G8T";

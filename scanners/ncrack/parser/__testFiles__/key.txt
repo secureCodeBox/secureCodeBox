@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# created: 2025-08-21T12:52:24+02:00
+# public key: age14t6tm8lqrhuw8wrpfxf438gl2fvpnl02tgpf3dhex6e9jejy4feqfus7jf
+AGE-SECRET-KEY-1JRMTLELHHAUZ6U7SJ7HTZKUU0QX9A09PSXDVW9TVG704G9PVANXQS94G8T
