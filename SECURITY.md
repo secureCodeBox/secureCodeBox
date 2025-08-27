@@ -9,7 +9,7 @@ SPDX-License-Identifier: Apache-2.0
 ## Supported Versions
 
 Our _release cycle_ for new features (minor [semver](https://semver.org/) update)
-is roughly every two weeks (we will usually make a new release after each review).
+is roughly every four weeks (we will usually make a new release after each sprint review).
 
 | Version | Security Fixes* | Supported** |
 | ------- | ------------------ | ------------------ |
