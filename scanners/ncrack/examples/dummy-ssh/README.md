@@ -19,7 +19,7 @@ printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
 kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists
 
 # Install dummy-ssh app. We'll use ncrack to enumerate its ssh username and password
-helm install dummy-ssh oci://ghcr.io/securecodebox/helm/dummy-ssh/ --wait
+helm install dummy-ssh oci://ghcr.io/securecodebox/helm/dummy-ssh --wait
 
 # Install the ncrack scanType and set mount the files from the ncrack-lists Kubernetes secret
 cat <<EOF | helm upgrade --install ncrack oci://ghcr.io/securecodebox/helm/ncrack --values -
@@ -39,9 +39,9 @@ After that you can execute the scan in this directory:
 kubectl apply -f scan.yaml
 ```
 
-The scan should find credentials for username 'root' with password 'THEPASSWORDYOUCREATED'. 
+The scan should find credentials for username 'root' with password 'THEPASSWORDYOUCREATED'.
 
 #### Troubleshooting:
 * <b> Make sure to leave a blank line at the end of each file used in the secret!</b>
 * If printf doesn't create new lines, try 'echo -e "..."'
-* You can show your existing secrets with 'kubectl get secrets' 
+* You can show your existing secrets with 'kubectl get secrets'

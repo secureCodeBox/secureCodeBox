@@ -73,7 +73,7 @@ TIMING AND PERFORMANCE:
     to (time-out): maximum cracking <time> for service, regardless of success so far
   -T<0-5>: Set timing template (higher is faster)
   --connection-limit <number>: threshold for total concurrent connections
-  --stealthy-linear: try credentials using only one connection against each specified host 
+  --stealthy-linear: try credentials using only one connection against each specified host
     until you hit the same host again. Overrides all other timing options.
 AUTHENTICATION:
   -U <filename>: username file
@@ -117,20 +117,24 @@ SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 #### Password encryption
 
 Because **Ncrack** findings are very sensitive, you probably don't want every *secureCodeBox* user to see them. In order
-to address this issue we provide an option that lets you encrypt found passwords with public key crypto. Just
-generate a key pair with openssl:
+to address this issue we provide an option that lets you encrypt found passwords with [age encryption](https://age-encryption.org/). Just
+generate a key pair with age-keygen:
 
 ```bash
-openssl genrsa -out key.pem 2048
-openssl rsa -in key.pem -outform PEM -pubout -out public.pem
+  age-keygen -o key.txt
+```
+
+To create a public key file from the generated key execute the following command:
+```bash
+  age-keygen -y -o public-key.txt key.txt
 ```
 
 After you created the public key file you have to create a kubernetes secret from that
 file:
 ```bash
-  kubectl create secret generic --from-file="public.key=public.pem" <ncrack-secret-name>
+  kubectl create secret generic --from-file="public.key=public-key.txt" <ncrack-secret-name>
 ```
-Now you only need to set the value *encryptPasswords.existingSecret* to the 
+Now you only need to set the value *encryptPasswords.existingSecret* to the
 secrets name when installing the scanner
 
 ```bash
@@ -140,7 +144,7 @@ secrets name when installing the scanner
 To decrypt a password from a finding use:
 
 ```bash
-base64 encryptedPassword -d | openssl pkeyutl -decrypt -inkey key.pem -out decryptedPassword.txt
+  echo "<encrypted-password>" | age -d -i key.txt -o decrypted.txt
 ```
 
 #### Setup with custom files:
@@ -152,7 +156,7 @@ kubectl create secret generic --from-file users.txt --from-file passwords.txt nc
 
 <b> IMPORTANT: Use an extra empty line at the end of your files, otherwise the last letter of the last line will be omitted (due to a bug in k8) </b>
 
-Now we created a secret named "ncrack-lists". 
+Now we created a secret named "ncrack-lists".
 Before we can use the files, we have to install the Ncrack ScanType:
 
 ```bash

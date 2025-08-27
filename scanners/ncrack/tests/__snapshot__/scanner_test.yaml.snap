@@ -374,3 +374,129 @@ matches the snapshot:
               tolerations:
                 - foo: bar
               volumes: []
+merges encryption and empty env array:
+  1: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: ncrack-xml
+    spec:
+      affinity: {}
+      env:
+        - name: ENCRYPTION_KEY_LOCATION
+          value: /secrets/public.key
+      image: docker.io/securecodebox/parser-ncrack:0.0.0
+      imagePullPolicy: IfNotPresent
+      scopeLimiterAliases: {}
+      tolerations: []
+      ttlSecondsAfterFinished: null
+      volumeMounts:
+        - mountPath: /secrets/
+          name: ncrack-secret
+      volumes:
+        - name: ncrack-secret
+          secret:
+            secretName: foobar
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: ncrack
+    spec:
+      extractResults:
+        location: /home/securecodebox/ncrack-results.xml
+        type: ncrack-xml
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity: {}
+              containers:
+                - command:
+                    - ncrack
+                    - -oX
+                    - /home/securecodebox/ncrack-results.xml
+                  env: []
+                  image: docker.io/securecodebox/scanner-ncrack:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: ncrack
+                  resources: {}
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+              restartPolicy: OnFailure
+              securityContext: {}
+              tolerations: []
+              volumes: []
+merges encryption and env array:
+  1: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: ncrack-xml
+    spec:
+      affinity: {}
+      env:
+        - name: foo
+          value: bar
+        - name: ENCRYPTION_KEY_LOCATION
+          value: /secrets/public.key
+      image: docker.io/securecodebox/parser-ncrack:0.0.0
+      imagePullPolicy: IfNotPresent
+      scopeLimiterAliases: {}
+      tolerations: []
+      ttlSecondsAfterFinished: null
+      volumeMounts:
+        - mountPath: /secrets/
+          name: ncrack-secret
+      volumes:
+        - name: ncrack-secret
+          secret:
+            secretName: foobar
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: ncrack
+    spec:
+      extractResults:
+        location: /home/securecodebox/ncrack-results.xml
+        type: ncrack-xml
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity: {}
+              containers:
+                - command:
+                    - ncrack
+                    - -oX
+                    - /home/securecodebox/ncrack-results.xml
+                  env: []
+                  image: docker.io/securecodebox/scanner-ncrack:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: ncrack
+                  resources: {}
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+              restartPolicy: OnFailure
+              securityContext: {}
+              tolerations: []
+              volumes: []

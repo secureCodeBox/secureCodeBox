@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { parseString } from "xml2js";
-import { publicEncrypt, constants } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import * as age from "age-encryption";
 
 export async function parse(
   fileContent,
@@ -26,44 +26,42 @@ export async function parse(
 }
 
 function transformToFindings(ncrackrun, publicKey) {
-  return ncrackrun.service.flatMap(({ address, port, credentials = [] }) => {
-    const { addr: ipAddress } = address[0]["$"];
-    const { protocol, portid, name: portName } = port[0]["$"];
+  const findings = ncrackrun.service.flatMap(
+    ({ address, port, credentials = [] }) => {
+      const { addr: ipAddress } = address[0]["$"];
+      const { protocol, portid, name: portName } = port[0]["$"];
 
-    return credentials.map((credential) => {
-      let { username, password } = credential["$"];
+      return credentials.map(async (credential) => {
+        let { username, password } = credential["$"];
 
-      if (publicKey) {
-        password = publicEncrypt(
-          {
-            key: publicKey,
-            padding: constants.RSA_PKCS1_OAEP_PADDING,
+        if (publicKey) {
+          password = await encryptWithAGE(password, publicKey);
+        }
+
+        return {
+          name: `Credentials for Service ${portName}://${ipAddress}:${portid} discovered via bruteforce.`,
+          description: "",
+          category: "Discovered Credentials",
+          location: `${portName}://${ipAddress}:${portid}`,
+          osi_layer: "APPLICATION",
+          severity: "HIGH",
+          mitigation:
+            "Use a more secure password or disable the service at " +
+            `${portName}://${ipAddress}:${portid}`,
+          attributes: {
+            port: portid,
+            ip_addresses: [ipAddress],
+            protocol: protocol,
+            service: portName,
+            username,
+            password,
           },
-          Buffer.from(password),
-        ).toString("base64");
-      }
+        };
+      });
+    },
+  );
 
-      return {
-        name: `Credentials for Service ${portName}://${ipAddress}:${portid} discovered via bruteforce.`,
-        description: "",
-        category: "Discovered Credentials",
-        location: `${portName}://${ipAddress}:${portid}`,
-        osi_layer: "APPLICATION",
-        severity: "HIGH",
-        mitigation:
-          "Use a more secure password or disable the service at " +
-          `${portName}://${ipAddress}:${portid}`,
-        attributes: {
-          port: portid,
-          ip_addresses: [ipAddress],
-          protocol: protocol,
-          service: portName,
-          username,
-          password,
-        },
-      };
-    });
-  });
+  return Promise.all(findings);
 }
 
 function transformXML(fileContent) {
@@ -79,5 +77,21 @@ function transformXML(fileContent) {
 }
 
 async function readPublicKey(keyLocation) {
-  return readFile(keyLocation);
+  return readFile(keyLocation, "utf-8");
+}
+
+async function encryptWithAGE(password, publicKey) {
+  // remove newlines
+  publicKey = publicKey.trim();
+
+  const e = new age.Encrypter();
+  e.addRecipient(publicKey);
+  const ciphertext = await e.encrypt(password);
+
+  /**
+  age encrypted files (the inputs of Decrypter.decrypt and outputs of Encrypter.encrypt) are binary files, of type Uint8Array.
+  There is an official ASCII "armor" format, based on PEM, which provides a way to encode an encrypted file as text.
+  **/
+  const armored = age.armor.encode(ciphertext);
+  return armored;
 }
