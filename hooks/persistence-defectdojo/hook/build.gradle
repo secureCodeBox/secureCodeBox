@@ -8,7 +8,7 @@ plugins {
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.52.0"
-  id "org.sonarqube" version "6.2.0.5505"
+  id "org.sonarqube" version "6.3.0.5676"
 }
 
 group = "io.securecodebox"
