@@ -142,18 +142,22 @@ Kubernetes: `>=v1.11.0-0`
 #### Password encryption
 
 Because **Ncrack** findings are very sensitive, you probably don't want every *secureCodeBox* user to see them. In order
-to address this issue we provide an option that lets you encrypt found passwords with public key crypto. Just
-generate a key pair with openssl:
+to address this issue we provide an option that lets you encrypt found passwords with [age encryption](https://age-encryption.org/). Just
+generate a key pair with age-keygen:
 
 ```bash
-openssl genrsa -out key.pem 2048
-openssl rsa -in key.pem -outform PEM -pubout -out public.pem
+  age-keygen -o key.txt
+```
+
+To create a public key file from the generated key execute the following command:
+```bash
+  age-keygen -y -o public-key.txt key.txt
 ```
 
 After you created the public key file you have to create a kubernetes secret from that
 file:
 ```bash
-  kubectl create secret generic --from-file="public.key=public.pem" <ncrack-secret-name>
+  kubectl create secret generic --from-file="public.key=public-key.txt" <ncrack-secret-name>
 ```
 Now you only need to set the value *encryptPasswords.existingSecret* to the
 secrets name when installing the scanner
@@ -165,7 +169,7 @@ secrets name when installing the scanner
 To decrypt a password from a finding use:
 
 ```bash
-base64 encryptedPassword -d | openssl pkeyutl -decrypt -inkey key.pem -out decryptedPassword.txt
+  echo "<encrypted-password>" | age -d -i key.txt -o decrypted.txt
 ```
 
 #### Setup with custom files:
