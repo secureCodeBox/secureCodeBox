@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Build the service binary
-FROM --platform=$BUILDPLATFORM golang:1.25.0 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.25.1 AS builder
 
 WORKDIR /workspace
 # Copy the Go Modules manifests
