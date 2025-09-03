@@ -16,7 +16,7 @@ test("should properly parse ffuf json file", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {
@@ -81,7 +81,7 @@ test("should properly parse ffuf json file wih multiple fuzz keyword inputs", as
 
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {
@@ -122,7 +122,7 @@ test("should properly parse ffuf json file with postdata", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {
@@ -162,7 +162,7 @@ test("should properly parse empty json file", async () => {
   });
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
@@ -175,7 +175,7 @@ test("should properly parse juice-shop findings json file", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -241,27 +241,27 @@ test("should properly parse zero findings json file", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse empty string", async () => {
   const findings = await parse("");
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse null", async () => {
   const findings = await parse(null);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse undefined", async () => {
   const findings = await parse(undefined);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });

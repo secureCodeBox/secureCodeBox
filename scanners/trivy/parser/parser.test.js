@@ -15,7 +15,7 @@ test("parses bkimminich/juice-shop:v10.2.0 result file into findings", async () 
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -27,7 +27,7 @@ test("parses bkimminich/juice-shop:v12.10.2 result file into findings", async ()
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -39,7 +39,7 @@ test("parses securecodebox:master result file into findings", async () => {
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -51,7 +51,7 @@ test("should properly parse a json file with no .Results", async () => {
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
@@ -63,7 +63,7 @@ test("should parse a trivy-k8s scan result of a cluster running secureCodeBox it
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -87,7 +87,7 @@ test("should parse a trivy-k8s scan result", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -99,7 +99,7 @@ test("should properly parse a json file with empty .Results", async () => {
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
@@ -111,6 +111,6 @@ test("should properly parse empty json file", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });

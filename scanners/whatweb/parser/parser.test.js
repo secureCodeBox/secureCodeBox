@@ -16,7 +16,7 @@ test("should properly parse whatweb json file", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -49,7 +49,7 @@ test("should properly parse empty whatweb json file", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
@@ -62,7 +62,7 @@ test("should properly parse securecodebox.io whatweb json file with higher aggre
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -140,7 +140,7 @@ test("should properly parse whatweb json file with two domains", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {

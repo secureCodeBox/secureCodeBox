@@ -25,7 +25,7 @@ beforeEach(() => {
 
 test("should create finding correctly", async () => {
   const findings = await parse("thisisabinarystringformatedimage", scan);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {
@@ -46,6 +46,6 @@ test("should create finding correctly", async () => {
 test("should not create finding if image is empty", async () => {
   scan.spec.parameters = ["https://www.iteratec.de"];
   const findings = await parse("", scan);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });

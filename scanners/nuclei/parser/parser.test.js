@@ -16,7 +16,7 @@ test("parses empty result correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -29,7 +29,7 @@ test("parses the example.com result correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -42,7 +42,7 @@ test("parses secureCodeBox.io result correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -55,7 +55,7 @@ test("parses log4shell result correctly", async () => {
   );
 
   const findings = await parse(JSON.parse(fileContent));
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -69,7 +69,7 @@ test("parses results with requests & responses correctly", async () => {
   );
 
   const findings = await parse(JSON.parse(fileContent));
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -83,7 +83,7 @@ test("parses findings with hostnames which do not contain a port correctly", asy
   );
 
   const findings = await parse(JSON.parse(fileContent));
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings[0]).toEqual(
     expect.objectContaining({
       location: "example.com",

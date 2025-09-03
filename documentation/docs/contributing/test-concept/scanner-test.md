@@ -12,7 +12,7 @@ We employ two types of tests: Unit tests for the parser and integration-tests. B
 
 ### Unit Tests for Parser
 
-Each scanner has a parser and each parser has a unit test file. The unit test file is named parser.test.js. This file contains different test scenarios. In each test, the results from parser.js and the folder `_snapshots_` are compared. If they are the same, the unit test is successful. 
+Each scanner has a parser and each parser has a unit test file. The unit test file is named parser.test.js. This file contains different test scenarios. In each test, the results from parser.js and the folder `_snapshots_` are compared. If they are the same, the unit test is successful.
 A unit test can look like this:
 
 ```js
@@ -24,7 +24,7 @@ test("parser parses large json result without vulnerable extensions successfully
     }
   );
   const findings = await parse(JSON.parse(fileContent));
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 

@@ -15,7 +15,7 @@ test("parses www.securecodebox.io result file into findings", async () => {
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -27,7 +27,7 @@ test("parses OWASP Juice Shop result file into findings", async () => {
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -39,7 +39,7 @@ test("should properly parse empty json file", async () => {
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
@@ -51,5 +51,5 @@ test("parses 'no web server found' finding correctly", async () => {
     },
   );
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 });

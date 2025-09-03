@@ -15,7 +15,7 @@ test("should properly parse subfinder json file without ip output", async () => 
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -28,8 +28,8 @@ test("should properly parse subfinder json file with ip output", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchSnapshot()
+  expect(validateParser(findings)).toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("should properly parse empty json file", async () => {
@@ -38,6 +38,6 @@ test("should properly parse empty json file", async () => {
   });
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchSnapshot()
+  expect(validateParser(findings)).toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });

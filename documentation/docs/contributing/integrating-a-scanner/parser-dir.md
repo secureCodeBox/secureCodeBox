@@ -28,7 +28,7 @@ COPY --from=build --chown=root:root --chmod=755 /home/app/node_modules/ ./node_m
 COPY --chown=root:root --chmod=755 ./parser.js ./parser.js
 ```
 
-If your parser does not require any external dependencies, A multi-stage build is not needed.  
+If your parser does not require any external dependencies, A multi-stage build is not needed.
 Instead, a simpler Dockerfile can be used.
 
 ```dockerfile
@@ -94,7 +94,7 @@ Please provide some tests for your parser in the `parser.test.js` file. To make 
 import { validateParser } from "@securecodebox/parser-sdk-nodejs/parser-utils";
 
 const findings = await parse(fileContent);
-await expect(validateParser(findings)).resolves.toBeUndefined();
+expect(validateParser(findings)).toBeUndefined();
 ```
 
 If you need additional files for your test please save these in the `__testFiles__` directory. Please take a look at [Integration Tests | secureCodeBox](/docs/contributing/integrating-a-scanner/integration-tests) for more information.

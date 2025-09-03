@@ -12,7 +12,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
     encoding: "utf8",
   });
   const findings = await parse(hosts);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -460,7 +460,7 @@ test("should properly parse empty json file", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
@@ -469,7 +469,7 @@ test("ssh-audit parser parses a result into proper findings for an example with 
     encoding: "utf8",
   });
   const findings = await parse(hosts);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {

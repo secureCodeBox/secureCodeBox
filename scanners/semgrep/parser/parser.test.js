@@ -16,7 +16,7 @@ test("should properly parse file from inline semgrep usage", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {
@@ -45,7 +45,7 @@ test("should properly parse file with a single result", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {
@@ -87,7 +87,7 @@ test("should properly parse file with multiple results", async () => {
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {

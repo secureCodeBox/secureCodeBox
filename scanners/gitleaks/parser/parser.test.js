@@ -15,7 +15,7 @@ test("should properly parse empty gitleaks json file", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchObject([]);
 });
 
@@ -27,7 +27,7 @@ test("should properly parse gitleaks json file with null result", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchObject([]);
 });
 
@@ -39,7 +39,7 @@ test("should properly parse gitleaks json file", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {
@@ -132,7 +132,7 @@ test("should define severity based on tags in result file", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
 [
@@ -222,7 +222,7 @@ test("should properly construct commit URL if given in scan annotation without t
     },
   );
   const findings = await parse(jsonContent, scan);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
 [
@@ -329,7 +329,7 @@ test("should properly construct commit URL if given in scan annotation with trai
     },
   );
   const findings = await parse(jsonContent, scan);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
 [

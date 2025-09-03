@@ -16,7 +16,7 @@ test("Parsing the juice-shop results.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -29,7 +29,7 @@ test("Parsing the example.com results.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -42,7 +42,7 @@ test("Parsing the docs.securecodebox.io results.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -55,7 +55,7 @@ test("Parsing an empty result.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
@@ -68,7 +68,7 @@ test("Parsing a nginx result.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -81,6 +81,6 @@ test("Parsing a bodgeit result.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
