@@ -16,7 +16,7 @@ test("WPScan parser parses a successfully scan result with at least one informat
   );
 
   const findings = await parse(scanResults);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -195,7 +195,7 @@ test("WPScan parser parses a scan result file without a detected wp version corr
   );
 
   const findings = await parse(scanResults);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -336,6 +336,6 @@ test("should properly parse empty json file", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });

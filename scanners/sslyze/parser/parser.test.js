@@ -16,7 +16,7 @@ test("parses result file for www.securecodebox.io correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
     [
@@ -64,7 +64,7 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
     [
@@ -171,7 +171,7 @@ test("parses result file for expired.badssl.com correctly", async () => {
 
   const findings = await parse(fileContent);
 
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
     [
@@ -293,7 +293,7 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
     [
@@ -416,7 +416,7 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
 
   const findings = await parse(fileContent);
 
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -537,7 +537,7 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
     [
@@ -659,7 +659,7 @@ test("parses result file for target without certificate_deployments correctly", 
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
     [
@@ -730,7 +730,7 @@ test("parses an empty result file correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toEqual([]);
 });
 
@@ -742,6 +742,6 @@ test("should properly parse empty json file", async () => {
     },
   );
   const findings = await parse(jsonContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });

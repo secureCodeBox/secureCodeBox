@@ -16,7 +16,7 @@ test("should properly parse nmap xml file", async () => {
   );
   const findings = await parse(xmlContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -147,7 +147,7 @@ test("should properly parse a nmap xml without any ports", async () => {
   );
 
   const findings = await parse(xmlContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -178,7 +178,7 @@ test("should properly parse a nmap xml without any host", async () => {
   );
 
   const findings = await parse(xmlContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
@@ -191,7 +191,7 @@ test("should properly parse a nmap xml with missing service information", async 
   );
 
   const findings = await parse(xmlContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     [
       {
@@ -247,7 +247,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
   );
 
   const findings = await parse(xmlContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
     [
       {
@@ -452,7 +452,7 @@ test("should properly parse a script finding for ftp in an xml file", async () =
     },
   );
   const findings = await parse(xmlContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
     [
       {
@@ -544,7 +544,7 @@ test("should parse scanme.nmap.org results properly", async () => {
     },
   );
   const findings = await parse(xmlContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
     [
       {

@@ -17,5 +17,7 @@
     "ajv-formats": "^3.0.1",
     "jsonpointer": "^5.0.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^22.18.0"
+  }
 }

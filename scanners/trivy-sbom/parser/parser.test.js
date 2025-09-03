@@ -36,7 +36,7 @@ test("should create finding correctly", async () => {
   };
 
   const findings = await parse(JSON.stringify(result), scan);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
 [
   {
@@ -62,7 +62,7 @@ test("should properly parse cyclonedx json sbom file", async () => {
   );
   const findings = await parse(fileContent, scan);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
   [
     {

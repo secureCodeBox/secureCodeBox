@@ -11,11 +11,11 @@ test("should properly parse new-scanner json file", async () => {
   const fileContent = JSON.parse(
     await readFile(import.meta.dirname + "/__testFiles__/example.com.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot();
 });
 
@@ -23,10 +23,10 @@ test("should properly parse empty json file", async () => {
   const fileContent = JSON.parse(
     await readFile(import.meta.dirname + "/__testFiles__/empty.json", {
       encoding: "utf8",
-    })
+    }),
   );
   const findings = await parse(fileContent);
   // validate findings
-  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot();
 });

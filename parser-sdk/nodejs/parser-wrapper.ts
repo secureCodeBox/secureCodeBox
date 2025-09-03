@@ -10,17 +10,43 @@ import {
   PatchStrategy,
 } from "@kubernetes/client-node";
 
+// @ts-ignore: parsers are provided during the docker build of the acutal parsers.
 import { parse } from "./parser/parser.js";
-import { validate, addIdsAndDates, addScanMetadata } from "./parser-utils.js";
+import {
+  validate,
+  addIdsAndDates,
+  addScanMetadata,
+  type Finding,
+  type Severity,
+  type Scan,
+} from "./parser-utils.js";
 
 const kc = new KubeConfig();
 kc.loadFromCluster();
 const k8sApi = kc.makeApiClient(CustomObjectsApi);
 
-const scanName = process.env["SCAN_NAME"];
-const namespace = process.env["NAMESPACE"];
+const scanName = process.env["SCAN_NAME"]!;
+if (!scanName) {
+  console.error(
+    "Parser was started without `SCAN_NAME` environment variable set. This is normally done by the operator.",
+  );
+  console.error(
+    "If you are seeing this error during a normal scan execution please open up an issue..",
+  );
+  process.exit(1);
+}
+const namespace = process.env["NAMESPACE"]!;
+if (!namespace) {
+  console.error(
+    "Parser was started without `NAMESPACE` environment variable set. This is normally done by the operator.",
+  );
+  console.error(
+    "If you are seeing this error during a normal scan execution please open up an issue..",
+  );
+  process.exit(1);
+}
 
-function severityCount(findings, severity) {
+function severityCount(findings: Finding[], severity: Severity) {
   return findings.filter(
     ({ severity: findingSeverity }) =>
       findingSeverity.toUpperCase() === severity,
@@ -28,8 +54,8 @@ function severityCount(findings, severity) {
 }
 
 async function uploadResultToFileStorageService(
-  resultUploadUrl,
-  findingsWithIdsAndDates,
+  resultUploadUrl: string,
+  findingsWithIdsAndDates: Finding[],
 ) {
   try {
     const res = await fetch(resultUploadUrl, {
@@ -61,7 +87,7 @@ async function uploadResultToFileStorageService(
   }
 }
 
-async function updateScanStatus(findings) {
+async function updateScanStatus(findings: Finding[]) {
   try {
     const findingCategories = new Map();
     for (const { category } of findings) {
@@ -104,7 +130,7 @@ async function updateScanStatus(findings) {
   }
 }
 
-async function extractScan() {
+async function extractScan(): Promise<Scan> {
   try {
     return await k8sApi.getNamespacedCustomObject({
       group: "execution.securecodebox.io",
@@ -120,7 +146,7 @@ async function extractScan() {
   }
 }
 
-async function extractParseDefinition(scan) {
+async function extractParseDefinition(scan: Scan) {
   try {
     return await k8sApi.getNamespacedCustomObject({
       group: "execution.securecodebox.io",
@@ -136,7 +162,7 @@ async function extractParseDefinition(scan) {
   }
 }
 
-async function fetchResultFile(resultFileUrl, contentType) {
+async function fetchResultFile(resultFileUrl: string, contentType?: "Binary") {
   try {
     const response = await fetch(resultFileUrl, { method: "GET" });
     if (!response.ok) {
@@ -164,7 +190,7 @@ async function main() {
   const resultUploadUrl = process.argv[3];
 
   console.log("Fetching result file");
-  let data = null;
+  let data: string | Buffer<ArrayBufferLike> | null = null;
   try {
     data = await fetchResultFile(
       resultFileUrl,
@@ -201,7 +227,7 @@ async function main() {
     crash_on_failed_validation,
   );
   try {
-    await validate(findingsWithMetadata);
+    validate(findingsWithMetadata);
     console.log("The Findings were successfully validated");
   } catch (error) {
     console.error("The Findings Validation failed with error(s):");
