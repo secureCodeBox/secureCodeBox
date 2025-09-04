@@ -3,7 +3,7 @@ title: "OWASP JuiceShop"
 category: "target"
 type: "Website"
 state: "released"
-appVersion: "v18.0.0"
+appVersion: "v19.0.0"
 usecase: "Modern insecure web application"
 ---
 
