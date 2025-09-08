@@ -5,7 +5,6 @@
 # The CI runs on ubuntu-24.04; More info about the installed software is found here:
 # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 
-
 name: "Update Helm Docs"
 on:
   push:
@@ -20,13 +19,13 @@ jobs:
     runs-on: ubuntu-24.04
     if: github.repository == 'secureCodeBox/secureCodeBox'
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.SCB_BOT_USER_TOKEN }}
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6
+        uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6.3.0
         with:
           gpg_private_key: ${{ secrets.GPG_COMMITS_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}

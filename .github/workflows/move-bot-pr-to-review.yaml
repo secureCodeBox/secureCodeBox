@@ -14,16 +14,16 @@ permissions:
   pull-requests: write
 
 jobs:
-  move-bot-pr-to-review:   
+  move-bot-pr-to-review:
     runs-on: ubuntu-24.04
-    # only run if the branch starts with 'dependabot/' or 'dependencies/upgrading' 
+    # only run if the branch starts with 'dependabot/' or 'dependencies/upgrading'
     if: startsWith(github.head_ref, 'dependabot/') || startsWith(github.head_ref, 'dependencies/upgrading')
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Add bot PR to project
         run: |
-          # Get the ID for the field Status 
+          # Get the ID for the field Status
           # gh project list --owner secureCodeBox
           secureCodeBoxV4ProjectID="PVT_kwDOAg-Nic05GQ"
 
@@ -36,15 +36,15 @@ jobs:
                 }
               }
             }" | jq -r '.data.addProjectV2ItemById.item.id') >> $GITHUB_ENV
-        env: 
-          GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
+        env:
+          GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }}
           PR_ID: ${{ github.event.pull_request.node_id }}
 
       - name: Move PR to column To Review
         # only move SCB-Bot, since dependabot is not part of core team and therefore has no access to secrets
         if: startsWith(github.head_ref, 'dependencies/upgrading')
         run: |
-          # Get the ID for the field Status 
+          # Get the ID for the field Status
           # gh project field-list 6 --owner secureCodeBox
           StatusFieldID="PVTSSF_lADOAg-Nic05Gc4AAZuO"
 
@@ -56,6 +56,6 @@ jobs:
           prNodeID=${{env.prNodeID}}
           # Move PR to "To Review" status
           gh project item-edit --id ${{ env.prNodeID }} --field-id $StatusFieldID --project-id $secureCodeBoxV4ProjectID --single-select-option-id $ToReviewID
-          
+
         env:
-          GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }} 
+          GH_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }}
