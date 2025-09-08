@@ -20,7 +20,7 @@ jobs:
     name: "Publish Helm Charts to GHCR"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Parse Release Version
         run: |
@@ -48,7 +48,7 @@ jobs:
             cd "${dir}" || exit
             echo "Processing Helm Chart in $dir"
             NAME=$(yq eval '.name' - < Chart.yaml)
-            
+
             helm package --version "${{ env.version }}" .
 
             helm push "${NAME}-${{ env.version }}.tgz" oci://$CONTAINER_REGISTRY/helm/

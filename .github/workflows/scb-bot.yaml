@@ -48,10 +48,10 @@ jobs:
           - zap-automation-framework
           # missing scanners are : nmap, nikto
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6
+        uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6.3.0
         with:
           gpg_private_key: ${{ secrets.GPG_COMMITS_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
@@ -81,7 +81,7 @@ jobs:
           set -o pipefail
 
           local=${{env.local}}
-          release=$(curl -sL ${{env.versionApi}}  | jq -er ".tag_name" ) 
+          release=$(curl -sL ${{env.versionApi}}  | jq -er ".tag_name" )
           upgrade=$release
 
           # Check the exit status of the curl and jq command
@@ -98,11 +98,11 @@ jobs:
           if [[ ${local:0:1} != ${release:0:1} ]] ; then
             # Check if the first character of local is "v"
             # In this case docker/local format is "v1.0.0" and github format is "1.0.1"
-            # We want the upgrade to be "v1.0.1" 
+            # We want the upgrade to be "v1.0.1"
             if [[ ${local:0:1} == "v" ]] ; then
               # set upgrade to "v" followed by the value of release.
               upgrade=v${release};
-            # Check if the first character of release is "v"  
+            # Check if the first character of release is "v"
             # in this case docker/local format is "1.0.0" and github format is "v1.0.1"
             # We want the upgrade to be "1.0.1"
             elif [[ ${release:0:1} == "v" ]] ; then
@@ -189,7 +189,7 @@ jobs:
 
       - name: Create Pull Request
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null }}
-        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
           token: ${{ secrets.SCB_BOT_USER_TOKEN }}
           committer: secureCodeBoxBot <securecodebox@iteratec.com>
