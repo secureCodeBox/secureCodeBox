@@ -18,6 +18,6 @@
     "jsonpointer": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^22.18.0"
+    "@types/node": "^24.3.1"
   }
 }
