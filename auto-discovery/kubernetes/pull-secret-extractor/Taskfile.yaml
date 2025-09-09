@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+vars:
+  IMG_NS: '{{default "securecodebox" .IMG_NS}}'
+  IMG: '{{default "auto-discovery-secret-extractor" .IMG}}'
+  IMG_TAG:
+    sh: echo "${IMG_TAG:-sha-$(git rev-parse --short HEAD)}"
+  FULL_IMAGE: "{{.IMG_NS}}/{{.IMG}}/{{.IMG_TAG}}"
+
+tasks:
+  unit-test:
+    desc: Run unit tests
+    cmds:
+      - go test ./...
+
+  integration-test:
+    desc: Run integration tests in kind cluster
+    deps:
+      - kind-import
+    cmds:
+      - defer: task clean
+      - 'echo "🩺 Starting integration test in kind namespace integration-tests."'
+      - cmd: kubectl delete namespace integration-test --wait
+        ignore_error: true
+      - kubectl create namespace integration-test
+      - ./test/integration/test-pod.sh {{.IMG_NS}}/{{.IMG}}:{{.IMG_TAG}}
+      - kubectl wait --for=condition=ready --timeout=60s -n integration-test pod/init-container-test
+      - kubectl get secret --namespace integration-test test-secret
+
+  test:
+    desc: Run all tests (unit and integration)
+    deps:
+      - unit-test
+      - integration-test
+
+  docker-build:
+    desc: Build docker image with the manager
+    cmds:
+      - 'echo "⚙️ Build Container Images"'
+      - docker build -t {{.IMG_NS}}/{{.IMG}}:{{.IMG_TAG}} .
+
+  docker-push:
+    desc: Push docker image to registry
+    deps:
+      - docker-build
+    cmds:
+      - docker push {{.IMG_NS}}/{{.IMG}}:{{.IMG_TAG}}
+
+  docker-export:
+    desc: Export container image to tar archive
+    deps:
+      - docker-build
+    cmds:
+      - 'echo "💾 Export Container Images"'
+      - docker save {{.IMG_NS}}/{{.IMG}}:{{.IMG_TAG}} > {{.IMG}}.tar
+
+  kind-import:
+    desc: Import container image to local kind cluster
+    deps:
+      - docker-export
+    preconditions:
+      - sh: test -f {{.IMG}}.tar
+        msg: "Image archive {{.IMG}}.tar not found. Run 'task docker-export' first."
+    cmds:
+      - 'echo "💾 Importing the image archive to local kind cluster."'
+      - kind load image-archive ./{{.IMG}}.tar
+
+  clean:
+    desc: Clean up generated files
+    cmds:
+      - rm -f {{.IMG}}.tar
+
+  vars:
+    desc: Display current variable values (useful for debugging)
+    cmds:
+      - |
+        echo "Current variable values:"
+        echo "  IMG_NS:     {{.IMG_NS}}"
+        echo "  IMG:        {{.IMG}}"
+        echo "  IMG_TAG:    {{.IMG_TAG}}"
+        echo "  FULL_IMAGE: {{.IMG_NS}}/{{.IMG}}:{{.IMG_TAG}}"
