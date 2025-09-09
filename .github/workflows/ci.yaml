@@ -283,6 +283,16 @@ jobs:
           go fmt ./...
           go vet ./...
 
+      - name: Download Task
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: task
+          path: ./task
+
+      - name: Make Task globally available
+        run: |
+          chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
+
       - name: Download Kind
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
