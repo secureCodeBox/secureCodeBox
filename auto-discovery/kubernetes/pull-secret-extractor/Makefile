@@ -38,14 +38,14 @@ test: unit-test integration-test
 
 .PHONY: unit-test
 unit-test:
-	$(PYTHON) -m unittest discover
+	go test ./...
 
 .PHONY: integration-test
 integration-test: docker-build docker-export kind-import
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl delete namespace integration-test --wait || true
 	kubectl create namespace integration-test
-	
+
 	./integration-test/test-pod.sh ${IMG_NS}/${IMG}:${IMG_TAG}
 	kubectl wait --for=condition=ready --timeout=60s -n integration-test pod/init-container-test
 
