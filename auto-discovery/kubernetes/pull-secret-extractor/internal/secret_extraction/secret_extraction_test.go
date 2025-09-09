@@ -19,21 +19,21 @@ import (
 )
 
 // Mock implementations
-type mockSecretReader struct {
+type MockSecretReader struct {
 	configs []DockerConfigJSON
 	err     error
 }
 
-func (m *mockSecretReader) ReadDockerConfigs(basePath string) ([]DockerConfigJSON, error) {
+func (m *MockSecretReader) ReadDockerConfigs(basePath string) ([]DockerConfigJSON, error) {
 	return m.configs, m.err
 }
 
-type mockSecretCreator struct {
+type MockSecretCreator struct {
 	createdSecrets []*v1.Secret
 	err            error
 }
 
-func (m *mockSecretCreator) CreateSecret(ctx context.Context, secret *v1.Secret) error {
+func (m *MockSecretCreator) CreateSecret(ctx context.Context, secret *v1.Secret) error {
 	if m.err != nil {
 		return m.err
 	}
@@ -42,7 +42,6 @@ func (m *mockSecretCreator) CreateSecret(ctx context.Context, secret *v1.Secret)
 }
 
 func TestSecretManager_CreateTemporarySecret_Success(t *testing.T) {
-	// Create fake pod
 	fakePod := &v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "test-pod",
@@ -53,8 +52,7 @@ func TestSecretManager_CreateTemporarySecret_Success(t *testing.T) {
 
 	fakeClient := fake.NewSimpleClientset(fakePod)
 
-	// Mock reader with auth field
-	mockReader := &mockSecretReader{
+	mockReader := &MockSecretReader{
 		configs: []DockerConfigJSON{
 			{
 				Auths: map[string]AuthEntry{
@@ -66,7 +64,7 @@ func TestSecretManager_CreateTemporarySecret_Success(t *testing.T) {
 		},
 	}
 
-	mockCreator := &mockSecretCreator{}
+	mockCreator := &MockSecretCreator{}
 
 	sm := NewSecretManagerWithOptions(
 		fakeClient,
@@ -83,7 +81,6 @@ func TestSecretManager_CreateTemporarySecret_Success(t *testing.T) {
 		t.Fatalf("Expected no error, got: %v", err)
 	}
 
-	// Verify secret was created
 	if len(mockCreator.createdSecrets) != 1 {
 		t.Fatalf("Expected 1 secret to be created, got: %d", len(mockCreator.createdSecrets))
 	}
@@ -93,7 +90,6 @@ func TestSecretManager_CreateTemporarySecret_Success(t *testing.T) {
 		t.Errorf("Expected secret name 'temp-secret', got: %s", secret.Name)
 	}
 
-	// Verify credentials are base64 encoded
 	expectedUsername := base64.StdEncoding.EncodeToString([]byte("user"))
 	expectedPassword := base64.StdEncoding.EncodeToString([]byte("pass"))
 
@@ -118,7 +114,7 @@ func TestSecretManager_CreateTemporarySecret_WithUsernamePassword(t *testing.T) 
 	fakeClient := fake.NewSimpleClientset(fakePod)
 
 	// Mock reader with separate username/password fields
-	mockReader := &mockSecretReader{
+	mockReader := &MockSecretReader{
 		configs: []DockerConfigJSON{
 			{
 				Auths: map[string]AuthEntry{
@@ -131,7 +127,7 @@ func TestSecretManager_CreateTemporarySecret_WithUsernamePassword(t *testing.T) 
 		},
 	}
 
-	mockCreator := &mockSecretCreator{}
+	mockCreator := &MockSecretCreator{}
 
 	sm := NewSecretManagerWithOptions(
 		fakeClient,
@@ -161,7 +157,7 @@ func TestSecretManager_CreateTemporarySecret_WithUsernamePassword(t *testing.T) 
 func TestSecretManager_CreateTemporarySecret_DomainNotFound(t *testing.T) {
 	fakeClient := fake.NewSimpleClientset()
 
-	mockReader := &mockSecretReader{
+	mockReader := &MockSecretReader{
 		configs: []DockerConfigJSON{
 			{
 				Auths: map[string]AuthEntry{
@@ -173,7 +169,7 @@ func TestSecretManager_CreateTemporarySecret_DomainNotFound(t *testing.T) {
 		},
 	}
 
-	mockCreator := &mockSecretCreator{}
+	mockCreator := &MockSecretCreator{}
 
 	sm := NewSecretManagerWithOptions(
 		fakeClient,
@@ -197,14 +193,12 @@ func TestSecretManager_CreateTemporarySecret_DomainNotFound(t *testing.T) {
 }
 
 func TestDefaultSecretReader_ReadDockerConfigs(t *testing.T) {
-	// Create temporary directory structure
 	tempDir, err := os.MkdirTemp("", "docker-config-test")
 	if err != nil {
 		t.Fatalf("Failed to create temp dir: %v", err)
 	}
 	defer os.RemoveAll(tempDir)
 
-	// Create test config
 	config := DockerConfigJSON{
 		Auths: map[string]AuthEntry{
 			"registry.example.com": {
