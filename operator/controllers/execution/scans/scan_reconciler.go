@@ -42,7 +42,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 
 	// Add s3 storage finalizer to scan (and migrate legacy finalizer if needed)
 	updated := false
-	
+
 	// Migrate legacy finalizer for active scans
 	if containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizerLegacy) && !containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
 		log.Info("Migrating legacy finalizer for active scan", "legacy", s3StorageFinalizerLegacy, "current", s3StorageFinalizer)
@@ -50,13 +50,13 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		scan.ObjectMeta.Finalizers = append(scan.ObjectMeta.Finalizers, s3StorageFinalizer)
 		updated = true
 	}
-	
+
 	// Add s3 storage finalizer if it doesn't exist
 	if !containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
 		scan.ObjectMeta.Finalizers = append(scan.ObjectMeta.Finalizers, s3StorageFinalizer)
 		updated = true
 	}
-	
+
 	// Update scan if finalizers were modified
 	if updated {
 		if err := r.Update(context.Background(), scan); err != nil {

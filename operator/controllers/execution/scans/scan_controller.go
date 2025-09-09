@@ -44,6 +44,7 @@ var (
 // Finalizer to delete related files in s3 when the scan gets deleted
 // https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
 var s3StorageFinalizer = "s3.storage.securecodebox.io/scan-files"
+
 // Legacy finalizer name for backward compatibility during migration
 var s3StorageFinalizerLegacy = "s3.storage.securecodebox.io"
 
