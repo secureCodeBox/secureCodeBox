@@ -318,7 +318,7 @@ function parseResultFile(fileContent) {
 
                 const port = parseInt(portItem.$.portid, 10);
                 const protocol = portItem.$.protocol;
-                const service = get(portItem, ["service", 0, "$", "name"]);
+                let service = get(portItem, ["service", 0, "$", "name"]);
                 const serviceProduct = get(portItem, [
                   "service",
                   0,
@@ -335,6 +335,13 @@ function parseResultFile(fileContent) {
                 const tunnel = get(portItem, ["service", 0, "$", "tunnel"]);
                 const method = get(portItem, ["service", 0, "$", "method"]);
                 const product = get(portItem, ["service", 0, "$", "tunnel"]);
+
+                // When running a nmap service scan (-sV) https is marked as ssl/http
+                // This results into the finding "Open Port: 443 (http)" instead of "Open Port: 443 (https)"
+                // This as given issues with matching of cascadingscans
+                if (service == "http" && tunnel == "ssl") {
+                  service = "https";
+                }
 
                 const state = portItem.state[0].$.state;
 
