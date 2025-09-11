@@ -43,13 +43,6 @@ tasks:
       - 'echo "⚙️ Build Container Images"'
       - docker build -t {{.IMG_NS}}/{{.IMG}}:{{.IMG_TAG}} .
 
-  docker-push:
-    desc: Push docker image to registry
-    deps:
-      - docker-build
-    cmds:
-      - docker push {{.IMG_NS}}/{{.IMG}}:{{.IMG_TAG}}
-
   docker-export:
     desc: Export container image to tar archive
     deps:

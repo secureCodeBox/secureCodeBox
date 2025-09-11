@@ -29,16 +29,6 @@ func parseFlags() (*Config, error) {
 
 	flag.Parse()
 
-	// If flags are not provided, use positional arguments
-	if config.ImageID == "" && config.TemporarySecretName == "" {
-		args := flag.Args()
-		if len(args) < 2 {
-			return nil, fmt.Errorf("usage: program <imageID> <secretName> OR use -imageID and -secret flags")
-		}
-		config.ImageID = args[0]
-		config.TemporarySecretName = args[1]
-	}
-
 	if config.ImageID == "" {
 		return nil, fmt.Errorf("image ID is required (use -imageID flag or provide as first argument)")
 	}
@@ -56,7 +46,7 @@ func run(config *Config) error {
 		return fmt.Errorf("failed to extract domain from image ID: %s", config.ImageID)
 	}
 
-	if err := secret_extraction.CreateTemporarySecret(config.TemporarySecretName, domain); err != nil {
+	if err := secret_extraction.CreateTemporarySecretFromEnv(config.TemporarySecretName, domain); err != nil {
 		return fmt.Errorf("failed to create temporary secret: %w", err)
 	}
 
