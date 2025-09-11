@@ -35,7 +35,7 @@ spec:
   initContainers:
   - name: init-container-test-container
     image: $1
-    args: ["fake-registry.xyz/ubuntu:32131", "test-secret", "default"]
+    args: ["-imageID", "fake-registry.xyz/ubuntu:32131", "-secret", "test-secret", "default"]
     volumeMounts:
     - name: regcred-volume
       mountPath: "/secrets/regcred"
