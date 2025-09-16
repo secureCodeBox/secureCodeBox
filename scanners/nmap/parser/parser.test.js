@@ -1255,3 +1255,83 @@ test("should parse output of runs run --verbose properly", async () => {
     ]
   `);
 });
+
+test("should parse with 1 https finding and a http finding", async () => {
+  const xmlContent = await readFile(
+    import.meta.dirname + "/__testFiles__/service-scan.xml",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(xmlContent);
+  await validateParser(findings);
+  expect(await parse(xmlContent)).toMatchInlineSnapshot(`
+    [
+      {
+        "attributes": {
+          "hostname": "example.com",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
+          "mac_address": null,
+          "method": "probed",
+          "operating_system": null,
+          "port": 80,
+          "protocol": "tcp",
+          "scripts": null,
+          "service": "http",
+          "serviceProduct": "nginx",
+          "serviceVersion": null,
+          "state": "open",
+          "tunnel": null,
+        },
+        "category": "Open Port",
+        "description": "Port 80 is open using tcp protocol.",
+        "location": "tcp://example.com:80",
+        "name": "Open Port: 80 (http)",
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "example.com",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
+          "mac_address": null,
+          "method": "probed",
+          "operating_system": null,
+          "port": 443,
+          "protocol": "tcp",
+          "scripts": null,
+          "service": "https",
+          "serviceProduct": "nginx",
+          "serviceVersion": null,
+          "state": "open",
+          "tunnel": "ssl",
+        },
+        "category": "Open Port",
+        "description": "Port 443 is open using tcp protocol.",
+        "location": "tcp://example.com:443",
+        "name": "Open Port: 443 (https)",
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "example.com",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
+          "operating_system": null,
+        },
+        "category": "Host",
+        "description": "Found a host",
+        "location": "example.com",
+        "name": "Host: example.com",
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
+      },
+    ]
+  `);
+});
