@@ -354,6 +354,14 @@ func getSecretExtractionInitContainer(imageID string, scanConfig config.ScanConf
 					},
 				},
 			},
+			{
+				Name: "POD_UID",
+				ValueFrom: &corev1.EnvVarSource{
+					FieldRef: &corev1.ObjectFieldSelector{
+						FieldPath: "metadata.uid",
+					},
+				},
+			},
 		},
 	}
 }
