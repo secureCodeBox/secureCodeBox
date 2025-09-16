@@ -40,6 +40,10 @@ spec:
     - name: regcred-volume
       mountPath: "/secrets/regcred"
     env:
+      - name: POD_UID
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.uid
       - name: POD_NAME
         valueFrom:
           fieldRef:

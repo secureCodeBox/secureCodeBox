@@ -17,6 +17,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 )
@@ -48,7 +49,7 @@ type Credentials struct {
 	Password string
 }
 
-func CreateTemporarySecret(ctx context.Context, k8sClient client.Client, temporarySecretName, domain, namespace, podName, secretsPath string) error {
+func CreateTemporarySecret(ctx context.Context, k8sClient client.Client, temporarySecretName, domain, namespace, podName, podUID, secretsPath string) error {
 	if temporarySecretName == "" {
 		return fmt.Errorf("temporary secret name cannot be empty")
 	}
@@ -72,7 +73,7 @@ func CreateTemporarySecret(ctx context.Context, k8sClient client.Client, tempora
 		return fmt.Errorf("failed to extract credentials for domain %s: %w", domain, err)
 	}
 
-	secret, err := buildSecret(ctx, k8sClient, temporarySecretName, namespace, podName, creds)
+	secret, err := buildSecret(ctx, k8sClient, temporarySecretName, namespace, podName, podUID, creds)
 	if err != nil {
 		return fmt.Errorf("failed to build secret: %w", err)
 	}
@@ -175,12 +176,7 @@ func extractCredentials(auth *AuthEntry) (*Credentials, error) {
 	return nil, fmt.Errorf("auth entry does not contain valid credentials")
 }
 
-func buildSecret(ctx context.Context, k8sClient client.Client, secretName, namespace, podName string, creds *Credentials) (*v1.Secret, error) {
-	pod := &v1.Pod{}
-	if err := k8sClient.Get(ctx, client.ObjectKey{Name: podName, Namespace: namespace}, pod); err != nil {
-		return nil, fmt.Errorf("failed to get pod %s: %w", podName, err)
-	}
-
+func buildSecret(ctx context.Context, k8sClient client.Client, secretName, namespace, podName, podUID string, creds *Credentials) (*v1.Secret, error) {
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      secretName,
@@ -190,7 +186,7 @@ func buildSecret(ctx context.Context, k8sClient client.Client, secretName, names
 					APIVersion: "v1",
 					Kind:       "Pod",
 					Name:       podName,
-					UID:        pod.UID,
+					UID:        types.UID(podUID),
 				},
 			},
 		},
@@ -232,11 +228,16 @@ func CreateTemporarySecretFromEnv(temporarySecretName, domain string) error {
 		return fmt.Errorf("environment variable %s is not set", envPodName)
 	}
 
+	podUID := os.Getenv("POD_UID")
+	if podUID == "" {
+		return fmt.Errorf("environment variable %s is not set", podUID)
+	}
+
 	k8sClient, err := createK8sClient()
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
 	}
 
 	ctx := context.Background()
-	return CreateTemporarySecret(ctx, k8sClient, temporarySecretName, domain, namespace, podName, defaultSecretsPath)
+	return CreateTemporarySecret(ctx, k8sClient, temporarySecretName, domain, namespace, podName, podUID, defaultSecretsPath)
 }

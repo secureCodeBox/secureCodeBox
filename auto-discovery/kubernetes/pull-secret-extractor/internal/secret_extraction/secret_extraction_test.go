@@ -52,7 +52,7 @@ func TestCreateTemporarySecret(t *testing.T) {
 	os.WriteFile(configPath, configData, 0644)
 
 	ctx := context.Background()
-	err := CreateTemporarySecret(ctx, k8sClient, "test-secret", "example.com", "test-namespace", "test-pod", tempDir)
+	err := CreateTemporarySecret(ctx, k8sClient, "test-secret", "example.com", "test-namespace", "test-pod", "test-uid-123", tempDir)
 
 	if err != nil {
 		t.Fatalf("Expected no error, got: %v", err)
