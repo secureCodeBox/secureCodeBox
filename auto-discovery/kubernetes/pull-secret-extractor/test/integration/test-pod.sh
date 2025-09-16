@@ -22,7 +22,7 @@ metadata:
   namespace: integration-test
 ---
 apiVersion: v1
-kind: Pod 
+kind: Pod
 metadata:
   name: init-container-test
   namespace: integration-test
@@ -35,12 +35,15 @@ spec:
   initContainers:
   - name: init-container-test-container
     image: $1
-    command: ["python"]
-    args: ["secret_extraction.py", "fake-registry.xyz/ubuntu:32131", "test-secret", "default"]
+    args: ["-imageID", "fake-registry.xyz/ubuntu:32131", "-secret", "test-secret", "default"]
     volumeMounts:
     - name: regcred-volume
       mountPath: "/secrets/regcred"
     env:
+      - name: POD_UID
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.uid
       - name: POD_NAME
         valueFrom:
           fieldRef:
