@@ -64,15 +64,15 @@ func TestCreateTemporarySecret(t *testing.T) {
 		t.Fatalf("Secret was not created: %v", err)
 	}
 
-	expectedUsername := base64.StdEncoding.EncodeToString([]byte("testuser"))
-	expectedPassword := base64.StdEncoding.EncodeToString([]byte("testpass"))
+	expectedUsername := "testuser"
+	expectedPassword := "testpass"
 
-	if string(secret.Data["username"]) != expectedUsername {
-		t.Errorf("Expected username %s, got %s", expectedUsername, string(secret.Data["username"]))
+	if secret.StringData["username"] != expectedUsername {
+		t.Errorf("Expected username %s, got %s", expectedUsername, string(secret.StringData["username"]))
 	}
 
-	if string(secret.Data["password"]) != expectedPassword {
-		t.Errorf("Expected password %s, got %s", expectedPassword, string(secret.Data["password"]))
+	if secret.StringData["password"] != expectedPassword {
+		t.Errorf("Expected password %s, got %s", expectedPassword, string(secret.StringData["password"]))
 	}
 
 	if len(secret.OwnerReferences) != 1 {

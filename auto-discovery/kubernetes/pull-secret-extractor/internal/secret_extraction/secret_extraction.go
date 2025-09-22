@@ -161,8 +161,8 @@ func extractCredentials(auth *AuthEntry) (*Credentials, error) {
 		}
 
 		return &Credentials{
-			Username: base64.StdEncoding.EncodeToString([]byte(parts[0])),
-			Password: base64.StdEncoding.EncodeToString([]byte(parts[1])),
+			Username: parts[0],
+			Password: parts[1],
 		}, nil
 	}
 
@@ -190,9 +190,9 @@ func buildSecret(ctx context.Context, k8sClient client.Client, secretName, names
 				},
 			},
 		},
-		Data: map[string][]byte{
-			"username": []byte(creds.Username),
-			"password": []byte(creds.Password),
+		StringData: map[string]string{
+			"username": creds.Username,
+			"password": creds.Password,
 		},
 		Type: v1.SecretTypeOpaque,
 	}, nil
