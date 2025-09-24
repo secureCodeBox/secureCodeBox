@@ -15,7 +15,16 @@ export async function handle({
     return;
   }
 
-  const result = await getRawResults();
+  const rawResult = await getRawResults();
+
+  let result;
+  try {
+    result = JSON.parse(rawResult);
+  } catch {
+    console.log("Response is not a valid json object.");
+    return;
+  }
+
   if (result.bomFormat !== "CycloneDX") {
     // Not a CycloneDX SBOM, cannot be handled by Dependency-Track, ignore
     console.log(
