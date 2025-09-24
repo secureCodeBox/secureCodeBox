@@ -18,7 +18,9 @@ beforeEach(() => {
 test("should not send a post request if not an SBOM scan", async () => {
   const result = {};
 
-  const getRawResults = async () => result;
+  const stringResult = JSON.stringify(result);
+
+  const getRawResults = async () => stringResult;
 
   const scan = {
     metadata: {
@@ -53,7 +55,9 @@ test("should not send a post request if not a CycloneDX SBOM", async () => {
     },
   };
 
-  const getRawResults = async () => result;
+  const stringResult = JSON.stringify(result);
+
+  const getRawResults = async () => stringResult;
 
   // technically we're saying here that this scan is a CycloneDX scan even though we're then sending something looking like an SPDX SBOM
   const scan = {
@@ -84,7 +88,9 @@ test("should send a post request to the url when fired", async () => {
     },
   };
 
-  const getRawResults = async () => result;
+  const stringResult = JSON.stringify(result);
+
+  const getRawResults = async () => stringResult;
 
   const scan = {
     metadata: {
@@ -169,7 +175,9 @@ test.each([
       },
     };
 
-    const getRawResults = async () => result;
+    const stringResult = JSON.stringify(result);
+
+    const getRawResults = async () => stringResult;
 
     const scan = {
       metadata: {
