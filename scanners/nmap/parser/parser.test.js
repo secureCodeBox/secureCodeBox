@@ -60,7 +60,7 @@ test("should properly parse nmap xml file", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8021 is open using tcp protocol.",
@@ -85,7 +85,7 @@ test("should properly parse nmap xml file", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8080 is open using tcp protocol.",
@@ -110,7 +110,7 @@ test("should properly parse nmap xml file", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 9200 is open using tcp protocol.",
@@ -143,7 +143,7 @@ test("should properly parse a nmap xml without any ports", async () => {
     import.meta.dirname + "/__testFiles__/no-ports.xml",
     {
       encoding: "utf8",
-    },
+    }
   );
 
   const findings = await parse(xmlContent);
@@ -174,7 +174,7 @@ test("should properly parse a nmap xml without any host", async () => {
     import.meta.dirname + "/__testFiles__/no-host.xml",
     {
       encoding: "utf8",
-    },
+    }
   );
 
   const findings = await parse(xmlContent);
@@ -187,7 +187,7 @@ test("should properly parse a nmap xml with missing service information", async 
     import.meta.dirname + "/__testFiles__/no-service.xml",
     {
       encoding: "utf8",
-    },
+    }
   );
 
   const findings = await parse(xmlContent);
@@ -210,7 +210,7 @@ test("should properly parse a nmap xml with missing service information", async 
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "filtered",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 10250 is filtered using tcp protocol.",
@@ -243,7 +243,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
     import.meta.dirname + "/__testFiles__/localhost-smb-script.xml",
     {
       encoding: "utf8",
-    },
+    }
   );
 
   const findings = await parse(xmlContent);
@@ -266,7 +266,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 445 is open using tcp protocol.",
@@ -449,7 +449,7 @@ test("should properly parse a script finding for ftp in an xml file", async () =
     import.meta.dirname + "/__testFiles__/ftp.xml",
     {
       encoding: "utf8",
-    },
+    }
   );
   const findings = await parse(xmlContent);
   expect(validateParser(findings)).toBeUndefined();
@@ -481,7 +481,7 @@ test("should properly parse a script finding for ftp in an xml file", async () =
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 21 is open using tcp protocol.",
@@ -541,7 +541,7 @@ test("should parse scanme.nmap.org results properly", async () => {
     import.meta.dirname + "/__testFiles__/scanme.nmap.org-ipv6.xml",
     {
       encoding: "utf8",
-    },
+    }
   );
   const findings = await parse(xmlContent);
   expect(validateParser(findings)).toBeUndefined();
@@ -563,7 +563,7 @@ test("should parse scanme.nmap.org results properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 22 is open using tcp protocol.",
@@ -588,7 +588,7 @@ test("should parse scanme.nmap.org results properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 80 is open using tcp protocol.",
@@ -613,7 +613,7 @@ test("should parse scanme.nmap.org results properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 31337 is open using tcp protocol.",
@@ -646,7 +646,7 @@ test("should parse output of runs run --verbose properly", async () => {
     import.meta.dirname + "/__testFiles__/local-network-verbose.xml",
     {
       encoding: "utf8",
-    },
+    }
   );
   const findings = await parse(xmlContent);
   await validateParser(findings);
@@ -668,7 +668,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 21 is open using tcp protocol.",
@@ -693,7 +693,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 53 is open using tcp protocol.",
@@ -718,7 +718,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 80 is open using tcp protocol.",
@@ -743,7 +743,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 443 is open using tcp protocol.",
@@ -768,7 +768,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 554 is open using tcp protocol.",
@@ -793,7 +793,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 5060 is open using tcp protocol.",
@@ -818,7 +818,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8089 is open using tcp protocol.",
@@ -843,7 +843,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8181 is open using tcp protocol.",
@@ -868,7 +868,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 80 is open using tcp protocol.",
@@ -893,7 +893,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 7000 is open using tcp protocol.",
@@ -918,7 +918,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8082 is open using tcp protocol.",
@@ -943,7 +943,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8083 is open using tcp protocol.",
@@ -968,7 +968,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8085 is open using tcp protocol.",
@@ -993,7 +993,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8200 is open using tcp protocol.",
@@ -1018,7 +1018,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 80 is open using tcp protocol.",
@@ -1043,7 +1043,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 5000 is open using tcp protocol.",
@@ -1068,7 +1068,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 7000 is open using tcp protocol.",
@@ -1093,7 +1093,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8080 is open using tcp protocol.",
@@ -1118,7 +1118,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 8081 is open using tcp protocol.",
@@ -1143,7 +1143,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 80 is open using tcp protocol.",
@@ -1168,7 +1168,7 @@ test("should parse output of runs run --verbose properly", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 443 is open using tcp protocol.",
@@ -1249,6 +1249,86 @@ test("should parse output of runs run --verbose properly", async () => {
         "description": "Found a host",
         "location": null,
         "name": "Host: 192.168.178.166",
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
+      },
+    ]
+  `);
+});
+
+test("should parse output of service scan properly", async () => {
+  const xmlContent = await readFile(
+    import.meta.dirname + "/__testFiles__/service-scan.xml",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(xmlContent);
+  await validateParser(findings);
+  expect(await parse(xmlContent)).toMatchInlineSnapshot(`
+    [
+      {
+        "attributes": {
+          "hostname": "example.com",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
+          "mac_address": null,
+          "method": "probed",
+          "operating_system": null,
+          "port": 80,
+          "protocol": "tcp",
+          "scripts": null,
+          "service": "http",
+          "serviceProduct": "nginx",
+          "serviceVersion": null,
+          "state": "open",
+          "tunnel": "none",
+        },
+        "category": "Open Port",
+        "description": "Port 80 is open using tcp protocol.",
+        "location": "tcp://example.com:80",
+        "name": "Open Port: 80 (http)",
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "example.com",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
+          "mac_address": null,
+          "method": "probed",
+          "operating_system": null,
+          "port": 443,
+          "protocol": "tcp",
+          "scripts": null,
+          "service": "http",
+          "serviceProduct": "nginx",
+          "serviceVersion": null,
+          "state": "open",
+          "tunnel": "ssl",
+        },
+        "category": "Open Port",
+        "description": "Port 443 is open using tcp protocol.",
+        "location": "tcp://example.com:443",
+        "name": "Open Port: 443 (http)",
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "example.com",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
+          "operating_system": null,
+        },
+        "category": "Host",
+        "description": "Found a host",
+        "location": "example.com",
+        "name": "Host: example.com",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
       },

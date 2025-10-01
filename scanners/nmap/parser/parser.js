@@ -332,7 +332,8 @@ function parseResultFile(fileContent) {
                   "version",
                 ]);
 
-                const tunnel = get(portItem, ["service", 0, "$", "tunnel"]);
+                const tunnel =
+                  get(portItem, ["service", 0, "$", "tunnel"]) || "none";
                 const method = get(portItem, ["service", 0, "$", "method"]);
                 const product = get(portItem, ["service", 0, "$", "tunnel"]);
 
