@@ -35,7 +35,7 @@ test("should properly parse nmap xml file", async () => {
           "serviceProduct": null,
           "serviceVersion": null,
           "state": "open",
-          "tunnel": null,
+          "tunnel": "none",
         },
         "category": "Open Port",
         "description": "Port 53 is open using tcp protocol.",
