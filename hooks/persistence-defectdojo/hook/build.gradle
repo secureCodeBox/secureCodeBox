@@ -26,7 +26,9 @@ dependencies {
   implementation group: "io.kubernetes", name: "client-java", version: "20.0.1"
   implementation group: "org.springframework", name: "spring-web", version: "6.2.11"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.20.0"
-  implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.20.0"
+  // jackson-annotations has a different version scheme w/o patch digit!
+  // https://github.com/FasterXML/jackson?tab=readme-ov-file#active-jackson-projects
+  implementation group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.20"
   implementation group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.20.0"
   implementation group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-jsr310", version: "2.20.0"
   implementation group: "org.slf4j", name: "slf4j-api", version: "2.0.17"
