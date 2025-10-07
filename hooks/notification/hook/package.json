@@ -37,7 +37,7 @@
     "@types/js-yaml": "^4.0.2",
     "js-yaml": "^4.1.0",
     "lodash-es": "^4.17.21",
-    "nodemailer": "^6.10.1",
+    "nodemailer": "^7.0.7",
     "nunjucks": "^3.2.4"
   }
 }
