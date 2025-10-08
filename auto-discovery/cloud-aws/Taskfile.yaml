@@ -1,0 +1,154 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+includes:
+  core:
+    taskfile: ../../Taskfile.yaml
+    internal: true
+
+vars:
+  IMG_NS: securecodebox
+  IMG: auto-discovery-cloud-aws
+  ENVTEST_K8S_VERSION: 1.24.2
+  SETUP_ENVTEST_VERSION: v0.0.0-20230216140739-c98506dc3b8e
+  CONTROLLER_TOOLS_VERSION: v0.18.0
+  ENVTEST_VERSION: release-0.21
+
+env:
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+  GOBIN:
+    sh: 'if [ -z "$(go env GOBIN)" ]; then echo "$(go env GOPATH)/bin"; else echo "$(go env GOBIN)"; fi'
+
+tasks:
+  help:
+    desc: Display this help
+    cmds:
+      - echo "Available targets for auto-discovery-cloud-aws:"
+      - echo "  help              Display this help"
+      - echo "  build             Build manager binary"
+      - echo "  test              Run tests"
+      - echo "  docker-build      Build docker image"
+      - echo "  docker-push       Push docker image"
+      - echo "  docker-export     Export docker image to tar file"
+      - echo "  kind-import       Import image to kind cluster"
+      - echo "  helm-deploy       Deploy auto-discovery to kind cluster"
+      - echo "  manifests         Generate manifests"
+      - echo "  install           Install CRDs"
+      - echo "  uninstall         Uninstall CRDs"
+
+  manifests:
+    desc: Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects
+    deps: [controller-gen]
+    cmds:
+      - "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }} rbac:roleName=auto-discovery,headerFile=\"hack/boilerplate.yaml.txt\" crd paths=\"./...\" output:crd:artifacts:config=crds output:rbac:artifacts:config=templates/rbac"
+
+  fmt:
+    desc: Run go fmt against code
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: Run go vet against code
+    cmds:
+      - go vet ./...
+
+  test:
+    desc: Run tests
+    deps: [manifests, fmt, vet, envtest]
+    cmds:
+      - 'KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }} use {{ .ENVTEST_K8S_VERSION }} -p path)" go test ./... -coverprofile cover.out'
+
+  helm-unit-tests:
+    desc: Run helm unit tests
+    cmds:
+      - 'echo "Running helm unit tests for auto-discovery-cloud-aws"'
+      - helm unittest .
+
+  build:
+    desc: Build manager binary
+    deps: [fmt, vet]
+    cmds:
+      - go build -o bin/manager main.go
+
+  run:
+    desc: Run a controller from your host  
+    deps: [manifests, fmt, vet]
+    cmds:
+      - go run ./main.go --config ./auto-discovery-config.yaml
+
+  docker-build:
+    desc: Build docker image
+    cmds:
+      - 'echo ".: ⚙️ Build Container Images"'
+      - docker build -t {{ .IMG_NS }}/{{ .IMG }}:${IMG_TAG} .
+
+  docker-push:
+    desc: Push docker image
+    cmds:
+      - docker push {{ .IMG_NS }}/{{ .IMG }}:${IMG_TAG}
+
+  docker-export:
+    desc: Export docker image to tar file
+    cmds:
+      - 'echo ".: 💾 Export Container Images"'
+      - docker save {{ .IMG_NS }}/{{ .IMG }}:${IMG_TAG} > {{ .IMG }}.tar
+
+  kind-import:
+    desc: Import image to kind cluster
+    cmds:
+      - 'echo ".: 💾 Importing the image archive to local kind cluster."'
+      - kind load image-archive ./{{ .IMG }}.tar
+
+  helm-deploy:
+    desc: Deploy auto-discovery to kind cluster
+    cmds:
+      - 'echo ".: ⚙️ Deploying auto-discovery with the Image tag ''${IMG_TAG}'' into kind."'
+      - |
+        helm upgrade --install auto-discovery ./ --wait \
+          --set="image.repository=docker.io/{{ .IMG_NS }}/{{ .IMG }}" \
+          --set="image.tag=${IMG_TAG}" \
+          --set="image.pullPolicy=IfNotPresent"
+
+  install:
+    desc: Install CRDs into the K8s cluster specified in ~/.kube/config
+    deps: [manifests]
+    cmds: []
+
+  uninstall:
+    desc: Uninstall CRDs from the K8s cluster specified in ~/.kube/config
+    deps: [manifests]
+    cmds: []
+
+  controller-gen:
+    desc: Download controller-gen locally if necessary
+    vars:
+      LOCALBIN: "{{ .TASKFILE_DIR }}/bin"
+    cmds:
+      - mkdir -p {{ .LOCALBIN }}
+      - |
+        if [ ! -f "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}" ]; then
+          echo "Downloading sigs.k8s.io/controller-tools/cmd/controller-gen@{{ .CONTROLLER_TOOLS_VERSION }}"
+          GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-tools/cmd/controller-gen@{{ .CONTROLLER_TOOLS_VERSION }}
+          mv "{{ .LOCALBIN }}/controller-gen" "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}"
+        fi
+    status:
+      - test -f "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}"
+
+  envtest:
+    desc: Download setup-envtest locally if necessary
+    vars:
+      LOCALBIN: "{{ .TASKFILE_DIR }}/bin"
+    cmds:
+      - mkdir -p {{ .LOCALBIN }}
+      - |
+        if [ ! -f "{{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }}" ]; then
+          echo "Downloading sigs.k8s.io/controller-runtime/tools/setup-envtest@{{ .ENVTEST_VERSION }}"
+          GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-runtime/tools/setup-envtest@{{ .ENVTEST_VERSION }}
+          mv "{{ .LOCALBIN }}/setup-envtest" "{{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }}"
+        fi
+    status:
+      - test -f "{{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }}"
