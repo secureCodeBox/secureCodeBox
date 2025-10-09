@@ -4,5 +4,5 @@
 
 PyGithub == 2.8.1
 python-gitlab == 6.4.0
-pytimeparse == 1.1.8
+timelength == 3.0.2
 pytz == 2025.2

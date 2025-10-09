@@ -133,17 +133,17 @@ class GitLabScanner(AbstractScanner):
                 latest_commit_id = (
                     self._group_project_to_project(project).commits.list()[0].id
                 )
-            except Exception as e:
+            except Exception:
                 logger.warn(
                     "Could not identify the latest commit ID - repository without commits?"
                 )
                 latest_commit_id = ""
         return super()._create_finding(
-            project.id,
+            str(project.id),
             project.web_url,
             project.path_with_namespace,
             project.namespace["kind"],
-            project.namespace["id"],
+            str(project.namespace["id"]),
             project.namespace["name"],
             project.created_at,
             project.last_activity_at,

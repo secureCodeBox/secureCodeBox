@@ -11,10 +11,9 @@ from pathlib import Path
 
 import github
 import gitlab
-import pytz
 
 # https://pypi.org/project/pytimeparse/
-from pytimeparse.timeparse import timeparse
+from timelength import Guess, TimeLength
 
 from git_repo_scanner.abstract_scanner import AbstractScanner
 from git_repo_scanner.github_scanner import GitHubScanner
@@ -23,8 +22,6 @@ from git_repo_scanner.gitlab_scanner import GitLabScanner
 log_format = "%(asctime)s - %(levelname)-7s - %(name)s - %(message)s"
 logging.basicConfig(level=logging.INFO, format=log_format)
 logger = logging.getLogger("git_repo_scanner")
-
-now_utc = datetime.now(timezone.utc)
 
 
 def main():
@@ -96,16 +93,38 @@ def write_findings_to_file(args, findings):
 
 def parse_duration_as_datetime(val: str):
     try:
-        parsed = timeparse(val)
-        if parsed is None:
+        guess = Guess()
+        tl = TimeLength(val, locale=guess)
+        if not tl.result.success:
             raise argparse.ArgumentTypeError(f"Not a valid duration: {val}.")
-        delta = timedelta(seconds=parsed)
+        delta = timedelta(seconds=tl.result.seconds)
+        now_utc = datetime.now(timezone.utc)
         return now_utc - delta
     except Exception:
         raise argparse.ArgumentTypeError(f"Not a valid duration: {val}.")
 
 
+def is_or_can_be_a_file(value: str) -> Path:
+
+    path = Path(value)
+    if path.exists() and not path.is_file():
+        raise argparse.ArgumentTypeError(f"{value} exists and is not a file.")
+
+    parent = path.parent
+    if not parent.exists():
+        raise argparse.ArgumentTypeError(
+            f"The parent directory '{parent}' does not exist. Cannot create '{value}'."
+        )
+    if not parent.is_dir():
+        raise argparse.ArgumentTypeError(
+            f"The parent path '{parent}' is not a directory."
+        )
+
+    return path.resolve()
+
+
 def get_parser_args(args=None):
+
     parser = argparse.ArgumentParser(
         prog="git_repo_scanner",
         description="Scan public or private git repositories of organizations or groups",
@@ -117,7 +136,10 @@ def get_parser_args(args=None):
         required=True,
     )
     parser.add_argument(
-        "--file-output", help="The path of the output file", required=True
+        "--file-output",
+        help="The path of the output file",
+        required=True,
+        type=is_or_can_be_a_file,
     ),
     parser.add_argument(
         "--url", help="The GitLab url or a GitHub enterprise api url.", required=False
@@ -131,40 +153,40 @@ def get_parser_args(args=None):
         required=False,
     )
     parser.add_argument(
-        "--group", help="The id of the GitLab group to scan", type=int, required=False
+        "--group", help="The id of the GitLab group to scan", required=False, type=int
     )
     parser.add_argument(
         "--ignore-repos",
         help="A list of repo ids to ignore",
         action="extend",
         nargs="+",
-        type=int,
         default=[],
         required=False,
+        type=int,
     )
     parser.add_argument(
         "--ignore-groups",
         help="A list of GitLab group ids to ignore",
         action="extend",
         nargs="+",
-        type=int,
         default=[],
         required=False,
+        type=int,
     )
     parser.add_argument(
         "--obey-rate-limit",
         help="True to obey the rate limit of the GitLab or GitHub server (default), otherwise False",
-        type=bool,
         default=True,
         required=False,
+        type=bool,
     )
     parser.add_argument(
         "--annotate-latest-commit-id",
         help="Annotate the results with the latest commit hash of the main branch of the repository. "
         "Will result in up to two extra API hits per repository",
-        type=bool,
         default=False,
         required=False,
+        type=bool,
     )
     parser.add_argument(
         "--activity-since-duration",
