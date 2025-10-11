@@ -17,22 +17,22 @@ npm-test-all: ## Runs all Jest based test suites.
 	npm test -- --ci --colors --coverage --testPathIgnorePatterns /integration-tests/
 
 .PHONY: test-all
-test-all: install-operator install-sdks ## Runs all makefile based test suites (unit + integration Tests).
-	@echo "Running make test for all scanner and hook modules..."
+test-all: install-operator install-sdks ## Runs all task based test suites (unit + integration Tests).
+	@echo "Running task test for all scanner and hook modules..."
 	@for dir in $(SCANNERS_TEST_LIST) $(HOOKS_TEST_LIST); do \
-		echo "🧪 Test Suite for $${dir}" && cd  $$(dirname $$dir) && 	$(MAKE) -s test || exit 1; \
+		echo "🧪 Test Suite for $${dir}" && cd  $$(dirname $$dir) && 	task test || exit 1; \
 	done
 
 .PHONY: install-operator
-install-operator: ## Install the operator for makefile based testing.
-	@echo "Installing the operator for makefile based testing..."
-	cd "$(OPERATOR_DIR)" && $(MAKE) -s docker-build docker-export kind-import helm-deploy
+install-operator: ## Install the operator for task based testing.
+	@echo "Installing the operator for task based testing..."
+	cd "$(OPERATOR_DIR)" && task docker-build docker-export kind-import helm-deploy
 
 .PHONY: install-sdks
-install-sdks: ## Install the SDKs for makefile based testing.
-	@echo "Installing the SDKs (parser, hooks) for makefile based testing..."
-	cd "$(PARSER_SDK_DIR)" && $(MAKE) -s docker-build
-	cd "$(HOOK_SDK_DIR)" && $(MAKE) -s docker-build
+install-sdks: ## Install the SDKs for task based testing.
+	@echo "Installing the SDKs (parser, hooks) for task based testing..."
+	cd "$(PARSER_SDK_DIR)" && task docker-build
+	cd "$(HOOK_SDK_DIR)" && task docker-build
 
 .PHONY: readme
 readme:	## Generate README.md based on Chart.yaml and template.
@@ -88,14 +88,14 @@ test-scanner: ## Shorthand to test a scanner w/o changing in its subdirectory.
 ifndef NAME
 	$(error Scanner name not defined, please provide via make test-scanner NAME=SCANNER_NAME)
 endif
-	$(MAKE) test -C $(SCANNERS_DIR)/$(NAME)
+	cd $(SCANNERS_DIR)/$(NAME) && task test
 
 .PHONY: test-hook
 test-hook: ## Shorthand to test a hook w/o changing in its subdirectory.
 ifndef NAME
 	$(error Hook name not defined, please provide via make test-hook NAME=HOOK_NAME)
 endif
-	$(MAKE) test -C $(HOOKS_DIR)/$(NAME)
+	cd $(HOOKS_DIR)/$(NAME) && task test
 
 .PHONY: lint
 lint: ## Lint only changed files with respect to main branch

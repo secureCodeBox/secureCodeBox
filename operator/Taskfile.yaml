@@ -1,0 +1,198 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+includes:
+  core:
+    taskfile: ../Taskfile.yaml
+    internal: true
+
+vars:
+  IMG_NS: securecodebox
+  OPERATOR_IMG: operator
+  LURKER_IMG: lurker
+  ENVTEST_K8S_VERSION: 1.33.0
+  CONTROLLER_TOOLS_VERSION: v0.18.0
+  ENVTEST_VERSION: release-0.21
+
+env:
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+  GOBIN:
+    sh: 'if [ -z "$(go env GOBIN)" ]; then echo "$(go env GOPATH)/bin"; else echo "$(go env GOBIN)"; fi'
+
+tasks:
+  help:
+    desc: Display this help
+    cmds:
+      - echo "Available targets for operator:"
+      - echo "  help              Display this help"
+      - echo "  build             Build manager binary"
+      - echo "  test              Run tests"
+      - echo "  test-fast         Run fast tests only"
+      - echo "  docker-build      Build docker images"
+      - echo "  docker-push       Push docker images"
+      - echo "  docker-export     Export docker images to tar files"
+      - echo "  kind-import       Import images to kind cluster"
+      - echo "  helm-deploy       Deploy operator to kind cluster"
+      - echo "  manifests         Generate manifests"
+      - echo "  install           Install CRDs"
+      - echo "  uninstall         Uninstall CRDs"
+
+  manifests:
+    desc: Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects
+    deps: [controller-gen]
+    cmds:
+      - "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }} rbac:roleName=\"securecodebox-manager-role\",headerFile=\"hack/boilerplate.yaml.txt\" crd:maxDescLen=256,headerFile=\"hack/boilerplate.yaml.txt\" webhook paths=\"./...\" output:crd:artifacts:config=crds output:rbac:artifacts:config=templates/rbac"
+
+  generate:
+    desc: Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations
+    deps: [controller-gen]
+    cmds:
+      - "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }} object:headerFile=\"hack/boilerplate.go.txt\" paths=\"./...\""
+
+  fmt:
+    desc: Run go fmt against code
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: Run go vet against code
+    cmds:
+      - go vet ./...
+
+  test:
+    desc: Run tests
+    deps: [manifests, generate, fmt, vet, envtest]
+    cmds:
+      - 'KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }} use {{ .ENVTEST_K8S_VERSION }} --bin-dir {{ .LOCALBIN }} -p path)" go test -tags="fast slow" ./... -coverprofile cover.out'
+
+  test-fast:
+    desc: Run fast tests only
+    deps: [manifests, generate, fmt, vet, envtest]
+    cmds:
+      - 'KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }} use {{ .ENVTEST_K8S_VERSION }} -p path)" go test -tags="fast" ./... -coverprofile cover.out'
+
+  view-coverage:
+    desc: View test coverage
+    cmds:
+      - go tool cover -html=cover.out
+
+  helm-unit-tests:
+    desc: Run helm unit tests
+    cmds:
+      - 'echo "Running helm unit tests for operator"'
+      - helm unittest .
+
+  build:
+    desc: Build manager binary
+    deps: [generate, fmt, vet]
+    cmds:
+      - go build -o bin/manager main.go
+
+  run:
+    desc: Run a controller from your host
+    deps: [manifests, generate, fmt, vet]
+    cmds:
+      - go run ./main.go
+
+  docker-build:
+    desc: Build docker images
+    cmds:
+      - 'echo ".: ⚙️ Build Container Images"'
+      - docker build -t {{ .IMG_NS }}/{{ .OPERATOR_IMG }}:${IMG_TAG} .
+      - cd ../lurker && docker build -t {{ .IMG_NS }}/{{ .LURKER_IMG }}:${IMG_TAG} .
+
+  docker-push:
+    desc: Push docker images
+    cmds:
+      - docker push {{ .IMG_NS }}/{{ .OPERATOR_IMG }}:${IMG_TAG}
+      - docker push {{ .IMG_NS }}/{{ .LURKER_IMG }}:${IMG_TAG}
+
+  docker-export:
+    desc: Export docker images to tar files
+    cmds:
+      - task: docker-export-operator
+      - task: docker-export-lurker
+
+  docker-export-operator:
+    desc: Export operator image
+    cmds:
+      - 'echo ".: 💾 Export Operator Image"'
+      - docker save {{ .IMG_NS }}/{{ .OPERATOR_IMG }}:${IMG_TAG} > {{ .OPERATOR_IMG }}.tar
+
+  docker-export-lurker:
+    desc: Export lurker image
+    cmds:
+      - 'echo ".: 💾 Export Lurker Image"'
+      - docker save {{ .IMG_NS }}/{{ .LURKER_IMG }}:${IMG_TAG} > {{ .LURKER_IMG }}.tar
+
+  kind-import:
+    desc: Import images to kind cluster
+    cmds:
+      - 'echo ".: 💾 Importing the image archive to local kind cluster."'
+      - kind load image-archive ./{{ .OPERATOR_IMG }}.tar
+      - kind load image-archive ./{{ .LURKER_IMG }}.tar
+
+  helm-deploy:
+    desc: Deploy operator to kind cluster
+    cmds:
+      - 'echo ".: ⚙️ Deploying Operator with the Image tag ''${IMG_TAG}'' into kind."'
+      - kubectl create namespace integration-tests --dry-run=client -o yaml | kubectl apply -f -
+      - kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
+      - |
+        MINIO_ROOT_USER=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-user}' | base64 --decode 2>/dev/null || echo "")
+        MINIO_ROOT_PASSWORD=$(kubectl get secret --namespace "securecodebox-system" securecodebox-operator-minio -o jsonpath="{.data.root-password}" | base64 -d 2>/dev/null || echo "")
+        helm -n securecodebox-system upgrade --install securecodebox-operator ./ --wait \
+          --set="image.repository=docker.io/{{ .IMG_NS }}/{{ .OPERATOR_IMG }}" \
+          --set="image.tag=${IMG_TAG}" \
+          --set="image.pullPolicy=IfNotPresent" \
+          --set="lurker.image.repository=docker.io/{{ .IMG_NS }}/{{ .LURKER_IMG }}" \
+          --set="lurker.image.tag=${IMG_TAG}" \
+          --set="lurker.image.pullPolicy=IfNotPresent" \
+          ${MINIO_ROOT_USER:+--set="minio.auth.rootUser=${MINIO_ROOT_USER}"} \
+          ${MINIO_ROOT_PASSWORD:+--set="minio.auth.rootPassword=${MINIO_ROOT_PASSWORD}"}
+
+  install:
+    desc: Install CRDs into the K8s cluster specified in ~/.kube/config
+    deps: [manifests]
+    cmds:
+      - kubectl apply -f ./crds/
+
+  uninstall:
+    desc: Uninstall CRDs from the K8s cluster specified in ~/.kube/config
+    deps: [manifests]
+    cmds:
+      - kubectl delete -f ./crds/ --ignore-not-found=true
+
+  controller-gen:
+    desc: Download controller-gen locally if necessary
+    vars:
+      LOCALBIN: "{{ .TASKFILE_DIR }}/bin"
+    cmds:
+      - mkdir -p {{ .LOCALBIN }}
+      - |
+        if [ ! -f "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}" ]; then
+          echo "Downloading sigs.k8s.io/controller-tools/cmd/controller-gen@{{ .CONTROLLER_TOOLS_VERSION }}"
+          GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-tools/cmd/controller-gen@{{ .CONTROLLER_TOOLS_VERSION }}
+          mv "{{ .LOCALBIN }}/controller-gen" "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}"
+        fi
+    status:
+      - test -f "{{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}"
+
+  envtest:
+    desc: Download setup-envtest locally if necessary
+    vars:
+      LOCALBIN: "{{ .TASKFILE_DIR }}/bin"
+    cmds:
+      - mkdir -p {{ .LOCALBIN }}
+      - |
+        if [ ! -f "{{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }}" ]; then
+          echo "Downloading sigs.k8s.io/controller-runtime/tools/setup-envtest@{{ .ENVTEST_VERSION }}"
+          GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-runtime/tools/setup-envtest@{{ .ENVTEST_VERSION }}
+          mv "{{ .LOCALBIN }}/setup-envtest" "{{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }}"
+        fi
+    status:
+      - test -f "{{ .LOCALBIN }}/setup-envtest-{{ .ENVTEST_VERSION }}"
