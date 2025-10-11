@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM oven/bun:1.2 AS build
+FROM oven/bun:1.3 AS build
 WORKDIR /home/app/
 COPY package.json package-lock.json ./
 RUN bun install --ignore-scripts
