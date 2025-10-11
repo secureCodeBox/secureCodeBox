@@ -4,9 +4,9 @@
 
 import abc
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 
-FINDING = Dict[str, any]
+FINDING = Dict[str, Any]
 
 
 class AbstractScanner(abc.ABC):
