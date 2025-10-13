@@ -1,0 +1,16 @@
+version = 1
+SPDX-PackageName = "secureCodeBox"
+SPDX-PackageSupplier = "Robert Felber <robert.felber@iteratec.com>"
+SPDX-PackageDownloadLocation = "https://github.com/secureCodeBox/secureCodeBox"
+
+[[annotations]]
+path = ".github/ISSUE_TEMPLATE/**.md"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "the secureCodeBox authors"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "**/tests/__snapshot__/**.yaml.snap"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "the secureCodeBox authors"
+SPDX-License-Identifier = "Apache-2.0"
