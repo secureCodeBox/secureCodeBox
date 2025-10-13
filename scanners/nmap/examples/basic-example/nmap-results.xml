@@ -1,10 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
-
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
 <!-- Nmap 7.92 scan initiated Sun Apr  9 11:00:21 2023 as: nmap -oX /home/securecodebox/nmap-results.xml scanme.nmap.org -->
