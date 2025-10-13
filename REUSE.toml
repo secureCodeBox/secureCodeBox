@@ -1,6 +1,6 @@
 version = 1
 SPDX-PackageName = "secureCodeBox"
-SPDX-PackageSupplier = "Robert Felber <robert.felber@iteratec.com>"
+SPDX-PackageSupplier = "OWASP (https://owasp.org/)"
 SPDX-PackageDownloadLocation = "https://github.com/secureCodeBox/secureCodeBox"
 
 [[annotations]]
