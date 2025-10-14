@@ -172,7 +172,7 @@ Depending on the expected scan duration in your setup, this limitation can pose 
     enabled: false
   s3:
     enabled: true
-    authType: "aws-irsa"  # Note: secureCodeBox still uses this config name even for Pod Identity
+    authType: "aws-iam"
     bucket: <your-bucket-name>
     endpoint: "s3.<your-region>.amazonaws.com"
   ```
@@ -261,7 +261,7 @@ Depending on the expected scan duration in your setup, this limitation can pose 
     enabled: false
   s3:
     enabled: true
-    authType: "aws-irsa"
+    authType: "aws-iam"
     bucket: <your-bucket-name>
     endpoint: "s3.<your-region>.amazonaws.com"
   serviceAccount:
