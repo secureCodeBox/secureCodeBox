@@ -167,7 +167,7 @@ s3:
   bucket: "my-bucket"
   # Implicit 443. You probably only need to change this when the system uses a non default port
   port: null
-  # s3.authType -- Authentication method. Supports access-secret-key (used by most s3 endpoint) and aws-irsa (Used by AWS EKS IAM Role to Kubenetes Service Account Binding. Support for AWS IRSA is considered experimental in the secureCodeBox)
+  # s3.authType -- Authentication method. Supports `access-secret-key` (used by most s3 endpoints) and `aws-iam`` (Used by AWS EKS IAM Role to Kubernetes Service Account Binding (IRSA) and EKS Pod Identity Authentication. Support for AWS IRSA is considered experimental in the secureCodeBox)
   authType: access-secret-key
   # Name to a k8s secret in the same namespace as this release with credentials to the s3 bucket. Only used when s3.authType is set to "access-secret-key"
   # By default this assumes to have 'accesskey' and 'secretkey' as attributes
@@ -178,7 +178,7 @@ s3:
   secretAttributeNames:
     accesskey: accesskey
     secretkey: secretkey
-  # s3.awsStsEndpoint -- STS Endpoint used in AWS IRSA Authentication. Change this to the sts endpoint of your aws region. Only used when s3.authType is set to "aws-irsa"
+  # s3.awsStsEndpoint -- STS Endpoint used in AWS IRSA Authentication. Change this to the sts endpoint of your aws region. Only used when s3.authType is set to "aws-iam". Usually not required, even in IRSA or Pod Identity setups as the region gets injected by AWS into the pod.
   awsStsEndpoint: "https://sts.amazonaws.com"
 
   # -- Go Template that generates the path used to store raw result file and findings.json file in the s3 bucket. Can be used to store the files in a subfolder of the s3 bucket
