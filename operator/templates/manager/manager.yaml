@@ -108,7 +108,6 @@ spec:
             {{- end }}
             # todo(v6): remove support for authType = "aws-irsa" and only support "aws-iam": https://github.com/secureCodeBox/secureCodeBox/issues/3327
             {{- if or (eq .Values.s3.authType "aws-irsa") (eq .Values.s3.authType "aws-iam") }}
-            {{- if .Values.s3.awsStsEndpoint }}
             - name: S3_AWS_IRSA_STS_ENDPOINT
               value: {{ .Values.s3.awsStsEndpoint | quote }}
             {{- end }}
