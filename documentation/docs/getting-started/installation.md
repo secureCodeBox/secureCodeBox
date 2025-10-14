@@ -81,9 +81,14 @@ s3:
 :::info
 Instead of using access keys, it is possible to use [EKS Pod Identities](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html) or [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) in secureCodeBox to authenticate to the S3 bucket using short-lived, automatically rotated credentials. 
 
-However, because these credentials are short-lived (maximum lifetime of 12 hours), scans started by the operator in this setup are limited in their maximum duration. The tokens are rotated when they reach 20% of their maximum lifetime. If a scan is started at this point, S3 access will this particular scan will work for at most the remaining token duration, which is approximately 2.4 hours. If the scan exceeds this point it will fail after the scan itself is done as it is unable to persist its results.
+However, because these credentials are short-lived (maximum lifetime of 12 hours), scans started by the operator in this setup are limited in their maximum duration. The tokens are automatically rotated when they reach 20% of their remaining lifetime. This means:
 
-Depending on the expected scan duration in your setup, this limitation can pose a problem. See: [Issue secureCodeBox/secureCodeBox#2255](https://github.com/secureCodeBox/secureCodeBox/issues/2255)
+- In the worst-case scenario, a scan might start right before a token rotation occurs
+- At this point, the current token has approximately 2.4 hours remaining (20% of 12 hours)
+- The scan will use this current token for its entire duration
+- If the scan runs longer than 2.4 hours, it will complete successfully but fail when attempting to save results to S3 because the token has expired
+
+Therefore, scans must complete within 2.4 hours to ensure results can be persisted to S3. Depending on the expected scan duration in your setup, this limitation can pose a problem. See: [Issue secureCodeBox/secureCodeBox#2255](https://github.com/secureCodeBox/secureCodeBox/issues/2255)
 
 <details>
   <summary>Example Pod Identity Setup (recommended over IRSA)</summary>
