@@ -19,10 +19,10 @@
     "serve": "docusaurus serve"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.9.1",
+    "@docusaurus/core": "^3.9.2",
     "docusaurus-lunr-search": "^3.6.0",
-    "@docusaurus/preset-classic": "^3.9.1",
-    "@docusaurus/theme-live-codeblock": "^3.9.1",
+    "@docusaurus/preset-classic": "^3.9.2",
+    "@docusaurus/theme-live-codeblock": "^3.9.2",
     "@mdx-js/react": "^3.1.1",
     "clsx": "^2.1.1",
     "colors": "^1.4.0",
@@ -50,9 +50,9 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.6.0",
-    "@docusaurus/tsconfig": "^3.9.1",
+    "@docusaurus/tsconfig": "^3.9.2",
     "@docusaurus/types": "^3.6.0",
-    "@types/node": "^24.7.2",
+    "@types/node": "^24.8.1",
     "@types/react": "^19.2.2",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.1.8",
