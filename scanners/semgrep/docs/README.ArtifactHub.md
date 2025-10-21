@@ -183,7 +183,7 @@ Kubernetes: `>=v1.11.0-0`
 | parser.backoffLimit | int | `3` |  |
 | parser.env | list | `[]` |  |
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| parser.image.repository | string | `"securecodebox/parser-semgrep"` | Parser image repository |
+| parser.image.repository | string | `"docker.io/securecodebox/parser-semgrep"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
 | parser.nodeSelector | object | `{}` | Optional nodeSelector settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/) |
 | parser.resources | object | `{ requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }` | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
