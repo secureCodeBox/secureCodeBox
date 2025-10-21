@@ -79,11 +79,202 @@ s3:
 ```
 
 :::info
-Instead of using access keys it is possible to use **IAM roles** for more fine grained access management. To achieve that set in your helm values
+Instead of using access keys, it is possible to use [EKS Pod Identities](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html) or [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) in secureCodeBox to authenticate to the S3 bucket using short-lived, automatically rotated credentials. 
 
-1. `s3.authType` to `aws-irsa`, and
-2. `s3.awsStsEndpoint` to your desired region (`https://sts.REGION.amazonaws.com`).
-   :::
+However, because these credentials are short-lived (maximum lifetime of 12 hours), scans started by the operator in this setup are limited in their maximum duration. The tokens are automatically rotated when they reach 20% of their remaining lifetime. This means:
+
+- In the worst-case scenario, a scan might start right before a token rotation occurs
+- At this point, the current token has approximately 2.4 hours remaining (20% of 12 hours)
+- The scan will use this current token for its entire duration
+- If the scan runs longer than 2.4 hours, it will complete successfully but fail when attempting to save results to S3 because the token has expired
+
+Therefore, scans must complete within 2.4 hours to ensure results can be persisted to S3. Depending on the expected scan duration in your setup, this limitation can pose a problem. See: [Issue secureCodeBox/secureCodeBox#2255](https://github.com/secureCodeBox/secureCodeBox/issues/2255)
+
+<details>
+  <summary>Example Pod Identity Setup (recommended over IRSA)</summary>
+
+  Terraform/OpenTofu setup for the IAM Role & Policy:
+  ```tf
+  resource "aws_iam_policy" "securecodebox_s3_policy" {
+    name        = "securecodebox-s3-${var.bucket_name}-access"
+    description = "IAM policy for secureCodeBox to access S3 bucket ${var.bucket_name}"
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow"
+          Action = [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject",
+            "s3:GetObjectVersion",
+            "s3:PutObjectAcl",
+            "s3:GetObjectAcl"
+          ]
+          Resource = [
+            "arn:aws:s3:::${var.bucket_name}/*"
+          ]
+        },
+        {
+          Effect = "Allow"
+          Action = [
+            "s3:ListBucket",
+            "s3:GetBucketLocation",
+            "s3:GetBucketVersioning"
+          ]
+          Resource = [
+            "arn:aws:s3:::${var.bucket_name}"
+          ]
+        }
+      ]
+    })
+  }
+
+  # IAM Role for secureCodeBox with EKS Pod Identity
+  resource "aws_iam_role" "securecodebox_role" {
+    name = "securecodebox-role"
+
+    max_session_duration = 12 * 60 * 60 // 12h, session duration needs to be this long to allow the operator to create presigned urls with a longer lifetime
+
+    # Use EKS Pod Identity for the operator service account.
+    assume_role_policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow"
+          Principal = {
+            Service = "pods.eks.amazonaws.com"
+          }
+          Action = [
+            "sts:AssumeRole",
+            "sts:TagSession"
+          ]
+        }
+      ]
+    })
+  }
+
+  # Attach the S3 policy to the role
+  resource "aws_iam_role_policy_attachment" "securecodebox_s3_policy_attachment" {
+    role       = aws_iam_role.securecodebox_role.name
+    policy_arn = aws_iam_policy.securecodebox_s3_policy.arn
+  }
+
+  # Create EKS Pod Identity Association
+  resource "aws_eks_pod_identity_association" "securecodebox_operator" {
+    cluster_name    = var.cluster_name
+    namespace       = "securecodebox-system"
+    service_account = "securecodebox-operator"
+    role_arn        = aws_iam_role.securecodebox_role.arn
+  }
+  ```
+
+  secureCodeBox Operator values:
+
+  ```yaml
+  minio:
+    enabled: false
+  s3:
+    enabled: true
+    authType: "aws-iam"
+    bucket: <your-bucket-name>
+    endpoint: "s3.<your-region>.amazonaws.com"
+  ```
+</details>
+
+<details>
+  <summary>Example IRSA Setup</summary>
+
+  Terraform/OpenTofu setup for the IAM Role & Policy:
+  ```tf
+  resource "aws_iam_policy" "securecodebox_s3_policy" {
+    name        = "securecodebox-s3-${var.bucket_name}-access"
+    description = "IAM policy for secureCodeBox to access S3 bucket ${var.bucket_name}"
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow"
+          Action = [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject",
+            "s3:GetObjectVersion",
+            "s3:PutObjectAcl",
+            "s3:GetObjectAcl"
+          ]
+          Resource = [
+            "arn:aws:s3:::${var.bucket_name}/*"
+          ]
+        },
+        {
+          Effect = "Allow"
+          Action = [
+            "s3:ListBucket",
+            "s3:GetBucketLocation",
+            "s3:GetBucketVersioning"
+          ]
+          Resource = [
+            "arn:aws:s3:::${var.bucket_name}"
+          ]
+        }
+      ]
+    })
+  }
+
+  # IAM Role for secureCodeBox with EKS Pod Identity
+  resource "aws_iam_role" "securecodebox_role" {
+    name = "securecodebox-role"
+
+    max_session_duration = 12 * 60 * 60 // 12h, session duration needs to be this long to allow the operator to create presigned urls with a longer lifetime
+
+    # Use IRSA (IAM Roles for Service Accounts) via the cluster OIDC provider.
+    # The cluster OIDC issuer is available from the data.aws_eks_cluster.cluster data source.
+    # The Federated principal is the cluster's OIDC provider ARN in the account.
+    assume_role_policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow"
+          Principal = {
+            Federated = "arn:aws:iam::${var.aws_account_id}:oidc-provider/${var.oidc_provider}"
+          }
+          Action = "sts:AssumeRoleWithWebIdentity"
+          Condition = {
+            StringEquals = {
+              "${var.oidc_provider}:sub" = "system:serviceaccount:securecodebox-system:securecodebox-operator"
+            }
+          }
+        }
+      ]
+    })
+  }
+
+  # Attach the S3 policy to the role
+  resource "aws_iam_role_policy_attachment" "securecodebox_s3_policy_attachment" {
+    role       = aws_iam_role.securecodebox_role.name
+    policy_arn = aws_iam_policy.securecodebox_s3_policy.arn
+  }
+  ```
+
+  secureCodeBox Operator values:
+
+  ```yaml
+  minio:
+    enabled: false
+  s3:
+    enabled: true
+    authType: "aws-iam"
+    bucket: <your-bucket-name>
+    endpoint: "s3.<your-region>.amazonaws.com"
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: <ARN of the IAM Role created by terraform>
+  ```
+</details>
+:::
 
 #### Google Cloud Storage
 

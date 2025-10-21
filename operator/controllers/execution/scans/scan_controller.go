@@ -261,13 +261,18 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 
 	var creds *credentials.Credentials
 
-	if authType, ok := os.LookupEnv("S3_AUTH_TYPE"); ok && strings.ToLower(authType) == "aws-irsa" {
+	// todo(v6): remove support for authType = "aws-irsa" and only support "aws-iam": https://github.com/secureCodeBox/secureCodeBox/issues/3327
+	if authType, ok := os.LookupEnv("S3_AUTH_TYPE"); ok && (strings.ToLower(authType) == "aws-irsa" || strings.ToLower(authType) == "aws-iam") {
 		stsEndpoint := ""
+		// todo(v6): remove support for S3_AWS_STS_ENDPOINT env var and only support S3_AWS_IRSA_STS_ENDPOINT: https://github.com/secureCodeBox/secureCodeBox/issues/3327
 		if configuredStsEndpoint, ok := os.LookupEnv("S3_AWS_IRSA_STS_ENDPOINT"); ok {
 			stsEndpoint = configuredStsEndpoint
 		}
+		if configuredStsEndpoint, ok := os.LookupEnv("S3_AWS_STS_ENDPOINT"); ok {
+			stsEndpoint = configuredStsEndpoint
+		}
 
-		r.Log.Info("Using AWS IRSA ServiceAccount Bindung for S3 Authentication", "sts", stsEndpoint)
+		r.Log.Info("Using AWS IAM ServiceAccount Binding for S3 Authentication (IRSA or EKS Pod Identity)", "sts", stsEndpoint)
 		creds = credentials.NewIAM(stsEndpoint)
 	} else {
 		creds = credentials.NewEnvMinio()

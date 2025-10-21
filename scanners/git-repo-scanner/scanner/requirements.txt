@@ -3,6 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 PyGithub == 2.8.1
-python-gitlab == 6.4.0
+python-gitlab == 6.5.0
 timelength == 3.0.2
 pytz == 2025.2
