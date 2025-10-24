@@ -70,8 +70,14 @@ class GitHubScanner(AbstractScanner):
         if start_time:
             repos = org.get_repos(type="all", sort="pushed", direction="desc")
 
+        is_over = False
         for i in range(repos.totalCount):
-            self._process_repos_page(findings, repos.get_page(i), start_time, end_time)
+            if is_over:
+                break
+            is_over = self._process_repos_page(
+                findings, repos.get_page(i), start_time, end_time
+            )
+
         return findings
 
     def _process_repos_page(
@@ -80,10 +86,12 @@ class GitHubScanner(AbstractScanner):
         repos: List[Repository],
         start_time: Optional[datetime] = None,
         end_time: Optional[datetime] = None,
-    ):
+    ) -> bool:
         repo: Repository
         for repo in repos:
             if repo.id not in self._ignore_repos:
+
+                self._respect_github_ratelimit()
                 self.LOGGER.info(
                     f"{len(findings) + 1} - Name: {repo.name} - LastUpdate: {repo.updated_at} - LastPush: {repo.pushed_at}"
                 )
@@ -91,10 +99,20 @@ class GitHubScanner(AbstractScanner):
                 if (start_time or end_time) and not self._check_repo_is_in_time_frame(
                     repo.pushed_at, start_time, end_time
                 ):
-                    break
+                    self.LOGGER.info(
+                        f"Repository '{repo.name}' is outside the specified time frame."
+                    )
+                    if start_time and end_time and repo.pushed_at < start_time:
+                        return True
+                    elif start_time and not end_time and repo.pushed_at < start_time:
+                        return True
+                    elif end_time and not start_time and repo.pushed_at > end_time:
+                        return True
+                    else:
+                        continue
 
                 findings.append(self._create_finding_from_repo(repo))
-                self._respect_github_ratelimit()
+        return False
 
     def _check_repo_is_in_time_frame(
         self,
@@ -102,45 +120,33 @@ class GitHubScanner(AbstractScanner):
         start_time: Optional[datetime] = None,
         end_time: Optional[datetime] = None,
     ):
-        # Explicitly set timezone of pushed_at, as it is not set by the library (but is in UTC)
         pushed_at = pushed_at.replace(tzinfo=timezone.utc)
-        if start_time:
-            if pushed_at > start_time:
-                return True
-            else:
-                self.LOGGER.info(
-                    f"Reached activity limit! Ignoring all repos with activity since `{start_time}`."
-                )
-                return False
+
+        if start_time and end_time:
+            return start_time <= pushed_at <= end_time
+        elif start_time:
+            return pushed_at >= start_time
         elif end_time:
-            if pushed_at < end_time:
-                return True
-            else:
-                self.LOGGER.info(
-                    f"Reached activity limit! Ignoring all repos with activity until `{end_time}`."
-                )
-                return False
+            return pushed_at <= end_time
+        else:
+            return True
 
     def _respect_github_ratelimit(self):
         if self._obey_rate_limit:
-            api_limit = self._gh.get_rate_limit().core
-            reset_timestamp = timegm(api_limit.reset.timetuple())
-            # add 5 seconds to be sure the rate limit has been reset
-            seconds_until_reset = reset_timestamp - timegm(time.gmtime()) + 5
-            sleep_time = seconds_until_reset / api_limit.remaining
-
+            api_limit = self._gh.get_rate_limit().resources.core
             self.LOGGER.info(
-                "Checking Rate-Limit ("
-                + str(self._obey_rate_limit)
-                + ") [remainingApiCalls: "
-                + str(api_limit.remaining)
-                + ", seconds_until_reset: "
-                + str(seconds_until_reset)
-                + ", sleepTime: "
-                + str(sleep_time)
-                + "]"
+                f"Checking Rate-Limit ({self._obey_rate_limit}) [remainingApiCalls: {api_limit.remaining}]"
             )
-            time.sleep(sleep_time)
+
+            if api_limit.remaining < 5:
+                reset_timestamp = timegm(api_limit.reset.timetuple())
+                # add 5 seconds to be sure the rate limit has been reset
+                seconds_until_reset = reset_timestamp - timegm(time.gmtime()) + 5
+                self.LOGGER.info(
+                    f"Rate limit almost exceeded. Sleeping for {seconds_until_reset} seconds."
+                )
+                time.sleep(seconds_until_reset)
+                return
 
     def _setup(self):
         if self._url:

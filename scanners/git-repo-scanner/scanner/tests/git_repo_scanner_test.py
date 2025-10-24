@@ -185,14 +185,14 @@ class GitRepoScannerTests(unittest.TestCase):
             type="all", sort="pushed", direction="asc"
         )
         self.assertEqual(6, len(findings), msg="There should be exactly 6 findings")
-        self.assertFalse(findings[0]["attributes"]["archived"])
+        self.assertTrue(findings[0]["attributes"]["archived"])
         self.assertFalse(findings[1]["attributes"]["archived"])
-        self.assertTrue(findings[2]["attributes"]["archived"])
-        self.assertFalse(findings[3]["attributes"]["archived"])
-        self.assertFalse(findings[4]["attributes"]["archived"])
+        self.assertFalse(findings[2]["attributes"]["archived"])
+        self.assertTrue(findings[3]["attributes"]["archived"])
+        self.assertTrue(findings[4]["attributes"]["archived"])
         self.assertTrue(findings[5]["attributes"]["archived"])
-        self.assertEqual(findings[0]["attributes"]["topics"], [])
-        self.assertEqual(findings[2]["attributes"]["topics"], ["outdated"])
+        self.assertEqual(findings[0]["attributes"]["topics"], ["outdated"])
+        self.assertEqual(findings[2]["attributes"]["topics"], [])
         for finding in findings:
             self.assertEqual(finding["name"], "GitHub Repo", msg=self.wrong_output_msg)
             self.assertFalse("last_commit_id" in finding["attributes"])
@@ -214,8 +214,85 @@ class GitRepoScannerTests(unittest.TestCase):
         findings = scanner._process_repos(None, None)
         # then
         github_mock.get_organization.assert_called_with("org")
-        self.assertEqual(4, len(findings), msg="There should be exactly 4 findings")
+        self.assertEqual(5, len(findings), msg="There should be exactly 5 findings")
         self.assertEqual(findings[0]["attributes"]["last_commit_id"], "deadbeef")
+
+    @patch("github.Github")
+    @patch("github.Organization")
+    @patch("github.PaginatedList")
+    def test_process_github_repos_with_start_time_present(
+        self, github_mock, org_mock, pag_mock
+    ):
+        # given
+        scanner = GitHubScanner(
+            "url", "token", "org", [], False, annotate_latest_commit_id=True
+        )
+        repos = assemble_repos()
+        print(repos)
+        repos.sort(key=lambda r: r.pushed_at, reverse=True)
+        create_mocks(github_mock, org_mock, pag_mock, repos)
+        scanner._gh = github_mock
+        # when
+        findings = scanner._process_repos(
+            datetime.datetime(2020, 5, 17, tzinfo=timezone.utc), None
+        )
+        # then
+        github_mock.get_organization.assert_called_with("org")
+        self.assertEqual(5, len(findings), msg="There should be exactly 5 findings")
+        expected_ids = {"1", "2", "3", "4", "6"}
+        actual_ids = {finding["attributes"]["id"] for finding in findings}
+        self.assertEqual(expected_ids, actual_ids)
+
+    @patch("github.Github")
+    @patch("github.Organization")
+    @patch("github.PaginatedList")
+    def test_process_github_repos_with_end_time_present(
+        self, github_mock, org_mock, pag_mock
+    ):
+        # given
+        scanner = GitHubScanner(
+            "url", "token", "org", [], False, annotate_latest_commit_id=True
+        )
+        repos = assemble_repos()
+
+        create_mocks(github_mock, org_mock, pag_mock, repos)
+        scanner._gh = github_mock
+        # when
+        findings = scanner._process_repos(
+            None, datetime.datetime(2020, 5, 17, tzinfo=timezone.utc)
+        )
+        # then
+        github_mock.get_organization.assert_called_with("org")
+        self.assertEqual(5, len(findings), msg="There should be exactly 5 findings")
+        expected_ids = {"1", "2", "3", "4", "5"}
+        actual_ids = {finding["attributes"]["id"] for finding in findings}
+        self.assertEqual(expected_ids, actual_ids)
+
+    @patch("github.Github")
+    @patch("github.Organization")
+    @patch("github.PaginatedList")
+    def test_process_github_repos_with_start_time_and_end_time_present(
+        self, github_mock, org_mock, pag_mock
+    ):
+        # given
+        scanner = GitHubScanner(
+            "url", "token", "org", [], False, annotate_latest_commit_id=True
+        )
+        repos = assemble_repos()
+        repos.sort(key=lambda r: r.pushed_at, reverse=True)
+        create_mocks(github_mock, org_mock, pag_mock, repos)
+        scanner._gh = github_mock
+        # when
+        findings = scanner._process_repos(
+            datetime.datetime(2020, 5, 6, tzinfo=timezone.utc),
+            datetime.datetime(2020, 5, 19, tzinfo=timezone.utc),
+        )
+        # then
+        github_mock.get_organization.assert_called_with("org")
+        self.assertEqual(4, len(findings), msg="There should be exactly 4 findings")
+        expected_ids = {"1", "2", "3", "4"}
+        actual_ids = {finding["attributes"]["id"] for finding in findings}
+        self.assertEqual(expected_ids, actual_ids)
 
     def test_setup_github_with_url_and_no_token_should_exit(self):
         # when
@@ -257,7 +334,7 @@ def get_args(ignore_groups=0, ignore_projects=0, url=None, access_token=None, or
 
 def create_mocks(github_mock, org_mock, pag_mock, repos):
     pag_mock.totalCount = 2
-    pag_mock.get_page = MagicMock(return_value=repos)
+    pag_mock.get_page = MagicMock(side_effect=[repos[:3], repos[3:]])
     org_mock.get_repos = MagicMock(return_value=pag_mock)
     github_mock.get_organization = MagicMock(return_value=org_mock)
 
@@ -377,7 +454,55 @@ def assemble_repos():
         archived=True,
         topics=["outdated"],
     )
-    return [project1, project2, project3]
+
+    project4 = assemble_repository(
+        p_id=4,
+        name="name4",
+        url="url4",
+        path="path4",
+        date_created=datetime.datetime(2020, 5, 5, tzinfo=timezone.utc),
+        date_updated=datetime.datetime(2020, 5, 17, tzinfo=timezone.utc),
+        date_pushed=datetime.datetime(2020, 5, 17, tzinfo=timezone.utc),
+        visibility=False,
+        o_id=44,
+        o_kind="organization",
+        o_name="name44",
+        archived=True,
+        topics=["outdated"],
+    )
+    project5 = assemble_repository(
+        p_id=5,
+        name="name5",
+        url="url5",
+        path="path5",
+        date_created=datetime.datetime(2020, 5, 4, tzinfo=timezone.utc),
+        date_updated=datetime.datetime(2020, 5, 4, tzinfo=timezone.utc),
+        date_pushed=datetime.datetime(2020, 5, 4, tzinfo=timezone.utc),
+        visibility=False,
+        o_id=55,
+        o_kind="organization",
+        o_name="name55",
+        archived=True,
+        topics=["outdated"],
+    )
+    project6 = assemble_repository(
+        p_id=6,
+        name="name6",
+        url="url6",
+        path="path6",
+        date_created=datetime.datetime(2020, 5, 23, tzinfo=timezone.utc),
+        date_updated=datetime.datetime(2020, 5, 23, tzinfo=timezone.utc),
+        date_pushed=datetime.datetime(2020, 5, 23, tzinfo=timezone.utc),
+        visibility=False,
+        o_id=66,
+        o_kind="organization",
+        o_name="name66",
+        archived=True,
+        topics=["outdated"],
+    )
+    repos = [project1, project2, project3, project4, project5, project6]
+    repos.sort(key=lambda r: r.pushed_at)
+    return repos
 
 
 def assemble_repository(
@@ -414,6 +539,71 @@ def assemble_repository(
     repo.get_topics = lambda: topics
     repo.archived = archived
     return repo
+
+
+class GitHubScannerTimeFrameTests(unittest.TestCase):
+    def test_check_repo_is_in_time_frame_in_frame(self):
+        # given
+        scanner = GitHubScanner(
+            "url", "token", "org", [], False, annotate_latest_commit_id=True
+        )
+        pushed_at = datetime.datetime(2020, 5, 17, tzinfo=timezone.utc)
+        start_time = datetime.datetime(2020, 5, 16, tzinfo=timezone.utc)
+        end_time = datetime.datetime(2020, 5, 18, tzinfo=timezone.utc)
+        # when
+        result = scanner._check_repo_is_in_time_frame(pushed_at, start_time, end_time)
+        # then
+        self.assertTrue(result)
+
+    def test_check_repo_is_in_time_frame_out_of_frame_before(self):
+        # given
+        scanner = GitHubScanner(
+            "url", "token", "org", [], False, annotate_latest_commit_id=True
+        )
+        pushed_at = datetime.datetime(2020, 5, 15, tzinfo=timezone.utc)
+        start_time = datetime.datetime(2020, 5, 16, tzinfo=timezone.utc)
+        end_time = datetime.datetime(2020, 5, 18, tzinfo=timezone.utc)
+        # when
+        result = scanner._check_repo_is_in_time_frame(pushed_at, start_time, end_time)
+        # then
+        self.assertFalse(result)
+
+    def test_check_repo_is_in_time_frame_out_of_frame_after(self):
+        # given
+        scanner = GitHubScanner(
+            "url", "token", "org", [], False, annotate_latest_commit_id=True
+        )
+        pushed_at = datetime.datetime(2020, 5, 19, tzinfo=timezone.utc)
+        start_time = datetime.datetime(2020, 5, 16, tzinfo=timezone.utc)
+        end_time = datetime.datetime(2020, 5, 18, tzinfo=timezone.utc)
+        # when
+        result = scanner._check_repo_is_in_time_frame(pushed_at, start_time, end_time)
+        # then
+        self.assertFalse(result)
+
+
+class GitLabScannerTimeFrameTests(unittest.TestCase):
+    @patch("gitlab.Gitlab")
+    def test_get_projects_with_time_frame(self, mock_gitlab):
+        # given
+        scanner = GitLabScanner(
+            "url", "token", None, [], [], annotate_latest_commit_id=True
+        )
+        scanner._gl = mock_gitlab
+        start_time = datetime.datetime(2020, 5, 16, tzinfo=timezone.utc)
+        end_time = datetime.datetime(2020, 5, 18, tzinfo=timezone.utc)
+        # when
+        scanner._get_projects(start_time, end_time)
+        # then
+        mock_gitlab.projects.list.assert_called_with(
+            all=True,
+            order_by="last_activity_at",
+            sort="desc",
+            obey_rate_limit=True,
+            max_retries=12,
+            last_activity_after=start_time,
+            last_activity_before=end_time,
+        )
 
 
 if __name__ == "__main__":
