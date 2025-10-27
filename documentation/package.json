@@ -52,11 +52,11 @@
     "@docusaurus/module-type-aliases": "^3.6.0",
     "@docusaurus/tsconfig": "^3.9.2",
     "@docusaurus/types": "^3.6.0",
-    "@types/node": "^24.8.1",
+    "@types/node": "^24.9.1",
     "@types/react": "^19.2.2",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.1.8",
-    "sass-loader": "^16.0.5",
+    "sass-loader": "^16.0.6",
     "typescript": "^5.9.3"
   },
   "engines": {
