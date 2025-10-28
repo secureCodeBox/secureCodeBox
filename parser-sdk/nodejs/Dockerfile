@@ -9,7 +9,7 @@ RUN bun install --ignore-scripts
 COPY *.ts findings-schema.json  ./
 RUN bun run build
 
-FROM node:22-alpine
+FROM node:24-alpine
 ARG NODE_ENV
 RUN addgroup --system --gid 1001 app && adduser app --system --uid 1001 --ingroup app
 WORKDIR /home/app/parser-wrapper/

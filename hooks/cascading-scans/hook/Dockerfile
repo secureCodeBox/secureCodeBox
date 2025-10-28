@@ -4,13 +4,13 @@
 
 ARG namespace
 ARG baseImageTag
-FROM node:22-alpine AS install
+FROM node:24-alpine AS install
 RUN mkdir -p /home/app
 WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts
 
-FROM node:22-alpine AS build
+FROM node:24-alpine AS build
 RUN mkdir -p /home/app
 WORKDIR /home/app
 COPY package.json package-lock.json ./

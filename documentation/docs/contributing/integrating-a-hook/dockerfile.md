@@ -12,7 +12,7 @@ If you use the provided _hook-sdk_, you won't need to apply any changes to it.
 
 ```Dockerfile
 ARG baseImageTag
-FROM node:22-alpine as build
+FROM node:24-alpine as build
 RUN mkdir -p /home/app
 WORKDIR /home/app
 COPY package.json package-lock.json ./
