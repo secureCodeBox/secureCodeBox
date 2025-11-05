@@ -47,8 +47,8 @@ body {
   padding-right: 0px !important;
 }
 
-/* 
-Github Logo as CSS class by using a SVG in a Data-URL. 
+/*
+Github Logo as CSS class by using a SVG in a Data-URL.
 The SVG content must be URL escaped for this to work.
 See also: https://stackoverflow.com/questions/10768451/inline-svg-in-css
 */
@@ -94,10 +94,16 @@ html[data-theme="dark"] .header-owasp-link::before {
 
 .flex-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .flex-child {
   flex: 1;
+}
+
+.button-group {
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 th.default-column,

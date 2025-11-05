@@ -5,7 +5,7 @@
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import {useColorMode} from '@docusaurus/theme-common';
+import { useColorMode } from "@docusaurus/theme-common";
 import Layout from "@theme/Layout";
 import clsx from "clsx";
 import React from "react";
@@ -55,23 +55,48 @@ function HomePage() {
         <div className="container">
           <h1>Automated Security Testing Tool</h1>
           <p className={styles.description}>
-            <em>secureCodeBox</em> is an <a href="https://owasp.org/www-project-securecodebox/">OWASP project</a> providing an automated
-            and scalable open source solution that integrates multiple security scanners with a simple and lightweight interface –
-            for continuous and automated security testing.
+            <em>secureCodeBox</em> is an{" "}
+            <a href="https://owasp.org/www-project-securecodebox/">
+              OWASP project
+            </a>{" "}
+            providing an automated and scalable open source solution that
+            integrates multiple security scanners with a simple and lightweight
+            interface – for continuous and automated security testing.
           </p>
 
           <div className="flex-container">
-            <div className="flex-child">
-              <Link
-                className={clsx("button button--outline button--secondary button--lg",  styles.getStarted)}
-                to={useBaseUrl("docs/getting-started/installation")}>
+            <div className="button-group">
+              <div className="flex-child">
+                <Link
+                  className={clsx(
+                    "button button--outline button--secondary button--lg",
+                    styles.getStarted,
+                  )}
+                  to={useBaseUrl("docs/getting-started/installation")}
+                >
                   Get Started
-              </Link>
+                </Link>
+              </div>
+
+              <div className="flex-child">
+                <Link
+                  className={clsx(
+                    "button button--outline button--secondary button--lg",
+                    styles.getStarted,
+                  )}
+                  to={"https://scb.iteratec.de/"}
+                >
+                  Try as service
+                </Link>
+              </div>
             </div>
 
             <div className="flex-child">
               <a href="https://owasp.org/" target="_blank">
-                <img className="owasp-project-logo" src={useBaseUrl("/img/OWASP_Logo_White_with_name.png")} />
+                <img
+                  className="owasp-project-logo"
+                  src={useBaseUrl("/img/OWASP_Logo_White_with_name.png")}
+                />
               </a>
             </div>
           </div>
@@ -143,10 +168,12 @@ function HomePage() {
                   <a href="https://www.iteratec.com/">iteratec</a>.
                 </p>
                 <p>
-                  <a href="https://owasp.org/">OWASP</a> is an open community dedicated to enabling organizations to conceive,
-                  develop, acquire, operate, and maintain applications that can be trusted.
-                  All of the OWASP tools, documents, forums, and chapters are free and open
-                  to anyone interested in improving application security.
+                  <a href="https://owasp.org/">OWASP</a> is an open community
+                  dedicated to enabling organizations to conceive, develop,
+                  acquire, operate, and maintain applications that can be
+                  trusted. All of the OWASP tools, documents, forums, and
+                  chapters are free and open to anyone interested in improving
+                  application security.
                 </p>
               </div>
             }
@@ -162,7 +189,7 @@ function HomePage() {
                   href={`mailto:${
                     content.about.mail.recipient
                   }?subject=${encodeURI(
-                    content.about.mail.subject
+                    content.about.mail.subject,
                   )}&body=${encodeURI(content.about.mail.message)}`}
                 >
                   {content.about.button}
@@ -186,7 +213,7 @@ function HomePage() {
                   className={clsx(
                     "col",
                     styles.sponsor,
-                    styles.defaultMarginBottom
+                    styles.defaultMarginBottom,
                   )}
                   key={`sponsor nr${i}`}
                 >
