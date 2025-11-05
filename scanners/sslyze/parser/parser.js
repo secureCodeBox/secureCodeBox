@@ -249,9 +249,15 @@ function analyseCertificateDeployment(certificateDeployment) {
     );
   };
 
-  // Determine if the certificate is missing required extension
+  // Determine if the certificate has an untrusted root
+  // This can be indicated by multiple error patterns:
+  // 1. "Certificate is missing required extension"
+  // 2. "chain construction exceeds max depth"
   const hasMissingRequiredExtension = hasErrorContaining(
     "Certificate is missing required extension"
+  );
+  const hasChainDepthExceeded = hasErrorContaining(
+    "chain construction exceeds max depth"
   );
 
   return {
@@ -262,6 +268,6 @@ function analyseCertificateDeployment(certificateDeployment) {
     ),
     selfSigned: isSelfSigned,
     expired: hasErrorContaining("cert is not valid at validation time"),
-    untrustedRoot: hasMissingRequiredExtension && !isSelfSigned,
+    untrustedRoot: (hasMissingRequiredExtension || hasChainDepthExceeded) && !isSelfSigned,
   };
 }
