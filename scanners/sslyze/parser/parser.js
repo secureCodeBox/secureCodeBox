@@ -242,21 +242,26 @@ function analyseCertificateDeployment(certificateDeployment) {
     leafCertificate.subject.rfc4514_string ===
     leafCertificate.issuer.rfc4514_string;
 
+  // Helper function to check if any error contains a specific substring
+  const hasErrorContaining = (substring) => {
+    return Array.from(errorsAcrossAllTruststores).some((error) =>
+      error.includes(substring)
+    );
+  };
+
   // Determine if the certificate is missing required extension
-  const hasMissingRequiredExtension = errorsAcrossAllTruststores.has(
-    'validation failed: Other("Certificate is missing required extension")',
+  const hasMissingRequiredExtension = hasErrorContaining(
+    "Certificate is missing required extension"
   );
 
   return {
     // To be trusted no openssl errors should have occurred and should match hostname
     trusted: errorsAcrossAllTruststores.size === 0,
-    matchesHostname: !errorsAcrossAllTruststores.has(
-      'validation failed: Other("leaf certificate has no matching subjectAltName")',
+    matchesHostname: !hasErrorContaining(
+      "leaf certificate has no matching subjectAltName"
     ),
     selfSigned: isSelfSigned,
-    expired: errorsAcrossAllTruststores.has(
-      'validation failed: Other("cert is not valid at validation time")',
-    ),
+    expired: hasErrorContaining("cert is not valid at validation time"),
     untrustedRoot: hasMissingRequiredExtension && !isSelfSigned,
   };
 }
