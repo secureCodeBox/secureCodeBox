@@ -225,6 +225,18 @@ function analyseCertificateDeployments(serverScanResult) {
 
 function analyseCertificateDeployment(certificateDeployment) {
   const errorsAcrossAllTruststores = new Set();
+  
+  // Check if any trust store (especially "Supplied CA file") validates successfully
+  const hasSuccessfulValidation = certificateDeployment.path_validation_results.some(
+    (result) => result.was_validation_successful === true
+  );
+  
+  // Check specifically if the "Supplied CA file" trust store validates successfully
+  const suppliedCAValidatesSuccessfully = certificateDeployment.path_validation_results.some(
+    (result) =>
+      result.trust_store?.name === "Supplied CA file" &&
+      result.was_validation_successful === true
+  );
 
   for (const {
     validation_error,
@@ -261,13 +273,14 @@ function analyseCertificateDeployment(certificateDeployment) {
   );
 
   return {
-    // To be trusted no openssl errors should have occurred and should match hostname
-    trusted: errorsAcrossAllTruststores.size === 0,
+    // To be trusted: either no errors occurred, OR the supplied CA file validates successfully
+    trusted: errorsAcrossAllTruststores.size === 0 || suppliedCAValidatesSuccessfully,
     matchesHostname: !hasErrorContaining(
       "leaf certificate has no matching subjectAltName"
     ),
     selfSigned: isSelfSigned,
     expired: hasErrorContaining("cert is not valid at validation time"),
-    untrustedRoot: (hasMissingRequiredExtension || hasChainDepthExceeded) && !isSelfSigned,
+    // Don't report untrusted root if supplied CA validates successfully
+    untrustedRoot: (hasMissingRequiredExtension || hasChainDepthExceeded) && !isSelfSigned && !suppliedCAValidatesSuccessfully,
   };
 }

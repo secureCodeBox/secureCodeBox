@@ -710,3 +710,48 @@ test("should properly parse empty json file", async () => {
   expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
+
+test("parses result file with supplied CA file that validates successfully", async () => {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/supplied-ca-valid.json",
+    {
+      encoding: "utf8",
+    },
+  );
+
+  const findings = await parse(fileContent);
+  expect(validateParser(findings)).toBeUndefined();
+
+  // Should only have the TLS Service Info finding, no certificate errors
+  expect(findings).toMatchInlineSnapshot(`
+    [
+      {
+        "attributes": {
+          "cipher_suites": [
+            "ECDHE-RSA-AES256-GCM-SHA384",
+            "TLS_AES_256_GCM_SHA384",
+          ],
+          "hostname": "example.internal.test",
+          "ip_addresses": [
+            "10.0.0.1",
+          ],
+          "port": 443,
+          "tls_versions": [
+            "TLS 1.2",
+            "TLS 1.3",
+          ],
+        },
+        "category": "TLS Service Info",
+        "description": "",
+        "identified_at": "2025-11-05T14:00:00.000Z",
+        "location": "example.internal.test:443",
+        "mitigation": null,
+        "name": "TLS Service",
+        "osi_layer": "PRESENTATION",
+        "reference": null,
+        "severity": "INFORMATIONAL",
+      },
+    ]
+  `);
+  expect(findings.length).toEqual(1);
+});

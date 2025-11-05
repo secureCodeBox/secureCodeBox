@@ -1,0 +1,104 @@
+{
+  "server_scan_results": [
+    {
+      "server_location": {
+        "hostname": "example.internal.test",
+        "ip_address": "10.0.0.1",
+        "port": 443
+      },
+      "connectivity_status": "COMPLETED",
+      "scan_result": {
+        "certificate_info": {
+          "result": {
+            "certificate_deployments": [
+              {
+                "received_certificate_chain": [
+                  {
+                    "as_pem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n",
+                    "subject": {
+                      "rfc4514_string": "CN=example.internal.test,O=Test Organization,C=US"
+                    },
+                    "issuer": {
+                      "rfc4514_string": "CN=Test Internal CA,O=Test Organization,C=US"
+                    }
+                  }
+                ],
+                "path_validation_results": [
+                  {
+                    "trust_store": {
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/mozilla_nss.pem",
+                      "name": "Mozilla",
+                      "version": "2025-07-27",
+                      "ev_oids": []
+                    },
+                    "verified_certificate_chain": null,
+                    "validation_error": "validation failed: cert is not trusted",
+                    "was_validation_successful": false
+                  },
+                  {
+                    "trust_store": {
+                      "path": "/etc/ssl/certs/custom-root-ca.crt",
+                      "name": "Supplied CA file",
+                      "version": "N/A",
+                      "ev_oids": null
+                    },
+                    "verified_certificate_chain": [
+                      {
+                        "as_pem": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n"
+                      }
+                    ],
+                    "validation_error": null,
+                    "was_validation_successful": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "ssl_2_0_cipher_suites": {
+          "result": {
+            "accepted_cipher_suites": []
+          }
+        },
+        "ssl_3_0_cipher_suites": {
+          "result": {
+            "accepted_cipher_suites": []
+          }
+        },
+        "tls_1_0_cipher_suites": {
+          "result": {
+            "accepted_cipher_suites": []
+          }
+        },
+        "tls_1_1_cipher_suites": {
+          "result": {
+            "accepted_cipher_suites": []
+          }
+        },
+        "tls_1_2_cipher_suites": {
+          "result": {
+            "accepted_cipher_suites": [
+              {
+                "cipher_suite": {
+                  "openssl_name": "ECDHE-RSA-AES256-GCM-SHA384"
+                }
+              }
+            ]
+          }
+        },
+        "tls_1_3_cipher_suites": {
+          "result": {
+            "accepted_cipher_suites": [
+              {
+                "cipher_suite": {
+                  "openssl_name": "TLS_AES_256_GCM_SHA384"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "date_scans_completed": "2025-11-05T14:00:00.000000Z"
+}
