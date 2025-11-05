@@ -2,7 +2,7 @@
   "invalid_server_strings": [],
   "server_scan_results": [
     {
-      "uuid": "bcba018a-9622-4102-8934-07087d854532",
+      "uuid": "b029fff8-d2ba-4f2a-925a-5b89fc525637",
       "server_location": {
         "hostname": "wrong.host.badssl.com",
         "port": 443,
@@ -38,13 +38,13 @@
               {
                 "received_certificate_chain": [
                   {
-                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIE9TCCA92gAwIBAgISA1ab7jTN4ycaUoDUKPwA/0ObMA0GCSqGSIb3DQEBCwUA\nMDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQD\nEwNSMTEwHhcNMjQwODA5MTUwNTQ0WhcNMjQxMTA3MTUwNTQzWjAXMRUwEwYDVQQD\nDAwqLmJhZHNzbC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCd\nKl6MexmrIYkfRqx7vdbFaZbnR3XrZSSavFBpbAJEai04zUz4Zz40XB/+GhAHxvPi\nsjBBoMTeIM4sxIhXy1gqbL2WckFpvBOBNII+smLJoonUM9LA8i14fv8jqQTjHQye\nZtDdlM/PRh+orS1Wwg8L3507sDGH7Ex6QEmUiHGTXluqCDUjyGcuQyuc5xZUNdJm\nUZKnVWMbja6RLnecueTBlGfzwZMU/hFXtcZMCuE+FFCwyVYacFfNhMm3ckV5hwFc\nhFBfo3lQzJ8hYLTKMABjXyR+WTPxjriZRYFWOYRcQI15Bo8taAYDh6lXcj5A71QF\ntrlIxPAm57yaVs54c8VdAgMBAAGjggIdMIICGTAOBgNVHQ8BAf8EBAMCBaAwHQYD\nVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0O\nBBYEFA17gxGErjYsooUaK+vPPbg1gnv8MB8GA1UdIwQYMBaAFMXPRqTq9MPAemyV\nxC2wXpIvJuO5MFcGCCsGAQUFBwEBBEswSTAiBggrBgEFBQcwAYYWaHR0cDovL3Ix\nMS5vLmxlbmNyLm9yZzAjBggrBgEFBQcwAoYXaHR0cDovL3IxMS5pLmxlbmNyLm9y\nZy8wIwYDVR0RBBwwGoIMKi5iYWRzc2wuY29tggpiYWRzc2wuY29tMBMGA1UdIAQM\nMAowCAYGZ4EMAQIBMIIBBQYKKwYBBAHWeQIEAgSB9gSB8wDxAHYAPxdLT9ciR1iU\nHWUchL4NEu2QN38fhWrrwb8ohez4ZG4AAAGRN+IpPwAABAMARzBFAiEAlOextQPh\n6MzDGzxHzPpPdQSZ16fY0aywyCZCc7Jn97QCIFtgQR4Mln3moYmnspFkbYdScPWL\nFnBQC/DiehhdarEYAHcAdv+IPwq2+5VRwmHM9Ye6NLSkzbsp3GhCCp/mZ0xaOnQA\nAAGRN+IpkgAABAMASDBGAiEA/l8+xhtC9tWAQ9OszOIfH34qXgQYgPp88fjoqlxu\nrKMCIQC9HK+l/Vv0/51JDd9J71Hh58OmCJ9cV3LbFrlRAgEC6zANBgkqhkiG9w0B\nAQsFAAOCAQEAZ7Vcj83IL5Vs0wEC7DPR+maB78xyNgnCMIKcySlYxzWU0rNd30jI\nhnrFlDafM1+yB9Qlp3pI0Dgu5zBPL9BbRh9Y4AQhg0ybgqNH2mY/MWYtm+RtKK+e\nXsCmdSTxZfhfUsUirdC3EIhMwTFdFOGib+6IOYLuwS+20CRUoG4EvZkt/J/qtxMD\norLpVkbESmgUIKtdEbK2+JlL9/RgDRM7TETMy8tKkQtzk56kFf+2MOvHmWS0gi8J\nSZSaZjYuvxRMqgXWgZu1HX3TCwwg7AfGE0VgTJUw3Sps/NvNVzITt/0zf5WvBLrT\nN/s9EaN5iVVgKwn1dC0sYoIoY0v/iv4/eg==\n-----END CERTIFICATE-----\n",
-                    "hpkp_pin": "Srtau6DvevwAqdqrrDQFVIVX+l3HzE12iAAw3ER1+jg=",
-                    "fingerprint_sha1": "DpyiA/CvbK6xIRdMLIniWkCaPJ8=",
-                    "fingerprint_sha256": "+qFjG2R8LTozZ/f6RbidDaJW8PKfn43TMDnVXq0p1ic=",
-                    "serial_number": 290808408527477814121948501310721465729947,
-                    "not_valid_before": "2024-08-09T15:05:44Z",
-                    "not_valid_after": "2024-11-07T15:05:43Z",
+                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIE/jCCA+agAwIBAgISBr+A1EXHT8084rg9trKZyMpPMA0GCSqGSIb3DQEBCwUA\nMDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQD\nEwNSMTIwHhcNMjUwOTE2MjAwMjQ4WhcNMjUxMjE1MjAwMjQ3WjAXMRUwEwYDVQQD\nDAwqLmJhZHNzbC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCY\npBQTh6FQcZumc3LX3+U46TRpDnc84V0bukDXJzcoleMqInOWvIoZsQiXaYgIWrZW\nETafFEGpS5hc3/RM4Ydz+2kuQQ+LJAHT7bk2Zc7aHo/7QhjGjL/jBGusJqRUzo/5\nn8bdiXsGmhsMCvSm+L2bG1i6JB8AJE5agFiExniFYHZUC9u8jhhFiW+nOwvIyXIa\n75UrRjpXaF8LqIKYipUigq4hBtEE2Lsz73jy803qdGHJVDEO+ZCoks+wHwfEWeE4\n5E1g64/4iactQqK1gt3G6+ti7faWflsghA/FUQBtAzOniyTP5X0L/Mp6RXaY9Y7t\nCctx/Ktrf3lRh7ME9DFRAgMBAAGjggImMIICIjAOBgNVHQ8BAf8EBAMCBaAwHQYD\nVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0O\nBBYEFLpQqK9k0LU7mvulqennC7g1m913MB8GA1UdIwQYMBaAFAC1KfItjm8x6JtM\nrXg++tzpDNHSMDMGCCsGAQUFBwEBBCcwJTAjBggrBgEFBQcwAoYXaHR0cDovL3Ix\nMi5pLmxlbmNyLm9yZy8wIwYDVR0RBBwwGoIMKi5iYWRzc2wuY29tggpiYWRzc2wu\nY29tMBMGA1UdIAQMMAowCAYGZ4EMAQIBMC4GA1UdHwQnMCUwI6AhoB+GHWh0dHA6\nLy9yMTIuYy5sZW5jci5vcmcvODAuY3JsMIIBAgYKKwYBBAHWeQIEAgSB8wSB8ADu\nAHUADeHyMCvTDcFAYhIJ6lUu/Ed0fLHX6TDvDkIetH5OqjQAAAGZVFT2nwAABAMA\nRjBEAiAEYGW5bBUnnWw+n8AnjcXNwUCXIaBfzlJx/hM0Qu+L9QIgPk0Cfw9jH1pf\nOhze0KTnGDl8LVMlJmvZGLFkNfzHjq8AdQAaBP9J0FQdQK/2oMO/8djEZy9O7O4j\nQGiYaxdALtyJfQAAAZlUVPbaAAAEAwBGMEQCIAX3e/AXNAhVIeKVtS6JFE8DPbbj\nE7WDYLefyj4UnVLMAiAPR8GKllL6585/KMnL24LgOMJksCYrBxKOBUS6U91Z+DAN\nBgkqhkiG9w0BAQsFAAOCAQEAKs1kVnPsPxF5He8DOZqu/lN3YPp3vuBEb3lv53uB\neUKYBEH89TgBRb2e9L6S8IBMgvg7YnsvU7+4+D3tWBBBKwqx7yihD+kY57p5cJnU\nqCKCMs4HJwyUL2wtuNM17StPzX/C5mAzauebtyLKSLuHLAZGZhex9CAtybR2DMZa\nLdI89Azp9bcDG8JaRcpkysIcbNr3+Hzy5+SWPwu1vOiKikAY5ysmbLbAMbnJSuMV\nMzxpZ4mKv1PiYU2mfLkB7eqBzBZeZGcjkQwOjXFpah1+PRIwUfzB6Mt476ySuHcc\nrrqw9GOHx+NIeoCgpa8dY8iXH6zX8m7bkstvZimEEE8nCw==\n-----END CERTIFICATE-----\n",
+                    "hpkp_pin": "+zPnrj2ZbcoIzno3ewvTjLA5/x5VZZjxiAsMXxxA088=",
+                    "fingerprint_sha1": "8b1VIIC5xenRZxbbnAd9oG28yZg=",
+                    "fingerprint_sha256": "jE0ZwN/w1EXeVM9a8lEw3UncGz7ylCr3Hxn4VW6VWiw=",
+                    "serial_number": 587838891038132569441833881597478867356239,
+                    "not_valid_before": "2025-09-16T20:02:48Z",
+                    "not_valid_after": "2025-12-15T20:02:47Z",
                     "subject_alternative_name": {
                       "dns_names": [
                         "*.badssl.com",
@@ -74,7 +74,7 @@
                       ]
                     },
                     "issuer": {
-                      "rfc4514_string": "CN=R11,O=Let's Encrypt,C=US",
+                      "rfc4514_string": "CN=R12,O=Let's Encrypt,C=US",
                       "attributes": [
                         {
                           "oid": {
@@ -97,8 +97,8 @@
                             "name": "commonName",
                             "dotted_string": "2.5.4.3"
                           },
-                          "value": "R11",
-                          "rfc4514_string": "CN=R11"
+                          "value": "R12",
+                          "rfc4514_string": "CN=R12"
                         }
                       ]
                     },
@@ -106,18 +106,18 @@
                       "algorithm": "RSAPublicKey",
                       "key_size": 2048,
                       "rsa_e": 65537,
-                      "rsa_n": 19840306975517090091744218311915436249175922845349427279725054000682352416103636092949751204511794424168777009656388503061936887629861355921757057231010665126282430037453751920319228090447452501239341773477933336624042785413426236940262325523410143648374114373841450606133475873387988456656038247488491703926759370616166763910748387758102184830044200695408959103414029260431059980201337682938643491441715973064410261835733527754855740508417332477027512041813638750452270646878115264131283712786701485946002625641190544020907770018793855232046899670492502665423185959724993469698393027196123273490206869600303970501981,
+                      "rsa_n": 19269132440782991413999473693817900149720563482390304380523909009695818613732417269390149713434090283152344849106130913388758525812442999394260762344407093294926350982165301125656106271012847796518917157101580628744275741082323736930024375618469540031014887559239062162953729113317441573017605393342378114776275721906645255955284764184089641448490353556624736420631032962531599888064127203732800945149069587127734994030501650666184266720705930556519629023816497517745535790360097657701924571158312223793359189995674803059549089619865240083315781130358041645762821417064166091482422000003734282660366889246746947629393,
                       "ec_curve_name": null,
                       "ec_x": null,
                       "ec_y": null
                     }
                   },
                   {
-                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIFBjCCAu6gAwIBAgIRAIp9PhPWLzDvI4a9KQdrNPgwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAzMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDEMMAoGA1UEAxMDUjExMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEAuoe8XBsAOcvKCs3UZxD5ATylTqVhyybKUvsVAbe5KPUoHu0nsyQYOWcJ\nDAjs4DqwO3cOvfPlOVRBDE6uQdaZdN5R2+97/1i9qLcT9t4x1fJyyXJqC4N0lZxG\nAGQUmfOx2SLZzaiSqhwmej/+71gFewiVgdtxD4774zEJuwm+UE1fj5F2PVqdnoPy\n6cRms+EGZkNIGIBloDcYmpuEMpexsr3E+BUAnSeI++JjF5ZsmydnS8TbKF5pwnnw\nSVzgJFDhxLyhBax7QG0AtMJBP6dYuC/FXJuluwme8f7rsIU5/agK70XEeOtlKsLP\nXzze41xNG/cLJyuqC0J3U095ah2H2QIDAQABo4H4MIH1MA4GA1UdDwEB/wQEAwIB\nhjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwEgYDVR0TAQH/BAgwBgEB\n/wIBADAdBgNVHQ4EFgQUxc9GpOr0w8B6bJXELbBeki8m47kwHwYDVR0jBBgwFoAU\nebRZ5nu25eQBc4AIiMgaWPbpm24wMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAC\nhhZodHRwOi8veDEuaS5sZW5jci5vcmcvMBMGA1UdIAQMMAowCAYGZ4EMAQIBMCcG\nA1UdHwQgMB4wHKAaoBiGFmh0dHA6Ly94MS5jLmxlbmNyLm9yZy8wDQYJKoZIhvcN\nAQELBQADggIBAE7iiV0KAxyQOND1H/lxXPjDj7I3iHpvsCUf7b632IYGjukJhM1y\nv4Hz/MrPU0jtvfZpQtSlET41yBOykh0FX+ou1Nj4ScOt9ZmWnO8m2OG0JAtIIE38\n01S0qcYhyOE2G/93ZCkXufBL713qzXnQv5C/viOykNpKqUgxdKlEC+Hi9i2DcaR1\ne9KUwQUZRhy5j/PEdEglKg3l9dtD4tuTm7kZtB8v32oOjzHTYw+7KdzdZiw/sBtn\nUfhBPORNuay4pJxmY/WrhSMdzFO2q3Gu3MUBcdo27goYKjL9CTF8j/Zz55yctUoV\naneCWs/ajUX+HypkBTA+c8LGDLnWO2NKq0YD/pnARkAnYGPfUDoHR9gVSp/qRx+Z\nWghiDLZsMwhN1zjtSC0uBWiugF3vTNzYIEFfaPG7Ws3jDrAMMYebQ95JQ+HIBD/R\nPBuHRTBpqKlyDnkSHDHYPiNX3adPoPAcgdF3H2/W0rmoswMWgTlLn1Wu0mrks7/q\npdWfS6PJ1jty80r2VKsM/Dj3YIDfbjXKdaFU5C+8bhfJGqU3taKauuz0wHVGT3eo\n6FlWkWYtbt4pgdamlwVeZEW+LM7qZEJEsMNPrfC03APKmZsJgpWCDWOKZvkZcvjV\nuYkQ4omYCTX5ohy+knMjdOmdH9c7SpqEWBDC86fiNex+O0XOMEZSa8DA\n-----END CERTIFICATE-----\n",
-                    "hpkp_pin": "bdrBhpj38ffhxpubzkINl0rG+UyossdhcBYj+Zx2fcc=",
-                    "fingerprint_sha1": "aW2zrw3/wX5lxqINklxae9JN7H4=",
-                    "fingerprint_sha256": "WR6c5shj06B56fq+FHjHM5omshJp3eeVIRNhAkrjGkQ=",
-                    "serial_number": 184083759606652600789093070426744763640,
+                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIFBjCCAu6gAwIBAgIRAMISMktwqbSRcdxA9+KFJjwwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAzMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDEMMAoGA1UEAxMDUjEyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEA2pgodK2+lP474B7i5Ut1qywSf+2nAzJ+Npfs6DGPpRONC5kuHs0BUT1M\n5ShuCVUxqqUiXXL0LQfCTUA83wEjuXg39RplMjTmhnGdBO+ECFu9AhqZ66YBAJpz\nkG2Pogeg0JfT2kVhgTU9FPnEwF9q3AuWGrCf4yrqvSrWmMebcas7dA8827JgvlpL\nThjp2ypzXIlhZZ7+7Tymy05v5J75AEaz/xlNKmOzjmbGGIVwx1Blbzt05UiDDwhY\nXS0jnV6j/ujbAKHS9OMZTfLuevYnnuXNnC2i8n+cF63vEzc50bTILEHWhsDp7CH4\nWRt/uTp8n1wBnWIEwii9Cq08yhDsGwIDAQABo4H4MIH1MA4GA1UdDwEB/wQEAwIB\nhjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwEgYDVR0TAQH/BAgwBgEB\n/wIBADAdBgNVHQ4EFgQUALUp8i2ObzHom0yteD763OkM0dIwHwYDVR0jBBgwFoAU\nebRZ5nu25eQBc4AIiMgaWPbpm24wMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAC\nhhZodHRwOi8veDEuaS5sZW5jci5vcmcvMBMGA1UdIAQMMAowCAYGZ4EMAQIBMCcG\nA1UdHwQgMB4wHKAaoBiGFmh0dHA6Ly94MS5jLmxlbmNyLm9yZy8wDQYJKoZIhvcN\nAQELBQADggIBAI910AnPanZIZTKS3rVEyIV29BWEjAK/duuz8eL5boSoVpHhkkv3\n4eoAeEiPdZLj5EZ7G2ArIK+gzhTlRQ1q4FKGpPPaFBSpqV/xbUb5UlAXQOnkHn3m\nFVj+qYv87/WeY+Bm4sN3Ox8BhyaU7UAQ3LeZ7N1X01xxQe4wIAAE3JVLUCiHmZL+\nqoCUtgYIFPgcg350QMUIWgxPXNGEncT921ne7nluI02V8pLUmClqXOsCwULw+PVO\nZCB7qOMxxMBoCUeL2Ll4oMpOSr5pJCpLN3tRA2s6P1KLs9TSrVhOk+7LX28NMUlI\nusQ/nxLJID0RhAeFtPjyOCOscQBA53+NRjSCak7P4A5jX7ppmkcJECL+S0i3kXVU\ny5Me5BbrU8973jZNv/ax6+ZK6TM8jWmimL6of6OrX7ZU6E2WqazzsFrLG3o2kySb\nzlhSgJ81Cl4tv3SbYiYXnJExKQvzf83DYotox3f0fwv7xln1A2ZLplCb0O+l/AK0\nYE0DS2FPxSAHi0iwMfW2nNHJrXcY3LLHD77gRgje4Eveubi2xxa+Nmk/hmhLdIET\niVDFanoCrMVIpQ59XWHkzdFmoHXHBV7oibVjGSO7ULSQ7MJ1Nz51phuDJSgAIU7A\n0zrLnOrAj/dfrlEWRhCvAgbuwLZX1A2sjNjXoPOHbsPiy+lO1KF8/XY7\n-----END CERTIFICATE-----\n",
+                    "hpkp_pin": "kZwN96eHtZftBWrOZUsd6cA4es80n3NzSk/XtYz2EqQ=",
+                    "fingerprint_sha1": "7kR4KDXY+zE5TaXOuEDck4Sbz1o=",
+                    "fingerprint_sha256": "Ex/Od4QBaJmloAIDqe/IDxjrvXVYBxftwVU1gJMINuw=",
+                    "serial_number": 257964712623187159666453466812961334844,
                     "not_valid_before": "2024-03-13T00:00:00Z",
                     "not_valid_after": "2027-03-12T23:59:59Z",
                     "subject_alternative_name": {
@@ -133,7 +133,7 @@
                       "dotted_string": "1.2.840.113549.1.1.11"
                     },
                     "subject": {
-                      "rfc4514_string": "CN=R11,O=Let's Encrypt,C=US",
+                      "rfc4514_string": "CN=R12,O=Let's Encrypt,C=US",
                       "attributes": [
                         {
                           "oid": {
@@ -156,8 +156,8 @@
                             "name": "commonName",
                             "dotted_string": "2.5.4.3"
                           },
-                          "value": "R11",
-                          "rfc4514_string": "CN=R11"
+                          "value": "R12",
+                          "rfc4514_string": "CN=R12"
                         }
                       ]
                     },
@@ -194,7 +194,7 @@
                       "algorithm": "RSAPublicKey",
                       "key_size": 2048,
                       "rsa_e": 65537,
-                      "rsa_n": 23547258531668192345825230842746998244645024295093217914207603625499648013147538184611561349762286887686133006186463196579031714196234725129790470916260472655305544219554248184110517497522631343379723100035346402067961916007434907335989700266758273718376756745787415440236502574356510981939616208323188403563693252091542377097629679770714014205423252732547208709879341382664877534914015230923684904772113872772590530117569130082732264909427817348915900743611619422838112409594354187670052245540727242759848372546451349049566129856420167800574397125096301408041473305426444215392325717527342763230372820351653974476761,
+                      "rsa_n": 27594982403856944522742706563292047753502950221113373279464611556280242072749669148836383634773917706268348529104327859502972347994149617965743594988649453614274419116223937596886499964626908730974292636966022529301533885178428376733104440850782254655907298944620769387890193672067531511522735752795381406047193493442918246529313432047480883361957846773376954186776718920663001398618241314076859633023432748642616530765744870360825012067434391238058695788940391181083014807468120893778794229567218110493475502465012585616954323139597486856824458976353990024378062008929252525619328451446442252555683568425688854752283,
                       "ec_curve_name": null,
                       "ec_x": null,
                       "ec_y": null
@@ -209,42 +209,42 @@
                 "path_validation_results": [
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\google_aosp.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/google_aosp.pem",
                       "name": "Android",
-                      "version": "14.0.0_r9",
+                      "version": "16.0.0_r2",
                       "ev_oids": null
                     },
                     "verified_certificate_chain": null,
-                    "validation_error": "validation failed: Other(\"leaf certificate has no matching subjectAltName\")",
+                    "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(CN=*.badssl.com)>, ...)>)",
                     "was_validation_successful": false
                   },
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\apple.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/apple.pem",
                       "name": "Apple",
-                      "version": "iOS 17, iPadOS 17, macOS 14, tvOS 17, and watchOS 10",
+                      "version": "iOS 18, iPadOS 18, macOS 15, tvOS 18, visionOS 2 and watchOS 11",
                       "ev_oids": null
                     },
                     "verified_certificate_chain": null,
-                    "validation_error": "validation failed: Other(\"leaf certificate has no matching subjectAltName\")",
+                    "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(CN=*.badssl.com)>, ...)>)",
                     "was_validation_successful": false
                   },
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\oracle_java.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/oracle_java.pem",
                       "name": "Java",
                       "version": "jdk-13.0.2",
                       "ev_oids": null
                     },
                     "verified_certificate_chain": null,
-                    "validation_error": "validation failed: Other(\"leaf certificate has no matching subjectAltName\")",
+                    "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(CN=*.badssl.com)>, ...)>)",
                     "was_validation_successful": false
                   },
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\mozilla_nss.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/mozilla_nss.pem",
                       "name": "Mozilla",
-                      "version": "2024-02-04",
+                      "version": "2025-07-27",
                       "ev_oids": [
                         {
                           "name": "Unknown OID",
@@ -429,18 +429,18 @@
                       ]
                     },
                     "verified_certificate_chain": null,
-                    "validation_error": "validation failed: Other(\"leaf certificate has no matching subjectAltName\")",
+                    "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(CN=*.badssl.com)>, ...)>)",
                     "was_validation_successful": false
                   },
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\microsoft_windows.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/microsoft_windows.pem",
                       "name": "Windows",
-                      "version": "2023-12-11",
+                      "version": "2025-07-27",
                       "ev_oids": null
                     },
                     "verified_certificate_chain": null,
-                    "validation_error": "validation failed: Other(\"leaf certificate has no matching subjectAltName\")",
+                    "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(CN=*.badssl.com)>, ...)>)",
                     "was_validation_successful": false
                   }
                 ],
@@ -450,7 +450,381 @@
                 "ocsp_response_is_trusted": null,
                 "verified_certificate_chain": null
               }
-            ]
+            ],
+            "certificate_deployment_with_sni_disabled": {
+              "received_certificate_chain": [
+                {
+                  "as_pem": "-----BEGIN CERTIFICATE-----\nMIIE8DCCAtigAwIBAgIJAM28Wkrsl2exMA0GCSqGSIb3DQEBCwUAMH8xCzAJBgNV\nBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMRYwFAYDVQQHDA1TYW4gRnJhbmNp\nc2NvMQ8wDQYDVQQKDAZCYWRTU0wxMjAwBgNVBAMMKUJhZFNTTCBJbnRlcm1lZGlh\ndGUgQ2VydGlmaWNhdGUgQXV0aG9yaXR5MB4XDTE2MDgwODIxMTcwNVoXDTE4MDgw\nODIxMTcwNVowgagxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMRYw\nFAYDVQQHDA1TYW4gRnJhbmNpc2NvMTYwNAYDVQQKDC1CYWRTU0wgRmFsbGJhY2su\nIFVua25vd24gc3ViZG9tYWluIG9yIG5vIFNOSS4xNDAyBgNVBAMMK2JhZHNzbC1m\nYWxsYmFjay11bmtub3duLXN1YmRvbWFpbi1vci1uby1zbmkwggEiMA0GCSqGSIb3\nDQEBAQUAA4IBDwAwggEKAoIBAQDCBOz4jO4EwrPYUNVwWMyTGOtcqGhJsCK1+ZWe\nsSssdj5swEtgTEzqsrTAD4C2sPlyyYYC+VxBXRMrf3HES7zplC5QN6ZnHGGM9kFC\nxUbTFocnn3TrCp0RUiYhc2yETHlV5NFr6AY9SBVSrbMo26r/bv9glUp3aznxJNEx\ntt1NwMT8U7ltQq21fP6u9RXSM0jnInHHwhR6bCjqN0rf6my1crR+WqIW3GmxV0Tb\nChKr3sMPR3RcQSLhmvkbk+atIgYpLrG6SRwMJ56j+4v3QHIArJII2YxXhFOBBcvm\n/mtUmEAnhccQu3Nw72kYQQdFVXz5ZD89LMOpfOuTGkyG0cqFAgMBAAGjRTBDMAkG\nA1UdEwQCMAAwNgYDVR0RBC8wLYIrYmFkc3NsLWZhbGxiYWNrLXVua25vd24tc3Vi\nZG9tYWluLW9yLW5vLXNuaTANBgkqhkiG9w0BAQsFAAOCAgEAsuFs0K86D2IB20nB\nQNb+4vs2Z6kECmVUuD0vEUBR/dovFE4PfzTr6uUwRoRdjToewx9VCwvTL7toq3dd\noOwHakRjoxvq+lKvPq+0FMTlKYRjOL6Cq3wZNcsyiTYr7odyKbZs383rEBbcNu0N\nc666/ozs4y4W7ufeMFrKak9UenrrPlUe0nrEHV3IMSF32iV85nXm95f7aLFvM6Lm\nEzAGgWopuRqD+J0QEt3WNODWqBSZ9EYyx9l2l+KI1QcMalG20QXuxDNHmTEzMaCj\n4Zl8k0szexR8rbcQEgJ9J+izxsecLRVp70siGEYDkhq0DgIDOjmmu8ath4yznX6A\npYEGtYTDUxIvsWxwkraBBJAfVxkp2OSg7DiZEVlMM8QxbSeLCz+63kE/d5iJfqde\ncGqX7rKEsVW4VLfHPF8sfCyXVi5sWrXrDvJm3zx2b3XToU7EbNONO1C85NsUOWy4\nJccoiguV8V6C723IgzkSgJMlpblJ6FVxC6ZX5XJ0ZsMI9TIjibM2L1Z9DkWRCT6D\nQjuKbYUeURhScofQBiIx73V7VXnFoc1qHAUd/pGhfkCUnUcuBV1SzCEhjiwjnVKx\nHJKvc9OYjJD0ZuvZw9gBrY7qKyBX8g+sglEGFNhruH8/OhqrV8pBXX/EWY0fUZTh\niywmc6GTT7X94Ze2F7iB45jh7WQ=\n-----END CERTIFICATE-----\n",
+                  "hpkp_pin": "9SLklscvzMYj8f+52lp5ze/hY0CFHyLSPQzSpYYIBm8=",
+                  "fingerprint_sha1": "PpzOSe7Be/Fb+JGjrp83EuC6Quk=",
+                  "fingerprint_sha256": "0HOziUOza9lw7I9hs6Gupm5Y7/Fg2u4UO8udmWeGeBM=",
+                  "serial_number": 14824823351240255409,
+                  "not_valid_before": "2016-08-08T21:17:05Z",
+                  "not_valid_after": "2018-08-08T21:17:05Z",
+                  "subject_alternative_name": {
+                    "dns_names": [
+                      "badssl-fallback-unknown-subdomain-or-no-sni"
+                    ],
+                    "ip_addresses": []
+                  },
+                  "signature_hash_algorithm": {
+                    "name": "sha256",
+                    "digest_size": 32
+                  },
+                  "signature_algorithm_oid": {
+                    "name": "sha256WithRSAEncryption",
+                    "dotted_string": "1.2.840.113549.1.1.11"
+                  },
+                  "subject": {
+                    "rfc4514_string": "CN=badssl-fallback-unknown-subdomain-or-no-sni,O=BadSSL Fallback. Unknown subdomain or no SNI.,L=San Francisco,ST=California,C=US",
+                    "attributes": [
+                      {
+                        "oid": {
+                          "name": "countryName",
+                          "dotted_string": "2.5.4.6"
+                        },
+                        "value": "US",
+                        "rfc4514_string": "C=US"
+                      },
+                      {
+                        "oid": {
+                          "name": "stateOrProvinceName",
+                          "dotted_string": "2.5.4.8"
+                        },
+                        "value": "California",
+                        "rfc4514_string": "ST=California"
+                      },
+                      {
+                        "oid": {
+                          "name": "localityName",
+                          "dotted_string": "2.5.4.7"
+                        },
+                        "value": "San Francisco",
+                        "rfc4514_string": "L=San Francisco"
+                      },
+                      {
+                        "oid": {
+                          "name": "organizationName",
+                          "dotted_string": "2.5.4.10"
+                        },
+                        "value": "BadSSL Fallback. Unknown subdomain or no SNI.",
+                        "rfc4514_string": "O=BadSSL Fallback. Unknown subdomain or no SNI."
+                      },
+                      {
+                        "oid": {
+                          "name": "commonName",
+                          "dotted_string": "2.5.4.3"
+                        },
+                        "value": "badssl-fallback-unknown-subdomain-or-no-sni",
+                        "rfc4514_string": "CN=badssl-fallback-unknown-subdomain-or-no-sni"
+                      }
+                    ]
+                  },
+                  "issuer": {
+                    "rfc4514_string": "CN=BadSSL Intermediate Certificate Authority,O=BadSSL,L=San Francisco,ST=California,C=US",
+                    "attributes": [
+                      {
+                        "oid": {
+                          "name": "countryName",
+                          "dotted_string": "2.5.4.6"
+                        },
+                        "value": "US",
+                        "rfc4514_string": "C=US"
+                      },
+                      {
+                        "oid": {
+                          "name": "stateOrProvinceName",
+                          "dotted_string": "2.5.4.8"
+                        },
+                        "value": "California",
+                        "rfc4514_string": "ST=California"
+                      },
+                      {
+                        "oid": {
+                          "name": "localityName",
+                          "dotted_string": "2.5.4.7"
+                        },
+                        "value": "San Francisco",
+                        "rfc4514_string": "L=San Francisco"
+                      },
+                      {
+                        "oid": {
+                          "name": "organizationName",
+                          "dotted_string": "2.5.4.10"
+                        },
+                        "value": "BadSSL",
+                        "rfc4514_string": "O=BadSSL"
+                      },
+                      {
+                        "oid": {
+                          "name": "commonName",
+                          "dotted_string": "2.5.4.3"
+                        },
+                        "value": "BadSSL Intermediate Certificate Authority",
+                        "rfc4514_string": "CN=BadSSL Intermediate Certificate Authority"
+                      }
+                    ]
+                  },
+                  "public_key": {
+                    "algorithm": "RSAPublicKey",
+                    "key_size": 2048,
+                    "rsa_e": 65537,
+                    "rsa_n": 24492660100626679905549940109758101886765610555498019561237351076174546942126705991290366882656509310080501513812602706206351444964387935952263594274233370803388167168928622758093210777190425680103032107490380624850201721276806477615228126295940226807450889945207930835675033102934727992726436862717218438550009918736547634295262737442314962888280468639663924173291556081067280523421305313565638162799590985864930177996395295461079048360209103196860440439931811226709024172075892526400113878162488184158428982955287187952820072365979821268476491392572259766081582413144401029571982863046316691680331687828250550192773,
+                    "ec_curve_name": null,
+                    "ec_x": null,
+                    "ec_y": null
+                  }
+                }
+              ],
+              "leaf_certificate_has_must_staple_extension": false,
+              "leaf_certificate_is_ev": false,
+              "leaf_certificate_signed_certificate_timestamps_count": 0,
+              "received_chain_contains_anchor_certificate": null,
+              "received_chain_has_valid_order": true,
+              "path_validation_results": [
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/google_aosp.pem",
+                    "name": "Android",
+                    "version": "16.0.0_r2",
+                    "ev_oids": null
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: cert is not valid at validation time (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=BadSSL Fallback. Unknown subdomain or no SNI.,CN=badssl-fallback-unknown-subdomain-or-no-sni)>, ...)>)",
+                  "was_validation_successful": false
+                },
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/apple.pem",
+                    "name": "Apple",
+                    "version": "iOS 18, iPadOS 18, macOS 15, tvOS 18, visionOS 2 and watchOS 11",
+                    "ev_oids": null
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: cert is not valid at validation time (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=BadSSL Fallback. Unknown subdomain or no SNI.,CN=badssl-fallback-unknown-subdomain-or-no-sni)>, ...)>)",
+                  "was_validation_successful": false
+                },
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/oracle_java.pem",
+                    "name": "Java",
+                    "version": "jdk-13.0.2",
+                    "ev_oids": null
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: cert is not valid at validation time (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=BadSSL Fallback. Unknown subdomain or no SNI.,CN=badssl-fallback-unknown-subdomain-or-no-sni)>, ...)>)",
+                  "was_validation_successful": false
+                },
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/mozilla_nss.pem",
+                    "name": "Mozilla",
+                    "version": "2025-07-27",
+                    "ev_oids": [
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.2.276.0.44.1.1.1.4"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.2.392.200091.100.721.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.2.40.0.17.1.22"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.2.616.1.113527.2.5.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.159.1.17.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.13177.10.1.3.10"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.14370.1.6"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.14777.6.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.14777.6.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.17326.10.14.2.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.17326.10.14.2.2.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.17326.10.8.12.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.17326.10.8.12.2.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.22234.2.5.2.3.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.23223.1.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.29836.1.10"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.34697.2.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.34697.2.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.34697.2.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.34697.2.4"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.36305.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.40869.1.1.22.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.4146.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.4788.2.202.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.6334.1.100.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.6449.1.2.1.5.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.782.1.2.1.8.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.7879.13.24.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.8024.0.2.100.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.156.112554.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.528.1.1003.1.2.7"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.578.1.26.1.3.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.756.1.83.21.0"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.756.1.89.1.2.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.792.3.0.3.1.1.5"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.792.3.0.4.1.1.4"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.113733.1.7.23.6"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.113733.1.7.48.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114028.10.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114171.500.9"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114404.1.1.2.4.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114412.2.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114413.1.7.23.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114414.1.7.23.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114414.1.7.24.3"
+                      }
+                    ]
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: cert is not valid at validation time (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=BadSSL Fallback. Unknown subdomain or no SNI.,CN=badssl-fallback-unknown-subdomain-or-no-sni)>, ...)>)",
+                  "was_validation_successful": false
+                },
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/microsoft_windows.pem",
+                    "name": "Windows",
+                    "version": "2025-07-27",
+                    "ev_oids": null
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: cert is not valid at validation time (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=BadSSL Fallback. Unknown subdomain or no SNI.,CN=badssl-fallback-unknown-subdomain-or-no-sni)>, ...)>)",
+                  "was_validation_successful": false
+                }
+              ],
+              "verified_chain_has_sha1_signature": null,
+              "verified_chain_has_legacy_symantec_anchor": null,
+              "ocsp_response": null,
+              "ocsp_response_is_trusted": null,
+              "verified_certificate_chain": null
+            }
           }
         },
         "ssl_2_0_cipher_suites": {
@@ -469,7 +843,7 @@
                   "key_size": 128,
                   "openssl_name": "RC4-MD5"
                 },
-                "error_message": "Server rejected the connection"
+                "error_message": "Server interrupted the TLS handshake"
               },
               {
                 "cipher_suite": {
@@ -478,7 +852,7 @@
                   "key_size": 40,
                   "openssl_name": "EXP-RC4-MD5"
                 },
-                "error_message": "Server rejected the connection"
+                "error_message": "Server interrupted the TLS handshake"
               },
               {
                 "cipher_suite": {
@@ -487,7 +861,7 @@
                   "key_size": 128,
                   "openssl_name": "RC2-CBC-MD5"
                 },
-                "error_message": "Server rejected the connection"
+                "error_message": "Server interrupted the TLS handshake"
               },
               {
                 "cipher_suite": {
@@ -496,7 +870,7 @@
                   "key_size": 40,
                   "openssl_name": "EXP-RC2-CBC-MD5"
                 },
-                "error_message": "Server rejected the connection"
+                "error_message": "Server interrupted the TLS handshake"
               },
               {
                 "cipher_suite": {
@@ -505,7 +879,7 @@
                   "key_size": 128,
                   "openssl_name": "IDEA-CBC-MD5"
                 },
-                "error_message": "Server rejected the connection"
+                "error_message": "Server interrupted the TLS handshake"
               },
               {
                 "cipher_suite": {
@@ -514,7 +888,7 @@
                   "key_size": 56,
                   "openssl_name": "DES-CBC-MD5"
                 },
-                "error_message": "Server rejected the connection"
+                "error_message": "Server interrupted the TLS handshake"
               },
               {
                 "cipher_suite": {
@@ -523,7 +897,7 @@
                   "key_size": 168,
                   "openssl_name": "DES-CBC3-MD5"
                 },
-                "error_message": "Server rejected the connection"
+                "error_message": "Server interrupted the TLS handshake"
               }
             ]
           }
@@ -1323,10 +1697,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BJSf9ya2GRhGVyMTMZUHwwf60QQeNJ5KRmL0LfeJtDJhI3T+tjwx5fEOPTrp1/XGloDJFCSCKMhxn6pO2p8jjSI=",
-                  "curve_name": "prime256v1",
-                  "x": "lJ/3JrYZGEZXIxMxlQfDB/rRBB40nkpGYvQt94m0MmE=",
-                  "y": "I3T+tjwx5fEOPTrp1/XGloDJFCSCKMhxn6pO2p8jjSI=",
+                  "public_bytes": "BCbbX5VqL+eKFuz4CfvMtojCoviC7a52dxaFGJoRJPTgJoNf+hL0d/8n8sUyXiOtBBpZQrKQcwzRExGIuQdWsYM=",
+                  "curve_name": "secp256r1",
+                  "x": "JttflWov54oW7PgJ+8y2iMKi+ILtrnZ3FoUYmhEk9OA=",
+                  "y": "JoNf+hL0d/8n8sUyXiOtBBpZQrKQcwzRExGIuQdWsYM=",
                   "prime": null,
                   "generator": null
                 }
@@ -1341,10 +1715,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BI1serO6xvzi5cYTpBaulsGSzMbSL4l6rE0uKaG26EGq9WG0y2VqMuhdYbt90JPDBZOV6nAGxgtyzl+8iSDw8XQ=",
-                  "curve_name": "prime256v1",
-                  "x": "jWx6s7rG/OLlxhOkFq6WwZLMxtIviXqsTS4pobboQao=",
-                  "y": "9WG0y2VqMuhdYbt90JPDBZOV6nAGxgtyzl+8iSDw8XQ=",
+                  "public_bytes": "BPlHI9GutLzS/Cga0hoFWg5sam3kYTJPb1A+mSC71l3fm7jglEckSNCpkgds7L/H9AoyZY7q3mLvzl2QCqRRFtI=",
+                  "curve_name": "secp256r1",
+                  "x": "+Ucj0a60vNL8KBrSGgVaDmxqbeRhMk9vUD6ZILvWXd8=",
+                  "y": "m7jglEckSNCpkgds7L/H9AoyZY7q3mLvzl2QCqRRFtI=",
                   "prime": null,
                   "generator": null
                 }
@@ -1359,10 +1733,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BNK34n7CEHcT0ON0At/tUPBovY2y6ytuWgxNx3034lPb7MBG11hL/BEcrkpmgdf2C8aP06GPu5BygxK1hnh+2jA=",
-                  "curve_name": "prime256v1",
-                  "x": "0rfifsIQdxPQ43QC3+1Q8Gi9jbLrK25aDE3HfTfiU9s=",
-                  "y": "7MBG11hL/BEcrkpmgdf2C8aP06GPu5BygxK1hnh+2jA=",
+                  "public_bytes": "BO251iBED3uugv/D/vbjm40tm3pkrLPtjZ7RTrC+FbLU9uRRcCuN7q9yHG0ZtTwbffQmCNaY0lmQc9uUbaVc27E=",
+                  "curve_name": "secp256r1",
+                  "x": "7bnWIEQPe66C/8P+9uObjS2bemSss+2NntFOsL4VstQ=",
+                  "y": "9uRRcCuN7q9yHG0ZtTwbffQmCNaY0lmQc9uUbaVc27E=",
                   "prime": null,
                   "generator": null
                 }
@@ -1377,7 +1751,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "G9GauHwd4FjFYXBrRxdSKQJ2hDVseR482VdBBkq5P8azVgahuqiRqv5sNuIMO0eKG0FHId3JEiy6SAdfXXyHD8eGkSuxgcv1b+Ecb7k0CZnOOSPRYd609n5bv0VzWPm+qNnkmgPljpTuptzoNsYw1bim+z/01CrFGhnjPTD6pa9j+ukTCRZExWoXpn9gQcdd0jTTzkOytLXsuiOIZmneWpQRrjSWeIRsQfNa2COfjuxq1S58qtJFDR8Xzm8h76Rvt3DdRC53+EgSG21lttf6OvWCXS+e96MV5KTehPRs23hk47+CJjBknXsCEanC26H4qP6NtjqHmczkwlrDEOqwXw==",
+                  "public_bytes": "ucH880Fsx9f8doYbY/JjckCiO/zRG1Tqum/6J1MchJVM4/KM11KLbmBazyYj4HgMakF+tVB+OeZCJe9Hf/CaKeK9McNoJ9y9QZ9yqldwQCL50gwdHsr0D2MU5xnrqVrjr0GskpV2OMfABs/YYioetjVHXlDj4p3tF4a/cNK7JhZhOKjqjaYPTZD51HPTbTIEXTWvS81omgZ7KTzwLDU+N4ODGHE4QhMpNc4l/u7HchzIPoAOhxegv5FmmiWHrAg6D3qx1j7nBlxPNq/vny0kv51c5Y+8cVSPVRTLULRoH4Jct4jLpXgSuCYxkkc8uD5lkc4XtxW4aQ2KTRFR1NTBiw==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -1395,7 +1769,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "bxFbTviAC/jDhWrapK7h3o/ibGmoVYlWF90M+Io3EnVbB3srP0g98RLsETkxrw3kj7MHjKYOLkguxLRJzO94xDXOyJ7MkJ6Tsz4gYGAaNbYDlats80zC55uwrYjPLvdwzhwXQC7+luzMN1CDF00g10F/q2ogbIAkfE1OX6Nh9ioVEnFEmsFGFbSNPrCUDSlc92kgLqyJlVENSd4adXbBF5vwTHNZANWCRKyP1QC8CZnfpRnwoJeMQpEXqRsUheldRy9KSWL6RyP3SJnAiP3APF3OK+ou8Ov0BFAucZ3mNWKRXHpL6XhfSqHHM4ojXqg2RbbUCbN9q5RH1HH232TTAg==",
+                  "public_bytes": "T8gUQ5Zw2CSFS7ZpDnPQO6yrmYbFKcXlSifpsqKSHYYGg7z2eJfE+SsSZ6ESb0j6CNgeu2DRUZUwe6Rg3quC6nymdU8MSUtzs1wOh/hFbM35F8j//6Ah3C6HzxnBC2eTNN6QnLMrFoXLwyZsVbLCQaCeDFRmWjVUIZdf/wbVnIVNsVVthM43tEesT8NHQ8JPt3KCxn+4M/7XitnISLEElO9RqrbgAOGXoX/qSaGjzNR7xOTZp/NZBYigdrbsOQSD2kIfvwO6MkvfUQhH+wvb8xczvRR11EU2sOo5nEIhAnFwzuCnn27Loa8iNUyZoPPg4d4d3GUPNVtulWdG8gy1/A==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -1413,7 +1787,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "pmaMI9Kc7ePNP+MuqFWoArSKDxjS//j35oxcEcS/Em2bOqIm1Pr4uwFGnRixRfb6aUMjFmRSbkzabRH/b5MsqSvFwA4PpuNe9DHwbhiF/6zq8wOg+bOcwe6T5RVc618niMdem6+yKGtvVPWZNbgFrEJ2bGPexHmJ6Iz3dN06u136NoFycvSKusCMWN7M4to086fkesW8Hxsqykn1NkD5Mcv739hPdz+SSHgxgtFSBsy4ijI7dYmLHm08qQb8f39Mzqmq8uB9wsD22rkY9htVPgAcWA2rLKqpYraXR4Xz4bMoAC5sxwpdPKg2mhI2WXEpbsU/ZfA2S6I1zqh/Rbzxhw==",
+                  "public_bytes": "HCaom9oOYH88fKXqnKs+Jx+G/meB9PQiJChtXTHIO9g47UJR12oJBfpYv/5Ld5vOMFOlmj83NI+Vz475EpL6rUyw+IE63k793CqvlHQlmf2o8VF35onuQ38/zdwFTKmAuvg2QAPRdGTwVkuPXSPQSAb5UDnscb2ruo3lUiuZ787HKmGsO+RzE1HZp/2DP/RELdYB8ADWHmZrEDoCm7BBdMDLVwHbdYL+ERMJil36oqKOKzap6tknKQQhE9pdrcR0HWUegW/R1Vl5Y7na+FlKZODyaRmohUvI9bEz8UveEsLB41V1YR1G/XYq2LhP6T2iyLsBJbJCWoOoNl6OgoYy1Q==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -1431,7 +1805,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "EVWQrf8/W1tCwE03/HGvHoPRqjF2mk6EXJ5A71SM5s0fLGT/eL2kzxktfWixWrOdysLQIjGMCQSNjdSXPZgLiu7t2N1ZklA1DkTBFP8PzPXsumAwn0g22vJjCcPp6pgVT86rtXQQ+4Ys4xWgVuS7da+tfQiozDzZ3xKyGokef1z3KULRR/DqQuW+XTLZFrj7ueBa7AKunSOrLfRwtv5WKaxBKo1GmWF5/fTlM0LlFvjFDv98FK2qXKeBXecXo+KSNWeyX0COp4p4TN5lUFdFY6NXsojOMIo23Rqdtf0F6EdHYzMFGLxyQZIW1opGCOqXzR6KIHxjznXlAk9A2Na1EQ==",
+                  "public_bytes": "bTmHBnv/NJQZdFeo2miFtK8FQ6x65zPefuS8Gzi/gGJIoMYTsEb1v5BqDaTHk3z/E0pE0eTcSR4n136Enm9comGDd6fnuJCy1lk8Mwk/lTvrqEnVYJ/OWBbZL6wdUmjFflh3BFf4FrA3MA8OJoVcTmwhUwVbsUpp4ssGpb5wxSgI6i5dUsY5ow+2IGyF9Ag7pPIB1lRs/hPHtZxgZdd+J2DbK7RV8/wL7+0MPxFT+/UnWCA3gkZYjXB24K1h0wyS0RL/Hxf7tBqxHKczWoTVHzgzs5q3ovnHzQhzlplLNE53LziN1GS7heY9ZQXGwbGDqF8D+Z7BE4Fw+UsV6j5KPw==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -2119,10 +2493,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BKjOflgFU3KCgttjpFDHsKi2tBSL5eosygXU55NVEFSs73mi3C/3bwfiib2I7A/cAh79wPN0wTMBWRn4EIM8iKM=",
-                  "curve_name": "prime256v1",
-                  "x": "qM5+WAVTcoKC22OkUMewqLa0FIvl6izKBdTnk1UQVKw=",
-                  "y": "73mi3C/3bwfiib2I7A/cAh79wPN0wTMBWRn4EIM8iKM=",
+                  "public_bytes": "BPQfqvpZEXHIEMX4BPeZI2BJSmPBkmz2f1GUvFoKpaaTxzGfE9glpiSAgU2Sh4/Z3zsceGf7/9trq9AbDcjXDwM=",
+                  "curve_name": "secp256r1",
+                  "x": "9B+q+lkRccgQxfgE95kjYElKY8GSbPZ/UZS8WgqlppM=",
+                  "y": "xzGfE9glpiSAgU2Sh4/Z3zsceGf7/9trq9AbDcjXDwM=",
                   "prime": null,
                   "generator": null
                 }
@@ -2137,10 +2511,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BFjLEGqnPs/vQ2m2/p8V/RH1yqn1GPD3VAJbjYh9MOFxRmWoM/B67U2lmGEsp1rRY4HZ+jDeTQCxd/5T3Oz1D+M=",
-                  "curve_name": "prime256v1",
-                  "x": "WMsQaqc+z+9Dabb+nxX9EfXKqfUY8PdUAluNiH0w4XE=",
-                  "y": "RmWoM/B67U2lmGEsp1rRY4HZ+jDeTQCxd/5T3Oz1D+M=",
+                  "public_bytes": "BOalHjYYARQoO91MAIloZTokDG9+xo9eAYiaemQ84kbf8edWw1RtCj/vgv5YmuqOSlWLmZLcM2BC+PmlJtKdusU=",
+                  "curve_name": "secp256r1",
+                  "x": "5qUeNhgBFCg73UwAiWhlOiQMb37Gj14BiJp6ZDziRt8=",
+                  "y": "8edWw1RtCj/vgv5YmuqOSlWLmZLcM2BC+PmlJtKdusU=",
                   "prime": null,
                   "generator": null
                 }
@@ -2155,10 +2529,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BCscK37HnVGLs+eCSUx6o0SJtBMWCXff+fMazJG8q6Bj6rn4PO6lN8OUWhrTsFeUrpEpo2nzpQ5Jtfqyxx2QwPo=",
-                  "curve_name": "prime256v1",
-                  "x": "KxwrfsedUYuz54JJTHqjRIm0ExYJd9/58xrMkbyroGM=",
-                  "y": "6rn4PO6lN8OUWhrTsFeUrpEpo2nzpQ5Jtfqyxx2QwPo=",
+                  "public_bytes": "BEEbawn2mXeXk2Ug641SZp+vi8W0KpRZIMxZ1lVp6JLFD3V6/fPVdFmFrZoqJrPcijkA8UQi3Y/RUr6aWeLfWp8=",
+                  "curve_name": "secp256r1",
+                  "x": "QRtrCfaZd5eTZSDrjVJmn6+LxbQqlFkgzFnWVWnoksU=",
+                  "y": "D3V6/fPVdFmFrZoqJrPcijkA8UQi3Y/RUr6aWeLfWp8=",
                   "prime": null,
                   "generator": null
                 }
@@ -2173,7 +2547,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "aF9yIe3oB3I+DlMTb5Nul/dvZtw5bdVyJpxtkk/CTZiBgt9M2GgUlDB25RzcQq0S/c0AXwhHhAd82wuLNeSA0lq9n7J6V5JrTadSIFCBwyLjB6+F7WwVbKuQbzwv77147I3RK3rOAljibbnmleMI1OOn998GhgzCRuHqSGo/N7ySPht/qCRJODjpw2ZG0YZydpDuBqe+nmHZIDTFhR8avwj3Zms3XxerZdNt0GFAGL/E5jx/V+vKSGQeekpY6oa+OSb3N9ZPOuqPjsxL3mDSaN0r8pYLMyBB0+yFTEKUd3FTPuTrLDYgWjoORIDEw1F0/JsbS+wONdel5cHkPeuwpQ==",
+                  "public_bytes": "Siy261MrbD5lF5JwVOXR9AeJ4U8EZms5FYgrei2j85TL8yvTAAplQ/OirT9v8moy2Mtt9N0cguKzYqWd+3h1LHtg8h4vUtMJ9t+jIXFTilmWZ6uPQWYwyTRMp8w+/1JXxq0CbT8b7AsqjMOnw3evMDM3nytg4XiVmC5PfXeDolOtz6qTmRR7bApFrY6jxpgIQQfON9pm3kFbfx+oG3bU9rQjyM0/Qmw0+ovdCdzJW/Kf4QfrI6cIaTvVOovjkkk+0RMR4cysAkkWtAK5XVYQvVTj1QNxI50i1ZRJNp3CsPu67bBGVzYhoiBuTkkIeBYgqORvTmynZa4ghXbkISXGZg==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -2191,7 +2565,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "NCPuVR/hF4OHWaLXioFxczIWe5DhUEJJRfXp7bYoAmPWqoeqYqhspfsHVH/Y60gaSyUVF28I5yZDuXB0RczuzyG+KSESkKC/zB2xVa5BsJ3ctAY95HSBAgjRCkPEaK53sYx1zKOu48l6ojcOu02f+BOPhpKyIxm/sQFtQui/avtog6DbXSBODT+QwXEIguLKImqUOgBI/+JSfSNvEjMpxt69Ruxux7KcHLqR7FrbkW9yG8ilsEBhOmcxHONgIgsgE370GbW0dCQovac0iRLrIkjsRSHuPH9+khcj/Lzfe65KJNoGQ5dl9KdsBlMTr7bDZSrvmZMDrZSEny08CnH4Lg==",
+                  "public_bytes": "lJWvTrV56AzigSr1glGLauJOtZAZOAu1uPVX3NOMRntauaFB/NjLTlS6rzCqZDqe8MxuIJwNga+tFerpAezg4geb68H+lApGAx9bkZG2YXPdWXwunuW3XM3bJW8oiQXIwTN3LtbGMaKyJmamEru7Y+tkMxGe36fLg3jHwwgbgngBVBgsbXpZPhgtcHECqF1ry4BKCGxMRUHubsx5YZ0RgWbyjuL040ObXUPbPV/Ye3BcSbUetRD9SUgjvrK2Y4wwvdt6QE2PKp4+uSe/2S11vcCuJNHbgbCfdgoy960LK/nYvPBfZXzt4XJZrMyijN7qt64xoGo+CaI0Azk2VBuxjA==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -2209,7 +2583,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "sMDSwQkB1e5fEnLA5Oy39/fa4TBCECtMErcdtdQqhsdyuVttFkqr33kLjZWJloUAVveCwo6qjAxKwxX3RVh4vlR76dHVaowQ7EsAI1pOdzruY2iDjUHcmW/73xXESSBuaS95Aem17uwODA6KiANGGo1H4Yux75sDQECvkFVFqZgMq8CnDR6KHIxDO2XQoG6XdEP0sW6neQLW0YJYptVwf3SWPFUZIefF7QHPNLSWPZkpNblPNKgPiLiwG1upZ2Eg5tPQ4FqqwrMOxvvRmsBNmwb3KFEVO1ilfIPs7mPweU4TAt9wUjwOAXMpv7CpggcZidrm4fcjy+EGtnFYw2ulmg==",
+                  "public_bytes": "IimFFOfOT0LVaSPJbptqaCbix/Frtpcgep/GbcMPst4K80e+swlOknATY9YZBAUxcEFvmeK5fRSVI+MmUwEF5ryAeQ4yZm3gdGGaax/leQA+6tEtg3fnsln2jKPDo0DXT4H4L9llneMjSeJfVVxj14SugjzlLakkTALnCwhAHCJYXxAnFkAajlzGlK4/S13+GvoJoKNFEyqhOEII0e4bx8gG4nLUIgeRflM2vYWYpBEuQvFKCqn28bty2obTwgYxWq2NUyXJ+DVx1w/OXt4u06gV0s+gdA8zTwTtdPcHcVUvBjRIY8ImHjW8/7GyMLeeSK+dz/C1CdI1PtEMHZ5psA==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -2227,7 +2601,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "og6MVpM7dwKmRJqtMfDescF6qQWD5XuilBiTUpx3n4SOcdN6QnsVbk/5KmsHe4p17jxeG332wxAHylAD05wtYdlfDSCxQFBCd31tmqGIT9FLybX7Sszi1af9dfluOOxM/+9KCXAYOWEr7yvnzzWZ3KDpm1zAHeSknfO41lrCw67rMNO/4WhfYyUQqD6m48r899UPwU8/xUZzpj6GjYLLsDdeUGYyGL4pJbw2s2Q4gps59OtLy5lx0t1fuPD32kdTO5+jo5WOlqa41e0nm4L1VoicES+3nH42iYjmTYg0iD3Yi8Ta3uDQdWxBu48McRrwV6gtCK/ac9SgT9E2Feow3Q==",
+                  "public_bytes": "JUyEdQscBEk/KMFWyZn/GYy/yydSPse/qPWdqLKV3hKIjTUN86iZ+Jh5FVw/fEJ/EA2/8uOCOvc1hdtYxj+GOt8zvGHMYX69GzvhTiokimyQLE/8PBQVel3ZgC0DNLfuYI0/9e/63N4C/8T6ci/A675RRaJoWfKUJ37TfrBHU6FroABZcRprfCPqIX3ODuHsnvxYQsjf0pirhTb3lWUbDVsmXz8pDxPcGBK1/yvPuC65CrVRLjynAI/78ehBUHNBR/bn55mymmfQbtOCAQRMGVFZsmezdQd0ARdD0fewBI4FTPOGJqqO4pGmf/OVmdAehw8b3SfhoSe/TO5lV3NlDw==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -2951,10 +3325,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BM5vWWbitPQtvgeWOz/yuIosTlC5OxHqlpVzctnPo83kcBDBo5ATMc4Ibd1cjyi0UxNAJVJjOUQgYcrUztGoYWM=",
-                  "curve_name": "prime256v1",
-                  "x": "zm9ZZuK09C2+B5Y7P/K4iixOULk7EeqWlXNy2c+jzeQ=",
-                  "y": "cBDBo5ATMc4Ibd1cjyi0UxNAJVJjOUQgYcrUztGoYWM=",
+                  "public_bytes": "BBYJ0YMxzj2yBU1kKS+09HI8z7R5ij58Fhoh6Mfau7bLPS4Rpzg7taFob1yAadMYn6Y/K51RM/zOR98ZZCxAwaA=",
+                  "curve_name": "secp256r1",
+                  "x": "FgnRgzHOPbIFTWQpL7T0cjzPtHmKPnwWGiHox9q7tss=",
+                  "y": "PS4Rpzg7taFob1yAadMYn6Y/K51RM/zOR98ZZCxAwaA=",
                   "prime": null,
                   "generator": null
                 }
@@ -2969,10 +3343,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BOrkovI4bL/9UqOy5ij/8lvY8tme51HSrzu5tqB3r6ViELs2r2ffGnCjF5FsW4JEGmBtc1TTT3fdBQp9MktEbGQ=",
-                  "curve_name": "prime256v1",
-                  "x": "6uSi8jhsv/1So7LmKP/yW9jy2Z7nUdKvO7m2oHevpWI=",
-                  "y": "ELs2r2ffGnCjF5FsW4JEGmBtc1TTT3fdBQp9MktEbGQ=",
+                  "public_bytes": "BG/cP0779xVOoRssg5/iqvySziDXN8FL9IQ17sBvM+uDHP/8b9PXut/l/g86omNcvBHF4KKeRUNB3wloBgzoZ9Q=",
+                  "curve_name": "secp256r1",
+                  "x": "b9w/Tvv3FU6hGyyDn+Kq/JLOINc3wUv0hDXuwG8z64M=",
+                  "y": "HP/8b9PXut/l/g86omNcvBHF4KKeRUNB3wloBgzoZ9Q=",
                   "prime": null,
                   "generator": null
                 }
@@ -2987,10 +3361,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BC5gRgBjQBnuoLvf6QML+bgFAaeMRZ1/8MhLcrFwBEmvPGosygxWEmVDFBMdR6V8o6KkCqGWsENvpEadS2lPQ2I=",
-                  "curve_name": "prime256v1",
-                  "x": "LmBGAGNAGe6gu9/pAwv5uAUBp4xFnX/wyEtysXAESa8=",
-                  "y": "PGosygxWEmVDFBMdR6V8o6KkCqGWsENvpEadS2lPQ2I=",
+                  "public_bytes": "BIcuqsx9bV2Ui/GvCh691SmT9oNFcW7PsujSohx1H8KIUHm3KXFYSHpvzZ+++Gt/gBgbLpoelRx2/ju+XLaaX1c=",
+                  "curve_name": "secp256r1",
+                  "x": "hy6qzH1tXZSL8a8KHr3VKZP2g0Vxbs+y6NKiHHUfwog=",
+                  "y": "UHm3KXFYSHpvzZ+++Gt/gBgbLpoelRx2/ju+XLaaX1c=",
                   "prime": null,
                   "generator": null
                 }
@@ -3005,10 +3379,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BDF+PjTvIOqc/ULvSx5pwykhOOj9V/XrFtAIP6rgRaV9z3E/Dol0vaUwCUoqVtEn0fTXds+EU2Vhcw7zdprTyhc=",
-                  "curve_name": "prime256v1",
-                  "x": "MX4+NO8g6pz9Qu9LHmnDKSE46P1X9esW0Ag/quBFpX0=",
-                  "y": "z3E/Dol0vaUwCUoqVtEn0fTXds+EU2Vhcw7zdprTyhc=",
+                  "public_bytes": "BDqmhaksXXGypWwzwMC4gHzd1iv6DIORLdkKXPIeRLJokcC36POsmqayBcHGvsmTVi0rOQvhjOH5pAViBf7BtxU=",
+                  "curve_name": "secp256r1",
+                  "x": "OqaFqSxdcbKlbDPAwLiAfN3WK/oMg5Et2Qpc8h5Esmg=",
+                  "y": "kcC36POsmqayBcHGvsmTVi0rOQvhjOH5pAViBf7BtxU=",
                   "prime": null,
                   "generator": null
                 }
@@ -3023,10 +3397,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BO81lIlJz7Xx8IybUoiZMLp+Nel0UHsjydX5c2xXzizOJayTVmqj+icDRk1+66SCrxCnrRFlWChMucEQXBO64us=",
-                  "curve_name": "prime256v1",
-                  "x": "7zWUiUnPtfHwjJtSiJkwun416XRQeyPJ1flzbFfOLM4=",
-                  "y": "JayTVmqj+icDRk1+66SCrxCnrRFlWChMucEQXBO64us=",
+                  "public_bytes": "BKS7mm0WwfX2yYB8lVTMMq9aSmHHl7ZXd2dQqsp3bendDmAIgyXjAm5jP63t2g0auJZtj7FrUElxf7G1+5cZ3XE=",
+                  "curve_name": "secp256r1",
+                  "x": "pLuabRbB9fbJgHyVVMwyr1pKYceXtld3Z1Cqyndt6d0=",
+                  "y": "DmAIgyXjAm5jP63t2g0auJZtj7FrUElxf7G1+5cZ3XE=",
                   "prime": null,
                   "generator": null
                 }
@@ -3041,10 +3415,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BPBHw3Ljw38aoMjQTZiMtes11U1N/ZfihBAVOMPoFagfYcMWDjN7jmckL5lcwY8Agael0rl13AOi8DjuVonuorc=",
-                  "curve_name": "prime256v1",
-                  "x": "8EfDcuPDfxqgyNBNmIy16zXVTU39l+KEEBU4w+gVqB8=",
-                  "y": "YcMWDjN7jmckL5lcwY8Agael0rl13AOi8DjuVonuorc=",
+                  "public_bytes": "BGcaTs5CF4K/5Ip1UCxKh4JwG8AqJzkdNU31hBXDIK+Nq7gmh1ThGAK64SmcUYbl7//r2VatE7ORQPkCysuTxTg=",
+                  "curve_name": "secp256r1",
+                  "x": "ZxpOzkIXgr/kinVQLEqHgnAbwConOR01TfWEFcMgr40=",
+                  "y": "q7gmh1ThGAK64SmcUYbl7//r2VatE7ORQPkCysuTxTg=",
                   "prime": null,
                   "generator": null
                 }
@@ -3059,10 +3433,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BIYeFkidZbwvSEWUqXiPhZAlAlAo8QtSZi1CCbxPYary5rL1zxAXJ698FID4MN+AF6ic+FIqksRm+mKcnCWhBdY=",
-                  "curve_name": "prime256v1",
-                  "x": "hh4WSJ1lvC9IRZSpeI+FkCUCUCjxC1JmLUIJvE9hqvI=",
-                  "y": "5rL1zxAXJ698FID4MN+AF6ic+FIqksRm+mKcnCWhBdY=",
+                  "public_bytes": "BCTtwrqRwGj1hRuNuEO7q9zisKH+KlRbl+aTcGTjGFAKfN4x8MbpcdOfOV0Et+1UvEz2GVyqXe87Gygsx4ATh0s=",
+                  "curve_name": "secp256r1",
+                  "x": "JO3CupHAaPWFG424Q7ur3OKwof4qVFuX5pNwZOMYUAo=",
+                  "y": "fN4x8MbpcdOfOV0Et+1UvEz2GVyqXe87Gygsx4ATh0s=",
                   "prime": null,
                   "generator": null
                 }
@@ -3077,7 +3451,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "goW9AtgtgAMUb1AUhfDbCqYDOnYDPnVpjDuAwMiX39cnVvoAMwlUCafHCu+NRSAKOHyR+2Sr58egfmZVEionQyzDSRuHoFDpRlbsURkOSo+eTgG3PtcsQB4w3JiYYk3ItmGUoWPlQKPELeSh0WeyA2rATDEXZ+NOTr8yjvwSkNsdbBwOqrjXk/e2KYOMyz1nPTqoQ5qVzCksxmtLdFA+hE6uQLPxAUdDM0eCSdXwEZWpWD4PenGt3FTapOpF2B+0Uj3pvb51bOIXYI0wq8JrmlbwEcFU3ka4CYZpqPh2PCzxDeiq5zjmyYhNIUT/WhD7OhDs1z/kEqjd3G2yQA36nw==",
+                  "public_bytes": "Kvuk+1A4Z7RnYBqHNX4PTGImNmeQm7uUurZrkOxIhqUmXpBTqC1Qz7gQ7Hlj91LIFm+E9OAIoG1mzFJwZEf/VYJNOLvUSkdRt7ifhNFw+T2vFtoS4IVNdIHU2aTSvXPkk+2eiBqRjo9ed+Shy2E47h+UeXVQ7jX4pIThSnUppaDWQtKvwysCDAbxU5OAmlIxyAoslucDeN/X9yCV+B0Owt64JmXZhOp73IFuSV8+0dzoms2qayu3tcoNI0KXV2cA6P9f/002yeXB7Hb5SzkvUpsIIGOmNnOlbW5tIskTRqwUP8hTXF6teqqPOp+vmucfif9Zabf1sB1ViP2TYhFl5A==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -3095,7 +3469,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "Bw5YPxqvxeTzpfN+tt7dOLzHbkJx2M6gvPbsOmgMPYYUduwo2G1W89zyKM8PxpzPTN3oLYRPG7dgg9wXmIZDfpbnpL+5FOUoqCBGd5ZEraUEFwF+tDbZ8KM0HXuZF61lukwVykRUxtV79r+znm0/owMaXptWDA/xFosSsQhprEheFTmXi5ceOFVojmCk3mPB/E82DvNweW/SwmBgJsnFYUgpOco1XfVjYdoDY/kdGjQa2JUzOdwEzQsIrATwnZ8X0578nN7B5noCqzitJgBT9hd5inm3Wvfra6g8ERIoB/G0xwWnC5euW+FvcDkixFbDWsDHaiJ1BNZJJZzc8pyqvw==",
+                  "public_bytes": "S7doCxt+GFpmkwrj5+77yykQXhN3rcplgJv1shlksMG4xwzEIdxGlDccgYxoH6htscT4wGoEP8/Q5EqffhReXSCzJ58QL26ikxQZrIxcvfvzkJkhbK9wHMtzirj7t0F1K1uy0J+1waSnOHxfsS+AFon5pk7dVF+Prhzj8LQU1DxbiaQMuR9eS0Nbbig2d42RlF/YkbAc2Iec8JSJ2ZPDyV8JvQZkO638yf0WSykzvvfF39c2zXOhvaH3Pe8FQOfQ780SsjCN+n3f1Ra0EuaJaZKbEF6a+yfOTQnJXsmvtwm5nFoPmCJlzIC8URjXvW+OUne5BCEVcS+xt61QzYSFcg==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -3113,7 +3487,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "TTZF5c/FMw36kIm5BLM3ceedbJPomGa6WUyOFWmb5cF4DeSc66ADyW08Lea/hbksaWb213rCqsFbL/a2Ncg5X/YRAsCkKesMb22jU2MmlleNbOu2lT+PRcKhRAZK9c0i+YgUcdtsdyWo7YcQSdMijWh47onxWg1me99rPY1+Ru6u8kqth92Y+2P/7EUVgzQOELzRM4yrLPGfGRqHuntBGctA7ZKuVgjZZp6TfKseOAxarkchMSVPFhF0d7fA41cQJCX/bkXeXMlKKUmldmnnCdVkfiy9ttqluQAxybzxc6os19zDEZjCExUbHjTGH2q84Q+TvCG10cPmSDqVZFo5NA==",
+                  "public_bytes": "NGVlfurjYC5oDZJeRKmffjAKPZOkBZ5Y0z1NJcg8tp+5YjSeMrkhH5j7kaLBYGXx6uoNWXp30m7VF18+jCs9bfMqFszeYsmAxEzFZlrHoPe5BiHxLyC0n+BkZpsNrffr49u4Y0FfuWaQyTHkiX78WWqz6d5iqFDzCFoEN40hW/cj8TLckpU7TSOimjgd4ZLdVEWGwiNIS+4rbXOu70Pl6PRx2OdQFzJ1iMdiLIMrI8avTeEFYijheFEjjDs/CRSGaOmpjqlaXBtqMly4WXaMeeNmo9XlWJrp5J3SGNWZ1LHcRln8Mwpf2MFCq1gZq3m7Y6KUypKmgipvOL3bnLoDAQ==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -3131,7 +3505,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "e4BaKpM9+8MoGVF42Oszv15TH3ZWkyhQe6qExrauirgSFkVxSLA7YECWQ6w6tYCoHB9tbXzxu4VUWKSghTcZKikqiayvrsLrdgk1OVL47Togqz+yOGYPqSu8kP3h6q2B6pmBu3eLRc0MtiDuIYDV+pXJPKSNWSXWOp8LDisGI+1WA2Qbh2WMJpQk01ghh0PI1IIsnmjj1r/pgePfVCyIoAPySyrtaulg6eMtL6rK7TuOE3ilz4iMQ7FvKwkJc1T3E9RCQMX2GQy6mJS6AJaVC1DuTbT/FSCczgkG36CldmFEpXOoNydU9wFAw8rjwzo/U3AQg7oKiDm6cibQLn0lTw==",
+                  "public_bytes": "fRJGWIH/WglS3ioybBSVplBdIpFsXGtFs8zU7PZw/ppceBzWhSv/FrHN46RS/Md/d7Mfzk98B5wNcWNbvvdw9fm+0He/gxZ15xNFMk76tpSCTrC2u4JhMSbCqS5pO9kKBe/DndWzm6u2CTMPolI2+o/Kawg4sVXFzDImC4Cbo/oSNKIztLN6WxHp0sp14fMVNZ8Gyqb27DQKWsHLh6CtHfnecOS3Z0DSg2qyM5Txzc46gBIMyuwEyRqi9qXZTq5/6Tru7LOryrmJnRxs7Lvb8qlSu4622a6l7tbccT5n/WGcl3oG9zy8tn5pnXEWRSX/Lun9fbcU98ToleoX5mU0Rg==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -3149,7 +3523,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "eSDKnWVxdUh40Pd6E3gXJxEadcsgWXG9r/QFuFM9SpTWTibi5KIg+Zmewx2AlHGY0GGXjYiGCsxBMOGB9TYxSAzBCBSmrGrot4AC8fXbK4e4OSdZ3XMntUBlqYkHuVxFPHUgyUU3uSokyCVTB2+JcdzNpwWeHOAgf88lzVsWRbFOqK+sdKri/LJhGyAa2eCNfGYvmyHakw317W+h3u/c1FFFgXTHko1+4aHo/SHZoJI0ZYhJ8T7Hmbkz0McLPAhSLliHQ3oCBMMHCYmy6Ndw8fntrxcCLEiMbDQkw5E182Yyw5rNJAqpu1/9bv+pxGcj1dHTCePiDOadHjXAkZRhVA==",
+                  "public_bytes": "TzYtdh/y9DX6CpkHTjBWkDPIEt8k/U5Neq1WD8TILTkyYEOlg1hP/gXQVwUoiQXhHMF7c2COwISz7diksulZcHPEpQP8SfQjQDiTiNriPDWayq7b0cnyd93WKGwYeJX/Za2VAQva+uwnQ9oCXumgcxae/d1FmqvZUSc8MsNSNBVOTJCRs/qKeJzFC24FbLYAGbNu2KUVuPDrgVJgUDPBwLTFDJnpjvcWQLXTxQUwFeIIc1XtS3Rrxbhbn+ulxghQ+9j30Xv0eNVMyStP1H4oQowq+x6R2tVUV5ewn7+9sjWGvDyMiaoMUNymYZH2Ix2DomdJxDQCss9cWa6itEEB9A==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -3167,7 +3541,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "McvH8aLVg6FCim8Mq2IFyFWLXxaI66akIqRIZSKznbDDi134+oZgBCM1O4UAy2pE+5KEX1bWXdPP2xy56u2Qe0i5kyJcCnMH6rQbrobF1xVyu4isrfxz4OULRg375MXiDa4w67cR2w0al6abjUlIQ7euZzhVwNPiIRuRtWtE05Y0mljFCS7ZQr/4YiHyFwK3GfKX5bAzoKRw4DQyU7g/B4ozQQ8k6RKCuEwhY03ujj5pVdFBRmG8amPUYHlgKI46UnPPUs/h25zwIaNe58I3sKGilugemCLecQLXok5A+0qewKg0TxCmsBxxC1S7Onucp4Mn8OS1ue1EBGAW+SEmpQ==",
+                  "public_bytes": "P19rzR7C304nKJ5yD9RoxBAleS6/6KJ8SUW30WLwSWJuLAy4wm6OsfWecCJFn91155TPOlPZKKcC8x1qZ1sshQecGWxgBjua9RlNWX0CJegrVtxJ7psgR4T1YGJptDbmS8Jf35D8jD0EQywk4Jwd5SgwIxftMelOn9q1QyNBDES+wooR9p/WVINAmypk621Iqv28VtxBqlCg29Mel+g8GVX9DKYjPf4HJoKvec+DKr6hwH//zv3meNsHieqZM1+f7FP3vx1bHf9PxPdT55ndHLAbhkydNCoRSeO0wGyqssF0eW3O6EDoyeoZ5Bwb4dglhIq9XpCC10pcKSVH9/OYrw==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -3185,7 +3559,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "ddVopBOmgQyS3bbOsLbhCMHsej1fSugwi7qp8ZLNCnaLq0sEuqVE0wnB54xtNfdK5/IwNBVEojDpHRpHLUx4crkLg2lf/XCoVglUL0pnMwkdOqqcwG0BHRDCKbRHtbTL+J00JTsAsRYMIVPqWAAUerY15bR5mTmFmOGistHHfzTAo5VTT9qRZn4H06ajSc6FNdhMP4zlMlOf7uEelFptQRQBzkrBIv3+BR1zNu03zAy1UPXc1Nu/B5baBlfjPHYmIh4FtE0PgCWZfvH+6dUZmZVYBiu0+8ZEeBZnyjHlcZl4B3C8KIhnMJIV4EK3J6hcxoHq6wWBKkV0qGxKPwe4cA==",
+                  "public_bytes": "VwUzSeKu/eLEeJqojscuEK89jDMi9sG6kkO6IRwfmaY2cFRJvqWCYDWI2CD5faotSID5DfVHe8IQPGSTLFcXOqPnlkXR7VXYVJ2oSrqUW2earyBl1/SMPOqZL5P8n0nSpegvfVTjf4PStHPc8ZDXHbiRCrsANwJxPuangWd8//zAC17L668SZ3tzR/wOywSqO/g5/eLnPtd9tpPDLK6Ztm7o5s5kuTmQC5VgvcOhNShalrsYn1/wHMHTYghPeXB/dkIura0szSfoLmr2fVw3b9mWT/nrHXhfXnOB0FMjn140dT5HbsmyTqTLWY/W2twNYk1iyrit+bL3/noFQ+vPIg==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -3203,7 +3577,7 @@
                 "ephemeral_key": {
                   "type_name": "DH",
                   "size": 2048,
-                  "public_bytes": "bYGZTyjHf28frB/7qfmeWrU24BS0/nuVWJMuujScsClP8ie3/d28xoQuuzKDSOqlE0MVeOiWhSNh7HXTYmLHBDd6ilmuepGQ/c49KNTXxfmrn7ANXY28PONpxTfEBU9YumOYvIvRLnr0mHS1Deecjtx10rvdzB7+QsgiLkHwSmnCW3BBpke/yYc3Uq+RVz4MMFEDjXN8mSTRetE4QDPpu28HqKSX8aazVgmcN99sdCGYtEB9kc0KWiDd8Ueq2Gcb8DdyrNuMrx1XKUOlElqkU51bMRXwwXjltjWYr3D6/MLqvs7oeL672qUg5Suvqzxj8P/oGaa+Glcsyhy0zhETQA==",
+                  "public_bytes": "P2qZpYtxCH49PFvOZE3wohPvtHCscBHygkSUzj3KdCz2rSiaeOpXx3VfSc+kzUXLxoga/uNkwXOYs+yhG3ZcEKbpzCI6SNIvmK9ZAycNryULDd6+T8OD4+iSMozx0tztOsnr9EbR1X97dlxUdIcp9f+H4fNdW/BX31Kbe35hF15rEoswUN1iF1Cw2meytuGeCxzQRtq+vSvDlWpVZI5G+fQCOTXXDjPtJMh7PySbB5bOB+4FX+K5/4DNPKJ9oI8tiUEvCOGRYrfhqrCunYNf7j1LZgcaLeZMOKx8eBvky2j7Jwn0OaUySEgOueCxw4Yhz7ZQo65u27bo9HCJqfC6kA==",
                   "curve_name": null,
                   "x": null,
                   "y": null,
@@ -4388,7 +4762,7 @@
                   "name": "TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA",
                   "is_anonymous": false,
                   "key_size": 168,
-                  "openssl_name": "EDH-DSS-DES-CBC3-SHA"
+                  "openssl_name": "DHE-DSS-DES-CBC3-SHA"
                 },
                 "error_message": "TLS alert: handshake failure"
               },
@@ -4484,10 +4858,12 @@
           }
         },
         "tls_fallback_scsv": {
-          "status": "NOT_SCHEDULED",
+          "status": "COMPLETED",
           "error_reason": null,
           "error_trace": null,
-          "result": null
+          "result": {
+            "supports_fallback_scsv": true
+          }
         },
         "heartbleed": {
           "status": "COMPLETED",
@@ -4511,7 +4887,8 @@
           "error_trace": null,
           "result": {
             "supports_secure_renegotiation": true,
-            "is_vulnerable_to_client_renegotiation_dos": false
+            "is_vulnerable_to_client_renegotiation_dos": false,
+            "client_renegotiations_success_count": 0
           }
         },
         "session_resumption": {
@@ -4528,7 +4905,7 @@
             "supports_ecdh_key_exchange": true,
             "supported_curves": [
               {
-                "name": "prime256v1",
+                "name": "secp256r1",
                 "openssl_nid": 415
               }
             ],
@@ -4540,10 +4917,6 @@
               {
                 "name": "X448",
                 "openssl_nid": 1035
-              },
-              {
-                "name": "prime192v1",
-                "openssl_nid": 409
               },
               {
                 "name": "secp160k1",
@@ -4560,6 +4933,10 @@
               {
                 "name": "secp192k1",
                 "openssl_nid": 711
+              },
+              {
+                "name": "secp192r1",
+                "openssl_nid": 409
               },
               {
                 "name": "secp224k1",
@@ -4645,12 +5022,20 @@
           "error_reason": null,
           "error_trace": null,
           "result": null
+        },
+        "tls_extended_master_secret": {
+          "status": "COMPLETED",
+          "error_reason": null,
+          "error_trace": null,
+          "result": {
+            "supports_ems_extension": false
+          }
         }
       }
     }
   ],
-  "date_scans_started": "2024-09-02T17:05:34.041854Z",
-  "date_scans_completed": "2024-09-02T17:06:04.108674Z",
-  "sslyze_version": "6.0.0",
+  "date_scans_started": "2025-11-05T12:17:00.200401Z",
+  "date_scans_completed": "2025-11-05T12:17:36.252718Z",
+  "sslyze_version": "6.2.0",
   "sslyze_url": "https://github.com/nabla-c0d3/sslyze"
 }

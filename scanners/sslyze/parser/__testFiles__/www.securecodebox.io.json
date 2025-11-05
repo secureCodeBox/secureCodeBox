@@ -2,12 +2,12 @@
   "invalid_server_strings": [],
   "server_scan_results": [
     {
-      "uuid": "50f8ce4b-6c7f-4d00-8688-e23d638090b6",
+      "uuid": "18df3cfe-31f7-4e9d-b246-8b64a4258e70",
       "server_location": {
         "hostname": "www.securecodebox.io",
         "port": 443,
         "connection_type": "DIRECT",
-        "ip_address": "18.192.231.252",
+        "ip_address": "35.157.26.135",
         "http_proxy_settings": null
       },
       "network_configuration": {
@@ -38,13 +38,13 @@
               {
                 "received_certificate_chain": [
                   {
-                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDoTCCAyagAwIBAgISBDI66Hmz/Ay12Uaw1Af3otAnMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNjAeFw0yNDA4MDYwMTIzNDBaFw0yNDExMDQwMTIzMzlaMCAxHjAcBgNVBAMTFWRv\nY3Muc2VjdXJlY29kZWJveC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmU\n4NkwFgzaqCBOFbEozmFLQQqWEgAJGzLiEIH2HutFYcMWMeZGHuxJTRE7rSmA/XZ0\nVkXdACkOH/c/tCwI+aijggIsMIICKDAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYw\nFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFBfQ\n5BhsUPMf8PuU9CBWHvHLnCRDMB8GA1UdIwQYMBaAFJMnRpgDqVFojpjWxEJI2yO/\nWJTSMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL2U2Lm8ubGVu\nY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vZTYuaS5sZW5jci5vcmcvMDYGA1Ud\nEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNlY3VyZWNvZGVib3gu\naW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8A\ndgBIsONr2qZHNA/lagL6nTDrHFIBy1bdLIHZu7+rOdiEcwAAAZElfncyAAAEAwBH\nMEUCIQDyMiVxMoPFF0npeuMoTO9Fy0J5qiM8wsjlSSM9G4Hn8AIgfR1Vu5RJlCCV\nmMpnzbA7eL16UFpJ+6Cf9wzBBG+rut8AdQDuzdBk1dsazsVct520zROiModGfLzs\n3sNRSFlGcR+1mwAAAZElfncyAAAEAwBGMEQCIAe1EPY9Zx1QTVNDJ7bA1Z45wkt+\niSpuGIxNp1jSO7U9AiAlTCepWClqY/QD49SiCIIClmbq57XrrE0nDH7JRSNmejAK\nBggqhkjOPQQDAwNpADBmAjEAuhhMYv+At+mux773Tmn2VZ5j7Sq0hpg4te7TC21W\nLIPZhoHxW/W+woSTuNm+JPHZAjEA8AdwN/V1nTWGjRIO9KzA2bRB2YZ0ibHcEWzv\nDouhjp6XiV7hr+Mz40i3YYoHP8dZ\n-----END CERTIFICATE-----\n",
-                    "hpkp_pin": "/f5pAbX22PcfGGLDq3S6v1nmL9vFxRIwj5cPwteeL+w=",
-                    "fingerprint_sha1": "vPxHuL4TL4kEgs3OtThrZoLPINk=",
-                    "fingerprint_sha256": "uocrdBf8qlXcQ1FeqmpcuBF60XuOL0JbCXdhf0Mp8j0=",
-                    "serial_number": 365541564378146023680549190993804209082407,
-                    "not_valid_before": "2024-08-06T01:23:40Z",
-                    "not_valid_after": "2024-11-04T01:23:39Z",
+                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDqjCCAzGgAwIBAgISBaikhY2FkrgikpQUd3dAD62JMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNzAeFw0yNTEwMDEyMTUzNDhaFw0yNTEyMzAyMTUzNDdaMB8xHTAbBgNVBAMTFHd3\ndy5zZWN1cmVjb2RlYm94LmlvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMywh\n5YKlC8P5TYhV8KZ5y9gxsA13qHloxy8mlrAOcO17t9M/1+ZS4PmVg2XnqYBeunLe\ngDyo4ye++B4M1iDAvKOCAjgwggI0MA4GA1UdDwEB/wQEAwIHgDAdBgNVHSUEFjAU\nBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrfrJ\nuHpyIhfSRes4bDqldlZ3hBQwHwYDVR0jBBgwFoAUrkie3IcdRKBv2qLlYHQEeMKc\nAIAwMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAChhZodHRwOi8vZTcuaS5sZW5j\nci5vcmcvMDYGA1UdEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNl\nY3VyZWNvZGVib3guaW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwLQYDVR0fBCYwJDAi\noCCgHoYcaHR0cDovL2U3LmMubGVuY3Iub3JnLzEwLmNybDCCAQMGCisGAQQB1nkC\nBAIEgfQEgfEA7wB2AKRCxQZJYGFUjw/U6pz7ei0mRU2HqX8v30VZ9idPOoRUAAAB\nmaH5/JYAAAQDAEcwRQIgAQFp3e40Rfyvv4nEKa/RcvGKMSdllxNGW1S1x1xBDMQC\nIQDr1qyeXis95aed1hzYFn4YVJsm0GzqxY+15Qwhk9afUQB1AN3cyjSV1+EWBeeV\nMvrHn/g9HFDf2wA6FBJ2Ciysu8gqAAABmaH5/MsAAAQDAEYwRAIgU13QuiZEsedV\nWjP9yXV1uUS1kaTRuyPskm9jUxi0PnQCIGtr5kjLYNN6HFMZG4dfnGgtnFWrtT6s\nqo2CGu8LGFkBMAoGCCqGSM49BAMDA2cAMGQCMFlatoynCvX2Xc6tvB8+RwmjvbM/\n0GkP08eJIfNAKQuvg/FaM0QGRoVGjdsoyo3w+AIwTNbeZfvhPnYgICtO5fIYaAmD\nGJlKLeRH7mJQi2yEhVa40Ece4q2KtZ2bLdREj+w+\n-----END CERTIFICATE-----\n",
+                    "hpkp_pin": "EeG5abHJH0h/hL/ewZv6trM1W3PuAVvo2mBNvyT67RY=",
+                    "fingerprint_sha1": "GpMcsWlxDXTbEVAYkmJ7VSIy/HY=",
+                    "fingerprint_sha256": "fskYWXpTCa6xGIqRvSfYvjaiUh9o1h8irJOpyqGL/CU=",
+                    "serial_number": 492947554138712313576529017960504612597129,
+                    "not_valid_before": "2025-10-01T21:53:48Z",
+                    "not_valid_after": "2025-12-30T21:53:47Z",
                     "subject_alternative_name": {
                       "dns_names": [
                         "docs.securecodebox.io",
@@ -61,20 +61,20 @@
                       "dotted_string": "1.2.840.10045.4.3.3"
                     },
                     "subject": {
-                      "rfc4514_string": "CN=docs.securecodebox.io",
+                      "rfc4514_string": "CN=www.securecodebox.io",
                       "attributes": [
                         {
                           "oid": {
                             "name": "commonName",
                             "dotted_string": "2.5.4.3"
                           },
-                          "value": "docs.securecodebox.io",
-                          "rfc4514_string": "CN=docs.securecodebox.io"
+                          "value": "www.securecodebox.io",
+                          "rfc4514_string": "CN=www.securecodebox.io"
                         }
                       ]
                     },
                     "issuer": {
-                      "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                      "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                       "attributes": [
                         {
                           "oid": {
@@ -97,8 +97,8 @@
                             "name": "commonName",
                             "dotted_string": "2.5.4.3"
                           },
-                          "value": "E6",
-                          "rfc4514_string": "CN=E6"
+                          "value": "E7",
+                          "rfc4514_string": "CN=E7"
                         }
                       ]
                     },
@@ -108,16 +108,16 @@
                       "rsa_e": null,
                       "rsa_n": null,
                       "ec_curve_name": "secp256r1",
-                      "ec_x": 105651938932042438160683241419287481199333348502392281247356180656808110517061,
-                      "ec_y": 44219034673916313804121807795823594420017649717338233405844233942187136055720
+                      "ec_x": 23145930493812559470010843233528791720220213752287081722126068804647625060589,
+                      "ec_y": 55959271378288915343578036156220382047354444980935818078294675245257717760188
                     }
                   },
                   {
-                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRALBXPpFzlydw27SHyzpFKzgwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTYwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAATZ8Z5G\nh/ghcWCoJuuj+rnq2h25EqfUJtlRFLFhfHWWvyILOR/VvtEKRqotPEoJhC6+QJVV\n6RlAN2Z17TJOdwRJ+HB7wxjnzvdxEP6sdNgA1O1tHHMWMxCcOrLqbGL0vbijgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSTJ0aYA6lRaI6Y1sRCSNsj\nv1iU0jAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAfYt7SiA1sgWGCIpunk46r4AExIRc\nMxkKgUhNlrrv1B21hOaXN/5miE+LOTbrcmU/M9yvC6MVY730GNFoL8IhJ8j8vrOL\npMY22OP6baS1k9YMrtDTlwJHoGby04ThTUeBDksS9RiuHvicZqBedQdIF65pZuhp\neDcGBcLiYasQr/EO5gxxtLyTmgsHSOVSBcFOn9lgv7LECPq9i7mfH3mpxgrRKSxH\npOoZ0KXMcB+hHuvlklHntvcI0mMMQ0mhYj6qtMFStkF1RpCG3IPdIwpVCQqu8GV7\ns8ubknRzs+3C/Bm19RFOoiPpDkwvyNfvmQ14XkyqqKK5oZ8zhD32kFRQkxa8uZSu\nh4aTImFxknu39waBxIRXE4jKxlAmQc4QjFZoq1KmQqQg0J/1JF8RlFvJas1VcjLv\nYlvUB2t6npO6oQjB3l+PNf0DpQH7iUx3Wz5AjQCi6L25FjyE06q6BZ/QlmtYdl/8\nZYao4SRqPEs/6cAiF+Qf5zg2UkaWtDphl1LKMuTNLotvsX99HP69V2faNyegodQ0\nLyTApr/vT01YPE46vNsDLgK+4cL6TrzC/a4WcmF5SRJ938zrv/duJHLXQIku5v0+\nEwOy59Hdm0PT/Er/84dDV0CSjdR/2XuZM3kpysSKLgD1cKiDA+IRguODCxfO9cyY\nIg46v9mFmBvyH04=\n-----END CERTIFICATE-----\n",
-                    "hpkp_pin": "0Bbh/jEZSKymTy3kTOhsmlHKBB32EDu1KojrP3YfV9c=",
-                    "fingerprint_sha1": "yU3EgxqQGp/sD7Sbcb1JtarU+tA=",
-                    "fingerprint_sha256": "duniiKr8Djf0OQy/lGqtmX1cHJAbPOUT09j626viq4U=",
-                    "serial_number": 234397126118090224789023519560838753080,
+                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRAKp18eYrjwoiCWbTi7/UuqEwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTcwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARB6AST\nCFh/vjcwDMCgQer+VtqEkz7JANurZxLP+U9TCeioL6sp5Z8VRvRbYk4P1INBmbef\nQHJFHCxcSjKmwtvGBWpl/9ra8HW0QDsUaJW2qOJqceJ0ZVFT3hbUHifBM/2jgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSuSJ7chx1EoG/aouVgdAR4\nwpwAgDAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAjx66fDdLk5ywFn3CzA1w1qfylHUD\naEf0QZpXcJseddJGSfbUUOvbNR9N/QQ16K1lXl4VFyhmGXDT5Kdfcr0RvIIVrNxF\nh4lqHtRRCP6RBRstqbZ2zURgqakn/Xip0iaQL0IdfHBZr396FgknniRYFckKORPG\nyM3QKnd66gtMst8I5nkRQlAg/Jb+Gc3egIvuGKWboE1G89NTsN9LTDD3PLj0dUMr\nOIuqVjLB8pEC6yk9enrlrqjXQgkLEYhXzq7dLafv5Vkig6Gl0nuuqjqfp0Q1bi1o\nyVNAlXe6aUXw92CcghC9bNsKEO1+M52YY5+ofIXlS/SEQbvVYYBLZ5yeiglV6t3S\nM6H+vTG0aP9YHzLn/KVOHzGQfXDP7qM5tkf+7diZe7o2fw6O7IvN6fsQXEQQj8TJ\nUXJxv2/uJhcuy/tSDgXwHM8Uk34WNbRT7zGTGkQRX0gsbjAea/jYAoWv0ZvQRwpq\nPe79D/i7Cep8qWnA+7AE/3B3S/3dEEYmc0lpe1366A/6GEgk3ktr9PEoQrLChs6I\ntu3wnNLB2euC8IKGLQFpGtOO/2/hiAKjyajaBP25w1jF0Wl8Bbqne3uZ2q1GyPFJ\nYRmT7/OXpmOH/FVLtwS+8ng1cAmpCujPwteJZNcDG0sF2n/sc0+SQf49fdyUK0ty\n+VUwFj9tmWxyR/M=\n-----END CERTIFICATE-----\n",
+                    "hpkp_pin": "y7xVm0TVJNahMr2sZydE2jQH8SquXV9yLF9seROHHHU=",
+                    "fingerprint_sha1": "O3PBfj34fPOqd/E4khnrXt1Rnn8=",
+                    "fingerprint_sha256": "rrH9dBDoO8lvXaPGp8LBu4NtH6XLhucIUViQ5Ciodws=",
+                    "serial_number": 226581164312556911225609404641709439649,
                     "not_valid_before": "2024-03-13T00:00:00Z",
                     "not_valid_after": "2027-03-12T23:59:59Z",
                     "subject_alternative_name": {
@@ -133,7 +133,7 @@
                       "dotted_string": "1.2.840.113549.1.1.11"
                     },
                     "subject": {
-                      "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                      "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                       "attributes": [
                         {
                           "oid": {
@@ -156,8 +156,8 @@
                             "name": "commonName",
                             "dotted_string": "2.5.4.3"
                           },
-                          "value": "E6",
-                          "rfc4514_string": "CN=E6"
+                          "value": "E7",
+                          "rfc4514_string": "CN=E7"
                         }
                       ]
                     },
@@ -196,8 +196,8 @@
                       "rsa_e": null,
                       "rsa_n": null,
                       "ec_curve_name": "secp384r1",
-                      "ec_x": 33544624214879595901080607494054639950027787097700261428985818556436373079967754716763378306604804536953562479559726,
-                      "ec_y": 29282505716550359876088652089175574582220174797112460936156519019942441395880810275610087007658329365784666335133112
+                      "ec_x": 10143911019925982312647752521780437165618609523635737917895999231077092926802994880375399202010255491099761159689347,
+                      "ec_y": 10096834595952633206059743975463241341457192704838858828589651942174410626226122492176907667512810275408012516602877
                     }
                   }
                 ],
@@ -209,20 +209,20 @@
                 "path_validation_results": [
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\google_aosp.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/google_aosp.pem",
                       "name": "Android",
-                      "version": "14.0.0_r9",
+                      "version": "16.0.0_r2",
                       "ev_oids": null
                     },
                     "verified_certificate_chain": [
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDoTCCAyagAwIBAgISBDI66Hmz/Ay12Uaw1Af3otAnMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNjAeFw0yNDA4MDYwMTIzNDBaFw0yNDExMDQwMTIzMzlaMCAxHjAcBgNVBAMTFWRv\nY3Muc2VjdXJlY29kZWJveC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmU\n4NkwFgzaqCBOFbEozmFLQQqWEgAJGzLiEIH2HutFYcMWMeZGHuxJTRE7rSmA/XZ0\nVkXdACkOH/c/tCwI+aijggIsMIICKDAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYw\nFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFBfQ\n5BhsUPMf8PuU9CBWHvHLnCRDMB8GA1UdIwQYMBaAFJMnRpgDqVFojpjWxEJI2yO/\nWJTSMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL2U2Lm8ubGVu\nY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vZTYuaS5sZW5jci5vcmcvMDYGA1Ud\nEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNlY3VyZWNvZGVib3gu\naW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8A\ndgBIsONr2qZHNA/lagL6nTDrHFIBy1bdLIHZu7+rOdiEcwAAAZElfncyAAAEAwBH\nMEUCIQDyMiVxMoPFF0npeuMoTO9Fy0J5qiM8wsjlSSM9G4Hn8AIgfR1Vu5RJlCCV\nmMpnzbA7eL16UFpJ+6Cf9wzBBG+rut8AdQDuzdBk1dsazsVct520zROiModGfLzs\n3sNRSFlGcR+1mwAAAZElfncyAAAEAwBGMEQCIAe1EPY9Zx1QTVNDJ7bA1Z45wkt+\niSpuGIxNp1jSO7U9AiAlTCepWClqY/QD49SiCIIClmbq57XrrE0nDH7JRSNmejAK\nBggqhkjOPQQDAwNpADBmAjEAuhhMYv+At+mux773Tmn2VZ5j7Sq0hpg4te7TC21W\nLIPZhoHxW/W+woSTuNm+JPHZAjEA8AdwN/V1nTWGjRIO9KzA2bRB2YZ0ibHcEWzv\nDouhjp6XiV7hr+Mz40i3YYoHP8dZ\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "/f5pAbX22PcfGGLDq3S6v1nmL9vFxRIwj5cPwteeL+w=",
-                        "fingerprint_sha1": "vPxHuL4TL4kEgs3OtThrZoLPINk=",
-                        "fingerprint_sha256": "uocrdBf8qlXcQ1FeqmpcuBF60XuOL0JbCXdhf0Mp8j0=",
-                        "serial_number": 365541564378146023680549190993804209082407,
-                        "not_valid_before": "2024-08-06T01:23:40Z",
-                        "not_valid_after": "2024-11-04T01:23:39Z",
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDqjCCAzGgAwIBAgISBaikhY2FkrgikpQUd3dAD62JMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNzAeFw0yNTEwMDEyMTUzNDhaFw0yNTEyMzAyMTUzNDdaMB8xHTAbBgNVBAMTFHd3\ndy5zZWN1cmVjb2RlYm94LmlvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMywh\n5YKlC8P5TYhV8KZ5y9gxsA13qHloxy8mlrAOcO17t9M/1+ZS4PmVg2XnqYBeunLe\ngDyo4ye++B4M1iDAvKOCAjgwggI0MA4GA1UdDwEB/wQEAwIHgDAdBgNVHSUEFjAU\nBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrfrJ\nuHpyIhfSRes4bDqldlZ3hBQwHwYDVR0jBBgwFoAUrkie3IcdRKBv2qLlYHQEeMKc\nAIAwMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAChhZodHRwOi8vZTcuaS5sZW5j\nci5vcmcvMDYGA1UdEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNl\nY3VyZWNvZGVib3guaW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwLQYDVR0fBCYwJDAi\noCCgHoYcaHR0cDovL2U3LmMubGVuY3Iub3JnLzEwLmNybDCCAQMGCisGAQQB1nkC\nBAIEgfQEgfEA7wB2AKRCxQZJYGFUjw/U6pz7ei0mRU2HqX8v30VZ9idPOoRUAAAB\nmaH5/JYAAAQDAEcwRQIgAQFp3e40Rfyvv4nEKa/RcvGKMSdllxNGW1S1x1xBDMQC\nIQDr1qyeXis95aed1hzYFn4YVJsm0GzqxY+15Qwhk9afUQB1AN3cyjSV1+EWBeeV\nMvrHn/g9HFDf2wA6FBJ2Ciysu8gqAAABmaH5/MsAAAQDAEYwRAIgU13QuiZEsedV\nWjP9yXV1uUS1kaTRuyPskm9jUxi0PnQCIGtr5kjLYNN6HFMZG4dfnGgtnFWrtT6s\nqo2CGu8LGFkBMAoGCCqGSM49BAMDA2cAMGQCMFlatoynCvX2Xc6tvB8+RwmjvbM/\n0GkP08eJIfNAKQuvg/FaM0QGRoVGjdsoyo3w+AIwTNbeZfvhPnYgICtO5fIYaAmD\nGJlKLeRH7mJQi2yEhVa40Ece4q2KtZ2bLdREj+w+\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "EeG5abHJH0h/hL/ewZv6trM1W3PuAVvo2mBNvyT67RY=",
+                        "fingerprint_sha1": "GpMcsWlxDXTbEVAYkmJ7VSIy/HY=",
+                        "fingerprint_sha256": "fskYWXpTCa6xGIqRvSfYvjaiUh9o1h8irJOpyqGL/CU=",
+                        "serial_number": 492947554138712313576529017960504612597129,
+                        "not_valid_before": "2025-10-01T21:53:48Z",
+                        "not_valid_after": "2025-12-30T21:53:47Z",
                         "subject_alternative_name": {
                           "dns_names": [
                             "docs.securecodebox.io",
@@ -239,20 +239,20 @@
                           "dotted_string": "1.2.840.10045.4.3.3"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=docs.securecodebox.io",
+                          "rfc4514_string": "CN=www.securecodebox.io",
                           "attributes": [
                             {
                               "oid": {
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "docs.securecodebox.io",
-                              "rfc4514_string": "CN=docs.securecodebox.io"
+                              "value": "www.securecodebox.io",
+                              "rfc4514_string": "CN=www.securecodebox.io"
                             }
                           ]
                         },
                         "issuer": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -275,8 +275,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -286,16 +286,16 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp256r1",
-                          "ec_x": 105651938932042438160683241419287481199333348502392281247356180656808110517061,
-                          "ec_y": 44219034673916313804121807795823594420017649717338233405844233942187136055720
+                          "ec_x": 23145930493812559470010843233528791720220213752287081722126068804647625060589,
+                          "ec_y": 55959271378288915343578036156220382047354444980935818078294675245257717760188
                         }
                       },
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRALBXPpFzlydw27SHyzpFKzgwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTYwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAATZ8Z5G\nh/ghcWCoJuuj+rnq2h25EqfUJtlRFLFhfHWWvyILOR/VvtEKRqotPEoJhC6+QJVV\n6RlAN2Z17TJOdwRJ+HB7wxjnzvdxEP6sdNgA1O1tHHMWMxCcOrLqbGL0vbijgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSTJ0aYA6lRaI6Y1sRCSNsj\nv1iU0jAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAfYt7SiA1sgWGCIpunk46r4AExIRc\nMxkKgUhNlrrv1B21hOaXN/5miE+LOTbrcmU/M9yvC6MVY730GNFoL8IhJ8j8vrOL\npMY22OP6baS1k9YMrtDTlwJHoGby04ThTUeBDksS9RiuHvicZqBedQdIF65pZuhp\neDcGBcLiYasQr/EO5gxxtLyTmgsHSOVSBcFOn9lgv7LECPq9i7mfH3mpxgrRKSxH\npOoZ0KXMcB+hHuvlklHntvcI0mMMQ0mhYj6qtMFStkF1RpCG3IPdIwpVCQqu8GV7\ns8ubknRzs+3C/Bm19RFOoiPpDkwvyNfvmQ14XkyqqKK5oZ8zhD32kFRQkxa8uZSu\nh4aTImFxknu39waBxIRXE4jKxlAmQc4QjFZoq1KmQqQg0J/1JF8RlFvJas1VcjLv\nYlvUB2t6npO6oQjB3l+PNf0DpQH7iUx3Wz5AjQCi6L25FjyE06q6BZ/QlmtYdl/8\nZYao4SRqPEs/6cAiF+Qf5zg2UkaWtDphl1LKMuTNLotvsX99HP69V2faNyegodQ0\nLyTApr/vT01YPE46vNsDLgK+4cL6TrzC/a4WcmF5SRJ938zrv/duJHLXQIku5v0+\nEwOy59Hdm0PT/Er/84dDV0CSjdR/2XuZM3kpysSKLgD1cKiDA+IRguODCxfO9cyY\nIg46v9mFmBvyH04=\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "0Bbh/jEZSKymTy3kTOhsmlHKBB32EDu1KojrP3YfV9c=",
-                        "fingerprint_sha1": "yU3EgxqQGp/sD7Sbcb1JtarU+tA=",
-                        "fingerprint_sha256": "duniiKr8Djf0OQy/lGqtmX1cHJAbPOUT09j626viq4U=",
-                        "serial_number": 234397126118090224789023519560838753080,
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRAKp18eYrjwoiCWbTi7/UuqEwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTcwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARB6AST\nCFh/vjcwDMCgQer+VtqEkz7JANurZxLP+U9TCeioL6sp5Z8VRvRbYk4P1INBmbef\nQHJFHCxcSjKmwtvGBWpl/9ra8HW0QDsUaJW2qOJqceJ0ZVFT3hbUHifBM/2jgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSuSJ7chx1EoG/aouVgdAR4\nwpwAgDAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAjx66fDdLk5ywFn3CzA1w1qfylHUD\naEf0QZpXcJseddJGSfbUUOvbNR9N/QQ16K1lXl4VFyhmGXDT5Kdfcr0RvIIVrNxF\nh4lqHtRRCP6RBRstqbZ2zURgqakn/Xip0iaQL0IdfHBZr396FgknniRYFckKORPG\nyM3QKnd66gtMst8I5nkRQlAg/Jb+Gc3egIvuGKWboE1G89NTsN9LTDD3PLj0dUMr\nOIuqVjLB8pEC6yk9enrlrqjXQgkLEYhXzq7dLafv5Vkig6Gl0nuuqjqfp0Q1bi1o\nyVNAlXe6aUXw92CcghC9bNsKEO1+M52YY5+ofIXlS/SEQbvVYYBLZ5yeiglV6t3S\nM6H+vTG0aP9YHzLn/KVOHzGQfXDP7qM5tkf+7diZe7o2fw6O7IvN6fsQXEQQj8TJ\nUXJxv2/uJhcuy/tSDgXwHM8Uk34WNbRT7zGTGkQRX0gsbjAea/jYAoWv0ZvQRwpq\nPe79D/i7Cep8qWnA+7AE/3B3S/3dEEYmc0lpe1366A/6GEgk3ktr9PEoQrLChs6I\ntu3wnNLB2euC8IKGLQFpGtOO/2/hiAKjyajaBP25w1jF0Wl8Bbqne3uZ2q1GyPFJ\nYRmT7/OXpmOH/FVLtwS+8ng1cAmpCujPwteJZNcDG0sF2n/sc0+SQf49fdyUK0ty\n+VUwFj9tmWxyR/M=\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "y7xVm0TVJNahMr2sZydE2jQH8SquXV9yLF9seROHHHU=",
+                        "fingerprint_sha1": "O3PBfj34fPOqd/E4khnrXt1Rnn8=",
+                        "fingerprint_sha256": "rrH9dBDoO8lvXaPGp8LBu4NtH6XLhucIUViQ5Ciodws=",
+                        "serial_number": 226581164312556911225609404641709439649,
                         "not_valid_before": "2024-03-13T00:00:00Z",
                         "not_valid_after": "2027-03-12T23:59:59Z",
                         "subject_alternative_name": {
@@ -311,7 +311,7 @@
                           "dotted_string": "1.2.840.113549.1.1.11"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -334,8 +334,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -374,8 +374,8 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp384r1",
-                          "ec_x": 33544624214879595901080607494054639950027787097700261428985818556436373079967754716763378306604804536953562479559726,
-                          "ec_y": 29282505716550359876088652089175574582220174797112460936156519019942441395880810275610087007658329365784666335133112
+                          "ec_x": 10143911019925982312647752521780437165618609523635737917895999231077092926802994880375399202010255491099761159689347,
+                          "ec_y": 10096834595952633206059743975463241341457192704838858828589651942174410626226122492176907667512810275408012516602877
                         }
                       },
                       {
@@ -472,20 +472,20 @@
                   },
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\apple.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/apple.pem",
                       "name": "Apple",
-                      "version": "iOS 17, iPadOS 17, macOS 14, tvOS 17, and watchOS 10",
+                      "version": "iOS 18, iPadOS 18, macOS 15, tvOS 18, visionOS 2 and watchOS 11",
                       "ev_oids": null
                     },
                     "verified_certificate_chain": [
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDoTCCAyagAwIBAgISBDI66Hmz/Ay12Uaw1Af3otAnMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNjAeFw0yNDA4MDYwMTIzNDBaFw0yNDExMDQwMTIzMzlaMCAxHjAcBgNVBAMTFWRv\nY3Muc2VjdXJlY29kZWJveC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmU\n4NkwFgzaqCBOFbEozmFLQQqWEgAJGzLiEIH2HutFYcMWMeZGHuxJTRE7rSmA/XZ0\nVkXdACkOH/c/tCwI+aijggIsMIICKDAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYw\nFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFBfQ\n5BhsUPMf8PuU9CBWHvHLnCRDMB8GA1UdIwQYMBaAFJMnRpgDqVFojpjWxEJI2yO/\nWJTSMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL2U2Lm8ubGVu\nY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vZTYuaS5sZW5jci5vcmcvMDYGA1Ud\nEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNlY3VyZWNvZGVib3gu\naW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8A\ndgBIsONr2qZHNA/lagL6nTDrHFIBy1bdLIHZu7+rOdiEcwAAAZElfncyAAAEAwBH\nMEUCIQDyMiVxMoPFF0npeuMoTO9Fy0J5qiM8wsjlSSM9G4Hn8AIgfR1Vu5RJlCCV\nmMpnzbA7eL16UFpJ+6Cf9wzBBG+rut8AdQDuzdBk1dsazsVct520zROiModGfLzs\n3sNRSFlGcR+1mwAAAZElfncyAAAEAwBGMEQCIAe1EPY9Zx1QTVNDJ7bA1Z45wkt+\niSpuGIxNp1jSO7U9AiAlTCepWClqY/QD49SiCIIClmbq57XrrE0nDH7JRSNmejAK\nBggqhkjOPQQDAwNpADBmAjEAuhhMYv+At+mux773Tmn2VZ5j7Sq0hpg4te7TC21W\nLIPZhoHxW/W+woSTuNm+JPHZAjEA8AdwN/V1nTWGjRIO9KzA2bRB2YZ0ibHcEWzv\nDouhjp6XiV7hr+Mz40i3YYoHP8dZ\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "/f5pAbX22PcfGGLDq3S6v1nmL9vFxRIwj5cPwteeL+w=",
-                        "fingerprint_sha1": "vPxHuL4TL4kEgs3OtThrZoLPINk=",
-                        "fingerprint_sha256": "uocrdBf8qlXcQ1FeqmpcuBF60XuOL0JbCXdhf0Mp8j0=",
-                        "serial_number": 365541564378146023680549190993804209082407,
-                        "not_valid_before": "2024-08-06T01:23:40Z",
-                        "not_valid_after": "2024-11-04T01:23:39Z",
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDqjCCAzGgAwIBAgISBaikhY2FkrgikpQUd3dAD62JMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNzAeFw0yNTEwMDEyMTUzNDhaFw0yNTEyMzAyMTUzNDdaMB8xHTAbBgNVBAMTFHd3\ndy5zZWN1cmVjb2RlYm94LmlvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMywh\n5YKlC8P5TYhV8KZ5y9gxsA13qHloxy8mlrAOcO17t9M/1+ZS4PmVg2XnqYBeunLe\ngDyo4ye++B4M1iDAvKOCAjgwggI0MA4GA1UdDwEB/wQEAwIHgDAdBgNVHSUEFjAU\nBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrfrJ\nuHpyIhfSRes4bDqldlZ3hBQwHwYDVR0jBBgwFoAUrkie3IcdRKBv2qLlYHQEeMKc\nAIAwMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAChhZodHRwOi8vZTcuaS5sZW5j\nci5vcmcvMDYGA1UdEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNl\nY3VyZWNvZGVib3guaW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwLQYDVR0fBCYwJDAi\noCCgHoYcaHR0cDovL2U3LmMubGVuY3Iub3JnLzEwLmNybDCCAQMGCisGAQQB1nkC\nBAIEgfQEgfEA7wB2AKRCxQZJYGFUjw/U6pz7ei0mRU2HqX8v30VZ9idPOoRUAAAB\nmaH5/JYAAAQDAEcwRQIgAQFp3e40Rfyvv4nEKa/RcvGKMSdllxNGW1S1x1xBDMQC\nIQDr1qyeXis95aed1hzYFn4YVJsm0GzqxY+15Qwhk9afUQB1AN3cyjSV1+EWBeeV\nMvrHn/g9HFDf2wA6FBJ2Ciysu8gqAAABmaH5/MsAAAQDAEYwRAIgU13QuiZEsedV\nWjP9yXV1uUS1kaTRuyPskm9jUxi0PnQCIGtr5kjLYNN6HFMZG4dfnGgtnFWrtT6s\nqo2CGu8LGFkBMAoGCCqGSM49BAMDA2cAMGQCMFlatoynCvX2Xc6tvB8+RwmjvbM/\n0GkP08eJIfNAKQuvg/FaM0QGRoVGjdsoyo3w+AIwTNbeZfvhPnYgICtO5fIYaAmD\nGJlKLeRH7mJQi2yEhVa40Ece4q2KtZ2bLdREj+w+\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "EeG5abHJH0h/hL/ewZv6trM1W3PuAVvo2mBNvyT67RY=",
+                        "fingerprint_sha1": "GpMcsWlxDXTbEVAYkmJ7VSIy/HY=",
+                        "fingerprint_sha256": "fskYWXpTCa6xGIqRvSfYvjaiUh9o1h8irJOpyqGL/CU=",
+                        "serial_number": 492947554138712313576529017960504612597129,
+                        "not_valid_before": "2025-10-01T21:53:48Z",
+                        "not_valid_after": "2025-12-30T21:53:47Z",
                         "subject_alternative_name": {
                           "dns_names": [
                             "docs.securecodebox.io",
@@ -502,20 +502,20 @@
                           "dotted_string": "1.2.840.10045.4.3.3"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=docs.securecodebox.io",
+                          "rfc4514_string": "CN=www.securecodebox.io",
                           "attributes": [
                             {
                               "oid": {
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "docs.securecodebox.io",
-                              "rfc4514_string": "CN=docs.securecodebox.io"
+                              "value": "www.securecodebox.io",
+                              "rfc4514_string": "CN=www.securecodebox.io"
                             }
                           ]
                         },
                         "issuer": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -538,8 +538,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -549,16 +549,16 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp256r1",
-                          "ec_x": 105651938932042438160683241419287481199333348502392281247356180656808110517061,
-                          "ec_y": 44219034673916313804121807795823594420017649717338233405844233942187136055720
+                          "ec_x": 23145930493812559470010843233528791720220213752287081722126068804647625060589,
+                          "ec_y": 55959271378288915343578036156220382047354444980935818078294675245257717760188
                         }
                       },
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRALBXPpFzlydw27SHyzpFKzgwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTYwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAATZ8Z5G\nh/ghcWCoJuuj+rnq2h25EqfUJtlRFLFhfHWWvyILOR/VvtEKRqotPEoJhC6+QJVV\n6RlAN2Z17TJOdwRJ+HB7wxjnzvdxEP6sdNgA1O1tHHMWMxCcOrLqbGL0vbijgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSTJ0aYA6lRaI6Y1sRCSNsj\nv1iU0jAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAfYt7SiA1sgWGCIpunk46r4AExIRc\nMxkKgUhNlrrv1B21hOaXN/5miE+LOTbrcmU/M9yvC6MVY730GNFoL8IhJ8j8vrOL\npMY22OP6baS1k9YMrtDTlwJHoGby04ThTUeBDksS9RiuHvicZqBedQdIF65pZuhp\neDcGBcLiYasQr/EO5gxxtLyTmgsHSOVSBcFOn9lgv7LECPq9i7mfH3mpxgrRKSxH\npOoZ0KXMcB+hHuvlklHntvcI0mMMQ0mhYj6qtMFStkF1RpCG3IPdIwpVCQqu8GV7\ns8ubknRzs+3C/Bm19RFOoiPpDkwvyNfvmQ14XkyqqKK5oZ8zhD32kFRQkxa8uZSu\nh4aTImFxknu39waBxIRXE4jKxlAmQc4QjFZoq1KmQqQg0J/1JF8RlFvJas1VcjLv\nYlvUB2t6npO6oQjB3l+PNf0DpQH7iUx3Wz5AjQCi6L25FjyE06q6BZ/QlmtYdl/8\nZYao4SRqPEs/6cAiF+Qf5zg2UkaWtDphl1LKMuTNLotvsX99HP69V2faNyegodQ0\nLyTApr/vT01YPE46vNsDLgK+4cL6TrzC/a4WcmF5SRJ938zrv/duJHLXQIku5v0+\nEwOy59Hdm0PT/Er/84dDV0CSjdR/2XuZM3kpysSKLgD1cKiDA+IRguODCxfO9cyY\nIg46v9mFmBvyH04=\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "0Bbh/jEZSKymTy3kTOhsmlHKBB32EDu1KojrP3YfV9c=",
-                        "fingerprint_sha1": "yU3EgxqQGp/sD7Sbcb1JtarU+tA=",
-                        "fingerprint_sha256": "duniiKr8Djf0OQy/lGqtmX1cHJAbPOUT09j626viq4U=",
-                        "serial_number": 234397126118090224789023519560838753080,
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRAKp18eYrjwoiCWbTi7/UuqEwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTcwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARB6AST\nCFh/vjcwDMCgQer+VtqEkz7JANurZxLP+U9TCeioL6sp5Z8VRvRbYk4P1INBmbef\nQHJFHCxcSjKmwtvGBWpl/9ra8HW0QDsUaJW2qOJqceJ0ZVFT3hbUHifBM/2jgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSuSJ7chx1EoG/aouVgdAR4\nwpwAgDAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAjx66fDdLk5ywFn3CzA1w1qfylHUD\naEf0QZpXcJseddJGSfbUUOvbNR9N/QQ16K1lXl4VFyhmGXDT5Kdfcr0RvIIVrNxF\nh4lqHtRRCP6RBRstqbZ2zURgqakn/Xip0iaQL0IdfHBZr396FgknniRYFckKORPG\nyM3QKnd66gtMst8I5nkRQlAg/Jb+Gc3egIvuGKWboE1G89NTsN9LTDD3PLj0dUMr\nOIuqVjLB8pEC6yk9enrlrqjXQgkLEYhXzq7dLafv5Vkig6Gl0nuuqjqfp0Q1bi1o\nyVNAlXe6aUXw92CcghC9bNsKEO1+M52YY5+ofIXlS/SEQbvVYYBLZ5yeiglV6t3S\nM6H+vTG0aP9YHzLn/KVOHzGQfXDP7qM5tkf+7diZe7o2fw6O7IvN6fsQXEQQj8TJ\nUXJxv2/uJhcuy/tSDgXwHM8Uk34WNbRT7zGTGkQRX0gsbjAea/jYAoWv0ZvQRwpq\nPe79D/i7Cep8qWnA+7AE/3B3S/3dEEYmc0lpe1366A/6GEgk3ktr9PEoQrLChs6I\ntu3wnNLB2euC8IKGLQFpGtOO/2/hiAKjyajaBP25w1jF0Wl8Bbqne3uZ2q1GyPFJ\nYRmT7/OXpmOH/FVLtwS+8ng1cAmpCujPwteJZNcDG0sF2n/sc0+SQf49fdyUK0ty\n+VUwFj9tmWxyR/M=\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "y7xVm0TVJNahMr2sZydE2jQH8SquXV9yLF9seROHHHU=",
+                        "fingerprint_sha1": "O3PBfj34fPOqd/E4khnrXt1Rnn8=",
+                        "fingerprint_sha256": "rrH9dBDoO8lvXaPGp8LBu4NtH6XLhucIUViQ5Ciodws=",
+                        "serial_number": 226581164312556911225609404641709439649,
                         "not_valid_before": "2024-03-13T00:00:00Z",
                         "not_valid_after": "2027-03-12T23:59:59Z",
                         "subject_alternative_name": {
@@ -574,7 +574,7 @@
                           "dotted_string": "1.2.840.113549.1.1.11"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -597,8 +597,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -637,8 +637,8 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp384r1",
-                          "ec_x": 33544624214879595901080607494054639950027787097700261428985818556436373079967754716763378306604804536953562479559726,
-                          "ec_y": 29282505716550359876088652089175574582220174797112460936156519019942441395880810275610087007658329365784666335133112
+                          "ec_x": 10143911019925982312647752521780437165618609523635737917895999231077092926802994880375399202010255491099761159689347,
+                          "ec_y": 10096834595952633206059743975463241341457192704838858828589651942174410626226122492176907667512810275408012516602877
                         }
                       },
                       {
@@ -735,20 +735,20 @@
                   },
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\oracle_java.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/oracle_java.pem",
                       "name": "Java",
                       "version": "jdk-13.0.2",
                       "ev_oids": null
                     },
                     "verified_certificate_chain": [
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDoTCCAyagAwIBAgISBDI66Hmz/Ay12Uaw1Af3otAnMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNjAeFw0yNDA4MDYwMTIzNDBaFw0yNDExMDQwMTIzMzlaMCAxHjAcBgNVBAMTFWRv\nY3Muc2VjdXJlY29kZWJveC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmU\n4NkwFgzaqCBOFbEozmFLQQqWEgAJGzLiEIH2HutFYcMWMeZGHuxJTRE7rSmA/XZ0\nVkXdACkOH/c/tCwI+aijggIsMIICKDAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYw\nFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFBfQ\n5BhsUPMf8PuU9CBWHvHLnCRDMB8GA1UdIwQYMBaAFJMnRpgDqVFojpjWxEJI2yO/\nWJTSMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL2U2Lm8ubGVu\nY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vZTYuaS5sZW5jci5vcmcvMDYGA1Ud\nEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNlY3VyZWNvZGVib3gu\naW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8A\ndgBIsONr2qZHNA/lagL6nTDrHFIBy1bdLIHZu7+rOdiEcwAAAZElfncyAAAEAwBH\nMEUCIQDyMiVxMoPFF0npeuMoTO9Fy0J5qiM8wsjlSSM9G4Hn8AIgfR1Vu5RJlCCV\nmMpnzbA7eL16UFpJ+6Cf9wzBBG+rut8AdQDuzdBk1dsazsVct520zROiModGfLzs\n3sNRSFlGcR+1mwAAAZElfncyAAAEAwBGMEQCIAe1EPY9Zx1QTVNDJ7bA1Z45wkt+\niSpuGIxNp1jSO7U9AiAlTCepWClqY/QD49SiCIIClmbq57XrrE0nDH7JRSNmejAK\nBggqhkjOPQQDAwNpADBmAjEAuhhMYv+At+mux773Tmn2VZ5j7Sq0hpg4te7TC21W\nLIPZhoHxW/W+woSTuNm+JPHZAjEA8AdwN/V1nTWGjRIO9KzA2bRB2YZ0ibHcEWzv\nDouhjp6XiV7hr+Mz40i3YYoHP8dZ\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "/f5pAbX22PcfGGLDq3S6v1nmL9vFxRIwj5cPwteeL+w=",
-                        "fingerprint_sha1": "vPxHuL4TL4kEgs3OtThrZoLPINk=",
-                        "fingerprint_sha256": "uocrdBf8qlXcQ1FeqmpcuBF60XuOL0JbCXdhf0Mp8j0=",
-                        "serial_number": 365541564378146023680549190993804209082407,
-                        "not_valid_before": "2024-08-06T01:23:40Z",
-                        "not_valid_after": "2024-11-04T01:23:39Z",
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDqjCCAzGgAwIBAgISBaikhY2FkrgikpQUd3dAD62JMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNzAeFw0yNTEwMDEyMTUzNDhaFw0yNTEyMzAyMTUzNDdaMB8xHTAbBgNVBAMTFHd3\ndy5zZWN1cmVjb2RlYm94LmlvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMywh\n5YKlC8P5TYhV8KZ5y9gxsA13qHloxy8mlrAOcO17t9M/1+ZS4PmVg2XnqYBeunLe\ngDyo4ye++B4M1iDAvKOCAjgwggI0MA4GA1UdDwEB/wQEAwIHgDAdBgNVHSUEFjAU\nBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrfrJ\nuHpyIhfSRes4bDqldlZ3hBQwHwYDVR0jBBgwFoAUrkie3IcdRKBv2qLlYHQEeMKc\nAIAwMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAChhZodHRwOi8vZTcuaS5sZW5j\nci5vcmcvMDYGA1UdEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNl\nY3VyZWNvZGVib3guaW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwLQYDVR0fBCYwJDAi\noCCgHoYcaHR0cDovL2U3LmMubGVuY3Iub3JnLzEwLmNybDCCAQMGCisGAQQB1nkC\nBAIEgfQEgfEA7wB2AKRCxQZJYGFUjw/U6pz7ei0mRU2HqX8v30VZ9idPOoRUAAAB\nmaH5/JYAAAQDAEcwRQIgAQFp3e40Rfyvv4nEKa/RcvGKMSdllxNGW1S1x1xBDMQC\nIQDr1qyeXis95aed1hzYFn4YVJsm0GzqxY+15Qwhk9afUQB1AN3cyjSV1+EWBeeV\nMvrHn/g9HFDf2wA6FBJ2Ciysu8gqAAABmaH5/MsAAAQDAEYwRAIgU13QuiZEsedV\nWjP9yXV1uUS1kaTRuyPskm9jUxi0PnQCIGtr5kjLYNN6HFMZG4dfnGgtnFWrtT6s\nqo2CGu8LGFkBMAoGCCqGSM49BAMDA2cAMGQCMFlatoynCvX2Xc6tvB8+RwmjvbM/\n0GkP08eJIfNAKQuvg/FaM0QGRoVGjdsoyo3w+AIwTNbeZfvhPnYgICtO5fIYaAmD\nGJlKLeRH7mJQi2yEhVa40Ece4q2KtZ2bLdREj+w+\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "EeG5abHJH0h/hL/ewZv6trM1W3PuAVvo2mBNvyT67RY=",
+                        "fingerprint_sha1": "GpMcsWlxDXTbEVAYkmJ7VSIy/HY=",
+                        "fingerprint_sha256": "fskYWXpTCa6xGIqRvSfYvjaiUh9o1h8irJOpyqGL/CU=",
+                        "serial_number": 492947554138712313576529017960504612597129,
+                        "not_valid_before": "2025-10-01T21:53:48Z",
+                        "not_valid_after": "2025-12-30T21:53:47Z",
                         "subject_alternative_name": {
                           "dns_names": [
                             "docs.securecodebox.io",
@@ -765,20 +765,20 @@
                           "dotted_string": "1.2.840.10045.4.3.3"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=docs.securecodebox.io",
+                          "rfc4514_string": "CN=www.securecodebox.io",
                           "attributes": [
                             {
                               "oid": {
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "docs.securecodebox.io",
-                              "rfc4514_string": "CN=docs.securecodebox.io"
+                              "value": "www.securecodebox.io",
+                              "rfc4514_string": "CN=www.securecodebox.io"
                             }
                           ]
                         },
                         "issuer": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -801,8 +801,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -812,16 +812,16 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp256r1",
-                          "ec_x": 105651938932042438160683241419287481199333348502392281247356180656808110517061,
-                          "ec_y": 44219034673916313804121807795823594420017649717338233405844233942187136055720
+                          "ec_x": 23145930493812559470010843233528791720220213752287081722126068804647625060589,
+                          "ec_y": 55959271378288915343578036156220382047354444980935818078294675245257717760188
                         }
                       },
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRALBXPpFzlydw27SHyzpFKzgwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTYwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAATZ8Z5G\nh/ghcWCoJuuj+rnq2h25EqfUJtlRFLFhfHWWvyILOR/VvtEKRqotPEoJhC6+QJVV\n6RlAN2Z17TJOdwRJ+HB7wxjnzvdxEP6sdNgA1O1tHHMWMxCcOrLqbGL0vbijgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSTJ0aYA6lRaI6Y1sRCSNsj\nv1iU0jAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAfYt7SiA1sgWGCIpunk46r4AExIRc\nMxkKgUhNlrrv1B21hOaXN/5miE+LOTbrcmU/M9yvC6MVY730GNFoL8IhJ8j8vrOL\npMY22OP6baS1k9YMrtDTlwJHoGby04ThTUeBDksS9RiuHvicZqBedQdIF65pZuhp\neDcGBcLiYasQr/EO5gxxtLyTmgsHSOVSBcFOn9lgv7LECPq9i7mfH3mpxgrRKSxH\npOoZ0KXMcB+hHuvlklHntvcI0mMMQ0mhYj6qtMFStkF1RpCG3IPdIwpVCQqu8GV7\ns8ubknRzs+3C/Bm19RFOoiPpDkwvyNfvmQ14XkyqqKK5oZ8zhD32kFRQkxa8uZSu\nh4aTImFxknu39waBxIRXE4jKxlAmQc4QjFZoq1KmQqQg0J/1JF8RlFvJas1VcjLv\nYlvUB2t6npO6oQjB3l+PNf0DpQH7iUx3Wz5AjQCi6L25FjyE06q6BZ/QlmtYdl/8\nZYao4SRqPEs/6cAiF+Qf5zg2UkaWtDphl1LKMuTNLotvsX99HP69V2faNyegodQ0\nLyTApr/vT01YPE46vNsDLgK+4cL6TrzC/a4WcmF5SRJ938zrv/duJHLXQIku5v0+\nEwOy59Hdm0PT/Er/84dDV0CSjdR/2XuZM3kpysSKLgD1cKiDA+IRguODCxfO9cyY\nIg46v9mFmBvyH04=\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "0Bbh/jEZSKymTy3kTOhsmlHKBB32EDu1KojrP3YfV9c=",
-                        "fingerprint_sha1": "yU3EgxqQGp/sD7Sbcb1JtarU+tA=",
-                        "fingerprint_sha256": "duniiKr8Djf0OQy/lGqtmX1cHJAbPOUT09j626viq4U=",
-                        "serial_number": 234397126118090224789023519560838753080,
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRAKp18eYrjwoiCWbTi7/UuqEwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTcwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARB6AST\nCFh/vjcwDMCgQer+VtqEkz7JANurZxLP+U9TCeioL6sp5Z8VRvRbYk4P1INBmbef\nQHJFHCxcSjKmwtvGBWpl/9ra8HW0QDsUaJW2qOJqceJ0ZVFT3hbUHifBM/2jgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSuSJ7chx1EoG/aouVgdAR4\nwpwAgDAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAjx66fDdLk5ywFn3CzA1w1qfylHUD\naEf0QZpXcJseddJGSfbUUOvbNR9N/QQ16K1lXl4VFyhmGXDT5Kdfcr0RvIIVrNxF\nh4lqHtRRCP6RBRstqbZ2zURgqakn/Xip0iaQL0IdfHBZr396FgknniRYFckKORPG\nyM3QKnd66gtMst8I5nkRQlAg/Jb+Gc3egIvuGKWboE1G89NTsN9LTDD3PLj0dUMr\nOIuqVjLB8pEC6yk9enrlrqjXQgkLEYhXzq7dLafv5Vkig6Gl0nuuqjqfp0Q1bi1o\nyVNAlXe6aUXw92CcghC9bNsKEO1+M52YY5+ofIXlS/SEQbvVYYBLZ5yeiglV6t3S\nM6H+vTG0aP9YHzLn/KVOHzGQfXDP7qM5tkf+7diZe7o2fw6O7IvN6fsQXEQQj8TJ\nUXJxv2/uJhcuy/tSDgXwHM8Uk34WNbRT7zGTGkQRX0gsbjAea/jYAoWv0ZvQRwpq\nPe79D/i7Cep8qWnA+7AE/3B3S/3dEEYmc0lpe1366A/6GEgk3ktr9PEoQrLChs6I\ntu3wnNLB2euC8IKGLQFpGtOO/2/hiAKjyajaBP25w1jF0Wl8Bbqne3uZ2q1GyPFJ\nYRmT7/OXpmOH/FVLtwS+8ng1cAmpCujPwteJZNcDG0sF2n/sc0+SQf49fdyUK0ty\n+VUwFj9tmWxyR/M=\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "y7xVm0TVJNahMr2sZydE2jQH8SquXV9yLF9seROHHHU=",
+                        "fingerprint_sha1": "O3PBfj34fPOqd/E4khnrXt1Rnn8=",
+                        "fingerprint_sha256": "rrH9dBDoO8lvXaPGp8LBu4NtH6XLhucIUViQ5Ciodws=",
+                        "serial_number": 226581164312556911225609404641709439649,
                         "not_valid_before": "2024-03-13T00:00:00Z",
                         "not_valid_after": "2027-03-12T23:59:59Z",
                         "subject_alternative_name": {
@@ -837,7 +837,7 @@
                           "dotted_string": "1.2.840.113549.1.1.11"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -860,8 +860,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -900,8 +900,8 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp384r1",
-                          "ec_x": 33544624214879595901080607494054639950027787097700261428985818556436373079967754716763378306604804536953562479559726,
-                          "ec_y": 29282505716550359876088652089175574582220174797112460936156519019942441395880810275610087007658329365784666335133112
+                          "ec_x": 10143911019925982312647752521780437165618609523635737917895999231077092926802994880375399202010255491099761159689347,
+                          "ec_y": 10096834595952633206059743975463241341457192704838858828589651942174410626226122492176907667512810275408012516602877
                         }
                       },
                       {
@@ -998,9 +998,9 @@
                   },
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\mozilla_nss.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/mozilla_nss.pem",
                       "name": "Mozilla",
-                      "version": "2024-02-04",
+                      "version": "2025-07-27",
                       "ev_oids": [
                         {
                           "name": "Unknown OID",
@@ -1186,13 +1186,13 @@
                     },
                     "verified_certificate_chain": [
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDoTCCAyagAwIBAgISBDI66Hmz/Ay12Uaw1Af3otAnMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNjAeFw0yNDA4MDYwMTIzNDBaFw0yNDExMDQwMTIzMzlaMCAxHjAcBgNVBAMTFWRv\nY3Muc2VjdXJlY29kZWJveC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmU\n4NkwFgzaqCBOFbEozmFLQQqWEgAJGzLiEIH2HutFYcMWMeZGHuxJTRE7rSmA/XZ0\nVkXdACkOH/c/tCwI+aijggIsMIICKDAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYw\nFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFBfQ\n5BhsUPMf8PuU9CBWHvHLnCRDMB8GA1UdIwQYMBaAFJMnRpgDqVFojpjWxEJI2yO/\nWJTSMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL2U2Lm8ubGVu\nY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vZTYuaS5sZW5jci5vcmcvMDYGA1Ud\nEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNlY3VyZWNvZGVib3gu\naW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8A\ndgBIsONr2qZHNA/lagL6nTDrHFIBy1bdLIHZu7+rOdiEcwAAAZElfncyAAAEAwBH\nMEUCIQDyMiVxMoPFF0npeuMoTO9Fy0J5qiM8wsjlSSM9G4Hn8AIgfR1Vu5RJlCCV\nmMpnzbA7eL16UFpJ+6Cf9wzBBG+rut8AdQDuzdBk1dsazsVct520zROiModGfLzs\n3sNRSFlGcR+1mwAAAZElfncyAAAEAwBGMEQCIAe1EPY9Zx1QTVNDJ7bA1Z45wkt+\niSpuGIxNp1jSO7U9AiAlTCepWClqY/QD49SiCIIClmbq57XrrE0nDH7JRSNmejAK\nBggqhkjOPQQDAwNpADBmAjEAuhhMYv+At+mux773Tmn2VZ5j7Sq0hpg4te7TC21W\nLIPZhoHxW/W+woSTuNm+JPHZAjEA8AdwN/V1nTWGjRIO9KzA2bRB2YZ0ibHcEWzv\nDouhjp6XiV7hr+Mz40i3YYoHP8dZ\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "/f5pAbX22PcfGGLDq3S6v1nmL9vFxRIwj5cPwteeL+w=",
-                        "fingerprint_sha1": "vPxHuL4TL4kEgs3OtThrZoLPINk=",
-                        "fingerprint_sha256": "uocrdBf8qlXcQ1FeqmpcuBF60XuOL0JbCXdhf0Mp8j0=",
-                        "serial_number": 365541564378146023680549190993804209082407,
-                        "not_valid_before": "2024-08-06T01:23:40Z",
-                        "not_valid_after": "2024-11-04T01:23:39Z",
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDqjCCAzGgAwIBAgISBaikhY2FkrgikpQUd3dAD62JMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNzAeFw0yNTEwMDEyMTUzNDhaFw0yNTEyMzAyMTUzNDdaMB8xHTAbBgNVBAMTFHd3\ndy5zZWN1cmVjb2RlYm94LmlvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMywh\n5YKlC8P5TYhV8KZ5y9gxsA13qHloxy8mlrAOcO17t9M/1+ZS4PmVg2XnqYBeunLe\ngDyo4ye++B4M1iDAvKOCAjgwggI0MA4GA1UdDwEB/wQEAwIHgDAdBgNVHSUEFjAU\nBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrfrJ\nuHpyIhfSRes4bDqldlZ3hBQwHwYDVR0jBBgwFoAUrkie3IcdRKBv2qLlYHQEeMKc\nAIAwMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAChhZodHRwOi8vZTcuaS5sZW5j\nci5vcmcvMDYGA1UdEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNl\nY3VyZWNvZGVib3guaW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwLQYDVR0fBCYwJDAi\noCCgHoYcaHR0cDovL2U3LmMubGVuY3Iub3JnLzEwLmNybDCCAQMGCisGAQQB1nkC\nBAIEgfQEgfEA7wB2AKRCxQZJYGFUjw/U6pz7ei0mRU2HqX8v30VZ9idPOoRUAAAB\nmaH5/JYAAAQDAEcwRQIgAQFp3e40Rfyvv4nEKa/RcvGKMSdllxNGW1S1x1xBDMQC\nIQDr1qyeXis95aed1hzYFn4YVJsm0GzqxY+15Qwhk9afUQB1AN3cyjSV1+EWBeeV\nMvrHn/g9HFDf2wA6FBJ2Ciysu8gqAAABmaH5/MsAAAQDAEYwRAIgU13QuiZEsedV\nWjP9yXV1uUS1kaTRuyPskm9jUxi0PnQCIGtr5kjLYNN6HFMZG4dfnGgtnFWrtT6s\nqo2CGu8LGFkBMAoGCCqGSM49BAMDA2cAMGQCMFlatoynCvX2Xc6tvB8+RwmjvbM/\n0GkP08eJIfNAKQuvg/FaM0QGRoVGjdsoyo3w+AIwTNbeZfvhPnYgICtO5fIYaAmD\nGJlKLeRH7mJQi2yEhVa40Ece4q2KtZ2bLdREj+w+\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "EeG5abHJH0h/hL/ewZv6trM1W3PuAVvo2mBNvyT67RY=",
+                        "fingerprint_sha1": "GpMcsWlxDXTbEVAYkmJ7VSIy/HY=",
+                        "fingerprint_sha256": "fskYWXpTCa6xGIqRvSfYvjaiUh9o1h8irJOpyqGL/CU=",
+                        "serial_number": 492947554138712313576529017960504612597129,
+                        "not_valid_before": "2025-10-01T21:53:48Z",
+                        "not_valid_after": "2025-12-30T21:53:47Z",
                         "subject_alternative_name": {
                           "dns_names": [
                             "docs.securecodebox.io",
@@ -1209,20 +1209,20 @@
                           "dotted_string": "1.2.840.10045.4.3.3"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=docs.securecodebox.io",
+                          "rfc4514_string": "CN=www.securecodebox.io",
                           "attributes": [
                             {
                               "oid": {
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "docs.securecodebox.io",
-                              "rfc4514_string": "CN=docs.securecodebox.io"
+                              "value": "www.securecodebox.io",
+                              "rfc4514_string": "CN=www.securecodebox.io"
                             }
                           ]
                         },
                         "issuer": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -1245,8 +1245,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -1256,16 +1256,16 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp256r1",
-                          "ec_x": 105651938932042438160683241419287481199333348502392281247356180656808110517061,
-                          "ec_y": 44219034673916313804121807795823594420017649717338233405844233942187136055720
+                          "ec_x": 23145930493812559470010843233528791720220213752287081722126068804647625060589,
+                          "ec_y": 55959271378288915343578036156220382047354444980935818078294675245257717760188
                         }
                       },
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRALBXPpFzlydw27SHyzpFKzgwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTYwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAATZ8Z5G\nh/ghcWCoJuuj+rnq2h25EqfUJtlRFLFhfHWWvyILOR/VvtEKRqotPEoJhC6+QJVV\n6RlAN2Z17TJOdwRJ+HB7wxjnzvdxEP6sdNgA1O1tHHMWMxCcOrLqbGL0vbijgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSTJ0aYA6lRaI6Y1sRCSNsj\nv1iU0jAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAfYt7SiA1sgWGCIpunk46r4AExIRc\nMxkKgUhNlrrv1B21hOaXN/5miE+LOTbrcmU/M9yvC6MVY730GNFoL8IhJ8j8vrOL\npMY22OP6baS1k9YMrtDTlwJHoGby04ThTUeBDksS9RiuHvicZqBedQdIF65pZuhp\neDcGBcLiYasQr/EO5gxxtLyTmgsHSOVSBcFOn9lgv7LECPq9i7mfH3mpxgrRKSxH\npOoZ0KXMcB+hHuvlklHntvcI0mMMQ0mhYj6qtMFStkF1RpCG3IPdIwpVCQqu8GV7\ns8ubknRzs+3C/Bm19RFOoiPpDkwvyNfvmQ14XkyqqKK5oZ8zhD32kFRQkxa8uZSu\nh4aTImFxknu39waBxIRXE4jKxlAmQc4QjFZoq1KmQqQg0J/1JF8RlFvJas1VcjLv\nYlvUB2t6npO6oQjB3l+PNf0DpQH7iUx3Wz5AjQCi6L25FjyE06q6BZ/QlmtYdl/8\nZYao4SRqPEs/6cAiF+Qf5zg2UkaWtDphl1LKMuTNLotvsX99HP69V2faNyegodQ0\nLyTApr/vT01YPE46vNsDLgK+4cL6TrzC/a4WcmF5SRJ938zrv/duJHLXQIku5v0+\nEwOy59Hdm0PT/Er/84dDV0CSjdR/2XuZM3kpysSKLgD1cKiDA+IRguODCxfO9cyY\nIg46v9mFmBvyH04=\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "0Bbh/jEZSKymTy3kTOhsmlHKBB32EDu1KojrP3YfV9c=",
-                        "fingerprint_sha1": "yU3EgxqQGp/sD7Sbcb1JtarU+tA=",
-                        "fingerprint_sha256": "duniiKr8Djf0OQy/lGqtmX1cHJAbPOUT09j626viq4U=",
-                        "serial_number": 234397126118090224789023519560838753080,
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRAKp18eYrjwoiCWbTi7/UuqEwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTcwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARB6AST\nCFh/vjcwDMCgQer+VtqEkz7JANurZxLP+U9TCeioL6sp5Z8VRvRbYk4P1INBmbef\nQHJFHCxcSjKmwtvGBWpl/9ra8HW0QDsUaJW2qOJqceJ0ZVFT3hbUHifBM/2jgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSuSJ7chx1EoG/aouVgdAR4\nwpwAgDAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAjx66fDdLk5ywFn3CzA1w1qfylHUD\naEf0QZpXcJseddJGSfbUUOvbNR9N/QQ16K1lXl4VFyhmGXDT5Kdfcr0RvIIVrNxF\nh4lqHtRRCP6RBRstqbZ2zURgqakn/Xip0iaQL0IdfHBZr396FgknniRYFckKORPG\nyM3QKnd66gtMst8I5nkRQlAg/Jb+Gc3egIvuGKWboE1G89NTsN9LTDD3PLj0dUMr\nOIuqVjLB8pEC6yk9enrlrqjXQgkLEYhXzq7dLafv5Vkig6Gl0nuuqjqfp0Q1bi1o\nyVNAlXe6aUXw92CcghC9bNsKEO1+M52YY5+ofIXlS/SEQbvVYYBLZ5yeiglV6t3S\nM6H+vTG0aP9YHzLn/KVOHzGQfXDP7qM5tkf+7diZe7o2fw6O7IvN6fsQXEQQj8TJ\nUXJxv2/uJhcuy/tSDgXwHM8Uk34WNbRT7zGTGkQRX0gsbjAea/jYAoWv0ZvQRwpq\nPe79D/i7Cep8qWnA+7AE/3B3S/3dEEYmc0lpe1366A/6GEgk3ktr9PEoQrLChs6I\ntu3wnNLB2euC8IKGLQFpGtOO/2/hiAKjyajaBP25w1jF0Wl8Bbqne3uZ2q1GyPFJ\nYRmT7/OXpmOH/FVLtwS+8ng1cAmpCujPwteJZNcDG0sF2n/sc0+SQf49fdyUK0ty\n+VUwFj9tmWxyR/M=\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "y7xVm0TVJNahMr2sZydE2jQH8SquXV9yLF9seROHHHU=",
+                        "fingerprint_sha1": "O3PBfj34fPOqd/E4khnrXt1Rnn8=",
+                        "fingerprint_sha256": "rrH9dBDoO8lvXaPGp8LBu4NtH6XLhucIUViQ5Ciodws=",
+                        "serial_number": 226581164312556911225609404641709439649,
                         "not_valid_before": "2024-03-13T00:00:00Z",
                         "not_valid_after": "2027-03-12T23:59:59Z",
                         "subject_alternative_name": {
@@ -1281,7 +1281,7 @@
                           "dotted_string": "1.2.840.113549.1.1.11"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -1304,8 +1304,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -1344,8 +1344,8 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp384r1",
-                          "ec_x": 33544624214879595901080607494054639950027787097700261428985818556436373079967754716763378306604804536953562479559726,
-                          "ec_y": 29282505716550359876088652089175574582220174797112460936156519019942441395880810275610087007658329365784666335133112
+                          "ec_x": 10143911019925982312647752521780437165618609523635737917895999231077092926802994880375399202010255491099761159689347,
+                          "ec_y": 10096834595952633206059743975463241341457192704838858828589651942174410626226122492176907667512810275408012516602877
                         }
                       },
                       {
@@ -1442,20 +1442,20 @@
                   },
                   {
                     "trust_store": {
-                      "path": "C:\\Idea_Progs\\sslyze-6.0.0-exe\\pem_files\\microsoft_windows.pem",
+                      "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/microsoft_windows.pem",
                       "name": "Windows",
-                      "version": "2023-12-11",
+                      "version": "2025-07-27",
                       "ev_oids": null
                     },
                     "verified_certificate_chain": [
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDoTCCAyagAwIBAgISBDI66Hmz/Ay12Uaw1Af3otAnMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNjAeFw0yNDA4MDYwMTIzNDBaFw0yNDExMDQwMTIzMzlaMCAxHjAcBgNVBAMTFWRv\nY3Muc2VjdXJlY29kZWJveC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmU\n4NkwFgzaqCBOFbEozmFLQQqWEgAJGzLiEIH2HutFYcMWMeZGHuxJTRE7rSmA/XZ0\nVkXdACkOH/c/tCwI+aijggIsMIICKDAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYw\nFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFBfQ\n5BhsUPMf8PuU9CBWHvHLnCRDMB8GA1UdIwQYMBaAFJMnRpgDqVFojpjWxEJI2yO/\nWJTSMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL2U2Lm8ubGVu\nY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vZTYuaS5sZW5jci5vcmcvMDYGA1Ud\nEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNlY3VyZWNvZGVib3gu\naW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8A\ndgBIsONr2qZHNA/lagL6nTDrHFIBy1bdLIHZu7+rOdiEcwAAAZElfncyAAAEAwBH\nMEUCIQDyMiVxMoPFF0npeuMoTO9Fy0J5qiM8wsjlSSM9G4Hn8AIgfR1Vu5RJlCCV\nmMpnzbA7eL16UFpJ+6Cf9wzBBG+rut8AdQDuzdBk1dsazsVct520zROiModGfLzs\n3sNRSFlGcR+1mwAAAZElfncyAAAEAwBGMEQCIAe1EPY9Zx1QTVNDJ7bA1Z45wkt+\niSpuGIxNp1jSO7U9AiAlTCepWClqY/QD49SiCIIClmbq57XrrE0nDH7JRSNmejAK\nBggqhkjOPQQDAwNpADBmAjEAuhhMYv+At+mux773Tmn2VZ5j7Sq0hpg4te7TC21W\nLIPZhoHxW/W+woSTuNm+JPHZAjEA8AdwN/V1nTWGjRIO9KzA2bRB2YZ0ibHcEWzv\nDouhjp6XiV7hr+Mz40i3YYoHP8dZ\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "/f5pAbX22PcfGGLDq3S6v1nmL9vFxRIwj5cPwteeL+w=",
-                        "fingerprint_sha1": "vPxHuL4TL4kEgs3OtThrZoLPINk=",
-                        "fingerprint_sha256": "uocrdBf8qlXcQ1FeqmpcuBF60XuOL0JbCXdhf0Mp8j0=",
-                        "serial_number": 365541564378146023680549190993804209082407,
-                        "not_valid_before": "2024-08-06T01:23:40Z",
-                        "not_valid_after": "2024-11-04T01:23:39Z",
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDqjCCAzGgAwIBAgISBaikhY2FkrgikpQUd3dAD62JMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNzAeFw0yNTEwMDEyMTUzNDhaFw0yNTEyMzAyMTUzNDdaMB8xHTAbBgNVBAMTFHd3\ndy5zZWN1cmVjb2RlYm94LmlvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMywh\n5YKlC8P5TYhV8KZ5y9gxsA13qHloxy8mlrAOcO17t9M/1+ZS4PmVg2XnqYBeunLe\ngDyo4ye++B4M1iDAvKOCAjgwggI0MA4GA1UdDwEB/wQEAwIHgDAdBgNVHSUEFjAU\nBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrfrJ\nuHpyIhfSRes4bDqldlZ3hBQwHwYDVR0jBBgwFoAUrkie3IcdRKBv2qLlYHQEeMKc\nAIAwMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAChhZodHRwOi8vZTcuaS5sZW5j\nci5vcmcvMDYGA1UdEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNl\nY3VyZWNvZGVib3guaW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwLQYDVR0fBCYwJDAi\noCCgHoYcaHR0cDovL2U3LmMubGVuY3Iub3JnLzEwLmNybDCCAQMGCisGAQQB1nkC\nBAIEgfQEgfEA7wB2AKRCxQZJYGFUjw/U6pz7ei0mRU2HqX8v30VZ9idPOoRUAAAB\nmaH5/JYAAAQDAEcwRQIgAQFp3e40Rfyvv4nEKa/RcvGKMSdllxNGW1S1x1xBDMQC\nIQDr1qyeXis95aed1hzYFn4YVJsm0GzqxY+15Qwhk9afUQB1AN3cyjSV1+EWBeeV\nMvrHn/g9HFDf2wA6FBJ2Ciysu8gqAAABmaH5/MsAAAQDAEYwRAIgU13QuiZEsedV\nWjP9yXV1uUS1kaTRuyPskm9jUxi0PnQCIGtr5kjLYNN6HFMZG4dfnGgtnFWrtT6s\nqo2CGu8LGFkBMAoGCCqGSM49BAMDA2cAMGQCMFlatoynCvX2Xc6tvB8+RwmjvbM/\n0GkP08eJIfNAKQuvg/FaM0QGRoVGjdsoyo3w+AIwTNbeZfvhPnYgICtO5fIYaAmD\nGJlKLeRH7mJQi2yEhVa40Ece4q2KtZ2bLdREj+w+\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "EeG5abHJH0h/hL/ewZv6trM1W3PuAVvo2mBNvyT67RY=",
+                        "fingerprint_sha1": "GpMcsWlxDXTbEVAYkmJ7VSIy/HY=",
+                        "fingerprint_sha256": "fskYWXpTCa6xGIqRvSfYvjaiUh9o1h8irJOpyqGL/CU=",
+                        "serial_number": 492947554138712313576529017960504612597129,
+                        "not_valid_before": "2025-10-01T21:53:48Z",
+                        "not_valid_after": "2025-12-30T21:53:47Z",
                         "subject_alternative_name": {
                           "dns_names": [
                             "docs.securecodebox.io",
@@ -1472,20 +1472,20 @@
                           "dotted_string": "1.2.840.10045.4.3.3"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=docs.securecodebox.io",
+                          "rfc4514_string": "CN=www.securecodebox.io",
                           "attributes": [
                             {
                               "oid": {
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "docs.securecodebox.io",
-                              "rfc4514_string": "CN=docs.securecodebox.io"
+                              "value": "www.securecodebox.io",
+                              "rfc4514_string": "CN=www.securecodebox.io"
                             }
                           ]
                         },
                         "issuer": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -1508,8 +1508,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -1519,16 +1519,16 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp256r1",
-                          "ec_x": 105651938932042438160683241419287481199333348502392281247356180656808110517061,
-                          "ec_y": 44219034673916313804121807795823594420017649717338233405844233942187136055720
+                          "ec_x": 23145930493812559470010843233528791720220213752287081722126068804647625060589,
+                          "ec_y": 55959271378288915343578036156220382047354444980935818078294675245257717760188
                         }
                       },
                       {
-                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRALBXPpFzlydw27SHyzpFKzgwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTYwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAATZ8Z5G\nh/ghcWCoJuuj+rnq2h25EqfUJtlRFLFhfHWWvyILOR/VvtEKRqotPEoJhC6+QJVV\n6RlAN2Z17TJOdwRJ+HB7wxjnzvdxEP6sdNgA1O1tHHMWMxCcOrLqbGL0vbijgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSTJ0aYA6lRaI6Y1sRCSNsj\nv1iU0jAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAfYt7SiA1sgWGCIpunk46r4AExIRc\nMxkKgUhNlrrv1B21hOaXN/5miE+LOTbrcmU/M9yvC6MVY730GNFoL8IhJ8j8vrOL\npMY22OP6baS1k9YMrtDTlwJHoGby04ThTUeBDksS9RiuHvicZqBedQdIF65pZuhp\neDcGBcLiYasQr/EO5gxxtLyTmgsHSOVSBcFOn9lgv7LECPq9i7mfH3mpxgrRKSxH\npOoZ0KXMcB+hHuvlklHntvcI0mMMQ0mhYj6qtMFStkF1RpCG3IPdIwpVCQqu8GV7\ns8ubknRzs+3C/Bm19RFOoiPpDkwvyNfvmQ14XkyqqKK5oZ8zhD32kFRQkxa8uZSu\nh4aTImFxknu39waBxIRXE4jKxlAmQc4QjFZoq1KmQqQg0J/1JF8RlFvJas1VcjLv\nYlvUB2t6npO6oQjB3l+PNf0DpQH7iUx3Wz5AjQCi6L25FjyE06q6BZ/QlmtYdl/8\nZYao4SRqPEs/6cAiF+Qf5zg2UkaWtDphl1LKMuTNLotvsX99HP69V2faNyegodQ0\nLyTApr/vT01YPE46vNsDLgK+4cL6TrzC/a4WcmF5SRJ938zrv/duJHLXQIku5v0+\nEwOy59Hdm0PT/Er/84dDV0CSjdR/2XuZM3kpysSKLgD1cKiDA+IRguODCxfO9cyY\nIg46v9mFmBvyH04=\n-----END CERTIFICATE-----\n",
-                        "hpkp_pin": "0Bbh/jEZSKymTy3kTOhsmlHKBB32EDu1KojrP3YfV9c=",
-                        "fingerprint_sha1": "yU3EgxqQGp/sD7Sbcb1JtarU+tA=",
-                        "fingerprint_sha256": "duniiKr8Djf0OQy/lGqtmX1cHJAbPOUT09j626viq4U=",
-                        "serial_number": 234397126118090224789023519560838753080,
+                        "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRAKp18eYrjwoiCWbTi7/UuqEwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTcwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARB6AST\nCFh/vjcwDMCgQer+VtqEkz7JANurZxLP+U9TCeioL6sp5Z8VRvRbYk4P1INBmbef\nQHJFHCxcSjKmwtvGBWpl/9ra8HW0QDsUaJW2qOJqceJ0ZVFT3hbUHifBM/2jgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSuSJ7chx1EoG/aouVgdAR4\nwpwAgDAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAjx66fDdLk5ywFn3CzA1w1qfylHUD\naEf0QZpXcJseddJGSfbUUOvbNR9N/QQ16K1lXl4VFyhmGXDT5Kdfcr0RvIIVrNxF\nh4lqHtRRCP6RBRstqbZ2zURgqakn/Xip0iaQL0IdfHBZr396FgknniRYFckKORPG\nyM3QKnd66gtMst8I5nkRQlAg/Jb+Gc3egIvuGKWboE1G89NTsN9LTDD3PLj0dUMr\nOIuqVjLB8pEC6yk9enrlrqjXQgkLEYhXzq7dLafv5Vkig6Gl0nuuqjqfp0Q1bi1o\nyVNAlXe6aUXw92CcghC9bNsKEO1+M52YY5+ofIXlS/SEQbvVYYBLZ5yeiglV6t3S\nM6H+vTG0aP9YHzLn/KVOHzGQfXDP7qM5tkf+7diZe7o2fw6O7IvN6fsQXEQQj8TJ\nUXJxv2/uJhcuy/tSDgXwHM8Uk34WNbRT7zGTGkQRX0gsbjAea/jYAoWv0ZvQRwpq\nPe79D/i7Cep8qWnA+7AE/3B3S/3dEEYmc0lpe1366A/6GEgk3ktr9PEoQrLChs6I\ntu3wnNLB2euC8IKGLQFpGtOO/2/hiAKjyajaBP25w1jF0Wl8Bbqne3uZ2q1GyPFJ\nYRmT7/OXpmOH/FVLtwS+8ng1cAmpCujPwteJZNcDG0sF2n/sc0+SQf49fdyUK0ty\n+VUwFj9tmWxyR/M=\n-----END CERTIFICATE-----\n",
+                        "hpkp_pin": "y7xVm0TVJNahMr2sZydE2jQH8SquXV9yLF9seROHHHU=",
+                        "fingerprint_sha1": "O3PBfj34fPOqd/E4khnrXt1Rnn8=",
+                        "fingerprint_sha256": "rrH9dBDoO8lvXaPGp8LBu4NtH6XLhucIUViQ5Ciodws=",
+                        "serial_number": 226581164312556911225609404641709439649,
                         "not_valid_before": "2024-03-13T00:00:00Z",
                         "not_valid_after": "2027-03-12T23:59:59Z",
                         "subject_alternative_name": {
@@ -1544,7 +1544,7 @@
                           "dotted_string": "1.2.840.113549.1.1.11"
                         },
                         "subject": {
-                          "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                          "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                           "attributes": [
                             {
                               "oid": {
@@ -1567,8 +1567,8 @@
                                 "name": "commonName",
                                 "dotted_string": "2.5.4.3"
                               },
-                              "value": "E6",
-                              "rfc4514_string": "CN=E6"
+                              "value": "E7",
+                              "rfc4514_string": "CN=E7"
                             }
                           ]
                         },
@@ -1607,8 +1607,8 @@
                           "rsa_e": null,
                           "rsa_n": null,
                           "ec_curve_name": "secp384r1",
-                          "ec_x": 33544624214879595901080607494054639950027787097700261428985818556436373079967754716763378306604804536953562479559726,
-                          "ec_y": 29282505716550359876088652089175574582220174797112460936156519019942441395880810275610087007658329365784666335133112
+                          "ec_x": 10143911019925982312647752521780437165618609523635737917895999231077092926802994880375399202010255491099761159689347,
+                          "ec_y": 10096834595952633206059743975463241341457192704838858828589651942174410626226122492176907667512810275408012516602877
                         }
                       },
                       {
@@ -1710,13 +1710,13 @@
                 "ocsp_response_is_trusted": null,
                 "verified_certificate_chain": [
                   {
-                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDoTCCAyagAwIBAgISBDI66Hmz/Ay12Uaw1Af3otAnMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNjAeFw0yNDA4MDYwMTIzNDBaFw0yNDExMDQwMTIzMzlaMCAxHjAcBgNVBAMTFWRv\nY3Muc2VjdXJlY29kZWJveC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmU\n4NkwFgzaqCBOFbEozmFLQQqWEgAJGzLiEIH2HutFYcMWMeZGHuxJTRE7rSmA/XZ0\nVkXdACkOH/c/tCwI+aijggIsMIICKDAOBgNVHQ8BAf8EBAMCB4AwHQYDVR0lBBYw\nFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFBfQ\n5BhsUPMf8PuU9CBWHvHLnCRDMB8GA1UdIwQYMBaAFJMnRpgDqVFojpjWxEJI2yO/\nWJTSMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL2U2Lm8ubGVu\nY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vZTYuaS5sZW5jci5vcmcvMDYGA1Ud\nEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNlY3VyZWNvZGVib3gu\naW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8A\ndgBIsONr2qZHNA/lagL6nTDrHFIBy1bdLIHZu7+rOdiEcwAAAZElfncyAAAEAwBH\nMEUCIQDyMiVxMoPFF0npeuMoTO9Fy0J5qiM8wsjlSSM9G4Hn8AIgfR1Vu5RJlCCV\nmMpnzbA7eL16UFpJ+6Cf9wzBBG+rut8AdQDuzdBk1dsazsVct520zROiModGfLzs\n3sNRSFlGcR+1mwAAAZElfncyAAAEAwBGMEQCIAe1EPY9Zx1QTVNDJ7bA1Z45wkt+\niSpuGIxNp1jSO7U9AiAlTCepWClqY/QD49SiCIIClmbq57XrrE0nDH7JRSNmejAK\nBggqhkjOPQQDAwNpADBmAjEAuhhMYv+At+mux773Tmn2VZ5j7Sq0hpg4te7TC21W\nLIPZhoHxW/W+woSTuNm+JPHZAjEA8AdwN/V1nTWGjRIO9KzA2bRB2YZ0ibHcEWzv\nDouhjp6XiV7hr+Mz40i3YYoHP8dZ\n-----END CERTIFICATE-----\n",
-                    "hpkp_pin": "/f5pAbX22PcfGGLDq3S6v1nmL9vFxRIwj5cPwteeL+w=",
-                    "fingerprint_sha1": "vPxHuL4TL4kEgs3OtThrZoLPINk=",
-                    "fingerprint_sha256": "uocrdBf8qlXcQ1FeqmpcuBF60XuOL0JbCXdhf0Mp8j0=",
-                    "serial_number": 365541564378146023680549190993804209082407,
-                    "not_valid_before": "2024-08-06T01:23:40Z",
-                    "not_valid_after": "2024-11-04T01:23:39Z",
+                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIDqjCCAzGgAwIBAgISBaikhY2FkrgikpQUd3dAD62JMAoGCCqGSM49BAMDMDIx\nCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF\nNzAeFw0yNTEwMDEyMTUzNDhaFw0yNTEyMzAyMTUzNDdaMB8xHTAbBgNVBAMTFHd3\ndy5zZWN1cmVjb2RlYm94LmlvMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMywh\n5YKlC8P5TYhV8KZ5y9gxsA13qHloxy8mlrAOcO17t9M/1+ZS4PmVg2XnqYBeunLe\ngDyo4ye++B4M1iDAvKOCAjgwggI0MA4GA1UdDwEB/wQEAwIHgDAdBgNVHSUEFjAU\nBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrfrJ\nuHpyIhfSRes4bDqldlZ3hBQwHwYDVR0jBBgwFoAUrkie3IcdRKBv2qLlYHQEeMKc\nAIAwMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAChhZodHRwOi8vZTcuaS5sZW5j\nci5vcmcvMDYGA1UdEQQvMC2CFWRvY3Muc2VjdXJlY29kZWJveC5pb4IUd3d3LnNl\nY3VyZWNvZGVib3guaW8wEwYDVR0gBAwwCjAIBgZngQwBAgEwLQYDVR0fBCYwJDAi\noCCgHoYcaHR0cDovL2U3LmMubGVuY3Iub3JnLzEwLmNybDCCAQMGCisGAQQB1nkC\nBAIEgfQEgfEA7wB2AKRCxQZJYGFUjw/U6pz7ei0mRU2HqX8v30VZ9idPOoRUAAAB\nmaH5/JYAAAQDAEcwRQIgAQFp3e40Rfyvv4nEKa/RcvGKMSdllxNGW1S1x1xBDMQC\nIQDr1qyeXis95aed1hzYFn4YVJsm0GzqxY+15Qwhk9afUQB1AN3cyjSV1+EWBeeV\nMvrHn/g9HFDf2wA6FBJ2Ciysu8gqAAABmaH5/MsAAAQDAEYwRAIgU13QuiZEsedV\nWjP9yXV1uUS1kaTRuyPskm9jUxi0PnQCIGtr5kjLYNN6HFMZG4dfnGgtnFWrtT6s\nqo2CGu8LGFkBMAoGCCqGSM49BAMDA2cAMGQCMFlatoynCvX2Xc6tvB8+RwmjvbM/\n0GkP08eJIfNAKQuvg/FaM0QGRoVGjdsoyo3w+AIwTNbeZfvhPnYgICtO5fIYaAmD\nGJlKLeRH7mJQi2yEhVa40Ece4q2KtZ2bLdREj+w+\n-----END CERTIFICATE-----\n",
+                    "hpkp_pin": "EeG5abHJH0h/hL/ewZv6trM1W3PuAVvo2mBNvyT67RY=",
+                    "fingerprint_sha1": "GpMcsWlxDXTbEVAYkmJ7VSIy/HY=",
+                    "fingerprint_sha256": "fskYWXpTCa6xGIqRvSfYvjaiUh9o1h8irJOpyqGL/CU=",
+                    "serial_number": 492947554138712313576529017960504612597129,
+                    "not_valid_before": "2025-10-01T21:53:48Z",
+                    "not_valid_after": "2025-12-30T21:53:47Z",
                     "subject_alternative_name": {
                       "dns_names": [
                         "docs.securecodebox.io",
@@ -1733,20 +1733,20 @@
                       "dotted_string": "1.2.840.10045.4.3.3"
                     },
                     "subject": {
-                      "rfc4514_string": "CN=docs.securecodebox.io",
+                      "rfc4514_string": "CN=www.securecodebox.io",
                       "attributes": [
                         {
                           "oid": {
                             "name": "commonName",
                             "dotted_string": "2.5.4.3"
                           },
-                          "value": "docs.securecodebox.io",
-                          "rfc4514_string": "CN=docs.securecodebox.io"
+                          "value": "www.securecodebox.io",
+                          "rfc4514_string": "CN=www.securecodebox.io"
                         }
                       ]
                     },
                     "issuer": {
-                      "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                      "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                       "attributes": [
                         {
                           "oid": {
@@ -1769,8 +1769,8 @@
                             "name": "commonName",
                             "dotted_string": "2.5.4.3"
                           },
-                          "value": "E6",
-                          "rfc4514_string": "CN=E6"
+                          "value": "E7",
+                          "rfc4514_string": "CN=E7"
                         }
                       ]
                     },
@@ -1780,16 +1780,16 @@
                       "rsa_e": null,
                       "rsa_n": null,
                       "ec_curve_name": "secp256r1",
-                      "ec_x": 105651938932042438160683241419287481199333348502392281247356180656808110517061,
-                      "ec_y": 44219034673916313804121807795823594420017649717338233405844233942187136055720
+                      "ec_x": 23145930493812559470010843233528791720220213752287081722126068804647625060589,
+                      "ec_y": 55959271378288915343578036156220382047354444980935818078294675245257717760188
                     }
                   },
                   {
-                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRALBXPpFzlydw27SHyzpFKzgwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTYwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAATZ8Z5G\nh/ghcWCoJuuj+rnq2h25EqfUJtlRFLFhfHWWvyILOR/VvtEKRqotPEoJhC6+QJVV\n6RlAN2Z17TJOdwRJ+HB7wxjnzvdxEP6sdNgA1O1tHHMWMxCcOrLqbGL0vbijgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSTJ0aYA6lRaI6Y1sRCSNsj\nv1iU0jAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAfYt7SiA1sgWGCIpunk46r4AExIRc\nMxkKgUhNlrrv1B21hOaXN/5miE+LOTbrcmU/M9yvC6MVY730GNFoL8IhJ8j8vrOL\npMY22OP6baS1k9YMrtDTlwJHoGby04ThTUeBDksS9RiuHvicZqBedQdIF65pZuhp\neDcGBcLiYasQr/EO5gxxtLyTmgsHSOVSBcFOn9lgv7LECPq9i7mfH3mpxgrRKSxH\npOoZ0KXMcB+hHuvlklHntvcI0mMMQ0mhYj6qtMFStkF1RpCG3IPdIwpVCQqu8GV7\ns8ubknRzs+3C/Bm19RFOoiPpDkwvyNfvmQ14XkyqqKK5oZ8zhD32kFRQkxa8uZSu\nh4aTImFxknu39waBxIRXE4jKxlAmQc4QjFZoq1KmQqQg0J/1JF8RlFvJas1VcjLv\nYlvUB2t6npO6oQjB3l+PNf0DpQH7iUx3Wz5AjQCi6L25FjyE06q6BZ/QlmtYdl/8\nZYao4SRqPEs/6cAiF+Qf5zg2UkaWtDphl1LKMuTNLotvsX99HP69V2faNyegodQ0\nLyTApr/vT01YPE46vNsDLgK+4cL6TrzC/a4WcmF5SRJ938zrv/duJHLXQIku5v0+\nEwOy59Hdm0PT/Er/84dDV0CSjdR/2XuZM3kpysSKLgD1cKiDA+IRguODCxfO9cyY\nIg46v9mFmBvyH04=\n-----END CERTIFICATE-----\n",
-                    "hpkp_pin": "0Bbh/jEZSKymTy3kTOhsmlHKBB32EDu1KojrP3YfV9c=",
-                    "fingerprint_sha1": "yU3EgxqQGp/sD7Sbcb1JtarU+tA=",
-                    "fingerprint_sha256": "duniiKr8Djf0OQy/lGqtmX1cHJAbPOUT09j626viq4U=",
-                    "serial_number": 234397126118090224789023519560838753080,
+                    "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEVzCCAj+gAwIBAgIRAKp18eYrjwoiCWbTi7/UuqEwDQYJKoZIhvcNAQELBQAw\nTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh\ncmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw\nWhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg\nRW5jcnlwdDELMAkGA1UEAxMCRTcwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARB6AST\nCFh/vjcwDMCgQer+VtqEkz7JANurZxLP+U9TCeioL6sp5Z8VRvRbYk4P1INBmbef\nQHJFHCxcSjKmwtvGBWpl/9ra8HW0QDsUaJW2qOJqceJ0ZVFT3hbUHifBM/2jgfgw\ngfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD\nATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSuSJ7chx1EoG/aouVgdAR4\nwpwAgDAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB\nAQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g\nBAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu\nY3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAjx66fDdLk5ywFn3CzA1w1qfylHUD\naEf0QZpXcJseddJGSfbUUOvbNR9N/QQ16K1lXl4VFyhmGXDT5Kdfcr0RvIIVrNxF\nh4lqHtRRCP6RBRstqbZ2zURgqakn/Xip0iaQL0IdfHBZr396FgknniRYFckKORPG\nyM3QKnd66gtMst8I5nkRQlAg/Jb+Gc3egIvuGKWboE1G89NTsN9LTDD3PLj0dUMr\nOIuqVjLB8pEC6yk9enrlrqjXQgkLEYhXzq7dLafv5Vkig6Gl0nuuqjqfp0Q1bi1o\nyVNAlXe6aUXw92CcghC9bNsKEO1+M52YY5+ofIXlS/SEQbvVYYBLZ5yeiglV6t3S\nM6H+vTG0aP9YHzLn/KVOHzGQfXDP7qM5tkf+7diZe7o2fw6O7IvN6fsQXEQQj8TJ\nUXJxv2/uJhcuy/tSDgXwHM8Uk34WNbRT7zGTGkQRX0gsbjAea/jYAoWv0ZvQRwpq\nPe79D/i7Cep8qWnA+7AE/3B3S/3dEEYmc0lpe1366A/6GEgk3ktr9PEoQrLChs6I\ntu3wnNLB2euC8IKGLQFpGtOO/2/hiAKjyajaBP25w1jF0Wl8Bbqne3uZ2q1GyPFJ\nYRmT7/OXpmOH/FVLtwS+8ng1cAmpCujPwteJZNcDG0sF2n/sc0+SQf49fdyUK0ty\n+VUwFj9tmWxyR/M=\n-----END CERTIFICATE-----\n",
+                    "hpkp_pin": "y7xVm0TVJNahMr2sZydE2jQH8SquXV9yLF9seROHHHU=",
+                    "fingerprint_sha1": "O3PBfj34fPOqd/E4khnrXt1Rnn8=",
+                    "fingerprint_sha256": "rrH9dBDoO8lvXaPGp8LBu4NtH6XLhucIUViQ5Ciodws=",
+                    "serial_number": 226581164312556911225609404641709439649,
                     "not_valid_before": "2024-03-13T00:00:00Z",
                     "not_valid_after": "2027-03-12T23:59:59Z",
                     "subject_alternative_name": {
@@ -1805,7 +1805,7 @@
                       "dotted_string": "1.2.840.113549.1.1.11"
                     },
                     "subject": {
-                      "rfc4514_string": "CN=E6,O=Let's Encrypt,C=US",
+                      "rfc4514_string": "CN=E7,O=Let's Encrypt,C=US",
                       "attributes": [
                         {
                           "oid": {
@@ -1828,8 +1828,8 @@
                             "name": "commonName",
                             "dotted_string": "2.5.4.3"
                           },
-                          "value": "E6",
-                          "rfc4514_string": "CN=E6"
+                          "value": "E7",
+                          "rfc4514_string": "CN=E7"
                         }
                       ]
                     },
@@ -1868,8 +1868,8 @@
                       "rsa_e": null,
                       "rsa_n": null,
                       "ec_curve_name": "secp384r1",
-                      "ec_x": 33544624214879595901080607494054639950027787097700261428985818556436373079967754716763378306604804536953562479559726,
-                      "ec_y": 29282505716550359876088652089175574582220174797112460936156519019942441395880810275610087007658329365784666335133112
+                      "ec_x": 10143911019925982312647752521780437165618609523635737917895999231077092926802994880375399202010255491099761159689347,
+                      "ec_y": 10096834595952633206059743975463241341457192704838858828589651942174410626226122492176907667512810275408012516602877
                     }
                   },
                   {
@@ -1962,7 +1962,462 @@
                   }
                 ]
               }
-            ]
+            ],
+            "certificate_deployment_with_sni_disabled": {
+              "received_certificate_chain": [
+                {
+                  "as_pem": "-----BEGIN CERTIFICATE-----\nMIIGFzCCBP+gAwIBAgIQBOh2HDFLUZ516TWBqEo4OjANBgkqhkiG9w0BAQsFADBZ\nMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMTMwMQYDVQQDEypE\naWdpQ2VydCBHbG9iYWwgRzIgVExTIFJTQSBTSEEyNTYgMjAyMCBDQTEwHhcNMjUw\nMTMxMDAwMDAwWhcNMjYwMzAzMjM1OTU5WjBpMQswCQYDVQQGEwJVUzETMBEGA1UE\nCBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEVMBMGA1UEChMM\nTmV0bGlmeSwgSW5jMRYwFAYDVQQDDA0qLm5ldGxpZnkuYXBwMFkwEwYHKoZIzj0C\nAQYIKoZIzj0DAQcDQgAEZMOrg6Gfm/f/5QC/Qa7N0c0cXY1NYvsO5JAzEy21RZHm\neiagXgGuJYT71YgjfhN+qdOl3mktkWnDEoZalAJCKKOCA5QwggOQMB8GA1UdIwQY\nMBaAFHSFgMBmx9833s+9KTeqAx2+7c0XMB0GA1UdDgQWBBQ+ar5uJawSEKu+8eun\nqbxtiH1UjzAlBgNVHREEHjAcgg0qLm5ldGxpZnkuYXBwggtuZXRsaWZ5LmFwcDA+\nBgNVHSAENzA1MDMGBmeBDAECAjApMCcGCCsGAQUFBwIBFhtodHRwOi8vd3d3LmRp\nZ2ljZXJ0LmNvbS9DUFMwDgYDVR0PAQH/BAQDAgOIMB0GA1UdJQQWMBQGCCsGAQUF\nBwMBBggrBgEFBQcDAjCBnwYDVR0fBIGXMIGUMEigRqBEhkJodHRwOi8vY3JsMy5k\naWdpY2VydC5jb20vRGlnaUNlcnRHbG9iYWxHMlRMU1JTQVNIQTI1NjIwMjBDQTEt\nMS5jcmwwSKBGoESGQmh0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEds\nb2JhbEcyVExTUlNBU0hBMjU2MjAyMENBMS0xLmNybDCBhwYIKwYBBQUHAQEEezB5\nMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wUQYIKwYBBQUH\nMAKGRWh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEdsb2JhbEcy\nVExTUlNBU0hBMjU2MjAyMENBMS0xLmNydDAMBgNVHRMBAf8EAjAAMIIBfAYKKwYB\nBAHWeQIEAgSCAWwEggFoAWYAdQAOV5S8866pPjMbLJkHs/eQ35vCPXEyJd0hqSWs\nYcVOIQAAAZS9P0aOAAAEAwBGMEQCIE6XmOq9I/7snWnAd1U1UXoUB0lwj8rqqVzD\nsi3HTQlyAiBiuAWoupSgK3hMUl8q+NH6aLwOqXcOVLtgInYskFZopgB2AGQRxGyk\nEuyniRyiAi4AvKtPKAfUHjUnq+r+1QPJfc3wAAABlL0/RqsAAAQDAEcwRQIhAMvL\nIrY59EOxwrPHEj/aF9WviahUu1N+G5Cwf59ModrKAiAuy8LtsO7fmVzCaGEbPIvd\nvizhTQG6bxw+tlfJge9OQwB1AEmcm2neHXzs/DbezYdkprhbrwqHgBnRVVL76esp\n3fjDAAABlL0/RsIAAAQDAEYwRAIgJnNNG4SqCnyuTVl8guVho8u/FmH+GDN28mTL\nod5um3gCIBD98cv5CDQ6ckmcWTrl//sOttzec9EuX5s3lp3KubbUMA0GCSqGSIb3\nDQEBCwUAA4IBAQAfKrVCjtNdOobCHm+TqJ+v+IDjMccHae6fWB5xygVuSmbWsPMD\neuU/d6KIDrsg07ZPucQOC4JO5sh8IGV1hpkb4MigbQ/6HYda732hONEjZIo5elZj\nImam8PoI/mrk15YVY92sT0ZcQZ63bqzMIV47EDJFGIM1T/SpLEFB2mkclCViU3YI\nFSSzCNkqXL0lyrSluJhiFYiLJGez2lYblMlXmvw1USfCNdK5oBcpSbfsgeipN8EO\n3d0zJN8ANhG02ivcPj+ENu3qx5ayECtfOiRC0qca3Y/Scn8jwH+mpTqd8yi8Yba9\nHnxRhDswDplOYc86CBbWJz8P76RddXIRyoWN\n-----END CERTIFICATE-----\n",
+                  "hpkp_pin": "DFv0rPImhleLzIvctvEusBa5wnzQ/+aSqyW18y26L+s=",
+                  "fingerprint_sha1": "BCjJo7wGUJxrC2dygifGPZkbW3E=",
+                  "fingerprint_sha256": "+jRqoBz1nMcwylUjE6E+DyGMOgu1zOVnCf5k7JdOjXU=",
+                  "serial_number": 6523920412297345150429844430373140538,
+                  "not_valid_before": "2025-01-31T00:00:00Z",
+                  "not_valid_after": "2026-03-03T23:59:59Z",
+                  "subject_alternative_name": {
+                    "dns_names": [
+                      "*.netlify.app",
+                      "netlify.app"
+                    ],
+                    "ip_addresses": []
+                  },
+                  "signature_hash_algorithm": {
+                    "name": "sha256",
+                    "digest_size": 32
+                  },
+                  "signature_algorithm_oid": {
+                    "name": "sha256WithRSAEncryption",
+                    "dotted_string": "1.2.840.113549.1.1.11"
+                  },
+                  "subject": {
+                    "rfc4514_string": "CN=*.netlify.app,O=Netlify\\, Inc,L=San Francisco,ST=California,C=US",
+                    "attributes": [
+                      {
+                        "oid": {
+                          "name": "countryName",
+                          "dotted_string": "2.5.4.6"
+                        },
+                        "value": "US",
+                        "rfc4514_string": "C=US"
+                      },
+                      {
+                        "oid": {
+                          "name": "stateOrProvinceName",
+                          "dotted_string": "2.5.4.8"
+                        },
+                        "value": "California",
+                        "rfc4514_string": "ST=California"
+                      },
+                      {
+                        "oid": {
+                          "name": "localityName",
+                          "dotted_string": "2.5.4.7"
+                        },
+                        "value": "San Francisco",
+                        "rfc4514_string": "L=San Francisco"
+                      },
+                      {
+                        "oid": {
+                          "name": "organizationName",
+                          "dotted_string": "2.5.4.10"
+                        },
+                        "value": "Netlify, Inc",
+                        "rfc4514_string": "O=Netlify\\, Inc"
+                      },
+                      {
+                        "oid": {
+                          "name": "commonName",
+                          "dotted_string": "2.5.4.3"
+                        },
+                        "value": "*.netlify.app",
+                        "rfc4514_string": "CN=*.netlify.app"
+                      }
+                    ]
+                  },
+                  "issuer": {
+                    "rfc4514_string": "CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1,O=DigiCert Inc,C=US",
+                    "attributes": [
+                      {
+                        "oid": {
+                          "name": "countryName",
+                          "dotted_string": "2.5.4.6"
+                        },
+                        "value": "US",
+                        "rfc4514_string": "C=US"
+                      },
+                      {
+                        "oid": {
+                          "name": "organizationName",
+                          "dotted_string": "2.5.4.10"
+                        },
+                        "value": "DigiCert Inc",
+                        "rfc4514_string": "O=DigiCert Inc"
+                      },
+                      {
+                        "oid": {
+                          "name": "commonName",
+                          "dotted_string": "2.5.4.3"
+                        },
+                        "value": "DigiCert Global G2 TLS RSA SHA256 2020 CA1",
+                        "rfc4514_string": "CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1"
+                      }
+                    ]
+                  },
+                  "public_key": {
+                    "algorithm": "ECPublicKey",
+                    "key_size": 256,
+                    "rsa_e": null,
+                    "rsa_n": null,
+                    "ec_curve_name": "secp256r1",
+                    "ec_x": 45577003783357676761649353187521594006103959909657718438812766175149149210001,
+                    "ec_y": 104247777105906923635316931428843044854754286628166285377708048014706900877864
+                  }
+                },
+                {
+                  "as_pem": "-----BEGIN CERTIFICATE-----\nMIIEyDCCA7CgAwIBAgIQDPW9BitWAvR6uFAsI8zwZjANBgkqhkiG9w0BAQsFADBh\nMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\nd3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBH\nMjAeFw0yMTAzMzAwMDAwMDBaFw0zMTAzMjkyMzU5NTlaMFkxCzAJBgNVBAYTAlVT\nMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxMzAxBgNVBAMTKkRpZ2lDZXJ0IEdsb2Jh\nbCBHMiBUTFMgUlNBIFNIQTI1NiAyMDIwIENBMTCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBAMz3EGJPprtjb+2QUlbFbSd7ehJWivH0+dbn4Y+9lavyYEEV\ncNsSAPonCrVXOFt9slGTcZUOakGUWzUb+nv6u8W+JDD+Vu/E832X4xT1FE3LpxDy\nFuqrIvAxIhFhaZAmunjZlx/jfWardUSVc8is/+9dCopZQ+GssjoP80j812s3wWPc\n3kbW20X+fSP9kOhRBx5Ro1/tSUZUfyyIxfQTnJcVPAPooTncaQwywa8WV0yUR0J8\nosicfebUTVSvQpmowQTCd5zWSOTOEeAqgJnwQ3DPP3Zr0UxJqyRewg2C/Uaoq2yT\nzGJSQnWS+Jr6Xl6ysGHlHx+5fwmY6D36g39HaaECAwEAAaOCAYIwggF+MBIGA1Ud\nEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHSFgMBmx9833s+9KTeqAx2+7c0XMB8G\nA1UdIwQYMBaAFE4iVCAYlebjbuYP+vq5Eu0GF485MA4GA1UdDwEB/wQEAwIBhjAd\nBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwdgYIKwYBBQUHAQEEajBoMCQG\nCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQAYIKwYBBQUHMAKG\nNGh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEdsb2JhbFJvb3RH\nMi5jcnQwQgYDVR0fBDswOTA3oDWgM4YxaHR0cDovL2NybDMuZGlnaWNlcnQuY29t\nL0RpZ2lDZXJ0R2xvYmFsUm9vdEcyLmNybDA9BgNVHSAENjA0MAsGCWCGSAGG/WwC\nATAHBgVngQwBATAIBgZngQwBAgEwCAYGZ4EMAQICMAgGBmeBDAECAzANBgkqhkiG\n9w0BAQsFAAOCAQEAkPFwyyiXaZd8dP3A+iZ7U6utzWX9upwGnIrXWkOH7U1MVl+t\nwcW1BSAuWdH/SvWgKtiwla3JLko716f2b4gp/DA/JIS7w7d7kwcsr4drdjPtAFVS\nslme5LnQ89/nD/7d+MS5EHKBCQRfz5eeLjJ1js+aWNJXMX43AYGyZm0pGrFmCW3R\nbpD0ufovARTFXFZkAdl9h6g4U5+LXUZtXMYnhIHUfoyMo5tS58aI7Dd8KvvwVVo4\nchDYABPPTHPbqjc1qCmBaZx2vN4Ye5DUys/vZwP9BFohFrH/6j/f3IL16/RZkiMN\nJCqVJUzKoZHm1Lesh3Sz8W2jmdv51b2EQJ8HmA==\n-----END CERTIFICATE-----\n",
+                  "hpkp_pin": "Wec45nQiFwKvHtuHxSAMGkt19k+uPSw9JlEkxhvYPHk=",
+                  "fingerprint_sha1": "G1Eavq1Zxs4gcHfAvw4AQ7E4JhI=",
+                  "fingerprint_sha256": "yAJfn8Zf38lbPKjMeGe5pYe1J3lzlXkXRj/IE9C2Jak=",
+                  "serial_number": 17226682543955925492517929723242541158,
+                  "not_valid_before": "2021-03-30T00:00:00Z",
+                  "not_valid_after": "2031-03-29T23:59:59Z",
+                  "subject_alternative_name": {
+                    "dns_names": [],
+                    "ip_addresses": []
+                  },
+                  "signature_hash_algorithm": {
+                    "name": "sha256",
+                    "digest_size": 32
+                  },
+                  "signature_algorithm_oid": {
+                    "name": "sha256WithRSAEncryption",
+                    "dotted_string": "1.2.840.113549.1.1.11"
+                  },
+                  "subject": {
+                    "rfc4514_string": "CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1,O=DigiCert Inc,C=US",
+                    "attributes": [
+                      {
+                        "oid": {
+                          "name": "countryName",
+                          "dotted_string": "2.5.4.6"
+                        },
+                        "value": "US",
+                        "rfc4514_string": "C=US"
+                      },
+                      {
+                        "oid": {
+                          "name": "organizationName",
+                          "dotted_string": "2.5.4.10"
+                        },
+                        "value": "DigiCert Inc",
+                        "rfc4514_string": "O=DigiCert Inc"
+                      },
+                      {
+                        "oid": {
+                          "name": "commonName",
+                          "dotted_string": "2.5.4.3"
+                        },
+                        "value": "DigiCert Global G2 TLS RSA SHA256 2020 CA1",
+                        "rfc4514_string": "CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1"
+                      }
+                    ]
+                  },
+                  "issuer": {
+                    "rfc4514_string": "CN=DigiCert Global Root G2,OU=www.digicert.com,O=DigiCert Inc,C=US",
+                    "attributes": [
+                      {
+                        "oid": {
+                          "name": "countryName",
+                          "dotted_string": "2.5.4.6"
+                        },
+                        "value": "US",
+                        "rfc4514_string": "C=US"
+                      },
+                      {
+                        "oid": {
+                          "name": "organizationName",
+                          "dotted_string": "2.5.4.10"
+                        },
+                        "value": "DigiCert Inc",
+                        "rfc4514_string": "O=DigiCert Inc"
+                      },
+                      {
+                        "oid": {
+                          "name": "organizationalUnitName",
+                          "dotted_string": "2.5.4.11"
+                        },
+                        "value": "www.digicert.com",
+                        "rfc4514_string": "OU=www.digicert.com"
+                      },
+                      {
+                        "oid": {
+                          "name": "commonName",
+                          "dotted_string": "2.5.4.3"
+                        },
+                        "value": "DigiCert Global Root G2",
+                        "rfc4514_string": "CN=DigiCert Global Root G2"
+                      }
+                    ]
+                  },
+                  "public_key": {
+                    "algorithm": "RSAPublicKey",
+                    "key_size": 2048,
+                    "rsa_e": 65537,
+                    "rsa_n": 25874446012263004255807510119777297091849183258009765544300579247799959319311475244809957970882258251241652779833375311666805642941868629020555671400627890265825945605133836886378365796595289486674494940929978692869062083147910386407365192389678785593247787542109663575958714493281147611508823046915669615752014055162140966536682924210567291104980135806693321339426637852253983896424256276138858326423760959108203331453632162212307912573035614426744666899718115196552110413755351457272742846225012422315173254002609366786659772069158814720450128497832551509127461860625923662868927421893864705813162609104105488476577,
+                    "ec_curve_name": null,
+                    "ec_x": null,
+                    "ec_y": null
+                  }
+                }
+              ],
+              "leaf_certificate_has_must_staple_extension": false,
+              "leaf_certificate_is_ev": false,
+              "leaf_certificate_signed_certificate_timestamps_count": 3,
+              "received_chain_contains_anchor_certificate": null,
+              "received_chain_has_valid_order": true,
+              "path_validation_results": [
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/google_aosp.pem",
+                    "name": "Android",
+                    "version": "16.0.0_r2",
+                    "ev_oids": null
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=Netlify\\, Inc,CN=*.netlify.app)>, ...)>)",
+                  "was_validation_successful": false
+                },
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/apple.pem",
+                    "name": "Apple",
+                    "version": "iOS 18, iPadOS 18, macOS 15, tvOS 18, visionOS 2 and watchOS 11",
+                    "ev_oids": null
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=Netlify\\, Inc,CN=*.netlify.app)>, ...)>)",
+                  "was_validation_successful": false
+                },
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/oracle_java.pem",
+                    "name": "Java",
+                    "version": "jdk-13.0.2",
+                    "ev_oids": null
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=Netlify\\, Inc,CN=*.netlify.app)>, ...)>)",
+                  "was_validation_successful": false
+                },
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/mozilla_nss.pem",
+                    "name": "Mozilla",
+                    "version": "2025-07-27",
+                    "ev_oids": [
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.2.276.0.44.1.1.1.4"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.2.392.200091.100.721.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.2.40.0.17.1.22"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.2.616.1.113527.2.5.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.159.1.17.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.13177.10.1.3.10"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.14370.1.6"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.14777.6.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.14777.6.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.17326.10.14.2.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.17326.10.14.2.2.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.17326.10.8.12.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.17326.10.8.12.2.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.22234.2.5.2.3.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.23223.1.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.29836.1.10"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.34697.2.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.34697.2.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.34697.2.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.34697.2.4"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.36305.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.40869.1.1.22.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.4146.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.4788.2.202.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.6334.1.100.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.6449.1.2.1.5.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.782.1.2.1.8.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.7879.13.24.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "1.3.6.1.4.1.8024.0.2.100.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.156.112554.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.528.1.1003.1.2.7"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.578.1.26.1.3.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.756.1.83.21.0"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.756.1.89.1.2.1.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.792.3.0.3.1.1.5"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.792.3.0.4.1.1.4"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.113733.1.7.23.6"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.113733.1.7.48.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114028.10.1.2"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114171.500.9"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114404.1.1.2.4.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114412.2.1"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114413.1.7.23.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114414.1.7.23.3"
+                      },
+                      {
+                        "name": "Unknown OID",
+                        "dotted_string": "2.16.840.1.114414.1.7.24.3"
+                      }
+                    ]
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=Netlify\\, Inc,CN=*.netlify.app)>, ...)>)",
+                  "was_validation_successful": false
+                },
+                {
+                  "trust_store": {
+                    "path": "/opt/venv/lib/python3.12/site-packages/sslyze/plugins/certificate_info/trust_stores/pem_files/microsoft_windows.pem",
+                    "name": "Windows",
+                    "version": "2025-07-27",
+                    "ev_oids": null
+                  },
+                  "verified_certificate_chain": null,
+                  "validation_error": "validation failed: leaf certificate has no matching subjectAltName (encountered processing <Certificate(subject=<Name(C=US,ST=California,L=San Francisco,O=Netlify\\, Inc,CN=*.netlify.app)>, ...)>)",
+                  "was_validation_successful": false
+                }
+              ],
+              "verified_chain_has_sha1_signature": null,
+              "verified_chain_has_legacy_symantec_anchor": null,
+              "ocsp_response": null,
+              "ocsp_response_is_trusted": null,
+              "verified_certificate_chain": null
+            }
           }
         },
         "ssl_2_0_cipher_suites": {
@@ -4254,7 +4709,7 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 253,
-                  "public_bytes": "EVnfXEn686sZYdQTuyGgMxSFuG8nzR5wK5u/I5mZqWg=",
+                  "public_bytes": "ylRTWh3EROjUvm888JHml1RrZBFPmWmKEz7t2fomsjU=",
                   "curve_name": "X25519",
                   "x": null,
                   "y": null,
@@ -4272,10 +4727,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BNA6GrRaY2dc2yMk3hv3RlRcHHwk7L+Bf5ZLkL93MgsaJ5P9I4QGYU4bzsBcibfiBRMdTeiwbRtOLFh5IAa4xrU=",
-                  "curve_name": "prime256v1",
-                  "x": "0DoatFpjZ1zbIyTeG/dGVFwcfCTsv4F/lkuQv3cyCxo=",
-                  "y": "J5P9I4QGYU4bzsBcibfiBRMdTeiwbRtOLFh5IAa4xrU=",
+                  "public_bytes": "BBfH9bBoLswyTyNT85lTGNJkxyxC+0QxnnJ75O/l+5k5fbjVaFYxjyziTj0XF5gHKIaLCPfph7D9EuK3HXNEAOk=",
+                  "curve_name": "secp256r1",
+                  "x": "F8f1sGguzDJPI1PzmVMY0mTHLEL7RDGecnvk7+X7mTk=",
+                  "y": "fbjVaFYxjyziTj0XF5gHKIaLCPfph7D9EuK3HXNEAOk=",
                   "prime": null,
                   "generator": null
                 }
@@ -4290,10 +4745,10 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 256,
-                  "public_bytes": "BKnaNZeyL3aQMawv9bBwL8VAqFyjVhE1NF92Vh6lm2J/JTJ68AaQETzcs/C4yeSwu7M8zBloJioVrIFL1gyYDZ8=",
-                  "curve_name": "prime256v1",
-                  "x": "qdo1l7IvdpAxrC/1sHAvxUCoXKNWETU0X3ZWHqWbYn8=",
-                  "y": "JTJ68AaQETzcs/C4yeSwu7M8zBloJioVrIFL1gyYDZ8=",
+                  "public_bytes": "BK9nb547IZEH+nq9LR+6RgWV4De+JaTSZ0Qa/FgHiaei03/T5K5zdw40YU90U/LaItODNGcJSsoQhISEYDOgrv0=",
+                  "curve_name": "secp256r1",
+                  "x": "r2dvnjshkQf6er0tH7pGBZXgN74lpNJnRBr8WAeJp6I=",
+                  "y": "03/T5K5zdw40YU90U/LaItODNGcJSsoQhISEYDOgrv0=",
                   "prime": null,
                   "generator": null
                 }
@@ -5664,7 +6119,7 @@
                   "name": "TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA",
                   "is_anonymous": false,
                   "key_size": 168,
-                  "openssl_name": "DHE-DSS-DES-CBC3-SHA"
+                  "openssl_name": "EDH-DSS-DES-CBC3-SHA"
                 },
                 "error_message": "TLS alert: handshake failure"
               },
@@ -5698,7 +6153,7 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 253,
-                  "public_bytes": "iAvXHrfmgtg/bfp2W2pA8KA4ne0ZYF/qmPGhO7/0wz4=",
+                  "public_bytes": "v68ni4ERSkrnq1j+ryAMsPMwJxOEEGAxW/cmw9lh5TY=",
                   "curve_name": "X25519",
                   "x": null,
                   "y": null,
@@ -5716,7 +6171,7 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 253,
-                  "public_bytes": "+FS57mpIhm+b00wNv//plpkOarlMjYgJ+zy0f304f1o=",
+                  "public_bytes": "iMOUx6FduQTFbTh8/8OsunkQFQYAhn+etz88KKLbdV4=",
                   "curve_name": "X25519",
                   "x": null,
                   "y": null,
@@ -5734,7 +6189,7 @@
                 "ephemeral_key": {
                   "type_name": "ECDH",
                   "size": 253,
-                  "public_bytes": "LZh7CPfrABkosEmv6Nt9W92z5gr0sWQz+fyn4w9H/Tw=",
+                  "public_bytes": "Mrx+Z/BRujhr4GhxgxeGz4BJUdL+34PO0qyvWDucBRs=",
                   "curve_name": "X25519",
                   "x": null,
                   "y": null,
@@ -5788,10 +6243,12 @@
           }
         },
         "tls_fallback_scsv": {
-          "status": "NOT_SCHEDULED",
+          "status": "COMPLETED",
           "error_reason": null,
           "error_trace": null,
-          "result": null
+          "result": {
+            "supports_fallback_scsv": true
+          }
         },
         "heartbleed": {
           "status": "COMPLETED",
@@ -5815,7 +6272,8 @@
           "error_trace": null,
           "result": {
             "supports_secure_renegotiation": true,
-            "is_vulnerable_to_client_renegotiation_dos": false
+            "is_vulnerable_to_client_renegotiation_dos": false,
+            "client_renegotiations_success_count": 0
           }
         },
         "session_resumption": {
@@ -5836,7 +6294,7 @@
                 "openssl_nid": 1034
               },
               {
-                "name": "prime256v1",
+                "name": "secp256r1",
                 "openssl_nid": 415
               }
             ],
@@ -5844,10 +6302,6 @@
               {
                 "name": "X448",
                 "openssl_nid": 1035
-              },
-              {
-                "name": "prime192v1",
-                "openssl_nid": 409
               },
               {
                 "name": "secp160k1",
@@ -5864,6 +6318,10 @@
               {
                 "name": "secp192k1",
                 "openssl_nid": 711
+              },
+              {
+                "name": "secp192r1",
+                "openssl_nid": 409
               },
               {
                 "name": "secp224k1",
@@ -5949,12 +6407,20 @@
           "error_reason": null,
           "error_trace": null,
           "result": null
+        },
+        "tls_extended_master_secret": {
+          "status": "COMPLETED",
+          "error_reason": null,
+          "error_trace": null,
+          "result": {
+            "supports_ems_extension": true
+          }
         }
       }
     }
   ],
-  "date_scans_started": "2024-09-02T16:51:10.448915Z",
-  "date_scans_completed": "2024-09-02T16:51:14.980658Z",
-  "sslyze_version": "6.0.0",
+  "date_scans_started": "2025-11-05T12:17:36.881574Z",
+  "date_scans_completed": "2025-11-05T12:17:39.633573Z",
+  "sslyze_version": "6.2.0",
   "sslyze_url": "https://github.com/nabla-c0d3/sslyze"
 }
