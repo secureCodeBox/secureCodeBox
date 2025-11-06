@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # SSLyze Scan with Custom CA Certificate
 
 This example demonstrates how to use SSLyze with a custom CA certificate file to validate certificates that are signed by an internal or private Certificate Authority (CA).
