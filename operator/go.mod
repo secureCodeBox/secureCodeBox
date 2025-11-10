@@ -8,14 +8,14 @@ go 1.24.5
 
 require (
 	github.com/go-logr/logr v1.4.3
-	github.com/minio/minio-go/v7 v7.0.95
+	github.com/minio/minio-go/v7 v7.0.97
 	github.com/mitchellh/hashstructure/v2 v2.0.2
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.38.2
 	k8s.io/api v0.34.1
 	k8s.io/apimachinery v0.34.1
 	k8s.io/client-go v0.34.1
-	sigs.k8s.io/controller-runtime v0.22.3
+	sigs.k8s.io/controller-runtime v0.22.4
 )
 
 require (
@@ -23,10 +23,10 @@ require (
 	github.com/evanphx/json-patch/v5 v5.9.11 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.0 // indirect
 	github.com/go-ini/ini v1.67.0 // indirect
-	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/google/btree v1.1.3 // indirect
 	github.com/google/gnostic-models v0.7.0 // indirect
-	github.com/minio/crc64nvme v1.0.2 // indirect
+	github.com/klauspost/crc32 v1.3.0 // indirect
+	github.com/minio/crc64nvme v1.1.0 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/tinylib/msgp v1.3.0 // indirect
