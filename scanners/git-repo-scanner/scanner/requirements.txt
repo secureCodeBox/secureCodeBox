@@ -3,6 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 PyGithub == 2.8.1
-python-gitlab == 6.5.0
+python-gitlab == 7.0.0
 pytimeparse == 1.1.8
 pytz == 2025.2
