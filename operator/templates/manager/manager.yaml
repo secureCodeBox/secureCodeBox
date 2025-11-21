@@ -71,12 +71,12 @@ spec:
             - name:  MINIO_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-minio"
+                  name: {{ .Values.minio.auth.existingSecret | default (printf "%s-minio" (include "operator.fullname" .)) }}
                   key: root-user
             - name: MINIO_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-minio"
+                  name: {{ .Values.minio.auth.existingSecret | default (printf "%s-minio" (include "operator.fullname" .)) }}
                   key: root-password
             - name: S3_BUCKET
               value: {{ .Values.minio.defaultBuckets }}
