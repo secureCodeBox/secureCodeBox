@@ -3,7 +3,7 @@ title: "subfinder"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "v2.10.0"
+appVersion: "v2.10.1"
 usecase: "Subdomain Enumeration Scanner"
 ---
 
