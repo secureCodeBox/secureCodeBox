@@ -33,7 +33,7 @@
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "rimraf": "^6.1.0",
+    "rimraf": "^6.1.2",
     "sass": "1.94"
   },
   "browserslist": {
@@ -53,7 +53,7 @@
     "@docusaurus/tsconfig": "^3.9.2",
     "@docusaurus/types": "^3.6.0",
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.5",
+    "@types/react": "^19.2.6",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.1.8",
     "sass-loader": "^16.0.6",
