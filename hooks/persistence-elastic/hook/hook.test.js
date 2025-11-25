@@ -218,3 +218,45 @@ test("should append week format like yyyy/'W'W -> 2020/W46", async () => {
     index: `scb_2020/W46`,
   });
 });
+
+test("should handle elasticsearch v8 bulk response shape", async () => {
+  const findings = [
+    {
+      id: "4560b3e6-1219-4f5f-9b44-6579f5a32407",
+      name: "Port 5601 is open",
+      category: "Open Port",
+    },
+  ];
+
+  const v8BulkResponse = { errors: true, items: [] };
+
+  const v8Client = {
+    indices: {
+      create: jest.fn(),
+    },
+    index: jest.fn(),
+    bulk: jest.fn(() => v8BulkResponse),
+  };
+
+  const consoleErrorSpy = jest
+    .spyOn(console, "error")
+    .mockImplementation(() => {});
+  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+
+  try {
+    await handle({
+      getFindings: async () => findings,
+      scan,
+      now: testDate,
+      tenant: "default",
+      appendNamespace: true,
+      client: v8Client,
+    });
+    expect(v8Client.bulk).toHaveBeenCalledTimes(1);
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Bulk Request had errors:");
+    expect(consoleLogSpy).toHaveBeenCalledWith(v8BulkResponse);
+  } finally {
+    consoleErrorSpy.mockRestore();
+    consoleLogSpy.mockRestore();
+  }
+});
