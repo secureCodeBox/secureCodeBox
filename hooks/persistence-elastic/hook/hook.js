@@ -105,9 +105,10 @@ export async function handle({
       },
     ]);
 
-    const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+    const bulkResponseRaw = await client.bulk({ refresh: true, body });
+    const bulkResponse = bulkResponseRaw?.body ?? bulkResponseRaw;
 
-    if (bulkResponse.errors) {
+    if (bulkResponse?.errors) {
       console.error("Bulk Request had errors:");
       console.log(bulkResponse);
     }
