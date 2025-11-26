@@ -52,9 +52,9 @@ The scanner options can be divided into two groups for Gitlab and GitHub. You ca
 repository type with the option:
 
 ```bash
---git-type github
+--git-type GitHub
 or
---git-type Gitlab
+--git-type GitLab
 ```
 
 #### GitHub
@@ -146,4 +146,3 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-mastodon]: https://infosec.exchange/@secureCodeBox
 [scb-slack]:    https://owasp.org/slack/invite
 [scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-
