@@ -11,6 +11,7 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 
 ## Blog Posts and Articles
 
+- [Automating Penetration Testing with SecureCodeBox on Kubernetes Kind Clusters Using GitHub Actions][gharbi-post] 🇬🇧 by [Yasmine Gharbi][gharbi-author].
 - [Wprowadzenie do OWASP secureCodeBox][lukasz-post] 🇵🇱 by [Łukasz Mieczkowski][lukasz-blog].
 - [Exploring secureCodeBox — An Open-Source Continuous Security Testing Solution for DevSecOps][theowni-post] 🇬🇧 by [Krzysztof Pranczk][theowni-author].
 - [SecureCodeBox — k8s based, toolchain for continuous security scans][gortega-post] 🇬🇧 by [Gustavo Ortega][gortega-author].
@@ -30,6 +31,8 @@ Here we collect blog posts, articles, talks about etc. _secureCodeBox_. They are
 - [Interview with RadioTux on YouTube][radiotux-youtube] 🇩🇪 ([Podcast Episode][radiotux-podcast]).
 - [35 DevSecOps Tools to Add Sec to Your DevOps][thechief.io] 🇬🇧.
 
+[gharbi-author]:    https://www.linkedin.com/in/yasmine-gharbi-39b67221a/
+[gharbi-post]:      https://medium.com/@gyasmine29/automating-penetration-testing-with-securecodebox-on-kubernetes-kind-clusters-using-github-actions-27230b8b087c
 [theowni-post]:     https://itnext.io/exploring-securecodebox-an-open-source-continuous-security-testing-solution-for-devsecops-b233fc5341e1
 [theowni-author]:   https://medium.com/@theowni
 [gortega-post]:     https://gortega.medium.com/securecodebox-an-interesting-tool-bab410185b77
