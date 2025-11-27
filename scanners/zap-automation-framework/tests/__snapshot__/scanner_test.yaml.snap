@@ -97,7 +97,7 @@ matches the snapshot:
   4: |
     apiVersion: v1
     data:
-      zap-entrypoint.bash: |2
+      zap-entrypoint.bash: |
         # ensures that zap still exits with a exit code of zero when the scan logged warnings: see https://www.zaproxy.org/docs/automate/automation-framework/
         ./zap.sh -cmd $@ || [ $? -ne 1 ]
     kind: ConfigMap

@@ -1,7 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
-
+    raw: |
       FindingPostProcessing Hook deployed.
       This will add postprocessing on every finding in this namespace matching these rules: [{"matches":[{"anyOf":[{"attributes":{"port":21,"state":"open"},"category":"Open Port"},{"attributes":{"port":389,"state":"open"},"category":"Open Port"}]}],"override":{"description":"Telnet is bad","severity":"high"}}].
   2: |
