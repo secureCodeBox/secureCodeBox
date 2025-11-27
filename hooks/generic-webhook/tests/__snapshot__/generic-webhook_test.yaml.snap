@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       GenericWebhook deployed.
       Will send requests to:
       POST http://example.com

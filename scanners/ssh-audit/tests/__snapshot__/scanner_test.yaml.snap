@@ -49,6 +49,8 @@ matches the snapshot:
           suspend: false
           template:
             spec:
+              affinity:
+                foo: bar
               containers:
                 - command:
                     - sh
@@ -71,5 +73,11 @@ matches the snapshot:
                   volumeMounts: []
                 - image: bar
                   name: foo
-              restartPolicy: Never
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
               volumes: []
