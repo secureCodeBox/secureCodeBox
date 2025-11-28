@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       Vulnerable log4j Instance deployed.
 
       Note this should used for demo and test purposes.

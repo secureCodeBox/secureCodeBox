@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       UpdateField Hook deployed.
       This will add or override "category: my-own-category" on every finding in this namespace.
   2: |

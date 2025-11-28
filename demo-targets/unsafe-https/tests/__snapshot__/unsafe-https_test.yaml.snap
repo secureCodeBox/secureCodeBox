@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       Demo Unsafe Https Server deployed.
 
       Note this should only be used for demo and test purposes.

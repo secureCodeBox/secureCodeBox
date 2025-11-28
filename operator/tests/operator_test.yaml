@@ -18,6 +18,11 @@ tests:
       customCACertificate.existingCertificate: foo
       serviceaccount: {create: true, annotations: {foo: bar}, name: foo}
       podSecurityContext: {fsGroup: 1234}
+      minio:
+        enabled: true
+        auth:
+          rootUser: testuser
+          rootPassword: testpassword
     asserts:
       - matchSnapshot: {}
   - it: properly-renders-the-service-monitor-when-enabled
@@ -32,6 +37,11 @@ tests:
       metrics:
         serviceMonitor:
           enabled: true
+      minio:
+        enabled: true
+        auth:
+          rootUser: testuser
+          rootPassword: testpassword
     asserts:
       - matchSnapshot: {}
   - it: renders minio resources when minio is enabled

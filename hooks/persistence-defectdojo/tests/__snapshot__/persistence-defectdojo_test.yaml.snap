@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: "\nDefectDojo PersistenceProvider succesfully deployed \U0001F389.\n"
+    raw: "DefectDojo PersistenceProvider succesfully deployed \U0001F389.\n"
   2: |
     apiVersion: execution.securecodebox.io/v1
     kind: ScanCompletionHook

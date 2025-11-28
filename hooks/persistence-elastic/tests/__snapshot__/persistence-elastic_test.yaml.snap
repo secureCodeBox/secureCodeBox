@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       Elastic Stack PersistenceProvider deployed.
   2: |
     apiVersion: batch/v1

@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       Cascading Scan Hook deployed.
 
       This will allow you to start Scans based on previous findings.

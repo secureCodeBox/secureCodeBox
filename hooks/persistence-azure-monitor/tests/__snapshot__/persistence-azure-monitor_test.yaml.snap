@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       Azure Monitor PersistenceProvider deployed.
   2: |
     apiVersion: execution.securecodebox.io/v1

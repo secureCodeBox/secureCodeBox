@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       Notification hook deployed.
       Will send requests to:
       - slack: SOME_ENV_KEY
@@ -11,7 +11,7 @@ matches the snapshot:
   2: |
     apiVersion: v1
     data:
-      notification-channel.yaml: |2
+      notification-channel.yaml: |
         - endPoint: SOME_ENV_KEY
           name: slack
           rules:

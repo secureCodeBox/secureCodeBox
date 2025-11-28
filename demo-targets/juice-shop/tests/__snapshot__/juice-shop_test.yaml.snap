@@ -1,12 +1,12 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       1. Get the application URL by running these commands:
         https://chart-example.localmap[path:/]
   2: |
     apiVersion: v1
     data:
-      customConfig.yml: |2
+      customConfig.yml: |
         application:
           domain: juice-sh.op
           name: OWASP Juice Shop
