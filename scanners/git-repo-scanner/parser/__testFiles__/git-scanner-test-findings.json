@@ -6,195 +6,23 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 80711933,
-      "web_url": "https://github.com/secureCodeBox/secureCodeBox",
-      "full_name": "secureCodeBox/secureCodeBox",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2017-02-02T09:48:05Z",
-      "last_activity_at": "2020-10-23T08:59:27Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 123422137,
-      "web_url": "https://github.com/secureCodeBox/engine",
-      "full_name": "secureCodeBox/engine",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-03-01T10:50:05Z",
-      "last_activity_at": "2020-10-07T08:07:32Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 124402117,
-      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-nmap",
-      "full_name": "secureCodeBox/scanner-infrastructure-nmap",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-03-08T14:20:36Z",
-      "last_activity_at": "2020-09-14T15:40:40Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 126042943,
-      "web_url": "https://github.com/secureCodeBox/nodejs-scanner-scaffolding",
-      "full_name": "secureCodeBox/nodejs-scanner-scaffolding",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-03-20T15:48:39Z",
-      "last_activity_at": "2020-07-16T10:37:40Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 128396681,
-      "web_url": "https://github.com/secureCodeBox/scanner-webserver-nikto",
-      "full_name": "secureCodeBox/scanner-webserver-nikto",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-04-06T13:13:14Z",
-      "last_activity_at": "2020-06-25T10:11:41Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 128920739,
-      "web_url": "https://github.com/secureCodeBox/scanner-webapplication-zap",
-      "full_name": "secureCodeBox/scanner-webapplication-zap",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-04-10T11:17:29Z",
-      "last_activity_at": "2020-10-07T14:05:09Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 133507929,
-      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-sslyze",
-      "full_name": "secureCodeBox/scanner-infrastructure-sslyze",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-05-15T11:43:11Z",
-      "last_activity_at": "2020-07-16T10:52:54Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 134673181,
-      "web_url": "https://github.com/secureCodeBox/scanner-webapplication-arachni",
-      "full_name": "secureCodeBox/scanner-webapplication-arachni",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-05-24T06:47:00Z",
-      "last_activity_at": "2020-10-10T10:29:42Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 141462466,
-      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-amass",
-      "full_name": "secureCodeBox/scanner-infrastructure-amass",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-07-18T16:38:18Z",
-      "last_activity_at": "2020-03-17T18:59:35Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 142870794,
-      "web_url": "https://github.com/secureCodeBox/integration-pipeline-jenkins-examples",
-      "full_name": "secureCodeBox/integration-pipeline-jenkins-examples",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2018-07-30T12:13:41Z",
-      "last_activity_at": "2020-09-27T18:59:24Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 144957631,
-      "web_url": "https://github.com/secureCodeBox/ansible-role-securecodebox-openshift",
-      "full_name": "secureCodeBox/ansible-role-securecodebox-openshift",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
+      "archived": true,
       "created_at": "2018-08-16T08:11:15Z",
-      "last_activity_at": "2019-04-17T13:36:12Z",
-      "visibility": "public"
+      "full_name": "secureCodeBox/ansible-role-securecodebox-openshift",
+      "id": "144957631",
+      "last_activity_at": "2023-01-28T10:22:09Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "openshift",
+        "ansible-role",
+        "ansible",
+        "security-tools",
+        "security"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/ansible-role-securecodebox-openshift"
     }
   },
   {
@@ -204,15 +32,24 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 161506648,
-      "web_url": "https://github.com/secureCodeBox/django-DefectDojo",
-      "full_name": "secureCodeBox/django-DefectDojo",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": true,
+      "created_at": "2018-07-30T12:13:41Z",
+      "full_name": "secureCodeBox/integration-pipeline-jenkins-examples",
+      "id": "142870794",
+      "last_activity_at": "2023-01-28T10:22:08Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
-      "created_at": "2018-12-12T15:21:02Z",
-      "last_activity_at": "2019-01-09T08:41:31Z",
-      "visibility": "public"
+      "owner_type": "Organization",
+      "topics": [
+        "security",
+        "security-automation",
+        "security-testing",
+        "jenkins-pipeline",
+        "jenkinsfile",
+        "demo"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/integration-pipeline-jenkins-examples"
     }
   },
   {
@@ -222,123 +59,17 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 171298120,
-      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-ssh",
-      "full_name": "secureCodeBox/scanner-infrastructure-ssh",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2019-02-18T14:23:57Z",
-      "last_activity_at": "2020-06-25T10:11:16Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 180543766,
-      "web_url": "https://github.com/secureCodeBox/scanner-cms-wpscan",
-      "full_name": "secureCodeBox/scanner-cms-wpscan",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2019-04-10T09:03:38Z",
-      "last_activity_at": "2020-06-25T10:12:29Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 180568880,
-      "web_url": "https://github.com/secureCodeBox/ruby-scanner-scaffolding",
-      "full_name": "secureCodeBox/ruby-scanner-scaffolding",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2019-04-10T11:39:04Z",
-      "last_activity_at": "2020-03-11T14:20:03Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 203588805,
-      "web_url": "https://github.com/secureCodeBox/securecodebox.github.io",
-      "full_name": "secureCodeBox/securecodebox.github.io",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2019-08-21T13:21:09Z",
-      "last_activity_at": "2020-10-16T11:40:25Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 204489733,
-      "web_url": "https://github.com/secureCodeBox/gatsby-gh-pages-action",
-      "full_name": "secureCodeBox/gatsby-gh-pages-action",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2019-08-26T14:11:02Z",
-      "last_activity_at": "2019-08-26T14:11:05Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 204701677,
-      "web_url": "https://github.com/secureCodeBox/ssh_scan",
-      "full_name": "secureCodeBox/ssh_scan",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2019-08-27T12:46:48Z",
-      "last_activity_at": "2019-08-27T12:53:11Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 214418800,
-      "web_url": "https://github.com/secureCodeBox/swagger-petstore-openshift",
-      "full_name": "secureCodeBox/swagger-petstore-openshift",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
+      "archived": false,
       "created_at": "2019-10-11T11:28:15Z",
+      "full_name": "secureCodeBox/swagger-petstore-openshift",
+      "id": "214418800",
       "last_activity_at": "2019-10-11T11:37:41Z",
-      "visibility": "public"
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/swagger-petstore-openshift"
     }
   },
   {
@@ -348,15 +79,17 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 222679857,
-      "web_url": "https://github.com/secureCodeBox/nikto",
-      "full_name": "secureCodeBox/nikto",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": true,
+      "created_at": "2019-04-10T11:39:04Z",
+      "full_name": "secureCodeBox/ruby-scanner-scaffolding",
+      "id": "180568880",
+      "last_activity_at": "2023-01-28T10:22:10Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
-      "created_at": "2019-11-19T11:25:21Z",
-      "last_activity_at": "2020-03-21T12:43:04Z",
-      "visibility": "public"
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/ruby-scanner-scaffolding"
     }
   },
   {
@@ -366,15 +99,17 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 223956455,
-      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-ncrack",
-      "full_name": "secureCodeBox/scanner-infrastructure-ncrack",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": true,
+      "created_at": "2018-07-18T16:38:18Z",
+      "full_name": "secureCodeBox/scanner-infrastructure-amass",
+      "id": "141462466",
+      "last_activity_at": "2023-06-22T01:51:32Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
-      "created_at": "2019-11-25T13:34:16Z",
-      "last_activity_at": "2020-07-19T11:16:33Z",
-      "visibility": "public"
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-amass"
     }
   },
   {
@@ -384,33 +119,17 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 249731346,
-      "web_url": "https://github.com/secureCodeBox/secureCodeBox-v2",
-      "full_name": "secureCodeBox/secureCodeBox-v2",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
-      "created_at": "2020-03-24T14:33:08Z",
-      "last_activity_at": "2020-10-22T08:39:01Z",
-      "visibility": "public"
-    }
-  },
-  {
-    "name": "GitHub Repo",
-    "description": "A GitHub repository",
-    "category": "Git Repository",
-    "osi_layer": "APPLICATION",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "id": 251007807,
-      "web_url": "https://github.com/secureCodeBox/zap-extensions",
-      "full_name": "secureCodeBox/zap-extensions",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
-      "owner_name": "secureCodeBox",
+      "archived": false,
       "created_at": "2020-03-29T10:40:12Z",
+      "full_name": "secureCodeBox/zap-extensions",
+      "id": "251007807",
       "last_activity_at": "2020-03-29T10:40:13Z",
-      "visibility": "public"
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/zap-extensions"
     }
   },
   {
@@ -420,15 +139,185 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 277835641,
-      "web_url": "https://github.com/secureCodeBox/zaproxy",
-      "full_name": "secureCodeBox/zaproxy",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": true,
+      "created_at": "2019-02-18T14:23:57Z",
+      "full_name": "secureCodeBox/scanner-infrastructure-ssh",
+      "id": "171298120",
+      "last_activity_at": "2023-01-28T10:22:09Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-ssh"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": true,
+      "created_at": "2018-04-06T13:13:14Z",
+      "full_name": "secureCodeBox/scanner-webserver-nikto",
+      "id": "128396681",
+      "last_activity_at": "2024-08-10T17:59:05Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "nikto",
+        "security",
+        "security-scanner",
+        "security-automation",
+        "security-tools",
+        "microservice"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-webserver-nikto"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": true,
+      "created_at": "2018-05-24T06:47:00Z",
+      "full_name": "secureCodeBox/scanner-webapplication-arachni",
+      "id": "134673181",
+      "last_activity_at": "2023-03-29T14:00:28Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "arachni",
+        "security",
+        "security-scanner",
+        "security-automation",
+        "security-tools",
+        "microservice"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-webapplication-arachni"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": true,
+      "created_at": "2019-04-10T09:03:38Z",
+      "full_name": "secureCodeBox/scanner-cms-wpscan",
+      "id": "180543766",
+      "last_activity_at": "2023-04-25T07:15:25Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-cms-wpscan"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": true,
+      "created_at": "2018-03-08T14:20:36Z",
+      "full_name": "secureCodeBox/scanner-infrastructure-nmap",
+      "id": "124402117",
+      "last_activity_at": "2025-04-08T19:31:01Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "nmap",
+        "security",
+        "security-scanner",
+        "security-automation",
+        "security-tools",
+        "microservice"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-nmap"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": true,
+      "created_at": "2018-05-15T11:43:11Z",
+      "full_name": "secureCodeBox/scanner-infrastructure-sslyze",
+      "id": "133507929",
+      "last_activity_at": "2023-01-28T10:22:08Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "sslyze",
+        "security",
+        "security-scanner",
+        "security-automation",
+        "security-tools",
+        "microservice"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-sslyze"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": true,
+      "created_at": "2019-11-25T13:34:16Z",
+      "full_name": "secureCodeBox/scanner-infrastructure-ncrack",
+      "id": "223956455",
+      "last_activity_at": "2023-01-28T10:22:10Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-ncrack"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
       "created_at": "2020-07-07T14:14:16Z",
-      "last_activity_at": "2020-07-07T14:14:18Z",
-      "visibility": "public"
+      "full_name": "secureCodeBox/zaproxy",
+      "id": "277835641",
+      "last_activity_at": "2024-01-30T22:45:22Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/zaproxy"
     }
   },
   {
@@ -438,15 +327,25 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 285890805,
-      "web_url": "https://github.com/secureCodeBox/static-export",
-      "full_name": "secureCodeBox/static-export",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": true,
+      "created_at": "2020-03-24T14:33:08Z",
+      "full_name": "secureCodeBox/secureCodeBox-v2",
+      "id": "249731346",
+      "last_activity_at": "2024-01-30T22:40:47Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
-      "created_at": "2020-08-07T17:58:52Z",
-      "last_activity_at": "2020-08-12T12:53:05Z",
-      "visibility": "private"
+      "owner_type": "Organization",
+      "topics": [
+        "securecodebox",
+        "security-tools",
+        "penetration-testers",
+        "devsecops",
+        "kubernetes-operator",
+        "scanning",
+        "hacktoberfest"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/secureCodeBox-v2"
     }
   },
   {
@@ -456,15 +355,17 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 288212154,
-      "web_url": "https://github.com/secureCodeBox/telemetry",
-      "full_name": "secureCodeBox/telemetry",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": true,
+      "created_at": "2018-03-20T15:48:39Z",
+      "full_name": "secureCodeBox/nodejs-scanner-scaffolding",
+      "id": "126042943",
+      "last_activity_at": "2023-01-28T10:22:08Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
-      "created_at": "2020-08-17T15:09:19Z",
-      "last_activity_at": "2020-09-01T10:08:23Z",
-      "visibility": "public"
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/nodejs-scanner-scaffolding"
     }
   },
   {
@@ -474,15 +375,189 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 292293538,
-      "web_url": "https://github.com/secureCodeBox/documentation",
-      "full_name": "secureCodeBox/documentation",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": true,
+      "created_at": "2018-04-10T11:17:29Z",
+      "full_name": "secureCodeBox/scanner-webapplication-zap",
+      "id": "128920739",
+      "last_activity_at": "2024-10-03T05:13:23Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "zap",
+        "security",
+        "security-scanner",
+        "security-automation",
+        "security-tools",
+        "microservice"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scanner-webapplication-zap"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": true,
+      "created_at": "2018-03-01T10:50:05Z",
+      "full_name": "secureCodeBox/engine",
+      "id": "123422137",
+      "last_activity_at": "2023-01-28T10:22:08Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/engine"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2020-10-12T09:58:26Z",
+      "full_name": "secureCodeBox/kubeaudit",
+      "id": "303349727",
+      "last_activity_at": "2024-01-30T22:38:13Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/kubeaudit"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2021-04-12T13:36:31Z",
+      "full_name": "secureCodeBox/django-DefectDojo",
+      "id": "357207085",
+      "last_activity_at": "2024-01-30T22:35:01Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/django-DefectDojo"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2019-08-27T12:46:48Z",
+      "full_name": "secureCodeBox/ssh_scan",
+      "id": "204701677",
+      "last_activity_at": "2022-01-25T02:32:59Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/ssh_scan"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2019-11-19T11:25:21Z",
+      "full_name": "secureCodeBox/nikto",
+      "id": "222679857",
+      "last_activity_at": "2021-08-25T14:24:37Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/nikto"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2021-09-23T06:03:50Z",
+      "full_name": "secureCodeBox/sslyze",
+      "id": "409468006",
+      "last_activity_at": "2021-09-23T06:03:51Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/sslyze"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2019-08-21T13:21:09Z",
+      "full_name": "secureCodeBox/securecodebox.github.io",
+      "id": "203588805",
+      "last_activity_at": "2022-04-19T13:33:36Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/securecodebox.github.io"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": true,
       "created_at": "2020-09-02T13:39:10Z",
-      "last_activity_at": "2020-10-21T14:28:35Z",
-      "visibility": "public"
+      "full_name": "secureCodeBox/documentation",
+      "id": "292293538",
+      "last_activity_at": "2024-01-20T09:04:19Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "securecodebox",
+        "docusaurus",
+        "documentation",
+        "hacktoberfest"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/documentation"
     }
   },
   {
@@ -492,15 +567,17 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 292573194,
-      "web_url": "https://github.com/secureCodeBox/ui",
-      "full_name": "secureCodeBox/ui",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": false,
+      "created_at": "2023-03-21T19:51:07Z",
+      "full_name": "secureCodeBox/www-community",
+      "id": "617150115",
+      "last_activity_at": "2024-03-14T15:30:35Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
-      "created_at": "2020-09-03T13:08:22Z",
-      "last_activity_at": "2020-10-07T14:38:02Z",
-      "visibility": "private"
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/www-community"
     }
   },
   {
@@ -510,15 +587,176 @@
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "id": 299249650,
-      "web_url": "https://github.com/secureCodeBox/internal",
-      "full_name": "secureCodeBox/internal",
-      "owner_type": "Organization",
-      "owner_id": 34573705,
+      "archived": false,
+      "created_at": "2023-10-13T14:15:48Z",
+      "full_name": "secureCodeBox/landscape",
+      "id": "704559693",
+      "last_activity_at": "2024-07-11T19:08:33Z",
+      "owner_id": "34573705",
       "owner_name": "secureCodeBox",
-      "created_at": "2020-09-28T08:58:53Z",
-      "last_activity_at": "2020-10-21T15:11:56Z",
-      "visibility": "private"
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/landscape"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2024-08-09T14:48:36Z",
+      "full_name": "secureCodeBox/DevSecOps-MaturityModel",
+      "id": "840369455",
+      "last_activity_at": "2024-08-09T14:48:36Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/DevSecOps-MaturityModel"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2021-01-06T14:27:46Z",
+      "full_name": "secureCodeBox/gitleaks",
+      "id": "327336031",
+      "last_activity_at": "2024-01-30T22:39:59Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/gitleaks"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2025-04-18T19:36:30Z",
+      "full_name": "secureCodeBox/scb-cascades-demo",
+      "id": "968815564",
+      "last_activity_at": "2025-04-24T11:47:52Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scb-cascades-demo"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2024-12-29T17:07:02Z",
+      "full_name": "secureCodeBox/scan-throttler",
+      "id": "909750535",
+      "last_activity_at": "2025-08-19T14:02:18Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/scan-throttler"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2021-01-06T09:59:17Z",
+      "full_name": "secureCodeBox/defectdojo-client-java",
+      "id": "327269915",
+      "last_activity_at": "2025-10-20T08:29:33Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "defectdojo",
+        "owasp",
+        "client-library",
+        "java",
+        "gradle",
+        "hacktoberfest"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/defectdojo-client-java"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2020-08-17T15:09:19Z",
+      "full_name": "secureCodeBox/telemetry",
+      "id": "288212154",
+      "last_activity_at": "2025-11-20T07:43:05Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/telemetry"
+    }
+  },
+  {
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
+    "category": "Git Repository",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "archived": false,
+      "created_at": "2017-02-02T09:48:05Z",
+      "full_name": "secureCodeBox/secureCodeBox",
+      "id": "80711933",
+      "last_activity_at": "2025-11-24T10:04:46Z",
+      "owner_id": "34573705",
+      "owner_name": "secureCodeBox",
+      "owner_type": "Organization",
+      "topics": [
+        "security",
+        "security-automation",
+        "security-tools",
+        "security-testing",
+        "securecodebox",
+        "devsecops",
+        "kubernetes",
+        "kubernetes-operator",
+        "owasp",
+        "hacktoberfest",
+        "zaproxy"
+      ],
+      "visibility": "public",
+      "web_url": "https://github.com/secureCodeBox/secureCodeBox"
     }
   }
 ]
