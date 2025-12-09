@@ -10,7 +10,7 @@ matches the snapshot:
       env:
         - name: foo
           value: bar
-      image: securecodebox/parser-semgrep:0.0.0
+      image: docker.io/securecodebox/parser-semgrep:0.0.0
       imagePullPolicy: IfNotPresent
       imagePullSecrets:
         - name: foo

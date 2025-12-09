@@ -48,7 +48,7 @@ jobs:
           - zap-automation-framework
           # missing scanners are : nmap, nikto
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6.3.0
@@ -61,14 +61,14 @@ jobs:
       # Fetching scanner version from local chart .appVersion attribute
       # this would look like 1.1.1 or v1.1.1 depending on the corresponding Docker image tag
       - name: Fetch local scanner version
-        uses: mikefarah/yq@45be35c06387d692bb6bf689919919e0e32e796f # v4.49.1
+        uses: mikefarah/yq@7ccaf8e700ce99eb3f0f6cef7f5930a0b3c827cd # v4.49.2
         with:
           cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
       # Fetching scanner version API from local chart .annotations.versionApi attribute
       # This would look like https://api.github.com/repos/projectdiscovery/nuclei/releases/latest
       - name: Fetch scanner's version API
-        uses: mikefarah/yq@45be35c06387d692bb6bf689919919e0e32e796f # v4.49.1
+        uses: mikefarah/yq@7ccaf8e700ce99eb3f0f6cef7f5930a0b3c827cd # v4.49.2
         with:
           cmd: echo versionApi=$(yq e .annotations.versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
@@ -143,7 +143,7 @@ jobs:
 
       - name: Upgrade Scanner Helm Chart
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
-        uses: mikefarah/yq@45be35c06387d692bb6bf689919919e0e32e796f # v4.49.1
+        uses: mikefarah/yq@7ccaf8e700ce99eb3f0f6cef7f5930a0b3c827cd # v4.49.2
         with:
           # appVersion value in chart is replaced with release value. Empty lines are deleted in the process
           cmd: yq e --inplace '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
@@ -189,7 +189,7 @@ jobs:
 
       - name: Create Pull Request
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null }}
-        uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412 # v7.0.9
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
         with:
           token: ${{ secrets.SCB_BOT_USER_TOKEN }}
           committer: secureCodeBoxBot <securecodebox@iteratec.com>

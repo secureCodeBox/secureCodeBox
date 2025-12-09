@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |2
+    raw: |
       Demo SSH Server deployed.
 
       Note this should used for demo and test purposes.
