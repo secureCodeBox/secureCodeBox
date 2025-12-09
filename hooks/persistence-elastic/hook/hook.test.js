@@ -5,6 +5,7 @@
 import { handle } from "./hook";
 
 let elasticClient;
+const buildGetFindings = (findings) => async () => findings;
 
 beforeEach(() => {
   elasticClient = {
@@ -32,10 +33,36 @@ const scan = {
 
 const testDate = new Date("2020-11-11");
 
+const scanDocumentBody = {
+  "@timestamp": testDate,
+  id: scan.metadata.uid,
+  labels: scan.metadata.labels,
+  name: scan.metadata.name,
+  parameters: scan.spec.parameters,
+  scan_type: scan.spec.scanType,
+  type: "scan",
+};
+
+const expectScanIndexCalledWith = (index, client = elasticClient) => {
+  expect(client.index).toHaveBeenCalledTimes(1);
+  expect(client.index).toHaveBeenCalledWith({
+    body: scanDocumentBody,
+    index,
+  });
+};
+
+const findingsWithOpenPort = [
+  {
+    id: "4560b3e6-1219-4f5f-9b44-6579f5a32407",
+    name: "Port 5601 is open",
+    category: "Open Port",
+  },
+];
+
 test("should only send scan summary document if no findings are passing in", async () => {
   const findings = [];
 
-  const getFindings = async () => findings;
+  const getFindings = buildGetFindings(findings);
 
   await handle({
     getFindings,
@@ -46,34 +73,12 @@ test("should only send scan summary document if no findings are passing in", asy
     client: elasticClient,
   });
 
-  expect(elasticClient.index).toHaveBeenCalledTimes(1);
-  expect(elasticClient.index).toHaveBeenCalledWith({
-    body: {
-      "@timestamp": testDate,
-      id: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
-      labels: {
-        company: "iteratec",
-      },
-      name: "demo-scan",
-      parameters: ["-Pn", "localhost"],
-      scan_type: "Nmap",
-      type: "scan",
-    },
-    index: `scb_default_2020-11-11`,
-  });
+  expectScanIndexCalledWith(`scb_default_2020-11-11`);
   expect(elasticClient.bulk).not.toHaveBeenCalled();
 });
 
 test("should send findings to elasticsearch with given prefix", async () => {
-  const findings = [
-    {
-      id: "4560b3e6-1219-4f5f-9b44-6579f5a32407",
-      name: "Port 5601 is open",
-      category: "Open Port",
-    },
-  ];
-
-  const getFindings = async () => findings;
+  const getFindings = buildGetFindings(findingsWithOpenPort);
 
   await handle({
     getFindings,
@@ -85,21 +90,7 @@ test("should send findings to elasticsearch with given prefix", async () => {
     client: elasticClient,
   });
 
-  expect(elasticClient.index).toHaveBeenCalledTimes(1);
-  expect(elasticClient.index).toHaveBeenCalledWith({
-    body: {
-      "@timestamp": testDate,
-      id: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
-      labels: {
-        company: "iteratec",
-      },
-      name: "demo-scan",
-      parameters: ["-Pn", "localhost"],
-      scan_type: "Nmap",
-      type: "scan",
-    },
-    index: `myPrefix_default_2020-11-11`,
-  });
+  expectScanIndexCalledWith(`myPrefix_default_2020-11-11`);
 
   expect(elasticClient.bulk).toHaveBeenCalledTimes(1);
   expect(elasticClient.bulk).toHaveBeenCalledWith({
@@ -130,7 +121,7 @@ test("should send findings to elasticsearch with given prefix", async () => {
 test("should not append namespace if 'appendNamespace' is null", async () => {
   const findings = [];
 
-  const getFindings = async () => findings;
+  const getFindings = buildGetFindings(findings);
 
   await handle({
     getFindings,
@@ -140,27 +131,13 @@ test("should not append namespace if 'appendNamespace' is null", async () => {
     client: elasticClient,
   });
 
-  expect(elasticClient.index).toBeCalledTimes(1);
-  expect(elasticClient.index).toBeCalledWith({
-    body: {
-      "@timestamp": testDate,
-      id: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
-      labels: {
-        company: "iteratec",
-      },
-      name: "demo-scan",
-      parameters: ["-Pn", "localhost"],
-      scan_type: "Nmap",
-      type: "scan",
-    },
-    index: `scb_2020-11-11`,
-  });
+  expectScanIndexCalledWith(`scb_2020-11-11`);
 });
 
 test("should append date format yyyy", async () => {
   const findings = [];
 
-  const getFindings = async () => findings;
+  const getFindings = buildGetFindings(findings);
 
   await handle({
     getFindings,
@@ -171,27 +148,13 @@ test("should append date format yyyy", async () => {
     client: elasticClient,
   });
 
-  expect(elasticClient.index).toBeCalledTimes(1);
-  expect(elasticClient.index).toBeCalledWith({
-    body: {
-      "@timestamp": testDate,
-      id: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
-      labels: {
-        company: "iteratec",
-      },
-      name: "demo-scan",
-      parameters: ["-Pn", "localhost"],
-      scan_type: "Nmap",
-      type: "scan",
-    },
-    index: `scb_2020`,
-  });
+  expectScanIndexCalledWith(`scb_2020`);
 });
 
 test("should append week format like yyyy/'W'W -> 2020/W46", async () => {
   const findings = [];
 
-  const getFindings = async () => findings;
+  const getFindings = buildGetFindings(findings);
 
   await handle({
     getFindings,
@@ -202,32 +165,12 @@ test("should append week format like yyyy/'W'W -> 2020/W46", async () => {
     client: elasticClient,
   });
 
-  expect(elasticClient.index).toBeCalledTimes(1);
-  expect(elasticClient.index).toBeCalledWith({
-    body: {
-      "@timestamp": testDate,
-      id: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
-      labels: {
-        company: "iteratec",
-      },
-      name: "demo-scan",
-      parameters: ["-Pn", "localhost"],
-      scan_type: "Nmap",
-      type: "scan",
-    },
-    index: `scb_2020/W46`,
-  });
+  expectScanIndexCalledWith(`scb_2020/W46`);
 });
 
 test("should handle elasticsearch v8 bulk response shape", async () => {
-  const findings = [
-    {
-      id: "4560b3e6-1219-4f5f-9b44-6579f5a32407",
-      name: "Port 5601 is open",
-      category: "Open Port",
-    },
-  ];
-
+  const findings = findingsWithOpenPort;
+  const getFindings = buildGetFindings(findings);
   const v8BulkResponse = { errors: true, items: [] };
 
   const v8Client = {
@@ -245,7 +188,7 @@ test("should handle elasticsearch v8 bulk response shape", async () => {
 
   try {
     await handle({
-      getFindings: async () => findings,
+      getFindings,
       scan,
       now: testDate,
       tenant: "default",
