@@ -10,7 +10,9 @@ import (
 	"time"
 )
 
-func TestConfig_Validate(t *testing.T) {
+const fileOutput = "output.json"
+
+func TestValidateConfig(t *testing.T) {
 	tests := []struct {
 		name    string
 		config  Config
@@ -19,25 +21,25 @@ func TestConfig_Validate(t *testing.T) {
 	}{
 		{
 			name:    "missing git-type",
-			config:  Config{FileOutput: "output.json"},
+			config:  Config{FileOutput: fileOutput},
 			wantErr: true,
 			errMsg:  "--git-type is required",
 		},
 		{
 			name:    "invalid git-type",
-			config:  Config{GitType: "Bitbucket", FileOutput: "output.json"},
+			config:  Config{GitType: "Bitbucket", FileOutput: fileOutput},
 			wantErr: true,
 			errMsg:  "invalid git-type",
 		},
 		{
 			name:    "GitLab missing URL",
-			config:  Config{GitType: "GitLab", FileOutput: "output.json"},
+			config:  Config{GitType: "GitLab", FileOutput: fileOutput},
 			wantErr: true,
 			errMsg:  "--url is required for GitLab",
 		},
 		{
 			name:    "GitHub missing organization",
-			config:  Config{GitType: "GitHub", FileOutput: "output.json"},
+			config:  Config{GitType: "GitHub", FileOutput: fileOutput},
 			wantErr: true,
 			errMsg:  "--organization is required for GitHub",
 		},
@@ -45,7 +47,7 @@ func TestConfig_Validate(t *testing.T) {
 			name: "valid GitHub config",
 			config: Config{
 				GitType:      "GitHub",
-				FileOutput:   "output.json",
+				FileOutput:   fileOutput,
 				Organization: "test-org",
 			},
 			wantErr: false,
@@ -54,7 +56,7 @@ func TestConfig_Validate(t *testing.T) {
 			name: "valid GitLab config",
 			config: Config{
 				GitType:    "GitLab",
-				FileOutput: "output.json",
+				FileOutput: fileOutput,
 				URL:        "https://gitlab.com",
 			},
 			wantErr: false,
@@ -74,7 +76,7 @@ func TestConfig_Validate(t *testing.T) {
 	}
 }
 
-func TestConfig_ParseOptionalFields(t *testing.T) {
+func TestParseOptionalFields(t *testing.T) {
 	tests := []struct {
 		name             string
 		groupStr         string
@@ -169,7 +171,7 @@ func TestConfig_ParseOptionalFields(t *testing.T) {
 	}
 }
 
-func TestConfig_GetTimeFrame(t *testing.T) {
+func TestGetTimeFrame(t *testing.T) {
 	sevenDays := 7 * 24 * time.Hour
 	oneDay := 24 * time.Hour
 

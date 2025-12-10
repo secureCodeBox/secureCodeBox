@@ -20,7 +20,7 @@ var (
 )
 
 func main() {
-	config, err := config.ParseFlags(logger)
+	config, err := config.ParseFlags()
 	if err != nil {
 		logger.Fatalf("Error parsing flags: %v", err)
 	}
