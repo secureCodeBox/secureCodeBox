@@ -10,7 +10,7 @@ spec:
   scanType: "git-repo-scanner"
   parameters:
     - "--git-type"
-    - "GitHub"
+    - "github"
     - "--organization"
     - "secureCodeBox"
   cascades:
