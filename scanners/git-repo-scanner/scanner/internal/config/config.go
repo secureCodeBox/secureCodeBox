@@ -63,6 +63,8 @@ func ParseFlags(logger *log.Logger) (*Config, error) {
 
 	flag.Parse()
 
+	config.GitType = normalizeGitType(config.GitType)
+
 	if err := config.validate(); err != nil {
 		flag.Usage()
 		return nil, err
@@ -73,6 +75,17 @@ func ParseFlags(logger *log.Logger) (*Config, error) {
 	}
 
 	return config, nil
+}
+
+func normalizeGitType(gitType string) string {
+	switch strings.ToLower(gitType) {
+	case "github":
+		return "GitHub"
+	case "gitlab":
+		return "GitLab"
+	default:
+		return gitType
+	}
 }
 
 func (c *Config) validate() error {

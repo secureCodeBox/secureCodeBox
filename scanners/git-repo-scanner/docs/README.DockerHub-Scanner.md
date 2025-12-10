@@ -64,7 +64,7 @@ repository type with the option:
 ```bash
 --git-type github
 or
---git-type Gitlab
+--git-type gitlab
 ```
 
 #### GitHub
@@ -124,4 +124,3 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-mastodon]: https://infosec.exchange/@secureCodeBox
 [scb-slack]:    https://owasp.org/slack/invite
 [scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-
