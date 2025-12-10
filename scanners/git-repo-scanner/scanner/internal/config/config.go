@@ -7,7 +7,6 @@ package config
 import (
 	"flag"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -30,7 +29,7 @@ type Config struct {
 	ActivityUntilDuration  *time.Duration
 }
 
-func ParseFlags(logger *log.Logger) (*Config, error) {
+func ParseFlags() (*Config, error) {
 	config := &Config{}
 
 	// Define flags
