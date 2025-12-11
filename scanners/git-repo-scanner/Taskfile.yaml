@@ -8,6 +8,7 @@ includes:
   scanner:
     taskfile: ../Taskfile.yaml
     flatten: true
+    excludes: [test:unit]
     vars:
       scannerName: git-repo-scanner
 
