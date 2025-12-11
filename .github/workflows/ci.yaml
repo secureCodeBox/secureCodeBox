@@ -496,11 +496,17 @@ jobs:
           chmod +x ./kubectl/kubectl && sudo mv ./kubectl/kubectl /usr/local/bin/kubectl
           chmod +x ./helm/helm && sudo mv ./helm/helm /usr/local/bin/helm
 
+      - name: Go Setup
+        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
+        with:
+          go-version-file: "scanners/git-repo-scanner/scanner/go.mod"
+
       - name: Verify tools
         run: |
           kind version
           kubectl version || true
           helm version
+          go version
 
       - name: Unit Tests
         working-directory: ./scanners/${{ matrix.unit }}/
