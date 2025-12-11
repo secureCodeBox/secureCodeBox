@@ -11,4 +11,11 @@ includes:
     vars:
       scannerName: git-repo-scanner
 
-tasks: {}
+tasks:
+  test:unit:
+    desc: Run unit tests for git-repo-scanner
+    deps:
+      - scanner:test:setup
+    cmds:
+      - bun test {{ .TASKFILE_DIR }}/parser/
+      - cd {{ .TASKFILE_DIR }}/scanner && go test ./...
