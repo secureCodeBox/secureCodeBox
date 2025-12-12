@@ -8,7 +8,15 @@ includes:
   scanner:
     taskfile: ../Taskfile.yaml
     flatten: true
+    excludes: [test:unit]
     vars:
       scannerName: git-repo-scanner
 
-tasks: {}
+tasks:
+  test:unit:
+    desc: Run unit tests for git-repo-scanner
+    deps:
+      - test:setup
+    cmds:
+      - bun test {{ .TASKFILE_DIR }}/parser/
+      - cd {{ .TASKFILE_DIR }}/scanner && go test ./...

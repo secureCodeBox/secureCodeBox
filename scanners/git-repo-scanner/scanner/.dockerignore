@@ -2,6 +2,4 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-**/.pytest_cache
-**/__pycache__
-/tests
+/test

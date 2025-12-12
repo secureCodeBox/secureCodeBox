@@ -40,9 +40,7 @@ matches the snapshot:
                 foo: bar
               containers:
                 - command:
-                    - python
-                    - -m
-                    - git_repo_scanner
+                    - /git-repo-scanner
                     - --file-output
                     - /home/securecodebox
                   env:
