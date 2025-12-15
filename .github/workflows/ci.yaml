@@ -78,25 +78,25 @@ jobs:
           chmod +x ./task
 
       - name: Archive Kind
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: kind
           path: ./kind
 
       - name: Archive Kubectl
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Archive Helm
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: helm
           path: ./linux-amd64/helm
 
       - name: Archive Task
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: task
           path: ./task
@@ -113,7 +113,7 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Download Helm
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: helm
           path: ./helm
@@ -131,7 +131,7 @@ jobs:
           helm plugin install https://github.com/helm-unittest/helm-unittest.git --version ${{ env.HELM_PLUGIN_UNITTEST_VERSION }} --verify=false 
 
       - name: Download Task
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: task
           path: ./task
@@ -161,13 +161,13 @@ jobs:
           java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
           architecture: x64 # (x64 or x86) - defaults to x64
       - name: Cache SonarCloud packages
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache Gradle packages
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -217,7 +217,7 @@ jobs:
         run: make docker-export-${{ matrix.component }}
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ${{ matrix.component }}-image
           path: ./operator/${{ matrix.component }}.tar
@@ -256,7 +256,7 @@ jobs:
         run: make docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: auto-discovery-image
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
@@ -284,7 +284,7 @@ jobs:
           go vet ./...
 
       - name: Download Task
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: task
           path: ./task
@@ -294,19 +294,19 @@ jobs:
           chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: helm
           path: ./helm
@@ -336,7 +336,7 @@ jobs:
         run: task docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: auto-discovery-pull-secret-extractor
           path: ./auto-discovery/kubernetes/pull-secret-extractor/auto-discovery-secret-extractor.tar
@@ -389,7 +389,7 @@ jobs:
         run: make docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: auto-discovery-cloud-aws-image
           path: ./auto-discovery/cloud-aws/auto-discovery-cloud-aws.tar
@@ -418,7 +418,7 @@ jobs:
         run: make docker-export-sdk
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ${{ matrix.sdk }}-image
           path: ./${{ matrix.sdk }}/nodejs/${{ matrix.sdk }}.tar
@@ -463,7 +463,7 @@ jobs:
         uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
 
       - name: Download Task
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: task
           path: ./task
@@ -473,19 +473,19 @@ jobs:
           chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: helm
           path: ./helm
@@ -507,7 +507,7 @@ jobs:
         run: task test:unit
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: parser-sdk-image
           path: /tmp
@@ -518,7 +518,7 @@ jobs:
           docker images | grep sdk
 
       - name: Download Operator Image
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: operator-image
           path: ./operator
@@ -529,7 +529,7 @@ jobs:
           docker images | grep operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: lurker-image
           path: ./operator
@@ -616,7 +616,7 @@ jobs:
         uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
 
       - name: Download Task
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: task
           path: ./task
@@ -626,19 +626,19 @@ jobs:
           chmod +x ./task/task && sudo mv ./task/task /usr/local/bin/task
 
       - name: Download Kind
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: kind
           path: ./kind
 
       - name: Download Kubectl
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Download Helm
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: helm
           path: ./helm
@@ -660,7 +660,7 @@ jobs:
         run: task test:unit
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: hook-sdk-image
           path: /tmp
@@ -671,7 +671,7 @@ jobs:
           docker images | grep sdk
 
       - name: Download Operator Image
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: operator-image
           path: ./operator
@@ -682,7 +682,7 @@ jobs:
           docker images | grep operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: lurker-image
           path: ./operator
