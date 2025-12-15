@@ -53,7 +53,7 @@ docker pull securecodebox/parser-git-repo-scanner
 
 ## What is Git-Repo-Scanner?
 
-Git-Repo-Scanner is a small Python script which discovers repositories on GitHub or GitLab. The main purpose of this scanner
+Git-Repo-Scanner is a small Go project which discovers repositories on GitHub or GitLab. The main purpose of this scanner
 is to provide a cascading input for the [gitleaks](https://www.securecodebox.io/docs/scanners/gitleaks) and [semgrep](https://www.securecodebox.io/docs/scanners/semgrep) scanners.
 
 ## Community

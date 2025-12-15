@@ -35,7 +35,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 
 ## What is Git-Repo-Scanner?
 
-Git-Repo-Scanner is a small Python script which discovers repositories on GitHub or GitLab. The main purpose of this scanner
+Git-Repo-Scanner is a small Go project which discovers repositories on GitHub or GitLab. The main purpose of this scanner
 is to provide a cascading input for the [gitleaks](https://www.securecodebox.io/docs/scanners/gitleaks) and [semgrep](https://www.securecodebox.io/docs/scanners/semgrep) scanners.
 
 ## Deployment
@@ -146,3 +146,4 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-mastodon]: https://infosec.exchange/@secureCodeBox
 [scb-slack]:    https://owasp.org/slack/invite
 [scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+
