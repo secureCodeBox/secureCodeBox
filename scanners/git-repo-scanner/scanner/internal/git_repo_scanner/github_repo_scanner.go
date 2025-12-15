@@ -245,12 +245,17 @@ func (g *GitHubRepoScanner) respectGitHubRateLimit() error {
 		return nil
 	}
 
-	// Only check rate limit every 50 API calls OR every 30 seconds
-	if g.requestsSinceCheck < 50 && time.Since(g.lastRateLimitCheck) < 30*time.Second {
+	// Determine check interval based on authentication
+	// For unauthenticated (60/hour), check more frequently
+	checkInterval := 50
+	if g.accessToken == "" {
+		checkInterval = 5
+	}
+
+	if g.requestsSinceCheck < checkInterval && time.Since(g.lastRateLimitCheck) < 30*time.Second {
 		return nil
 	}
 
-	// Reset counters
 	g.requestsSinceCheck = 0
 	g.lastRateLimitCheck = time.Now()
 
