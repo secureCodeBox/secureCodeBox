@@ -29,6 +29,8 @@ type GitHubRepoScanner struct {
 	client                 *github.Client
 	logger                 *log.Logger
 	ctx                    context.Context
+	lastRateLimitCheck     time.Time
+	requestsSinceCheck     int
 }
 
 func NewGitHubScanner(
@@ -65,6 +67,8 @@ func NewGitHubScanner(
 		annotateLatestCommitID: annotateLatestCommitID,
 		logger:                 logger,
 		ctx:                    context.Background(),
+		lastRateLimitCheck:     time.Time{},
+		requestsSinceCheck:     0,
 	}, nil
 }
 
@@ -76,7 +80,20 @@ func (g *GitHubRepoScanner) Process(startTime, endTime *time.Time) ([]Finding, e
 	if err := g.setup(); err != nil {
 		return nil, fmt.Errorf("failed to setup GitHub client: %w", err)
 	}
-	return g.processRepos(startTime, endTime)
+
+	findings, err := g.processRepos(startTime, endTime)
+
+	// Log remaining API calls at the end
+	if g.obeyRateLimit {
+		rate, _, rateLimitErr := g.client.RateLimit.Get(g.ctx)
+		if rateLimitErr == nil {
+			core := rate.GetCore()
+			g.logger.Printf("Scan complete. Rate limit status: %d/%d remaining, resets at %s",
+				core.Remaining, core.Limit, core.Reset.Time.Format(time.RFC3339))
+		}
+	}
+
+	return findings, err
 }
 
 func (g *GitHubRepoScanner) setup() error {
@@ -116,10 +133,15 @@ func (g *GitHubRepoScanner) createTokenClient() *http.Client {
 	return oauth2.NewClient(g.ctx, ts)
 }
 
+func (g *GitHubRepoScanner) trackAPICall() {
+	g.requestsSinceCheck++
+}
+
 func (g *GitHubRepoScanner) processRepos(startTime, endTime *time.Time) ([]Finding, error) {
 	var findings []Finding
 
 	org, _, err := g.client.Organizations.Get(g.ctx, g.organization)
+	g.trackAPICall()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get organization: %w", err)
 	}
@@ -141,6 +163,7 @@ func (g *GitHubRepoScanner) processRepos(startTime, endTime *time.Time) ([]Findi
 	// Paginate through all repositories
 	for {
 		repos, resp, err := g.client.Repositories.ListByOrg(g.ctx, org.GetLogin(), opts)
+		g.trackAPICall()
 		if err != nil {
 			return nil, fmt.Errorf("failed to list repositories: %w", err)
 		}
@@ -175,6 +198,8 @@ func (g *GitHubRepoScanner) processReposPage(
 		if (startTime != nil || endTime != nil) && !g.checkRepoIsInTimeFrame(repo.GetPushedAt().Time, startTime, endTime) {
 			return findings, false, nil // Stop processing further pages
 		}
+
+		g.logger.Printf("Processing repository: %s", repo.GetFullName())
 
 		finding, err := g.createFindingFromRepo(repo)
 		if err != nil {
@@ -220,7 +245,17 @@ func (g *GitHubRepoScanner) respectGitHubRateLimit() error {
 		return nil
 	}
 
+	// Only check rate limit every 50 API calls OR every 30 seconds
+	if g.requestsSinceCheck < 50 && time.Since(g.lastRateLimitCheck) < 30*time.Second {
+		return nil
+	}
+
+	// Reset counters
+	g.requestsSinceCheck = 0
+	g.lastRateLimitCheck = time.Now()
+
 	rate, _, err := g.client.RateLimit.Get(g.ctx)
+	g.trackAPICall()
 	if err != nil {
 		return fmt.Errorf("failed to get rate limit: %w", err)
 	}
@@ -228,19 +263,39 @@ func (g *GitHubRepoScanner) respectGitHubRateLimit() error {
 	core := rate.GetCore()
 	remaining := core.Remaining
 	reset := core.Reset.Time
+	limit := core.Limit
 
-	secondsUntilReset := time.Until(reset).Seconds() + 5 // add 5 seconds buffer
-
-	if remaining > 0 {
-		sleepTime := secondsUntilReset / float64(remaining)
-
-		if sleepTime > 0 {
-			time.Sleep(time.Duration(sleepTime * float64(time.Second)))
-		}
+	// Determine threshold based on whether authenticated or not
+	var lowThreshold int
+	if limit <= 60 {
+		lowThreshold = 10
+		g.logger.Printf("Warning: Using unauthenticated GitHub API (60 requests/hour limit). Consider providing an access token for better performance.")
 	} else {
-		// No remaining API calls, wait until reset
-		g.logger.Printf("Rate limit exhausted. Waiting until %s", reset.Format(time.RFC3339))
-		time.Sleep(time.Until(reset) + 5*time.Second)
+		lowThreshold = 100
+	}
+
+	if remaining < lowThreshold {
+		secondsUntilReset := time.Until(reset).Seconds() + 5
+		if remaining > 0 {
+			sleepTime := secondsUntilReset / float64(remaining)
+
+			maxSleep := 10.0
+			if sleepTime > maxSleep {
+				sleepTime = maxSleep
+				g.logger.Printf("Rate limit low (%d/%d remaining), sleeping %.1fs (capped)",
+					remaining, limit, sleepTime)
+			} else if sleepTime > 1 {
+				g.logger.Printf("Rate limit low (%d/%d remaining), sleeping %.1fs between requests",
+					remaining, limit, sleepTime)
+			}
+
+			if sleepTime > 0 {
+				time.Sleep(time.Duration(sleepTime * float64(time.Second)))
+			}
+		} else {
+			g.logger.Printf("Rate limit exhausted. Waiting until %s", reset.Format(time.RFC3339))
+			time.Sleep(time.Until(reset) + 5*time.Second)
+		}
 	}
 
 	return nil
@@ -256,6 +311,7 @@ func (g *GitHubRepoScanner) createFindingFromRepo(repo *github.Repository) (Find
 			&github.CommitsListOptions{
 				ListOptions: github.ListOptions{PerPage: 1},
 			})
+		g.trackAPICall()
 
 		if err != nil {
 			g.logger.Printf("Warning: Could not identify the latest commit ID - repository without commits?")
@@ -265,15 +321,6 @@ func (g *GitHubRepoScanner) createFindingFromRepo(repo *github.Repository) (Find
 			sha := commits[0].GetSHA()
 			latestCommitID = &sha
 		}
-	}
-
-	topics, _, err := g.client.Repositories.ListAllTopics(g.ctx,
-		repo.GetOwner().GetLogin(),
-		repo.GetName())
-
-	var topicList []string
-	if err == nil && topics != nil {
-		topicList = topics
 	}
 
 	visibility := "public"
@@ -293,7 +340,7 @@ func (g *GitHubRepoScanner) createFindingFromRepo(repo *github.Repository) (Find
 		repo.GetUpdatedAt().Format("2006-01-02T15:04:05Z"),
 		visibility,
 		repo.GetArchived(),
-		topicList,
+		repo.Topics,
 		latestCommitID,
 	), nil
 }
