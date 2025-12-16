@@ -3,7 +3,7 @@ title: "ZAP Automation Framework"
 category: "scanner"
 type: "WebApplication"
 state: "released"
-appVersion: "2.16.1"
+appVersion: "2.17.0"
 usecase: "WebApp & OpenAPI Vulnerability Scanner"
 ---
 
