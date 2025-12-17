@@ -22,7 +22,7 @@ env:
   # renovate: datasource=github-releases depName=python/cpython
   PYTHON_VERSION: "3.13.5"
   # renovate: datasource=github-releases depName=kubernetes/kubernetes
-  KUBECTL_VERSION: "v1.34.3"
+  KUBECTL_VERSION: "v1.35.0"
   # renovate: datasource=github-releases depName=kubernetes-sigs/kind
   KIND_BINARY_VERSION: "v0.30.0"
   # renovate: datasource=github-releases depName=helm/helm
