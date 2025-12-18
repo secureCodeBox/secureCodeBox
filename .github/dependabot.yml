@@ -59,6 +59,7 @@ updates:
     ignore:
       - dependency-name: "io.kubernetes:client-java:*-legacy"
       - dependency-name: "io.securecodebox:defectdojo-client:3.0.0"
+      - dependency-name: "org.springframework:spring-web"
     groups:
       gradle-security-updates:
         applies-to: security-updates
