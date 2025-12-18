@@ -24,7 +24,9 @@ repositories {
 dependencies {
   implementation group: "io.securecodebox", name: "defectdojo-client", version: "2.0.1"
   implementation group: "io.kubernetes", name: "client-java", version: "20.0.1"
-  implementation group: "org.springframework", name: "spring-web", version: "7.0.1"
+   // will not be updated to 7.0.0 because it no longer implements a class
+   // so it causes issues with the version in the defectdojo client
+  implementation group: "org.springframework", name: "spring-web", version: "6.2.12"
   // https://github.com/FasterXML/jackson-bom
   implementation platform("com.fasterxml.jackson:jackson-bom:2.20.1")
   implementation "com.fasterxml.jackson.core:jackson-core"
