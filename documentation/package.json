@@ -34,7 +34,7 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "rimraf": "^6.1.2",
-    "sass": "1.96"
+    "sass": "1.97"
   },
   "browserslist": {
     "production": [
@@ -52,7 +52,7 @@
     "@docusaurus/module-type-aliases": "^3.6.0",
     "@docusaurus/tsconfig": "^3.9.2",
     "@docusaurus/types": "^3.6.0",
-    "@types/node": "^25.0.2",
+    "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.1.8",
