@@ -2059,7 +2059,9 @@ spec:
                           type: integer
                       type: object
                     resizePolicy:
-                      description: Resources resize policy for the container.
+                      description: |-
+                        Resources resize policy for the container.
+                        This field cannot be set on ephemeral containers.
                       items:
                         description: ContainerResizePolicy represents resource resize
                           policy for the container.
@@ -2729,7 +2731,7 @@ spec:
                     operator:
                       description: |-
                         Operator represents a key's relationship to the value.
-                        Valid operators are Exists and Equal. Defaults to Equal.
+                        Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.
                         Exists is equivalent to wildcard for value, so that a pod can
                         tolerate all taints of a particular category.
                       type: string
@@ -3293,8 +3295,11 @@ spec:
                                   - name
                                   type: object
                                 resources:
-                                  description: resources represents the minimum resources
-                                    the volume should have.
+                                  description: |-
+                                    resources represents the minimum resources the volume should have.
+                                    Users are allowed to specify resource requirements
+                                    that are lower than previous value but must still be higher than capacity recorded in the
+                                    status field of the claim.
                                   properties:
                                     limits:
                                       additionalProperties:
@@ -4058,6 +4063,16 @@ spec:
                                     description: Kubelet's generated CSRs will be
                                       addressed to this signer.
                                     type: string
+                                  userAnnotations:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      userAnnotations allow pod authors to pass additional information to
+                                      the signer implementation.  Kubernetes does not restrict or validate this
+                                      metadata in any way.
+
+                                      These values are copied verbatim into the `spec.
+                                    type: object
                                 required:
                                 - keyType
                                 - signerName
