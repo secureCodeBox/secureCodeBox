@@ -53,7 +53,7 @@ var _ = Describe("ScanType Hashing", func() {
 		It("should hash scantype consistently", func() {
 			hashValues := HashScanType(scanType)
 			// note: this hash changes with every kubernetes release as kubernetes adds new field to their objects which causes the hashes to change.
-			Expect(hashValues).To(Equal(uint64(11099598195720215515)), "Should hash scantype consistently")
+			Expect(hashValues).To(Equal(uint64(6491418262890710719)), "Should hash scantype consistently")
 		})
 
 		It("should ignore non-scb annotations on the scantypes", func() {
