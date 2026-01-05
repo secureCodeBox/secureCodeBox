@@ -24,7 +24,7 @@ You're now ready to install your [first scan types and start your first scans](/
 
 ## Supported Kubernetes Version
 
-The secureCodeBox supports the 4 latest Kubernetes releases (`v1.34`, `v1.33`, `v1.32` & `v1.31`). Older versions might also work but are not officially supported or tested.
+The secureCodeBox supports the 4 latest Kubernetes releases (`v1.35`, `v1.34`, `v1.33` & `v1.32`). Older versions might also work but are not officially supported or tested.
 
 ## Accessing the included MinIO Instance
 
