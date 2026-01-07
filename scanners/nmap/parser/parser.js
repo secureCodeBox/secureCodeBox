@@ -52,7 +52,7 @@ function transformToFindings(hosts) {
       name: `Host: ${getHostOrIp({ hostname, ips })}`,
       category: "Host",
       description: "Found a host",
-      location: hostname,
+      location: getHostOrIp({ hostname, ips }),
       severity: "INFORMATIONAL",
       osi_layer: "NETWORK",
       attributes: {
