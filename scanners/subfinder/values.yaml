@@ -5,6 +5,9 @@
 # -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
 
+# includeTargetDomain -- include target domain in findings
+includeTargetDomain: false
+
 parser:
   image:
     # parser.image.repository -- Parser image repository
@@ -75,7 +78,6 @@ scanner:
     - name: subfinder-config
       emptyDir: {}
 
-
   # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumeMounts:
     - name: subfinder-config
@@ -85,10 +87,7 @@ scanner:
   extraContainers: []
 
   # scanner.podSecurityContext -- Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-  podSecurityContext:
-    {
-      runAsUser: 10001
-    }
+  podSecurityContext: {runAsUser: 10001}
 
   # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
