@@ -38,7 +38,7 @@ dependencies {
   // If I try to notate this like the others (with separate strings) I got errors. No idea why sh... Gradle
   // want it like this. It is the official documented example:
   // https://github.com/junit-team/junit5-samples/blob/r5.10.0/junit5-jupiter-starter-gradle/build.gradle
-  testImplementation(platform("org.junit:junit-bom:6.0.1"))
+  testImplementation(platform("org.junit:junit-bom:6.0.2"))
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation group: "org.mockito", name: "mockito-core", version: "5.21.0"
   testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.21.0"
