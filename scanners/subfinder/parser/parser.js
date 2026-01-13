@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const includeTargetDomain =
-  process.env["INCLUDE_TARGET_DOMAIN"]?.toLowerCase() == "true";
-
-export async function parse(fileContent, scan) {
+export async function parse(
+  fileContent,
+  scan,
+  includeTargetDomain = process.env["INCLUDE_TARGET_DOMAIN"]?.toLowerCase() ==
+    "true",
+) {
   if (!fileContent && !includeTargetDomain) return [];
 
   const targets = parseResultFile(fileContent);
