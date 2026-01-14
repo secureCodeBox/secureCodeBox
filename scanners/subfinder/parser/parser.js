@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+const DOMAIN_FLAGS = ["-d", "-domain", "--domain"];
+
 export async function parse(
   fileContent,
   scan,
@@ -14,7 +16,7 @@ export async function parse(
   const findings = transformToFindings(targets);
 
   const domain = includeTargetDomain
-    ? getArgValue(scan.spec.parameters, "-d", "-domain")
+    ? extractDomainFromArgs(scan.spec.parameters)
     : null;
   if (domain) {
     findings.push(getTargetDomainFinding(domain));
@@ -23,9 +25,26 @@ export async function parse(
   return findings;
 }
 
-function getArgValue(args, ...flags) {
-  const index = args.findIndex((arg) => flags.includes(arg));
-  return index !== -1 && index + 1 < args.length ? args[index + 1] : null;
+function extractDomainFromArgs(args) {
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+
+    // Check for --domain=value or --domain="value" format
+    for (const flag of DOMAIN_FLAGS) {
+      if (arg.startsWith(`${flag}=`)) {
+        const value = arg.slice(flag.length + 1);
+        // Remove surrounding quotes if present
+        return value.replace(/^["']|["']$/g, "");
+      }
+    }
+
+    // Check for -d value, -domain value, --domain value format
+    if (DOMAIN_FLAGS.includes(arg) && i + 1 < args.length) {
+      return args[i + 1];
+    }
+  }
+
+  return null;
 }
 
 function getTargetDomainFinding(domain) {
