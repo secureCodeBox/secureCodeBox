@@ -34,7 +34,9 @@ function extractDomainFromArgs(args) {
       if (arg.startsWith(`${flag}=`)) {
         const value = arg.slice(flag.length + 1);
         // Remove surrounding quotes if present
-        return value.replace(/^["']|["']$/g, "");
+        return value
+          .replace(/^["']/, "") // Remove leading quote
+          .replace(/["']$/, ""); // Remove trailing quote
       }
     }
 
