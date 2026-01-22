@@ -37,6 +37,29 @@ In our GitHub organization we have several teams:
 
 ## On- and Off-Boarding
 
-**TODO** Describe on-/off-boarding
+For on- and off-boarding we create an issue for each member. On- and off-boardings need to be done by a member of the _admin-team_.
+
+### On-boarding
+
+- _core-team_:
+  - Add to our GitHub organization with following roles:
+    - core-team
+    - contributer-Team
+- _admin-team_ (additionally to the _core-team_ on-boarding):
+  - Add to our GitHub organization with following roles:
+    - admin-team
+  - Register user to Sonatype
+  - Add to OWASP valut
+
+### Off-boarding
+
+- _core-team_:
+  - Remove role:
+    - core-team
+- _admin-team_:
+  - Remove role:
+    - admin-team
+  - Remove user from SonaType
+  - Remove access to OWASP vault
 
 [google-shared-drive]: https://drive.google.com/drive/folders/1cwAjEyEabdj4By-Ox6ho49NiT-vQUeDq?usp=drive_link
