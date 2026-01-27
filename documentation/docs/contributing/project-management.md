@@ -49,7 +49,7 @@ For on- and off-boarding we create an issue for each member. On- and off-boardin
   - Add to our GitHub organization with following roles:
     - admin-team
   - Register user to Sonatype
-  - Add to OWASP valut
+  - Add to [OWASP valut](https://team-securecodebox.1password.com/)
 
 ### Off-boarding
 
