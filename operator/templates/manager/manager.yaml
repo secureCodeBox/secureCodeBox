@@ -19,11 +19,16 @@ spec:
       labels:
         control-plane: securecodebox-controller-manager
     spec:
-      {{- if .Values.customCACertificate.existingCertificate }}
+      {{- if or .Values.customCACertificate.existingCertificate .Values.extraVolumes }}
       volumes:
+        {{- if .Values.customCACertificate.existingCertificate }}
         - name: ca-certificate
           configMap:
             name: {{ .Values.customCACertificate.existingCertificate }}
+        {{- end }}
+        {{- range .Values.extraVolumes }}
+        - {{ toYaml . | nindent 10 }}
+        {{- end }}
       {{- end }}
       serviceAccountName: {{ .Values.serviceAccount.name }}
       securityContext:
@@ -38,11 +43,16 @@ spec:
           args:
           - --leader-elect
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
-          {{- if .Values.customCACertificate.existingCertificate }}
+          {{- if or .Values.customCACertificate.existingCertificate .Values.extraVolumeMounts }}
           volumeMounts:
+            {{- if .Values.customCACertificate.existingCertificate }}
             - name: ca-certificate
               mountPath: /etc/ssl/certs/{{ .Values.customCACertificate.certificate }}
               subPath: {{ .Values.customCACertificate.certificate }}
+            {{- end }}
+            {{- range .Values.extraVolumeMounts }}
+            - {{ toYaml . | nindent 14 }}
+            {{- end }}
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: manager
@@ -90,7 +100,7 @@ spec:
               value: {{ .Values.s3.bucket }}
             {{- if .Values.s3.port }}
             - name: S3_PORT
-              value: {{ .Values.s3.port }}
+              value: {{ .Values.s3.port | quote }}
             {{- end }}
             - name: S3_AUTH_TYPE
               value: {{ .Values.s3.authType }}

@@ -29,6 +29,32 @@ customCACertificate:
   # -- key in the configmap holding the certificate(s)
   certificate: "public.crt"
 
+
+# -- Additional volumes to be mounted to the operator deployment
+extraVolumes: [ ]
+# Example:
+# extraVolumes:
+#   - name: ssl-certificates 
+#     secret:
+#       secretName: ssl-cert-secret
+#   - name: config-volume
+#     configMap:
+#       name: operator-config
+#   - name: cache-volume 
+#     emptyDir: {}
+
+# -- Additional volume mounts to be mounted to the operator deployment
+extraVolumeMounts: [ ]
+# Example:
+# extraVolumeMounts:
+#   - name: ssl-certificates
+#     mountPath: /etc/ssl/certs
+#     readOnly: true
+#   - name: config-volume 
+#     mountPath: /etc/config
+#   - name: cache-volume
+#     mountPath: /cache
+
 serviceAccount:
   # -- Name of the serviceAccount the operator uses to talk to the k8s api
   name: securecodebox-operator
