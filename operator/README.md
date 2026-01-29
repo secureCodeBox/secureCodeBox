@@ -73,6 +73,8 @@ helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 | customCACertificate | object | `{"certificate":"public.crt","existingCertificate":null}` | Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurker, parser & hooks). Requires that every namespace has a configmap with the CA certificate(s) |
 | customCACertificate.certificate | string | `"public.crt"` | key in the configmap holding the certificate(s) |
 | customCACertificate.existingCertificate | string | `nil` | name of the configMap holding the ca certificate(s), needs to be the same across all namespaces |
+| extraVolumeMounts | list | `[]` | Additional volume mounts to be mounted to the operator deployment |
+| extraVolumes | list | `[]` | Additional volumes to be mounted to the operator deployment |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
