@@ -21,12 +21,28 @@ Under the topic "project management" we describe how we do the organizational st
 
 ## Teams
 
-In our GitHub organization we have several teams:
+### GitHub
+
+In our [GitHub organization](https://github.com/secureCodeBox) we have several teams:
 
 1. _admin-team_: Members are the _project leads_. 
 2. _core-team_: Company sponsored core team.
 3. _contributor-team_: Active contributors from the community.
 4. _bot-team_: Team containing all bots allowed to push directly to the main branch.
+
+### DockerHub
+
+In our [DockerHub organization](https://hub.docker.com/u/securecodebox) we have several teams:
+
+1. _adminteam_: Members are the _project leads_.
+2. _coreteam_: Company sponsored core team.
+3. _botteam_: Team containing all bot accounts.
+
+### Sonatype (Maven Central)
+
+In our [Sonatype organization](https://central.sonatype.com/) we have the namespace "io.securecodebox" for Java Maven artifacts.
+
+Users of this namespace are the _project leads_ and a bot user for deployments.
 
 ## Organizational
 
@@ -48,8 +64,8 @@ For on- and off-boarding we create an issue for each member. On- and off-boardin
 - _admin-team_ (additionally to the _core-team_ on-boarding):
   - Add to our GitHub organization with following roles:
     - admin-team
-  - Register user to Sonatype
-  - Add to [OWASP valut](https://team-securecodebox.1password.com/)
+  - Register user at [Sonatype](https://central.sonatype.com/) & add to namespace "io.securecodebox"
+  - Add to [OWASP valut](https://team-securecodebox.1password.com/).
 
 ### Off-boarding
 
@@ -59,7 +75,7 @@ For on- and off-boarding we create an issue for each member. On- and off-boardin
 - _admin-team_:
   - Remove role:
     - admin-team
-  - Remove user from SonaType
-  - Remove access to OWASP vault
+  - Remove user from namespace "io.securecodebox" in [SonaType]((https://central.sonatype.com/)).
+  - Remove access to [OWASP valut](https://team-securecodebox.1password.com/).
 
 [google-shared-drive]: https://drive.google.com/drive/folders/1cwAjEyEabdj4By-Ox6ho49NiT-vQUeDq?usp=drive_link
