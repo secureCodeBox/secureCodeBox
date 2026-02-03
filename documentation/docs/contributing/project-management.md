@@ -75,7 +75,7 @@ For on- and off-boarding we create an issue for each member. On- and off-boardin
 - _admin-team_:
   - Remove role:
     - admin-team
-  - Remove user from namespace "io.securecodebox" in [SonaType]((https://central.sonatype.com/)).
   - Remove access to [OWASP valut](https://team-securecodebox.1password.com/).
+  - Remove user from namespace "io.securecodebox" in [SonaType](https://central.sonatype.com/).
 
 [google-shared-drive]: https://drive.google.com/drive/folders/1cwAjEyEabdj4By-Ox6ho49NiT-vQUeDq?usp=drive_link
