@@ -10,16 +10,16 @@ title: "Security Policy"
 # Security Policy
 
 ## Supported Versions
+
 Our _release cycle_ for new features (minor [semver](https://semver.org/) update)
-is roughly every two weeks (we will usually make a new release after each review). 
+is roughly every four weeks (we will usually make a new release after each sprint review).
 
 | Version | Security Fixes* | Supported** |
 | ------- | ------------------ | ------------------ |
-| 4.x.x | :white_check_mark: | :white_check_mark: |
-| 3.15.x | :white_check_mark: | :white_check_mark: |
-| \<= 2.9.x | :x: | :x: |
-| \< 2.0 | :x: | :x: |
-
+| 5.x.x | :white_check_mark: | :white_check_mark: |
+| 4.16.x | Critical issues only | :x: |
+| <= 3.15.x | :x: | :x: |
+ 
 ### Major Release (Semver)
 _Upcoming major updates_ will come with a time window in which both _major versions_ (starting with v2.x.x)
 will receive security updates and bugfixes. The concrete support intervall will be probably a couple of months
