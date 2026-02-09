@@ -83,6 +83,16 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 
 	log.V(5).Info("Scan Found", "Type", scan.Spec.ScanType, "State", scan.Status.State)
 
+	// Check if the scan is suspended. If so, skip reconciliation unless the scan is in a terminal state
+	// where TTL-based cleanup should still work.
+	if scan.Spec.Suspend != nil && *scan.Spec.Suspend {
+		if scan.Status.State != executionv1.ScanStateDone && scan.Status.State != executionv1.ScanStateErrored {
+			log.V(7).Info("Scan is suspended, skipping reconciliation")
+			return ctrl.Result{}, nil
+		}
+		// For Done/Errored scans, continue to allow TTL cleanup
+	}
+
 	// Handle Finalizer if the scan is getting deleted
 	if !scan.ObjectMeta.DeletionTimestamp.IsZero() {
 		// Check if this Scan has not yet been converted to new CRD
