@@ -2761,6 +2761,13 @@ spec:
                   scanType:
                     description: The name of the scanType which should be started.
                     type: string
+                  suspend:
+                    default: false
+                    description: Suspend specifies whether the Scan should be suspended.
+                      When a Scan is suspended, the reconciler will not process it,
+                      effectively pausing all operations until it is resumed. This
+                      behaves similar to the suspend field in Kubernetes Jobs.
+                    type: boolean
                   tolerations:
                     description: Tolerations are a different way to control on which
                       nodes your scan is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
@@ -4540,6 +4547,13 @@ spec:
                 format: int32
                 minimum: 0
                 type: integer
+              suspend:
+                default: false
+                description: Suspend specifies whether the ScheduledScan should be
+                  suspended. When a ScheduledScan is suspended, no new Scans will
+                  be created according to the schedule. This behaves similar to the
+                  suspend field in Kubernetes CronJobs.
+                type: boolean
             required:
             - scanSpec
             type: object

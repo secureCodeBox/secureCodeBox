@@ -50,6 +50,11 @@ type ScheduledScanSpec struct {
 	// +kubebuilder:validation:Optional
 	// +kubebuilder:default=false
 	RetriggerOnScanTypeChange bool `json:"retriggerOnScanTypeChange,omitempty"`
+
+	// Suspend specifies whether the ScheduledScan should be suspended. When a ScheduledScan is suspended, no new Scans will be created according to the schedule. This behaves similar to the suspend field in Kubernetes CronJobs.
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:default=false
+	Suspend *bool `json:"suspend,omitempty"`
 }
 
 // ConcurrencyPolicy describes how the job will be handled.
