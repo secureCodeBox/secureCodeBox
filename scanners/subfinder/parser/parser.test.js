@@ -42,6 +42,29 @@ test("should properly parse empty json file", async () => {
   expect(findings).toMatchSnapshot();
 });
 
+test("should properly parse empty json file with includeTargetDomain=true", async () => {
+  const scan = {
+    spec: {
+      scanType: "subfinder",
+      parameters: ["-timeout", "1", "-d", "example.com"],
+    },
+    metadata: {
+      annotations: {
+        "metadata.scan.securecodebox.io/subfinder":
+          "https://github.com/secureCodeBox/secureCodeBox",
+      },
+    },
+  };
+
+  const fileContent = await readFile(__dirname + "/__testFiles__/empty.jsonl", {
+    encoding: "utf8",
+  });
+  const findings = await parse(fileContent, scan, "true");
+  // validate findings
+  expect(validateParser(findings)).toBeUndefined();
+  expect(findings).toMatchSnapshot();
+});
+
 test("should properly parse subfinder json file and add target domain to findings with param -d", async () => {
   const scan = {
     spec: {
