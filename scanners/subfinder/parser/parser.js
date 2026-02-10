@@ -7,9 +7,11 @@ const DOMAIN_FLAGS = ["-d", "-domain", "--domain"];
 export async function parse(
   fileContent,
   scan,
-  includeTargetDomain = process.env["INCLUDE_TARGET_DOMAIN"]?.toLowerCase() ==
-    "true",
+  options = {},
 ) {
+  const includeTargetDomain = options.includeTargetDomain ??
+    (process.env["INCLUDE_TARGET_DOMAIN"]?.toLowerCase() === "true");
+
   const targets = parseResultFile(fileContent);
   const findings = transformToFindings(targets);
 
