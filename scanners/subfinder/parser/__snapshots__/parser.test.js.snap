@@ -604,3 +604,24 @@ exports[`should properly parse subfinder json file and add target domain to find
   },
 ]
 `;
+
+exports[`should properly parse empty json file with includeTargetDomain=true 1`] = `
+[
+  {
+    "attributes": {
+      "domain": "example.com",
+      "hostname": "example.com",
+      "ip_address": null,
+      "ip_addresses": [],
+      "source": "parser",
+    },
+    "category": "Subdomain",
+    "description": "Found subdomain example.com",
+    "identified_at": null,
+    "location": "example.com",
+    "name": "example.com",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+]
+`;

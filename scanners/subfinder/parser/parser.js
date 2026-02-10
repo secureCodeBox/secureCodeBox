@@ -10,8 +10,6 @@ export async function parse(
   includeTargetDomain = process.env["INCLUDE_TARGET_DOMAIN"]?.toLowerCase() ==
     "true",
 ) {
-  if (!fileContent && !includeTargetDomain) return [];
-
   const targets = parseResultFile(fileContent);
   const findings = transformToFindings(targets);
 
@@ -92,8 +90,10 @@ function transformToFindings(targets) {
  * @param {*} fileContent
  */
 function parseResultFile(fileContent) {
-  return fileContent
-    .trim()
+  const trimmed = fileContent.trim();
+  if (!trimmed) return [];
+  
+  return trimmed
     .split("\n")
     .map((line) => JSON.parse(line));
 }
