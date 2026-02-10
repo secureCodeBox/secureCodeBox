@@ -59,7 +59,7 @@ test("should properly parse empty json file with includeTargetDomain=true", asyn
   const fileContent = await readFile(__dirname + "/__testFiles__/empty.jsonl", {
     encoding: "utf8",
   });
-  const findings = await parse(fileContent, scan, "true");
+  const findings = await parse(fileContent, scan, { includeTargetDomain: true });
   // validate findings
   expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
@@ -85,7 +85,7 @@ test("should properly parse subfinder json file and add target domain to finding
       encoding: "utf8",
     },
   );
-  const findings = await parse(fileContent, scan, "true");
+  const findings = await parse(fileContent, scan, { includeTargetDomain: true });
   // validate findings
   expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
@@ -111,7 +111,7 @@ test("should properly parse subfinder json file and add target domain to finding
       encoding: "utf8",
     },
   );
-  const findings = await parse(fileContent, scan, "true");
+  const findings = await parse(fileContent, scan, { includeTargetDomain: true });
   // validate findings
   expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
@@ -137,7 +137,7 @@ test("should properly parse subfinder json file and add target domain to finding
       encoding: "utf8",
     },
   );
-  const findings = await parse(fileContent, scan, "true");
+  const findings = await parse(fileContent, scan, { includeTargetDomain: true });
   // validate findings
   expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchSnapshot();
