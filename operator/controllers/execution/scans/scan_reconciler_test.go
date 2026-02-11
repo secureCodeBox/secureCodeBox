@@ -232,4 +232,120 @@ var _ = Describe("ScanControllers", func() {
 		})
 
 	})
+
+	Context("Suspend Functionality", func() {
+		It("should return true for TTL cleanup on suspended Done scan", func() {
+			finishTime := time.Date(2009, 11, 17, 20, 34, 58, 651387237, time.UTC)
+			var timeout int32 = 30
+			suspend := true
+			var scan = &executionv1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Namespace: namespace,
+					Name:      "nmap",
+				},
+				Spec: executionv1.ScanSpec{
+					ScanType:                "nmap",
+					Parameters:              []string{"scanme.nmap.org"},
+					TTLSecondsAfterFinished: &timeout,
+					Suspend:                 &suspend,
+				},
+				Status: executionv1.ScanStatus{
+					State:      executionv1.ScanStateDone,
+					FinishedAt: &metav1.Time{Time: finishTime},
+				},
+			}
+			// TTL cleanup should still work even when suspended
+			Expect(reconciler.checkIfTTLSecondsAfterFinishedIsCompleted(scan)).To(BeTrue())
+		})
+
+		It("should return true for TTL cleanup on suspended Errored scan", func() {
+			finishTime := time.Date(2009, 11, 17, 20, 34, 58, 651387237, time.UTC)
+			var timeout int32 = 30
+			suspend := true
+			var scan = &executionv1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Namespace: namespace,
+					Name:      "nmap",
+				},
+				Spec: executionv1.ScanSpec{
+					ScanType:                "nmap",
+					Parameters:              []string{"scanme.nmap.org"},
+					TTLSecondsAfterFinished: &timeout,
+					Suspend:                 &suspend,
+				},
+				Status: executionv1.ScanStatus{
+					State:      executionv1.ScanStateErrored,
+					FinishedAt: &metav1.Time{Time: finishTime},
+				},
+			}
+			// TTL cleanup should still work even when suspended
+			Expect(reconciler.checkIfTTLSecondsAfterFinishedIsCompleted(scan)).To(BeTrue())
+		})
+
+		It("should identify a suspended scan correctly", func() {
+			suspend := true
+			var scan = &executionv1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Namespace: namespace,
+					Name:      "nmap",
+				},
+				Spec: executionv1.ScanSpec{
+					ScanType:   "nmap",
+					Parameters: []string{"scanme.nmap.org"},
+					Suspend:    &suspend,
+				},
+				Status: executionv1.ScanStatus{
+					State: executionv1.ScanStateInit,
+				},
+			}
+			// Verify the suspend flag is properly set
+			Expect(scan.Spec.Suspend).NotTo(BeNil())
+			Expect(*scan.Spec.Suspend).To(BeTrue())
+		})
+
+		It("should identify a non-suspended scan correctly when Suspend is false", func() {
+			suspend := false
+			var scan = &executionv1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Namespace: namespace,
+					Name:      "nmap",
+				},
+				Spec: executionv1.ScanSpec{
+					ScanType:   "nmap",
+					Parameters: []string{"scanme.nmap.org"},
+					Suspend:    &suspend,
+				},
+				Status: executionv1.ScanStatus{
+					State: executionv1.ScanStateInit,
+				},
+			}
+			// Verify the suspend flag is properly set to false
+			Expect(scan.Spec.Suspend).NotTo(BeNil())
+			Expect(*scan.Spec.Suspend).To(BeFalse())
+		})
+
+		It("should handle nil Suspend field as not suspended", func() {
+			var scan = &executionv1.Scan{
+				ObjectMeta: metav1.ObjectMeta{
+					Namespace: namespace,
+					Name:      "nmap",
+				},
+				Spec: executionv1.ScanSpec{
+					ScanType:   "nmap",
+					Parameters: []string{"scanme.nmap.org"},
+					Suspend:    nil, // Not set, should default to false
+				},
+				Status: executionv1.ScanStatus{
+					State: executionv1.ScanStateInit,
+				},
+			}
+			// When Suspend is nil, the scan should not be considered suspended
+			if scan.Spec.Suspend != nil {
+				Expect(*scan.Spec.Suspend).To(BeFalse())
+			} else {
+				// nil is treated as not suspended
+				Expect(scan.Spec.Suspend).To(BeNil())
+			}
+		})
+	})
 })

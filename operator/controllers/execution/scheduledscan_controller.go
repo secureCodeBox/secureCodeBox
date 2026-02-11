@@ -124,6 +124,12 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 
 	InProgressScans := getScansInProgress(childScans.Items)
 
+	// Check if the ScheduledScan is suspended. If so, skip creating new scans.
+	if scheduledScan.Spec.Suspend != nil && *scheduledScan.Spec.Suspend {
+		log.V(7).Info("ScheduledScan is suspended, skipping scan creation")
+		return ctrl.Result{RequeueAfter: 1 * time.Minute}, nil
+	}
+
 	// check if it is time to start the next Scan
 	if !time.Now().Before(nextSchedule) {
 		// check concurrency policy

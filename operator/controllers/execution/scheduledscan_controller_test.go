@@ -177,4 +177,72 @@ var _ = Describe("ScheduledScan controller", func() {
 			Expect(firstScanName).ShouldNot(Equal(secondScanName))
 		})
 	})
+
+	Context("Suspend Functionality", func() {
+		It("should identify a suspended ScheduledScan correctly", func() {
+			suspend := true
+			scheduledScan := &executionv1.ScheduledScan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "test-scan",
+					Namespace: "test-namespace",
+				},
+				Spec: executionv1.ScheduledScanSpec{
+					Interval: metav1.Duration{Duration: 1 * time.Hour},
+					ScanSpec: &executionv1.ScanSpec{
+						ScanType:   "nmap",
+						Parameters: []string{"scanme.nmap.org"},
+					},
+					Suspend: &suspend,
+				},
+			}
+			// Verify the suspend flag is properly set
+			Expect(scheduledScan.Spec.Suspend).NotTo(BeNil())
+			Expect(*scheduledScan.Spec.Suspend).To(BeTrue())
+		})
+
+		It("should identify a non-suspended ScheduledScan correctly when Suspend is false", func() {
+			suspend := false
+			scheduledScan := &executionv1.ScheduledScan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "test-scan",
+					Namespace: "test-namespace",
+				},
+				Spec: executionv1.ScheduledScanSpec{
+					Interval: metav1.Duration{Duration: 1 * time.Hour},
+					ScanSpec: &executionv1.ScanSpec{
+						ScanType:   "nmap",
+						Parameters: []string{"scanme.nmap.org"},
+					},
+					Suspend: &suspend,
+				},
+			}
+			// Verify the suspend flag is properly set to false
+			Expect(scheduledScan.Spec.Suspend).NotTo(BeNil())
+			Expect(*scheduledScan.Spec.Suspend).To(BeFalse())
+		})
+
+		It("should handle nil Suspend field as not suspended", func() {
+			scheduledScan := &executionv1.ScheduledScan{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "test-scan",
+					Namespace: "test-namespace",
+				},
+				Spec: executionv1.ScheduledScanSpec{
+					Interval: metav1.Duration{Duration: 1 * time.Hour},
+					ScanSpec: &executionv1.ScanSpec{
+						ScanType:   "nmap",
+						Parameters: []string{"scanme.nmap.org"},
+					},
+					Suspend: nil, // Not set, should default to false
+				},
+			}
+			// When Suspend is nil, the scan should not be considered suspended
+			if scheduledScan.Spec.Suspend != nil {
+				Expect(*scheduledScan.Spec.Suspend).To(BeFalse())
+			} else {
+				// nil is treated as not suspended
+				Expect(scheduledScan.Spec.Suspend).To(BeNil())
+			}
+		})
+	})
 })

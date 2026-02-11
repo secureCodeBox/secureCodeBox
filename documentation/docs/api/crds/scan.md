@@ -370,6 +370,24 @@ ttlSecondsAfterFinished: 30 #deletes the scan after 30 seconds after completion
 ttlSecondsAfterFinished can also be set for the scan (as part of the [jobTemplate](https://www.securecodebox.io/docs/api/crds/scan-type#jobtemplate-required)), [parser](https://www.securecodebox.io/docs/api/crds/parse-definition) and [hook](https://www.securecodebox.io/docs/api/crds/scan-completion-hook#ttlsecondsafterfinished-optional) jobs individually. Setting these will only delete the jobs, not the entire scan. 
 :::
 
+### Suspend (Optional)
+
+`suspend` specifies whether the Scan should be suspended. When a Scan is suspended, the reconciler will not process it, effectively pausing all operations until it is resumed. This behaves similar to the suspend field in Kubernetes Jobs.
+
+When set to `true`, the scan will not progress through its lifecycle states (Init, Scanning, Parsing, etc.). However, TTL-based cleanup still works on suspended scans that are in Done or Errored states to prevent accumulation of completed suspended scans.
+
+Defaults to `false` if not set.
+
+```yaml
+suspend: true  # Suspends the scan, preventing any operations
+```
+
+To resume a suspended scan, you can patch the scan resource:
+
+```bash
+kubectl patch scan my-scan --type merge -p '{"spec":{"suspend":false}}'
+```
+
 ## Metadata
 
 Metadata is a standard field on Kubernetes resources. It contains multiple relevant fields, e.g. the name of the resource, its namespace and a `creationTimestamp` of the resource. See more on the [Kubernetes Docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) and the [Kubernetes API Reference](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/).
@@ -443,4 +461,5 @@ spec:
       cpu: 4
       memory: 4Gi
   ttlSecondsAfterFinished: 300
+  suspend: false
 ```

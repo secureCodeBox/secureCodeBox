@@ -62,6 +62,24 @@ When `retriggerOnScanTypeChange` is enabled, it will automatically trigger a new
 
 Defaults to `false` if not set.
 
+### Suspend (Optional)
+
+`suspend` specifies whether the ScheduledScan should be suspended. When a ScheduledScan is suspended, no new Scans will be created according to the schedule. This behaves similar to the suspend field in Kubernetes CronJobs.
+
+When set to `true`, the ScheduledScan will continue to reconcile (updating status and tracking the schedule), but it will skip creating new Scan resources. Any scans that are already running will continue to completion.
+
+Defaults to `false` if not set.
+
+```yaml
+suspend: true  # Suspends the scheduled scan, preventing new scan creation
+```
+
+To resume a suspended scheduled scan:
+
+```bash
+kubectl patch scheduledscan my-scheduled-scan --type merge -p '{"spec":{"suspend":false}}'
+```
+
 ## Example with an Interval
 
 ```yaml
@@ -81,6 +99,7 @@ spec:
   failedJobsHistoryLimit: 5
   concurrencyPolicy: "Allow"
   retriggerOnScanTypeChange: false
+  suspend: false
 ```
 
 ## Example with a Cron Schedule
@@ -102,4 +121,5 @@ spec:
   failedJobsHistoryLimit: 5
   concurrencyPolicy: "Forbid"
   retriggerOnScanTypeChange: true
+  suspend: false
 ```

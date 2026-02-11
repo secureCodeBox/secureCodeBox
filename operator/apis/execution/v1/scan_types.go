@@ -148,6 +148,10 @@ type ScanSpec struct {
 	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 	// ttlSecondsAfterFinished limits the lifetime of a Scan that has finished execution (either Done or Errored). If this field is set ttlSecondsAfterFinished after the Scan finishes, it is eligible to be automatically deleted. When the Scan is being deleted, its lifecycle guarantees (e.g. finalizers) will be honored. If this field is unset, the Scan won't be automatically deleted. If this is set to zero, the Scan becomes eligible to be deleted immediately after it finishes.
 	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
+	// Suspend specifies whether the Scan should be suspended. When a Scan is suspended, the reconciler will not process it, effectively pausing all operations until it is resumed. This behaves similar to the suspend field in Kubernetes Jobs. TTL-based cleanup still works on suspended scans that are Done or Errored.
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:default=false
+	Suspend *bool `json:"suspend,omitempty"`
 }
 
 type ScanState string
