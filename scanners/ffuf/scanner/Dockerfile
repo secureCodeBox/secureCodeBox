@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM --platform=$BUILDPLATFORM golang:1.25-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:1.26-alpine AS builder
 ARG scannerVersion
 RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" CGO_ENABLED=0 go install github.com/ffuf/ffuf/v2@$scannerVersion
 
