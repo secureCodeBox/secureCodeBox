@@ -14,8 +14,8 @@ require (
 	github.com/onsi/gomega v1.39.1
 	github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20250811150403-217d256e71c1
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20250409151104-b2c7b64c9589
-	k8s.io/api v0.35.0
-	k8s.io/client-go v0.35.0
+	k8s.io/api v0.35.1
+	k8s.io/client-go v0.35.1
 	k8s.io/klog/v2 v2.130.1
 	sigs.k8s.io/controller-runtime v0.23.1
 	sigs.k8s.io/yaml v1.6.0
@@ -103,6 +103,6 @@ require (
 
 require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
-	k8s.io/apimachinery v0.35.0
-	k8s.io/cli-runtime v0.35.0
+	k8s.io/apimachinery v0.35.1
+	k8s.io/cli-runtime v0.35.1
 )
