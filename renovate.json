@@ -42,6 +42,19 @@
         "# renovate: datasource=github-releases depName=(?<depName>.*?)\\s*\\w+_VERSION:\\s*[\"']?(?<currentValue>[^\"'\\s]+)[\"']?"
       ],
       "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned tool versions in Makefiles (e.g. CONTROLLER_TOOLS_VERSION)",
+      "managerFilePatterns": [
+        "/operator/Makefile$",
+        "/auto-discovery/cloud-aws/Makefile$",
+        "/auto-discovery/kubernetes/Makefile$"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s*\\w+[_A-Z]* [?]?= (?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "github-releases"
     }
   ]
 }
