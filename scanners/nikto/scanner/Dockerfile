@@ -16,6 +16,11 @@ COPY --chown=root:root --chmod=755 wrapper.sh /wrapper.sh
 RUN apk add --update --no-cache --virtual .build-deps \
      perl \
      perl-net-ssleay \
+     perl-json \
+     perl-io-socket-ssl \
+     perl-xml-writer \
+     perl-mime-base64 \
+     perl-xml-libxml \
   && addgroup -g 1001 nikto \
   && adduser -G nikto -s /bin/sh -D -u 1001 nikto
 
