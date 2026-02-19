@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@kubernetes/client-node": "^1.4.0",
-    "ajv": "^8.17.1",
+    "ajv": "^8.18.0",
     "ajv-draft-04": "^1.0.0",
     "ajv-formats": "^3.0.1",
     "jsonpointer": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^25.2.2"
+    "@types/node": "^25.2.3"
   }
 }
