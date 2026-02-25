@@ -36,7 +36,7 @@
   "dependencies": {
     "@types/js-yaml": "^4.0.2",
     "js-yaml": "^4.1.1",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.23",
     "nodemailer": "^7.0.11",
     "nunjucks": "^3.2.4"
   }
