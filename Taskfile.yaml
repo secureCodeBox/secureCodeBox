@@ -52,7 +52,7 @@ tasks:
       - kubectl config use-context kind-testing-env
       - kubectl create namespace integration-tests || true
       - |
-        helm -n securecodebox-system upgrade --create-namespace --install securecodebox-operator {{ .TASKFILE_DIR }}/operator --wait \
+        helm -n securecodebox-system upgrade --create-namespace --install securecodebox-operator {{ .TASKFILE_DIR }}/operator --wait=watcher --timeout=120s \
           --set="image.repository=docker.io/${IMG_NS}/operator" \
           --set="image.tag=${IMG_TAG}" \
           --set="image.pullPolicy=IfNotPresent" \
