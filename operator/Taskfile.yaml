@@ -1,0 +1,243 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+env:
+  IMG_NS: securecodebox
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+
+vars:
+  OPERATOR_IMG: operator
+  LURKER_IMG: lurker
+  CONTROLLER_TOOLS_VERSION: v0.18.0
+  ENVTEST_K8S_VERSION:
+    sh: |
+      cd {{ .TASKFILE_DIR }} && \
+      v=$(go list -m -f '{{if .Replace}}{{.Replace.Version}}{{else}}{{.Version}}{{end}}' k8s.io/api 2>/dev/null); \
+      printf '%s\n' "$v" | sed -E 's/^v?[0-9]+\.([0-9]+).*/1.\1/'
+  ENVTEST_VERSION:
+    sh: |
+      cd {{ .TASKFILE_DIR }} && \
+      v=$(go list -m -f '{{if .Replace}}{{.Replace.Version}}{{else}}{{.Version}}{{end}}' sigs.k8s.io/controller-runtime 2>/dev/null); \
+      printf '%s\n' "$v" | sed -E 's/^v?([0-9]+)\.([0-9]+).*/release-\1.\2/'
+  LOCALBIN: '{{ .TASKFILE_DIR }}/bin'
+
+tasks:
+  controller-gen:
+    desc: "Download controller-gen locally if necessary"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - mkdir -p {{ .LOCALBIN }}
+      - |
+        CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
+        CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
+        if [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ "$(readlink -- "$CONTROLLER_GEN" 2>/dev/null)" = "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ]; then
+          exit 0
+        fi
+        echo "Downloading controller-gen@$CONTROLLER_TOOLS_VERSION"
+        rm -f "$CONTROLLER_GEN"
+        GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-tools/cmd/controller-gen@$CONTROLLER_TOOLS_VERSION
+        mv "{{ .LOCALBIN }}/controller-gen" "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION"
+        ln -sf "$(realpath "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION")" "$CONTROLLER_GEN"
+    status:
+      - |
+        CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
+        CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
+        [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ "$(readlink -- "$CONTROLLER_GEN" 2>/dev/null)" = "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ]
+
+  envtest:
+    desc: "Download setup-envtest locally if necessary"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - mkdir -p {{ .LOCALBIN }}
+      - |
+        ENVTEST={{ .LOCALBIN }}/setup-envtest
+        ENVTEST_VERSION={{ .ENVTEST_VERSION }}
+        if [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ "$(readlink -- "$ENVTEST" 2>/dev/null)" = "$ENVTEST-$ENVTEST_VERSION" ]; then
+          exit 0
+        fi
+        echo "Downloading setup-envtest@$ENVTEST_VERSION"
+        rm -f "$ENVTEST"
+        GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-runtime/tools/setup-envtest@$ENVTEST_VERSION
+        mv "{{ .LOCALBIN }}/setup-envtest" "$ENVTEST-$ENVTEST_VERSION"
+        ln -sf "$(realpath "$ENVTEST-$ENVTEST_VERSION")" "$ENVTEST"
+    status:
+      - |
+        ENVTEST={{ .LOCALBIN }}/setup-envtest
+        ENVTEST_VERSION={{ .ENVTEST_VERSION }}
+        [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ "$(readlink -- "$ENVTEST" 2>/dev/null)" = "$ENVTEST-$ENVTEST_VERSION" ]
+
+  manifests:
+    desc: "Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects"
+    deps: [controller-gen]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - |
+        {{ .LOCALBIN }}/controller-gen rbac:roleName="securecodebox-manager-role",headerFile="hack/boilerplate.yaml.txt" \
+          crd:maxDescLen=256,headerFile="hack/boilerplate.yaml.txt" \
+          webhook paths="./..." \
+          output:crd:artifacts:config=crds \
+          output:rbac:artifacts:config=templates/rbac
+
+  generate:
+    desc: "Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations"
+    deps: [controller-gen]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - '{{ .LOCALBIN }}/controller-gen object:headerFile="hack/boilerplate.go.txt" paths="./..."'
+
+  fmt:
+    desc: "Run go fmt against code"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: "Run go vet against code"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go vet ./...
+
+  test:
+    desc: "Run all tests (fast and slow)"
+    deps: [manifests, generate, fmt, vet, envtest]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - |
+        KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest use {{ .ENVTEST_K8S_VERSION }} --bin-dir {{ .LOCALBIN }} -p path)" \
+        go test -tags="fast slow" ./... -coverprofile cover.out
+
+  test-fast:
+    desc: "Run fast tests only"
+    deps: [manifests, generate, fmt, vet, envtest]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - |
+        KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest use {{ .ENVTEST_K8S_VERSION }} -p path)" \
+        go test -tags="fast" ./... -coverprofile cover.out
+
+  view-coverage:
+    desc: "View test coverage in browser"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go tool cover -html=cover.out
+
+  helm-unit-tests:
+    desc: "Run helm unit tests for operator"
+    dir: '{{ .TASKFILE_DIR }}'
+    preconditions:
+      - msg: "Helm unittest plugin is not installed. Install it from https://github.com/helm-unittest/helm-unittest/"
+        sh: "helm plugin list | grep -q 'unittest' || false"
+    cmds:
+      - 'echo "Running helm unit tests for operator"'
+      - helm unittest .
+
+  build:
+    desc: "Build manager binary"
+    deps: [generate, fmt, vet]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go build -o bin/manager main.go
+
+  run:
+    desc: "Run the controller from your host"
+    deps: [manifests, generate, fmt, vet]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go run ./main.go
+
+  docker-build:
+    desc: "Build Docker images for operator and lurker"
+    dir: '{{ .TASKFILE_DIR }}'
+    preconditions:
+      - msg: "Docker is not running, please start Docker first"
+        sh: "docker info >/dev/null 2>&1 || false"
+    cmds:
+      - 'echo "Building Container Images"'
+      - docker build -t ${IMG_NS}/{{ .OPERATOR_IMG }}:${IMG_TAG} {{ .TASKFILE_DIR }}
+      - docker build -t ${IMG_NS}/{{ .LURKER_IMG }}:${IMG_TAG} {{ .TASKFILE_DIR }}/../lurker
+    status:
+      - docker images | grep -q "${IMG_NS}/{{ .OPERATOR_IMG }}:${IMG_TAG}" || false
+      - docker images | grep -q "${IMG_NS}/{{ .LURKER_IMG }}:${IMG_TAG}" || false
+
+  docker-push:
+    desc: "Push Docker images for operator and lurker"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - docker push ${IMG_NS}/{{ .OPERATOR_IMG }}:${IMG_TAG}
+      - docker push ${IMG_NS}/{{ .LURKER_IMG }}:${IMG_TAG}
+
+  docker-export:
+    desc: "Export Docker images to tar files"
+    deps: [docker-build]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - task: docker-export-operator
+      - task: docker-export-lurker
+
+  docker-export-operator:
+    desc: "Export operator Docker image to tar file"
+    deps: [docker-build]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - 'echo "Exporting Operator Image"'
+      - docker save ${IMG_NS}/{{ .OPERATOR_IMG }}:${IMG_TAG} > {{ .OPERATOR_IMG }}.tar
+
+  docker-export-lurker:
+    desc: "Export lurker Docker image to tar file"
+    deps: [docker-build]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - 'echo "Exporting Lurker Image"'
+      - docker save ${IMG_NS}/{{ .LURKER_IMG }}:${IMG_TAG} > {{ .LURKER_IMG }}.tar
+
+  kind-import:
+    desc: "Import Docker images into kind cluster"
+    deps: [docker-export]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - 'echo "Importing image archives to local kind cluster"'
+      - kind load image-archive ./{{ .OPERATOR_IMG }}.tar
+      - kind load image-archive ./{{ .LURKER_IMG }}.tar
+
+  helm-deploy:
+    desc: "Deploy operator to kind cluster using Helm"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - 'echo "Deploying Operator with image tag ${IMG_TAG} into kind"'
+      - kubectl create namespace integration-tests --dry-run=client -o yaml | kubectl apply -f -
+      - kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
+      - |
+        MINIO_ROOT_USER=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-user}' 2>/dev/null | base64 --decode || echo "")
+        MINIO_ROOT_PASSWORD=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-password}' 2>/dev/null | base64 --decode || echo "")
+
+        MINIO_ARGS=""
+        if [ -n "$MINIO_ROOT_USER" ] && [ -n "$MINIO_ROOT_PASSWORD" ]; then
+          MINIO_ARGS="--set=minio.auth.rootUser=$MINIO_ROOT_USER --set=minio.auth.rootPassword=$MINIO_ROOT_PASSWORD"
+        fi
+
+        helm -n securecodebox-system upgrade --install securecodebox-operator ./ --wait \
+          --set="image.repository=docker.io/${IMG_NS}/{{ .OPERATOR_IMG }}" \
+          --set="image.tag=${IMG_TAG}" \
+          --set="image.pullPolicy=IfNotPresent" \
+          --set="lurker.image.repository=docker.io/${IMG_NS}/{{ .LURKER_IMG }}" \
+          --set="lurker.image.tag=${IMG_TAG}" \
+          --set="lurker.image.pullPolicy=IfNotPresent" \
+          $MINIO_ARGS
+
+  install:
+    desc: "Install CRDs into the K8s cluster specified in ~/.kube/config"
+    deps: [manifests]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - kubectl apply -f ./crds/
+
+  uninstall:
+    desc: "Uninstall CRDs from the K8s cluster specified in ~/.kube/config"
+    deps: [manifests]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - kubectl delete -f ./crds/

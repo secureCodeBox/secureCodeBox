@@ -54,7 +54,7 @@ scanners/nmap
 To create a new Helm Chart for your scanner you can use the following command (replace _new-scanner_ with the name of the scanner):
 
 ```bash
-make create-new-scanner NAME=new-scanner
+task create-new-scanner -- NAME=new-scanner
 ```
 
 This command will create a new directory named _new-scanner_ and some template files provided by `helm` to simplify the creation of Helm Charts (see [Helm | Getting Started](https://helm.sh/docs/chart_template_guide/getting_started/)).
