@@ -23,6 +23,10 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  # renovate: datasource=github-releases depName=go-task/task
+  TASK_VERSION: "v3.48.0"
+
 jobs:
   version-compare:
     runs-on: ubuntu-24.04
@@ -151,6 +155,8 @@ jobs:
       # Updating Helm Docs
       - name: Install Task
         uses: go-task/setup-task@v1
+        with:
+          version: ${{ env.TASK_VERSION }}
 
       - name: Download Helm Docs
         run: |
