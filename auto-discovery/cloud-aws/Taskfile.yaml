@@ -11,12 +11,11 @@ includes:
       COMPONENT_NAME: cloud-aws
       BINARY_NAME: service
       BUILD_CMD: cmd/service/main.go
-    flatten: true
 
 tasks:
   run:
     desc: "Run the cloud-aws service from your host"
-    deps: [fmt, vet]
+    deps: [base:fmt, base:vet]
     dir: '{{ .TASKFILE_DIR }}'
     cmds:
       - go run ./cmd/service/main.go --config auto-discovery-cloud-aws-config.yaml
@@ -30,8 +29,11 @@ tasks:
       - msg: "AWS_REGION environment variable is required"
         sh: '[ -n "$AWS_REGION" ]'
     cmds:
-      - task: base:helm-deploy
-        vars:
-          HELM_EXTRA_ARGS: |
-            --set="config.aws.queueUrl=${SQS_QUEUE_URL}" \
-            --set="config.aws.region=${AWS_REGION}"
+      - 'echo "Deploying cloud-aws with image tag ${IMG_TAG} into kind"'
+      - |
+        helm -n integration-tests upgrade --install cloud-aws ./ --wait \
+          --set="image.repository=docker.io/${IMG_NS}/cloud-aws" \
+          --set="image.tag=${IMG_TAG}" \
+          --set="image.pullPolicy=IfNotPresent" \
+          --set="config.aws.queueUrl=${SQS_QUEUE_URL}" \
+          --set="config.aws.region=${AWS_REGION}"
