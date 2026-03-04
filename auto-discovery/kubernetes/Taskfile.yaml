@@ -20,35 +20,27 @@ env:
 vars:
   CONTROLLER_TOOLS_VERSION: v0.18.0
   ENVTEST_K8S_VERSION:
-    sh: |
-      cd {{ .TASKFILE_DIR }} && \
-      v=$(go list -m -f '{{if .Replace}}{{.Replace.Version}}{{else}}{{.Version}}{{end}}' k8s.io/api 2>/dev/null); \
-      printf '%s\n' "$v" | sed -E 's/^v?[0-9]+\.([0-9]+).*/1.\1/'
+    sh: cd {{ .TASKFILE_DIR }} && go list -m -f '{{"{{"}}.Version{{"}}"}}' k8s.io/api 2>/dev/null | sed -E 's/^v?[0-9]+\.([0-9]+).*/1.\1/'
   ENVTEST_VERSION:
-    sh: |
-      cd {{ .TASKFILE_DIR }} && \
-      v=$(go list -m -f '{{if .Replace}}{{.Replace.Version}}{{else}}{{.Version}}{{end}}' sigs.k8s.io/controller-runtime 2>/dev/null); \
-      printf '%s\n' "$v" | sed -E 's/^v?([0-9]+)\.([0-9]+).*/release-\1.\2/'
+    sh: cd {{ .TASKFILE_DIR }} && go list -m -f '{{"{{"}}.Version{{"}}"}}' sigs.k8s.io/controller-runtime 2>/dev/null | sed -E 's/^v?([0-9]+)\.([0-9]+).*/release-\1.\2/'
   LOCALBIN: '{{ .TASKFILE_DIR }}/bin'
 
 tasks:
   controller-gen:
     desc: "Download controller-gen locally if necessary"
+    run: once
     dir: '{{ .TASKFILE_DIR }}'
+    generates:
+      - '{{ .LOCALBIN }}/controller-gen'
+      - '{{ .LOCALBIN }}/.controller-gen.version'
     cmds:
       - mkdir -p {{ .LOCALBIN }}
-      - |
-        CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
-        CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
-        echo "Downloading controller-gen@$CONTROLLER_TOOLS_VERSION"
-        rm -f "$CONTROLLER_GEN" "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION"
-        GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-tools/cmd/controller-gen@$CONTROLLER_TOOLS_VERSION
-        mv "{{ .LOCALBIN }}/controller-gen" "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION"
-        ln -sf "controller-gen-$CONTROLLER_TOOLS_VERSION" "$CONTROLLER_GEN"
+      - rm -f {{ .LOCALBIN }}/controller-gen
+      - GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-tools/cmd/controller-gen@{{ .CONTROLLER_TOOLS_VERSION }}
+      - echo "{{ .CONTROLLER_TOOLS_VERSION }}" > {{ .LOCALBIN }}/.controller-gen.version
     status:
-      - test -f {{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}
-      - test -L {{ .LOCALBIN }}/controller-gen
-      - test "$(readlink {{ .LOCALBIN }}/controller-gen)" = "controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}"
+      - test -f {{ .LOCALBIN }}/controller-gen
+      - grep -qxF "{{ .CONTROLLER_TOOLS_VERSION }}" {{ .LOCALBIN }}/.controller-gen.version 2>/dev/null
 
   manifests:
     desc: "Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects"

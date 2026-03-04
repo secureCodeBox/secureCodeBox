@@ -23,41 +23,47 @@ vars:
 
 tasks:
   create-kind-cluster:
+    run: once
     cmds:
       - 'echo "Starting kind cluster for testing environment"'
       - kind create cluster --name testing-env
     status:
-      - kind get clusters | grep testing-env || exit 1
+      - kind get clusters | grep -q testing-env
 
   build-operator-image:
+    run: once
     cmds:
       - 'echo "Building operator image with tag ${IMG_TAG}"'
       - docker build -t ${IMG_NS}/operator:${IMG_TAG} {{ .TASKFILE_DIR }}/operator
     status:
-      - docker images | grep "${IMG_NS}/operator" | grep "${IMG_TAG}"
+      - docker images | grep -q "${IMG_NS}/operator:${IMG_TAG}"
 
   build-lurker-image:
+    run: once
     cmds:
       - 'echo "Building lurker image with tag ${IMG_TAG}"'
       - docker build -t ${IMG_NS}/lurker:${IMG_TAG} {{ .TASKFILE_DIR }}/lurker
     status:
-      - docker images | grep "${IMG_NS}/lurker" | grep "${IMG_TAG}"
+      - docker images | grep -q "${IMG_NS}/lurker:${IMG_TAG}"
 
   load-operator-image:
+    run: once
     deps: [build-operator-image]
     cmds:
       - kind load docker-image ${IMG_NS}/operator:${IMG_TAG} --name testing-env
     status:
-      - kind get images --name testing-env | grep "${IMG_NS}/operator:${IMG_TAG}" || exit 1
+      - kind get images --name testing-env | grep -q "${IMG_NS}/operator:${IMG_TAG}"
 
   load-lurker-image:
+    run: once
     deps: [build-lurker-image]
     cmds:
       - kind load docker-image ${IMG_NS}/lurker:${IMG_TAG} --name testing-env
     status:
-      - kind get images --name testing-env | grep "${IMG_NS}/lurker:${IMG_TAG}" || exit 1
+      - kind get images --name testing-env | grep -q "${IMG_NS}/lurker:${IMG_TAG}"
 
   deploy-operator:
+    run: once
     deps: [load-operator-image, load-lurker-image]
     cmds:
       - 'echo "Deploying secureCodeBox operator to the testing environment"'
@@ -72,21 +78,23 @@ tasks:
           --set="lurker.image.tag=${IMG_TAG}" \
           --set="lurker.image.pullPolicy=IfNotPresent"
     status:
-      - kubectl get deployment -n securecodebox-system securecodebox-controller-manager | grep "1/1" || false
+      - kubectl get deployment -n securecodebox-system securecodebox-controller-manager | grep -q "1/1"
 
   build-parser-sdk-image:
+    run: once
     cmds:
       - 'echo "Building parser-sdk images with tag ${IMG_TAG}"'
       - docker build -t securecodebox/parser-sdk-nodejs:${IMG_TAG} {{ .TASKFILE_DIR }}/parser-sdk/nodejs
     status:
-      - docker images | grep "securecodebox/parser-sdk-nodejs" | grep "${IMG_TAG}"
+      - docker images | grep -q "securecodebox/parser-sdk-nodejs:${IMG_TAG}"
 
   build-hook-sdk-image:
+    run: once
     cmds:
       - 'echo "Building hook-sdk images with tag ${IMG_TAG}"'
       - docker build -t securecodebox/hook-sdk-nodejs:${IMG_TAG} {{ .TASKFILE_DIR }}/hook-sdk/nodejs
     status:
-      - docker images | grep "securecodebox/hook-sdk-nodejs" | grep "${IMG_TAG}"
+      - docker images | grep -q "securecodebox/hook-sdk-nodejs:${IMG_TAG}"
 
   prepare-testing-env:
     desc: "Prepare the testing environment by running all required tasks"
@@ -117,13 +125,12 @@ tasks:
     preconditions:
       - msg: "Helm unittest plugin is not installed. Install it from https://github.com/helm-unittest/helm-unittest/"
         sh: "helm plugin list | grep -q 'unittest' || false"
+    vars:
+      CHARTS:
+        sh: find {{ .TASKFILE_DIR }} -name "Chart.yaml" -exec dirname {} \;
     cmds:
-      - |
-        find . -name "Chart.yaml" | while read -r chart_file; do
-            chart_dir=$(dirname "$chart_file")
-            echo "Running tests for helm chart: $chart_dir"
-            helm unittest $chart_dir
-        done
+      - for: { var: CHARTS }
+        cmd: helm unittest "{{ .ITEM }}"
 
   npm-ci-all:
     desc: "Install all NPM dependencies across the project"
@@ -143,19 +150,21 @@ tasks:
 
   hook-docs:
     desc: "Generate documentation for all hooks"
+    vars:
+      CHARTS:
+        sh: find {{ .HOOKS_DIR }} -maxdepth 2 -name "Chart.yaml"
     cmds:
-      - |
-        for chart in {{ .HOOKS_DIR }}/*/Chart.yaml; do
-          {{ .BIN_DIR }}/generate-helm-docs.sh --hook "$chart" "{{ .HELM_DOCS_DIR }}"
-        done
+      - for: { var: CHARTS }
+        cmd: '{{ .BIN_DIR }}/generate-helm-docs.sh --hook "{{ .ITEM }}" "{{ .HELM_DOCS_DIR }}"'
 
   scanner-docs:
     desc: "Generate documentation for all scanners"
+    vars:
+      CHARTS:
+        sh: find {{ .SCANNERS_DIR }} -maxdepth 2 -name "Chart.yaml"
     cmds:
-      - |
-        for chart in {{ .SCANNERS_DIR }}/*/Chart.yaml; do
-          {{ .BIN_DIR }}/generate-helm-docs.sh --scanner "$chart" "{{ .HELM_DOCS_DIR }}"
-        done
+      - for: { var: CHARTS }
+        cmd: '{{ .BIN_DIR }}/generate-helm-docs.sh --scanner "{{ .ITEM }}" "{{ .HELM_DOCS_DIR }}"'
 
   operator-docs:
     desc: "Generate documentation for the operator"
@@ -170,11 +179,12 @@ tasks:
 
   demo-target-docs:
     desc: "Generate documentation for demo targets"
+    vars:
+      CHARTS:
+        sh: find {{ .DEMO_TARGETS_DIR }} -maxdepth 2 -name "Chart.yaml"
     cmds:
-      - |
-        for chart in {{ .DEMO_TARGETS_DIR }}/*/Chart.yaml; do
-          {{ .BIN_DIR }}/generate-helm-docs.sh --demo-target "$chart" "{{ .HELM_DOCS_DIR }}"
-        done
+      - for: { var: CHARTS }
+        cmd: '{{ .BIN_DIR }}/generate-helm-docs.sh --demo-target "{{ .ITEM }}" "{{ .HELM_DOCS_DIR }}"'
 
   docs:
     desc: "Generate all documentation"

@@ -27,6 +27,8 @@ env:
 tasks:
   build:
     desc: Build the Docker image for the {{ .scannerName }} scanner
+    requires:
+      vars: [scannerName]
     status:
       - docker images | grep -q "docker.io/securecodebox/scanner-{{ .scannerName }}:${IMG_TAG}" || false
       - docker images | grep -q "docker.io/securecodebox/parser-{{ .scannerName }}:${IMG_TAG}" || false
@@ -82,29 +84,38 @@ tasks:
   # test:setup tasks
   test:setup:parser-sdk:
     internal: true
+    run: once
+    dir: '{{ .TASKFILE_DIR }}/../parser-sdk/nodejs'
     status:
-      - "[ -d {{ .TASKFILE_DIR }}/../parser-sdk/nodejs/node_modules ] || false"
+      - test -d node_modules
     cmds:
-      - cd {{ .TASKFILE_DIR }}/../parser-sdk/nodejs/ && bun install
+      - bun install
   test:setup:scanner-dir:
     internal: true
+    run: once
+    dir: '{{ .TASKFILE_DIR }}'
     status:
-      - "[ -d {{ .TASKFILE_DIR }}/node_modules ] || false"
+      - test -d node_modules
     cmds:
-      - cd {{ .TASKFILE_DIR }}/ && bun install
+      - bun install
   test:setup:test-helpers:
     internal: true
+    run: once
+    dir: '{{ .TASKFILE_DIR }}/../tests/integration'
     status:
-      - "[ -d {{ .TASKFILE_DIR }}/../tests/integration/node_modules ] || false"
+      - test -d node_modules
     cmds:
-      - cd {{ .TASKFILE_DIR }}/../tests/integration && bun install
+      - bun install
   test:setup:parser-deps:
     internal: true
+    run: once
+    dir: '{{ .TASKFILE_DIR }}/{{ .scannerName }}/parser'
     status:
-      - '{{ if eq "true" .parserUsesNpmDependencies -}}[ -d {{ .TASKFILE_DIR }}/{{ .scannerName }}/parser/node_modules ] || false{{ else -}}true{{ end -}}'
+      - '{{ if eq "true" .parserUsesNpmDependencies }}test -d node_modules{{ else }}true{{ end }}'
     cmds:
-      - cd {{ .TASKFILE_DIR }}/{{ .scannerName }}/parser/ && bun install
+      - bun install
   test:setup:
+    run: once
     cmds:
       - task: test:setup:parser-sdk
       - task: test:setup:scanner-dir
@@ -154,6 +165,6 @@ tasks:
   test:
     desc: Run all tests for the {{ .scannerName }} scanner
     cmds:
-      - task test:unit
-      - task test:helm
-      - task test:integration
+      - task: test:unit
+      - task: test:helm
+      - task: test:integration
