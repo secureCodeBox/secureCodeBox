@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+includes:
+  base:
+    taskfile: ../Taskfile.yaml
+    vars:
+      COMPONENT_NAME: cloud-aws
+      BINARY_NAME: service
+      BUILD_CMD: cmd/service/main.go
+    flatten: true
+
+tasks:
+  run:
+    desc: "Run the cloud-aws service from your host"
+    deps: [fmt, vet]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go run ./cmd/service/main.go --config auto-discovery-cloud-aws-config.yaml
+
+  helm-deploy:
+    desc: "Deploy cloud-aws to kind cluster with SQS configuration"
+    dir: '{{ .TASKFILE_DIR }}'
+    preconditions:
+      - msg: "SQS_QUEUE_URL environment variable is required"
+        sh: '[ -n "$SQS_QUEUE_URL" ]'
+      - msg: "AWS_REGION environment variable is required"
+        sh: '[ -n "$AWS_REGION" ]'
+    cmds:
+      - task: base:helm-deploy
+        vars:
+          HELM_EXTRA_ARGS: |
+            --set="config.aws.queueUrl=${SQS_QUEUE_URL}" \
+            --set="config.aws.region=${AWS_REGION}"

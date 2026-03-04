@@ -130,10 +130,10 @@ We use the `Eventually` control loop again to check for the fulfillment of our c
 
 ### How to run a test
 
-Running the test is easy through our makefiles. In the operator folder (securecodebox/operator), it is sufficient to run 
+Running the test is easy through our Taskfiles. In the operator folder (securecodebox/operator), it is sufficient to run
 ```bash
 cd operator
-make test
+task test
 ```
 to execute a test run of the operator.
 
