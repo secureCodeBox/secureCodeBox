@@ -243,11 +243,11 @@ jobs:
 
       - name: Build Container Image
         working-directory: ./auto-discovery/kubernetes/
-        run: task base:docker-build
+        run: task docker-build
 
       - name: Export Container Image
         working-directory: ./auto-discovery/kubernetes/
-        run: task base:docker-export
+        run: task docker-export
 
       - name: Upload Image As Artifact
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
@@ -372,15 +372,15 @@ jobs:
 
       - name: Test
         working-directory: ./auto-discovery/cloud-aws/
-        run: task base:test
+        run: task test
 
       - name: Build Container Image
         working-directory: ./auto-discovery/cloud-aws/
-        run: task base:docker-build
+        run: task docker-build
 
       - name: Export Container Image
         working-directory: ./auto-discovery/cloud-aws/
-        run: task base:docker-export
+        run: task docker-export
 
       - name: Upload Image As Artifact
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
