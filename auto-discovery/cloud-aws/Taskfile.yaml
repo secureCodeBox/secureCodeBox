@@ -8,6 +8,7 @@ includes:
   base:
     taskfile: ../Taskfile.yaml
     vars:
+      COMPONENT_DIR: '{{ .TASKFILE_DIR }}'
       COMPONENT_NAME: cloud-aws
       BINARY_NAME: service
       BUILD_CMD: cmd/service/main.go

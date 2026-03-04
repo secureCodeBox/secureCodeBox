@@ -8,6 +8,7 @@ includes:
   base:
     taskfile: ../Taskfile.yaml
     vars:
+      COMPONENT_DIR: '{{ .TASKFILE_DIR }}'
       COMPONENT_NAME: kubernetes
       BINARY_NAME: manager
       BUILD_CMD: main.go
