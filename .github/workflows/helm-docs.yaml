@@ -14,6 +14,10 @@ on:
 permissions:
   contents: write
 
+env:
+  # renovate: datasource=github-releases depName=go-task/task
+  TASK_VERSION: "3.49.1"
+
 jobs:
   helm-docs:
     runs-on: ubuntu-24.04
@@ -35,7 +39,9 @@ jobs:
           git_committer_email: securecodebox@iteratec.com
 
       - name: Install Task
-        uses: go-task/setup-task@v1
+        uses: go-task/setup-task@3be4020d41929789a01026e0e427a4321ce0ad44 # v2.0.0
+        with:
+          version: ${{ env.TASK_VERSION }}
 
       - name: Download Helm Docs
         run: |
