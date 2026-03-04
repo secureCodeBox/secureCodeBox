@@ -46,19 +46,19 @@ tasks:
       - |
         ENVTEST={{ .LOCALBIN }}/setup-envtest
         ENVTEST_VERSION={{ .ENVTEST_VERSION }}
-        if [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ "$(readlink -- "$ENVTEST" 2>/dev/null)" = "$ENVTEST-$ENVTEST_VERSION" ]; then
+        if [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ -L "$ENVTEST" ] && [ "$(readlink "$ENVTEST")" = "setup-envtest-$ENVTEST_VERSION" ]; then
           exit 0
         fi
         echo "Downloading setup-envtest@$ENVTEST_VERSION"
-        rm -f "$ENVTEST"
+        rm -f "$ENVTEST" "$ENVTEST-$ENVTEST_VERSION"
         GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-runtime/tools/setup-envtest@$ENVTEST_VERSION
         mv "{{ .LOCALBIN }}/setup-envtest" "$ENVTEST-$ENVTEST_VERSION"
-        ln -sf "$(realpath "$ENVTEST-$ENVTEST_VERSION")" "$ENVTEST"
+        ln -sf "setup-envtest-$ENVTEST_VERSION" "$ENVTEST"
     status:
       - |
         ENVTEST={{ .LOCALBIN }}/setup-envtest
         ENVTEST_VERSION={{ .ENVTEST_VERSION }}
-        [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ "$(readlink -- "$ENVTEST" 2>/dev/null)" = "$ENVTEST-$ENVTEST_VERSION" ]
+        [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ -L "$ENVTEST" ] && [ "$(readlink "$ENVTEST")" = "setup-envtest-$ENVTEST_VERSION" ]
 
   test:
     desc: "Run Go tests"

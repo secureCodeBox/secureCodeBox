@@ -34,19 +34,19 @@ tasks:
       - |
         CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
         CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
-        if [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ "$(readlink -- "$CONTROLLER_GEN" 2>/dev/null)" = "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ]; then
+        if [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ -L "$CONTROLLER_GEN" ] && [ "$(readlink "$CONTROLLER_GEN")" = "controller-gen-$CONTROLLER_TOOLS_VERSION" ]; then
           exit 0
         fi
         echo "Downloading controller-gen@$CONTROLLER_TOOLS_VERSION"
-        rm -f "$CONTROLLER_GEN"
+        rm -f "$CONTROLLER_GEN" "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION"
         GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-tools/cmd/controller-gen@$CONTROLLER_TOOLS_VERSION
         mv "{{ .LOCALBIN }}/controller-gen" "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION"
-        ln -sf "$(realpath "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION")" "$CONTROLLER_GEN"
+        ln -sf "controller-gen-$CONTROLLER_TOOLS_VERSION" "$CONTROLLER_GEN"
     status:
       - |
         CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
         CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
-        [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ "$(readlink -- "$CONTROLLER_GEN" 2>/dev/null)" = "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ]
+        [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ -L "$CONTROLLER_GEN" ] && [ "$(readlink "$CONTROLLER_GEN")" = "controller-gen-$CONTROLLER_TOOLS_VERSION" ]
 
   envtest:
     desc: "Download setup-envtest locally if necessary"
@@ -56,19 +56,19 @@ tasks:
       - |
         ENVTEST={{ .LOCALBIN }}/setup-envtest
         ENVTEST_VERSION={{ .ENVTEST_VERSION }}
-        if [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ "$(readlink -- "$ENVTEST" 2>/dev/null)" = "$ENVTEST-$ENVTEST_VERSION" ]; then
+        if [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ -L "$ENVTEST" ] && [ "$(readlink "$ENVTEST")" = "setup-envtest-$ENVTEST_VERSION" ]; then
           exit 0
         fi
         echo "Downloading setup-envtest@$ENVTEST_VERSION"
-        rm -f "$ENVTEST"
+        rm -f "$ENVTEST" "$ENVTEST-$ENVTEST_VERSION"
         GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-runtime/tools/setup-envtest@$ENVTEST_VERSION
         mv "{{ .LOCALBIN }}/setup-envtest" "$ENVTEST-$ENVTEST_VERSION"
-        ln -sf "$(realpath "$ENVTEST-$ENVTEST_VERSION")" "$ENVTEST"
+        ln -sf "setup-envtest-$ENVTEST_VERSION" "$ENVTEST"
     status:
       - |
         ENVTEST={{ .LOCALBIN }}/setup-envtest
         ENVTEST_VERSION={{ .ENVTEST_VERSION }}
-        [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ "$(readlink -- "$ENVTEST" 2>/dev/null)" = "$ENVTEST-$ENVTEST_VERSION" ]
+        [ -f "$ENVTEST-$ENVTEST_VERSION" ] && [ -L "$ENVTEST" ] && [ "$(readlink "$ENVTEST")" = "setup-envtest-$ENVTEST_VERSION" ]
 
   manifests:
     desc: "Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects"
