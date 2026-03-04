@@ -10,15 +10,12 @@ tasks:
     preconditions:
       - msg: "Helm unittest plugin is not installed. Install it from https://github.com/helm-unittest/helm-unittest/"
         sh: "helm plugin list | grep -q 'unittest' || false"
+    vars:
+      CHARTS:
+        sh: find {{ .TASKFILE_DIR }} -maxdepth 2 -name "Chart.yaml" -exec dirname {} \;
     cmds:
-      - |
-        for directory in {{ .TASKFILE_DIR }}/*/; do
-          if [ -d "$directory" ]; then
-            dir_name=$(basename "$directory")
-            echo "Running helm unittest for $dir_name"
-            helm unittest "$directory"
-          fi
-        done
+      - for: { var: CHARTS }
+        cmd: helm unittest "{{ .ITEM }}"
 
   deploy:app:
     internal: true
