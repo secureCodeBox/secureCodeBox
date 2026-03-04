@@ -10,32 +10,33 @@ env:
     sh: 'echo "sha-$(git rev-parse --short HEAD)"'
 
 vars:
-  # Component name will be set by the including Taskfile (e.g., auto-discovery-cloud-aws, auto-discovery-kubernetes)
+  # COMPONENT_DIR must be set by the including Taskfile
+  COMPONENT_DIR: '{{ .COMPONENT_DIR }}'
   COMPONENT_NAME: '{{ .COMPONENT_NAME | default "auto-discovery" }}'
   # ENVTEST_K8S_VERSION derived from go.mod
   ENVTEST_K8S_VERSION:
-    sh: cd {{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }} && go list -m -f '{{"{{"}}.Version{{"}}"}}' k8s.io/api 2>/dev/null | sed -E 's/^v?[0-9]+\.([0-9]+).*/1.\1/'
+    sh: cd {{ .COMPONENT_DIR }} && go list -m -f '{{"{{"}}.Version{{"}}"}}' k8s.io/api 2>/dev/null | sed -E 's/^v?[0-9]+\.([0-9]+).*/1.\1/'
   ENVTEST_VERSION:
-    sh: cd {{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }} && go list -m -f '{{"{{"}}.Version{{"}}"}}' sigs.k8s.io/controller-runtime 2>/dev/null | sed -E 's/^v?([0-9]+)\.([0-9]+).*/release-\1.\2/'
-  LOCALBIN: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}/bin'
+    sh: cd {{ .COMPONENT_DIR }} && go list -m -f '{{"{{"}}.Version{{"}}"}}' sigs.k8s.io/controller-runtime 2>/dev/null | sed -E 's/^v?([0-9]+)\.([0-9]+).*/release-\1.\2/'
+  LOCALBIN: '{{ .COMPONENT_DIR }}/bin'
 
 tasks:
   fmt:
     desc: "Run go fmt against code"
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - go fmt ./...
 
   vet:
     desc: "Run go vet against code"
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - go vet ./...
 
   envtest:
     desc: "Download setup-envtest locally if necessary"
     run: once
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     generates:
       - '{{ .LOCALBIN }}/setup-envtest'
       - '{{ .LOCALBIN }}/.setup-envtest.version'
@@ -51,7 +52,7 @@ tasks:
   test:
     desc: "Run Go tests"
     deps: [fmt, vet, envtest]
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - |
         KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest use {{ .ENVTEST_K8S_VERSION }} --bin-dir {{ .LOCALBIN }} -p path)" \
@@ -60,7 +61,7 @@ tasks:
   ginkgo:
     desc: "Run Ginkgo tests with verbose output"
     deps: [fmt, vet, envtest]
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - |
         KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest use {{ .ENVTEST_K8S_VERSION }} --bin-dir {{ .LOCALBIN }} -p path)" \
@@ -68,7 +69,7 @@ tasks:
 
   helm-unit-tests:
     desc: "Run helm unit tests"
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     preconditions:
       - msg: "Helm unittest plugin is not installed. Install it from https://github.com/helm-unittest/helm-unittest/"
         sh: "helm plugin list | grep -q 'unittest' || false"
@@ -79,13 +80,13 @@ tasks:
   build:
     desc: "Build the binary"
     deps: [fmt, vet]
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - go build -o bin/{{ .BINARY_NAME }} {{ .BUILD_CMD }}
 
   docker-build:
     desc: "Build Docker image"
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     preconditions:
       - msg: "Docker is not running, please start Docker first"
         sh: "docker info >/dev/null 2>&1 || false"
@@ -97,14 +98,14 @@ tasks:
 
   docker-push:
     desc: "Push Docker image"
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - docker push ${IMG_NS}/{{ .COMPONENT_NAME }}:${IMG_TAG}
 
   docker-export:
     desc: "Export Docker image to tar file"
     deps: [docker-build]
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - 'echo "Exporting Container Image"'
       - docker save ${IMG_NS}/{{ .COMPONENT_NAME }}:${IMG_TAG} > {{ .COMPONENT_NAME }}.tar
@@ -112,14 +113,14 @@ tasks:
   kind-import:
     desc: "Import Docker image into kind cluster"
     deps: [docker-export]
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - 'echo "Importing image archive to local kind cluster"'
       - kind load image-archive ./{{ .COMPONENT_NAME }}.tar
 
   helm-deploy:
     desc: "Deploy to kind cluster using Helm"
-    dir: '{{ .TASKFILE_DIR }}/{{ .COMPONENT_NAME }}'
+    dir: '{{ .COMPONENT_DIR }}'
     cmds:
       - 'echo "Deploying {{ .COMPONENT_NAME }} with image tag ${IMG_TAG} into kind"'
       - |
