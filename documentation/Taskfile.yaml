@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+vars:
+  DIAGRAMS:
+    sh: 'find {{ .TASKFILE_DIR }} -type f -name "*.puml"'
+
+tasks:
+  puml:
+    desc: "Generate PlantUML images from .puml files"
+    cmds:
+      - |
+        for diagram in {{ .TASKFILE_DIR }}/**/*.puml; do
+          if [ -f "$diagram" ]; then
+            echo "Generating PNG for $diagram"
+            plantuml -tpng "$diagram"
+          fi
+        done
+
+  clean:
+    desc: "Remove node_modules directory"
+    cmds:
+      - rm -rf {{ .TASKFILE_DIR }}/node_modules
+
+  install:
+    desc: "Install Docusaurus dependencies"
+    cmds:
+      - cd {{ .TASKFILE_DIR }} && npm install
+    status:
+      - '[ -d {{ .TASKFILE_DIR }}/node_modules ]'
+
+  start:
+    desc: "Start local Docusaurus server (visit http://localhost:3000)"
+    deps: [install]
+    cmds:
+      - cd {{ .TASKFILE_DIR }} && npm start
+    interactive: true

@@ -72,13 +72,13 @@ make
 
 This will produce the operator as `bin/manager`. If you wonder why the operator is named _manager_ (the resulting binary). The reason for that is in Kubernetes a combination of more than one _controller_ is called _controller-manager_ or short _manager_. In contrast, _operator_ is created by the community to name a _controller-manager_ which controls _custom resources_ and hence we use _custom resources_. (see [https://book.kubebuilder.io/](https://book.kubebuilder.io/) for further information)
 
-To run the operator locally you can simply execute `make run` in the `operator` directory of this repository:
+To run the operator locally you can simply execute `task run` in the `operator` directory of this repository:
 
 _NOTICE:_ You will need to uninstall the operator with `helm -n securecodebox-system uninstall securecodebox-operator` from your local cluster, if you've installed it via helm. Unless both operators try to work on the same cluster which may cause unexpected behavior.
 
 ```bash
 cd operator
-make run
+task run
 ```
 
 To run multiple operator instances locally (e.g. SCB operator and SCB Autodiscovery operator) the `metrics-bind-address` and `health-probe-bind-address` port needs to be changed via commandline arguements for one of the operators.<br/>
