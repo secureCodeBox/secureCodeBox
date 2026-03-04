@@ -154,7 +154,7 @@ jobs:
 
       # Updating Helm Docs
       - name: Install Task
-        uses: go-task/setup-task@v1
+        uses: go-task/setup-task@83d4977c2df5fa410d8f7cff05d3e1d14d79ff41 # v1
         with:
           version: ${{ env.TASK_VERSION }}
 
