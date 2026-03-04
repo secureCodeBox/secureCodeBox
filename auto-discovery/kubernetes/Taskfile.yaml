@@ -40,19 +40,15 @@ tasks:
       - |
         CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
         CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
-        if [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ -L "$CONTROLLER_GEN" ] && [ "$(readlink "$CONTROLLER_GEN")" = "controller-gen-$CONTROLLER_TOOLS_VERSION" ]; then
-          exit 0
-        fi
         echo "Downloading controller-gen@$CONTROLLER_TOOLS_VERSION"
         rm -f "$CONTROLLER_GEN" "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION"
         GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-tools/cmd/controller-gen@$CONTROLLER_TOOLS_VERSION
         mv "{{ .LOCALBIN }}/controller-gen" "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION"
         ln -sf "controller-gen-$CONTROLLER_TOOLS_VERSION" "$CONTROLLER_GEN"
     status:
-      - |
-        CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
-        CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
-        [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ -L "$CONTROLLER_GEN" ] && [ "$(readlink "$CONTROLLER_GEN")" = "controller-gen-$CONTROLLER_TOOLS_VERSION" ]
+      - test -f {{ .LOCALBIN }}/controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}
+      - test -L {{ .LOCALBIN }}/controller-gen
+      - test "$(readlink {{ .LOCALBIN }}/controller-gen)" = "controller-gen-{{ .CONTROLLER_TOOLS_VERSION }}"
 
   manifests:
     desc: "Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects"
