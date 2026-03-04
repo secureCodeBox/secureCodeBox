@@ -5,6 +5,21 @@
 version: "3.44.0"
 
 tasks:
+  helm-unit-tests:
+    desc: "Run helm unit tests for all demo targets"
+    preconditions:
+      - msg: "Helm unittest plugin is not installed. Install it from https://github.com/helm-unittest/helm-unittest/"
+        sh: "helm plugin list | grep -q 'unittest' || false"
+    cmds:
+      - |
+        for directory in {{ .TASKFILE_DIR }}/*/; do
+          if [ -d "$directory" ]; then
+            dir_name=$(basename "$directory")
+            echo "Running helm unittest for $dir_name"
+            helm unittest "$directory"
+          fi
+        done
+
   deploy:app:
     internal: true
     status:

@@ -1,0 +1,91 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.44.0"
+
+includes:
+  base:
+    taskfile: ../Taskfile.yaml
+    vars:
+      COMPONENT_NAME: kubernetes
+      BINARY_NAME: manager
+      BUILD_CMD: main.go
+    flatten: true
+
+env:
+  IMG_NS: securecodebox
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+
+vars:
+  CONTROLLER_TOOLS_VERSION: v0.18.0
+  ENVTEST_VERSION:
+    sh: |
+      cd {{ .TASKFILE_DIR }} && \
+      v=$(go list -m -f '{{if .Replace}}{{.Replace.Version}}{{else}}{{.Version}}{{end}}' sigs.k8s.io/controller-runtime 2>/dev/null); \
+      printf '%s\n' "$v" | sed -E 's/^v?([0-9]+)\.([0-9]+).*/release-\1.\2/'
+  LOCALBIN: '{{ .TASKFILE_DIR }}/bin'
+
+tasks:
+  controller-gen:
+    desc: "Download controller-gen locally if necessary"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - mkdir -p {{ .LOCALBIN }}
+      - |
+        CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
+        CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
+        if [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ "$(readlink -- "$CONTROLLER_GEN" 2>/dev/null)" = "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ]; then
+          exit 0
+        fi
+        echo "Downloading controller-gen@$CONTROLLER_TOOLS_VERSION"
+        rm -f "$CONTROLLER_GEN"
+        GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-tools/cmd/controller-gen@$CONTROLLER_TOOLS_VERSION
+        mv "{{ .LOCALBIN }}/controller-gen" "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION"
+        ln -sf "$(realpath "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION")" "$CONTROLLER_GEN"
+    status:
+      - |
+        CONTROLLER_GEN={{ .LOCALBIN }}/controller-gen
+        CONTROLLER_TOOLS_VERSION={{ .CONTROLLER_TOOLS_VERSION }}
+        [ -f "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ] && [ "$(readlink -- "$CONTROLLER_GEN" 2>/dev/null)" = "$CONTROLLER_GEN-$CONTROLLER_TOOLS_VERSION" ]
+
+  manifests:
+    desc: "Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects"
+    deps: [controller-gen]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - |
+        {{ .LOCALBIN }}/controller-gen rbac:roleName=auto-discovery,headerFile="hack/boilerplate.yaml.txt" \
+          crd paths="./..." \
+          output:crd:artifacts:config=crds \
+          output:rbac:artifacts:config=templates/rbac
+
+  test:
+    desc: "Run tests with manifests generation"
+    deps: [manifests, base:test]
+
+  ginkgo:
+    desc: "Run Ginkgo tests with manifests generation"
+    deps: [manifests, base:ginkgo]
+
+  run:
+    desc: "Run the kubernetes auto-discovery controller from your host"
+    deps: [manifests, fmt, vet]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go run ./main.go --config ./auto-discovery-config.yaml
+
+  install:
+    desc: "Install CRDs into the K8s cluster specified in ~/.kube/config"
+    deps: [manifests]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - kubectl apply -f ./crds/
+
+  uninstall:
+    desc: "Uninstall CRDs from the K8s cluster specified in ~/.kube/config"
+    deps: [manifests]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - kubectl delete -f ./crds/

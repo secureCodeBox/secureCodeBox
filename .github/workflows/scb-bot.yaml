@@ -149,6 +149,9 @@ jobs:
           cmd: yq e --inplace '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
 
       # Updating Helm Docs
+      - name: Install Task
+        uses: go-task/setup-task@v1
+
       - name: Download Helm Docs
         run: |
           mkdir helm-docs
@@ -165,22 +168,22 @@ jobs:
           sudo mv helm-docs /usr/local/bin/helm-docs
 
       - name: Generate README
-        run: make readme
+        run: task readme
 
       - name: Generate Demo Target Docs
-        run: make demo-target-docs
+        run: task demo-target-docs
 
       - name: Generate Hooks Docs
-        run: make hook-docs
+        run: task hook-docs
 
       - name: Generate Scanner Docs
-        run: make scanner-docs
+        run: task scanner-docs
 
       - name: Generate Operator Docs
-        run: make operator-docs
+        run: task operator-docs
 
       - name: Generate AutoDiscovery Docs
-        run: make auto-discovery-docs
+        run: task auto-discovery-docs
 
       - name: Remove Helm Docs Files
         run: |
