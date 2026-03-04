@@ -4,22 +4,121 @@
 
 version: "3.48.0"
 
-includes:
-  base:
-    taskfile: ../Taskfile.yaml
-    vars:
-      COMPONENT_DIR: '{{ .TASKFILE_DIR }}'
-      COMPONENT_NAME: cloud-aws
-      BINARY_NAME: service
-      BUILD_CMD: cmd/service/main.go
+env:
+  IMG_NS: securecodebox
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+
+vars:
+  COMPONENT_NAME: cloud-aws
+  BINARY_NAME: service
+  BUILD_CMD: cmd/service/main.go
+  LOCALBIN: '{{ .TASKFILE_DIR }}/bin'
+  ENVTEST_K8S_VERSION:
+    sh: cd {{ .TASKFILE_DIR }} && go list -m -f '{{"{{"}}.Version{{"}}"}}' k8s.io/api 2>/dev/null | sed -E 's/^v?[0-9]+\.([0-9]+).*/1.\1/'
+  ENVTEST_VERSION:
+    sh: cd {{ .TASKFILE_DIR }} && go list -m -f '{{"{{"}}.Version{{"}}"}}' sigs.k8s.io/controller-runtime 2>/dev/null | sed -E 's/^v?([0-9]+)\.([0-9]+).*/release-\1.\2/'
 
 tasks:
+  fmt:
+    desc: "Run go fmt against code"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: "Run go vet against code"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go vet ./...
+
+  envtest:
+    desc: "Download setup-envtest locally if necessary"
+    run: once
+    dir: '{{ .TASKFILE_DIR }}'
+    generates:
+      - '{{ .LOCALBIN }}/setup-envtest'
+      - '{{ .LOCALBIN }}/.setup-envtest.version'
+    cmds:
+      - mkdir -p {{ .LOCALBIN }}
+      - rm -f {{ .LOCALBIN }}/setup-envtest
+      - GOBIN={{ .LOCALBIN }} go install sigs.k8s.io/controller-runtime/tools/setup-envtest@{{ .ENVTEST_VERSION }}
+      - echo "{{ .ENVTEST_VERSION }}" > {{ .LOCALBIN }}/.setup-envtest.version
+    status:
+      - test -f {{ .LOCALBIN }}/setup-envtest
+      - grep -qxF "{{ .ENVTEST_VERSION }}" {{ .LOCALBIN }}/.setup-envtest.version 2>/dev/null
+
+  test:
+    desc: "Run Go tests"
+    deps: [fmt, vet, envtest]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - |
+        KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest use {{ .ENVTEST_K8S_VERSION }} --bin-dir {{ .LOCALBIN }} -p path)" \
+        go test ./... -coverprofile cover.out
+
+  ginkgo:
+    desc: "Run Ginkgo tests with verbose output"
+    deps: [fmt, vet, envtest]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - |
+        KUBEBUILDER_ASSETS="$({{ .LOCALBIN }}/setup-envtest use {{ .ENVTEST_K8S_VERSION }} --bin-dir {{ .LOCALBIN }} -p path)" \
+        ginkgo test ./... -coverprofile cover.out -v --progress
+
   run:
     desc: "Run the cloud-aws service from your host"
-    deps: [base:fmt, base:vet]
+    deps: [fmt, vet]
     dir: '{{ .TASKFILE_DIR }}'
     cmds:
       - go run ./cmd/service/main.go --config auto-discovery-cloud-aws-config.yaml
+
+  build:
+    desc: "Build the binary"
+    deps: [fmt, vet]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go build -o bin/{{ .BINARY_NAME }} {{ .BUILD_CMD }}
+
+  helm-unit-tests:
+    desc: "Run helm unit tests"
+    dir: '{{ .TASKFILE_DIR }}'
+    preconditions:
+      - msg: "Helm unittest plugin is not installed. Install it from https://github.com/helm-unittest/helm-unittest/"
+        sh: "helm plugin list | grep -q 'unittest' || false"
+    cmds:
+      - helm unittest .
+
+  docker-build:
+    desc: "Build Docker image"
+    dir: '{{ .TASKFILE_DIR }}'
+    preconditions:
+      - msg: "Docker is not running, please start Docker first"
+        sh: "docker info >/dev/null 2>&1 || false"
+    cmds:
+      - docker build -t ${IMG_NS}/auto-discovery-{{ .COMPONENT_NAME }}:${IMG_TAG} .
+    status:
+      - docker images | grep -q "${IMG_NS}/auto-discovery-{{ .COMPONENT_NAME }}:${IMG_TAG}"
+
+  docker-push:
+    desc: "Push Docker image"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - docker push ${IMG_NS}/auto-discovery-{{ .COMPONENT_NAME }}:${IMG_TAG}
+
+  docker-export:
+    desc: "Export Docker image to tar file"
+    deps: [docker-build]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - docker save ${IMG_NS}/auto-discovery-{{ .COMPONENT_NAME }}:${IMG_TAG} > auto-discovery-{{ .COMPONENT_NAME }}.tar
+
+  kind-import:
+    desc: "Import Docker image into kind cluster"
+    deps: [docker-export]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - kind load image-archive ./auto-discovery-{{ .COMPONENT_NAME }}.tar
 
   helm-deploy:
     desc: "Deploy cloud-aws to kind cluster with SQS configuration"
@@ -30,10 +129,9 @@ tasks:
       - msg: "AWS_REGION environment variable is required"
         sh: '[ -n "$AWS_REGION" ]'
     cmds:
-      - 'echo "Deploying cloud-aws with image tag ${IMG_TAG} into kind"'
       - |
-        helm -n integration-tests upgrade --install cloud-aws ./ --wait \
-          --set="image.repository=docker.io/${IMG_NS}/cloud-aws" \
+        helm -n integration-tests upgrade --install auto-discovery-{{ .COMPONENT_NAME }} ./ --wait \
+          --set="image.repository=docker.io/${IMG_NS}/auto-discovery-{{ .COMPONENT_NAME }}" \
           --set="image.tag=${IMG_TAG}" \
           --set="image.pullPolicy=IfNotPresent" \
           --set="config.aws.queueUrl=${SQS_QUEUE_URL}" \
