@@ -22,6 +22,7 @@ vars:
 tasks:
   controller-gen:
     desc: "Download controller-gen locally if necessary"
+    run: once
     dir: '{{ .TASKFILE_DIR }}'
     generates:
       - '{{ .LOCALBIN }}/controller-gen'
@@ -37,6 +38,7 @@ tasks:
 
   envtest:
     desc: "Download setup-envtest locally if necessary"
+    run: once
     dir: '{{ .TASKFILE_DIR }}'
     generates:
       - '{{ .LOCALBIN }}/setup-envtest'
