@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-version: "3.44.0"
+version: "3.48.0"
 
 includes:
   demo-targets:
@@ -26,6 +26,8 @@ env:
 tasks:
   build:
     desc: Build the Docker image for the {{ .hookName }} hook
+    requires:
+      vars: [hookName]
     status:
       - docker images | grep -q "docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG}" || false
     preconditions:
@@ -65,28 +67,30 @@ tasks:
   # test:setup tasks
   test:setup:hook-sdk:
     internal: true
+    run: once
+    dir: '{{ .TASKFILE_DIR }}/../hook-sdk/nodejs'
     status:
-      - "[ -d {{ .TASKFILE_DIR }}/../hook-sdk/nodejs/node_modules ] || false"
+      - test -d node_modules
     cmds:
-      - cd {{ .TASKFILE_DIR }}/../hook-sdk/nodejs/ && bun install
+      - bun install
   test:setup:test-helpers:
     internal: true
+    run: once
+    dir: '{{ .TASKFILE_DIR }}/../tests/integration'
     status:
-      - "[ -d {{ .TASKFILE_DIR }}/../tests/integration/node_modules ] || false"
+      - test -d node_modules
     cmds:
-      - cd {{ .TASKFILE_DIR }}/../tests/integration && bun install
+      - bun install
   test:setup:hook-deps:
     internal: true
+    run: once
+    dir: '{{ .TASKFILE_DIR }}/{{ .hookName }}/hook'
     status:
-      - "[ -d {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/node_modules ] || false"
+      - '{{ if eq "true" .hookUsesNpmDependencies }}test -d node_modules{{ else }}true{{ end }}'
     cmds:
-      - |
-        {{ if eq "true" .hookUsesNpmDependencies }}
-        cd {{ .TASKFILE_DIR }}/{{ .hookName }}/hook/ && bun install
-        {{ else }}
-        echo "Hook has no custom dependencies. Skipping."
-        {{ end }}
+      - '{{ if eq "true" .hookUsesNpmDependencies }}bun install{{ else }}echo "Hook has no custom dependencies. Skipping."{{ end }}'
   test:setup:
+    run: once
     cmds:
       - task: test:setup:hook-sdk
       - task: test:setup:test-helpers
@@ -141,6 +145,6 @@ tasks:
   test:
     desc: Run all tests for the {{ .hookName }} hook
     cmds:
-      - task test:unit
-      - task test:helm
-      - task test:integration
+      - task: test:unit
+      - task: test:helm
+      - task: test:integration

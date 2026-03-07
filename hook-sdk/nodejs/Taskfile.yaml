@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.48.0"
+
+env:
+  IMG_NS: securecodebox
+  IMG_TAG:
+    sh: 'echo "sha-$(git rev-parse --short HEAD)"'
+
+vars:
+  SDK_NAME: hook-sdk
+
+tasks:
+  docker-build:
+    desc: "Build the hook-sdk Docker image"
+    preconditions:
+      - msg: "Docker is not running, please start Docker first"
+        sh: "docker info >/dev/null 2>&1 || false"
+    cmds:
+      - 'echo "Building {{ .SDK_NAME }}-nodejs image with tag ${IMG_TAG}"'
+      - docker build -t ${IMG_NS}/{{ .SDK_NAME }}-nodejs:${IMG_TAG} {{ .TASKFILE_DIR }}
+    status:
+      - docker images | grep -q "${IMG_NS}/{{ .SDK_NAME }}-nodejs:${IMG_TAG}" || false
+
+  docker-export:
+    desc: "Export the hook-sdk Docker image to a tar file"
+    deps: [docker-build]
+    cmds:
+      - 'echo "Exporting {{ .SDK_NAME }}-nodejs image to tar file"'
+      - docker save ${IMG_NS}/{{ .SDK_NAME }}-nodejs:${IMG_TAG} -o {{ .SDK_NAME }}.tar
+
+  kind-import:
+    desc: "Import the hook-sdk Docker image into kind cluster"
+    deps: [docker-export]
+    cmds:
+      - 'echo "Importing {{ .SDK_NAME }}.tar to local kind cluster"'
+      - kind load image-archive ./{{ .SDK_NAME }}.tar
