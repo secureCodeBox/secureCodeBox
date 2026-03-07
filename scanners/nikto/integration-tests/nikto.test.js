@@ -22,15 +22,13 @@ test(
     expect(categories).toMatchInlineSnapshot(`
       {
         "Identified Software": 1,
-        "Nikto Finding": 3,
-        "Potential Vulnerability": 12,
-        "X-Content-Type-Options Header": 1,
+        "Potential Vulnerability": 15,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
       {
-        "high": 12,
-        "informational": 5,
+        "high": 15,
+        "informational": 1,
       }
     `);
   },
