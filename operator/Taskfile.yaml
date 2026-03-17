@@ -210,6 +210,13 @@ tasks:
           --set="lurker.image.pullPolicy=IfNotPresent" \
           $MINIO_ARGS
 
+  kind-deploy:
+    desc: "Import and deploy Docker images to kind"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - task: kind-import
+      - task: helm-deploy
+
   install:
     desc: "Install CRDs into the K8s cluster specified in ~/.kube/config"
     deps: [manifests]
