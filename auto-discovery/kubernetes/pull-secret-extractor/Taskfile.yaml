@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-version: "3.44.0"
+version: "3.48.0"
 
 vars:
   IMG_NS: '{{default "securecodebox" .IMG_NS}}'

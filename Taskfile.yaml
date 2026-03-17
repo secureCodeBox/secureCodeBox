@@ -2,50 +2,68 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-version: "3.44.0"
+version: "3.48.0"
 
 env:
   IMG_NS: securecodebox
   IMG_TAG:
     sh: 'echo "sha-$(git rev-parse --short HEAD)"'
 
+vars:
+  SCANNERS_DIR: '{{ .TASKFILE_DIR }}/scanners'
+  HOOKS_DIR: '{{ .TASKFILE_DIR }}/hooks'
+  DEMO_TARGETS_DIR: '{{ .TASKFILE_DIR }}/demo-targets'
+  OPERATOR_DIR: '{{ .TASKFILE_DIR }}/operator'
+  PARSER_SDK_DIR: '{{ .TASKFILE_DIR }}/parser-sdk/nodejs'
+  HOOK_SDK_DIR: '{{ .TASKFILE_DIR }}/hook-sdk/nodejs'
+  AUTO_DISCOVERY_DIR: '{{ .TASKFILE_DIR }}/auto-discovery'
+  HELM_DOCS_DIR: '{{ .TASKFILE_DIR }}/.helm-docs'
+  TEMPLATES_DIR: '{{ .TASKFILE_DIR }}/.templates'
+  BIN_DIR: '{{ .TASKFILE_DIR }}/bin'
+
 tasks:
   create-kind-cluster:
+    run: once
     cmds:
       - 'echo "Starting kind cluster for testing environment"'
       - kind create cluster --name testing-env
     status:
-      - kind get clusters | grep testing-env || exit 1
+      - kind get clusters | grep -q testing-env
 
   build-operator-image:
+    run: once
     cmds:
       - 'echo "Building operator image with tag ${IMG_TAG}"'
       - docker build -t ${IMG_NS}/operator:${IMG_TAG} {{ .TASKFILE_DIR }}/operator
     status:
-      - docker images | grep "${IMG_NS}/operator" | grep "${IMG_TAG}"
+      - docker images | grep -q "${IMG_NS}/operator:${IMG_TAG}"
 
   build-lurker-image:
+    run: once
     cmds:
       - 'echo "Building lurker image with tag ${IMG_TAG}"'
       - docker build -t ${IMG_NS}/lurker:${IMG_TAG} {{ .TASKFILE_DIR }}/lurker
     status:
-      - docker images | grep "${IMG_NS}/lurker" | grep "${IMG_TAG}"
+      - docker images | grep -q "${IMG_NS}/lurker:${IMG_TAG}"
 
   load-operator-image:
+    run: once
     deps: [build-operator-image]
     cmds:
       - kind load docker-image ${IMG_NS}/operator:${IMG_TAG} --name testing-env
     status:
-      - kind get images --name testing-env | grep "${IMG_NS}/operator:${IMG_TAG}" || exit 1
+      - kind get images --name testing-env | grep -q "${IMG_NS}/operator:${IMG_TAG}"
 
   load-lurker-image:
+    run: once
     deps: [build-lurker-image]
     cmds:
       - kind load docker-image ${IMG_NS}/lurker:${IMG_TAG} --name testing-env
     status:
-      - kind get images --name testing-env | grep "${IMG_NS}/lurker:${IMG_TAG}" || exit 1
+      - kind get images --name testing-env | grep -q "${IMG_NS}/lurker:${IMG_TAG}"
 
   deploy-operator:
+    run: once
     deps: [load-operator-image, load-lurker-image]
     cmds:
       - 'echo "Deploying secureCodeBox operator to the testing environment"'
@@ -60,21 +78,23 @@ tasks:
           --set="lurker.image.tag=${IMG_TAG}" \
           --set="lurker.image.pullPolicy=IfNotPresent"
     status:
-      - kubectl get deployment -n securecodebox-system securecodebox-controller-manager | grep "1/1" || false
+      - kubectl get deployment -n securecodebox-system securecodebox-controller-manager | grep -q "1/1"
 
   build-parser-sdk-image:
+    run: once
     cmds:
       - 'echo "Building parser-sdk images with tag ${IMG_TAG}"'
       - docker build -t securecodebox/parser-sdk-nodejs:${IMG_TAG} {{ .TASKFILE_DIR }}/parser-sdk/nodejs
     status:
-      - docker images | grep "securecodebox/parser-sdk-nodejs" | grep "${IMG_TAG}"
+      - docker images | grep -q "securecodebox/parser-sdk-nodejs:${IMG_TAG}"
 
   build-hook-sdk-image:
+    run: once
     cmds:
       - 'echo "Building hook-sdk images with tag ${IMG_TAG}"'
       - docker build -t securecodebox/hook-sdk-nodejs:${IMG_TAG} {{ .TASKFILE_DIR }}/hook-sdk/nodejs
     status:
-      - docker images | grep "securecodebox/hook-sdk-nodejs" | grep "${IMG_TAG}"
+      - docker images | grep -q "securecodebox/hook-sdk-nodejs:${IMG_TAG}"
 
   prepare-testing-env:
     desc: "Prepare the testing environment by running all required tasks"
@@ -101,10 +121,115 @@ tasks:
     interactive: true
 
   test:helm:all:
+    desc: "Run helm unit tests for all charts in the project"
+    preconditions:
+      - msg: "Helm unittest plugin is not installed. Install it from https://github.com/helm-unittest/helm-unittest/"
+        sh: "helm plugin list | grep -q 'unittest' || false"
+    vars:
+      CHARTS:
+        sh: find {{ .TASKFILE_DIR }} -name "Chart.yaml" -exec dirname {} \;
     cmds:
+      - for: { var: CHARTS }
+        cmd: helm unittest "{{ .ITEM }}"
+
+  npm-ci-all:
+    desc: "Install all NPM dependencies across the project"
+    cmds:
+      - 'echo "Installing all NPM dependencies"'
+      - '{{ .BIN_DIR }}/npm-ci-all.sh'
+
+  npm-test-all:
+    desc: "Run all Jest based test suites"
+    cmds:
+      - npm test -- --ci --colors --coverage --testPathIgnorePatterns /integration-tests/
+
+  readme:
+    desc: "Generate README.md based on Chart.yaml and template"
+    cmds:
+      - '{{ .BIN_DIR }}/generate-helm-docs.sh --readme {{ .TASKFILE_DIR }} {{ .HELM_DOCS_DIR }}'
+
+  hook-docs:
+    desc: "Generate documentation for all hooks"
+    vars:
+      CHARTS:
+        sh: find {{ .HOOKS_DIR }} -maxdepth 2 -name "Chart.yaml"
+    cmds:
+      - for: { var: CHARTS }
+        cmd: '{{ .BIN_DIR }}/generate-helm-docs.sh --hook "{{ .ITEM }}" "{{ .HELM_DOCS_DIR }}"'
+
+  scanner-docs:
+    desc: "Generate documentation for all scanners"
+    vars:
+      CHARTS:
+        sh: find {{ .SCANNERS_DIR }} -maxdepth 2 -name "Chart.yaml"
+    cmds:
+      - for: { var: CHARTS }
+        cmd: '{{ .BIN_DIR }}/generate-helm-docs.sh --scanner "{{ .ITEM }}" "{{ .HELM_DOCS_DIR }}"'
+
+  operator-docs:
+    desc: "Generate documentation for the operator"
+    cmds:
+      - '{{ .BIN_DIR }}/generate-helm-docs.sh --operator "{{ .OPERATOR_DIR }}/Chart.yaml" "{{ .HELM_DOCS_DIR }}"'
+
+  auto-discovery-docs:
+    desc: "Generate documentation for auto-discovery components"
+    cmds:
+      - '{{ .BIN_DIR }}/generate-helm-docs.sh --operator "{{ .AUTO_DISCOVERY_DIR }}/cloud-aws/Chart.yaml" "{{ .HELM_DOCS_DIR }}"'
+      - '{{ .BIN_DIR }}/generate-helm-docs.sh --operator "{{ .AUTO_DISCOVERY_DIR }}/kubernetes/Chart.yaml" "{{ .HELM_DOCS_DIR }}"'
+
+  demo-target-docs:
+    desc: "Generate documentation for demo targets"
+    vars:
+      CHARTS:
+        sh: find {{ .DEMO_TARGETS_DIR }} -maxdepth 2 -name "Chart.yaml"
+    cmds:
+      - for: { var: CHARTS }
+        cmd: '{{ .BIN_DIR }}/generate-helm-docs.sh --demo-target "{{ .ITEM }}" "{{ .HELM_DOCS_DIR }}"'
+
+  docs:
+    desc: "Generate all documentation"
+    cmds:
+      - task: readme
+      - task: hook-docs
+      - task: scanner-docs
+      - task: operator-docs
+      - task: auto-discovery-docs
+      - task: demo-target-docs
+
+  create-new-scanner:
+    desc: "Create a new scanner from template (use -- NAME=scanner-name)"
+    preconditions:
+      - msg: "Scanner name not defined, please provide via: task create-new-scanner -- NAME=NEW-SCANNER"
+        sh: '[ -n "{{ .NAME }}" ]'
+    cmds:
+      - rm -rf "{{ .SCANNERS_DIR }}/{{ .NAME }}"
+      - cp -r "{{ .TEMPLATES_DIR }}/new-scanner/" "{{ .SCANNERS_DIR }}/{{ .NAME }}"
       - |
-        find . -name "Chart.yaml" | while read -r chart_file; do
-            chart_dir=$(dirname "$chart_file")
-            echo "Running tests for helm chart: $chart_dir"
-            helm unittest $chart_dir
-        done
+        find "{{ .SCANNERS_DIR }}/{{ .NAME }}" -type f ! -name tmp \
+          -exec sed -n "s/new-scanner/{{ .NAME }}/g;w {{ .SCANNERS_DIR }}/{{ .NAME }}/tmp" {} \; \
+          -exec mv "{{ .SCANNERS_DIR }}/{{ .NAME }}/tmp" {} \;
+      - mv "{{ .SCANNERS_DIR }}/{{ .NAME }}/templates/new-scanner-parse-definition.yaml" "{{ .SCANNERS_DIR }}/{{ .NAME }}/templates/{{ .NAME }}-parse-definition.yaml"
+      - mv "{{ .SCANNERS_DIR }}/{{ .NAME }}/templates/new-scanner-scan-type.yaml" "{{ .SCANNERS_DIR }}/{{ .NAME }}/templates/{{ .NAME }}-scan-type.yaml"
+
+  lint:
+    desc: "Lint only changed files with respect to main branch"
+    cmds:
+      - npx mega-linter-runner
+      - 'echo "The generated reports can be found under ./report/linters_logs/"'
+
+  lintfix:
+    desc: "Lint only changed files with respect to main branch and apply automatic fixes"
+    cmds:
+      - npx mega-linter-runner --fix
+      - 'echo "The generated reports can be found under ./report/linters_logs/"'
+
+  lintall:
+    desc: "Lint complete repo"
+    cmds:
+      - npx mega-linter-runner --env VALIDATE_ALL_CODEBASE=true
+      - 'echo "The generated reports can be found under ./report/linters_logs/"'
+
+  scbctl:
+    desc: "Build scbctl CLI tool"
+    cmds:
+      - cd scbctl && go build -o scbctl main.go

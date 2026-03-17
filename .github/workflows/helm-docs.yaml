@@ -14,6 +14,10 @@ on:
 permissions:
   contents: write
 
+env:
+  # renovate: datasource=github-releases depName=go-task/task
+  TASK_VERSION: "v3.48.0"
+
 jobs:
   helm-docs:
     runs-on: ubuntu-24.04
@@ -34,6 +38,11 @@ jobs:
           git_committer_name: secureCodeBoxBot
           git_committer_email: securecodebox@iteratec.com
 
+      - name: Install Task
+        uses: go-task/setup-task@83d4977c2df5fa410d8f7cff05d3e1d14d79ff41 # v1
+        with:
+          version: ${{ env.TASK_VERSION }}
+
       - name: Download Helm Docs
         run: |
           mkdir helm-docs
@@ -51,21 +60,21 @@ jobs:
 
       - name: Generate README
         run: |
-          make readme
+          task readme
       - name: Generate Demo Target Docs
-        run: make demo-target-docs
+        run: task demo-target-docs
 
       - name: Generate Hooks Docs
-        run: make hook-docs
+        run: task hook-docs
 
       - name: Generate Scanner Docs
-        run: make scanner-docs
+        run: task scanner-docs
 
       - name: Generate Operator Docs
-        run: make operator-docs
+        run: task operator-docs
 
       - name: Generate AutoDiscovery Docs
-        run: make auto-discovery-docs
+        run: task auto-discovery-docs
 
       - name: Remove Helm Docs Files
         run: |

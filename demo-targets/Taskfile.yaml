@@ -2,9 +2,21 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-version: "3.44.0"
+version: "3.48.0"
 
 tasks:
+  helm-unit-tests:
+    desc: "Run helm unit tests for all demo targets"
+    preconditions:
+      - msg: "Helm unittest plugin is not installed. Install it from https://github.com/helm-unittest/helm-unittest/"
+        sh: "helm plugin list | grep -q 'unittest' || false"
+    vars:
+      CHARTS:
+        sh: find {{ .TASKFILE_DIR }} -maxdepth 2 -name "Chart.yaml" -exec dirname {} \;
+    cmds:
+      - for: { var: CHARTS }
+        cmd: helm unittest "{{ .ITEM }}"
+
   deploy:app:
     internal: true
     status:
