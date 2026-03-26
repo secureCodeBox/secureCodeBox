@@ -10,7 +10,7 @@ metadata:
     {{- include "cascading-scans.labels" . | nindent 4 }}
     securecodebox.io/internal: "true"
     {{- with .Values.hook.labels }}
-    {{ toYaml . }}
+    {{ toYaml . | nindent 4 }}
     {{- end }}
 spec:
   priority: {{ .Values.hook.priority }}
