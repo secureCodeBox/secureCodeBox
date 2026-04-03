@@ -3,7 +3,7 @@ title: "Whatweb"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "v0.6.3"
+appVersion: "v0.6.4"
 usecase: "Website identification"
 ---
 
