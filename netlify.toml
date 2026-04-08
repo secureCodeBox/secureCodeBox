@@ -10,3 +10,10 @@
   publish = "build"
   functions = "netlify/functions"
 
+# To make this work we point a DNS A record with name securecodebox.io to the Netlify load balancer (75.2.60.5)
+# See https://docs.netlify.com/manage/domains/configure-domains/bring-a-domain-to-netlify/
+[[redirects]]
+  from = "https://securecodebox.io/*"
+  to = "https://www.securecodebox.io/:splat"
+  status = 302
+  force = true
