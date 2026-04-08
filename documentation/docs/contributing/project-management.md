@@ -18,6 +18,28 @@ Under the topic "project management" we describe how we do the organizational st
   - And a project calendar:
     - [Internal link](https://calendar.google.com/calendar/u/0?cid=Y19mODdhNThiMGNmZjNmMWMwMTk5ZjlhNDc1MjVjMmNiMGU3NjkwZmRjMTliZTI2NDlmMGU5YjlmMDA1ZTc3Mjc4QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20)
     - [Public link](https://calendar.google.com/calendar/u/0/embed?src=c_f87a58b0cff3f1c0199f9a47525c2cb0e7690fdc19be2649f0e9b9f005e77278@group.calendar.google.com&ctz=Europe/Berlin)
+- We have registerded one domain (`securecodebox.io`) which is sponsored by [iteratec][iteratec].
+  - The DNS cone is managed via [iteratec][iteratec] [Azure Portal](https://portal.azure.com/) by the _admin-team_. 
+- The website [https://www.securecodebox.io] is hosted on [Netlify](https://app.netlify.com/).
+- We have a [Hetzner](https://www.hetzner.com/) VM sponsored by [iteratec][iteratec] to host the Helm charts and telemetry server.
+
+### Domains
+
+We use these full qualified domain names:
+
+- For serving our Helm charts:
+  - charts.securecodebox.io -> sky.securecodebox.io
+  - sky.securecodebox.io -> 88.99.30.123(Hetzner VM)
+- For our [telemetry](https://www.securecodebox.io/docs/telemetry):
+  - telemetry.chase.securecodebox.io -> telemetry.securecodebox.io
+    - Backward compatibility: Was the old address. Old installations use this one.
+  - telemetry.securecodebox.io -> sky.securecodebox.io
+- For our main website:
+  - www.securecodebox.io -> docs-securecodebox.netlify.app
+
+### Website
+
+The website and documentation is based on [Docusaurus](https://docusaurus.io/) and hosted on [Netlify](https://app.netlify.com/). The login is documented in our vault.
 
 ## Teams
 
@@ -78,4 +100,5 @@ For on- and off-boarding we create an issue for each member. On- and off-boardin
   - Remove user from namespace "io.securecodebox" in [SonaType](https://central.sonatype.com/).
   - Remove access to [OWASP vault](https://team-securecodebox.1password.com/).
 
-[google-shared-drive]: https://drive.google.com/drive/folders/1cwAjEyEabdj4By-Ox6ho49NiT-vQUeDq?usp=drive_link
+[google-shared-drive]:  https://drive.google.com/drive/folders/1cwAjEyEabdj4By-Ox6ho49NiT-vQUeDq?usp=drive_link
+[iteratec]:             https://www.iteratec.com/
