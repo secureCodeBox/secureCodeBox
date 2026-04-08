@@ -4,7 +4,7 @@
 
 module github.com/secureCodeBox/secureCodeBox/lurker
 
-go 1.25.0
+go 1.26.2
 
 require (
 	k8s.io/api v0.35.3
