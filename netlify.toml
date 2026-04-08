@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# https://docs.netlify.com/build/configure-builds/file-based-configuration/
+
+[build]
+  base = "documentation"
+  command = "npm install && npm run build"
+  publish = "build"
+  functions = "netlify/functions"
+
