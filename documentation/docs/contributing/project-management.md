@@ -66,6 +66,10 @@ In our [Sonatype organization](https://central.sonatype.com/) we have the namesp
 
 Users of this namespace are the _project leads_ and a bot user for deployments.
 
+### FOSSA
+
+We use [FOSSA](https://fossa.com/) in the free tier for open source projects to check our dependnecies for violating licenses. It is integrated in the repo as webhok. Individual persons login there with GitHub aftr onboarding. We onboard everyone in the _admin-team_.
+
 ## Organizational
 
 - The _project leads_ do a regular sync meeting:
@@ -81,13 +85,14 @@ For on- and off-boarding we create an issue for each member. On- and off-boardin
 
 - _core-team_:
   - Add to our GitHub organization with following roles:
-    - core-team
-    - contributer-Team
+    - _core-team_
+    - _contributor-team_
 - _admin-team_ (additionally to the _core-team_ on-boarding):
   - Add to our GitHub organization with following roles:
     - admin-team
   - Register user at [Sonatype](https://central.sonatype.com/) & add to namespace "io.securecodebox"
   - Add to [OWASP valut](https://team-securecodebox.1password.com/).
+  - **TODO** Find out how o add to FOSSA.
 
 ### Off-boarding
 
@@ -99,6 +104,7 @@ For on- and off-boarding we create an issue for each member. On- and off-boardin
     - admin-team
   - Remove user from namespace "io.securecodebox" in [SonaType](https://central.sonatype.com/).
   - Remove access to [OWASP vault](https://team-securecodebox.1password.com/).
+  - **TODO** Find out how o remove from FOSSA.
 
 [google-shared-drive]:  https://drive.google.com/drive/folders/1cwAjEyEabdj4By-Ox6ho49NiT-vQUeDq?usp=drive_link
 [iteratec]:             https://www.iteratec.com/
