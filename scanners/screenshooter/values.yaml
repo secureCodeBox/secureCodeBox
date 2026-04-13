@@ -65,8 +65,14 @@ scanner:
   #       memory: "512Mi"
   #       cpu: "500m"
 
-  # scanner.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
-  env: []
+  # scanner.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/). Has default env vars set to run firefox without sandboxing. (the container is already sandboxed.) If you have a cluster with proper linux namespace support you might be able to use it without disabling the sandbox.
+  env:
+    - name: MOZ_HEADLESS
+      value: "1"
+    - name: MOZ_DISABLE_CONTENT_SANDBOX
+      value: "1"
+    - name: MOZ_ENABLE_WAYLAND
+      value: "0"
 
   # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumes: []
