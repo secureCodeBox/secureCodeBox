@@ -72,19 +72,19 @@ jobs:
           chmod +x ./linux-amd64/helm
 
       - name: Archive Kind
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: kind
           path: ./kind
 
       - name: Archive Kubectl
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: kubectl
           path: ./kubectl
 
       - name: Archive Helm
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: helm
           path: ./linux-amd64/helm
@@ -145,13 +145,13 @@ jobs:
           java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
           architecture: x64 # (x64 or x86) - defaults to x64
       - name: Cache SonarCloud packages
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache Gradle packages
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -206,7 +206,7 @@ jobs:
         run: task docker-export-${{ matrix.component }}
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ matrix.component }}-image
           path: ./operator/${{ matrix.component }}.tar
@@ -250,7 +250,7 @@ jobs:
         run: task docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: auto-discovery-image
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
@@ -325,7 +325,7 @@ jobs:
         run: task docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: auto-discovery-pull-secret-extractor
           path: ./auto-discovery/kubernetes/pull-secret-extractor/auto-discovery-secret-extractor.tar
@@ -383,7 +383,7 @@ jobs:
         run: task docker-export
 
       - name: Upload Image As Artifact
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: auto-discovery-cloud-aws-image
           path: ./auto-discovery/cloud-aws/auto-discovery-cloud-aws.tar
@@ -417,7 +417,7 @@ jobs:
         run: task docker-export
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ matrix.sdk }}-image
           path: ./${{ matrix.sdk }}/nodejs/${{ matrix.sdk }}.tar
