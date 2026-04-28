@@ -68,7 +68,7 @@ Users of this namespace are the _project leads_ and a bot user for deployments.
 
 ### FOSSA
 
-We use [FOSSA](https://fossa.com/) in the free tier for open source projects to check our dependnecies for violating licenses. It is integrated in the repo as webhok. Individual persons login there with GitHub aftr onboarding. We onboard everyone in the _admin-team_.
+We use [FOSSA](https://fossa.com/) in the free tier option for open source projects to check our dependencies for violating licenses. It is integrated in the repository as a webhook. Individual persons log in there using GitHub after onboarding. We onboard everyone in the _admin-team_.
 
 ## Organizational
 
