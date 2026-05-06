@@ -39,7 +39,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@kubernetes/client-node": "^1.3.0",
-    "ip-address": "^10.0.1",
+    "ip-address": "^10.2.0",
     "lodash-es": "^4.18.1",
     "matcher": "^5.0.0",
     "mustache": "^4.2.0",
