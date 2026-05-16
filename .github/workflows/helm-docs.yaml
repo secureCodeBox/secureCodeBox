@@ -16,7 +16,7 @@ permissions:
 
 env:
   # renovate: datasource=github-releases depName=go-task/task
-  TASK_VERSION: "3.50.0"
+  TASK_VERSION: "3.51.1"
 
 jobs:
   helm-docs:
