@@ -10,14 +10,14 @@ require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
 	github.com/go-logr/logr v1.4.3
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.40.0
+	github.com/onsi/gomega v1.41.0
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20260408091312-ed3ef305dfd4
-	k8s.io/api v0.36.0
-	k8s.io/apimachinery v0.36.0
-	k8s.io/client-go v0.36.0
+	k8s.io/api v0.36.1
+	k8s.io/apimachinery v0.36.1
+	k8s.io/client-go v0.36.1
 	k8s.io/klog/v2 v2.140.0
 	k8s.io/utils v0.0.0-20260319190234-28399d86e0b5
-	sigs.k8s.io/controller-runtime v0.24.0
+	sigs.k8s.io/controller-runtime v0.24.1
 	sigs.k8s.io/yaml v1.6.0
 )
 
