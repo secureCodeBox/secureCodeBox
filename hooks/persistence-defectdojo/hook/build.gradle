@@ -4,11 +4,11 @@
 
 plugins {
   id "java"
-  id "io.freefair.lombok" version "9.4.0"
+  id "io.freefair.lombok" version "9.5.0"
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.54.0"
-  id "org.sonarqube" version "7.2.3.7755"
+  id "org.sonarqube" version "7.3.0.8198"
 }
 
 group = "io.securecodebox"
@@ -28,17 +28,17 @@ dependencies {
    // so it causes issues with the version in the defectdojo client
   implementation group: "org.springframework", name: "spring-web", version: "6.2.12"
   // https://github.com/FasterXML/jackson-bom
-  implementation platform("com.fasterxml.jackson:jackson-bom:2.21.2")
+  implementation platform("com.fasterxml.jackson:jackson-bom:2.21.3")
   implementation "com.fasterxml.jackson.core:jackson-core"
   implementation "com.fasterxml.jackson.core:jackson-annotations"
   implementation "com.fasterxml.jackson.core:jackson-databind"
   implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
-  implementation group: "org.slf4j", name: "slf4j-api", version: "2.0.17"
-  implementation group: "org.slf4j", name: "slf4j-log4j12", version: "2.0.17"
+  implementation group: "org.slf4j", name: "slf4j-api", version: "2.0.18"
+  implementation group: "org.slf4j", name: "slf4j-log4j12", version: "2.0.18"
   // If I try to notate this like the others (with separate strings) I got errors. No idea why sh... Gradle
   // want it like this. It is the official documented example:
   // https://github.com/junit-team/junit5-samples/blob/r5.10.0/junit5-jupiter-starter-gradle/build.gradle
-  testImplementation(platform("org.junit:junit-bom:6.0.3"))
+  testImplementation(platform("org.junit:junit-bom:6.1.0"))
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation group: "org.mockito", name: "mockito-core", version: "5.23.0"
   testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "5.23.0"
