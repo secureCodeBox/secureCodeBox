@@ -8,7 +8,7 @@ plugins {
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.54.0"
-  id "org.sonarqube" version "7.3.0.8198"
+  id "org.sonarqube" version "7.3.1.8318"
 }
 
 group = "io.securecodebox"
@@ -28,7 +28,7 @@ dependencies {
    // so it causes issues with the version in the defectdojo client
   implementation group: "org.springframework", name: "spring-web", version: "6.2.12"
   // https://github.com/FasterXML/jackson-bom
-  implementation platform("com.fasterxml.jackson:jackson-bom:2.21.3")
+  implementation platform("com.fasterxml.jackson:jackson-bom:2.22.0")
   implementation "com.fasterxml.jackson.core:jackson-core"
   implementation "com.fasterxml.jackson.core:jackson-annotations"
   implementation "com.fasterxml.jackson.core:jackson-databind"
