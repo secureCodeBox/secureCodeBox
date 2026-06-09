@@ -2,12 +2,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM alpine:3.23 AS build
+FROM alpine:3.24 AS build
 ARG scannerVersion
 RUN apk add git
 RUN git clone --depth 1 https://github.com/sullo/nikto.git /nikto
 
-FROM alpine:3.23
+FROM alpine:3.24
 
 ENV PATH=${PATH}:/nikto
 
