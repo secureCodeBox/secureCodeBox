@@ -51,7 +51,7 @@
     "@types/matcher": "^1.1.0",
     "@types/mustache": "^4.2.6",
     "@types/node": "^22.16.0",
-    "esbuild": "^0.25.5",
+    "esbuild": "^0.28.1",
     "typescript": "^5.8.3"
   }
 }
