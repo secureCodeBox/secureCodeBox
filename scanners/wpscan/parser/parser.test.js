@@ -147,41 +147,6 @@ test("WPScan parser parses a successfully scan result with at least one informat
         ],
         "severity": "INFORMATIONAL",
       },
-      {
-        "attributes": {
-          "confidence": 80,
-          "hostname": "https://www.example.com/",
-          "wp_confirmed_by": {},
-          "wp_found_by": "Known Locations (Aggressive Detection)",
-          "wp_interesting_entries": [
-            "https://www.example.com/wp-content/plugins/akismet/, status: 403",
-          ],
-        },
-        "category": "WordPress Plugin",
-        "description": "Akismet 2.5.0-3.1.4 - Unauthenticated Stored Cross-Site Scripting (XSS)",
-        "location": "https://www.example.com/wp-content/plugins/akismet/",
-        "name": "WordPress finding: vulnerability in 'akismet'",
-        "osi_layer": "APPLICATION",
-        "references": [
-          {
-            "type": "CVE",
-            "value": "2015-9357",
-          },
-          {
-            "type": "URL",
-            "value": "http://blog.akismet.com/2015/10/13/akismet-3-1-5-wordpress/",
-          },
-          {
-            "type": "URL",
-            "value": "https://blog.sucuri.net/2015/10/security-advisory-stored-xss-in-akismet-wordpress-plugin.html",
-          },
-          {
-            "type": "WPVULNDB",
-            "value": "8215",
-          },
-        ],
-        "severity": "HIGH",
-      },
     ]
   `);
 });
@@ -338,4 +303,151 @@ test("should properly parse empty json file", async () => {
   const findings = await parse(jsonContent);
   expect(validateParser(findings)).toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
+});
+
+test("should properly parse a scan result without plugins detection", async () => {
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/old-wordpress-without-plugins.json",
+    {
+      encoding: "utf8",
+    },
+  );
+  const findings = await parse(jsonContent);
+  expect(validateParser(findings)).toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
+    [
+      {
+        "attributes": {
+          "hostname": "http://old-wordpress.demo-targets.svc/",
+          "ip_addresses": [
+            "10.96.236.51",
+          ],
+          "wp_confirmed_by": {
+            "Meta Generator (Passive Detection)": {
+              "confidence": 60,
+              "interesting_entries": [
+                "http://old-wordpress.demo-targets.svc/, Match: 'WordPress 4.9.8'",
+              ],
+            },
+          },
+          "wp_found_by": "Emoji Settings (Passive Detection)",
+          "wp_interesting_entries": [
+            "http://old-wordpress.demo-targets.svc/, Match: 'wp-includes\\/js\\/wp-emoji-release.min.js?ver=4.9.8'",
+          ],
+          "wp_release_date": "2018-08-02",
+          "wp_release_status": "insecure",
+          "wp_version": "4.9.8",
+          "wp_vulnerabilities": [],
+          "wpscan_requests": 27,
+          "wpscan_version": "4.0.0",
+        },
+        "category": "WordPress Service",
+        "confidence": 100,
+        "description": "WordPress Service Information",
+        "identified_at": "2026-06-12T15:18:15.000Z",
+        "location": "http://old-wordpress.demo-targets.svc/",
+        "name": "WordPress Service",
+        "osi_layer": "APPLICATION",
+        "references": null,
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "http://old-wordpress.demo-targets.svc/",
+          "wp_confirmed_by": {},
+          "wp_found_by": "Headers (Passive Detection)",
+          "wp_interesting_entries": [
+            "Server: Apache/2.4.25 (Debian)",
+            "X-Powered-By: PHP/7.2.12",
+          ],
+        },
+        "category": "WordPress headers",
+        "confidence": 100,
+        "description": "Headers",
+        "location": "http://old-wordpress.demo-targets.svc/",
+        "name": "WordPress finding 'headers'",
+        "osi_layer": "APPLICATION",
+        "references": null,
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "http://old-wordpress.demo-targets.svc/",
+          "wp_confirmed_by": {},
+          "wp_found_by": "Direct Access (Aggressive Detection)",
+          "wp_interesting_entries": [],
+        },
+        "category": "WordPress xmlrpc",
+        "confidence": 100,
+        "description": "XML-RPC seems to be enabled: http://old-wordpress.demo-targets.svc/xmlrpc.php",
+        "location": "http://old-wordpress.demo-targets.svc/xmlrpc.php",
+        "name": "WordPress finding 'xmlrpc'",
+        "osi_layer": "APPLICATION",
+        "references": [
+          {
+            "type": "URL",
+            "value": "http://codex.wordpress.org/XML-RPC_Pingback_API",
+          },
+          {
+            "type": "METASPLOIT",
+            "value": "auxiliary/scanner/http/wordpress_ghost_scanner",
+          },
+          {
+            "type": "METASPLOIT",
+            "value": "auxiliary/dos/http/wordpress_xmlrpc_dos",
+          },
+          {
+            "type": "METASPLOIT",
+            "value": "auxiliary/scanner/http/wordpress_xmlrpc_login",
+          },
+          {
+            "type": "METASPLOIT",
+            "value": "auxiliary/scanner/http/wordpress_pingback_access",
+          },
+        ],
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "http://old-wordpress.demo-targets.svc/",
+          "wp_confirmed_by": {},
+          "wp_found_by": "Direct Access (Aggressive Detection)",
+          "wp_interesting_entries": [],
+        },
+        "category": "WordPress readme",
+        "confidence": 100,
+        "description": "WordPress readme found: http://old-wordpress.demo-targets.svc/readme.html",
+        "location": "http://old-wordpress.demo-targets.svc/readme.html",
+        "name": "WordPress finding 'readme'",
+        "osi_layer": "APPLICATION",
+        "references": null,
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "http://old-wordpress.demo-targets.svc/",
+          "wp_confirmed_by": {},
+          "wp_found_by": "Direct Access (Aggressive Detection)",
+          "wp_interesting_entries": [],
+        },
+        "category": "WordPress wp_cron",
+        "confidence": 60,
+        "description": "The external WP-Cron seems to be enabled: http://old-wordpress.demo-targets.svc/wp-cron.php",
+        "location": "http://old-wordpress.demo-targets.svc/wp-cron.php",
+        "name": "WordPress finding 'wp_cron'",
+        "osi_layer": "APPLICATION",
+        "references": [
+          {
+            "type": "URL",
+            "value": "https://www.iplocation.net/defend-wordpress-from-ddos",
+          },
+          {
+            "type": "URL",
+            "value": "https://github.com/wpscanteam/wpscan/issues/1299",
+          },
+        ],
+        "severity": "INFORMATIONAL",
+      },
+    ]
+  `);
 });

@@ -3,6 +3,43 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /**
+ * convert pugings
+ */
+function transformPlugins(plugins) {
+  const pluginVulnerabilities = Object.values(report.plugins).flatMap(
+    (plugin) =>
+      plugin.vulnerabilities.map((vulnerability) => {
+        // Create a flattened array of references with their types
+        const references = Object.entries(vulnerability.references).flatMap(
+          ([key, elements]) =>
+            elements.map((element) => ({
+              type: key.toUpperCase(),
+              value: element,
+            })),
+        );
+        // Return the plugin vulnerabilities object for the current plugin and vulnerability
+        return {
+          name: `WordPress finding: vulnerability in '${plugin["slug"]}'`,
+          description: vulnerability["title"],
+          category: "WordPress Plugin",
+          location: plugin["location"],
+          osi_layer: "APPLICATION",
+          severity: "HIGH",
+          references: references.length > 0 ? references : null,
+          attributes: {
+            hostname: targetUrl,
+            confidence: plugin["confidence"],
+            wp_interesting_entries: plugin["interesting_entries"],
+            wp_found_by: plugin["found_by"],
+            wp_confirmed_by: plugin["confirmed_by"],
+          },
+        };
+      }),
+  );
+  return pluginVulnerabilities;
+}
+
+/**
  * Convert the WPScan file / json into secureCodeBox Findings
  */
 export async function parse(scanResults) {
@@ -81,37 +118,11 @@ export async function parse(scanResults) {
     },
   );
 
+  let pluginVulnerabilities = [];
   // Add plugin vulnerabilities as HIGH
-  const pluginVulnerabilities = Object.values(report.plugins).flatMap(
-    (plugin) =>
-      plugin.vulnerabilities.map((vulnerability) => {
-        // Create a flattened array of references with their types
-        const references = Object.entries(vulnerability.references).flatMap(
-          ([key, elements]) =>
-            elements.map((element) => ({
-              type: key.toUpperCase(),
-              value: element,
-            })),
-        );
-        // Return the plugin vulnerabilities object for the current plugin and vulnerability
-        return {
-          name: `WordPress finding: vulnerability in '${plugin["slug"]}'`,
-          description: vulnerability["title"],
-          category: "WordPress Plugin",
-          location: plugin["location"],
-          osi_layer: "APPLICATION",
-          severity: "HIGH",
-          references: references.length > 0 ? references : null,
-          attributes: {
-            hostname: targetUrl,
-            confidence: plugin["confidence"],
-            wp_interesting_entries: plugin["interesting_entries"],
-            wp_found_by: plugin["found_by"],
-            wp_confirmed_by: plugin["confirmed_by"],
-          },
-        };
-      }),
-  );
+  if (report.plugin) {
+    const pluginVulnerabilities = transformPlugins(report.plugin);
+  }
 
   // Combine all findings and return
   return [summaryFinding, ...interestingFindings, ...pluginVulnerabilities];
