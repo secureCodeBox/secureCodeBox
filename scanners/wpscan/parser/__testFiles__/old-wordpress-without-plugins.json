@@ -1,0 +1,137 @@
+{
+  "banner": {
+    "description": "WordPress Security Scanner",
+    "version": "4.0.0",
+    "sponsor": "An Automattic endeavor"
+  },
+  "start_time": 1781277493,
+  "start_memory": 55910400,
+  "command_line": "wpscan -o /home/securecodebox/wpscan-results.json -f json --url old-wordpress.demo-targets.svc",
+  "hostname": "scan-wpscan-old-wordpress-no-opt-6lx6g-4xgtr",
+  "target_url": "http://old-wordpress.demo-targets.svc/",
+  "target_ip": "10.96.236.51",
+  "effective_url": "http://old-wordpress.demo-targets.svc/",
+  "interesting_findings": [
+    {
+      "url": "http://old-wordpress.demo-targets.svc/",
+      "to_s": "Headers",
+      "type": "headers",
+      "found_by": "Headers (Passive Detection)",
+      "confidence": 100,
+      "confirmed_by": {
+
+      },
+      "references": {
+
+      },
+      "interesting_entries": [
+        "Server: Apache/2.4.25 (Debian)",
+        "X-Powered-By: PHP/7.2.12"
+      ]
+    },
+    {
+      "url": "http://old-wordpress.demo-targets.svc/xmlrpc.php",
+      "to_s": "XML-RPC seems to be enabled: http://old-wordpress.demo-targets.svc/xmlrpc.php",
+      "type": "xmlrpc",
+      "found_by": "Direct Access (Aggressive Detection)",
+      "confidence": 100,
+      "confirmed_by": {
+
+      },
+      "references": {
+        "url": [
+          "http://codex.wordpress.org/XML-RPC_Pingback_API"
+        ],
+        "metasploit": [
+          "auxiliary/scanner/http/wordpress_ghost_scanner",
+          "auxiliary/dos/http/wordpress_xmlrpc_dos",
+          "auxiliary/scanner/http/wordpress_xmlrpc_login",
+          "auxiliary/scanner/http/wordpress_pingback_access"
+        ]
+      },
+      "interesting_entries": [
+
+      ]
+    },
+    {
+      "url": "http://old-wordpress.demo-targets.svc/readme.html",
+      "to_s": "WordPress readme found: http://old-wordpress.demo-targets.svc/readme.html",
+      "type": "readme",
+      "found_by": "Direct Access (Aggressive Detection)",
+      "confidence": 100,
+      "confirmed_by": {
+
+      },
+      "references": {
+
+      },
+      "interesting_entries": [
+
+      ]
+    },
+    {
+      "url": "http://old-wordpress.demo-targets.svc/wp-cron.php",
+      "to_s": "The external WP-Cron seems to be enabled: http://old-wordpress.demo-targets.svc/wp-cron.php",
+      "type": "wp_cron",
+      "found_by": "Direct Access (Aggressive Detection)",
+      "confidence": 60,
+      "confirmed_by": {
+
+      },
+      "references": {
+        "url": [
+          "https://www.iplocation.net/defend-wordpress-from-ddos",
+          "https://github.com/wpscanteam/wpscan/issues/1299"
+        ]
+      },
+      "interesting_entries": [
+
+      ]
+    }
+  ],
+  "version": {
+    "number": "4.9.8",
+    "release_date": "2018-08-02",
+    "status": "insecure",
+    "found_by": "Emoji Settings (Passive Detection)",
+    "confidence": 100,
+    "interesting_entries": [
+      "http://old-wordpress.demo-targets.svc/, Match: 'wp-includes\\/js\\/wp-emoji-release.min.js?ver=4.9.8'"
+    ],
+    "confirmed_by": {
+      "Meta Generator (Passive Detection)": {
+        "confidence": 60,
+        "interesting_entries": [
+          "http://old-wordpress.demo-targets.svc/, Match: 'WordPress 4.9.8'"
+        ]
+      }
+    },
+    "vulnerabilities": [
+
+    ]
+  },
+  "main_theme": null,
+  "vuln_api": {
+    "error": "No WPScan API Token given, as a result vulnerability data has not been output.\nYou can get a free API token with 25 daily requests by registering at https://wpscan.com/register"
+  },
+  "stop_time": 1781277495,
+  "elapsed": 1,
+  "requests_done": 27,
+  "cached_requests": 4,
+  "response_status_codes": {
+    "200": 16,
+    "301": 8,
+    "302": 2,
+    "403": 1
+  },
+  "response_status_codes_warning": false,
+  "response_status_codes_warnings": [
+
+  ],
+  "data_sent": 7177,
+  "data_sent_humanised": "7.009 KB",
+  "data_received": 334517,
+  "data_received_humanised": "326.677 KB",
+  "used_memory": 148590592,
+  "used_memory_humanised": "141.707 MB"
+}
