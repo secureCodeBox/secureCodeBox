@@ -11,10 +11,10 @@ require (
 	github.com/minio/minio-go/v7 v7.2.0
 	github.com/mitchellh/hashstructure/v2 v2.0.2
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.41.0
-	k8s.io/api v0.36.1
-	k8s.io/apimachinery v0.36.1
-	k8s.io/client-go v0.36.1
+	github.com/onsi/gomega v1.42.0
+	k8s.io/api v0.36.2
+	k8s.io/apimachinery v0.36.2
+	k8s.io/client-go v0.36.2
 	sigs.k8s.io/controller-runtime v0.24.1
 )
 

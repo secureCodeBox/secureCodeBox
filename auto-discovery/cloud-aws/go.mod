@@ -10,12 +10,12 @@ require (
 	github.com/aws/aws-sdk-go v1.55.8
 	github.com/go-logr/logr v1.4.3
 	github.com/novln/docker-parser v1.0.0
-	github.com/onsi/ginkgo/v2 v2.29.0
-	github.com/onsi/gomega v1.41.0
+	github.com/onsi/ginkgo/v2 v2.31.0
+	github.com/onsi/gomega v1.42.0
 	github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260408091312-ed3ef305dfd4
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20260408091312-ed3ef305dfd4
-	k8s.io/api v0.36.1
-	k8s.io/client-go v0.36.1
+	k8s.io/api v0.36.2
+	k8s.io/client-go v0.36.2
 	k8s.io/klog/v2 v2.140.0
 	sigs.k8s.io/controller-runtime v0.24.1
 	sigs.k8s.io/yaml v1.6.0
@@ -110,6 +110,6 @@ require (
 
 require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
-	k8s.io/apimachinery v0.36.1
-	k8s.io/cli-runtime v0.36.1
+	k8s.io/apimachinery v0.36.2
+	k8s.io/cli-runtime v0.36.2
 )
