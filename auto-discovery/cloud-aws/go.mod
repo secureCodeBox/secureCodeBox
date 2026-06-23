@@ -10,7 +10,7 @@ require (
 	github.com/aws/aws-sdk-go v1.55.8
 	github.com/go-logr/logr v1.4.3
 	github.com/novln/docker-parser v1.0.0
-	github.com/onsi/ginkgo/v2 v2.31.0
+	github.com/onsi/ginkgo/v2 v2.32.0
 	github.com/onsi/gomega v1.42.0
 	github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260408091312-ed3ef305dfd4
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20260408091312-ed3ef305dfd4
