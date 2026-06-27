@@ -91,6 +91,20 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].env[?(@.name=="S3_ENDPOINT")].value
           value: "RELEASE-NAME-minio.NAMESPACE.svc.cluster.local"
+  - it: allows overriding the cluster domain used for the minio endpoint
+    templates:
+      - manager/manager.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: true
+      clusterDomain: custom.local
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].env[?(@.name=="S3_ENDPOINT")].value
+          value: "RELEASE-NAME-minio.NAMESPACE.svc.custom.local"
   - it: configures manager deployment for external s3
     templates:
       - manager/manager.yaml

@@ -9,6 +9,9 @@
 # telemetryEnabled -- The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry
 telemetryEnabled: true
 
+# -- The cluster domain to use when building the in-cluster Minio endpoint (`<release>-minio.<namespace>.svc.<clusterDomain>`). Override this if your cluster uses a custom domain instead of the Kubernetes default `cluster.local`.
+clusterDomain: cluster.local
+
 # -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
 

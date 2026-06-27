@@ -75,7 +75,7 @@ spec:
             - name: S3_USE_SSL
               value: "{{ .Values.minio.tls.enabled }}"
             - name: S3_ENDPOINT
-              value: "{{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc.cluster.local"
+              value: "{{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
             - name: S3_PORT
               value: '9000'
             - name:  MINIO_ACCESS_KEY
