@@ -30,7 +30,7 @@ env:
   # renovate: datasource=github-releases depName=helm-unittest/helm-unittest
   HELM_PLUGIN_UNITTEST_VERSION: "1.1.1"
   # renovate: datasource=github-releases depName=go-task/task
-  TASK_VERSION: "3.51.1"
+  TASK_VERSION: "3.52.0"
 
 jobs:
   test-nodejs-scanner-test-helpers:
