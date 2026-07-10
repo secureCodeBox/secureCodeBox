@@ -13,10 +13,10 @@ test(
       ["dummy-ssh.demo-targets.svc"],
       90,
     );
-    expect(count).toBe(7);
+    expect(count).toBe(9);
     expect(categories).toMatchInlineSnapshot(`
       {
-        "SSH Policy Violation": 6,
+        "SSH Policy Violation": 8,
         "SSH Service": 1,
       }
     `);
@@ -24,7 +24,7 @@ test(
     {
       "high": 3,
       "informational": 1,
-      "medium": 3,
+      "medium": 5,
     }
     `);
   },
