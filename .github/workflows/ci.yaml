@@ -26,7 +26,7 @@ env:
   # renovate: datasource=github-releases depName=kubernetes-sigs/kind
   KIND_BINARY_VERSION: "v0.32.0"
   # renovate: datasource=github-releases depName=helm/helm
-  HELM_VERSION: "v4.2.2"
+  HELM_VERSION: "v4.2.3"
   # renovate: datasource=github-releases depName=helm-unittest/helm-unittest
   HELM_PLUGIN_UNITTEST_VERSION: "1.1.1"
   # renovate: datasource=github-releases depName=go-task/task
