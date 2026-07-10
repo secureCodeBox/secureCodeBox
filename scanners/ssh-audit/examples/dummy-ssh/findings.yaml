@@ -208,6 +208,10 @@
                       "default key exchange from OpenSSH 6.5 to 7.3",
                       "available since OpenSSH 6.4, Dropbear SSH 2013.62",
                     ],
+                  "warn":
+                    [
+                      "does not provide protection against post-quantum attacks",
+                    ],
                 },
             },
             {
@@ -219,6 +223,10 @@
                       "using elliptic curves that are suspected as being backdoored by the U.S. National Security Agency",
                     ],
                   "info": ["available since OpenSSH 5.7, Dropbear SSH 2013.62"],
+                  "warn":
+                    [
+                      "does not provide protection against post-quantum attacks",
+                    ],
                 },
             },
             {
@@ -230,6 +238,10 @@
                       "using elliptic curves that are suspected as being backdoored by the U.S. National Security Agency",
                     ],
                   "info": ["available since OpenSSH 5.7, Dropbear SSH 2013.62"],
+                  "warn":
+                    [
+                      "does not provide protection against post-quantum attacks",
+                    ],
                 },
             },
             {
@@ -241,6 +253,10 @@
                       "using elliptic curves that are suspected as being backdoored by the U.S. National Security Agency",
                     ],
                   "info": ["available since OpenSSH 5.7, Dropbear SSH 2013.62"],
+                  "warn":
+                    [
+                      "does not provide protection against post-quantum attacks",
+                    ],
                 },
             },
             {
@@ -253,6 +269,10 @@
                       "OpenSSH's GEX fallback mechanism was triggered during testing. Very old SSH clients will still be able to create connections using a 2048-bit modulus, though modern clients will use 3072. This can only be disabled by recompiling the code (see https://github.com/openssh/openssh-portable/blob/V_9_4/dh.c#L477).",
                       "available since OpenSSH 4.4",
                     ],
+                  "warn":
+                    [
+                      "does not provide protection against post-quantum attacks",
+                    ],
                 },
             },
             {
@@ -264,6 +284,7 @@
                   "warn":
                     [
                       "2048-bit modulus only provides 112-bits of symmetric strength",
+                      "does not provide protection against post-quantum attacks",
                     ],
                 },
             },
@@ -302,8 +323,15 @@
             },
           ],
       },
-    "id": "d0005b42-7481-4dae-91b2-5d3293d78b3f",
-    "parsed_at": "2024-12-06T08:42:46.521Z",
+    "id": "536571c2-7808-4dae-b3fe-624ef7ac3df0",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
   },
   {
     "name": "Insecure SSH KEX Algorithms",
@@ -322,8 +350,15 @@
             "ecdh-sha2-nistp521",
           ],
       },
-    "id": "1d136f73-222a-49a5-9d24-73eff949e7fc",
-    "parsed_at": "2024-12-06T08:42:46.522Z",
+    "id": "599fb34a-7bf9-484a-acf0-138d06eab0ef",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
   },
   {
     "name": "Insecure SSH Key Algorithms",
@@ -333,8 +368,15 @@
     "category": "SSH Policy Violation",
     "location": "ssh://dummy-ssh.demo-targets.svc",
     "attributes": {"algorithms": ["ecdsa-sha2-nistp256", "ssh-rsa"]},
-    "id": "20b8e8c7-01f5-46ac-ae78-ca7b04d61100",
-    "parsed_at": "2024-12-06T08:42:46.522Z",
+    "id": "f400ca69-9358-4ca9-bb1e-a4b63248a15b",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
   },
   {
     "name": "Insecure SSH MAC Algorithms",
@@ -344,8 +386,39 @@
     "category": "SSH Policy Violation",
     "location": "ssh://dummy-ssh.demo-targets.svc",
     "attributes": {"algorithms": ["hmac-sha1", "hmac-sha1-etm@openssh.com"]},
-    "id": "1af1e73f-6244-4192-9c9b-8fe62796306e",
-    "parsed_at": "2024-12-06T08:42:46.522Z",
+    "id": "399c5412-b124-47c4-9e4c-da42b28f4903",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
+  },
+  {
+    "name": "SSH KEX Algorithms must be changed",
+    "description": "Weak SSH key exchange algorithms in use",
+    "mitigation": "Change these KEX algorithms",
+    "severity": "MEDIUM",
+    "category": "SSH Policy Violation",
+    "location": "ssh://dummy-ssh.demo-targets.svc",
+    "attributes":
+      {
+        "algorithms":
+          [
+            "diffie-hellman-group-exchange-sha256 (Note: increase modulus size to 3072 bits or larger)",
+          ],
+      },
+    "id": "c457158e-85b6-4799-ba56-619350355cb9",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
   },
   {
     "name": "SSH Key Algorithms must be changed",
@@ -362,8 +435,15 @@
             "rsa-sha2-512 (Note: increase modulus size to 3072 bits or larger)",
           ],
       },
-    "id": "87516897-4ac4-4e9e-b74b-58835faf47c2",
-    "parsed_at": "2024-12-06T08:42:46.522Z",
+    "id": "523a32d5-23d4-4a71-ad26-7f53ad419e10",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
   },
   {
     "name": "Insecure SSH Encryption Algorithms",
@@ -373,8 +453,33 @@
     "category": "SSH Policy Violation",
     "location": "ssh://dummy-ssh.demo-targets.svc",
     "attributes": {"algorithms": ["chacha20-poly1305@openssh.com"]},
-    "id": "74b1328b-6e8d-49ad-a1ea-40319890ed13",
-    "parsed_at": "2024-12-06T08:42:46.522Z",
+    "id": "4acb5432-eeb3-4d96-9fa3-dfc32b54d3f9",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
+  },
+  {
+    "name": "Insecure SSH KEX Algorithms",
+    "description": "Discouraged SSH key exchange algorithms in use",
+    "mitigation": "Remove these KEX algorithms",
+    "severity": "MEDIUM",
+    "category": "SSH Policy Violation",
+    "location": "ssh://dummy-ssh.demo-targets.svc",
+    "attributes": {"algorithms": ["curve25519-sha256@libssh.org"]},
+    "id": "85df224b-c641-4133-9920-cead32925ce5",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
   },
   {
     "name": "Insecure SSH MAC Algorithms",
@@ -394,7 +499,14 @@
             "umac-64@openssh.com",
           ],
       },
-    "id": "965e1a1f-9bf5-4066-9774-fbb4bde786c7",
-    "parsed_at": "2024-12-06T08:42:46.522Z",
+    "id": "fcec7eeb-e093-424b-9e40-649f3c42c217",
+    "parsed_at": "2026-07-10T11:56:12.770Z",
+    "scan":
+      {
+        "created_at": "2026-07-10T11:56:05Z",
+        "name": "ssh-ssh-demo-cluster-internal",
+        "namespace": "integration-tests",
+        "scan_type": "ssh-audit",
+      },
   },
 ]
