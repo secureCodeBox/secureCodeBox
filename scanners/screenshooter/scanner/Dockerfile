@@ -4,7 +4,7 @@
 
 # This is using debian rather than alpine, as firefox on alpine seems to be missing some crucial fonts.
 # This lets the screenshots taken on alpine look weird
-FROM debian:13.5
+FROM debian:13.6
 RUN apt-get update && apt-get install -y \
     firefox-esr \
     libpci-dev \
