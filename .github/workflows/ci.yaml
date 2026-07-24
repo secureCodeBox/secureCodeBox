@@ -28,7 +28,7 @@ env:
   # renovate: datasource=github-releases depName=helm/helm
   HELM_VERSION: "v4.2.3"
   # renovate: datasource=github-releases depName=helm-unittest/helm-unittest
-  HELM_PLUGIN_UNITTEST_VERSION: "1.1.1"
+  HELM_PLUGIN_UNITTEST_VERSION: "1.1.2"
   # renovate: datasource=github-releases depName=go-task/task
   TASK_VERSION: "3.52.0"
 
