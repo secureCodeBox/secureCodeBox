@@ -100,7 +100,7 @@ Please have a look at [Contributing](./CONTRIBUTING.md)
 
 ### Stargazers over time
 
-[![Star History Chart](https://api.star-history.com/svg?repos=secureCodeBox/secureCodeBox&type=Date)](https://star-history.com/#secureCodeBox/secureCodeBox&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=secureCodeBox/secureCodeBox&type=Date)](https://star-history.dera.page/#secureCodeBox/secureCodeBox&Date)
 
 ## Sponsors
 
