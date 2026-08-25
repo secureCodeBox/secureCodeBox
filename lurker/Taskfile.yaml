@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.48.0"
+
+tasks:
+  fmt:
+    desc: "Run go fmt against code"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: "Run go vet against code"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go vet ./...
+
+  test:
+    desc: "Run all tests"
+    deps: [fmt, vet]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go test ./... -coverprofile cover.out
+
+  view-coverage:
+    desc: "View test coverage in browser"
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go tool cover -html=cover.out
+
+  build:
+    desc: "Build the lurker binary"
+    deps: [fmt, vet]
+    dir: '{{ .TASKFILE_DIR }}'
+    cmds:
+      - go build -o bin/lurker main.go
