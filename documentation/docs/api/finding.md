@@ -20,7 +20,7 @@ The 'findings.json' file that contains these Findings complies with the followin
   "$defs": {
     "finding": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "id": {
           "description": "The unique identifier for a Finding according to RFC4122.",
@@ -89,6 +89,21 @@ The 'findings.json' file that contains these Findings complies with the followin
           "description": "Full URL with protocol, port, and path if existing.",
           "type": "string",
           "nullable": true
+        },
+        "osi_layer": {
+          "description": "OSI layer associated with the finding.",
+          "type": "string"
+        },
+        "scan": {
+          "description": "Contains information about the scan that identified the finding.",
+          "type": "object",
+          "properties": {
+            "created_at": {"type": "string", "format": "date-time"},
+            "name": {"type": "string"},
+            "namespace": {"type": "string"},
+            "scan_type": {"type": "string"}
+          },
+          "required": ["created_at", "name", "namespace", "scan_type"]
         }
       },
       "required": [
@@ -96,7 +111,8 @@ The 'findings.json' file that contains these Findings complies with the followin
         "parsed_at",
         "severity",
         "category",
-        "name"
+        "name",
+        "scan"
       ]
     }
   }

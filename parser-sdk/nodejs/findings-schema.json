@@ -8,7 +8,7 @@
   "$defs": {
     "finding": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "id": {
           "description": "The unique identifier for a Finding according to RFC4122.",
@@ -78,6 +78,10 @@
           "description": "Full URL with protocol, port, and path if existing.",
           "type": "string",
           "nullable": true
+        },
+        "osi_layer": {
+          "description": "OSI layer associated with the finding.",
+          "type": "string"
         },
         "scan": {
           "description": "Contains information about the scan that identified the finding. This will always be present",
