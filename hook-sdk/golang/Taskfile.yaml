@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.48.0"
+
+tasks:
+  fmt:
+    cmds:
+      - go fmt ./...
+  vet:
+    cmds:
+      - go vet ./...
+  test:
+    deps: [fmt, vet]
+    cmds:
+      - go test ./...

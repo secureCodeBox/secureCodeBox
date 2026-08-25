@@ -10,8 +10,12 @@ includes:
     flatten: true
     excludes:
       - predeploy
+      - test:unit
     vars:
       hookName: finding-post-processing
+      hookSDK: golang
+      hookDockerContext: '{{ .TASKFILE_DIR }}/..'
+      hookDockerfile: '{{ .TASKFILE_DIR }}/finding-post-processing/hook/Dockerfile'
       additionalHelmInstallArgsForHook: |
         --set="rules[0].matches.anyOf[0].category=Host" \
         --set="rules[0].override.severity=high" \
@@ -19,6 +23,13 @@ includes:
     taskfile: ../../scanners/test-scan/Taskfile.yaml
 
 tasks:
+  test:unit:
+    desc: Run Go unit tests for finding-post-processing
+    dir: hook
+    cmds:
+      - go fmt ./...
+      - go vet ./...
+      - go test ./...
   predeploy:
     cmds:
       - task: test-scan:build

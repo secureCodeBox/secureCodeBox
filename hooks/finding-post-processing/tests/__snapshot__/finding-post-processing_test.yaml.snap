@@ -2,7 +2,7 @@ matches the snapshot:
   1: |
     raw: |
       FindingPostProcessing Hook deployed.
-      This will add postprocessing on every finding in this namespace matching these rules: [{"matches":[{"anyOf":[{"attributes":{"port":21,"state":"open"},"category":"Open Port"},{"attributes":{"port":389,"state":"open"},"category":"Open Port"}]}],"override":{"description":"Telnet is bad","severity":"high"}}].
+      This will add postprocessing on every finding in this namespace matching these rules: [{"matches":{"anyOf":[{"attributes":{"port":21,"state":"open"},"category":"Open Port"},{"attributes":{"port":389,"state":"open"},"category":"Open Port"}]},"override":{"description":"Telnet is bad","severity":"high"}}].
   2: |
     apiVersion: execution.securecodebox.io/v1
     kind: ScanCompletionHook
@@ -28,7 +28,7 @@ matches the snapshot:
                       - baz
       env:
         - name: RULES
-          value: '[{"matches":[{"anyOf":[{"attributes":{"port":21,"state":"open"},"category":"Open Port"},{"attributes":{"port":389,"state":"open"},"category":"Open Port"}]}],"override":{"description":"Telnet is bad","severity":"high"}}]'
+          value: '[{"matches":{"anyOf":[{"attributes":{"port":21,"state":"open"},"category":"Open Port"},{"attributes":{"port":389,"state":"open"},"category":"Open Port"}]},"override":{"description":"Telnet is bad","severity":"high"}}]'
         - name: foo
           value: bar
       image: docker.io/securecodebox/hook-finding-post-processing:0.0.0
