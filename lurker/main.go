@@ -8,6 +8,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -55,11 +56,42 @@ func main() {
 
 	log.Printf("Uploading result files.")
 	log.Printf("Uploading %s", filePath)
-	err = uploadFile(filePath, uploadURL)
+	err = uploadFileWithRetries(filePath, uploadURL)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("Uploaded file successfully")
+}
+
+// delays waited before each retry of a failed upload. The number of entries
+// defines how often the upload is retried after the initial attempt.
+var uploadBackoffs = []time.Duration{1 * time.Second, 3 * time.Second, 5 * time.Second, 10 * time.Second, 30 * time.Second}
+
+// indirection to allow tests to run without actually waiting
+var sleep = time.Sleep
+
+// uploadFileWithRetries uploads the file and retries every failure (transport
+// errors as well as non 2xx responses) using the uploadBackoffs schedule.
+func uploadFileWithRetries(path, url string) error {
+	attempts := len(uploadBackoffs) + 1
+
+	var err error
+	for attempt := 1; attempt <= attempts; attempt++ {
+		err = uploadFile(path, url)
+		if err == nil {
+			return nil
+		}
+
+		if attempt == attempts {
+			break
+		}
+
+		backoff := uploadBackoffs[attempt-1]
+		log.Printf("Upload attempt %d of %d failed: %v. Retrying in %s", attempt, attempts, err, backoff)
+		sleep(backoff)
+	}
+
+	return fmt.Errorf("lurker failed to upload scan result file after %d attempts: %w", attempts, err)
 }
 
 func uploadFile(path, url string) error {
@@ -81,7 +113,7 @@ func uploadFile(path, url string) error {
 	// Create a new file upload request
 	req, err := http.NewRequest("PUT", url, file)
 	if err != nil {
-		log.Fatalf("Failed to create request: %v", err)
+		log.Printf("Failed to create request: %v", err)
 		return err
 	}
 
@@ -109,13 +141,15 @@ func uploadFile(path, url string) error {
 	log.Printf("File upload returned non 2xx status code (%d)", res.StatusCode)
 
 	// Dump response for debugging purposes
-	resultBytes, err := httputil.DumpResponse(res, true)
-	if err != nil {
-		log.Fatal(fmt.Errorf("failed to dump out failed requests to upload scan report to the s3 bucket: %w", err))
+	resultBytes, dumpErr := httputil.DumpResponse(res, true)
+	if dumpErr != nil {
+		log.Printf("failed to dump out failed requests to upload scan report to the s3 bucket: %v", dumpErr)
+		// drain the body so that the connection can be reused by the next attempt
+		io.Copy(io.Discard, res.Body)
+	} else {
+		log.Println("Response of Failed Request:")
+		log.Println(string(resultBytes))
 	}
-
-	log.Println("Response of Failed Request:")
-	log.Println(string(resultBytes))
 
 	return fmt.Errorf("lurker failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode)
 }
