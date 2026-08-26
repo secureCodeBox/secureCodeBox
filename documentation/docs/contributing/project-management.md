@@ -19,7 +19,7 @@ Under the topic "project management" we describe how we do the organizational st
     - [Internal link](https://calendar.google.com/calendar/u/0?cid=Y19mODdhNThiMGNmZjNmMWMwMTk5ZjlhNDc1MjVjMmNiMGU3NjkwZmRjMTliZTI2NDlmMGU5YjlmMDA1ZTc3Mjc4QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20)
     - [Public link](https://calendar.google.com/calendar/u/0/embed?src=c_f87a58b0cff3f1c0199f9a47525c2cb0e7690fdc19be2649f0e9b9f005e77278@group.calendar.google.com&ctz=Europe/Berlin)
 - We have registerded one domain (`securecodebox.io`) which is sponsored by [iteratec][iteratec].
-  - The DNS cone is managed via [iteratec][iteratec] [Azure Portal](https://portal.azure.com/) by the _admin-team_. 
+  - The DNS cone is managed via [iteratec][iteratec] [Azure Portal](https://portal.azure.com/) by the _admin-team_.
 - The website [https://www.securecodebox.io] is hosted on [Netlify](https://app.netlify.com/).
 - We have a [Hetzner](https://www.hetzner.com/) VM sponsored by [iteratec][iteratec] to host the Helm charts and telemetry server.
 
@@ -41,13 +41,26 @@ We use these full qualified domain names:
 
 The website and documentation is based on [Docusaurus](https://docusaurus.io/) and hosted on [Netlify](https://app.netlify.com/). The login is documented in our vault.
 
+### GitHub Secrets
+
+- **`DOCKER_NAMESPACE`** — Namespace for the Docker images. For the main repository this is *securecodebox*.
+- **`DOCKER_USERNAME`** — Username used to push Docker images.
+- **`DOCKER_TOKEN`** — Token that enables the CI to push Docker images.
+- **`GPG_COMMITS_PASSPHRASE`** — GPG passphrase for the secureCodeBoxBot.
+- **`GPG_COMMITS_PRIVATE_KEY`** — GPG private key for the secureCodeBoxBot.
+- **`HELM_REGISTRY_PASSWORD`** — Password needed to publish Helm Charts.
+- **`HELM_REGISTRY_USERNAME`** — Username needed to publish Helm Charts.
+- **`SCB_BOT_DOCU_ROULETTE_TOKEN`** — GitHub token for the documentation roulette (needs `org:read` permission).
+- **`SCB_BOT_USER_TOKEN`** — GitHub token for the secureCodeBoxBot.
+- **`SONAR_TOKEN`** — Token for SonarCloud.
+
 ## Teams
 
 ### GitHub
 
 In our [GitHub organization](https://github.com/secureCodeBox) we have several teams:
 
-1. _admin-team_: Members are the _project leads_. 
+1. _admin-team_: Members are the _project leads_.
 2. _core-team_: Company sponsored core team.
 3. _contributor-team_: Active contributors from the community.
 4. _bot-team_: Team containing all bots allowed to push directly to the main branch.
