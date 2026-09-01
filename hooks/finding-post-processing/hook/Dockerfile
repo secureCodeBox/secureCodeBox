@@ -2,15 +2,17 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-ARG namespace
-ARG baseImageTag
-FROM node:24-alpine AS build
-RUN mkdir -p /home/app
-WORKDIR /home/app
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --ignore-scripts
+FROM --platform=$BUILDPLATFORM golang:1.26.2 AS build
+WORKDIR /workspace
+COPY hook-sdk/golang/go.mod /hook-sdk/golang/go.mod
+COPY hooks/finding-post-processing/hook/go.mod ./go.mod
+COPY hooks/finding-post-processing/hook/go.sum ./go.sum
+RUN go mod download
+COPY hook-sdk/golang /hook-sdk/golang
+COPY hooks/finding-post-processing/hook ./
+ARG TARGETOS TARGETARCH
+RUN GOOS="$TARGETOS" GOARCH="$TARGETARCH" CGO_ENABLED=0 go build -a -o finding-post-processing .
 
-FROM ${namespace:-securecodebox}/hook-sdk-nodejs:${baseImageTag:-latest}
-WORKDIR /home/app/hook-wrapper/hook/
-COPY --from=build --chown=root:root --chmod=755 /home/app/node_modules/ ./node_modules/
-COPY --chown=root:root --chmod=755 ./hook.js ./hook.js
+FROM gcr.io/distroless/static:nonroot
+COPY --from=build /workspace/finding-post-processing /finding-post-processing
+ENTRYPOINT ["/finding-post-processing"]

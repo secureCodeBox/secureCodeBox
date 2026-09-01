@@ -163,6 +163,22 @@ jobs:
         working-directory: hooks/${{ matrix.unit }}/hook
         run: ./gradlew build --info --warning-mode all
 
+  hook-sdk-golang:
+    name: "Unit-Test | Go Hook SDK"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Go Setup
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: "hook-sdk/golang/go.mod"
+      - name: Test Go Hook SDK
+        working-directory: ./hook-sdk/golang
+        run: |
+          go fmt ./...
+          go vet ./...
+          go test ./...
+
   # ---- Build Stage ----
 
   # ---- Build Stage | Operator & Lurker ----
@@ -614,6 +630,11 @@ jobs:
 
       - name: Install bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
+      - name: Go Setup
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: "hooks/finding-post-processing/hook/go.mod"
 
       - name: Install Task
         uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e # v2.2.0

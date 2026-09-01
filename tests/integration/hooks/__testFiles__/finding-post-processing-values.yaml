@@ -9,7 +9,7 @@
 hook:
   image:
     # hook.image.repository -- Hook image repository
-    repository: docker.io/securecodebox/finding-post-processing
+    repository: docker.io/securecodebox/hook-finding-post-processing
     # hook.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
