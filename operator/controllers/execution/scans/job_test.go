@@ -22,6 +22,12 @@ func TestScanControllers(t *testing.T) {
 
 var _ = Describe("ScanControllers", func() {
 	Context("checkIfAllJobsCompleted", func() {
+		It("should return incomplete if no jobs were found", func() {
+			jobs := &batch.JobList{}
+
+			Expect(checkIfAllJobsCompleted(jobs)).To(Equal(incomplete))
+		})
+
 		It("should return completed if all jobs succeeded", func() {
 			jobs := &batch.JobList{
 				Items: []batch.Job{
@@ -61,6 +67,11 @@ var _ = Describe("ScanControllers", func() {
 		It("should return failed if any job exceeded backoff limit", func() {
 			jobs := &batch.JobList{
 				Items: []batch.Job{
+					{
+						Status: batch.JobStatus{
+							Succeeded: 1,
+						},
+					},
 					{
 						Status: batch.JobStatus{
 							Failed: 1,
