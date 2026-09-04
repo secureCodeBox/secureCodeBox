@@ -194,7 +194,7 @@ jobs:
           go vet ./...
 
       - name: Test
-        working-directory: ./operator
+        working-directory: ./${{ matrix.component }}
         run: task test
 
       - name: Build Container Image

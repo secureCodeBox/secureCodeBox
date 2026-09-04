@@ -3,3 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 main
+lurker
+bin
+
+# Output of the go coverage tool
+*.out
