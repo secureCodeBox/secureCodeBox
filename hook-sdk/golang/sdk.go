@@ -13,15 +13,31 @@ import (
 )
 
 type HookHandler interface {
-	Handle(ctx context.Context, request *HookRequest) error
+	Handle(ctx context.Context, request HookRequest) error
 }
 
-type HookRequest struct {
-	Scan             *Scan
-	GetRawResults    func() (string, error)
-	GetFindings      func() ([]Finding, error)
-	UpdateRawResults func(string) error
-	UpdateFindings   func([]Finding) error
+type HookRequest interface {
+	Scan() *Scan
+	GetRawResults() (string, error)
+	GetFindings() ([]Finding, error)
+	UpdateRawResults(content string) error
+	UpdateFindings(findings []Finding) error
+}
+
+type hookRequest struct {
+	scan             *Scan
+	getRawResults    func() (string, error)
+	getFindings      func() ([]Finding, error)
+	updateRawResults func(string) error
+	updateFindings   func([]Finding) error
+}
+
+func (r *hookRequest) Scan() *Scan                           { return r.scan }
+func (r *hookRequest) GetRawResults() (string, error)        { return r.getRawResults() }
+func (r *hookRequest) GetFindings() ([]Finding, error)       { return r.getFindings() }
+func (r *hookRequest) UpdateRawResults(content string) error { return r.updateRawResults(content) }
+func (r *hookRequest) UpdateFindings(findings []Finding) error {
+	return r.updateFindings(findings)
 }
 
 type Client struct {
@@ -132,7 +148,8 @@ func (c *Client) Run(ctx context.Context, handler HookHandler) error {
 		}
 		return nil
 	}
-	if err := handler.Handle(ctx, &HookRequest{Scan: scan, GetRawResults: getRawResults, GetFindings: getFindings, UpdateRawResults: updateRawResults, UpdateFindings: updateFindings}); err != nil {
+	request := &hookRequest{scan: scan, getRawResults: getRawResults, getFindings: getFindings, updateRawResults: updateRawResults, updateFindings: updateFindings}
+	if err := handler.Handle(ctx, request); err != nil {
 		return fmt.Errorf("run hook handler: %w", err)
 	}
 	return nil

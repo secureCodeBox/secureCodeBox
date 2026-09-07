@@ -68,7 +68,7 @@ func newHandler(rulesJSON string) (*handler, error) {
 	return &handler{rules: rules}, nil
 }
 
-func (h *handler) Handle(_ context.Context, request *hooksdk.HookRequest) error {
+func (h *handler) Handle(_ context.Context, request hooksdk.HookRequest) error {
 	findings, err := request.GetFindings()
 	if err != nil {
 		return err
@@ -98,7 +98,34 @@ func matchesAny(finding hooksdk.Finding, conditions []findingPatch) bool {
 }
 
 func matches(finding hooksdk.Finding, condition findingPatch) bool {
-	if condition.ID != nil && *condition.ID != finding.ID || condition.IdentifiedAt != nil && (finding.IdentifiedAt == nil || *condition.IdentifiedAt != *finding.IdentifiedAt) || condition.ParsedAt != nil && *condition.ParsedAt != finding.ParsedAt || condition.Name != nil && *condition.Name != finding.Name || condition.Description != nil && (finding.Description == nil || *condition.Description != *finding.Description) || condition.Category != nil && *condition.Category != finding.Category || condition.Severity != nil && *condition.Severity != finding.Severity || condition.Mitigation != nil && (finding.Mitigation == nil || *condition.Mitigation != *finding.Mitigation) || condition.Location != nil && (finding.Location == nil || *condition.Location != *finding.Location) || condition.OSILayer != nil && *condition.OSILayer != finding.OSILayer {
+	if condition.ID != nil && *condition.ID != finding.ID {
+		return false
+	}
+	if condition.IdentifiedAt != nil && (finding.IdentifiedAt == nil || *condition.IdentifiedAt != *finding.IdentifiedAt) {
+		return false
+	}
+	if condition.ParsedAt != nil && *condition.ParsedAt != finding.ParsedAt {
+		return false
+	}
+	if condition.Name != nil && *condition.Name != finding.Name {
+		return false
+	}
+	if condition.Description != nil && (finding.Description == nil || *condition.Description != *finding.Description) {
+		return false
+	}
+	if condition.Category != nil && *condition.Category != finding.Category {
+		return false
+	}
+	if condition.Severity != nil && *condition.Severity != finding.Severity {
+		return false
+	}
+	if condition.Mitigation != nil && (finding.Mitigation == nil || *condition.Mitigation != *finding.Mitigation) {
+		return false
+	}
+	if condition.Location != nil && (finding.Location == nil || *condition.Location != *finding.Location) {
+		return false
+	}
+	if condition.OSILayer != nil && *condition.OSILayer != finding.OSILayer {
 		return false
 	}
 	if condition.Attributes != nil && !matchesMap(finding.Attributes, condition.Attributes) {
@@ -114,7 +141,19 @@ func matches(finding hooksdk.Finding, condition findingPatch) bool {
 }
 
 func matchesScan(scan hooksdk.FindingScan, patch findingScanPatch) bool {
-	return (patch.CreatedAt == nil || *patch.CreatedAt == scan.CreatedAt) && (patch.Name == nil || *patch.Name == scan.Name) && (patch.Namespace == nil || *patch.Namespace == scan.Namespace) && (patch.ScanType == nil || *patch.ScanType == scan.ScanType)
+	if patch.CreatedAt != nil && *patch.CreatedAt != scan.CreatedAt {
+		return false
+	}
+	if patch.Name != nil && *patch.Name != scan.Name {
+		return false
+	}
+	if patch.Namespace != nil && *patch.Namespace != scan.Namespace {
+		return false
+	}
+	if patch.ScanType != nil && *patch.ScanType != scan.ScanType {
+		return false
+	}
+	return true
 }
 
 func matchesReferences(references, expected []hooksdk.Reference) bool {
