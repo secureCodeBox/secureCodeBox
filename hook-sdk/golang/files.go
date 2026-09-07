@@ -65,7 +65,6 @@ func (f *httpFileClient) DownloadJSON(ctx context.Context, url string, v any) er
 		return fmt.Errorf("file download failed with status %d: %s", resp.StatusCode, body)
 	}
 	decoder := json.NewDecoder(resp.Body)
-	decoder.DisallowUnknownFields()
 	if err := decoder.Decode(v); err != nil {
 		return fmt.Errorf("decode JSON: %w", err)
 	}

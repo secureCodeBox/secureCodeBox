@@ -20,7 +20,7 @@ The 'findings.json' file that contains these Findings complies with the followin
   "$defs": {
     "finding": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "id": {
           "description": "The unique identifier for a Finding according to RFC4122.",
