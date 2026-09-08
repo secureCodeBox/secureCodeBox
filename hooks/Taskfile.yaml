@@ -20,8 +20,8 @@ vars:
   hookUsesNpmDependencies:
     sh: 'if [ -f "{{ .TASKFILE_DIR }}/{{ .hookName }}/hook/package.json" ]; then echo "true"; else echo "false"; fi'
   hookSDK: '{{ .hookSDK | default "nodejs" }}'
-  hookDockerContext: '{{ .hookDockerContext | default (printf "%s/%s/hook" .TASKFILE_DIR .hookName) }}'
-  hookDockerfile: '{{ .hookDockerfile | default (printf "%s/%s/hook/Dockerfile" .TASKFILE_DIR .hookName) }}'
+  hookDockerContext: '{{ .hookDockerContext | default "" }}'
+  hookDockerfile: '{{ .hookDockerfile | default "" }}'
 env:
   IMG_TAG:
     sh: 'echo "sha-$(git rev-parse --short HEAD)"'
@@ -36,18 +36,19 @@ tasks:
     preconditions:
       - msg: "Docker is not running, please start Docker first"
         sh: "docker info >/dev/null 2>&1 || false"
-    deps: [build:hook-sdk]
+    deps:
+      - task: '{{ if eq "nodejs" .hookSDK }}core:build-hook-sdk-image{{ else }}build:hook-sdk:noop{{ end }}'
     cmds:
       - |
         echo "Building custom hook image for {{ .hookName }} with tag ${IMG_TAG}"
-        docker build -f {{ .hookDockerfile }} -t docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG} \
+        docker build {{ if ne "" .hookDockerfile }}-f {{ .hookDockerfile }} {{ end }}-t docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG} \
           --build-arg=baseImageTag=${IMG_TAG} \
-          {{ .hookDockerContext }}
+          {{ if ne "" .hookDockerContext }}{{ .hookDockerContext }}{{ else }}{{ .TASKFILE_DIR }}/{{ .hookName }}/hook{{ end }}
         kind load docker-image --name testing-env docker.io/securecodebox/hook-{{ .hookName }}:${IMG_TAG}
-  build:hook-sdk:
+  build:hook-sdk:noop:
     internal: true
-    cmds:
-      - '{{ if eq "nodejs" .hookSDK }}task core:build-hook-sdk-image{{ else }}echo "Hook uses the {{ .hookSDK }} SDK. Skipping Node.js SDK build."{{ end }}'
+    silent: true
+    cmds: []
   predeploy:
     desc: Can be overwritten by the hook to perform any pre-deployment steps
     cmds: []
