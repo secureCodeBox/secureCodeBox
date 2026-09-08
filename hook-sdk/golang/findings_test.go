@@ -19,12 +19,13 @@ func validFinding() Finding {
 }
 
 func TestValidateFinding(t *testing.T) {
-	if err := ValidateFinding(validFinding(), 0); err != nil {
+	f := validFinding()
+	if err := ValidateFinding(&f, 0); err != nil {
 		t.Fatal(err)
 	}
 	finding := validFinding()
 	finding.Severity = "CRITICAL"
-	if err := ValidateFinding(finding, 0); err == nil {
+	if err := ValidateFinding(&finding, 0); err == nil {
 		t.Fatal("accepted invalid severity")
 	}
 }

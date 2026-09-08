@@ -17,8 +17,9 @@ var validSeverities = map[string]bool{
 	"HIGH":          true,
 }
 
-// ValidateFinding validates a finding against the supported secureCodeBox schema.
-func ValidateFinding(finding Finding, index int) error {
+// ValidateFinding validates a finding against the supported secureCodeBox schema
+// and normalizes its severity to the canonical uppercase form.
+func ValidateFinding(finding *Finding, index int) error {
 	if strings.TrimSpace(finding.ID) == "" {
 		return fmt.Errorf("finding[%d]: id is required and cannot be empty", index)
 	}
@@ -39,6 +40,7 @@ func ValidateFinding(finding Finding, index int) error {
 	if !IsValidSeverity(finding.Severity) {
 		return fmt.Errorf("finding[%d]: invalid severity %q, must be one of: INFORMATIONAL, LOW, MEDIUM, HIGH", index, finding.Severity)
 	}
+	finding.Severity = strings.ToUpper(strings.TrimSpace(finding.Severity))
 	if strings.TrimSpace(finding.Scan.CreatedAt) == "" || strings.TrimSpace(finding.Scan.Name) == "" || strings.TrimSpace(finding.Scan.Namespace) == "" || strings.TrimSpace(finding.Scan.ScanType) == "" {
 		return fmt.Errorf("finding[%d]: scan.created_at, scan.name, scan.namespace, and scan.scan_type are required", index)
 	}

@@ -57,8 +57,8 @@ func (r *hookRequest) GetFindings(ctx context.Context) ([]Finding, error) {
 	if err := r.fileClient.DownloadJSON(ctx, url, &findings); err != nil {
 		return nil, fmt.Errorf("download findings: %w", err)
 	}
-	for index, finding := range findings {
-		if err := ValidateFinding(finding, index); err != nil {
+	for index := range findings {
+		if err := ValidateFinding(&findings[index], index); err != nil {
 			return nil, err
 		}
 	}
@@ -78,8 +78,8 @@ func (r *hookRequest) UpdateFindings(ctx context.Context, findings []Finding) er
 	if url == "" {
 		return fmt.Errorf("cannot update findings in a ReadOnly hook")
 	}
-	for index, finding := range findings {
-		if err := ValidateFinding(finding, index); err != nil {
+	for index := range findings {
+		if err := ValidateFinding(&findings[index], index); err != nil {
 			return err
 		}
 	}
@@ -109,7 +109,7 @@ type Client struct {
 	logger     *slog.Logger
 	scanName   string
 	namespace  string
-	args       []string
+	urls       []string
 }
 
 type Option func(*Client)
