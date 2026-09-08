@@ -21,16 +21,11 @@ Under the topic "project management" we describe how we do the organizational st
 - We have registerded one domain (`securecodebox.io`) which is sponsored by [iteratec][iteratec].
   - The DNS cone is managed via [iteratec][iteratec] [Azure Portal](https://portal.azure.com/) by the _admin-team_.
 - The website [https://www.securecodebox.io] is hosted on [Netlify](https://app.netlify.com/).
-- We have a [Hetzner](https://www.hetzner.com/) VM sponsored by [iteratec][iteratec] to host the Helm charts and telemetry server.
 
 ### Domains
 
 We use these full qualified domain names:
 
-- For our [telemetry](https://www.securecodebox.io/docs/telemetry):
-  - telemetry.chase.securecodebox.io -> telemetry.securecodebox.io
-    - Backward compatibility: Was the old address. Old installations use this one.
-  - telemetry.securecodebox.io -> sky.securecodebox.io
 - For our main website:
   - www.securecodebox.io -> docs-securecodebox.netlify.app
 

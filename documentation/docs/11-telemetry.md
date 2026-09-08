@@ -7,6 +7,14 @@ sidebar_label: Telemetry
 title: "secureCodeBox Telemetry Data"
 ---
 
+:::warning Telemetry removed in secureCodeBox 5.9.0
+Telemetry collection was removed from the secureCodeBox Operator in release 5.9.0. The limited use of the collected data did not justify continued data collection or the effort of maintaining the telemetry backend.
+
+The telemetry backend is being shut down and the DNS record for `telemetry.securecodebox.io` will be removed. secureCodeBox operators older than 5.9.0 with telemetry enabled will continue attempting to submit telemetry every 24 hours and log a failed submission after the DNS record is removed. This does not affect scans or the operator's normal operation. Upgrade to 5.9.0 or later to prevent the attempted requests.
+
+The remaining content on this page is retained temporarily as historical documentation and will be removed in a future release.
+:::
+
 The secureCodeBox Operator collects and submits anonymized data to give the development team a vague overview on how much the secureCodeBox is actually used.
 
 ## Datapoints Collected:

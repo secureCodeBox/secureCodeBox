@@ -163,12 +163,6 @@ secureCodeBox Operator Deployed 🚀
 The operator can orchestrate the execution of various security scanning tools inside of your cluster.
 You can find a list of all officially supported scanners here: https://www.securecodebox.io/
 The website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.
-
-The operator send out regular telemetry pings to a central service.
-This lets us, the secureCodeBox team, get a grasp on how much the secureCodeBox is used.
-The submitted data is chosen to be as anonymous as possible.
-You can find a complete report of the data submitted and links to the source-code at: https://www.securecodebox.io/docs/telemetry
-The first ping is send one hour after the install, you can prevent this by upgrading the chart and setting `telemetryEnabled` to `false`.
 ```
 
 :::note
