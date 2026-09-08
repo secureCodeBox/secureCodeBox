@@ -116,8 +116,11 @@ type Option func(*Client)
 
 func WithK8sClient(client K8sClient) Option   { return func(c *Client) { c.k8sClient = client } }
 func WithFileClient(client FileClient) Option { return func(c *Client) { c.fileClient = client } }
-func WithArgs(args []string) Option           { return func(c *Client) { c.args = args } }
-func WithLogger(logger *slog.Logger) Option   { return func(c *Client) { c.logger = logger } }
+
+// WithArgs sets the operation URLs (rawResults, findings, rawResultsUpload,
+// findingsUpload) used by Run, in that order.
+func WithArgs(urls []string) Option         { return func(c *Client) { c.urls = urls } }
+func WithLogger(logger *slog.Logger) Option { return func(c *Client) { c.logger = logger } }
 
 func NewClient(opts ...Option) (*Client, error) {
 	scanName, namespace := os.Getenv("SCAN_NAME"), os.Getenv("NAMESPACE")
@@ -127,7 +130,7 @@ func NewClient(opts ...Option) (*Client, error) {
 	if namespace == "" {
 		return nil, fmt.Errorf("NAMESPACE environment variable is required")
 	}
-	client := &Client{scanName: scanName, namespace: namespace, args: os.Args}
+	client := &Client{scanName: scanName, namespace: namespace, urls: os.Args[1:]}
 	for _, option := range opts {
 		option(client)
 	}
@@ -148,7 +151,7 @@ func NewClient(opts ...Option) (*Client, error) {
 }
 
 func (c *Client) Run(ctx context.Context, handler HookHandler) error {
-	request := &hookRequest{k8sClient: c.k8sClient, fileClient: c.fileClient, scanName: c.scanName, namespace: c.namespace, urls: c.args[1:]}
+	request := &hookRequest{k8sClient: c.k8sClient, fileClient: c.fileClient, scanName: c.scanName, namespace: c.namespace, urls: c.urls}
 	if err := handler.Handle(ctx, request); err != nil {
 		return fmt.Errorf("run hook handler: %w", err)
 	}
