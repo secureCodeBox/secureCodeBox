@@ -148,7 +148,6 @@ Once logged in, you need to get your *API v2 Key*. Click on the person symbol in
 At first, we install the operator and a scanner:
 ```bash
 # Install the operator
-helm repo add secureCodeBox https://charts.securecodebox.io
 kubectl create namespace securecodebox-system
 helm --namespace securecodebox-system upgrade --install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 

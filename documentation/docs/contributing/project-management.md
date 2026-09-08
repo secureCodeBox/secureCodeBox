@@ -27,9 +27,6 @@ Under the topic "project management" we describe how we do the organizational st
 
 We use these full qualified domain names:
 
-- For serving our Helm charts:
-  - charts.securecodebox.io -> sky.securecodebox.io
-  - sky.securecodebox.io -> 88.99.30.123(Hetzner VM)
 - For our [telemetry](https://www.securecodebox.io/docs/telemetry):
   - telemetry.chase.securecodebox.io -> telemetry.securecodebox.io
     - Backward compatibility: Was the old address. Old installations use this one.
@@ -48,8 +45,6 @@ The website and documentation is based on [Docusaurus](https://docusaurus.io/) a
 - **`DOCKER_TOKEN`** — Token that enables the CI to push Docker images.
 - **`GPG_COMMITS_PASSPHRASE`** — GPG passphrase for the secureCodeBoxBot.
 - **`GPG_COMMITS_PRIVATE_KEY`** — GPG private key for the secureCodeBoxBot.
-- **`HELM_REGISTRY_PASSWORD`** — Password needed to publish Helm Charts.
-- **`HELM_REGISTRY_USERNAME`** — Username needed to publish Helm Charts.
 - **`SCB_BOT_DOCU_ROULETTE_TOKEN`** — GitHub token for the documentation roulette (needs `org:read` permission).
 - **`SCB_BOT_USER_TOKEN`** — GitHub token for the secureCodeBoxBot.
 - **`SONAR_TOKEN`** — Token for SonarCloud.
