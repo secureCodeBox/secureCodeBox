@@ -93,3 +93,48 @@ func TestHookRequestDefersOperationsAndPassesContext(t *testing.T) {
 		}
 	}
 }
+
+type recordingHandler struct {
+	request HookRequest
+}
+
+func (h *recordingHandler) Handle(_ context.Context, request HookRequest) error {
+	h.request = request
+	return nil
+}
+
+func TestNewClientUsesInjectedK8sAndFileClients(t *testing.T) {
+	t.Setenv("SCAN_NAME", "scan")
+	t.Setenv("NAMESPACE", "default")
+
+	k8sClient := &stubK8sClient{}
+	fileClient := &stubFileClient{}
+
+	client, err := NewClient(
+		WithK8sClient(k8sClient),
+		WithFileClient(fileClient),
+		WithArgs([]string{"raw", "findings", "raw-upload", "findings-upload"}),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	handler := &recordingHandler{}
+	if err := client.Run(context.Background(), handler); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := handler.request.Scan(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if k8sClient.scanCtx == nil {
+		t.Error("expected injected k8sClient to be used by Run, but GetScan was never called")
+	}
+
+	if _, err := handler.request.GetRawResults(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if fileClient.downloadTextCtx == nil {
+		t.Error("expected injected fileClient to be used by Run, but DownloadText was never called")
+	}
+}
