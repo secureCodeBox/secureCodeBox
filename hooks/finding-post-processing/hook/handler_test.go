@@ -11,19 +11,6 @@ import (
 	hooksdk "github.com/secureCodeBox/secureCodeBox/hook-sdk/golang"
 )
 
-type stubRequest struct {
-	getFindings    func() ([]hooksdk.Finding, error)
-	updateFindings func([]hooksdk.Finding) error
-}
-
-func (s *stubRequest) Scan() *hooksdk.Scan                     { return nil }
-func (s *stubRequest) GetRawResults() (string, error)          { return "", nil }
-func (s *stubRequest) GetFindings() ([]hooksdk.Finding, error) { return s.getFindings() }
-func (s *stubRequest) UpdateRawResults(string) error           { return nil }
-func (s *stubRequest) UpdateFindings(findings []hooksdk.Finding) error {
-	return s.updateFindings(findings)
-}
-
 func testFinding() hooksdk.Finding {
 	return hooksdk.Finding{
 		ID: "b7ac01f4-daf2-42a1-88d4-3389c5a4d918", ParsedAt: "2026-08-25T10:00:00Z", Name: "Open Telnet", Category: "Open Port", Severity: "LOW",
@@ -39,9 +26,9 @@ func TestHandlerAppliesTypedRuleAndMergesAttributes(t *testing.T) {
 	}
 	findings := []hooksdk.Finding{testFinding()}
 	updated := false
-	err = handler.Handle(context.Background(), &stubRequest{
-		getFindings:    func() ([]hooksdk.Finding, error) { return findings, nil },
-		updateFindings: func(result []hooksdk.Finding) error { updated = true; findings = result; return nil },
+	err = handler.Handle(context.Background(), &hooksdk.HookRequestMock{
+		GetFindingsFunc:    func(context.Context) ([]hooksdk.Finding, error) { return findings, nil },
+		UpdateFindingsFunc: func(_ context.Context, result []hooksdk.Finding) error { updated = true; findings = result; return nil },
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -60,9 +47,9 @@ func TestHandlerDoesNotUpdateWhenNoRuleMatches(t *testing.T) {
 		t.Fatal(err)
 	}
 	updated := false
-	err = handler.Handle(context.Background(), &stubRequest{
-		getFindings:    func() ([]hooksdk.Finding, error) { return []hooksdk.Finding{testFinding()}, nil },
-		updateFindings: func([]hooksdk.Finding) error { updated = true; return nil },
+	err = handler.Handle(context.Background(), &hooksdk.HookRequestMock{
+		GetFindingsFunc:    func(context.Context) ([]hooksdk.Finding, error) { return []hooksdk.Finding{testFinding()}, nil },
+		UpdateFindingsFunc: func(context.Context, []hooksdk.Finding) error { updated = true; return nil },
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -87,7 +74,7 @@ func TestHandlerAppliesRulesInOrder(t *testing.T) {
 		t.Fatal(err)
 	}
 	findings := []hooksdk.Finding{testFinding()}
-	err = handler.Handle(context.Background(), &stubRequest{getFindings: func() ([]hooksdk.Finding, error) { return findings, nil }, updateFindings: func(result []hooksdk.Finding) error { findings = result; return nil }})
+	err = handler.Handle(context.Background(), &hooksdk.HookRequestMock{GetFindingsFunc: func(context.Context) ([]hooksdk.Finding, error) { return findings, nil }, UpdateFindingsFunc: func(_ context.Context, result []hooksdk.Finding) error { findings = result; return nil }})
 	if err != nil {
 		t.Fatal(err)
 	}

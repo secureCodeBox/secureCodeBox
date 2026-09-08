@@ -68,8 +68,8 @@ func newHandler(rulesJSON string) (*handler, error) {
 	return &handler{rules: rules}, nil
 }
 
-func (h *handler) Handle(_ context.Context, request hooksdk.HookRequest) error {
-	findings, err := request.GetFindings()
+func (h *handler) Handle(ctx context.Context, request hooksdk.HookRequest) error {
+	findings, err := request.GetFindings(ctx)
 	if err != nil {
 		return err
 	}
@@ -83,7 +83,7 @@ func (h *handler) Handle(_ context.Context, request hooksdk.HookRequest) error {
 		}
 	}
 	if matched {
-		return request.UpdateFindings(findings)
+		return request.UpdateFindings(ctx, findings)
 	}
 	return nil
 }
