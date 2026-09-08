@@ -25,7 +25,6 @@ import (
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	executioncontrollers "github.com/secureCodeBox/secureCodeBox/operator/controllers/execution"
 	scancontroller "github.com/secureCodeBox/secureCodeBox/operator/controllers/execution/scans"
-	"github.com/secureCodeBox/secureCodeBox/operator/internal/telemetry"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -110,10 +109,6 @@ func main() {
 	if err := mgr.AddReadyzCheck("readyz", healthz.Ping); err != nil {
 		setupLog.Error(err, "unable to set up ready check")
 		os.Exit(1)
-	}
-
-	if enabled, ok := os.LookupEnv("TELEMETRY_ENABLED"); ok && enabled == "true" {
-		go telemetry.Loop(mgr.GetClient(), ctrl.Log.WithName("telemetry"))
 	}
 
 	setupLog.Info("starting manager")

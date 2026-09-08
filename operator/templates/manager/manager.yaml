@@ -66,8 +66,6 @@ spec:
           readinessProbe:
             {{- toYaml .Values.probes.readiness | nindent 12 }}
           env:
-            - name: TELEMETRY_ENABLED
-              value: {{ .Values.telemetryEnabled | quote }}
             - name: VERSION
               value: {{ .Chart.Version | quote }}
             # TODO: integrate with cert manager and auto gen a cert for minio
