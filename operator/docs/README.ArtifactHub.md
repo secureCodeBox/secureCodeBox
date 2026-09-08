@@ -159,3 +159,4 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-mastodon]: https://infosec.exchange/@secureCodeBox
 [scb-slack]:    https://owasp.org/slack/invite
 [scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

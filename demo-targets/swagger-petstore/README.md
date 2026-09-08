@@ -3,7 +3,7 @@ title: "Swagger Petstore API"
 category: "target"
 type: "Website"
 state: "released"
-appVersion: "1.0.27"
+appVersion: "1.0.28"
 usecase: "Modern insecure web application"
 ---
 

@@ -126,7 +126,6 @@ helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 | serviceAccount.annotations | object | `{}` | Annotations of the serviceAccount the operator uses to talk to the k8s api |
 | serviceAccount.labels | object | `{}` | Labels of the serviceAccount the operator uses to talk to the k8s api |
 | serviceAccount.name | string | `"securecodebox-operator"` | Name of the serviceAccount the operator uses to talk to the k8s api |
-| telemetryEnabled | bool | `true` | The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry |
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -140,3 +139,4 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-mastodon]: https://infosec.exchange/@secureCodeBox
 [scb-slack]:    https://owasp.org/slack/invite
 [scb-license]:  https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+
