@@ -310,9 +310,6 @@ fi
 exitIfKubectlIsNotInstalled
 exitIfHelmIsNotInstalled
 
-# Add the Helm repository
-helm repo add secureCodeBox https://charts.securecodebox.io
-
 createNamespaceAndInstallOperator
 
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
