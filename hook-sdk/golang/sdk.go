@@ -17,27 +17,90 @@ type HookHandler interface {
 }
 
 type HookRequest interface {
-	Scan() *Scan
-	GetRawResults() (string, error)
-	GetFindings() ([]Finding, error)
-	UpdateRawResults(content string) error
-	UpdateFindings(findings []Finding) error
+	Scan(ctx context.Context) (*Scan, error)
+	GetRawResults(ctx context.Context) (string, error)
+	GetFindings(ctx context.Context) ([]Finding, error)
+	UpdateRawResults(ctx context.Context, content string) error
+	UpdateFindings(ctx context.Context, findings []Finding) error
 }
 
 type hookRequest struct {
-	scan             *Scan
-	getRawResults    func() (string, error)
-	getFindings      func() ([]Finding, error)
-	updateRawResults func(string) error
-	updateFindings   func([]Finding) error
+	k8sClient  K8sClient
+	fileClient FileClient
+	scanName   string
+	namespace  string
+	urls       []string
 }
 
-func (r *hookRequest) Scan() *Scan                           { return r.scan }
-func (r *hookRequest) GetRawResults() (string, error)        { return r.getRawResults() }
-func (r *hookRequest) GetFindings() ([]Finding, error)       { return r.getFindings() }
-func (r *hookRequest) UpdateRawResults(content string) error { return r.updateRawResults(content) }
-func (r *hookRequest) UpdateFindings(findings []Finding) error {
-	return r.updateFindings(findings)
+func (r *hookRequest) Scan(ctx context.Context) (*Scan, error) {
+	scan, err := r.k8sClient.GetScan(ctx, r.scanName, r.namespace)
+	if err != nil {
+		return nil, fmt.Errorf("get Scan from Kubernetes API: %w", err)
+	}
+	return scan, nil
+}
+
+func (r *hookRequest) GetRawResults(ctx context.Context) (string, error) {
+	url := r.urlAt(0)
+	if url == "" {
+		return "", fmt.Errorf("raw results download URL not provided")
+	}
+	return r.fileClient.DownloadText(ctx, url)
+}
+
+func (r *hookRequest) GetFindings(ctx context.Context) ([]Finding, error) {
+	url := r.urlAt(1)
+	if url == "" {
+		return nil, fmt.Errorf("findings download URL not provided")
+	}
+	var findings []Finding
+	if err := r.fileClient.DownloadJSON(ctx, url, &findings); err != nil {
+		return nil, fmt.Errorf("download findings: %w", err)
+	}
+	for index, finding := range findings {
+		if err := ValidateFinding(finding, index); err != nil {
+			return nil, err
+		}
+	}
+	return findings, nil
+}
+
+func (r *hookRequest) UpdateRawResults(ctx context.Context, content string) error {
+	url := r.urlAt(2)
+	if url == "" {
+		return fmt.Errorf("cannot update raw results in a ReadOnly hook")
+	}
+	return r.fileClient.Upload(ctx, url, "", []byte(content))
+}
+
+func (r *hookRequest) UpdateFindings(ctx context.Context, findings []Finding) error {
+	url := r.urlAt(3)
+	if url == "" {
+		return fmt.Errorf("cannot update findings in a ReadOnly hook")
+	}
+	for index, finding := range findings {
+		if err := ValidateFinding(finding, index); err != nil {
+			return err
+		}
+	}
+	body, err := json.Marshal(findings)
+	if err != nil {
+		return fmt.Errorf("marshal findings: %w", err)
+	}
+	if err := r.fileClient.Upload(ctx, url, "", body); err != nil {
+		return fmt.Errorf("upload findings: %w", err)
+	}
+	if err := r.k8sClient.PatchScanStatus(ctx, r.scanName, r.namespace, findings); err != nil {
+		return fmt.Errorf("update scan status: %w", err)
+	}
+	return nil
+}
+
+func (r *hookRequest) urlAt(index int) string {
+	if index < len(r.urls) {
+		return r.urls[index]
+	}
+	return ""
 }
 
 type Client struct {
@@ -85,70 +148,7 @@ func NewClient(opts ...Option) (*Client, error) {
 }
 
 func (c *Client) Run(ctx context.Context, handler HookHandler) error {
-	scan, err := c.k8sClient.GetScan(ctx, c.scanName, c.namespace)
-	if err != nil {
-		return fmt.Errorf("get Scan from Kubernetes API: %w", err)
-	}
-	urls := c.args[1:]
-	urlAt := func(index int) string {
-		if index < len(urls) {
-			return urls[index]
-		}
-		return ""
-	}
-	getRawResults := func() (string, error) {
-		url := urlAt(0)
-		if url == "" {
-			return "", fmt.Errorf("raw results download URL not provided")
-		}
-		return c.fileClient.DownloadText(ctx, url)
-	}
-	getFindings := func() ([]Finding, error) {
-		url := urlAt(1)
-		if url == "" {
-			return nil, fmt.Errorf("findings download URL not provided")
-		}
-		var findings []Finding
-		if err := c.fileClient.DownloadJSON(ctx, url, &findings); err != nil {
-			return nil, fmt.Errorf("download findings: %w", err)
-		}
-		for index, finding := range findings {
-			if err := ValidateFinding(finding, index); err != nil {
-				return nil, err
-			}
-		}
-		return findings, nil
-	}
-	updateRawResults := func(content string) error {
-		url := urlAt(2)
-		if url == "" {
-			return fmt.Errorf("cannot update raw results in a ReadOnly hook")
-		}
-		return c.fileClient.Upload(ctx, url, "", []byte(content))
-	}
-	updateFindings := func(findings []Finding) error {
-		url := urlAt(3)
-		if url == "" {
-			return fmt.Errorf("cannot update findings in a ReadOnly hook")
-		}
-		for index, finding := range findings {
-			if err := ValidateFinding(finding, index); err != nil {
-				return err
-			}
-		}
-		body, err := json.Marshal(findings)
-		if err != nil {
-			return fmt.Errorf("marshal findings: %w", err)
-		}
-		if err := c.fileClient.Upload(ctx, url, "", body); err != nil {
-			return fmt.Errorf("upload findings: %w", err)
-		}
-		if err := c.k8sClient.PatchScanStatus(ctx, c.scanName, c.namespace, findings); err != nil {
-			return fmt.Errorf("update scan status: %w", err)
-		}
-		return nil
-	}
-	request := &hookRequest{scan: scan, getRawResults: getRawResults, getFindings: getFindings, updateRawResults: updateRawResults, updateFindings: updateFindings}
+	request := &hookRequest{k8sClient: c.k8sClient, fileClient: c.fileClient, scanName: c.scanName, namespace: c.namespace, urls: c.args[1:]}
 	if err := handler.Handle(ctx, request); err != nil {
 		return fmt.Errorf("run hook handler: %w", err)
 	}
