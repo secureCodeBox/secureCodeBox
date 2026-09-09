@@ -605,7 +605,7 @@ jobs:
   # ---- Test | Hooks ----
 
   test-hooks:
-    name: Test |  Hook ${{ matrix.hook }}
+    name: Test |  Hook ${{ matrix.hook.name }}
     needs:
       - sdk
       - operator
@@ -615,14 +615,22 @@ jobs:
       fail-fast: false
       matrix:
         hook:
-          - cascading-scans
-          - generic-webhook
-          - persistence-azure-monitor
-          - persistence-elastic
-          - persistence-dependencytrack
-          - update-field-hook
-          - finding-post-processing
-          - notification
+          - name: cascading-scans
+            sdkType: nodejs
+          - name: generic-webhook
+            sdkType: nodejs
+          - name: persistence-azure-monitor
+            sdkType: nodejs
+          - name: persistence-elastic
+            sdkType: nodejs
+          - name: persistence-dependencytrack
+            sdkType: nodejs
+          - name: update-field-hook
+            sdkType: nodejs
+          - name: finding-post-processing
+            sdkType: golang
+          - name: notification
+            sdkType: nodejs
           # - persistence-static-report (WIP)
     steps:
       - name: Checkout
@@ -633,8 +641,9 @@ jobs:
 
       - name: Go Setup
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        if: ${{ matrix.hook.sdkType == "golang" }}
         with:
-          go-version-file: "hooks/finding-post-processing/hook/go.mod"
+          go-version-file: "hooks/${{ matrix.hook.name }}/hook/go.mod"
 
       - name: Install Task
         uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e # v2.2.0
@@ -672,7 +681,7 @@ jobs:
           helm version
 
       - name: Unit Tests
-        working-directory: ./hooks/${{ matrix.hook }}/
+        working-directory: ./hooks/${{ matrix.hook.name }}/
         run: task test:unit
 
       - name: Download Parser SDK Image
@@ -712,12 +721,12 @@ jobs:
         run: |
           task prepare-testing-env
 
-      - name: ${{ matrix.hook }} Build Scanner / Parser Images
-        working-directory: ./hooks/${{ matrix.hook }}/
+      - name: ${{ matrix.hook.name }} Build Scanner / Parser Images
+        working-directory: ./hooks/${{ matrix.hook.name }}/
         run: task build
 
-      - name: ${{ matrix.hook }} Load and Deploy Scanner / Parser Images to kind Cluster
-        working-directory: ./hooks/${{ matrix.hook }}/
+      - name: ${{ matrix.hook.name }} Load and Deploy Scanner / Parser Images to kind Cluster
+        working-directory: ./hooks/${{ matrix.hook.name }}/
         run: task deploy
 
       - name: Start Integration Tests
@@ -725,7 +734,7 @@ jobs:
         with:
           timeout_minutes: 15
           max_attempts: 3
-          command: cd ./hooks/${{ matrix.hook }}/ && task test:integration
+          command: cd ./hooks/${{ matrix.hook.name }}/ && task test:integration
 
       # ---- Debuging Cluster on Failure ----
 
