@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 module github.com/secureCodeBox/secureCodeBox/scbctl
 
-go 1.26.2
+go 1.27.1
 
 require (
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20260408091312-ed3ef305dfd4
