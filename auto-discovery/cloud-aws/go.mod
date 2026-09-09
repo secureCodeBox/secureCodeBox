@@ -15,6 +15,8 @@ require (
 	github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260408091312-ed3ef305dfd4
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20260408091312-ed3ef305dfd4
 	k8s.io/api v0.37.0
+	k8s.io/apimachinery v0.37.0
+	k8s.io/cli-runtime v0.37.0
 	k8s.io/client-go v0.37.0
 	k8s.io/klog/v2 v2.140.0
 	sigs.k8s.io/controller-runtime v0.25.0
@@ -61,6 +63,7 @@ require (
 	github.com/huandu/xstrings v1.5.0 // indirect
 	github.com/imdario/mergo v0.3.16 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/liggitt/tabwriter v0.0.0-20181228230101-89fcab3d43de // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
@@ -106,10 +109,4 @@ require (
 	sigs.k8s.io/kustomize/kyaml v0.21.1 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v6 v6.4.2 // indirect
-)
-
-require (
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
-	k8s.io/apimachinery v0.37.0
-	k8s.io/cli-runtime v0.37.0
 )
