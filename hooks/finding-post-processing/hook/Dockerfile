@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM --platform=$BUILDPLATFORM golang:1.26.2 AS build
+FROM --platform=$BUILDPLATFORM golang:1.27.1 AS build
 WORKDIR /workspace
 COPY hook-sdk/golang/go.mod /hook-sdk/golang/go.mod
 COPY hooks/finding-post-processing/hook/go.mod ./go.mod
