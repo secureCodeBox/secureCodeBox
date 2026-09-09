@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Go Hook SDK
 
 The Go Hook SDK provides the runtime integration needed to author secureCodeBox hooks in Go. It reads the hook runtime configuration, creates Kubernetes and file clients, and exposes the scan, raw results, and findings through `HookRequest`.
