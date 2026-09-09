@@ -641,7 +641,7 @@ jobs:
 
       - name: Go Setup
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
-        if: ${{ matrix.hook.sdkType == "golang" }}
+        if: ${{ matrix.hook.sdkType == 'golang' }}
         with:
           go-version-file: "hooks/${{ matrix.hook.name }}/hook/go.mod"
 
