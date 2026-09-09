@@ -4,7 +4,7 @@
 
 module github.com/secureCodeBox/auto-discovery/kubernetes/pull-secret-extractor
 
-go 1.26.2
+go 1.27.1
 
 require (
 	k8s.io/api v0.35.3
