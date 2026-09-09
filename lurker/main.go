@@ -6,10 +6,12 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
 	"log"
+	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -17,7 +19,7 @@ import (
 	"time"
 
 	corev1 "k8s.io/api/core/v1"
-	errors "k8s.io/apimachinery/pkg/api/errors"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -70,19 +72,20 @@ var uploadBackoffs = []time.Duration{1 * time.Second, 3 * time.Second, 5 * time.
 // indirection to allow tests to run without actually waiting
 var sleep = time.Sleep
 
-// uploadFileWithRetries uploads the file and retries every failure (transport
-// errors as well as non 2xx responses) using the uploadBackoffs schedule.
+// uploadFileWithRetries uploads the file and retries network failures using the
+// uploadBackoffs schedule.
 func uploadFileWithRetries(path, url string) error {
 	attempts := len(uploadBackoffs) + 1
 
 	var err error
 	for attempt := 1; attempt <= attempts; attempt++ {
-		err = uploadFile(path, url)
+		var retryable bool
+		err, retryable = uploadFile(path, url)
 		if err == nil {
 			return nil
 		}
 
-		if attempt == attempts {
+		if !retryable || attempt == attempts {
 			break
 		}
 
@@ -94,18 +97,18 @@ func uploadFileWithRetries(path, url string) error {
 	return fmt.Errorf("lurker failed to upload scan result file after %d attempts: %w", attempts, err)
 }
 
-func uploadFile(path, url string) error {
+func uploadFile(path, url string) (error, bool) {
 	file, err := os.Open(path)
 	if err != nil {
 		log.Printf("Failed to open file: %v", err)
-		return err
+		return err, false
 	}
 	defer file.Close()
 
 	fileInfo, err := file.Stat()
 	if err != nil {
 		log.Printf("Failed to get file stats: %v", err)
-		return err
+		return err, false
 	}
 	size := fileInfo.Size()
 	log.Printf("Scan result file has a size of %d bytes", size)
@@ -114,7 +117,7 @@ func uploadFile(path, url string) error {
 	req, err := http.NewRequest("PUT", url, file)
 	if err != nil {
 		log.Printf("Failed to create request: %v", err)
-		return err
+		return err, false
 	}
 
 	req.ContentLength = size
@@ -128,14 +131,15 @@ func uploadFile(path, url string) error {
 
 	res, err := client.Do(req)
 	if err != nil {
-		return err
+		var networkErr net.Error
+		return err, errors.As(err, &networkErr)
 	}
 	defer res.Body.Close()
 
 	// Check the response status code
 	if res.StatusCode >= 200 && res.StatusCode < 300 {
 		// all good
-		return nil
+		return nil, false
 	}
 
 	log.Printf("File upload returned non 2xx status code (%d)", res.StatusCode)
@@ -151,7 +155,7 @@ func uploadFile(path, url string) error {
 		log.Println(string(resultBytes))
 	}
 
-	return fmt.Errorf("lurker failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode)
+	return fmt.Errorf("lurker failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode), false
 }
 
 func waitForMainContainerToEnd(container, pod, namespace string) {
@@ -174,9 +178,9 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 
 func keepWaitingForMainContainerToExit(context context.Context, container string, podName string, namespace string, clientset *kubernetes.Clientset) bool {
 	pod, err := clientset.CoreV1().Pods(namespace).Get(context, podName, metav1.GetOptions{})
-	if errors.IsNotFound(err) {
+	if apierrors.IsNotFound(err) {
 		log.Printf("Pod %s not found in namespace %s", pod, namespace)
-	} else if statusError, isStatus := err.(*errors.StatusError); isStatus {
+	} else if statusError, isStatus := err.(*apierrors.StatusError); isStatus {
 		log.Printf("Error getting pod %v", statusError.ErrStatus.Message)
 	} else if err != nil {
 		panic(err.Error())
