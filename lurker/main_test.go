@@ -63,7 +63,7 @@ func TestUploadFileWithRetriesSucceedsOnFirstAttempt(t *testing.T) {
 	}
 }
 
-func TestUploadFileWithRetriesRetriesUntilSuccess(t *testing.T) {
+func TestUploadFileWithRetriesDoesNotRetryHTTPFailures(t *testing.T) {
 	delays := stubSleep(t)
 
 	requests := 0
@@ -76,19 +76,15 @@ func TestUploadFileWithRetriesRetriesUntilSuccess(t *testing.T) {
 		}
 		receivedBodies = append(receivedBodies, string(body))
 
-		if requests < 3 {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		w.WriteHeader(http.StatusOK)
+		w.WriteHeader(http.StatusInternalServerError)
 	}))
 	defer server.Close()
 
-	if err := uploadFileWithRetries(writeResultFile(t), server.URL); err != nil {
-		t.Fatalf("expected upload to succeed after retries, got: %v", err)
+	if err := uploadFileWithRetries(writeResultFile(t), server.URL); err == nil {
+		t.Fatal("expected upload to fail")
 	}
-	if requests != 3 {
-		t.Errorf("expected 3 requests, got %d", requests)
+	if requests != 1 {
+		t.Errorf("expected 1 request, got %d", requests)
 	}
 
 	// every attempt, especially the last one, has to send the complete file
@@ -98,42 +94,8 @@ func TestUploadFileWithRetriesRetriesUntilSuccess(t *testing.T) {
 		}
 	}
 
-	expectedDelays := uploadBackoffs[:2]
-	if len(*delays) != len(expectedDelays) {
-		t.Fatalf("expected %d backoffs, got %v", len(expectedDelays), *delays)
-	}
-	for i, delay := range *delays {
-		if delay != expectedDelays[i] {
-			t.Errorf("backoff %d was %s, expected %s", i+1, delay, expectedDelays[i])
-		}
-	}
-}
-
-func TestUploadFileWithRetriesGivesUpAfterAllAttempts(t *testing.T) {
-	delays := stubSleep(t)
-
-	requests := 0
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		requests++
-		w.WriteHeader(http.StatusInternalServerError)
-	}))
-	defer server.Close()
-
-	if err := uploadFileWithRetries(writeResultFile(t), server.URL); err == nil {
-		t.Fatal("expected upload to fail")
-	}
-
-	expectedRequests := len(uploadBackoffs) + 1
-	if requests != expectedRequests {
-		t.Errorf("expected %d requests, got %d", expectedRequests, requests)
-	}
-	if len(*delays) != len(uploadBackoffs) {
-		t.Errorf("expected %d backoffs, got %v", len(uploadBackoffs), *delays)
-	}
-	for i, delay := range *delays {
-		if delay != uploadBackoffs[i] {
-			t.Errorf("backoff %d was %s, expected %s", i+1, delay, uploadBackoffs[i])
-		}
+	if len(*delays) != 0 {
+		t.Errorf("expected no backoff, got %v", *delays)
 	}
 }
 
@@ -154,9 +116,12 @@ func TestUploadFileWithRetriesRetriesTransportErrors(t *testing.T) {
 }
 
 func TestUploadFileWithRetriesFailsForMissingFile(t *testing.T) {
-	stubSleep(t)
+	delays := stubSleep(t)
 
 	if err := uploadFileWithRetries(filepath.Join(t.TempDir(), "does-not-exist.json"), "http://127.0.0.1:1"); err == nil {
 		t.Fatal("expected upload of a missing file to fail")
+	}
+	if len(*delays) != 0 {
+		t.Errorf("expected no backoff, got %v", *delays)
 	}
 }
