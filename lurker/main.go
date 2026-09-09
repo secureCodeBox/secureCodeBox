@@ -13,7 +13,6 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"net/http/httputil"
 	"net/url"
 	"os"
 	"time"
@@ -142,17 +141,11 @@ func uploadFile(path, url string) (error, bool) {
 		return nil, false
 	}
 
-	log.Printf("File upload returned non 2xx status code (%d)", res.StatusCode)
-
-	// Dump response for debugging purposes
-	resultBytes, dumpErr := httputil.DumpResponse(res, true)
-	if dumpErr != nil {
-		log.Printf("failed to dump out failed requests to upload scan report to the s3 bucket: %v", dumpErr)
-		// drain the body so that the connection can be reused by the next attempt
-		io.Copy(io.Discard, res.Body)
+	resultBytes, readErr := io.ReadAll(res.Body)
+	if readErr != nil {
+		log.Printf("File upload returned status code %d; failed to read response body: %v", res.StatusCode, readErr)
 	} else {
-		log.Println("Response of Failed Request:")
-		log.Println(string(resultBytes))
+		log.Printf("File upload returned status code %d with response body: %s", res.StatusCode, resultBytes)
 	}
 
 	return fmt.Errorf("lurker failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode), false
