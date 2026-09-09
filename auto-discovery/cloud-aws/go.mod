@@ -4,7 +4,7 @@
 
 module github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws
 
-go 1.26.2
+go 1.27.1
 
 require (
 	github.com/aws/aws-sdk-go v1.55.8
