@@ -12,7 +12,7 @@ require (
 	github.com/novln/docker-parser v1.0.0
 	github.com/onsi/ginkgo/v2 v2.32.1
 	github.com/onsi/gomega v1.43.0
-	github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260408091312-ed3ef305dfd4
+	github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260910064724-e0b15e26c21a
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20260408091312-ed3ef305dfd4
 	k8s.io/api v0.37.0
 	k8s.io/apimachinery v0.37.0

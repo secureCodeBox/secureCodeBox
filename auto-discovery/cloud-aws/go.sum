@@ -170,6 +170,8 @@ github.com/rogpeppe/go-internal v1.14.1/go.mod h1:MaRKkUm5W0goXpeCfT7UZI6fk/L7L7
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260408091312-ed3ef305dfd4 h1:GIyRbIA3xjRQhX0bhj9F+uToFtUKsZwWn9IqFbR3z3w=
 github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260408091312-ed3ef305dfd4/go.mod h1:iqLDQQUqr322tK9IA8xg9GmsQmgY60CIrZT7JiS0Glc=
+github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260910064724-e0b15e26c21a h1:msOI8tpdflgTybXwvJy0OGPeHsXMy/+4owB7dJnXoG4=
+github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes v0.0.0-20260910064724-e0b15e26c21a/go.mod h1:qe85Ex8wKxyIgt+DsizBm9T6VFLdWGfk4EYC8pd8Yos=
 github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20260408091312-ed3ef305dfd4 h1:ykAUZDe7VqS5gJQlzFDrz8IYHy/yQX/5DVQIarW+iWM=
 github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20260408091312-ed3ef305dfd4/go.mod h1:K45+gtNFgX4paHyqQT1uESPhYy5xuPbH6F+yfYaGRyM=
 github.com/sergi/go-diff v1.4.0 h1:n/SP9D5ad1fORl+llWyN+D6qoUETXNZARKjyY2/KVCw=
