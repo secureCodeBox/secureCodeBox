@@ -11,10 +11,16 @@
 
   "packageRules": [
     {
+      "description": "Only update Go version directives, not module dependencies",
+      "matchManagers": ["gomod"],
+      "enabled": false
+    },
+    {
       "description": "Keep minimum Go versions in go.mod current",
       "matchManagers": ["gomod"],
       "matchDepNames": ["go"],
       "matchDepTypes": ["golang"],
+      "enabled": true,
       "rangeStrategy": "bump"
     }
   ],
