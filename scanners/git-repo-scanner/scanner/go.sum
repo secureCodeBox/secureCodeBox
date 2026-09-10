@@ -25,6 +25,8 @@ github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 gitlab.com/gitlab-org/api/client-go v0.160.1 h1:7kEgo1yQ3ZMRps/2JbXzqbRb4Rs8n2ECkAv+6MadJw8=
 gitlab.com/gitlab-org/api/client-go v0.160.1/go.mod h1:YqKcnxyV9OPAL5U99mpwBVEgBPz1PK/3qwqq/3h6bao=
+gitlab.com/gitlab-org/api/client-go v0.161.1 h1:XX0EtVGL6cGEdNy9xnJ96CSciIzjCwAVsayItHY1YyU=
+gitlab.com/gitlab-org/api/client-go v0.161.1/go.mod h1:YqKcnxyV9OPAL5U99mpwBVEgBPz1PK/3qwqq/3h6bao=
 golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 h1:vr/HnozRka3pE4EsMEg1lgkXJkTFJCVUX+S/ZT6wYzM=
 golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842/go.mod h1:XtvwrStGgqGPLc4cjQfWqZHG1YFdYs6swckp8vpsjnc=
 golang.org/x/oauth2 v0.30.0 h1:dnDm7JmhM45NNpd8FDDeLhK6FwqbOf4MLCM9zb1BOHI=

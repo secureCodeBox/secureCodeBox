@@ -8,7 +8,7 @@ go 1.27.1
 
 require (
 	github.com/google/go-github/v79 v79.0.0
-	gitlab.com/gitlab-org/api/client-go v0.160.1
+	gitlab.com/gitlab-org/api/client-go v0.161.1
 	golang.org/x/oauth2 v0.30.0
 )
 
