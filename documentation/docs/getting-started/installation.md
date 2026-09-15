@@ -26,46 +26,46 @@ You're now ready to install your [first scan types and start your first scans](/
 
 The secureCodeBox supports the 4 latest Kubernetes releases (`v1.35`, `v1.34`, `v1.33` & `v1.32`). Older versions might also work but are not officially supported or tested.
 
-## Accessing the included MinIO Instance
+## Accessing the included Garage Instance
 
 :::warning Development/Quickstart Only
-The included MinIO instance is intended **only for development, testing, and quickstart purposes**. For production environments, you should use either:
+The included [Garage](https://garagehq.deuxfleurs.fr/) instance is intended **only for development, testing, and quickstart purposes**. For production environments, you should use either:
 - A managed S3-compatible storage service from your cloud provider (AWS S3, Google Cloud Storage, etc.)
-- An externally managed MinIO instance (e.g., via the MinIO Operator)
+- An externally managed Garage cluster (e.g., a properly configured multi-node deployment)
 
-This provides better reliability, scalability, and security compared to the embedded MinIO instance.
+This provides better reliability, scalability, and security compared to the embedded single-node Garage instance.
 :::
 
-The default secureCodeBox Operator includes a [MinIO](https://min.io/) instance, which acts as a local S3 filestorage API used by the secureCodeBox to store the results files of its scans. You can switch it out with a S3 compatible API provided by most cloud providers.
+The default secureCodeBox Operator includes a [Garage](https://garagehq.deuxfleurs.fr/) instance, which acts as a local S3 filestorage API used by the secureCodeBox to store the results files of its scans. You can switch it out with a S3 compatible API provided by most cloud providers.
 
-You can access the MinIO instance included in the default installation like the following:
+Garage doesn't ship a web UI, so you access it with any S3-compatible client (e.g. the [`mc`](https://garagehq.deuxfleurs.fr/documentation/connect/cli/) CLI or `aws s3`) after port forwarding its S3 API:
 
-Port Forward MinIO UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9001`
+Port Forward Garage S3 API: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-garage 3900:3900`
 
-- AccessKey (Username): `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-user}' | base64 --decode; echo`
-- SecretKey (Password): `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-password}' | base64 --decode; echo`
+- AccessKey: `kubectl get secret securecodebox-operator-garage -n securecodebox-system -o=jsonpath='{.data.access-key}' | base64 --decode; echo`
+- SecretKey: `kubectl get secret securecodebox-operator-garage -n securecodebox-system -o=jsonpath='{.data.secret-key}' | base64 --decode; echo`
 
 :::note
 If you are using Windows, do not include the `| base64 --decode; echo` part in the Command Prompt. Instead, after running the command, manually decode the resulting base64 output using PowerShell.
 :::
 
-Then open your browser on [http://localhost:9000](http://localhost:9000) and login in with the credentials returned by the command listed above.
+Then configure your S3 client to use `http://localhost:3900` as endpoint with the credentials returned by the commands listed above.
 
-If you find yourself running these snippets regularly, you might want to check out this [helper script](https://github.com/secureCodeBox/secureCodeBox/blob/main/bin/minio-port-forward.sh)
+If you find yourself running these snippets regularly, you might want to check out this [helper script](https://github.com/secureCodeBox/secureCodeBox/blob/main/bin/garage-port-forward.sh)
 
 ## Operator Configuration Options
 
 ### Using a hosted S3 Buckets as storage backend (Recommended for Production)
 
-For production environments, it is **strongly recommended** to replace the default MinIO instance with a managed S3-compatible storage service from your cloud provider. This provides better reliability, scalability, security, and backup capabilities.
+For production environments, it is **strongly recommended** to replace the default Garage instance with a managed S3-compatible storage service from your cloud provider. This provides better reliability, scalability, security, and backup capabilities.
 
-To change out the default MinIO instance with a S3 Bucket from a cloud provider you can update the helm values to connect the operator with you S3 bucket.
+To change out the default Garage instance with a S3 Bucket from a cloud provider you can update the helm values to connect the operator with you S3 bucket.
 
 #### AWS S3 Buckets
 
 ```yaml
-minio:
-  # disable the local minio instance
+garage:
+  # disable the local garage instance
   enabled: false
 s3:
   enabled: true
@@ -173,7 +173,7 @@ Therefore, scans must complete within 2.4 hours to ensure results can be persist
   secureCodeBox Operator values:
 
   ```yaml
-  minio:
+  garage:
     enabled: false
   s3:
     enabled: true
@@ -262,7 +262,7 @@ Therefore, scans must complete within 2.4 hours to ensure results can be persist
   secureCodeBox Operator values:
 
   ```yaml
-  minio:
+  garage:
     enabled: false
   s3:
     enabled: true
@@ -279,8 +279,8 @@ Therefore, scans must complete within 2.4 hours to ensure results can be persist
 #### Google Cloud Storage
 
 ```yaml
-minio:
-  # disable the local minio instance
+garage:
+  # disable the local garage instance
   enabled: false
 s3:
   enabled: true
@@ -356,17 +356,17 @@ These charts will be installed in the `default` namespace, but you can choose th
 
 ## Troubleshooting
 
-### MinIO Startup Problems
+### Garage Startup Problems
 
-If your secureCodeBox Operator install is failing, and you see that the operator pod seems to be working okay, but the MinIO pods started alongside it does not start up properly, your cluster probably isn't configured to have a working default [Storage Class for Persistent Volumes](https://kubernetes.io/docs/concepts/storage/storage-classes/).
+If your secureCodeBox Operator install is failing, and you see that the operator pod seems to be working okay, but the Garage pod started alongside it does not start up properly, your cluster probably isn't configured to have a working default [Storage Class for Persistent Volumes](https://kubernetes.io/docs/concepts/storage/storage-classes/).
 
 Suggested solutions:
 
-- Use a Cloud Storage provider instead of MinIO. This has to provide a API compatible to AWS S3. Providers that we have tried and worked great include:
+- Use a Cloud Storage provider instead of Garage. This has to provide a API compatible to AWS S3. Providers that we have tried and worked great include:
   - AWS S3
   - Google Cloud Storage
   - DigitalOcean Spaces
-- Configure MinIO to use a HostPath Volume. This is more work to set up and manage, but also works for local / on-prem installation.
+- Configure Garage to use a HostPath Volume. This is more work to set up and manage, but also works for local / on-prem installation.
 
 ### ClusterRole & CRD Issues
 

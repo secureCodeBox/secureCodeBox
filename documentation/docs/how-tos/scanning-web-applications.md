@@ -445,5 +445,5 @@ NAME                                      TYPE                      STATE   FIND
 zap-automation-framework-juice-shop       zap-automation-framework   Done    14
 ```
 
-If the scan's `STATE` is set to done, We can see our findings via the S3 bucket. If you've used the default installation method you can follow the [guide](/docs/getting-started/installation#accessing-the-included-minio-instance) to access the integrated Minio S3 Bucket to view the findings.
+If the scan's `STATE` is set to done, We can see our findings via the S3 bucket. If you've used the default installation method you can follow the [guide](/docs/getting-started/installation#accessing-the-included-garage-instance) to access the integrated Garage S3 Bucket to view the findings.
 And we're done! Have Fun Scanning :)

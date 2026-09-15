@@ -309,7 +309,7 @@ For development purposes, it can be useful to run this hook locally. You can do 
 1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
 2. [Run a Scan](https://www.securecodebox.io/docs/getting-started/first-scans) of your choice.
 3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the
-included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
+included [Garage Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-garage-instance)
 and upload them to a GitHub Gist.
 4. Set the following environment variables:
   - `DEFECTDOJO_URL`: URL to your DefectDojo server, e.g `DEFECTDOJO_URL="http://192.168.0.1:8080"`. (Required by _defectdojo-client-java_ lib.)
