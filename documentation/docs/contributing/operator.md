@@ -32,34 +32,38 @@ brew install go helm
 
 After that start the `Docker.app` and go to it's settings and start Kubernetes.
 
-#### Minio
+#### Garage
 
 For your local development you will need a S3 compatible storage.
-We would recommend to use [Minio](https://min.io/download#/) inside a docker container.
+We would recommend to use [Garage](https://garagehq.deuxfleurs.fr/) inside a docker container, since it can auto-create its default bucket and credentials on startup.
 
 ```bash
 docker container run \
-  --name minio \
-  -p 9000:9000 \
-  -p 9001:9001 \
+  --name garage \
+  -p 3900:3900 \
+  -p 3903:3903 \
   -d \
   --rm \
-  minio/minio \
-  server /data \
-  --console-address ":9001"
+  -e GARAGE_DEFAULT_ACCESS_KEY="your-garage-access-key" \
+  -e GARAGE_DEFAULT_SECRET_KEY="your-garage-secret-key" \
+  -e GARAGE_DEFAULT_BUCKET="name-of-your-bucket" \
+  dxflrs/garage \
+  server \
+  --single-node \
+  --default-bucket
 ```
 
-In the Minio management GUI you will need to add a new bucket for the operator. The default credentials for your minio instance are `minioadmin:minioadmin`. You might change those. Go to the management UI at [http://localhost:9001/](http://localhost:9001/) and add a new bucket. After creating your bucket you will need to specify some environment variables to enable the operator to use the bucket. For that export these variables:
+This creates the bucket and credentials for you on startup. After that you will need to specify some environment variables to enable the operator to use the bucket. For that export these variables:
 
 ```bash
-export MINIO_ACCESS_KEY="your-minio-access-key"
-export MINIO_SECRET_KEY="your-minio-secret-key"
+export MINIO_ACCESS_KEY="your-garage-access-key"
+export MINIO_SECRET_KEY="your-garage-secret-key"
 export S3_BUCKET="name-of-your-bucket"
 export S3_USE_SSL="false" # This ensures that the operator will connect even without HTTPS
-export S3_ENDPOINT="127.0.0.1:9000"
+export S3_ENDPOINT="127.0.0.1:3900"
 ```
 
-You can save time by using [direnv](https://direnv.net/) to export these variables in your project. If you use direnv just add a file `.s3_credentials` with your Minio credentials.
+You can save time by using [direnv](https://direnv.net/) to export these variables in your project. If you use direnv just add a file `.s3_credentials` with your Garage credentials.
 
 ### Build and Run the Operator
 

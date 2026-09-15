@@ -12,7 +12,7 @@ sidebar_position: 5
 
 Let's say you need to manage a cluster of potential security risks, such as a large number of websites or
 your company's internal network. Your needs will exceed the limitations of manual findings handling or our build-in
-*minio* instance quite soon. The solution comes with a so-called *persistence provider*, which allows you to not only
+*garage* instance quite soon. The solution comes with a so-called *persistence provider*, which allows you to not only
 store your findings over a long period of time (as the name suggests), but also classify, prioritize and analyze 
 them. This tutorial discusses two persistence providers, [DefectDojo](#defectdojo) and [ElasticSearch](#elasticsearch), 
 which can both be combined with the *secureCodeBox*.

@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Start Operator (minio)",
+            "name": "Start Operator (garage)",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "program": "main.go",
             "env": {
-                "MINIO_ACCESS_KEY": "minioadmin",
-                "MINIO_SECRET_KEY": "minioadmin",
+                "MINIO_ACCESS_KEY": "garageadmin",
+                "MINIO_SECRET_KEY": "garageadmin",
                 "S3_BUCKET": "test",
                 "S3_USE_SSL": "false",
-                "S3_ENDPOINT":"127.0.0.1:9000"
-            
+                "S3_ENDPOINT":"127.0.0.1:3900"
+
             }
         },
         {

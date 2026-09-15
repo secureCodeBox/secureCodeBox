@@ -108,16 +108,16 @@ tasks:
       - 'echo "Cleaning up testing environment"'
       - kind delete cluster --name testing-env
 
-  minio-port-forward:
-    desc: "Port forward the MinIO service to access it locally"
+  garage-port-forward:
+    desc: "Port forward the Garage service to access it locally"
     cmds:
-      - 'echo "Port forwarding MinIO service to localhost:9001"'
-      - 'echo "You can access MinIO at http://localhost:9001"'
-      - 'echo "Use the credentials from the secureCodeBox operator to log in:"'
-      - 'echo "Access Key: $(kubectl get secret -n securecodebox-system securecodebox-operator-minio -o jsonpath="{.data.root-user}" | base64 --decode)"'
-      - 'echo "Secret Key: $(kubectl get secret -n securecodebox-system securecodebox-operator-minio -o jsonpath="{.data.root-password}" | base64 --decode)"'
+      - 'echo "Port forwarding Garage S3 API to localhost:3900"'
+      - 'echo "You can access Garage at http://localhost:3900 with any S3-compatible client"'
+      - 'echo "Use the credentials from the secureCodeBox operator to connect:"'
+      - 'echo "Access Key: $(kubectl get secret -n securecodebox-system securecodebox-operator-garage -o jsonpath="{.data.access-key}" | base64 --decode)"'
+      - 'echo "Secret Key: $(kubectl get secret -n securecodebox-system securecodebox-operator-garage -o jsonpath="{.data.secret-key}" | base64 --decode)"'
       - 'echo "Press Ctrl+C to stop port forwarding"'
-      - kubectl port-forward -n securecodebox-system svc/securecodebox-operator-minio 9001:9001
+      - kubectl port-forward -n securecodebox-system svc/securecodebox-operator-garage 3900:3900
     interactive: true
 
   test:helm:all:

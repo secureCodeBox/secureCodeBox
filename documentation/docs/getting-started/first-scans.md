@@ -201,10 +201,10 @@ Events:                      <none>
 ```
 
 This gives us an overview of the results of the scan.
-To view the actual findings produced by the scan you can use the download link to download the findings as JSON from MinIO/S3.
+To view the actual findings produced by the scan you can use the download link to download the findings as JSON from Garage/S3.
 
 :::note
-When using the default MinIO installation, you'll need to port-forward the to be able to access the finding download link. See: [installation](/docs/getting-started/installation#accessing-the-included-minio-instance)
+When using the default Garage installation, you'll need to port-forward the to be able to access the finding download link. See: [installation](/docs/getting-started/installation#accessing-the-included-garage-instance)
 :::
 
 ## Next Steps
