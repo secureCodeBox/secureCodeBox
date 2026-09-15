@@ -29,28 +29,27 @@ customCACertificate:
   # -- key in the configmap holding the certificate(s)
   certificate: "public.crt"
 
-
 # -- Additional volumes to be mounted to the operator deployment
-extraVolumes: [ ]
+extraVolumes: []
 # Example:
 # extraVolumes:
-#   - name: ssl-certificates 
+#   - name: ssl-certificates
 #     secret:
 #       secretName: ssl-cert-secret
 #   - name: config-volume
 #     configMap:
 #       name: operator-config
-#   - name: cache-volume 
+#   - name: cache-volume
 #     emptyDir: {}
 
 # -- Additional volume mounts to be mounted to the operator deployment
-extraVolumeMounts: [ ]
+extraVolumeMounts: []
 # Example:
 # extraVolumeMounts:
 #   - name: ssl-certificates
 #     mountPath: /etc/ssl/certs
 #     readOnly: true
-#   - name: config-volume 
+#   - name: config-volume
 #     mountPath: /etc/config
 #   - name: cache-volume
 #     mountPath: /cache
@@ -94,7 +93,7 @@ probes:
       port: healthchecks
     initialDelaySeconds: 15
     periodSeconds: 20
-  # -- Readiness probe configuration  
+  # -- Readiness probe configuration
   readiness:
     httpGet:
       path: /readyz
@@ -213,11 +212,11 @@ s3:
 # resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
 resources:
   limits:
-    cpu: 100m
-    memory: 30Mi
+    cpu: 250m
+    memory: 100Mi
   requests:
     cpu: 100m
-    memory: 20Mi
+    memory: 50Mi
 # presignedUrlExpirationTimes -- Duration how long presigned urls are valid
 presignedUrlExpirationTimes:
   scanners: "12h"

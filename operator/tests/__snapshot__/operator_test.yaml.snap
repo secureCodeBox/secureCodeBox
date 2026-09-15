@@ -294,11 +294,11 @@ matches the snapshot:
                 periodSeconds: 10
               resources:
                 limits:
-                  cpu: 100m
-                  memory: 30Mi
+                  cpu: 250m
+                  memory: 100Mi
                 requests:
                   cpu: 100m
-                  memory: 20Mi
+                  memory: 50Mi
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
@@ -1065,11 +1065,11 @@ properly-renders-the-service-monitor-when-enabled:
                 periodSeconds: 10
               resources:
                 limits:
-                  cpu: 100m
-                  memory: 30Mi
+                  cpu: 250m
+                  memory: 100Mi
                 requests:
                   cpu: 100m
-                  memory: 20Mi
+                  memory: 50Mi
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
