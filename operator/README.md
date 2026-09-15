@@ -68,12 +68,28 @@ helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | allowIstioSidecarInjectionInJobs | bool | `false` | Sets the value of the istio sidecar annotation ("sidecar.istio.io/inject") for jobs started by the operator (scans, parser and hooks). defaults to false to prevent jobs hanging indefinitely due to the sidecar never terminating. If you aren't using istio this setting/annotation has no effect. |
-| clusterDomain | string | `"cluster.local"` | The cluster domain to use when building the in-cluster Minio endpoint (`<release>-minio.<namespace>.svc.<clusterDomain>`). Override this if your cluster uses a custom domain instead of the Kubernetes default `cluster.local`. |
+| clusterDomain | string | `"cluster.local"` | The cluster domain to use when building the in-cluster Garage endpoint (`<release>-garage.<namespace>.svc.<clusterDomain>`). Override this if your cluster uses a custom domain instead of the Kubernetes default `cluster.local`. |
 | customCACertificate | object | `{"certificate":"public.crt","existingCertificate":null}` | Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurker, parser & hooks). Requires that every namespace has a configmap with the CA certificate(s) |
 | customCACertificate.certificate | string | `"public.crt"` | key in the configmap holding the certificate(s) |
 | customCACertificate.existingCertificate | string | `nil` | name of the configMap holding the ca certificate(s), needs to be the same across all namespaces |
 | extraVolumeMounts | list | `[]` | Additional volume mounts to be mounted to the operator deployment |
 | extraVolumes | list | `[]` | Additional volumes to be mounted to the operator deployment |
+| garage | object | `{"auth":{"accessKey":"","adminToken":"","existingSecret":"","rpcSecret":"","secretKey":""},"defaultBucket":"securecodebox","enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"docker.io/dxflrs/garage","tag":"v2.3.0"},"persistence":{"size":"10Gi","storageClass":""},"podSecurityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000},"resources":{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}}` | Garage configuration for direct deployment (S3-compatible quickstart storage backend) |
+| garage.auth | object | `{"accessKey":"","adminToken":"","existingSecret":"","rpcSecret":"","secretKey":""}` | Authentication configuration |
+| garage.auth.accessKey | string | `""` | Default access key (leave empty to generate a secure random one) |
+| garage.auth.adminToken | string | `""` | Garage admin API token (leave empty to generate a secure random one). Not used for anything outside the pod on a single-node deployment. |
+| garage.auth.existingSecret | string | `""` | Name of existing secret containing garage credentials (if set, auth.accessKey, auth.secretKey, auth.rpcSecret and auth.adminToken are ignored) |
+| garage.auth.rpcSecret | string | `""` | Garage inter-node RPC secret (leave empty to generate a secure random one). Not used for anything outside the pod on a single-node deployment. |
+| garage.auth.secretKey | string | `""` | Default secret key (leave empty to generate a secure random one) |
+| garage.defaultBucket | string | `"securecodebox"` | Default bucket to create on startup |
+| garage.enabled | bool | `true` | Enable this to use Garage as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc. |
+| garage.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.io/dxflrs/garage","tag":"v2.3.0"}` | Garage image configuration |
+| garage.persistence | object | `{"size":"10Gi","storageClass":""}` | Persistence configuration |
+| garage.persistence.size | string | `"10Gi"` | Size of the persistent volume |
+| garage.persistence.storageClass | string | `""` | Storage class for garage data persistence |
+| garage.podSecurityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Pod security context for garage |
+| garage.resources | object | `{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}` | Resource limits and requests for garage |
+| garage.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}` | Container security context for garage |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
@@ -83,21 +99,6 @@ helm install securecodebox-operator oci://ghcr.io/securecodebox/helm/operator
 | lurker.image.tag | string | defaults to the charts version | Parser image tag |
 | metrics | object | `{"serviceMonitor":{"enabled":false}}` | Configuration for the metrics the operator exports |
 | metrics.serviceMonitor.enabled | bool | `false` | Creates a prometheus operator ServiceMonitor rule to automatically scrape the operators metrics: https://github.com/prometheus-operator/prometheus-operator |
-| minio | object | `{"auth":{"existingSecret":"","rootPassword":"","rootUser":"admin"},"defaultBuckets":"securecodebox","enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"docker.io/minio/minio","tag":"RELEASE.2025-07-23T15-54-02Z"},"persistence":{"size":"10Gi","storageClass":""},"podSecurityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000},"resources":{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}},"tls":{"enabled":false}}` | Minio configuration for direct deployment |
-| minio.auth | object | `{"existingSecret":"","rootPassword":"","rootUser":"admin"}` | Authentication configuration |
-| minio.auth.existingSecret | string | `""` | Name of existing secret containing minio credentials (if set, auth.rootUser and auth.rootPassword are ignored) |
-| minio.auth.rootPassword | string | `""` | Root password for minio (leave empty to generate a secure random password) |
-| minio.auth.rootUser | string | `"admin"` | Root user for minio |
-| minio.defaultBuckets | string | `"securecodebox"` | Default buckets to create on startup |
-| minio.enabled | bool | `true` | Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc. |
-| minio.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.io/minio/minio","tag":"RELEASE.2025-07-23T15-54-02Z"}` | Minio image configuration |
-| minio.persistence | object | `{"size":"10Gi","storageClass":""}` | Persistence configuration |
-| minio.persistence.size | string | `"10Gi"` | Size of the persistent volume |
-| minio.persistence.storageClass | string | `""` | Storage class for minio data persistence |
-| minio.podSecurityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Pod security context for minio |
-| minio.resources | object | `{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}` | Resource limits and requests for minio |
-| minio.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}` | Container security context for minio |
-| minio.tls | object | `{"enabled":false}` | TLS configuration (currently not implemented) |
 | nodeSelector | object | `{}` |  |
 | podSecurityContext | object | `{}` | Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container |
 | presignedUrlExpirationTimes | object | `{"hooks":"1h","parsers":"1h","scanners":"12h"}` | Duration how long presigned urls are valid |
