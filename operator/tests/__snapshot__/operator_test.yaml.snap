@@ -3,6 +3,198 @@ matches the snapshot:
     raw: "secureCodeBox Operator Deployed \U0001F680\n\nThe operator can orchestrate the execution of various security scanning tools inside of your cluster.\nYou can find a list of all officially supported scanners here: https://www.securecodebox.io/\nThe website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.\n"
   2: |
     apiVersion: v1
+    kind: Secret
+    metadata:
+      labels:
+        app.kubernetes.io/component: garage
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: operator
+        app.kubernetes.io/version: 0.0.0
+        helm.sh/chart: operator-0.0.0
+      name: RELEASE-NAME-operator-garage
+      namespace: NAMESPACE
+    stringData:
+      access-key: testaccesskey
+      admin-token: testadmintoken
+      garage.toml: |
+        metadata_dir = "/data/meta"
+        data_dir = "/data/data"
+        db_engine = "lmdb"
+
+        replication_factor = 1
+
+        rpc_bind_addr = "[::]:3901"
+        rpc_public_addr = "127.0.0.1:3901"
+        rpc_secret = "testrpcsecret"
+
+        [s3_api]
+        s3_region = "garage"
+        api_bind_addr = "[::]:3900"
+
+        [admin]
+        api_bind_addr = "[::]:3903"
+        admin_token = "testadmintoken"
+      rpc-secret: testrpcsecret
+      secret-key: testsecretkey
+    type: Opaque
+  3: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/component: garage
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: operator
+        app.kubernetes.io/version: 0.0.0
+        helm.sh/chart: operator-0.0.0
+      name: RELEASE-NAME-operator-garage
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - name: s3-api
+          port: 3900
+          protocol: TCP
+          targetPort: 3900
+        - name: admin
+          port: 3903
+          protocol: TCP
+          targetPort: 3903
+      selector:
+        app.kubernetes.io/component: garage
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: operator
+      type: ClusterIP
+  4: |
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      labels:
+        app.kubernetes.io/component: garage
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: operator
+        app.kubernetes.io/version: 0.0.0
+        helm.sh/chart: operator-0.0.0
+      name: RELEASE-NAME-operator-garage
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/component: garage
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: operator
+      serviceName: RELEASE-NAME-operator-garage
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/component: garage
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: operator
+        spec:
+          automountServiceAccountToken: false
+          containers:
+            - args:
+                - server
+                - --single-node
+                - --default-bucket
+              command:
+                - /garage
+              env:
+                - name: GARAGE_DEFAULT_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: access-key
+                      name: RELEASE-NAME-operator-garage
+                - name: GARAGE_DEFAULT_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: secret-key
+                      name: RELEASE-NAME-operator-garage
+                - name: GARAGE_DEFAULT_BUCKET
+                  value: securecodebox
+              image: docker.io/dxflrs/garage:v2.3.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /health
+                  port: admin
+                periodSeconds: 30
+                successThreshold: 1
+                timeoutSeconds: 10
+              name: garage
+              ports:
+                - containerPort: 3900
+                  name: s3-api
+                  protocol: TCP
+                - containerPort: 3903
+                  name: admin
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /health
+                  port: admin
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 5
+              resources:
+                limits:
+                  cpu: 500m
+                  ephemeral-storage: 1Gi
+                  memory: 512Mi
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                runAsGroup: 1000
+                runAsNonRoot: true
+                runAsUser: 1000
+                seccompProfile:
+                  type: RuntimeDefault
+              startupProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /health
+                  port: admin
+                initialDelaySeconds: 1
+                periodSeconds: 1
+                successThreshold: 1
+                timeoutSeconds: 3
+              volumeMounts:
+                - mountPath: /data
+                  name: data
+                - mountPath: /etc/garage.toml
+                  name: config
+                  subPath: garage.toml
+          imagePullSecrets:
+            - name: foo
+          securityContext:
+            fsGroup: 1000
+            runAsGroup: 1000
+            runAsUser: 1000
+          volumes:
+            - name: config
+              secret:
+                secretName: RELEASE-NAME-operator-garage
+      volumeClaimTemplates:
+        - metadata:
+            name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+  5: |
+    apiVersion: v1
     kind: Service
     metadata:
       labels:
@@ -18,7 +210,7 @@ matches the snapshot:
       selector:
         control-plane: securecodebox-controller-manager
       type: ClusterIP
-  3: |
+  6: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -47,19 +239,19 @@ matches the snapshot:
                 - name: S3_USE_SSL
                   value: "false"
                 - name: S3_ENDPOINT
-                  value: RELEASE-NAME-minio.NAMESPACE.svc.cluster.local
+                  value: RELEASE-NAME-garage.NAMESPACE.svc.cluster.local
                 - name: S3_PORT
-                  value: "9000"
+                  value: "3900"
                 - name: MINIO_ACCESS_KEY
                   valueFrom:
                     secretKeyRef:
-                      key: root-user
-                      name: RELEASE-NAME-operator-minio
+                      key: access-key
+                      name: RELEASE-NAME-operator-garage
                 - name: MINIO_SECRET_KEY
                   valueFrom:
                     secretKeyRef:
-                      key: root-password
-                      name: RELEASE-NAME-operator-minio
+                      key: secret-key
+                      name: RELEASE-NAME-operator-garage
                 - name: S3_BUCKET
                   value: securecodebox
                 - name: LURKER_IMAGE
@@ -131,177 +323,6 @@ matches the snapshot:
             - configMap:
                 name: foo
               name: ca-certificate
-  4: |
-    apiVersion: v1
-    data:
-      root-password: dGVzdHBhc3N3b3Jk
-      root-user: dGVzdHVzZXI=
-    kind: Secret
-    metadata:
-      labels:
-        app.kubernetes.io/component: minio
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: operator
-        app.kubernetes.io/version: 0.0.0
-        helm.sh/chart: operator-0.0.0
-      name: RELEASE-NAME-operator-minio
-      namespace: NAMESPACE
-    type: Opaque
-  5: |
-    apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app.kubernetes.io/component: minio
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: operator
-        app.kubernetes.io/version: 0.0.0
-        helm.sh/chart: operator-0.0.0
-      name: RELEASE-NAME-operator-minio
-      namespace: NAMESPACE
-    spec:
-      ports:
-        - name: api
-          port: 9000
-          protocol: TCP
-          targetPort: 9000
-        - name: console
-          port: 9001
-          protocol: TCP
-          targetPort: 9001
-      selector:
-        app.kubernetes.io/component: minio
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: operator
-      type: ClusterIP
-  6: |
-    apiVersion: apps/v1
-    kind: StatefulSet
-    metadata:
-      labels:
-        app.kubernetes.io/component: minio
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: operator
-        app.kubernetes.io/version: 0.0.0
-        helm.sh/chart: operator-0.0.0
-      name: RELEASE-NAME-operator-minio
-      namespace: NAMESPACE
-    spec:
-      replicas: 1
-      selector:
-        matchLabels:
-          app.kubernetes.io/component: minio
-          app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: operator
-      serviceName: RELEASE-NAME-operator-minio
-      template:
-        metadata:
-          labels:
-            app.kubernetes.io/component: minio
-            app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: operator
-        spec:
-          automountServiceAccountToken: false
-          containers:
-            - args:
-                - |
-                  set -e
-                  echo "Starting minio server..."
-                  minio server /data --console-address ":9001" &
-                  MINIO_PID=$!
-
-                  echo "Waiting for minio to be ready..."
-                  sleep 5
-
-                  echo "Creating bucket: $MINIO_DEFAULT_BUCKETS"
-                  mc alias set myminio http://localhost:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD
-                  mc mb myminio/$MINIO_DEFAULT_BUCKETS --ignore-existing || true
-                  echo "Bucket creation completed"
-
-                  wait $MINIO_PID
-              command:
-                - /bin/bash
-                - -c
-              env:
-                - name: MINIO_ROOT_USER
-                  valueFrom:
-                    secretKeyRef:
-                      key: root-user
-                      name: RELEASE-NAME-operator-minio
-                - name: MINIO_ROOT_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      key: root-password
-                      name: RELEASE-NAME-operator-minio
-                - name: MINIO_DEFAULT_BUCKETS
-                  value: securecodebox
-              image: docker.io/minio/minio:RELEASE.2025-07-23T15-54-02Z
-              imagePullPolicy: IfNotPresent
-              livenessProbe:
-                failureThreshold: 3
-                httpGet:
-                  path: /minio/health/live
-                  port: api
-                initialDelaySeconds: 30
-                periodSeconds: 30
-                successThreshold: 1
-                timeoutSeconds: 10
-              name: minio
-              ports:
-                - containerPort: 9000
-                  name: api
-                  protocol: TCP
-                - containerPort: 9001
-                  name: console
-                  protocol: TCP
-              readinessProbe:
-                failureThreshold: 3
-                httpGet:
-                  path: /minio/health/ready
-                  port: api
-                initialDelaySeconds: 5
-                periodSeconds: 5
-                successThreshold: 1
-                timeoutSeconds: 5
-              resources:
-                limits:
-                  cpu: 500m
-                  ephemeral-storage: 1Gi
-                  memory: 512Mi
-                requests:
-                  cpu: 100m
-                  memory: 256Mi
-              securityContext:
-                allowPrivilegeEscalation: false
-                capabilities:
-                  drop:
-                    - ALL
-                runAsGroup: 1000
-                runAsNonRoot: true
-                runAsUser: 1000
-                seccompProfile:
-                  type: RuntimeDefault
-              volumeMounts:
-                - mountPath: /data
-                  name: data
-          imagePullSecrets:
-            - name: foo
-          securityContext:
-            fsGroup: 1000
-            runAsGroup: 1000
-            runAsUser: 1000
-      volumeClaimTemplates:
-        - metadata:
-            name: data
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 10Gi
   7: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
@@ -739,6 +760,198 @@ properly-renders-the-service-monitor-when-enabled:
   1: |
     raw: "secureCodeBox Operator Deployed \U0001F680\n\nThe operator can orchestrate the execution of various security scanning tools inside of your cluster.\nYou can find a list of all officially supported scanners here: https://www.securecodebox.io/\nThe website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.\n"
   2: |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      labels:
+        app.kubernetes.io/component: garage
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: operator
+        app.kubernetes.io/version: 0.0.0
+        helm.sh/chart: operator-0.0.0
+      name: RELEASE-NAME-operator-garage
+      namespace: NAMESPACE
+    stringData:
+      access-key: testaccesskey
+      admin-token: testadmintoken
+      garage.toml: |
+        metadata_dir = "/data/meta"
+        data_dir = "/data/data"
+        db_engine = "lmdb"
+
+        replication_factor = 1
+
+        rpc_bind_addr = "[::]:3901"
+        rpc_public_addr = "127.0.0.1:3901"
+        rpc_secret = "testrpcsecret"
+
+        [s3_api]
+        s3_region = "garage"
+        api_bind_addr = "[::]:3900"
+
+        [admin]
+        api_bind_addr = "[::]:3903"
+        admin_token = "testadmintoken"
+      rpc-secret: testrpcsecret
+      secret-key: testsecretkey
+    type: Opaque
+  3: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app.kubernetes.io/component: garage
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: operator
+        app.kubernetes.io/version: 0.0.0
+        helm.sh/chart: operator-0.0.0
+      name: RELEASE-NAME-operator-garage
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - name: s3-api
+          port: 3900
+          protocol: TCP
+          targetPort: 3900
+        - name: admin
+          port: 3903
+          protocol: TCP
+          targetPort: 3903
+      selector:
+        app.kubernetes.io/component: garage
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: operator
+      type: ClusterIP
+  4: |
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      labels:
+        app.kubernetes.io/component: garage
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: operator
+        app.kubernetes.io/version: 0.0.0
+        helm.sh/chart: operator-0.0.0
+      name: RELEASE-NAME-operator-garage
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/component: garage
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: operator
+      serviceName: RELEASE-NAME-operator-garage
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/component: garage
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: operator
+        spec:
+          automountServiceAccountToken: false
+          containers:
+            - args:
+                - server
+                - --single-node
+                - --default-bucket
+              command:
+                - /garage
+              env:
+                - name: GARAGE_DEFAULT_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: access-key
+                      name: RELEASE-NAME-operator-garage
+                - name: GARAGE_DEFAULT_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: secret-key
+                      name: RELEASE-NAME-operator-garage
+                - name: GARAGE_DEFAULT_BUCKET
+                  value: securecodebox
+              image: docker.io/dxflrs/garage:v2.3.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /health
+                  port: admin
+                periodSeconds: 30
+                successThreshold: 1
+                timeoutSeconds: 10
+              name: garage
+              ports:
+                - containerPort: 3900
+                  name: s3-api
+                  protocol: TCP
+                - containerPort: 3903
+                  name: admin
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /health
+                  port: admin
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 5
+              resources:
+                limits:
+                  cpu: 500m
+                  ephemeral-storage: 1Gi
+                  memory: 512Mi
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                runAsGroup: 1000
+                runAsNonRoot: true
+                runAsUser: 1000
+                seccompProfile:
+                  type: RuntimeDefault
+              startupProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /health
+                  port: admin
+                initialDelaySeconds: 1
+                periodSeconds: 1
+                successThreshold: 1
+                timeoutSeconds: 3
+              volumeMounts:
+                - mountPath: /data
+                  name: data
+                - mountPath: /etc/garage.toml
+                  name: config
+                  subPath: garage.toml
+          imagePullSecrets:
+            - name: foo
+          securityContext:
+            fsGroup: 1000
+            runAsGroup: 1000
+            runAsUser: 1000
+          volumes:
+            - name: config
+              secret:
+                secretName: RELEASE-NAME-operator-garage
+      volumeClaimTemplates:
+        - metadata:
+            name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+  5: |
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
@@ -751,7 +964,7 @@ properly-renders-the-service-monitor-when-enabled:
       selector:
         matchLabels:
           app.kubernetes.io/name: securecodebox-operator-metrics
-  3: |
+  6: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -768,7 +981,7 @@ properly-renders-the-service-monitor-when-enabled:
       selector:
         control-plane: securecodebox-controller-manager
       type: ClusterIP
-  4: |
+  7: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -797,19 +1010,19 @@ properly-renders-the-service-monitor-when-enabled:
                 - name: S3_USE_SSL
                   value: "false"
                 - name: S3_ENDPOINT
-                  value: RELEASE-NAME-minio.NAMESPACE.svc.cluster.local
+                  value: RELEASE-NAME-garage.NAMESPACE.svc.cluster.local
                 - name: S3_PORT
-                  value: "9000"
+                  value: "3900"
                 - name: MINIO_ACCESS_KEY
                   valueFrom:
                     secretKeyRef:
-                      key: root-user
-                      name: RELEASE-NAME-operator-minio
+                      key: access-key
+                      name: RELEASE-NAME-operator-garage
                 - name: MINIO_SECRET_KEY
                   valueFrom:
                     secretKeyRef:
-                      key: root-password
-                      name: RELEASE-NAME-operator-minio
+                      key: secret-key
+                      name: RELEASE-NAME-operator-garage
                 - name: S3_BUCKET
                   value: securecodebox
                 - name: LURKER_IMAGE
@@ -881,177 +1094,6 @@ properly-renders-the-service-monitor-when-enabled:
             - configMap:
                 name: foo
               name: ca-certificate
-  5: |
-    apiVersion: v1
-    data:
-      root-password: dGVzdHBhc3N3b3Jk
-      root-user: dGVzdHVzZXI=
-    kind: Secret
-    metadata:
-      labels:
-        app.kubernetes.io/component: minio
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: operator
-        app.kubernetes.io/version: 0.0.0
-        helm.sh/chart: operator-0.0.0
-      name: RELEASE-NAME-operator-minio
-      namespace: NAMESPACE
-    type: Opaque
-  6: |
-    apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app.kubernetes.io/component: minio
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: operator
-        app.kubernetes.io/version: 0.0.0
-        helm.sh/chart: operator-0.0.0
-      name: RELEASE-NAME-operator-minio
-      namespace: NAMESPACE
-    spec:
-      ports:
-        - name: api
-          port: 9000
-          protocol: TCP
-          targetPort: 9000
-        - name: console
-          port: 9001
-          protocol: TCP
-          targetPort: 9001
-      selector:
-        app.kubernetes.io/component: minio
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: operator
-      type: ClusterIP
-  7: |
-    apiVersion: apps/v1
-    kind: StatefulSet
-    metadata:
-      labels:
-        app.kubernetes.io/component: minio
-        app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: operator
-        app.kubernetes.io/version: 0.0.0
-        helm.sh/chart: operator-0.0.0
-      name: RELEASE-NAME-operator-minio
-      namespace: NAMESPACE
-    spec:
-      replicas: 1
-      selector:
-        matchLabels:
-          app.kubernetes.io/component: minio
-          app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: operator
-      serviceName: RELEASE-NAME-operator-minio
-      template:
-        metadata:
-          labels:
-            app.kubernetes.io/component: minio
-            app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: operator
-        spec:
-          automountServiceAccountToken: false
-          containers:
-            - args:
-                - |
-                  set -e
-                  echo "Starting minio server..."
-                  minio server /data --console-address ":9001" &
-                  MINIO_PID=$!
-
-                  echo "Waiting for minio to be ready..."
-                  sleep 5
-
-                  echo "Creating bucket: $MINIO_DEFAULT_BUCKETS"
-                  mc alias set myminio http://localhost:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD
-                  mc mb myminio/$MINIO_DEFAULT_BUCKETS --ignore-existing || true
-                  echo "Bucket creation completed"
-
-                  wait $MINIO_PID
-              command:
-                - /bin/bash
-                - -c
-              env:
-                - name: MINIO_ROOT_USER
-                  valueFrom:
-                    secretKeyRef:
-                      key: root-user
-                      name: RELEASE-NAME-operator-minio
-                - name: MINIO_ROOT_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      key: root-password
-                      name: RELEASE-NAME-operator-minio
-                - name: MINIO_DEFAULT_BUCKETS
-                  value: securecodebox
-              image: docker.io/minio/minio:RELEASE.2025-07-23T15-54-02Z
-              imagePullPolicy: IfNotPresent
-              livenessProbe:
-                failureThreshold: 3
-                httpGet:
-                  path: /minio/health/live
-                  port: api
-                initialDelaySeconds: 30
-                periodSeconds: 30
-                successThreshold: 1
-                timeoutSeconds: 10
-              name: minio
-              ports:
-                - containerPort: 9000
-                  name: api
-                  protocol: TCP
-                - containerPort: 9001
-                  name: console
-                  protocol: TCP
-              readinessProbe:
-                failureThreshold: 3
-                httpGet:
-                  path: /minio/health/ready
-                  port: api
-                initialDelaySeconds: 5
-                periodSeconds: 5
-                successThreshold: 1
-                timeoutSeconds: 5
-              resources:
-                limits:
-                  cpu: 500m
-                  ephemeral-storage: 1Gi
-                  memory: 512Mi
-                requests:
-                  cpu: 100m
-                  memory: 256Mi
-              securityContext:
-                allowPrivilegeEscalation: false
-                capabilities:
-                  drop:
-                    - ALL
-                runAsGroup: 1000
-                runAsNonRoot: true
-                runAsUser: 1000
-                seccompProfile:
-                  type: RuntimeDefault
-              volumeMounts:
-                - mountPath: /data
-                  name: data
-          imagePullSecrets:
-            - name: foo
-          securityContext:
-            fsGroup: 1000
-            runAsGroup: 1000
-            runAsUser: 1000
-      volumeClaimTemplates:
-        - metadata:
-            name: data
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 10Gi
   8: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole

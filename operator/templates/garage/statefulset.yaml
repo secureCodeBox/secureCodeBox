@@ -1,0 +1,118 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+{{- if .Values.garage.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "operator.fullname" . }}-garage
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "operator.labels" . | nindent 4 }}
+    app.kubernetes.io/component: garage
+spec:
+  serviceName: {{ include "operator.fullname" . }}-garage
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "operator.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: garage
+  template:
+    metadata:
+      labels:
+        {{- include "operator.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: garage
+    spec:
+      automountServiceAccountToken: false
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.garage.podSecurityContext | nindent 8 }}
+      containers:
+        - name: garage
+          image: {{ .Values.garage.image.repository }}:{{ .Values.garage.image.tag }}
+          imagePullPolicy: {{ .Values.garage.image.pullPolicy }}
+          command:
+            - /garage
+          args:
+            - server
+            - --single-node
+            - --default-bucket
+          env:
+            - name: GARAGE_DEFAULT_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.garage.auth.existingSecret | default (printf "%s-garage" (include "operator.fullname" .)) }}
+                  key: access-key
+            - name: GARAGE_DEFAULT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.garage.auth.existingSecret | default (printf "%s-garage" (include "operator.fullname" .)) }}
+                  key: secret-key
+            - name: GARAGE_DEFAULT_BUCKET
+              value: {{ .Values.garage.defaultBucket | quote }}
+          ports:
+            - name: s3-api
+              containerPort: 3900
+              protocol: TCP
+            - name: admin
+              containerPort: 3903
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /health
+              port: admin
+            initialDelaySeconds: 1
+            periodSeconds: 1
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 60
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: admin
+            periodSeconds: 30
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: admin
+            periodSeconds: 5
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.garage.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: config
+              mountPath: /etc/garage.toml
+              subPath: garage.toml
+          securityContext:
+            {{- toYaml .Values.garage.securityContext | nindent 12 }}
+      volumes:
+        - name: config
+          secret:
+            secretName: {{ .Values.garage.auth.existingSecret | default (printf "%s-garage" (include "operator.fullname" .)) }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        {{- if .Values.garage.persistence.storageClass }}
+        storageClassName: {{ .Values.garage.persistence.storageClass | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.garage.persistence.size | quote }}
+{{- end }}

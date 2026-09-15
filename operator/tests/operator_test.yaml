@@ -7,7 +7,7 @@ templates:
   - NOTES.txt
   - rbac/*.yaml
   - manager/*.yaml
-  - minio/*.yaml
+  - garage/*.yaml
 tests:
   - it: matches the snapshot
     chart:
@@ -18,11 +18,13 @@ tests:
       customCACertificate.existingCertificate: foo
       serviceaccount: {create: true, annotations: {foo: bar}, name: foo}
       podSecurityContext: {fsGroup: 1234}
-      minio:
+      garage:
         enabled: true
         auth:
-          rootUser: testuser
-          rootPassword: testpassword
+          accessKey: testaccesskey
+          secretKey: testsecretkey
+          rpcSecret: testrpcsecret
+          adminToken: testadmintoken
     asserts:
       - matchSnapshot: {}
   - it: properly-renders-the-service-monitor-when-enabled
@@ -37,52 +39,54 @@ tests:
       metrics:
         serviceMonitor:
           enabled: true
-      minio:
+      garage:
         enabled: true
         auth:
-          rootUser: testuser
-          rootPassword: testpassword
+          accessKey: testaccesskey
+          secretKey: testsecretkey
+          rpcSecret: testrpcsecret
+          adminToken: testadmintoken
     asserts:
       - matchSnapshot: {}
-  - it: renders minio resources when minio is enabled
+  - it: renders garage resources when garage is enabled
     templates:
-      - minio/secret.yaml
-      - minio/service.yaml
-      - minio/statefulset.yaml
+      - garage/secret.yaml
+      - garage/service.yaml
+      - garage/statefulset.yaml
     chart:
       version: 0.0.0
       appVersion: 0.0.0
     set:
-      minio:
+      garage:
         enabled: true
         auth:
-          rootUser: testuser
-          rootPassword: testpassword
+          accessKey: testaccesskey
+          secretKey: testsecretkey
     asserts:
       - hasDocuments:
           count: 1
-  - it: does not render minio resources when minio is disabled
+  - it: does not render garage resources when garage is disabled
     templates:
-      - minio/secret.yaml
-      - minio/service.yaml
-      - minio/statefulset.yaml
+      - garage/secret.yaml
+      - garage/service.yaml
+      - garage/statefulset.yaml
     chart:
       version: 0.0.0
       appVersion: 0.0.0
     set:
-      minio:
+      garage:
         enabled: false
     asserts:
       - hasDocuments:
           count: 0
-  - it: configures manager deployment for minio
+  - it: configures manager deployment for garage
     templates:
       - manager/manager.yaml
     chart:
       version: 0.0.0
       appVersion: 0.0.0
     set:
-      minio:
+      garage:
         enabled: true
     asserts:
       - equal:
@@ -90,21 +94,24 @@ tests:
           value: "false"
       - equal:
           path: spec.template.spec.containers[0].env[?(@.name=="S3_ENDPOINT")].value
-          value: "RELEASE-NAME-minio.NAMESPACE.svc.cluster.local"
-  - it: allows overriding the cluster domain used for the minio endpoint
+          value: "RELEASE-NAME-garage.NAMESPACE.svc.cluster.local"
+      - equal:
+          path: spec.template.spec.containers[0].env[?(@.name=="S3_PORT")].value
+          value: "3900"
+  - it: allows overriding the cluster domain used for the garage endpoint
     templates:
       - manager/manager.yaml
     chart:
       version: 0.0.0
       appVersion: 0.0.0
     set:
-      minio:
+      garage:
         enabled: true
       clusterDomain: custom.local
     asserts:
       - equal:
           path: spec.template.spec.containers[0].env[?(@.name=="S3_ENDPOINT")].value
-          value: "RELEASE-NAME-minio.NAMESPACE.svc.custom.local"
+          value: "RELEASE-NAME-garage.NAMESPACE.svc.custom.local"
   - it: configures manager deployment for external s3
     templates:
       - manager/manager.yaml
@@ -112,7 +119,7 @@ tests:
       version: 0.0.0
       appVersion: 0.0.0
     set:
-      minio:
+      garage:
         enabled: false
       s3:
         enabled: true
@@ -130,33 +137,33 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].env[?(@.name=="S3_BUCKET")].value
           value: "my-bucket"
-  - it: renders minio secret with custom credentials
+  - it: renders garage secret with custom credentials
     templates:
-      - minio/secret.yaml
+      - garage/secret.yaml
     chart:
       version: 0.0.0
       appVersion: 0.0.0
     set:
-      minio:
+      garage:
         enabled: true
         auth:
-          rootUser: customuser
-          rootPassword: custompassword
+          accessKey: customaccesskey
+          secretKey: customsecretkey
     asserts:
       - equal:
-          path: data.root-user
-          value: Y3VzdG9tdXNlcg==
+          path: stringData.access-key
+          value: "customaccesskey"
       - equal:
-          path: data.root-password
-          value: Y3VzdG9tcGFzc3dvcmQ=
+          path: stringData.secret-key
+          value: "customsecretkey"
   - it: omits storageClassName when not specified to use default
     templates:
-      - minio/statefulset.yaml
+      - garage/statefulset.yaml
     chart:
       version: 0.0.0
       appVersion: 0.0.0
     set:
-      minio:
+      garage:
         enabled: true
         persistence:
           storageClass: ""
@@ -165,12 +172,12 @@ tests:
           path: spec.volumeClaimTemplates[0].spec.storageClassName
   - it: includes storageClassName when specified
     templates:
-      - minio/statefulset.yaml
+      - garage/statefulset.yaml
     chart:
       version: 0.0.0
       appVersion: 0.0.0
     set:
-      minio:
+      garage:
         enabled: true
         persistence:
           storageClass: "fast-ssd"

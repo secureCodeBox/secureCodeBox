@@ -6,7 +6,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# -- The cluster domain to use when building the in-cluster Minio endpoint (`<release>-minio.<namespace>.svc.<clusterDomain>`). Override this if your cluster uses a custom domain instead of the Kubernetes default `cluster.local`.
+# -- The cluster domain to use when building the in-cluster Garage endpoint (`<release>-garage.<namespace>.svc.<clusterDomain>`). Override this if your cluster uses a custom domain instead of the Kubernetes default `cluster.local`.
 clusterDomain: cluster.local
 
 # -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
@@ -120,31 +120,35 @@ lurker:
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
-# -- Minio configuration for direct deployment
-minio:
-  # -- Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
+# -- Garage configuration for direct deployment (S3-compatible quickstart storage backend)
+garage:
+  # -- Enable this to use Garage as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: true
-  
-  # -- Minio image configuration
+
+  # -- Garage image configuration
   image:
-    repository: docker.io/minio/minio
-    # renovate: image=docker.io/minio/minio
-    tag: "RELEASE.2025-07-23T15-54-02Z"
+    repository: docker.io/dxflrs/garage
+    # renovate: image=docker.io/dxflrs/garage
+    tag: "v2.3.0"
     pullPolicy: IfNotPresent
 
-  # -- Default buckets to create on startup
-  defaultBuckets: "securecodebox"
+  # -- Default bucket to create on startup
+  defaultBucket: "securecodebox"
 
   # -- Authentication configuration
   auth:
-    # -- Root user for minio
-    rootUser: "admin"
-    # -- Root password for minio (leave empty to generate a secure random password)
-    rootPassword: ""
-    # -- Name of existing secret containing minio credentials (if set, auth.rootUser and auth.rootPassword are ignored)
+    # -- Default access key (leave empty to generate a secure random one)
+    accessKey: ""
+    # -- Default secret key (leave empty to generate a secure random one)
+    secretKey: ""
+    # -- Garage inter-node RPC secret, must be exactly 64 hex characters (leave empty to generate a secure random one). Not used for anything outside the pod on a single-node deployment.
+    rpcSecret: ""
+    # -- Garage admin API token (leave empty to generate a secure random one). Not used for anything outside the pod on a single-node deployment.
+    adminToken: ""
+    # -- Name of existing secret containing garage credentials (if set, auth.accessKey, auth.secretKey, auth.rpcSecret and auth.adminToken are ignored)
     existingSecret: ""
 
-  # -- Resource limits and requests for minio
+  # -- Resource limits and requests for garage
   resources:
     requests:
       memory: "256Mi"
@@ -156,18 +160,18 @@ minio:
 
   # -- Persistence configuration
   persistence:
-    # -- Storage class for minio data persistence
+    # -- Storage class for garage data persistence
     storageClass: ""
     # -- Size of the persistent volume
     size: "10Gi"
-  
-  # -- Pod security context for minio
+
+  # -- Pod security context for garage
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000
     fsGroup: 1000
-  
-  # -- Container security context for minio
+
+  # -- Container security context for garage
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
@@ -178,14 +182,10 @@ minio:
         - ALL
     seccompProfile:
       type: RuntimeDefault
-  
-  # -- TLS configuration (currently not implemented)
-  tls:
-    enabled: false
 
 # Config for external s3 systems
 s3:
-  # s3.enabled Enable this and disable minio if you want to directly connect against AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
+  # s3.enabled Enable this and disable garage if you want to directly connect against AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: false
   tls:
     enabled: true

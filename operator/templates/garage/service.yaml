@@ -2,27 +2,27 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{{- if .Values.minio.enabled }}
+{{- if .Values.garage.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "operator.fullname" . }}-minio
+  name: {{ include "operator.fullname" . }}-garage
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "operator.labels" . | nindent 4 }}
-    app.kubernetes.io/component: minio
+    app.kubernetes.io/component: garage
 spec:
   type: ClusterIP
   ports:
-    - port: 9000
-      targetPort: 9000
+    - port: 3900
+      targetPort: 3900
       protocol: TCP
-      name: api
-    - port: 9001
-      targetPort: 9001
+      name: s3-api
+    - port: 3903
+      targetPort: 3903
       protocol: TCP
-      name: console
+      name: admin
   selector:
     {{- include "operator.selectorLabels" . | nindent 4 }}
-    app.kubernetes.io/component: minio
+    app.kubernetes.io/component: garage
 {{- end }}
