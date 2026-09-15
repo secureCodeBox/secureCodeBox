@@ -68,7 +68,7 @@ spec:
           env:
             - name: VERSION
               value: {{ .Chart.Version | quote }}
-            {{- if .Values.garage.enabled }}
+            {{- if eq (include "operator.garageEnabled" .) "true" }}
             - name: S3_USE_SSL
               value: "false"
             - name: S3_ENDPOINT

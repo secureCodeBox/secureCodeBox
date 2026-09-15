@@ -55,3 +55,17 @@ Selector labels
 app.kubernetes.io/name: {{ include "operator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Whether the bundled Garage instance should be deployed.
+Falls back to the legacy `minio.enabled` value (renamed to `garage.enabled`) so
+values files that still set `minio.enabled: false` to disable the bundled
+storage backend in favor of an external S3 bucket keep working unchanged.
+*/}}
+{{- define "operator.garageEnabled" -}}
+{{- if and .Values.minio (hasKey .Values.minio "enabled") -}}
+{{- .Values.minio.enabled -}}
+{{- else -}}
+{{- .Values.garage.enabled -}}
+{{- end -}}
+{{- end }}
