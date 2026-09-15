@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{{- if .Values.garage.enabled }}
+{{- if eq (include "operator.garageEnabled" .) "true" }}
 apiVersion: v1
 kind: Service
 metadata:

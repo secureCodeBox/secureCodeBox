@@ -120,7 +120,7 @@ lurker:
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
-# -- Garage configuration for direct deployment (S3-compatible quickstart storage backend)
+# -- Garage configuration for direct deployment (S3-compatible quickstart storage backend). This replaces the previous `minio` configuration section; if your values file still sets `minio.enabled: false`, it will still be honored and disable Garage as well.
 garage:
   # -- Enable this to use Garage as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: true

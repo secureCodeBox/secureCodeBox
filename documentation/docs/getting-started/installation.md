@@ -36,6 +36,10 @@ The included [Garage](https://garagehq.deuxfleurs.fr/) instance is intended **on
 This provides better reliability, scalability, and security compared to the embedded single-node Garage instance.
 :::
 
+:::note Upgrading from MinIO
+As of release 5.9.0, the bundled storage backend was migrated from `minio` to `garage`. This was necessary because MinIO stopped publishing their own Docker image, and the migration had to happen outside of a major release.
+:::
+
 The default secureCodeBox Operator includes a [Garage](https://garagehq.deuxfleurs.fr/) instance, which acts as a local S3 filestorage API used by the secureCodeBox to store the results files of its scans. You can switch it out with a S3 compatible API provided by most cloud providers.
 
 Garage doesn't ship a web UI, so you access it with any S3-compatible client (e.g. the [`mc`](https://garagehq.deuxfleurs.fr/documentation/connect/cli/) CLI or `aws s3`) after port forwarding its S3 API:
@@ -60,6 +64,10 @@ If you find yourself running these snippets regularly, you might want to check o
 For production environments, it is **strongly recommended** to replace the default Garage instance with a managed S3-compatible storage service from your cloud provider. This provides better reliability, scalability, security, and backup capabilities.
 
 To change out the default Garage instance with a S3 Bucket from a cloud provider you can update the helm values to connect the operator with you S3 bucket.
+
+:::note Upgrading from MinIO
+As of release 5.9.0, the bundled storage backend was migrated from `minio` to `garage`. This was necessary because MinIO stopped publishing their own Docker image, and the migration had to happen outside of a major release. If you already disabled the bundled instance via `minio.enabled: false` together with your own `s3:` configuration, that value is still honored, so no changes are required. New installs and any values files that still reference other `minio.*` keys should switch to the `garage.*` equivalents described below.
+:::
 
 #### AWS S3 Buckets
 

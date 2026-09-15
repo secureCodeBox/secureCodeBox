@@ -79,6 +79,39 @@ tests:
     asserts:
       - hasDocuments:
           count: 0
+  - it: does not render garage resources when legacy minio.enabled is false
+    templates:
+      - garage/secret.yaml
+      - garage/service.yaml
+      - garage/statefulset.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: uses external s3 config when legacy minio.enabled is false
+    templates:
+      - manager/manager.yaml
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      minio:
+        enabled: false
+      s3:
+        enabled: true
+        endpoint: my-bucket.s3.amazonaws.com
+        bucket: my-bucket
+        authType: access-secret-key
+        keySecret: my-secret
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].env[?(@.name=="S3_ENDPOINT")].value
+          value: "my-bucket.s3.amazonaws.com"
   - it: configures manager deployment for garage
     templates:
       - manager/manager.yaml
