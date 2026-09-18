@@ -46,6 +46,17 @@ The website and documentation is based on [Docusaurus](https://docusaurus.io/) a
 - `SCB_BOT_USER_TOKEN`: GitHub token for the secureCodeBoxBot.
 - `SONAR_TOKEN`: Token for SonarCloud code analysis in CI.
 
+#### https://github.com/secureCodeBox/defectdojo-client-java
+
+- `MAVEN_PASSWORD`: For authenticate against Maven Central. 
+- `MAVEN_USERNAME`: For authenticate against Maven Central.
+- `SCB_BOT_GPG_KEY`: GPG private key for the secureCodeBoxBot used to sign commits.
+- `SCB_BOT_GPG_PASSPHRASE`:  GPG private key for the secureCodeBoxBot used to sign commits.
+- `SCB_BOT_USER_TOKEN`: GitHub token for the secureCodeBoxBot.
+- `SIGNING_KEY`: GPG private key for the secureCodeBoxBot used to sign commits and Maven releases.
+- `SIGNING_PASSWORD`: GPG passphrase for the secureCodeBoxBot used to sign commits and Maven releases.
+- `SONAR_TOKEN`: Token for SonarCloud code analysis in CI.
+
 ## Teams
 
 ### GitHub
