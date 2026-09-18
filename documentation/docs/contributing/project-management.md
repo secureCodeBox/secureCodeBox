@@ -35,16 +35,13 @@ The website and documentation is based on [Docusaurus](https://docusaurus.io/) a
 
 ### GitHub Secrets
 
-- `CC_TEST_REPORTER_ID`: 🤷‍♂️ Not found in any repo nor password manager.
+#### https://github.com/secureCodeBox/secureCodeBox
+
 - `DOCKER_NAMESPACE`: Namespace for the DockerHub images. For the main repository this is *securecodebox*.
-- `DOCKER_PASSWORD`: 🤷‍♂️ Not found in any repo nor password manager.
 - `DOCKER_TOKEN`: Token that enables the CI to push images to DockerHub.
 - `DOCKER_USERNAME`: Username used to push images to DockerHub.
-- `GPG_COMMITS_PASSPHRASE`: GPG passphrase for the secureCodeBoxBot used to sign Maven releases.
-- `GPG_COMMITS_PRIVATE_KEY`: GPG private key for the secureCodeBoxBot used to sign Maven releases.
-- `HELM_REGISTRY_PASSWORD`: 🤷‍♂️ Not found in any repo nor password manager.
-- `HELM_REGISTRY_USERNAME`: 🤷‍♂️ Not found in any repo  nor password manager.
-- `PAT_WITH_ADMIN`: 🤷‍♂️ Not found in any repo nor password manager.
+- `GPG_COMMITS_PASSPHRASE`: GPG passphrase for the secureCodeBoxBot used to sign commits.
+- `GPG_COMMITS_PRIVATE_KEY`: GPG private key for the secureCodeBoxBot used to sign commits.
 - `SCB_BOT_DOCU_ROULETTE_TOKEN`: GitHub token for the documentation roulette (needs `org:read` permission).
 - `SCB_BOT_USER_TOKEN`: GitHub token for the secureCodeBoxBot.
 - `SONAR_TOKEN`: Token for SonarCloud code analysis in CI.
