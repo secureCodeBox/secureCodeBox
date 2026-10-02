@@ -35,14 +35,27 @@ The website and documentation is based on [Docusaurus](https://docusaurus.io/) a
 
 ### GitHub Secrets
 
-- **`DOCKER_NAMESPACE`** — Namespace for the Docker images. For the main repository this is *securecodebox*.
-- **`DOCKER_USERNAME`** — Username used to push Docker images.
-- **`DOCKER_TOKEN`** — Token that enables the CI to push Docker images.
-- **`GPG_COMMITS_PASSPHRASE`** — GPG passphrase for the secureCodeBoxBot.
-- **`GPG_COMMITS_PRIVATE_KEY`** — GPG private key for the secureCodeBoxBot.
-- **`SCB_BOT_DOCU_ROULETTE_TOKEN`** — GitHub token for the documentation roulette (needs `org:read` permission).
-- **`SCB_BOT_USER_TOKEN`** — GitHub token for the secureCodeBoxBot.
-- **`SONAR_TOKEN`** — Token for SonarCloud.
+#### https://github.com/secureCodeBox/secureCodeBox
+
+- `DOCKER_NAMESPACE`: Namespace for the DockerHub images. For the main repository this is *securecodebox*.
+- `DOCKER_TOKEN`: Token that enables the CI to push images to DockerHub.
+- `DOCKER_USERNAME`: Username used to push images to DockerHub.
+- `GPG_COMMITS_PASSPHRASE`: GPG passphrase for the secureCodeBoxBot used to sign commits.
+- `GPG_COMMITS_PRIVATE_KEY`: GPG private key for the secureCodeBoxBot used to sign commits.
+- `SCB_BOT_DOCU_ROULETTE_TOKEN`: GitHub token for the documentation roulette (needs `org:read` permission).
+- `SCB_BOT_USER_TOKEN`: GitHub token for the secureCodeBoxBot.
+- `SONAR_TOKEN`: Token for SonarCloud code analysis in CI.
+
+#### https://github.com/secureCodeBox/defectdojo-client-java
+
+- `MAVEN_PASSWORD`: For authenticate against Maven Central. 
+- `MAVEN_USERNAME`: For authenticate against Maven Central.
+- `SCB_BOT_GPG_KEY`: GPG private key for the secureCodeBoxBot used to sign commits.
+- `SCB_BOT_GPG_PASSPHRASE`:  GPG private key for the secureCodeBoxBot used to sign commits.
+- `SCB_BOT_USER_TOKEN`: GitHub token for the secureCodeBoxBot.
+- `SIGNING_KEY`: GPG private key for the secureCodeBoxBot used to sign commits and Maven releases.
+- `SIGNING_PASSWORD`: GPG passphrase for the secureCodeBoxBot used to sign commits and Maven releases.
+- `SONAR_TOKEN`: Token for SonarCloud code analysis in CI.
 
 ## Teams
 
