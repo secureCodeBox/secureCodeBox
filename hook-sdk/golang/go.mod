@@ -4,7 +4,7 @@
 
 module github.com/secureCodeBox/secureCodeBox/hook-sdk/golang
 
-go 1.27.1
+go 1.27.2
 
 require (
 	k8s.io/apimachinery v0.37.0
