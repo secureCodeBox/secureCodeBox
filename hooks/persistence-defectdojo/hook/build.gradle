@@ -7,7 +7,7 @@ plugins {
   id "io.freefair.lombok" version "9.8.0"
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
-  id "com.github.ben-manes.versions" version "0.64.0"
+  id "com.github.ben-manes.versions" version "0.65.0"
   id "org.sonarqube" version "7.5.0.8588"
 }
 
