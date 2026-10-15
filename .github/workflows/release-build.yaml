@@ -429,7 +429,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set ENV Var with Scanner Version
-        uses: mikefarah/yq@c14f446382944492701b16c1ddb48bb9dbe683e3 # v4.53.6
+        uses: mikefarah/yq@504fc38780cc46be8444ea1b72fb55919fc0bfb0 # v4.54.1
         # Notice: The current version of the scanner is provided via the Chart.yaml to ensure
         # there is only one place to edit the version of a scanner
         with:
@@ -437,7 +437,7 @@ jobs:
 
       # extract the supported cpu architectures from the Chart.yaml
       - name: Set ENV Var with Supported Platforms
-        uses: mikefarah/yq@c14f446382944492701b16c1ddb48bb9dbe683e3 # v4.53.6
+        uses: mikefarah/yq@504fc38780cc46be8444ea1b72fb55919fc0bfb0 # v4.54.1
         with:
           cmd: echo supportedPlatforms=$(yq e .annotations.supported-platforms scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
@@ -559,7 +559,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set ENV Var with Demo-Target Version
-        uses: mikefarah/yq@c14f446382944492701b16c1ddb48bb9dbe683e3 # v4.53.6
+        uses: mikefarah/yq@504fc38780cc46be8444ea1b72fb55919fc0bfb0 # v4.54.1
         # Notice: The current version of the demo-target is provided via the Chart.yaml to ensure
         # there is only one place to edit the version of a scanner
         with:
