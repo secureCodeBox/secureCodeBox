@@ -26,6 +26,10 @@ const (
 
 // checkIfAllJobsCompleted returns `completed` if all jobs of the given jobList are in a successful state, incompleted otherwise.
 func checkIfAllJobsCompleted(jobs *batch.JobList) jobCompletionType {
+	if len(jobs.Items) == 0 {
+		return incomplete
+	}
+
 	hasCompleted := true
 
 	for _, job := range jobs.Items {
