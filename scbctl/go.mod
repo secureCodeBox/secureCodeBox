@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 module github.com/secureCodeBox/secureCodeBox/scbctl
 
-go 1.27.1
+go 1.27.2
 
 require (
 	github.com/ddddddO/gtree v1.13.5
