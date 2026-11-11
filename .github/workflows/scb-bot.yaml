@@ -65,14 +65,14 @@ jobs:
       # Fetching scanner version from local chart .appVersion attribute
       # this would look like 1.1.1 or v1.1.1 depending on the corresponding Docker image tag
       - name: Fetch local scanner version
-        uses: mikefarah/yq@504fc38780cc46be8444ea1b72fb55919fc0bfb0 # v4.54.1
+        uses: mikefarah/yq@a4330671f17776618660a419ab2531e4f4dc48b6 # v4.54.2
         with:
           cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
       # Fetching scanner version API from local chart .annotations.versionApi attribute
       # This would look like https://api.github.com/repos/projectdiscovery/nuclei/releases/latest
       - name: Fetch scanner's version API
-        uses: mikefarah/yq@504fc38780cc46be8444ea1b72fb55919fc0bfb0 # v4.54.1
+        uses: mikefarah/yq@a4330671f17776618660a419ab2531e4f4dc48b6 # v4.54.2
         with:
           cmd: echo versionApi=$(yq e .annotations.versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
@@ -147,7 +147,7 @@ jobs:
 
       - name: Upgrade Scanner Helm Chart
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
-        uses: mikefarah/yq@504fc38780cc46be8444ea1b72fb55919fc0bfb0 # v4.54.1
+        uses: mikefarah/yq@a4330671f17776618660a419ab2531e4f4dc48b6 # v4.54.2
         with:
           # appVersion value in chart is replaced with release value. Empty lines are deleted in the process
           cmd: yq e --inplace '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
@@ -198,7 +198,7 @@ jobs:
 
       - name: Create Pull Request
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null }}
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8.1.2
         with:
           token: ${{ secrets.SCB_BOT_USER_TOKEN }}
           committer: secureCodeBoxBot <securecodebox@iteratec.com>
