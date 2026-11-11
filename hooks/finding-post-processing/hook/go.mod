@@ -4,7 +4,7 @@
 
 module github.com/secureCodeBox/secureCodeBox/hooks/finding-post-processing/hook
 
-go 1.27.3
+go 1.27.4
 
 require github.com/secureCodeBox/secureCodeBox/hook-sdk/golang v0.0.0
 
