@@ -34,7 +34,7 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "rimraf": "^6.1.4",
-    "sass": "1.107"
+    "sass": "1.108"
   },
   "browserslist": {
     "production": [
